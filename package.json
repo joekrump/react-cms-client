@@ -1,0 +1,23 @@
+{
+  "name": "l-api-v2",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "react-addons-perf": "^15.2.1",
+    "react-scripts": "0.1.0"
+  },
+  "dependencies": {
+    "gravatar": "^1.5.2",
+    "material-ui": "^0.15.2",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "react-router": "^2.6.0",
+    "react-tap-event-plugin": "^1.0.0",
+    "superagent": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+  }
+}
