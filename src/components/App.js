@@ -112,7 +112,9 @@ const App = React.createClass({
         <MenuItem className="drawer-link" key="donate" containerElement={<Link to="/donate" />}
          primaryText="Make a payment" style={this.pageIsActive('/donate') ?  {color: cyan500} : null }/>,
         <MenuItem className="drawer-link" key="login" containerElement={<Link to="/login" />}
-         primaryText="Log In" style={this.pageIsActive('/login') ?  {color: cyan500} : null }/>
+         primaryText="Log In" style={this.pageIsActive('/login') ?  {color: cyan500} : null }/>,
+        <MenuItem className="drawer-link" key="redux-counter" containerElement={<Link to="/redux-counter" />}
+         primaryText="Redux Counter" style={this.pageIsActive('/redux-counter') ?  {color: cyan500} : null }/>
       ]
     );
 

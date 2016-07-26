@@ -6,6 +6,7 @@ import Dashboard from './components/pages/admin/Dashboard';
 import Login from './components/pages/Login';
 import Logout from './components/pages/Logout';
 import App from './components/App';
+import ReduxCounter from './components/ReduxCounter';
 import auth from './auth';
 
 import UserRoutes from './routes/users/UserRoutes'
@@ -20,6 +21,7 @@ export const routes = {
     { path: 'donate', component: PaymentPage },
     { path: 'login', component: Login, onEnter: requiredNotAuth },
     { path: 'logout', component: Logout },
+    { path: 'redux-counter', component: ReduxCounter},
     { 
       path: 'admin',
       indexRoute: { component: Dashboard },

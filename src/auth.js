@@ -1,4 +1,5 @@
 import request from 'superagent';
+import AppConfig from '../config/app';
 
 module.exports = {
   login(email, pass, handleLoggedInCallback) {
@@ -76,8 +77,8 @@ function makeLoginRequest(email, password, loginRequestCallback) {
   // TODO: put URL strings (or parts of them in a NODE environment config file of some sort.)
   // @date: July 23, 2016
   //
-  request.post('http://laravel-api:1337/api/auth/login')
-    .set('Access-Control-Allow-Origin', 'http://localhost:3000')
+  request.post(AppConfig.apiBaseUrl +'auth/login')
+    .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
     .set('Accept', 'application/json')
     .send({email, password})
     .end(function(err, res){
