@@ -9,9 +9,9 @@ import './index.css';
 
 injectTapEventPlugin();
 
-if(process.env.NODE_ENV !== 'production') {
-  React.Perf = require('react-addons-perf');
-}
+
+React.Perf = require('react-addons-perf');
+
 
 // Finally, we render a <Router> with some <Route>s.
 // It does all the fancy routing stuff for us.

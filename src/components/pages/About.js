@@ -1,8 +1,10 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 
 const About = () => (
-  <RaisedButton label="About" />
+  <div className="about">
+    <h1>About Us</h1>
+    <p>Here is what we're all about...</p>
+  </div>
 );
 
 export default About;

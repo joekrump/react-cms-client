@@ -1,5 +1,4 @@
 import React from 'react';
-import Jobs from '../../Jobs';
 
 const Dashboard = React.createClass({
   render() {

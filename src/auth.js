@@ -109,6 +109,6 @@ function makeLoginRequest(email, password, loginRequestCallback) {
         //   })
       }
       
-    }.bind(this));
+    });
 }
 

@@ -15,11 +15,6 @@ import gravatar from 'gravatar';
 import ListItem from 'material-ui/List/ListItem';
 import Avatar from 'material-ui/Avatar';
 
-const MOUSE_BUTTONS = {
-  1: 'left',
-  3: 'right'
-}
-
 const App = React.createClass({
   contextTypes: {
       router: React.PropTypes.object
@@ -46,7 +41,7 @@ const App = React.createClass({
       user: auth.getUser()
     })
   },
-  toggleMenu() {
+  handleToggleMenu() {
     let previousState = this.state;
     previousState.menu.isOpen = !previousState.menu.isOpen;
     this.setState(previousState);
@@ -124,7 +119,7 @@ const App = React.createClass({
         <Drawer 
           open={this.state.menu.isOpen}
           docked={false} 
-          onRequestChange={this.toggleMenu}
+          onRequestChange={this.handleToggleMenu}
         >
           {menuItems}
         </Drawer>
@@ -132,7 +127,7 @@ const App = React.createClass({
           {/*TODO: put site title in a NODE config file of some-sort. */}
           <AppBar 
             title='JWT CMS' 
-            onLeftIconButtonTouchTap={this.toggleMenu} 
+            onLeftIconButtonTouchTap={this.handleToggleMenu} 
             style={{position: 'fixed'}}
             iconElementRight={this.state.loggedIn ?
               (                  
