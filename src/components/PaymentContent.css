@@ -1,0 +1,18 @@
+.error-container {
+  color: red;
+}
+.form-container {
+  padding: 0 20px 30px 20px;
+}
+.payment-header {
+  margin-top: 20px;
+}
+.li-primary-text {
+  margin: 0;
+  position: absolute;
+  left: 50px;
+}
+
+.payment-content {
+  padding: 8px 0px;
+}
