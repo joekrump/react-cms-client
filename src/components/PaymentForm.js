@@ -60,7 +60,6 @@ const PaymentForm = React.createClass({
     this.setState(newStateKeyValue)
   },
   sendToken(token, self){
-    var email = 
     request.post('http://laravel-api:1337/api/stripe/make-payment')
       .set('Access-Control-Allow-Origin', 'http://localhost:3000')
       .set('Accept', 'application/json')
@@ -84,7 +83,7 @@ const PaymentForm = React.createClass({
           // TODO: tell the user that the payment has been processed successfully.
           setTimeout(function(){
             self.setState({paymentComplete: false})
-          }.bind(self), 2000);
+          }, 2000);
         }
       });
   },
