@@ -8,3 +8,6 @@ npm-debug.log
 # Compiled output
 public/dist
 public/sitemap.xml
+
+# config files
+config

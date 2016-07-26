@@ -109,6 +109,8 @@ const App = React.createClass({
           primaryText="Inbox" style={this.pageIsActive('/inbox') ?  {color: cyan500} : null }/>,
         <MenuItem className="drawer-link" key="about" containerElement={<Link to="/about" />}
          primaryText="About" style={this.pageIsActive('/about') ?  {color: cyan500} : null }/>,
+        <MenuItem className="drawer-link" key="donate" containerElement={<Link to="/donate" />}
+         primaryText="Make a payment" style={this.pageIsActive('/donate') ?  {color: cyan500} : null }/>,
         <MenuItem className="drawer-link" key="login" containerElement={<Link to="/login" />}
          primaryText="Log In" style={this.pageIsActive('/login') ?  {color: cyan500} : null }/>
       ]
