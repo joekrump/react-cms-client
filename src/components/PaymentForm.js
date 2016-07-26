@@ -1,8 +1,6 @@
 import React from 'react';
 import request from 'superagent';
-import StripConfig from '../../config/stripe';
 import AppConfig from '../../config/app';
-
 
 // Icons
 import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
@@ -13,20 +11,15 @@ import TextField from 'material-ui/TextField';
 
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
-
 import CircularProgress from 'material-ui/CircularProgress';
 
-
-
-var ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin;
+import {greenA700} from 'material-ui/styles/colors';
 
 var listItemStyle = {
   padding: "0 16px"
 };
 
 const PaymentForm = React.createClass({
-  mixins: [ ReactScriptLoaderMixin ],
-
   getInitialState: function() {
     return {
       submitDisabled: false,
@@ -43,35 +36,20 @@ const PaymentForm = React.createClass({
       }
     };
   },
-
-  getScriptURL: function() {
-    return 'https://js.stripe.com/v2/';
-  },
-
-  onScriptLoaded: function() {
-    if (!PaymentForm.getStripeToken) {
-      // Put your publishable key here
-      // eslint-disable-next-line
-      Stripe.setPublishableKey(StripConfig.test.pk);
-      this.setState({ stripeLoading: false, stripeLoadingError: false });
-    }
-  },
-
-  onScriptError: function() {
-    this.setState({ stripeLoading: false, stripeLoadingError: true });
-  },
-  setError(errorMessage){
-    this.setState({ snackbarMessage: errorMessage, submitDisabled: false, snackbarOpen: true, snackbarColor: redA700, snackbarHeaderText: 'Error' });
+  emitPaymentError(errorMessage){
+    // TODO: Fire event with error message 'Payment Error Event'
+    // with following data:
+    // { snackbarMessage: errorMessage, submitDisabled: false, snackbarOpen: true, snackbarColor: redA700, snackbarHeaderText: 'Error' }
   },
   handleOnSubmit: function(event) {
     event.preventDefault();
     this.setState({ submitDisabled: true, snackbarMessage: null, snackbarOpen: false });
     // Submit CC fields to Stripe for processing.
     // eslint-disable-next-line
-    Stripe.createToken(event.target, function(status, response) {
+    this.props.stripe.createToken(event.target, function(status, response) {
       if (response.error) {
 
-        this.setError(response.error.message)
+        this.emitPaymentError(response.error.message)
       }
       else {
         // If Stripe processing was successful and has returned a token (response.id) the submit
@@ -111,9 +89,9 @@ const PaymentForm = React.createClass({
 
         if(err !== null) {
           // Something unexpected happened
-          self.setError(res);
+          self.emitPaymentError(res);
         } else if (res.statusCode !== 200) {
-          self.setError(res);
+          self.emitPaymentError(res);
         } else {
           self.setState({paymentComplete: true, submitDisabled: false});
           // TODO: Fire an event with the following data: 
@@ -230,7 +208,7 @@ const PaymentForm = React.createClass({
                 type="submit"
                 style={{float:'left'}}
               />
-              {this.state.submitDisabled ? <CircularProgress size={1} style={{float:'left'}}/> : null}                
+              {this.state.submitDisabled ? <CircularProgress size={0.5} style={{float:'left'}}/> : null}                
             </div>
           </ListItem>
         </List>

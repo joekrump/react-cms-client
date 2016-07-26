@@ -4,7 +4,7 @@ import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import PaymentContent from '../PaymentContent';
 
-import {redA700, grey100, greenA700} from 'material-ui/styles/colors';
+import {redA700, grey100} from 'material-ui/styles/colors';
 
 const PaymentPage = React.createClass({
   getInitialState(){
@@ -24,7 +24,7 @@ const PaymentPage = React.createClass({
     return(<div>
       <h1>Payment Page</h1>
       <Paper zDepth={2} className="form-container">
-        {content}
+        <PaymentContent />
         <Snackbar
           open={this.state.snackbarOpen}
           message={
