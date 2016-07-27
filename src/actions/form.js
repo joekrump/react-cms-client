@@ -1,9 +1,9 @@
-export function update(value, formName, fieldName) {
+export function update(value, fieldName, formName) {
   return {
     type: "FORM_INPUT_CHANGE",
     value,
-    formName,
-    fieldName
+    fieldName,
+    formName
   };
 }
 

@@ -21,6 +21,7 @@ const TextInput = () => ({
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
           onChange={(e) => this.handleInputChange(e)}
+          errorText={this.props.errorText}
         />
       </div>
     );
@@ -30,18 +31,18 @@ const TextInput = () => ({
 const maptStateToProps = (state) => {
   return {
     value: state.value,
-    errorMessage: state.errorMessage
+    errorText: state.errorText
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleInputChange: (value, formName, fieldName) => {
+    handleInputChange: (value, fieldName, formName) => {
       dispatch ({
         type: 'FORM_INPUT_CHANGE',
-        formName,
+        value,
         fieldName,
-        value
+        formName
       })
     }
   };

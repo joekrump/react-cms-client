@@ -5,6 +5,7 @@ import PaymentForm from './PaymentForm';
 import StripConfig from '../../../config/stripe';
 
 import { redA700 } from 'material-ui/styles/colors';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import { Form, TextInput, SubmitButton } from '../Form/index';
 
@@ -44,6 +45,9 @@ const PaymentContent = React.createClass({
       content = (
         <div className="payment-content">
           <h3 className="payment-header">Loading Payment System...</h3>
+          <div>
+            <CircularProgress size={1.0} />
+          </div>
         </div>
       );
     }
