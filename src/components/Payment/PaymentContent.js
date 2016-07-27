@@ -1,6 +1,8 @@
 import React from 'react';
 
 import PaymentForm from './PaymentForm';
+import Form from '../Form/Form'
+import TextInput from '../Form/TextInput'
 import StripConfig from '../../../config/stripe';
 
 import {redA700} from 'material-ui/styles/colors';
@@ -86,7 +88,14 @@ const PaymentContent = React.createClass({
     }
     else {
       // eslint-disable-next-line
-      content = (<PaymentForm stripe={Stripe} fields={formFields} form="paymentForm" />);
+      // content = (<PaymentForm stripe={Stripe} fields={formFields} form="paymentForm" />);
+      content = (<Form>
+        <TextInput
+              name="name"
+              placeholder="Type your name here"
+              label="Your name"/>
+        </Form>
+      )
     }
 
     return(
