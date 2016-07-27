@@ -72,6 +72,7 @@ const PaymentContent = React.createClass({
       // content = (<PaymentForm stripe={Stripe} fields={formFields} form="paymentForm" />);
       content = (
         <Form>
+          <TextInput name="fname" formName="paymentForm" placeholder="First Name" label="First Name" />
         </Form>
       )
     }

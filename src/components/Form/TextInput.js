@@ -1,32 +1,26 @@
 // src/components/Form/TextOm[it.js
-import React, {PropTypes} from 'react';
+import React from 'react';
 import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
 
-export default React.createClass({
-  displayName: 'TextInput',
-
-  propTypes: {
-    name: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    label: PropTypes.string
-  },
-
+const TextInput = () => ({
   updateValue(value) {
-    this.context.update(this.props.name, value);
+    this.props.handleInputChange(value, this.props.name, this.props.formName);
   },
 
-  handleChange(event) {
+  handleInputChange(event) {
+    // console.log(event.target.value);
     this.updateValue(event.target.value)
   },
 
-  render() {
+  render(){
     return (
       <div>
         <TextField
+          type={this.props.type ? this.props.type : 'text'}
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
-          onChange={this.handleChange}
+          onChange={(e) => this.handleInputChange(e)}
         />
       </div>
     );
@@ -42,12 +36,20 @@ const maptStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onInputChange: (formName, fieldName) => {
+    handleInputChange: (value, formName, fieldName) => {
       dispatch ({
         type: 'FORM_INPUT_CHANGE',
-        formName: formName,
-        fieldName: fieldName
+        formName,
+        fieldName,
+        value
       })
     }
   };
 }
+
+const TextInputRedux = connect(
+  maptStateToProps,
+  mapDispatchToProps
+)(TextInput)
+
+export {TextInputRedux as TextInput}

@@ -7,8 +7,6 @@ export default React.createClass({
 
   propTypes: {
     children: PropTypes.node,
-    values: PropTypes.object,
-    update: PropTypes.func,
     reset: PropTypes.func,
     onSubmit: PropTypes.func
   },

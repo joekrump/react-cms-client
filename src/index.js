@@ -12,7 +12,6 @@ import { store, DevTools } from './store'
 import Form from './components/Form/Form'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { connect } from 'react-redux';
-import * as actions from './actions/form';
 
 // Top level styling
 import './index.css'

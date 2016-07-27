@@ -6,7 +6,7 @@ const initialState = { //define initial state - an empty form
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case "FORM_UPDATE_VALUE":
+    case "FORM_INPUT_CHANGE":
       return assign({}, state, {
         forms: {
           [action.formName]: {
