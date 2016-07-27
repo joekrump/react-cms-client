@@ -15,8 +15,6 @@ import './index.css'
 
 injectTapEventPlugin();
 
-
-
 React.Perf = require('react-addons-perf');
 
 const history = syncHistoryWithStore(browserHistory, store)

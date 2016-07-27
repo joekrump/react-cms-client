@@ -4,9 +4,11 @@ import LogMonitor from 'redux-devtools-log-monitor'
 import DockMonitor from 'redux-devtools-dock-monitor'
 
 import React from 'react'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import * as reducers from './reducers'
+
+import thunk from 'redux-thunk';
 
 const DevTools = createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
@@ -14,7 +16,6 @@ const DevTools = createDevTools(
   </DockMonitor>
 )
 
-console.log(reducers);
 
 const reducer = combineReducers({
   ...reducers,
@@ -23,8 +24,10 @@ const reducer = combineReducers({
 
 const store = createStore(
   reducer,
-  DevTools.instrument()
+  compose(
+    applyMiddleware(thunk),
+    DevTools.instrument()
+  )
 );
-
 
 export {store, DevTools}
