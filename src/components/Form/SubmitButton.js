@@ -1,5 +1,5 @@
 // src/components/Form/SubmitButton.js
-import React, { PropTypes } from 'react';
+import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import SendIcon from 'material-ui/svg-icons/content/send';
 
@@ -15,7 +15,7 @@ export default React.createClass({
     return (
       <RaisedButton
         primary
-        disabled={!this.props.isFormValid()}
+        disabled={!this.props.isFormValid}
         label={this.props.label}
         type="submit"
         icon={this.props.withIcon ? (<SendIcon />) : null}

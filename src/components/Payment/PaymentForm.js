@@ -86,9 +86,9 @@ class PaymentForm extends React.Component {
       });
   }
   render() {
-    var stripeFieldListItems = StripeFields.map((StripeField) => {
+    let StripeFieldListItems = StripeFields.map((StripeField, i) => {
       return (
-        <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
+        <ListItem key={'stripe-field-' + i} disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
           {StripeField}
         </ListItem>
       );
@@ -98,21 +98,22 @@ class PaymentForm extends React.Component {
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="First Name" label="First Name" formName={formName} {...fname} />
+            <TextInput placeholder="First Name" label="First Name" formName={formName} />
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="Last Name" label="Last Name" formName={formName} {...lname} />
+            <TextInput placeholder="Last Name" label="Last Name" formName={formName} />
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="Email" label="Email" formName={formName} {...email} />
+            <TextInput placeholder="Email" label="Email" formName={formName} />
           </ListItem>
         </List>
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} {...amt} />
+            <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} />
           </ListItem>
-          { stripeFieldListItems }
+          {/* STRIPE FIELDS TO GO HERE */}
+          { StripeFieldListItems }
           <ListItem disabled={true} disableKeyboardFocus={true}>
             <SubmitButton isFormValid={true} withIcon={true} lable="Submit Payment"/>
           </ListItem>

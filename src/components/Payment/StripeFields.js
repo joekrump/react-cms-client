@@ -1,13 +1,12 @@
 import React from 'react';
-import { TextInput } from '../Form/index';
+import TextField from 'material-ui/TextField';
 
-const StripeFields = () => {
-  return [
-    (<TextInput id="cc-num" name="cc-num" placehoolder="Credit Card Number" label='Credit Card Number' data-stripe='number' />),
-    (<TextInput id="cc-exp-month" name="cc-exp-month" placehoolder="##" label='Expiration Month' data-stripe='exp-month' />),
-    (<TextInput id="cc-exp-year" name="cc-exp-year" placehoolder="####" label='Expiration Year' data-stripe='exp-year' />),
-    (<TextInput id="cc-cvc" name="cc-cvc" placehoolder="###" label='CVC' data-stripe='cvc' />)
-  ]
-};
+const StripeFields = [
+  (<TextField id="cc-num" name="cc-num" hintText="Credit Card Number" floatingLabelText='Credit Card Number' data-stripe='number' />),
+  (<TextField id="cc-exp-month" name="cc-exp-month" hintText="##" floatingLabelText='Expiration Month' data-stripe='exp-month' />),
+  (<TextField id="cc-exp-year" name="cc-exp-year" hintText="####" floatingLabelText='Expiration Year' data-stripe='exp-year' />),
+  (<TextField id="cc-cvc" name="cc-cvc" hintText="###" floatingLabelText='CVC' data-stripe='cvc' />)
+]
+
 
 export default StripeFields

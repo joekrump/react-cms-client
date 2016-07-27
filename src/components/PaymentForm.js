@@ -6,8 +6,6 @@ import AppConfig from '../../config/app';
 import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
 import VerifiedUserIcon from 'material-ui/svg-icons/action/verified-user';
 import SendIcon from 'material-ui/svg-icons/content/send';
-// mui components
-import TextField from 'material-ui/TextField';
 
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
