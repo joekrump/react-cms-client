@@ -2,6 +2,7 @@
 import React, {PropTypes} from 'react';
 
 export default React.createClass({
+  
   displayName: 'Form',
 
   propTypes: {
@@ -12,21 +13,6 @@ export default React.createClass({
     onSubmit: PropTypes.func
   },
 
-  childContextTypes: {
-    update: PropTypes.func,
-    reset: PropTypes.func,
-    submit: PropTypes.func,
-    values: PropTypes.object
-  },
-
-  getChildContext() {
-    return {
-      update: this.props.update,
-      reset: this.props.reset,
-      submit: this.submit,
-      values: this.props.values
-    };
-  },
 
   render() {
     return (

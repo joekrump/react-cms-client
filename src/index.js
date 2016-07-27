@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 // eslint-disable-next-line
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux' // Add Provider for passing context of store.
 
 import { routes } from './routes'
 import { store, DevTools } from './store'
@@ -14,7 +14,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import { connect } from 'react-redux';
 import * as actions from './actions/form';
 
-
+// Top level styling
 import './index.css'
 
 injectTapEventPlugin();

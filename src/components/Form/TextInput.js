@@ -11,11 +11,6 @@ export default React.createClass({
     label: PropTypes.string
   },
 
-  contextTypes: {
-    update: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired
-  },
-
   updateValue(value) {
     this.context.update(this.props.name, value);
   },
@@ -30,10 +25,28 @@ export default React.createClass({
         <TextField
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
-          value={this.context.values[this.props.name]}
           onChange={this.handleChange}
         />
       </div>
     );
   }
 });
+
+const maptStateToProps = (state) => {
+  return {
+    value: state.value,
+    errorMessage: state.errorMessage
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onInputChange: (formName, fieldName) => {
+      dispatch ({
+        type: 'FORM_INPUT_CHANGE',
+        formName: formName,
+        fieldName: fieldName
+      })
+    }
+  };
+}
