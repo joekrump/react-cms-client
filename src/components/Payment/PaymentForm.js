@@ -5,17 +5,16 @@ import AppConfig from '../../../config/app';
 // Icons
 import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
 import VerifiedUserIcon from 'material-ui/svg-icons/action/verified-user';
-import SendIcon from 'material-ui/svg-icons/content/send';
+
 // mui components
-import TextField from 'material-ui/TextField';
-
 import {List, ListItem} from 'material-ui/List';
-import RaisedButton from 'material-ui/RaisedButton';
-import CircularProgress from 'material-ui/CircularProgress';
+// import CircularProgress from 'material-ui/CircularProgress';
 
-import {greenA700} from 'material-ui/styles/colors';
+// import {greenA700} from 'material-ui/styles/colors';
 
 import StripeFields from './StripeFields';
+
+import { Form, TextInput, SubmitButton } from '../Form/index';
 
 // onChange={(e) => this.handleInputChange(e, 'fname')} 
 // 
@@ -23,24 +22,9 @@ var listItemStyle = {
   padding: "0 16px"
 };
 
+const formName = "paymentForm";
+
 class PaymentForm extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      submitDisabled: false,
-      paymentComplete: false,
-      formFields: {
-        amt: null,
-        email: null,
-        fname: null,
-        lname: null
-      },
-      formErrors: {
-        email: null,
-        amt: null
-      }
-    };
-  }
   emitPaymentError(errorMessage){
     // TODO: Fire event with error message 'Payment Error Event'
     // with following data:
@@ -65,15 +49,6 @@ class PaymentForm extends React.Component {
 
   }
   resetForm(){
-    this.setState({
-      formFields: {
-        email: null,
-        fname: null,
-        lname: null,
-        amt: null
-      },
-      paymentComplete: false
-    })
   }
   
   handleInputChange(e, fieldName){
@@ -119,41 +94,30 @@ class PaymentForm extends React.Component {
       );
     })
     return (
-      <form onSubmit={this.handleOnSubmit} className="payment-content">
+      <Form onSubmit={this.handleOnSubmit} className="payment-content">
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField type="text" hintText="First Name" floatingLabelText="First Name" {...fname} />
+            <TextInput placeholder="First Name" label="First Name" formName={formName} {...fname} />
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField type="text" hintText="Last Name" floatingLabelText="Last Name" {...lname} />
+            <TextInput placeholder="Last Name" label="Last Name" formName={formName} {...lname} />
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField type="text" hintText="Email" floatingLabelText="Email" {...email} />
+            <TextInput placeholder="Email" label="Email" formName={formName} {...email} />
           </ListItem>
         </List>
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField type="text" hintText="Ex. 5.00" floatingLabelText='Amount in dollars (CAD)' {...amt} />
+            <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} {...amt} />
           </ListItem>
           { stripeFieldListItems }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <div>
-              
-              <RaisedButton
-                label="Submit Payment"
-                primary
-                disabled={this.state.submitDisabled}
-                icon={<SendIcon />}
-                type="submit"
-                style={{float:'left'}}
-              />
-              {this.state.submitDisabled ? <CircularProgress size={0.5} style={{float:'left'}}/> : null}                
-            </div>
+            <SubmitButton isFormValid={true} withIcon={true} lable="Submit Payment"/>
           </ListItem>
         </List>
-      </form>
+      </Form>
     )
   }
 }

@@ -1,13 +1,8 @@
 import React from 'react';
-
 import PaymentForm from './PaymentForm';
-// import Form, { TextInput, SubmitButton } from '../Form';
 import StripConfig from '../../../config/stripe';
-
 import { redA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
-
-import { Form, TextInput, SubmitButton } from '../Form/index';
 
 import './PaymentContent.css';
 
@@ -72,12 +67,8 @@ const PaymentContent = React.createClass({
       );
     }
     else {
-      // eslint-disable-next-line
-      // content = (<PaymentForm stripe={Stripe} fields={formFields} form="paymentForm" />);
       content = (
-        <Form>
-          <TextInput name="fname" formName="paymentForm" placeholder="First Name" label="First Name" />
-        </Form>
+        <PaymentForm />
       )
     }
 

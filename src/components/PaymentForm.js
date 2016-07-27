@@ -17,31 +17,10 @@ import {greenA700} from 'material-ui/styles/colors';
 
 import StripeFields from './StripeFields';
 
-// Redux Form Util pieces
-// 
-import { createForm } from 'redux-form-utils';
-
-
 var listItemStyle = {
   padding: "0 16px"
 };
 
-createForm(
-  {
-    form: 'paymentForm',
-    fields: ['amt', 'email', 'fname', 'lname']
-  }
-)
-
-// NONE STRIPE INPUT props
-// id="fname"
-// name="fname"
-// type="text"
-// hintText="First Name"
-// floatingLabelText="First Name"
-// errorText={this.state.formErrors.fname}
-// onChange={(e) => this.handleInputChange(e, 'fname')} 
-// defaultValue={this.state.formFields.fname}
 
 class PaymentForm extends React.Component {
 
@@ -52,32 +31,19 @@ class PaymentForm extends React.Component {
   }
   handleOnSubmit(event) {
     event.preventDefault();
-    this.setState({ submitDisabled: true, snackbarMessage: null, snackbarOpen: false });
     // Submit CC fields to Stripe for processing.
     // eslint-disable-next-line
     this.props.stripe.createToken(event.target, function(status, response) {
       if (response.error) {
-
         this.emitPaymentError(response.error.message)
       }
       else {
-        // If Stripe processing was successful and has returned a token (response.id) the submit
-        // Charge to the server for processing.
         this.submitToServer(response.id, this);
       }
     }.bind(this));
 
   }
   resetForm(){
-    this.setState({
-      formFields: {
-        email: null,
-        fname: null,
-        lname: null,
-        amt: null
-      },
-      paymentComplete: false
-    })
   }
   
   handleInputChange(e, fieldName){
@@ -118,8 +84,12 @@ class PaymentForm extends React.Component {
     const { clear, clearAll } = this.props;
     const { email, amt, fname, lname } = this.props.fields;
 
-    var stripeFieldListItems = StripeFields.map(() => {
-      return ();
+    var stripeFieldListItems = StripeFields.map((StripeField, i) => {
+      return (
+        <ListItem key={'stripe-field-' + i} disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
+          {StripeField}
+        </ListItem>
+      );
     })
     return (
       <form onSubmit={this.handleOnSubmit} className="payment-content">
@@ -140,21 +110,9 @@ class PaymentForm extends React.Component {
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
             <TextField type="text" hintText="Ex. 5.00" floatingLabelText='Amount in dollars (CAD)' {...amt} />
           </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
+          {stripeFieldListItems}
           <ListItem disabled={true} disableKeyboardFocus={true}>
             <div>
-              
               <RaisedButton
                 label="Submit Payment"
                 primary

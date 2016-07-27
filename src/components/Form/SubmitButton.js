@@ -1,19 +1,9 @@
 // src/components/Form/SubmitButton.js
 import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import SendIcon from 'material-ui/svg-icons/content/send';
 
 export default React.createClass({
-
-  displayName: 'SubmitButton',
-
-  propTypes: {
-    label: PropTypes.string
-  },
-
-  contextTypes: {
-    isFormValid: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired
-  },
 
   getDefaultProps() {
     return {
@@ -25,9 +15,11 @@ export default React.createClass({
     return (
       <RaisedButton
         primary
-        disabled={!this.context.isFormValid()}
+        disabled={!this.props.isFormValid()}
         label={this.props.label}
-        onTouchTap={this.context.submit}/>
+        type="submit"
+        icon={this.props.withIcon ? (<SendIcon />) : null}
+        />
     );
   }
 });
