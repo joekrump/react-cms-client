@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import TextField from 'material-ui/TextField';
 
 export default React.createClass({
-  displayName: 'Text',
+  displayName: 'TextInput',
 
   propTypes: {
     name: PropTypes.string.isRequired,
@@ -20,7 +20,7 @@ export default React.createClass({
     this.context.update(this.props.name, value);
   },
 
-  onChange(event) {
+  handleChange(event) {
     this.updateValue(event.target.value)
   },
 
@@ -31,7 +31,7 @@ export default React.createClass({
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
           value={this.context.values[this.props.name]}
-          onChange={this.onChange}
+          onChange={this.handleChange}
         />
       </div>
     );

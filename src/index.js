@@ -9,7 +9,11 @@ import { Provider } from 'react-redux'
 import { routes } from './routes'
 import { store, DevTools } from './store'
 
+import Form from './components/Form/Form'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import { connect } from 'react-redux';
+import * as actions from './actions/form';
+
 
 import './index.css'
 
@@ -22,7 +26,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 // Finally, we render a <Router> with some <Route>s.
 // It does all the fancy routing stuff for us.
 ReactDOM.render((
-  <Provider store={store}>
+   <Provider store={store}>
     <MuiThemeProvider>
       <div>
         <Router history={history} routes={routes} />
