@@ -1,6 +1,6 @@
 import React from 'react';
 import request from 'superagent';
-import AppConfig from '../../config/app';
+import AppConfig from '../../../config/app';
 
 // Icons
 import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
@@ -14,6 +14,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import {greenA700} from 'material-ui/styles/colors';
+
+import StripeFields from './StripeFields';
 
 // Redux Form Util pieces
 // 
@@ -30,6 +32,16 @@ createForm(
     fields: ['amt', 'email', 'fname', 'lname']
   }
 )
+
+// NONE STRIPE INPUT props
+// id="fname"
+// name="fname"
+// type="text"
+// hintText="First Name"
+// floatingLabelText="First Name"
+// errorText={this.state.formErrors.fname}
+// onChange={(e) => this.handleInputChange(e, 'fname')} 
+// defaultValue={this.state.formFields.fname}
 
 class PaymentForm extends React.Component {
   constructor(props){
@@ -121,96 +133,40 @@ class PaymentForm extends React.Component {
   render() {
     const { clear, clearAll } = this.props;
     const { email, amt, fname, lname } = this.props.fields;
+
+    var stripeFieldListItems = StripeFields.map(() => {
+      return ();
+    })
     return (
       <form onSubmit={this.handleOnSubmit} className="payment-content">
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="fname"
-              name="fname"
-              type="text"
-              hintText="First Name"
-              errorText={this.state.formErrors.fname}
-              floatingLabelText="First Name"
-              onChange={(e) => this.handleInputChange(e, 'fname')} 
-              defaultValue={this.state.formFields.fname}
-            />
+            <TextField type="text" hintText="First Name" floatingLabelText="First Name" {...fname} />
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="lname"
-              name="lname"
-              type="text"
-              hintText="Last Name"
-              errorText={this.state.formErrors.lname}
-              floatingLabelText="Last Name"
-              onChange={(e) => this.handleInputChange(e, 'lname')} 
-              defaultValue={this.state.formFields.lname}
-            />
+            <TextField type="text" hintText="Last Name" floatingLabelText="Last Name" {...lname} />
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="email"
-              name="email"
-              type="email"
-              hintText="Email"
-              errorText={this.state.formErrors.email}
-              floatingLabelText="Email"
-              onChange={(e) => this.handleInputChange(e, 'email')} 
-              defaultValue={this.state.formFields.email}
-            />
+            <TextField type="text" hintText="Email" floatingLabelText="Email" {...email} />
           </ListItem>
         </List>
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="amt"
-              name="amt"
-              type="text"
-              hintText="Ex. 5.00"
-              errorText={this.state.formErrors.amt}
-              floatingLabelText='Amount in dollars (CAD)'
-              onChange={(e) => this.handleInputChange(e, 'amt')} 
-              defaultValue={this.state.formFields.amt}
-            />
+            <TextField type="text" hintText="Ex. 5.00" floatingLabelText='Amount in dollars (CAD)' {...amt} />
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="cc-num"
-              type="text"
-              hintText="Credit Card Number"
-              floatingLabelText='Credit Card Number'
-              data-stripe='number'
-            />
+            
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="cc-exp-mon"
-              type="text"
-              hintText="##"
-              floatingLabelText='Expiration Month'
-              data-stripe='exp-month'
-            />
+            
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="cc-exp-year"
-              type="text"
-              hintText="####"
-              floatingLabelText='Expiration Year'
-              data-stripe='exp-year'
-            />
+            
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextField
-              id="cc-exmp-cvc"
-              type="text"
-              hintText="###"
-              floatingLabelText='CVC'
-              data-stripe='cvc'
-            />
+            
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true}>
             <div>

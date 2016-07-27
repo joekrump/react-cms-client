@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PaymentForm from './PaymentForm';
-import StripConfig from '../../config/stripe';
+import StripConfig from '../../../config/stripe';
 
 import {redA700} from 'material-ui/styles/colors';
 

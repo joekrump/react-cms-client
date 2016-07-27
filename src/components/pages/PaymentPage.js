@@ -2,7 +2,7 @@ import React from 'react';
 
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
-import PaymentContent from '../PaymentContent';
+import PaymentContent from '../Payment/PaymentContent';
 
 import {redA700, grey100} from 'material-ui/styles/colors';
 
