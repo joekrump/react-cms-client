@@ -44,23 +44,7 @@ createForm(
 // defaultValue={this.state.formFields.fname}
 
 class PaymentForm extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      submitDisabled: false,
-      paymentComplete: false,
-      formFields: {
-        amt: null,
-        email: null,
-        fname: null,
-        lname: null
-      },
-      formErrors: {
-        email: null,
-        amt: null
-      }
-    };
-  }
+
   emitPaymentError(errorMessage){
     // TODO: Fire event with error message 'Payment Error Event'
     // with following data:

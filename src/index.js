@@ -9,9 +9,7 @@ import { Provider } from 'react-redux' // Add Provider for passing context of st
 import { routes } from './routes'
 import { store, DevTools } from './store'
 
-import Form from './components/Form/Form'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import { connect } from 'react-redux';
 
 // Top level styling
 import './index.css'
