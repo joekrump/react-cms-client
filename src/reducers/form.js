@@ -1,21 +1,31 @@
-import * as c from '../components/Form/constants';
 import assign from 'lodash.assign';
 
 const initialState = { //define initial state - an empty form
-  values: {}
+  forms: {}
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case c.FORM_UPDATE_VALUE:
+    case "FORM_UPDATE_VALUE":
       return assign({}, state, {
-        values: assign({}, state.values, {
-          [action.name]: action.value
-        })
+        forms: {
+          [action.formName]: {
+            values: assign({}, state[action.formName].values, {
+              [action.fieldName]: action.value
+            })
+          }
+        } 
       });
 
-    case c.FORM_RESET:
-      return initialState;
+    case "FORM_RESET":
+      return assign({}, state, {
+        forms: {
+          [action.formName]: {
+            values: {
+            }
+          }
+        } 
+      });
 
     default:
       return state;

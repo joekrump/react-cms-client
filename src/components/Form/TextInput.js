@@ -1,6 +1,7 @@
 // src/components/Form/TextOm[it.js
 import React, {PropTypes} from 'react';
 import TextField from 'material-ui/TextField';
+import { connect } from 'react-redux';
 
 export default React.createClass({
   displayName: 'TextInput',
