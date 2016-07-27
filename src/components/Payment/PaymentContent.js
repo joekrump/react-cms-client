@@ -9,6 +9,26 @@ import './PaymentContent.css';
 
 var ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin;
 
+
+const formFields = {
+  fname: {
+    id: "fname",
+    name: "fname"
+  },
+  lname: {
+    id: "lname",
+    name: "lname"
+  },
+  email: {
+    id: "email",
+    name: "email"
+  },
+  amt: {
+    id: "amt",
+    name: "amt"
+  }
+}
+
 const PaymentContent = React.createClass({
   mixins: [ ReactScriptLoaderMixin ],
 
@@ -66,7 +86,7 @@ const PaymentContent = React.createClass({
     }
     else {
       // eslint-disable-next-line
-      content = (<PaymentForm stripe={Stripe}/>);
+      content = (<PaymentForm stripe={Stripe} fields={formFields} form="paymentForm" />);
     }
 
     return(

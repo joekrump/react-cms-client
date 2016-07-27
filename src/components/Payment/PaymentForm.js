@@ -17,31 +17,11 @@ import {greenA700} from 'material-ui/styles/colors';
 
 import StripeFields from './StripeFields';
 
-// Redux Form Util pieces
+// onChange={(e) => this.handleInputChange(e, 'fname')} 
 // 
-import { createForm } from 'redux-form-utils';
-
-
 var listItemStyle = {
   padding: "0 16px"
 };
-
-createForm(
-  {
-    form: 'paymentForm',
-    fields: ['amt', 'email', 'fname', 'lname']
-  }
-)
-
-// NONE STRIPE INPUT props
-// id="fname"
-// name="fname"
-// type="text"
-// hintText="First Name"
-// floatingLabelText="First Name"
-// errorText={this.state.formErrors.fname}
-// onChange={(e) => this.handleInputChange(e, 'fname')} 
-// defaultValue={this.state.formFields.fname}
 
 class PaymentForm extends React.Component {
   constructor(props){
@@ -131,11 +111,12 @@ class PaymentForm extends React.Component {
       });
   }
   render() {
-    const { clear, clearAll } = this.props;
-    const { email, amt, fname, lname } = this.props.fields;
-
-    var stripeFieldListItems = StripeFields.map(() => {
-      return ();
+    var stripeFieldListItems = StripeFields.map((StripeField) => {
+      return (
+        <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
+          {StripeField}
+        </ListItem>
+      );
     })
     return (
       <form onSubmit={this.handleOnSubmit} className="payment-content">
@@ -156,18 +137,7 @@ class PaymentForm extends React.Component {
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
             <TextField type="text" hintText="Ex. 5.00" floatingLabelText='Amount in dollars (CAD)' {...amt} />
           </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
-          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            
-          </ListItem>
+          { stripeFieldListItems }
           <ListItem disabled={true} disableKeyboardFocus={true}>
             <div>
               
@@ -186,7 +156,7 @@ class PaymentForm extends React.Component {
       </form>
     )
   }
-};
+}
 
 
 export default PaymentForm;
