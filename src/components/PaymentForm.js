@@ -15,13 +15,26 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import {greenA700} from 'material-ui/styles/colors';
 
+// Redux Form Util pieces
+// 
+import { createForm } from 'redux-form-utils';
+
+
 var listItemStyle = {
   padding: "0 16px"
 };
 
-const PaymentForm = React.createClass({
-  getInitialState: function() {
-    return {
+createForm(
+  {
+    form: 'paymentForm',
+    fields: ['amt', 'email', 'fname', 'lname']
+  }
+)
+
+class PaymentForm extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
       submitDisabled: false,
       paymentComplete: false,
       formFields: {
@@ -35,13 +48,13 @@ const PaymentForm = React.createClass({
         amt: null
       }
     };
-  },
+  }
   emitPaymentError(errorMessage){
     // TODO: Fire event with error message 'Payment Error Event'
     // with following data:
     // { snackbarMessage: errorMessage, submitDisabled: false, snackbarOpen: true, snackbarColor: redA700, snackbarHeaderText: 'Error' }
-  },
-  handleOnSubmit: function(event) {
+  }
+  handleOnSubmit(event) {
     event.preventDefault();
     this.setState({ submitDisabled: true, snackbarMessage: null, snackbarOpen: false });
     // Submit CC fields to Stripe for processing.
@@ -58,7 +71,7 @@ const PaymentForm = React.createClass({
       }
     }.bind(this));
 
-  },
+  }
   resetForm(){
     this.setState({
       formFields: {
@@ -69,14 +82,14 @@ const PaymentForm = React.createClass({
       },
       paymentComplete: false
     })
-  },
+  }
   
   handleInputChange(e, fieldName){
     var formFieldsToUpdate = this.state.formFields;
     // TODO: run some validation on the frontend to check for valid email and valid amt.
     formFieldsToUpdate[fieldName] = e.target.value;
     this.setState({formFields: formFieldsToUpdate});
-  },
+  }
   submitToServer(token, self){
     request.post(AppConfig.apiBaseUrl + 'stripe/make-payment')
       .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
@@ -104,8 +117,10 @@ const PaymentForm = React.createClass({
           }, 3000);
         }
       });
-  },
-  render: function() {
+  }
+  render() {
+    const { clear, clearAll } = this.props;
+    const { email, amt, fname, lname } = this.props.fields;
     return (
       <form onSubmit={this.handleOnSubmit} className="payment-content">
         <List>
@@ -215,7 +230,7 @@ const PaymentForm = React.createClass({
       </form>
     )
   }
-});
+};
 
 
 export default PaymentForm;
