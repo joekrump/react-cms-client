@@ -9,7 +9,6 @@ const TextInput = () => ({
   },
 
   handleInputChange(event) {
-    // console.log(event.target.value);
     this.updateValue(event.target.value)
   },
 

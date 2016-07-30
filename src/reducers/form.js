@@ -54,7 +54,7 @@ const formReducer = (state = initialState, action) => {
     case 'FORM_ERROR':
       return assign({}, state, {
         [action.formName]: {
-          error: action.errorMessage,
+          error: action.error,
           fields: state[action.formName].fields
         }
       });

@@ -1,5 +1,5 @@
 import React from 'react';
-import PaymentForm from './PaymentForm';
+import { PaymentForm } from './PaymentForm';
 import StripConfig from '../../../config/stripe';
 import { redA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -68,7 +68,8 @@ const PaymentContent = React.createClass({
     }
     else {
       content = (
-        <PaymentForm />
+        // eslint-disable-next-line
+        <PaymentForm stripe={Stripe}/>
       )
     }
 
