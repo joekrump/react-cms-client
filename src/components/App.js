@@ -19,11 +19,6 @@ const App = React.createClass({
   contextTypes: {
       router: React.PropTypes.object
   },
-  // propTypes: {
-  //   data: React.PropTypes.string.isRequired,
-  //   fromAdmin: React.PropTypes.boolean,
-  //   verbose: React.PropTypes.boolean
-  // },
   getInitialState(){
     return  {
       menu: {
