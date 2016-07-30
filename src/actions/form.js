@@ -30,3 +30,10 @@ export function reset(formName) {
     formName
   };
 }
+export function complete(complete, formName) {
+  return {
+    type: "FORM_COMPLETE",
+    complete,
+    formName
+  };
+}

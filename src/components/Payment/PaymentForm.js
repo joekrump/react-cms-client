@@ -28,8 +28,7 @@ class PaymentForm extends React.Component {
     super(props)
 
     this.state = {
-      submitDisabled: false,
-      stipeFields: StripeFields
+      submitDisabled: false
     }
 
     this.resetForm = this.resetForm.bind(this)
@@ -39,7 +38,6 @@ class PaymentForm extends React.Component {
   }
   resetForm(){
     this.props.resetForm()
-    this.setState({stripeFields: StripeFields});
   }
   getStripeToken() {
     return this.props.stripeToken
@@ -81,16 +79,13 @@ class PaymentForm extends React.Component {
         } else {
           self.props.updatePaymentError(null);
           self.props.updatePaymentNotification(true, greenA700, 'Success', 'Payment Processed');
-   
-          // 
-          setTimeout(function(){
-            self.resetForm();
-          }, 3000);
+          self.props.updateFormCompleteStatus(true);
+          setTimeout(self.resetForm, 3000);
         }
       });
   }
   render() {
-    let StripeFieldListItems = this.state.stipeFields.map((StripeField, i) => {
+    let StripeFieldListItems = StripeFields.map((StripeField, i) => {
       return (
         <ListItem key={'stripe-field-' + i} disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
           {StripeField}
@@ -146,6 +141,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'FORM_ERROR',
         error,
+        formName: formName
+      })
+    },
+    updateFormCompleteStatus: (complete) => {
+      dispatch ({
+        type: 'FORM_COMPLETE',
+        complete,
         formName: formName
       })
     },

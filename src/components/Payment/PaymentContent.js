@@ -3,6 +3,8 @@ import { PaymentForm } from './PaymentForm';
 import StripConfig from '../../../config/stripe';
 import { redA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
+import { connect } from 'react-redux';
+import PaymentThankYou from './ThankYou';
 
 import './PaymentContent.css';
 
@@ -56,14 +58,9 @@ const PaymentContent = React.createClass({
         </div>
       );
     }
-    else if (this.state.paymentComplete) {
+    else if (this.props.paymentComplete) {
       content = (
-        <div className="payment-content">
-          <h3 className="payment-header">Thank You</h3>
-          <p>
-            You can expect to receive an receipt by email for this payment once the payment has been fully processed.
-          </p>
-        </div>
+        <PaymentThankYou />
       );
     }
     else {
@@ -79,4 +76,14 @@ const PaymentContent = React.createClass({
   }
 });
 
-export default PaymentContent;
+const maptStateToProps = (state) => {
+  return {
+    paymentComplete: state.forms.paymentForm.completed,
+  }
+}
+
+const PaymentContentRedux = connect(
+  maptStateToProps
+)(PaymentContent)
+
+export default PaymentContentRedux;

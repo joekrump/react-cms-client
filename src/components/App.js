@@ -54,7 +54,10 @@ const App = React.createClass({
   },
   componentWillMount() {
     auth.onChange = this.updateAuth
-    auth.login()
+    if(sessionStorage.laravelAccessToken){
+      auth.login()
+    }
+    
     this.setState({
       currentPagePath: this.props.location.pathname
     })

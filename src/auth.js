@@ -83,12 +83,12 @@ function makeLoginRequest(email, password, loginRequestCallback) {
     .send({email, password})
     .end(function(err, res){
 
-      loginRequestCallback({ authenticated: false });
-
       if(err !== null) {
         // Something unexpected happened
+        loginRequestCallback({ authenticated: false, token: null, user: null });
         console.warn(err);
       } else if (res.statusCode !== 200) {
+        loginRequestCallback({ authenticated: false, token: null, user: null });
         console.log(res);
       } else {
         // Store session token in browser sessionStorage.

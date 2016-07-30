@@ -41,7 +41,7 @@ const formReducer = (state = initialState, action) => {
 
       Object.keys(state[action.formName].fields).map((key) => {
         resetValues[key] = {value: '', errors: null}
-        return;
+        return 1;
       });
 
       return assign({}, state, {
@@ -65,10 +65,15 @@ const formReducer = (state = initialState, action) => {
       });
     case 'FORM_ERROR':
       return assign({}, state, {
-        [action.formName]: {
-          error: action.error,
-          fields: state[action.formName].fields
-        }
+        [action.formName]: assign({}, state[action.formName], {
+          error: action.error
+        })
+      });
+    case 'FORM_COMPLETE':
+      return assign({}, state, {
+        [action.formName]: assign({}, state[action.formName], {
+          completed: action.complete
+        })
       });
     default:
       return state;
