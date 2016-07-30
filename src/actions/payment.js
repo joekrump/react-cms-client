@@ -14,3 +14,9 @@ export function updateNotification(snackbarOpen, snackbarColor, snackbarHeaderTe
     snackbarMessage
   }
 }
+export function updateNotification(snackbarOpen){
+  return {
+    type: 'TOGGLE_SNACKBAR',
+    snackbarOpen
+  }
+}

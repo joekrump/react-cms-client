@@ -26,6 +26,14 @@ const paymentReducer = (state = initialState, action) => {
         snackbarHeaderText: action.snackbarHeaderText, 
         snackbarMessage: action.snackbarMessage 
       }
+    case 'TOGGLE_SNACKBAR':
+      return {
+        stripeToken: state.stripeToken,
+        snackbarOpen: action.snackbarOpen, 
+        snackbarColor: state.snackbarColor, 
+        snackbarHeaderText: state.snackbarHeaderText, 
+        snackbarMessage: state.snackbarMessage 
+      }
     default:
       return state;
   }

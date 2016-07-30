@@ -21,16 +21,17 @@ const TextInput = () => ({
           floatingLabelText={this.props.label}
           onChange={(e) => this.handleInputChange(e)}
           errorText={this.props.errorText}
+          value={this.props.value}
         />
       </div>
     );
   }
 });
 
-const maptStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    value: state.value,
-    errorText: state.errorText
+    value: state.forms[ownProps.formName].fields[ownProps.name].value,
+    errorText: state.forms[ownProps.formName].fields[ownProps.name].errors
   }
 }
 
@@ -48,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const TextInputRedux = connect(
-  maptStateToProps,
+  mapStateToProps,
   mapDispatchToProps
 )(TextInput)
 

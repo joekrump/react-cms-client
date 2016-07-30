@@ -6,7 +6,10 @@ const initialState = { //define initial state - an empty form
     completed: false,
     errors: null,
     fields: {
-
+      fname: {value: '', errors: null},
+      lname: {value: '', errors: null},
+      email: {value: '', errors: null},
+      amt: {value: '', errors: null}
     }
   },
   loginForm: {
@@ -34,10 +37,19 @@ const formReducer = (state = initialState, action) => {
       });
 
     case "FORM_RESET":
+      var resetValues = {};
+
+      Object.keys(state[action.formName].fields).map((key) => {
+        resetValues[key] = {value: '', errors: null}
+        return;
+      });
+
       return assign({}, state, {
         [action.formName]: {
-          fields: {
-          }
+          error: null,
+          completed: false,
+          submitDisabled: false,
+          fields: resetValues
         }
       });
     case 'FORM_INPUT_ERROR':

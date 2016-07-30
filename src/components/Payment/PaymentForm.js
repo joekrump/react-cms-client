@@ -10,7 +10,7 @@ import VerifiedUserIcon from 'material-ui/svg-icons/action/verified-user';
 
 // mui components
 import {List, ListItem} from 'material-ui/List';
-import {greenA700} from 'material-ui/styles/colors';
+import { redA700, greenA700 } from 'material-ui/styles/colors';
 
 import StripeFields from './StripeFields';
 
@@ -27,7 +27,10 @@ class PaymentForm extends React.Component {
   constructor (props){
     super(props)
 
-    this.state = {}
+    this.state = {
+      submitDisabled: false,
+      stipeFields: StripeFields
+    }
 
     this.resetForm = this.resetForm.bind(this)
     this.getStripeToken = this.getStripeToken.bind(this)
@@ -35,6 +38,8 @@ class PaymentForm extends React.Component {
     this.submitToServer = this.submitToServer.bind(this)
   }
   resetForm(){
+    this.props.resetForm()
+    this.setState({stripeFields: StripeFields});
   }
   getStripeToken() {
     return this.props.stripeToken
@@ -46,6 +51,7 @@ class PaymentForm extends React.Component {
     this.props.stripe.createToken(e.target, function(status, response) {
       if (response.error) {
         this.props.updatePaymentError(response.error.message)
+        this.props.updatePaymentNotification(true, redA700, 'Error', response.error.message);
       }
       else {
         this.props.updateStripeToken(response.id);
@@ -68,8 +74,10 @@ class PaymentForm extends React.Component {
         if(err !== null) {
           // Something unexpected happened
           self.props.updatePaymentError(res);
+          self.props.updatePaymentNotification(true, redA700, 'Error', res);
         } else if (res.statusCode !== 200) {
-          self.props.updatePaymentError(res)
+          self.props.updatePaymentError(res);
+          self.props.updatePaymentNotification(true, redA700, 'Error', res);
         } else {
           self.props.updatePaymentError(null);
           self.props.updatePaymentNotification(true, greenA700, 'Success', 'Payment Processed');
@@ -82,7 +90,7 @@ class PaymentForm extends React.Component {
       });
   }
   render() {
-    let StripeFieldListItems = StripeFields.map((StripeField, i) => {
+    let StripeFieldListItems = this.state.stipeFields.map((StripeField, i) => {
       return (
         <ListItem key={'stripe-field-' + i} disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
           {StripeField}
@@ -94,24 +102,24 @@ class PaymentForm extends React.Component {
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="First Name" label="First Name" formName={formName} />
+            <TextInput placeholder="First Name" label="First Name" formName={formName} name="fname"/>
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="Last Name" label="Last Name" formName={formName} />
+            <TextInput placeholder="Last Name" label="Last Name" formName={formName} name="lname"/>
           </ListItem>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="Email" label="Email" formName={formName} />
+            <TextInput placeholder="Email" label="Email" formName={formName} name="email"/>
           </ListItem>
         </List>
         <List>
           <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon />} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-            <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} />
+            <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} name="amt"/>
           </ListItem>
           {/* STRIPE FIELDS TO GO HERE */}
           { StripeFieldListItems }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <SubmitButton isFormValid={this.props.isFormValid} withIcon={true} lable="Submit Payment"/>
+            <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} lable="Submit Payment"/>
           </ListItem>
         </List>
       </Form>
@@ -122,7 +130,7 @@ class PaymentForm extends React.Component {
 const maptStateToProps = (state) => {
   return {
     isFormValid: !state.forms.loginForm.error,
-    stripeToken: state.stripeToken
+    stripeToken: state.payments.stripeToken
   }
 }
 
@@ -138,7 +146,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'FORM_ERROR',
         error,
-        formName: 'paymentForm'
+        formName: formName
       })
     },
     updatePaymentNotification: (
@@ -153,6 +161,12 @@ const mapDispatchToProps = (dispatch) => {
         snackbarColor,
         snackbarHeaderText,
         snackbarMessage
+      })
+    },
+    resetForm: () => {
+      dispatch ({
+        type: 'FORM_RESET',
+        formName: formName
       })
     }
   };
