@@ -8,6 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Divider from 'material-ui/Divider';
 import AppConfig from '../../config/app';
+import { cyan500 } from 'material-ui/styles/colors';
 
 import LeftNavMenuItem from './Nav/LeftNavMenuItem';
 import Gravatar from './Nav/Gravatar';
@@ -83,16 +84,17 @@ const App = React.createClass({
       if(this.state.user) {
         menuItems = [
           (<ListItem
+            key="user-avatar"
             disabled={true}
             leftAvatar={
               <Gravatar email={this.state.user.email} diameter='50' />
             }
-          >
-            {this.state.user.name}
-          </ListItem>)
+            primaryText={this.state.user.name}
+            style={{color: 'white', backgroundColor: cyan500}}
+          />)
         ]
       }
-      menuItems.push((<Divider />));
+      menuItems.push((<Divider key="avatar-divider" />));
     }
 
     if (this.state.loggedIn){
