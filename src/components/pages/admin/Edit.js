@@ -1,10 +1,11 @@
 import React from 'react';
+import { capitalize } from '../../../helpers/string'
 
-const Edit = () => {
+const Edit = ({ params: { resourceName, resourceId }, location: { query }} ) => {
   return (
 
     <div className="admin-edit">
-      <h1>Edit Page for user</h1>
+      <h1>Edit {capitalize(resourceName)} {resourceId}</h1>
 
     </div>
   );

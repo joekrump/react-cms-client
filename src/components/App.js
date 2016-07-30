@@ -104,7 +104,7 @@ const App = React.createClass({
     }
 
     staticNavLinks.forEach((routeSettings, i) => {
-      menuItems.push(<LeftNavMenuItem key={'left-nav-link-' + i} linkText={routeSettings.linkText} url={routeSettings.url} />)
+      menuItems.push(<LeftNavMenuItem key={'left-nav-link-' + i} linkText={routeSettings.linkText} url={routeSettings.url} isActive={this.pageIsActive(routeSettings.url, true)}/>)
       return 1;
     })
     return menuItems

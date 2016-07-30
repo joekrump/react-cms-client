@@ -1,19 +1,27 @@
 import AdminIndex from '../../components/pages/admin/Index';
-import User from '../../components/pages/admin/User'
+import Details from '../../components/pages/admin/Details'
 import Edit from '../../components/pages/admin/Edit'
+import AppConfig from '../../../config/app'
 
-const UserRoutes = {
+const AdminRoutes = {
 
-  path: 'users',
-
+  path: ':resourceName',
+  onEnter(nextState, replace) {
+    // if (!AppConfig.validPaths.includes(nextState.location.pathname.toLowerCase())) {
+    //   replace({
+    //     pathname: '/admin',
+    //     state: { nextPathname: nextState.location.pathname }
+    //   })
+    // }
+  },
 
   getChildRoutes(partialNextState, callback) {
     require.ensure([], function (require) {
       callback(null, [
         { 
-          path: ':id', 
+          path: ':resourceId', 
           indexRoute: { 
-            component: User
+            component: Details
           },
           getChildRoutes(partialNextState, callback) {
             require.ensure([], function (require) {
@@ -49,4 +57,4 @@ const UserRoutes = {
   // }
 }
 
-export default UserRoutes;
+export default AdminRoutes;

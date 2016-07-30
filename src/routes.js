@@ -9,7 +9,7 @@ import App from './components/App';
 import ReduxCounter from './components/ReduxCounter';
 import auth from './auth';
 
-import UserRoutes from './routes/users/UserRoutes'
+import AdminRoutes from './routes/admin/routes'
 
 export const routes = {
   path: '/',
@@ -27,7 +27,7 @@ export const routes = {
       indexRoute: { component: Dashboard },
       onEnter: requireAuth,
       childRoutes: [
-        UserRoutes
+        AdminRoutes
       ]
     }
   ]
