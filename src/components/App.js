@@ -1,19 +1,22 @@
 import React from 'react';
-import { Link} from 'react-router'
+import {Link} from 'react-router'
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Divider from 'material-ui/Divider';
+import AppConfig from '../../config/app';
 
-import {cyan500} from 'material-ui/styles/colors';
+import LeftNavMenuItem from './Nav/LeftNavMenuItem';
+import Gravatar from './Nav/Gravatar';
+
 import auth from '../auth';
-import gravatar from 'gravatar';
+
 
 import ListItem from 'material-ui/List/ListItem';
-import Avatar from 'material-ui/Avatar';
+
 
 const App = React.createClass({
   contextTypes: {
@@ -71,50 +74,41 @@ const App = React.createClass({
   didNavigate(){
     return this.state.currentPagePath !== this.props.location.pathname
   },
-  render() {
-    // Set which items should display in the menu based on whether the user is logged in or not
-    let menuItems = this.state.loggedIn ? (
-      [     
-        this.state.user ?
-        (
-          <ListItem
+  getLeftMenuItems() {
+    let staticNavLinks = [];
+    let menuItems = [];
+
+
+    if(this.state.loggedIn){
+      if(this.state.user) {
+        menuItems = [
+          (<ListItem
             disabled={true}
             leftAvatar={
-              <Avatar src={gravatar.url(this.state.user.email, {s: '50', r: 'x', d: 'retro'}, true)} />
+              <Gravatar email={this.state.user.email} diameter='50' />
             }
           >
             {this.state.user.name}
-          </ListItem>
-        ) :
-        null
-        ,
-        <Divider />,
-        <MenuItem className="drawer-link" key="dashboard" containerElement={<Link to="/admin" />} 
-          primaryText="Dashboard" style={this.pageIsActive('/admin', true) ?  {color: cyan500} : null } />,
-        <MenuItem className="drawer-link" key="users" containerElement={<Link to="/admin/users" />} 
-          primaryText="Users" style={this.pageIsActive('/admin/users', true) ?  {color: cyan500} : null } />,  
-        <MenuItem className="drawer-link" key="userprofile" containerElement={<Link to={'/admin/users/' + this.state.user.id} />} 
-          primaryText="User Profile" style={this.pageIsActive('/admin/users/' + this.state.user.id, true) ?  {color: cyan500} : null } />,  
-        <MenuItem className="drawer-link" key="useredit" containerElement={<Link to={'/admin/users/' + this.state.user.id + '/edit'} />} 
-          primaryText="User Edit" style={this.pageIsActive('/admin/users/' + this.state.user.id + '/edit') ?  {color: cyan500} : null } />        
-      ]
-    ) :
-    (
-      [
-        <MenuItem className="drawer-link" key="home" containerElement={<Link to="/" />} 
-          primaryText="Home" style={this.pageIsActive('/', true) ?  {color: cyan500} : null } />,
-        <MenuItem className="drawer-link" key="inbox" containerElement={<Link to="/inbox" />} 
-          primaryText="Inbox" style={this.pageIsActive('/inbox') ?  {color: cyan500} : null }/>,
-        <MenuItem className="drawer-link" key="about" containerElement={<Link to="/about" />}
-         primaryText="About" style={this.pageIsActive('/about') ?  {color: cyan500} : null }/>,
-        <MenuItem className="drawer-link" key="donate" containerElement={<Link to="/donate" />}
-         primaryText="Make a payment" style={this.pageIsActive('/donate') ?  {color: cyan500} : null }/>,
-        <MenuItem className="drawer-link" key="login" containerElement={<Link to="/login" />}
-         primaryText="Log In" style={this.pageIsActive('/login') ?  {color: cyan500} : null }/>,
-        <MenuItem className="drawer-link" key="redux-counter" containerElement={<Link to="/redux-counter" />}
-         primaryText="Redux Counter" style={this.pageIsActive('/redux-counter') ?  {color: cyan500} : null }/>
-      ]
-    );
+          </ListItem>)
+        ]
+      }
+      menuItems.push((<Divider />));
+    }
+
+    if (this.state.loggedIn){
+      staticNavLinks = AppConfig.adminRouteLinks
+    } else {
+      staticNavLinks = AppConfig.publicRouteLinks
+    }
+
+    staticNavLinks.forEach((routeSettings, i) => {
+      menuItems.push(<LeftNavMenuItem key={'left-nav-link-' + i} linkText={routeSettings.linkText} url={routeSettings.url} />)
+      return 1;
+    })
+    return menuItems
+  },
+  render() {
+    
 
     return (
       <div>
@@ -123,7 +117,7 @@ const App = React.createClass({
           docked={false} 
           onRequestChange={this.handleToggleMenu}
         >
-          {menuItems}
+          {this.getLeftMenuItems()}
         </Drawer>
         <header>
           {/*TODO: put site title in a NODE config file of some-sort. */}
