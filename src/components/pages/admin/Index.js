@@ -2,6 +2,16 @@ import React from 'react';
 import { capitalize } from '../../../helpers/string'
 import AppConfig from '../../../../config/app'
 import request from 'superagent';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import AddButton from './AddButton';
 
 const Index = React.createClass({
   getInitialState() {
@@ -35,9 +45,32 @@ const Index = React.createClass({
   render() {
     let items = [];
 
+    const iconButtonElement = (
+      <IconButton
+        touch={true}
+        tooltip="option"
+        tooltipPosition="bottom-left"
+      >
+        <MoreVertIcon color={grey400} />
+      </IconButton>
+    );
+
+    const rightIconMenu = (
+      <IconMenu iconButtonElement={iconButtonElement}>
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </IconMenu>
+    );
+
     if(this.state.items.length > 0) {
       this.state.items.forEach((item) => {
-        items.push((<li key={item.id}>{item.email}</li>))
+        items.push((<ListItem
+            key={item.id}
+             rightIconButton={rightIconMenu}
+             primaryText={
+              <div><strong>{item.name}</strong> - <span style={{color: darkBlack}}>{item.email}</span></div>
+             }
+           />))
       })
     }
 
@@ -45,10 +78,11 @@ const Index = React.createClass({
 
       <div className="admin-index">
         <h1>Index Page for {capitalize(this.props.params.resourceName)}</h1>
-        <ul>
-        { items }
-        </ul>
+        <List>
+           {items}
+         </List>
         { this.props.children }
+        <AddButton />
       </div>
     );
   }
