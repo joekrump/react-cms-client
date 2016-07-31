@@ -1,18 +1,13 @@
 import AdminIndex from '../../components/pages/admin/Index';
 import Details from '../../components/pages/admin/Details'
 import Edit from '../../components/pages/admin/Edit'
-import AppConfig from '../../../config/app'
+
 
 const AdminRoutes = {
 
   path: ':resourceName',
   onEnter(nextState, replace) {
-    // if (!AppConfig.validPaths.includes(nextState.location.pathname.toLowerCase())) {
-    //   replace({
-    //     pathname: '/admin',
-    //     state: { nextPathname: nextState.location.pathname }
-    //   })
-    // }
+    // do something maybe...
   },
 
   getChildRoutes(partialNextState, callback) {
