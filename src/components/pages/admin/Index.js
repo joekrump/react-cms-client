@@ -16,8 +16,8 @@ const Index = React.createClass({
       items: []
     }
   },
-  setItems(){
-    request.get(AppConfig.apiBaseUrl + (this.props.params.resourceName.toLowerCase()))
+  setItems(resourceName){
+    request.get(AppConfig.apiBaseUrl + resourceName)
       .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
       .set('Accept', 'application/json')
@@ -33,7 +33,12 @@ const Index = React.createClass({
       }.bind(this))
   },
   componentDidMount() {
-    this.setItems();
+    this.setItems(this.props.params.resourceName.toLowerCase());
+  },
+  componentWillReceiveProps(nextProps){
+    if(nextProps.params.resourceName !== this.props.params.resourceName) {
+      this.setItems(nextProps.params.resourceName);
+    }
   },
   render() {
     let items = [];
