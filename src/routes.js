@@ -6,7 +6,7 @@ import Dashboard from './components/pages/admin/Dashboard';
 import Login from './components/pages/Login';
 import Logout from './components/pages/Logout';
 import App from './components/App';
-import ReduxCounter from './components/ReduxCounter';
+import ReduxCounter from './components/pages/ReduxCounter';
 import auth from './auth';
 
 import AdminRoutes from './routes/admin/routes'
