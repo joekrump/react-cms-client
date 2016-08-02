@@ -32,16 +32,7 @@ const Index = React.createClass({
         }
       }.bind(this))
   },
-  componentWillMount() {
-    // TODO check if the resource is valid or not and redirect to a different page if it is not.
-    if(!AppConfig.validResources.includes(this.props.params.resourceName)) {
-      console.log('not a valid resource')
-    }
-  },
   componentDidMount() {
-    this.setItems();
-  },
-  componentDidUpdate(){
     this.setItems();
   },
   render() {
