@@ -50,7 +50,9 @@ const app_config = {
 
 module.exports = app_config;
 ```
+
 - `stripe.js`:
+```javascript
 var stripe_config = {
   test: {
     pk: 'YOUR STRIPE TEST PUBLIC KEY'
