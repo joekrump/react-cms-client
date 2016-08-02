@@ -64,7 +64,7 @@ module.exports = stripe_config;
 
 **NOTE** This app currently requires [Stripe](https://stripe.com/) for payments to be set up.
 
-4. Run
+4. Start Client App
 ```bash
 $ npm start
 ```
