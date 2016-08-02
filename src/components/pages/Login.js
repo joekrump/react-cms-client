@@ -29,9 +29,9 @@ const Login = withRouter(
         // otherwise default to /admin
         // 
         if(location.state && location.state.nextPathname) {
-          this.props.router.replace(location.state.nextPathname)
+          this.props.router.push(location.state.nextPathname)
         } else {
-          this.props.router.replace('/admin')
+          this.props.router.push('/admin')
         }
       })
     },
