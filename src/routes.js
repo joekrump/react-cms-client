@@ -4,7 +4,6 @@ import Inbox from './components/pages/Inbox';
 import PaymentPage from './components/pages/PaymentPage';
 import Dashboard from './components/pages/admin/Dashboard';
 import Login from './components/pages/Login';
-import Logout from './components/pages/Logout';
 import App from './components/App';
 import ReduxCounter from './components/pages/ReduxCounter';
 import auth from './auth';
@@ -20,7 +19,6 @@ export const routes = {
     { path: 'inbox', component: Inbox },
     { path: 'donate', component: PaymentPage },
     { path: 'login', component: Login, onEnter: requiredNotAuth },
-    { path: 'logout', component: Logout },
     { path: 'redux-counter', component: ReduxCounter},
     { 
       path: 'admin',
@@ -46,7 +44,7 @@ function requireAuth(nextState, replace) {
   }
 }
 
-// redirects user to /dashboard if they try to access a route that should only be 
+// redirects user to /admin if they try to access a route that should only be 
 // accessible to a user who is not logged in.
 // 
 function requiredNotAuth(nextState, replace) {

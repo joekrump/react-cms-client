@@ -5,8 +5,9 @@ import DockMonitor from 'redux-devtools-dock-monitor'
 
 import React from 'react'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { routerReducer } from 'react-router-redux'
+import { routerReducer, routerMiddleware } from 'react-router-redux'
 import * as reducers from './reducers'
+import { browserHistory } from 'react-router'
 
 import thunk from 'redux-thunk';
 
@@ -16,6 +17,7 @@ const DevTools = createDevTools(
   </DockMonitor>
 )
 
+const reactRouterReduxMiddleware = routerMiddleware(browserHistory)
 
 const reducer = combineReducers({
   ...reducers,
@@ -25,7 +27,7 @@ const reducer = combineReducers({
 const store = createStore(
   reducer,
   compose(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, reactRouterReduxMiddleware),
     DevTools.instrument()
   )
 );

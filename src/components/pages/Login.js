@@ -25,6 +25,9 @@ const Login = withRouter(
 
         const { location } = this.props
 
+        // If the user tried to access a specific admin route before logging in then redirect them there after login
+        // otherwise default to /admin
+        // 
         if(location.state && location.state.nextPathname) {
           this.props.router.replace(location.state.nextPathname)
         } else {

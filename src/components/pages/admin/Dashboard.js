@@ -19,9 +19,7 @@ const Dashboard = React.createClass({
         if(err){
           console.log("error", err);
         } else if(res.statusCode !== 200) {
-          console.log('errorCode', res);
         } else {
-          console.log(res);
           this.setState({userCount: res.body.userCount})
         }
       }.bind(this))

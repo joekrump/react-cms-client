@@ -31,13 +31,11 @@ module.exports = {
   },
 
   logout(logoutCallback) {
-    delete sessionStorage.laravelAccessToken
-    delete sessionStorage.laravelUser
-    // if there is a callback, call it.
-    if (logoutCallback) {
-      logoutCallback()
-    }
+
     this.onChange(false)
+
+    postLogoutToServer(logoutCallback, this);
+   
   },
 
   loggedIn() {
@@ -48,9 +46,7 @@ module.exports = {
    * @param  {Boolean} isLoggedIn - whether the current client is logge in or not. Default: false
    * @return {undefined}
    */
-  onChange(isLoggedIn = false) {
-
-  },
+  onChange() {},
   /**
    * handle the logging in of a user.
    * @param  {function}  handleLoggedInCallback Callback function passed in that handles the logging in logic
@@ -73,10 +69,31 @@ function parseSessionData(res){
   return JSON.parse(res.text);
 }
 
+function postLogoutToServer(callback, component) {
+  request.post(AppConfig.apiBaseUrl +'auth/logout')
+    .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
+    .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
+    .set('Accept', 'application/json')
+    .end(function(err, res){
+
+      if(err !== null) {
+        console.warn('Error: ', err);
+        this.onChange(true) // if user didn't successfully logout then show that they are still logged in after optimistic change.
+      } else if (res.statusCode !== 200) {
+        console.log('not 200 status code ', res);
+        console.log(res);
+        this.onChange(true) 
+      } else {
+        // Successfully Logged Out
+        delete sessionStorage.laravelAccessToken
+        delete sessionStorage.laravelUser
+        if (callback) {
+          callback()
+        } 
+      }
+    });
+}
 function makeLoginRequest(email, password, loginRequestCallback) {
-  // TODO: put URL strings (or parts of them in a NODE environment config file of some sort.)
-  // @date: July 23, 2016
-  //
   request.post(AppConfig.apiBaseUrl +'auth/login')
     .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
     .set('Accept', 'application/json')
@@ -97,19 +114,7 @@ function makeLoginRequest(email, password, loginRequestCallback) {
           token: parseSessionData(res).token,
           user: parseSessionData(res).user
         });
-        
-        // console.log(window.sessionStorage.laravelAccessToken);
-        // make example request
-        // 
-        // request.get('http://laravel-api:1337/api/protected')
-        //   .set('Access-Control-Allow-Origin', 'http://localhost:3000')
-        //   .set('Accept', 'application/json')
-        //   .set('Authorization', 'Bearer ' + window.sessionStorage.laravelAccessToken)
-        //   .end(function(err, res) {
-        //     console.log('res', res)
-        //   })
       }
-      
     });
 }
 

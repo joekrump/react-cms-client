@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router'
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconMenu from 'material-ui/IconMenu';
@@ -15,8 +14,11 @@ import Gravatar from './Nav/Gravatar';
 
 import auth from '../auth';
 
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux'
 
 import ListItem from 'material-ui/List/ListItem';
+
 
 
 const App = React.createClass({
@@ -28,10 +30,8 @@ const App = React.createClass({
       menu: {
         isOpen: false
       },
-      jobs: [] ,
       loggedIn: auth.loggedIn(),
-      user: auth.getUser(),
-      currentPagePath: '/'
+      user: auth.getUser()
     };
   },
   updateAuth(loggedIn) {
@@ -57,28 +57,19 @@ const App = React.createClass({
       auth.login()
     }
     
-    this.setState({
-      currentPagePath: this.props.location.pathname
-    })
   },
   componentWillReceiveProps(nextProps){
-    if(nextProps.location !== this.props.location){
+
+    if(nextProps.location.pathname !== this.props.location.pathname){
       this.closeMenu(); 
     }
   },
   pageIsActive(url, indexOnly = false){
     return this.context.router.isActive({pathname: url}, indexOnly)
   },
-  setCurrentPagePath(){
-    this.setState({currentPagePath: this.props.location.pathname});
-  },
-  didNavigate(){
-    return this.state.currentPagePath !== this.props.location.pathname
-  },
   getLeftMenuItems() {
     let staticNavLinks = [];
     let menuItems = [];
-
 
     if(this.state.loggedIn){
       if(this.state.user) {
@@ -109,9 +100,14 @@ const App = React.createClass({
     })
     return menuItems
   },
+  handleLogout(e){
+    e.preventDefault();
+    auth.logout(() => {
+      this.props.dispatch(push('/login'))
+    });
+  },
   render() {
-    
-
+  
     return (
       <div>
         <Drawer 
@@ -124,7 +120,7 @@ const App = React.createClass({
         <header>
           {/*TODO: put site title in a NODE config file of some-sort. */}
           <AppBar 
-            title='JWT CMS' 
+            title='React CMS' 
             onLeftIconButtonTouchTap={this.handleToggleMenu} 
             style={{position: 'fixed'}}
             iconElementRight={this.state.loggedIn ?
@@ -136,8 +132,7 @@ const App = React.createClass({
                   targetOrigin={{horizontal: 'right', vertical: 'top'}}
                   anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                 >
-                  <MenuItem className="drawer-link" key="logout" containerElement={<Link to="/logout" />} 
-                    primaryText="Log Out" onTouchTap={this.handleNavLinkTouchTap}/>
+                  <MenuItem className="drawer-link" key="logout" primaryText="Log Out" onTouchTap={(event) => this.handleLogout(event, this)}/>
                 </IconMenu>
               ) : null
             }
@@ -151,5 +146,4 @@ const App = React.createClass({
   }
 })
 
-
-export default App;
+export default connect()(App);
