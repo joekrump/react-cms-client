@@ -78,7 +78,7 @@ const App = React.createClass({
             key="user-avatar"
             disabled={true}
             leftAvatar={
-              <Gravatar email={this.state.user.email} diameter='50' />
+              <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={this.state.user.email} diameter='50' />
             }
             primaryText={this.state.user.name}
             style={{color: 'white', backgroundColor: cyan500}}

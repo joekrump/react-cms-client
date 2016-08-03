@@ -3,11 +3,12 @@ import AppConfig from '../../../../config/app'
 
 import React from 'react';
 import { UserWidget } from '../../Dashboard/UserWidget' 
+import CircularProgress from 'material-ui/CircularProgress';
 
 const Dashboard = React.createClass({
   getInitialState(){
     return {
-      userCount: null
+      users: null
     }
   },
   componentDidMount(){
@@ -20,7 +21,7 @@ const Dashboard = React.createClass({
           console.log("error", err);
         } else if(res.statusCode !== 200) {
         } else {
-          this.setState({userCount: res.body.userCount})
+          this.setState({users: res.body.users})
         }
       }.bind(this))
   },
@@ -30,7 +31,7 @@ const Dashboard = React.createClass({
         <h1>Dashboard</h1>
         <p>Congrats, you are logged in</p>
         {this.props.children}
-        {this.state.userCount !== null ? <UserWidget userCount={this.state.userCount} /> : null}
+        {this.state.userCount !== null ? <UserWidget users={this.state.users} /> : <CircularProgress />}
       </div>
     );
   }
