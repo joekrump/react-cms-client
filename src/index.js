@@ -11,6 +11,8 @@ import { store, DevTools } from './store'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
+import muiTheme from './muiTheme';
+
 // Top level styling
 import './index.css'
 
@@ -24,7 +26,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 // It does all the fancy routing stuff for us.
 ReactDOM.render((
    <Provider store={store}>
-    <MuiThemeProvider>
+    <MuiThemeProvider muiTheme={muiTheme}>
       <div>
         <Router history={history} routes={routes} />
         <DevTools />

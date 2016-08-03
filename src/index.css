@@ -1,7 +1,8 @@
 body {
-  background-color: offwhite;
+  /*background-color: #1d1f21;*/
   font-family: sans-serif;
   margin: 0;
+/*  color: #4CAF50;*/
 }
 
 .drawer-link.link-active {
