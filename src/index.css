@@ -1,8 +1,8 @@
 body {
-  /*background-color: #1d1f21;*/
+  background-color: rgba(0, 0, 0, 0.87);
   font-family: sans-serif;
   margin: 0;
-/*  color: #4CAF50;*/
+  color: #fff;
 }
 
 .drawer-link.link-active {

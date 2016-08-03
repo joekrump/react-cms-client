@@ -3,20 +3,24 @@ import { capitalize } from '../../../helpers/string'
 import AppConfig from '../../../../config/app'
 import request from 'superagent';
 import {List, ListItem} from 'material-ui/List';
-import {grey400, darkBlack} from 'material-ui/styles/colors';
+import {grey400} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import AddButton from './AddButton';
+import muiTheme from '../../../muiTheme';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const Index = React.createClass({
   getInitialState() {
     return {
-      items: []
+      items: null
     }
   },
   setItems(resourceName){
+    this.setState({items: null});
+
     request.get(AppConfig.apiBaseUrl + resourceName)
       .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
@@ -60,25 +64,27 @@ const Index = React.createClass({
       </IconMenu>
     );
 
-    if(this.state.items.length > 0) {
-      this.state.items.forEach((item) => {
-        items.push((<ListItem
+    if(this.state.items === null) {
+      items = (<div><h3>Loading:</h3><CircularProgress /></div>);
+    } else if(this.state.items.length > 0) {
+      items = this.state.items.map((item) => {
+        return(
+          (<ListItem
             key={item.id}
              rightIconButton={rightIconMenu}
-             primaryText={
-              <div><strong>{item.primary}</strong> - <span style={{color: darkBlack}}>{item.secondary}</span></div>
-             }
-           />))
-      })
+             primaryText={<div style={{color: muiTheme.palette.textColor}}><strong>{item.primary}</strong> - <span>{item.secondary}</span></div>}
+           />));
+      });
+    } else {
+      items = (<div><h3>No {this.props.params.resourceName} yet</h3></div>);
     }
 
     return (
-
       <div className="admin-index">
         <h1>Index Page for {capitalize(this.props.params.resourceName)}</h1>
         <List>
-           {items}
-         </List>
+          {items}
+        </List>
         { this.props.children }
         <AddButton />
       </div>
