@@ -95,7 +95,7 @@ class PaymentForm extends React.Component {
     return (
       <Form onSubmit={this.handleFormSubmit} className="payment-content">
         <List>
-          <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon />} disabled={true} disableKeyboardFocus={true} />
+          <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon color={'#fff'}/>} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
             <TextInput placeholder="First Name" label="First Name" formName={formName} name="fname"/>
           </ListItem>
@@ -107,7 +107,7 @@ class PaymentForm extends React.Component {
           </ListItem>
         </List>
         <List>
-          <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon />} disabled={true} disableKeyboardFocus={true} />
+          <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon color={'#fff'}/>} disabled={true} disableKeyboardFocus={true} />
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
             <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} name="amt"/>
           </ListItem>

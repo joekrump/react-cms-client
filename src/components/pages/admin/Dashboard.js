@@ -29,7 +29,7 @@ const Dashboard = React.createClass({
     return (
       <div>
         <h1>Dashboard</h1>
-        <p>Congrats, you are logged in</p>
+        <p>Congrats, you are logged in!</p>
         {this.props.children}
         {this.state.userCount !== null ? <UserWidget users={this.state.users} /> : <CircularProgress />}
       </div>

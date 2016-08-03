@@ -1,4 +1,5 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import baseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
 import {cyan500, cyan700,
   pinkA200,
@@ -7,7 +8,7 @@ import {cyan500, cyan700,
 
 import {fade} from 'material-ui/utils/colorManipulator';
 
-const muiTheme = getMuiTheme({
+const muiTheme = getMuiTheme(baseTheme, {
   palette: {
     primary1Color: cyan500,
     primary2Color: cyan700,
@@ -19,7 +20,7 @@ const muiTheme = getMuiTheme({
     alternateTextColor: white,
     canvasColor: darkBlack,
     borderColor: grey300,
-    disabledColor: fade(darkBlack, 0.3),
+    disabledColor: fade(grey400, 0.7),
     pickerHeaderColor: cyan500,
     clockCircleColor: fade(darkBlack, 0.07),
     shadowColor: fullBlack,
@@ -30,7 +31,17 @@ const muiTheme = getMuiTheme({
   paper: {
     color: white,
     backgroundColor: darkBlack
+  },
+  textField: {
+
+  },
+  svgIcon: {
+    color: white
+  },
+  snackbar: {
+    backgroundColor: fullBlack
   }
 });
+
 
 export default muiTheme;
