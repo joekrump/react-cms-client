@@ -1,5 +1,6 @@
 .dashboard .user-widget {
   flex: 1 auto;
+  max-width: 300px;
 }
 
 @media (max-width: 900px){

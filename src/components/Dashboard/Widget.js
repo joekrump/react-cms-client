@@ -6,15 +6,15 @@ import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
 
 import './DesktopWidget.css'
-import './UserWidget.css'
+import './Widget.css'
 
-const UserWidget = () => ({
+const Widget = () => ({
 
   render() {
     var usersSection = null;
 
-    if(this.props.users && (this.props.users.length > 0)) {
-      usersSection = this.props.users.map((user) => {
+    if(this.props.data && (this.props.data.length > 0)) {
+      usersSection = this.props.data.map((user) => {
         return (
           <ListItem key={user.id}
             primaryText={user.name}
@@ -39,4 +39,4 @@ const UserWidget = () => ({
   }
 });
 
-export { UserWidget }
+export default Widget;
