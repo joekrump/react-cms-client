@@ -1,20 +1,21 @@
-.dashboard .user-widget {
+.dashboard .widget {
   flex: 1 auto;
   max-width: 300px;
+  padding: 0 20px 15px 20px;
 }
 
 @media (max-width: 900px){
-  .dashboard .user-widget {
+  .dashboard .widget {
     width: 50%;
   }
 }
 @media (max-width: 500px){
-  .dashboard .user-widget {
+  .dashboard .widget {
     width: 100%;
   }
 }
 @media (min-width: 901px) {
-  .dashboard .user-widget {
+  .dashboard .widget {
     width: calc(100%/3);
   }
 }

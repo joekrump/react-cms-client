@@ -4,8 +4,8 @@ import Gravatar from '../Nav/Gravatar';
 import { List, ListItem } from 'material-ui/List';
 import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
+import Paper from 'material-ui/Paper';
 
-import './DesktopWidget.css'
 import './Widget.css'
 
 const Widget = () => ({
@@ -18,19 +18,20 @@ const Widget = () => ({
         return (
           <ListItem key={user.id}
             primaryText={user.name}
-            leftAvatar={<Gravatar email={user.email} diameter='50' />}
+            leftAvatar={<Gravatar email={user.email} diameter='50' style={{left: '0'}} />}
             rightIcon={ <LensIcon color={lightGreenA400} style={{height: '16px', padding: '4px 4px'}}/>}
             disabled
+            style={{paddingLeft: '50px'}}
           />
         )
       })
       usersSection = (
-        <div className="widget user-widget">
-          <h2>Other Users Online</h2>
+        <Paper zDepth={2}  className="widget">
+          <h2>{this.props.name}</h2>
           <List>
             {usersSection}
           </List>
-        </div>
+        </Paper>
       );
     }
 

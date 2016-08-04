@@ -31,7 +31,7 @@ const Dashboard = React.createClass({
     var DashboardWidgets = null;
     if(this.state.widgets.length > 0){
       DashboardWidgets = this.state.widgets.map((widget)=>(
-        <Widget key={widget.id} style={{flex: widget.size + ' auto'}} data={this.state.widgetData[widget.id]}/>
+        <Widget key={widget.id} style={{flex: widget.size + ' auto'}} name={widget.name} data={this.state.widgetData[widget.id]} />
       ));
     }
 
