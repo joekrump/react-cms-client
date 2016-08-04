@@ -5,6 +5,9 @@ import { List, ListItem } from 'material-ui/List';
 import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
 
+import './DesktopWidget.css'
+import './UserWidget.css'
+
 const UserWidget = () => ({
 
   render() {
@@ -22,9 +25,9 @@ const UserWidget = () => ({
         )
       })
       usersSection = (
-        <div>
+        <div className="widget user-widget">
           <h2>Other Users Online</h2>
-          <List style={{width: '50%'}}>
+          <List>
             {usersSection}
           </List>
         </div>

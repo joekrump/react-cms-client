@@ -34,4 +34,4 @@ const store = createStore(
   )
 );
 
-export {store, DevTools}
+export {store}

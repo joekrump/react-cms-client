@@ -5,6 +5,8 @@ import React from 'react';
 import { UserWidget } from '../../Dashboard/UserWidget' 
 import CircularProgress from 'material-ui/CircularProgress';
 
+import FlexContainer from '../../Layout/FlexContainer';
+
 const Dashboard = React.createClass({
   getInitialState(){
     return {
@@ -27,11 +29,14 @@ const Dashboard = React.createClass({
   },
   render() {
     return (
-      <div>
-        <h1>Dashboard</h1>
-        <p>Congrats, you are logged in!</p>
-        {this.props.children}
-        {this.state.userCount !== null ? <UserWidget users={this.state.users} /> : <CircularProgress />}
+      <div className="dashboard">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Congrats, you are logged in!</p>
+        </div>
+        <FlexContainer>
+          {this.state.userCount !== null ? <UserWidget users={this.state.users} /> : <CircularProgress />}
+        </FlexContainer>
       </div>
     );
   }

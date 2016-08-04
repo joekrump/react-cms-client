@@ -1,0 +1,5 @@
+.dashboard .user-widget {
+  width: 100%;
+  max-width: 400px;
+  flex: 1 auto;
+}

@@ -7,7 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 
 import { routes } from './routes'
-import { store, DevTools } from './store'
+import { store } from './store'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -29,7 +29,6 @@ ReactDOM.render((
     <MuiThemeProvider muiTheme={muiTheme}>
       <div>
         <Router history={history} routes={routes} />
-        <DevTools />
       </div>
     </MuiThemeProvider>
   </Provider>
