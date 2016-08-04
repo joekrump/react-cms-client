@@ -62,6 +62,7 @@ const Login = withRouter(
             name="email"
             ref="loginEmail"
             onChange={this.handleChange}
+            autoFocus
           /><br />
           <TextField
             hintText="Password"

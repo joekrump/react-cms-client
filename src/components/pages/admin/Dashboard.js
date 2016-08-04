@@ -17,7 +17,6 @@ const Dashboard = React.createClass({
     request.get(AppConfig.apiBaseUrl + 'dashboard')
       .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
-      .set('Accept', 'application/json')
       .end(function(err, res) {
         if(err){
           console.log("error", err);
