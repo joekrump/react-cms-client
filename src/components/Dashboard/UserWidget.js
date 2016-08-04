@@ -10,7 +10,7 @@ const UserWidget = () => ({
   render() {
     var usersSection = null;
 
-    if(this.props.users) {
+    if(this.props.users && (this.props.users.length > 0)) {
       usersSection = this.props.users.map((user) => {
         return (
           <ListItem key={user.id}

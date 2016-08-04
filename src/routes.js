@@ -4,6 +4,7 @@ import Inbox from './components/pages/Inbox';
 import PaymentPage from './components/pages/PaymentPage';
 import Dashboard from './components/pages/admin/Dashboard';
 import Login from './components/pages/Login';
+import PageNotFound from './components/pages/404';
 import App from './components/App';
 import ReduxCounter from './components/pages/ReduxCounter';
 import auth from './auth';
@@ -27,7 +28,8 @@ export const routes = {
       childRoutes: [
         AdminRoutes
       ]
-    }
+    },
+    { path: '*', component: PageNotFound }
   ]
 }
 

@@ -1,0 +1,19 @@
+.page-not-found-wrapper {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-weight: 100;
+}
+
+.container {
+    vertical-align: middle;
+}
+
+.content {
+    display: block;
+}
+
+.title {
+    font-size: 96px;
+    font-family: 'Lato';
+}

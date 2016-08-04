@@ -18,28 +18,15 @@ const muiTheme = getMuiTheme(baseTheme, {
     accent3Color: grey500,
     textColor: white,
     alternateTextColor: white,
-    canvasColor: darkBlack,
+    canvasColor: fullBlack,
     borderColor: grey300,
     disabledColor: fade(grey400, 0.7),
     pickerHeaderColor: cyan500,
     clockCircleColor: fade(darkBlack, 0.07),
-    shadowColor: fullBlack,
+    shadowColor: fade(darkBlack, 0.7)
   },
   appBar: {
     height: 56,
-  },
-  paper: {
-    color: white,
-    backgroundColor: darkBlack
-  },
-  textField: {
-
-  },
-  svgIcon: {
-    color: white
-  },
-  snackbar: {
-    backgroundColor: fullBlack
   }
 });
 

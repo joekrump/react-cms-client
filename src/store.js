@@ -12,8 +12,8 @@ import { browserHistory } from 'react-router'
 import thunk from 'redux-thunk';
 
 const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
-    <LogMonitor theme="tomorrow" preserveScrollTop={false} />
+  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q" defaultPosition='bottom'>
+    <LogMonitor theme="tomorrow" preserveScrollTop={true} />
   </DockMonitor>
 )
 

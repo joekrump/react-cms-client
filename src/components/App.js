@@ -2,7 +2,7 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import MenuItem from './Menu/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Divider from 'material-ui/Divider';
@@ -18,8 +18,6 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux'
 
 import ListItem from 'material-ui/List/ListItem';
-
-
 
 const App = React.createClass({
   contextTypes: {
@@ -107,7 +105,20 @@ const App = React.createClass({
     });
   },
   render() {
-  
+    
+    var iconElementRight = null;
+    if(this.state.loggedIn) {
+      iconElementRight = (
+        <IconMenu
+          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+          targetOrigin={{horizontal: 'right', vertical: 'top'}}
+          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+        >
+          <MenuItem primaryText="Log Out" onTouchTap={(event) => this.handleLogout(event, this)} />
+        </IconMenu>
+      )
+    }
+
     return (
       <div>
         <Drawer 
@@ -123,19 +134,7 @@ const App = React.createClass({
             title='React CMS' 
             onLeftIconButtonTouchTap={this.handleToggleMenu} 
             style={{position: 'fixed'}}
-            iconElementRight={this.state.loggedIn ?
-              (                  
-                <IconMenu
-                  iconButtonElement={
-                    <IconButton><MoreVertIcon /></IconButton>
-                  }
-                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                >
-                  <MenuItem className="drawer-link" key="logout" primaryText="Log Out" onTouchTap={(event) => this.handleLogout(event, this)}/>
-                </IconMenu>
-              ) : null
-            }
+            iconElementRight={iconElementRight}
           />
         </header>
         <div className="page-container">

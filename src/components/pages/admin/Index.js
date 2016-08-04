@@ -7,7 +7,7 @@ import {grey400} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import MenuItem from '../../Menu/MenuItem';
 import AddButton from './AddButton';
 import muiTheme from '../../../muiTheme';
 import CircularProgress from 'material-ui/CircularProgress';
