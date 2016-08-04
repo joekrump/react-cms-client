@@ -14,15 +14,16 @@ body {
   margin: 0 auto;
 }
 
-@media (max-width: 500px){
-  .page-container {
-    width: 100%;
-  }
-}
 
 @media (max-width: 900px){
   .page-container {
     width: 80%;
+  }
+}
+@media (max-width: 500px){
+  .page-container {
+    width: 96%;
+    min-width: 300px;
   }
 }
 @media (min-width: 901px) {

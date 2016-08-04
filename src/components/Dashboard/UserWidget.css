@@ -1,5 +1,19 @@
 .dashboard .user-widget {
-  width: 100%;
-  max-width: 400px;
   flex: 1 auto;
+}
+
+@media (max-width: 900px){
+  .dashboard .user-widget {
+    width: 50%;
+  }
+}
+@media (max-width: 500px){
+  .dashboard .user-widget {
+    width: 100%;
+  }
+}
+@media (min-width: 901px) {
+  .dashboard .user-widget {
+    width: calc(100%/3);
+  }
 }

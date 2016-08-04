@@ -35,7 +35,10 @@ const Dashboard = React.createClass({
           <p>Congrats, you are logged in!</p>
         </div>
         <FlexContainer>
-          {this.state.userCount !== null ? <UserWidget users={this.state.users} /> : <CircularProgress />}
+          {this.state.userCount !== null ? <UserWidget users={this.state.users} style={{order: 1}}/> : <CircularProgress />}
+          {this.state.userCount !== null ? <UserWidget users={this.state.users} style={{order: 2}}/> : <CircularProgress />}
+          {this.state.userCount !== null ? <UserWidget users={this.state.users} style={{order: 3}}/> : <CircularProgress />}
+          {this.state.userCount !== null ? <UserWidget users={this.state.users} style={{order: 4}}/> : <CircularProgress />}
         </FlexContainer>
       </div>
     );
