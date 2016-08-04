@@ -122,7 +122,7 @@ class PaymentForm extends React.Component {
   }
 }
 
-const maptStateToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     isFormValid: !state.forms.loginForm.error,
     stripeToken: state.payments.stripeToken
@@ -175,7 +175,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const PaymentFormRedux = connect(
-  maptStateToProps,
+  mapStateToProps,
   mapDispatchToProps
 )(PaymentForm)
 

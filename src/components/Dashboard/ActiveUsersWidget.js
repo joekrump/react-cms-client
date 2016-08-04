@@ -6,6 +6,9 @@ import { List, ListItem } from 'material-ui/List';
 import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
 
+import CircularProgress from 'material-ui/CircularProgress';
+import './Widget.css'
+
 const ActiveUsersWidget = React.createClass({
   getInitialState(){
     return {
@@ -42,9 +45,14 @@ const ActiveUsersWidget = React.createClass({
         )
       })
       usersSection = (
-        <List>
-          {usersSection}
-        </List>
+        <div className="widget">
+          <h2>{this.props.name}</h2>
+          {this.state.data.length === 0 ? (<CircularProgress />) :
+            <List>
+              {usersSection}
+            </List>
+          }
+        </div>
       );
     }
 

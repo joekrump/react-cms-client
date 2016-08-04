@@ -1,5 +1,5 @@
 import request from 'superagent';
-import AppConfig from '../config/app';
+import AppConfig from '../app_config/app';
 
 module.exports = {
   login(email, pass, handleLoggedInCallback) {
@@ -78,11 +78,11 @@ function postLogoutToServer(callback, component) {
 
       if(err !== null) {
         console.warn('Error: ', err);
-        this.onChange(true) // if user didn't successfully logout then show that they are still logged in after optimistic change.
+        component.onChange(true) // if user didn't successfully logout then show that they are still logged in after optimistic change.
       } else if (res.statusCode !== 200) {
         console.log('not 200 status code ', res);
         console.log(res);
-        this.onChange(true) 
+        component.onChange(true) 
       } else {
         // Successfully Logged Out
         delete sessionStorage.laravelAccessToken
@@ -91,7 +91,7 @@ function postLogoutToServer(callback, component) {
           callback()
         } 
       }
-    });
+    }.bind(this));
 }
 function makeLoginRequest(email, password, loginRequestCallback) {
   request.post(AppConfig.apiBaseUrl +'auth/login')

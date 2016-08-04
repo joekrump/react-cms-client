@@ -33,9 +33,10 @@ const Dashboard = React.createClass({
     if(this.state.widgets.length > 0){
       
       DashboardWidgets = this.state.widgets.map((widget)=> {
+        console.log(widget.component_name);
         switch (widget.component_name) {
           case 'ActiveUsersWidget':
-            widgetComponent = (<ActiveUsersWidget />);
+            widgetComponent = (<ActiveUsersWidget name={widget.name} />);
             break;
           default:
             widgetComponent = null;
