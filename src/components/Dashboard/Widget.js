@@ -1,10 +1,7 @@
 // src/components/Form/Form.js
 import React from 'react';
-import Gravatar from '../Nav/Gravatar';
-import { List, ListItem } from 'material-ui/List';
-import LensIcon from 'material-ui/svg-icons/image/lens';
-import { lightGreenA400 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
+// import CircularProgress from 'material-ui/CircularProgress';
 
 import './Widget.css'
 

@@ -6,7 +6,7 @@ import MenuItem from './Menu/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Divider from 'material-ui/Divider';
-import AppConfig from '../../config/app';
+import AppConfig from '../../app_config/app';
 import { cyan500 } from 'material-ui/styles/colors';
 
 import LeftNavMenuItem from './Nav/LeftNavMenuItem';

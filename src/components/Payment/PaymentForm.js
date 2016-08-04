@@ -1,6 +1,6 @@
 import React from 'react';
 import request from 'superagent';
-import AppConfig from '../../../config/app';
+import AppConfig from '../../../app_config/app';
 
 import { connect } from 'react-redux';
 

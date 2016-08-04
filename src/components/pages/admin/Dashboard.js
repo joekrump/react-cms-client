@@ -1,10 +1,9 @@
 import request from 'superagent';
-import AppConfig from '../../../../config/app'
+import AppConfig from '../../../../app_config/app'
 
 import React from 'react';
 import Widget from '../../Dashboard/Widget' 
 import ActiveUsersWidget from '../../Dashboard/ActiveUsersWidget' 
-import CircularProgress from 'material-ui/CircularProgress';
 
 import FlexContainer from '../../Layout/FlexContainer';
 
@@ -52,7 +51,7 @@ const Dashboard = React.createClass({
             </Widget>
           )
         }
-      }
+      })
     }
 
     return (

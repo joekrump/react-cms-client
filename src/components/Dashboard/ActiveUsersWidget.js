@@ -1,6 +1,10 @@
 import React from 'react'
 import request from 'superagent'
-import AppConfig from '../../../../config/app'
+import AppConfig from '../../../app_config/app'
+import Gravatar from '../Nav/Gravatar';
+import { List, ListItem } from 'material-ui/List';
+import LensIcon from 'material-ui/svg-icons/image/lens';
+import { lightGreenA400 } from 'material-ui/styles/colors';
 
 const ActiveUsersWidget = React.createClass({
   getInitialState(){

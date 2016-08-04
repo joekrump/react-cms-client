@@ -1,6 +1,6 @@
 import React from 'react';
 import { capitalize } from '../../../helpers/string'
-import AppConfig from '../../../../config/app'
+import AppConfig from '../../../../app_config/app'
 import request from 'superagent';
 import {List, ListItem} from 'material-ui/List';
 import {grey400} from 'material-ui/styles/colors';
