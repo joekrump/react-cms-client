@@ -3,6 +3,7 @@ import AppConfig from '../../../../config/app'
 
 import React from 'react';
 import Widget from '../../Dashboard/Widget' 
+import ActiveUsersWidget from '../../Dashboard/ActiveUsersWidget' 
 import CircularProgress from 'material-ui/CircularProgress';
 
 import FlexContainer from '../../Layout/FlexContainer';
@@ -10,7 +11,6 @@ import FlexContainer from '../../Layout/FlexContainer';
 const Dashboard = React.createClass({
   getInitialState(){
     return {
-      widgetData: [],
       widgets: []
     }
   },
@@ -23,16 +23,36 @@ const Dashboard = React.createClass({
           console.log("error", err);
         } else if(res.statusCode !== 200) {
         } else {
-          this.setState({widgetData: res.body.widgetData, widgets: res.body.widgets})
+          this.setState({widgets: res.body.widgets})
         }
       }.bind(this))
   },
   render() {
     var DashboardWidgets = null;
+    var widgetComponent = null;
+
     if(this.state.widgets.length > 0){
-      DashboardWidgets = this.state.widgets.map((widget)=>(
-        <Widget key={widget.id} style={{flex: widget.size + ' auto'}} name={widget.name} data={this.state.widgetData[widget.id]} />
-      ));
+      
+      DashboardWidgets = this.state.widgets.map((widget)=> {
+        switch (widget.component_name) {
+          case 'ActiveUsersWidget':
+            widgetComponent = (<ActiveUsersWidget />);
+            break;
+          default:
+            widgetComponent = null;
+            break;
+        }
+
+        if(widgetComponent === null) {
+          return null;
+        } else {
+          return (
+            <Widget key={widget.id} style={{flex: widget.size + ' auto'}} name={widget.name} >
+              {widgetComponent}
+            </Widget>
+          )
+        }
+      }
     }
 
     return (
