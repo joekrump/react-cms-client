@@ -27,16 +27,11 @@ const App = React.createClass({
     return  {
       menu: {
         isOpen: false
-      },
-      loggedIn: auth.loggedIn(),
-      user: auth.getUser()
+      }
     };
   },
   updateAuth(loggedIn) {
-    this.setState({
-      loggedIn: loggedIn,
-      user: auth.getUser()
-    })
+    this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken);
   },
   handleToggleMenu() {
     let previousState = this.state;
@@ -50,11 +45,11 @@ const App = React.createClass({
     // Do something when the app first mounts
   },
   componentWillMount() {
+    console.log('called')
     auth.onChange = this.updateAuth
     if(sessionStorage.laravelAccessToken){
       auth.login()
     }
-    
   },
   componentWillReceiveProps(nextProps){
 
@@ -69,16 +64,16 @@ const App = React.createClass({
     let staticNavLinks = [];
     let menuItems = [];
 
-    if(this.state.loggedIn){
-      if(this.state.user) {
+    if(this.props.loggedIn){
+      if(this.props.user) {
         menuItems = [
           (<ListItem
             key="user-avatar"
             disabled={true}
             leftAvatar={
-              <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={this.state.user.email} diameter='50' />
+              <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={this.props.user.email} diameter='50' />
             }
-            primaryText={this.state.user.name}
+            primaryText={this.props.user.name}
             style={{color: 'white', backgroundColor: cyan500}}
           />)
         ]
@@ -86,7 +81,7 @@ const App = React.createClass({
       menuItems.push((<Divider key="avatar-divider" />));
     }
 
-    if (this.state.loggedIn){
+    if (this.props.loggedIn){
       staticNavLinks = AppConfig.adminRouteLinks
     } else {
       staticNavLinks = AppConfig.publicRouteLinks
@@ -107,7 +102,7 @@ const App = React.createClass({
   render() {
     
     var iconElementRight = null;
-    if(this.state.loggedIn) {
+    if(this.props.loggedIn) {
       iconElementRight = (
         <IconMenu
           iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
@@ -145,4 +140,28 @@ const App = React.createClass({
   }
 })
 
-export default connect()(App);
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.auth.logged_in,
+    user: state.auth.user,
+    token: state.auth.token
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user, token) => {
+      dispatch ({
+        type: 'USER_LOGGED_IN',
+        user,
+        token
+      })
+    }
+  };
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

@@ -1,5 +1,6 @@
 const initialState = {
   user: null,
+  token: null,
   logged_in: false
 };
 
@@ -8,6 +9,7 @@ const userReducer = (state = initialState, action) => {
     case 'USER_LOGGED_IN':
       return {
         user: action.user,
+        token: action.token,
         logged_in: true
       }
     default:

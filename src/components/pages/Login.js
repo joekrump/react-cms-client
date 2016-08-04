@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../auth';
+import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router'
 
@@ -19,11 +20,17 @@ const Login = withRouter(
     },
     handleSubmit(e){
       e.preventDefault()
-      auth.login(this.state.email, this.state.password, (loggedIn) => {
+      auth.login(this.state.email, this.state.password, (authData, loggedIn) => {
         if(!loggedIn)
           return this.setState({error: true})
 
         const { location } = this.props
+
+        this.setState({error: false});
+        console.log('User', authData.user);
+        console.log('Token', authData.token);
+
+        this.props.loginUser(authData.user, authData.token)
 
         // If the user tried to access a specific admin route before logging in then redirect them there after login
         // otherwise default to /admin
@@ -82,4 +89,22 @@ const Login = withRouter(
   })
 );
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user, token) => {
+      dispatch ({
+        type: 'USER_LOGGED_IN',
+        user,
+        token
+      })
+    }
+  }
+}
+
+
+const LoginRedux = connect(
+  null,
+  mapDispatchToProps
+)(Login)
+
+export default LoginRedux;

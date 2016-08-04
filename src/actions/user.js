@@ -1,6 +1,7 @@
-export function logged_in(user) {
+export function login_user(user, token) {
   return {
     type: "USER_LOGGED_IN",
-    user
+    user,
+    token
   };
 }

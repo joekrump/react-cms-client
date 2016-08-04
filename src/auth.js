@@ -5,18 +5,22 @@ module.exports = {
   login(email, pass, handleLoggedInCallback) {
 
     // If there is a laravelAccessToken just log in
-    if (sessionStorage.laravelAccessToken) {
-      this.handleLoggedIn(handleLoggedInCallback, true);
+    if (sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
+      this.handleLoggedIn(handleLoggedInCallback, {
+        authenticated: true, 
+        user: sessionStorage.laravelUser, 
+        token: sessionStorage.laravelAccessToken
+      });
       return
     }
 
     makeLoginRequest(email, pass, (res) => {
       if (res.authenticated) {
+        this.handleLoggedIn(handleLoggedInCallback, res, true);
         sessionStorage.laravelAccessToken = res.token;
         sessionStorage.laravelUser = JSON.stringify(res.user);
-        this.handleLoggedIn(handleLoggedInCallback, true);
       } else {
-        this.handleLoggedIn(handleLoggedInCallback); // no second param as it defaults to false
+        this.handleLoggedIn(handleLoggedInCallback, res); // no second param as it defaults to false
       }
     })
   },
@@ -53,14 +57,17 @@ module.exports = {
    * @param  {Boolean} isLoggedIn             Whether the user is logged in or not. Defaults to false
    * @return {undefined}                      
    */
-  handleLoggedIn(handleLoggedInCallback, isLoggedIn = false){
+  handleLoggedIn(handleLoggedInCallback, data, isLoggedIn = false){
     // If there is a callback method for handling login then
     // run it with the loggedIn value set to true
     //
-    if (handleLoggedInCallback) {
-      handleLoggedInCallback(isLoggedIn)
-    }
+    //
     this.onChange(isLoggedIn)
+
+    if (handleLoggedInCallback) {
+      handleLoggedInCallback(data, isLoggedIn)
+    }
+    
     return;
   }
 }
@@ -91,7 +98,7 @@ function postLogoutToServer(callback, component) {
           callback()
         } 
       }
-    }.bind(this));
+    });
 }
 function makeLoginRequest(email, password, loginRequestCallback) {
   request.post(AppConfig.apiBaseUrl +'auth/login')
