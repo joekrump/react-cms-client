@@ -9,8 +9,10 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import * as reducers from './reducers'
 import { browserHistory } from 'react-router'
+import createSagaMiddleware from 'redux-saga'
+import dashboardSaga from './sagas'
 
-import thunk from 'redux-thunk';
+const sagaMiddleware = createSagaMiddleware()
 
 const DevTools = createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q" changeMonitorKey='ctrl-m' defaultPosition='bottom'>
@@ -29,9 +31,12 @@ const reducer = combineReducers({
 const store = createStore(
   reducer,
   compose(
-    applyMiddleware(thunk, reactRouterReduxMiddleware),
+    applyMiddleware(sagaMiddleware, reactRouterReduxMiddleware),
     window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument() 
   )
 );
+
+// Run the saga
+sagaMiddleware.run(dashboardSaga)
 
 export {store}
