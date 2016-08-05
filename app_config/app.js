@@ -14,9 +14,9 @@ const app_config = {
     { linkText: 'Make a payment', url: '/donate' },
     { linkText: 'Redux Counter', url: '/redux-counter' }
   ],
-  validResources: [
-    'users',
-    'books'
+  validResourcesRootPaths: [
+    '/users/', '/users',
+    '/books/', '/books'
   ]
 };
 

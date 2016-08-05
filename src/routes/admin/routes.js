@@ -1,13 +1,24 @@
 import AdminIndex from '../../components/pages/admin/Index';
-import Details from '../../components/pages/admin/Details'
-import Edit from '../../components/pages/admin/Edit'
+import Details from '../../components/pages/admin/Details';
+import Edit from '../../components/pages/admin/Edit';
+import AppConfig from '../../../app_config/app';
 
 
 const AdminRoutes = {
 
   path: ':resourceName',
   onEnter(nextState, replace) {
-    // do something maybe...
+    // Basic check to see if the user is trying to access a route for a resource that exists.
+    let isRouteValid = false;
+    AppConfig.validResourcesRootPaths.forEach((validRoute) => {
+      if(nextState.location.pathname.includes('/admin' + validRoute)){
+        isRouteValid = true;
+        return;
+      }
+    })
+    if(!isRouteValid) {
+      replace({ nextPathname: nextState.location.pathname }, '/login')
+    }
   },
 
   getChildRoutes(partialNextState, callback) {
