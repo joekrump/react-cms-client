@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 
 function* redirectUserAfterLogin(action) {
    try {
-      yield setSessionStorage(action.token, action.user);
+      yield call(setSessionStorage, action.token, action.user);
       yield put(push(action.redirectPath));
    } catch (e) {
       yield console.log('exception in admin saga, redirect after login ', e)
@@ -14,7 +14,7 @@ function* redirectUserAfterLogin(action) {
 function* redirectUserAfterLogout(action) {
   try {
     // Clear session data
-    yield setSessionStorage(null, null);
+    yield call(clearSessionStorage);
     yield put(push(action.redirectPath));
   } catch (e) {
      yield console.log('exception in admin saga, redirect after logout', e)
@@ -24,6 +24,11 @@ function* redirectUserAfterLogout(action) {
 function setSessionStorage(token, user){
   sessionStorage.laravelAccessToken = token;
   sessionStorage.laravelUser = JSON.stringify(user);
+}
+
+function clearSessionStorage(){
+  delete sessionStorage.laravelAccessToken
+  delete sessionStorage.laravelUser
 }
 
 // redirectPath = this.props.redirectAfterLogin(push(location.state.nextPathname))

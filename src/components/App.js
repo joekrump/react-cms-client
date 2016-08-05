@@ -15,7 +15,6 @@ import Gravatar from './Nav/Gravatar';
 import auth from '../auth';
 
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux'
 
 import ListItem from 'material-ui/List/ListItem';
 
