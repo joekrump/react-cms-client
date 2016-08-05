@@ -40,10 +40,7 @@ export const routes = {
 function requireAuth(nextState, replace) {
   if (!auth.loggedIn()) {
     console.log('NOT LOGGED IN, REDIRECTING...');
-    replace({
-      pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
-    })
+    replace({ nextPathname: nextState.location.pathname }, '/login')
   }
 }
 
@@ -53,9 +50,6 @@ function requireAuth(nextState, replace) {
 function requiredNotAuth(nextState, replace) {
   console.log('LOGGED IN, REDIRECTING...');
   if(auth.loggedIn()) {
-    replace({
-      pathname: '/admin', 
-      state: { nextPathname: nextState.location.pathname }
-    })
+    replace({ nextPathname: nextState.location.pathname }, '/admin')
   }
 }

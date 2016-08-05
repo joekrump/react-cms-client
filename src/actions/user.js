@@ -7,8 +7,9 @@ export function login_user(user, token, redirectPath) {
   };
 }
 
-export function logout_user() {
+export function logout_user(redirectPath) {
   return {
-    type: 'USER_LOGGED_OUT'
+    type: 'USER_LOGGED_OUT',
+    redirectPath
   }
 }

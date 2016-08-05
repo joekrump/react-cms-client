@@ -31,7 +31,7 @@ const App = React.createClass({
     };
   },
   updateAuth(loggedIn) {
-    this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken);
+    this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken, '/admin');
   },
   handleToggleMenu() {
     let previousState = this.state;
@@ -94,10 +94,10 @@ const App = React.createClass({
   },
   handleLogout(e){
     e.preventDefault();
-    this.props.logoutUser();
     
     auth.logout(() => {
-      this.props.dispatch(push('/login'))
+      // dispatch an action if the server has successfully logged out the user.
+      this.props.logoutUser('/logout');
     });
   },
   render() {
@@ -151,16 +151,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user, token) => {
+    loginUser: (user, token, redirectPath) => {
       dispatch ({
         type: 'USER_LOGGED_IN',
         user,
-        token
+        token,
+        redirectPath
       })
     },
-    logoutUser: () => {
+    logoutUser: (redirectPath) => {
       dispatch ({
-        type: 'USER_LOGGED_OUT'
+        type: 'USER_LOGGED_OUT',
+        redirectPath
       })
     }
   };

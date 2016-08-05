@@ -11,6 +11,9 @@ module.exports = {
         user: sessionStorage.laravelUser, 
         token: sessionStorage.laravelAccessToken
       });
+      if(handleLoggedInCallback) {
+        handleLoggedInCallback();
+      }
       return
     }
 
@@ -44,7 +47,7 @@ module.exports = {
    * @param  {Boolean} isLoggedIn - whether the current client is logge in or not. Default: false
    * @return {undefined}
    */
-  onChange() {},
+  onChange(isLoggedIn) {},
   /**
    * handle the logging in of a user.
    * @param  {function}  handleLoggedInCallback Callback function passed in that handles the logging in logic
@@ -85,9 +88,7 @@ function postLogoutToServer(callback, component) {
         console.log(res);
         component.onChange(true) 
       } else {
-        // Successfully Logged Out
-        delete sessionStorage.laravelAccessToken
-        delete sessionStorage.laravelUser
+        // if all goes well, and there is a callback, call it.
         if (callback) {
           callback()
         } 
