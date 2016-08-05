@@ -40,7 +40,7 @@ module.exports = {
   },
 
   loggedIn() {
-    return !!sessionStorage.laravelAccessToken
+    return !!sessionStorage.laravelAccessToken && !((sessionStorage.laravelAccessToken === null) || (sessionStorage.laravelAccessToken === undefined))
   },
   /**
    * When the status of a user changes (logged in or not) perform some additional logic

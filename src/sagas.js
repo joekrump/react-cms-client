@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest } from 'redux-saga'
+import { takeLatest } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 
@@ -12,6 +12,7 @@ function* redirectUserAfterLogin(action) {
 }
 
 function* redirectUserAfterLogout(action) {
+  console.log('after logout')
   try {
     // Clear session data
     yield call(clearSessionStorage);
@@ -27,21 +28,27 @@ function setSessionStorage(token, user){
 }
 
 function clearSessionStorage(){
-  delete sessionStorage.laravelAccessToken
-  delete sessionStorage.laravelUser
+  console.log('removing session storage')
+  sessionStorage.removeItem('laravelAccessToken')
+  sessionStorage.removeItem('laravelUser')
 }
 
+    
 // redirectPath = this.props.redirectAfterLogin(push(location.state.nextPathname))
 // redirectPath = this.props.redirectAfterLogin(push('/admin'))
 
 // Generator for the admin saga
-function* adminSaga() {
-  yield* takeEvery("USER_LOGGED_IN", redirectUserAfterLogin);
-  yield* takeLatest("USER_LOGGED_OUT", redirectUserAfterLogout);
+function* loginSaga() {
+  yield* takeLatest("USER_LOGGED_IN", redirectUserAfterLogin);
+}
+
+function* logoutSaga() {
+  yield * takeLatest("USER_LOGGED_OUT", redirectUserAfterLogout)
 }
 
 export default function* rootSaga(){
   yield [
-    adminSaga()
+    loginSaga(),
+    logoutSaga()
   ]
 }

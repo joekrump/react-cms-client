@@ -96,7 +96,7 @@ const App = React.createClass({
     
     auth.logout(() => {
       // dispatch an action if the server has successfully logged out the user.
-      this.props.logoutUser('/logout');
+      this.props.logoutUser('/login');
     });
   },
   render() {
