@@ -23,10 +23,7 @@ module.exports = {
     })
   },
   getUser() {
-    if(!sessionStorage.laravelUser){
-      return sessionStorage.laravelUser;
-    }
-    return JSON.parse(sessionStorage.laravelUser);
+    return sessionStorage.laravelUser ? JSON.parse(sessionStorage.laravelUser) : null;
   },
   getToken() {
     return sessionStorage.laravelAccessToken

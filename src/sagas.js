@@ -7,8 +7,18 @@ function* redirectUserAfterLogin(action) {
       yield setSessionStorage(action.token, action.user);
       yield put(push(action.redirectPath));
    } catch (e) {
-      yield console.log('exception in admin saga ', e)
+      yield console.log('exception in admin saga, redirect after login ', e)
    }
+}
+
+function* redirectUserAfterLogout(action) {
+  try {
+    // Clear session data
+    yield setSessionStorage(null, null);
+    yield put(push(action.redirectPath));
+  } catch (e) {
+     yield console.log('exception in admin saga, redirect after logout', e)
+  }
 }
 
 function setSessionStorage(token, user){
@@ -22,6 +32,7 @@ function setSessionStorage(token, user){
 // Generator for the admin saga
 function* adminSaga() {
   yield* takeEvery("USER_LOGGED_IN", redirectUserAfterLogin);
+  yield* takeLatest("USER_LOGGED_OUT", redirectUserAfterLogout);
 }
 
 export default function* rootSaga(){
