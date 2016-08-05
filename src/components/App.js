@@ -45,7 +45,6 @@ const App = React.createClass({
     // Do something when the app first mounts
   },
   componentWillMount() {
-    console.log('called')
     auth.onChange = this.updateAuth
     if(sessionStorage.laravelAccessToken){
       auth.login()
@@ -95,6 +94,8 @@ const App = React.createClass({
   },
   handleLogout(e){
     e.preventDefault();
+    this.props.logoutUser();
+    
     auth.logout(() => {
       this.props.dispatch(push('/login'))
     });
@@ -156,10 +157,14 @@ const mapDispatchToProps = (dispatch) => {
         user,
         token
       })
+    },
+    logoutUser: () => {
+      dispatch ({
+        type: 'USER_LOGGED_OUT'
+      })
     }
   };
 }
-
 
 export default connect(
   mapStateToProps,

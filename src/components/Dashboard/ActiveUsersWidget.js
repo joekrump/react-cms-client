@@ -8,6 +8,7 @@ import { lightGreenA400 } from 'material-ui/styles/colors';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import './Widget.css'
+import { connect } from 'react-redux';
 
 const ActiveUsersWidget = React.createClass({
   getInitialState(){
@@ -18,7 +19,7 @@ const ActiveUsersWidget = React.createClass({
   componentDidMount(){
     request.get(AppConfig.apiBaseUrl + 'users/active')
       .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
-      .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
+      .set('Authorization', 'Bearer ' + this.props.token)
       .end(function(err, res) {
         if(err){
           console.log("error", err);
@@ -60,4 +61,12 @@ const ActiveUsersWidget = React.createClass({
   }
 });
 
-export default ActiveUsersWidget;
+const mapStateToProps = ( state ) => {
+  return {
+    token: state.auth.token
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(ActiveUsersWidget);

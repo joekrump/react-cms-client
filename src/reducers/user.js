@@ -12,6 +12,8 @@ const userReducer = (state = initialState, action) => {
         token: action.token,
         logged_in: true
       }
+    case 'USER_LOGGED_OUT':
+      return state
     default:
       return state;
   }
