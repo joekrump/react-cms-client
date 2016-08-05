@@ -3,7 +3,6 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../auth';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux'
 
 const Login = React.createClass({    
   getInitialState(){
@@ -21,21 +20,21 @@ const Login = React.createClass({
         return this.setState({error: true})
 
       const { location } = this.props
+      var redirectPath;
 
       this.setState({error: false});
-      // console.log('User', authData.user);
-      // console.log('Token', authData.token);
-
-      this.props.loginUser(authData.user, authData.token)
-
+      
       // If the user tried to access a specific admin route before logging in then redirect them there after login
       // otherwise default to /admin
       // 
       if(location.state && location.state.nextPathname) {
-        this.props.redirectAfterLogin(push(location.state.nextPathname))
+        redirectPath = location.state.nextPathname
       } else {
-        this.props.redirectAfterLogin(push('/admin'))
+        redirectPath = '/admin'
       }
+      
+      this.props.loginUser(authData.user, authData.token, redirectPath)
+      
     })
   },
   updateAuth(loggedIn) {
@@ -86,11 +85,12 @@ const Login = React.createClass({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user, token) => {
+    loginUser: (user, token, redirectPath) => {
       dispatch ({
         type: 'USER_LOGGED_IN',
         user,
-        token
+        token,
+        redirectPath
       })
     },
     redirectAfterLogin: (callback) => {

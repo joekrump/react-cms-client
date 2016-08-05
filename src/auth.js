@@ -17,8 +17,6 @@ module.exports = {
     makeLoginRequest(email, pass, (res) => {
       if (res.authenticated) {
         this.handleLoggedIn(handleLoggedInCallback, res, true);
-        sessionStorage.laravelAccessToken = res.token;
-        sessionStorage.laravelUser = JSON.stringify(res.user);
       } else {
         this.handleLoggedIn(handleLoggedInCallback, res); // no second param as it defaults to false
       }
@@ -39,7 +37,6 @@ module.exports = {
     this.onChange(false)
 
     postLogoutToServer(logoutCallback, this);
-   
   },
 
   loggedIn() {
