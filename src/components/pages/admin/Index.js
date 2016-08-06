@@ -2,16 +2,12 @@ import React from 'react';
 import { capitalize } from '../../../helpers/string'
 import AppConfig from '../../../../app_config/app'
 import request from 'superagent';
-import { List, ListItem } from 'material-ui/List';
-import { grey400, fullBlack } from 'material-ui/styles/colors';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
+import { List } from 'material-ui/List';
+import { grey400 } from 'material-ui/styles/colors';
 import MenuItem from '../../Menu/MenuItem';
 import AddButton from './AddButton';
-import muiTheme from '../../../muiTheme';
 import CircularProgress from 'material-ui/CircularProgress';
-import {fade} from 'material-ui/utils/colorManipulator';
+import IndexItem from './IndexItem'
 
 const Index = React.createClass({
   getInitialState() {
@@ -48,35 +44,10 @@ const Index = React.createClass({
   render() {
     let items = [];
 
-    const iconButtonElement = (
-      <IconButton
-        touch={true}
-        tooltip="option"
-        tooltipPosition="bottom-left"
-      >
-        <MoreVertIcon color={grey400} />
-      </IconButton>
-    );
-
-    const rightIconMenu = (
-      <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Delete</MenuItem>
-      </IconMenu>
-    );
-
     if(this.state.items === null) {
       items = (<div><h3>Loading:</h3><CircularProgress /></div>);
     } else if(this.state.items.length > 0) {
-      items = this.state.items.map((item) => {
-        return(
-          (<ListItem
-            key={item.id}
-            rightIconButton={rightIconMenu}
-            primaryText={<div style={{color: muiTheme.palette.textColor}}><strong>{item.primary}</strong> - <span>{item.secondary}</span></div>}
-            style={{backgroundColor: fade(fullBlack, 0.7)}}
-          />));
-      });
+      items = this.state.items.map((item) => (<IndexItem id={item.id} primary={item.primary} secondary={item.secondary} />));
     } else {
       items = (<div><h3>No {this.props.params.resourceName} yet</h3></div>);
     }
