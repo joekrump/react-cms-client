@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import {List, ListItem} from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../../Form/index';
 
+const listItemStyle = {
+  padding: "0 16px"
+};
 
 class ResourceForm extends React.Component {
 
@@ -52,18 +55,18 @@ class ResourceForm extends React.Component {
 
     for (let fieldName in this.props.formFields){
       field = this.props.formFields[fieldName]
-      console.log(field)
+      formFieldComponents.push(
+        <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
+          <TextInput type={field.inputType} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={fieldName} />
+        </ListItem>
+      );
     }
-      // return (
-      //   <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-      //     <TextInput type={} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={field} />
-      //   </ListItem>
-      // );
-
+      
     return (
       <Form onSubmit={this.handleFormSubmit} className="payment-content">
         <List>
-          <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} disabled={true} disableKeyboardFocus={true} />
+          {/* TODO: Make form header dynamic */}
+          <ListItem primaryText={<h2>ResourceForm</h2>} disabled={true} disableKeyboardFocus={true} />
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
             <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label="Submit"/>

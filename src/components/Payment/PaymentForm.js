@@ -16,7 +16,7 @@ import StripeFields from './StripeFields';
 
 import { Form, TextInput, SubmitButton } from '../Form/index';
 
-var listItemStyle = {
+const listItemStyle = {
   padding: "0 16px"
 };
 
