@@ -10,7 +10,7 @@ const IndexItem = (props) => {
   return(<ListItem
           disabled
           className="index-list-item"
-          rightIconButton={<IndexItemActions />}
+          rightIconButton={<IndexItemActions resourceType={props.resourceType} id={props.id} />}
           primaryText={<div style={{color: muiTheme.palette.textColor}}><strong>{props.primary}</strong> - <span>{props.secondary}</span></div>}
           style={{backgroundColor: fade(fullBlack, 0.7)}}
         />);

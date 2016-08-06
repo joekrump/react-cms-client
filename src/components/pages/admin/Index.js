@@ -47,7 +47,7 @@ const Index = React.createClass({
     if(this.state.items === null) {
       items = (<div><h3>Loading:</h3><CircularProgress /></div>);
     } else if(this.state.items.length > 0) {
-      items = this.state.items.map((item) => (<IndexItem key={item.id} id={item.id} primary={item.primary} secondary={item.secondary} />));
+      items = this.state.items.map((item) => (<IndexItem key={item.id} id={item.id} primary={item.primary} secondary={item.secondary} resourceType={this.props.params.resourceName} />));
     } else {
       items = (<div><h3>No {this.props.params.resourceName} yet</h3></div>);
     }

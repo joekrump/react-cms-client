@@ -114,7 +114,7 @@ class PaymentForm extends React.Component {
           {/* STRIPE FIELDS TO GO HERE */}
           { StripeFieldListItems }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} lable="Submit Payment"/>
+            <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label="Submit Payment"/>
           </ListItem>
         </List>
       </Form>
@@ -124,7 +124,7 @@ class PaymentForm extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isFormValid: !state.forms.loginForm.error,
+    isFormValid: !state.forms.paymentForm.error,
     stripeToken: state.payments.stripeToken
   }
 }

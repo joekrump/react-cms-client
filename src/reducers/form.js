@@ -6,10 +6,10 @@ const initialState = { //define initial state - an empty form
     completed: false,
     errors: null,
     fields: {
-      fname: {value: '', errors: null},
-      lname: {value: '', errors: null},
-      email: {value: '', errors: null},
-      amt: {value: '', errors: null}
+      fname: {value: '', errors: null, inputType: 'text'},
+      lname: {value: '', errors: null, inputType: 'text'},
+      email: {value: '', errors: null, inputType: 'email'},
+      amt: {value: '', errors: null, inputType: 'text'}
     }
   },
   loginForm: {
@@ -17,7 +17,50 @@ const initialState = { //define initial state - an empty form
     completed: false,
     error: null,
     fields: {
-
+      email: {value: '', errors: null, inputType: 'email'},
+      password: {value: '', errors: null, inputType: 'password'}
+    }
+  },
+  usersForm: {
+    submitDisabled: false,
+    completed: false,
+    error: null,
+    fields: {
+      name: {
+        value: '', 
+        errors: null, 
+        inputType: 'text',
+        label: 'Name',
+        placeholder: ''
+      },
+      email: {
+        value: '', 
+        errors: null, 
+        inputType: 'email',
+        label: 'Email',
+        placeholder: ''
+      },
+      password: {
+        value: '', 
+        errors: null, 
+        inputType: 'password',
+        label: 'Password',
+        placeholder: '*********'
+      }
+    }
+  },
+  booksForm: {
+    submitDisabled: false,
+    completed: false,
+    error: null,
+    fields: {
+      title: {
+        value: '', 
+        errors: null, 
+        inputType: 'text',
+        label: 'Title',
+        placeholder: ''
+      }
     }
   }
 };
