@@ -28,9 +28,7 @@ class ResourceForm extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    // Submit CC fields to Stripe for processing.
-    // eslint-disable-next-line
-    this.submitToServer(response.id, this);
+    this.submitToServer(this);
   }
   submitToServer(self){
     request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
