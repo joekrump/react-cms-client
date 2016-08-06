@@ -1,0 +1,12 @@
+.action-button-container {
+  display: inline;
+  position: absolute;
+  top: 12px;
+  right: 4px;
+
+}
+
+.action-button.index-item-button {
+  background: none;
+  border: none;
+}
