@@ -7,21 +7,21 @@ import AppConfig from '../../../app_config/app';
 const AdminRoutes = {
 
   path: ':resourceName',
-  onEnter(nextState, replace) {
-    // Basic check to see if the user is trying to access a route for a resource that exists.
-    let isRouteValid = false;
-    AppConfig.validResourcesRootPaths.forEach((validRoute) => {
-      console.log('validRoute', validRoute);
-      console.log('thisRoute', nextState.location.pathname);
-      if(nextState.location.pathname.includes('/admin' + validRoute)){
-        isRouteValid = true;
-        return;
-      }
-    })
-    if(!isRouteValid) {
-      replace({ nextPathname: nextState.location.pathname }, '/login')
-    }
-  },
+  // onEnter(nextState, replace) {
+  //   // Basic check to see if the user is trying to access a route for a resource that exists.
+  //   let isRouteValid = false;
+  //   AppConfig.validResourcesRootPaths.forEach((validRoute) => {
+  //     console.log('validRoute', validRoute);
+  //     console.log('thisRoute', nextState.location.pathname);
+  //     if(nextState.location.pathname.includes('/admin' + validRoute)){
+  //       isRouteValid = true;
+  //       return;
+  //     }
+  //   })
+  //   if(!isRouteValid) {
+  //     replace({ nextPathname: nextState.location.pathname }, '/login')
+  //   }
+  // },
 
   getChildRoutes(partialNextState, callback) {
     require.ensure([], function (require) {

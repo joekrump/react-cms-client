@@ -1,12 +1,19 @@
 .action-button-container {
-  display: inline;
   position: absolute;
-  top: 12px;
+  top: 0;
   right: 4px;
-
 }
 
 .action-button.index-item-button {
   background: none;
   border: none;
+}
+
+
+.index-list-item .action-button-container  {
+  opacity: 0;
+}
+
+.index-list-item:hover .action-button-container {
+  opacity: 1;
 }
