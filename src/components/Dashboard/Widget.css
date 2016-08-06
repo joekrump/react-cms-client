@@ -1,21 +1,25 @@
-.dashboard .widget {
+.dashboard .widget-wrapper {
   flex: 1 auto;
   max-width: 300px;
+  padding: 0;
+}
+
+.dashboard .widget-wrapper .widget {
   padding: 0 20px 15px 20px;
 }
 
 @media (max-width: 900px){
-  .dashboard .widget {
+  .dashboard .widget-wrapper {
     width: 50%;
   }
 }
 @media (max-width: 500px){
-  .dashboard .widget {
+  .dashboard .widget-wrapper {
     width: 100%;
   }
 }
 @media (min-width: 901px) {
-  .dashboard .widget {
+  .dashboard .widget-wrapper {
     width: calc(100%/3);
   }
 }

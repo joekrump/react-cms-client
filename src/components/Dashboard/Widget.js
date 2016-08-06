@@ -8,7 +8,7 @@ const Widget = (props) => ({
     
     // Will be blank if there are no other users online, otherwise will show widget.
     return ( 
-      <Paper zDepth={2} >
+      <Paper zDepth={2} className="widget-wrapper">
         {props.children}
       </Paper>
     );

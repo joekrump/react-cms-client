@@ -11,6 +11,8 @@ const AdminRoutes = {
     // Basic check to see if the user is trying to access a route for a resource that exists.
     let isRouteValid = false;
     AppConfig.validResourcesRootPaths.forEach((validRoute) => {
+      console.log('validRoute', validRoute);
+      console.log('thisRoute', nextState.location.pathname);
       if(nextState.location.pathname.includes('/admin' + validRoute)){
         isRouteValid = true;
         return;

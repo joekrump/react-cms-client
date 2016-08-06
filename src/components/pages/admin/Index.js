@@ -2,8 +2,8 @@ import React from 'react';
 import { capitalize } from '../../../helpers/string'
 import AppConfig from '../../../../app_config/app'
 import request from 'superagent';
-import {List, ListItem} from 'material-ui/List';
-import {grey400} from 'material-ui/styles/colors';
+import { List, ListItem } from 'material-ui/List';
+import { grey400, fullBlack } from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
@@ -11,6 +11,7 @@ import MenuItem from '../../Menu/MenuItem';
 import AddButton from './AddButton';
 import muiTheme from '../../../muiTheme';
 import CircularProgress from 'material-ui/CircularProgress';
+import {fade} from 'material-ui/utils/colorManipulator';
 
 const Index = React.createClass({
   getInitialState() {
@@ -39,6 +40,7 @@ const Index = React.createClass({
     this.setItems(this.props.params.resourceName.toLowerCase());
   },
   componentWillReceiveProps(nextProps){
+    // TODO: update how this works by tying into redux
     if(nextProps.params.resourceName !== this.props.params.resourceName) {
       this.setItems(nextProps.params.resourceName);
     }
@@ -70,9 +72,10 @@ const Index = React.createClass({
         return(
           (<ListItem
             key={item.id}
-             rightIconButton={rightIconMenu}
-             primaryText={<div style={{color: muiTheme.palette.textColor}}><strong>{item.primary}</strong> - <span>{item.secondary}</span></div>}
-           />));
+            rightIconButton={rightIconMenu}
+            primaryText={<div style={{color: muiTheme.palette.textColor}}><strong>{item.primary}</strong> - <span>{item.secondary}</span></div>}
+            style={{backgroundColor: fade(fullBlack, 0.7)}}
+          />));
       });
     } else {
       items = (<div><h3>No {this.props.params.resourceName} yet</h3></div>);
