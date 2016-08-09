@@ -1,6 +1,7 @@
 import React from 'react';
 import { capitalize } from '../../../helpers/string'
 import ResourceForm from './ResourceForm';
+import AddResourceButton from './AddButton';
 
 const Edit = ({ params: { resourceNameSingular, resourceId }, location: { query } }) => {
   return (
@@ -15,6 +16,7 @@ const Edit = ({ params: { resourceNameSingular, resourceId }, location: { query 
         resourceType={resourceNameSingular}
         context='edit'
       />
+      <AddResourceButton resourceNameSingular={resourceNameSingular}/>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import request from 'superagent';
 import { List } from 'material-ui/List';
 import { grey400 } from 'material-ui/styles/colors';
 import MenuItem from '../../Menu/MenuItem';
-import AddButton from './AddButton';
+import AddResourceButton from './AddButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
 
@@ -68,7 +68,7 @@ const Index = React.createClass({
           {items}
         </List>
         { this.props.children }
-        <AddButton resourceNameSingular={this.state.resourceNameSingular}/>
+        <AddResourceButton resourceNameSingular={this.state.resourceNameSingular}/>
       </div>
     );
   }
