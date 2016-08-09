@@ -21,8 +21,12 @@ const DeleteButton = (props) => {
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
       .end(function(err, res) {
         if(err){
-          console.log("error", err);
-          showItemCallback(true); // Set visibility to true
+          if(res.statusCode === 404) {
+            console.warn('Error: Could not delete. No ' + props.resourceType + ' with ID=' + props.id + ' found.');
+            // TODO: put message in SnackBar notification
+          } else {
+            showItemCallback(true); // Set visibility to true
+          }
         } else if(res.statusCode !== 200) {
           console.log('errorCode', res);
           showItemCallback(true); // Set visibility to true
@@ -30,7 +34,7 @@ const DeleteButton = (props) => {
           console.log('Removed')
           // TODO: remove item from store.
         }
-      }.bind(this))
+      })
   }
 
   let handleDelete = (e) => {

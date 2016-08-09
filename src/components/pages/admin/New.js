@@ -8,7 +8,6 @@ const New = ({ params: { resourceNameSingular }, location: { query } }) => {
     <div className="admin-edit">
       <h1>New {capitalize(resourceNameSingular)}</h1>
 
-      {/* TODO: EDIT FORM GOES HERE must receive formName, submitUrl, resourceType (in order to get form fields), context: (edit, or create) */}
       <ResourceForm 
         formName={resourceNameSingular + 'Form'} 
         submitUrl={resourceNameSingular +'/create'}
