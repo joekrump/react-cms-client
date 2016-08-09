@@ -11,8 +11,7 @@ const app_config = {
     { linkText: 'Home', url: '/' },
     { linkText: 'Inbox', url: '/inbox' },
     { linkText: 'About', url: '/about' },
-    { linkText: 'Make a payment', url: '/donate' },
-    { linkText: 'Redux Counter', url: '/redux-counter' }
+    { linkText: 'Make a payment', url: '/donate' }
   ],
   validResourcesRootPaths: [
     '/users/', '/users',

@@ -107,7 +107,7 @@ const App = React.createClass({
         <IconMenu
           iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
-          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+          anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
         >
           <MenuItem primaryText="Log Out" onTouchTap={(event) => this.handleLogout(event, this)} />
         </IconMenu>
