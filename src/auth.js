@@ -80,14 +80,16 @@ function postLogoutToServer(callback, component) {
     .end(function(err, res){
 
       if(err !== null) {
-        console.warn(err);
-        component.onChange(true) // if user didn't successfully logout then show that they are still logged in after optimistic change.
-      } else if (res.statusCode !== 200) {
         if(res.statusCode === 401) {
-          console.log('401!')
+          if (callback) {
+            callback()
+          } 
+        } else {
+          // if user didn't successfully logout then show that they are still logged in after optimistic change.
+          component.onChange(true) 
         }
-        console.log('not 200 status code ', res);
-        console.log(res);
+      } else if (res.statusCode !== 200) {
+        // if user didn't successfully logout then show that they are still logged in after optimistic change.
         component.onChange(true) 
       } else {
         // if all goes well, and there is a callback, call it.
