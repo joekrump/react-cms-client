@@ -1,0 +1,68 @@
+.cover {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1100; /* just above title bar */
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#5dc1b2+0,1fbcd2+100 */
+  background: #5dc1b2; /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #5dc1b2 0%, #1fbcd2 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #5dc1b2 0%, #1fbcd2 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #5dc1b2 0%, #1fbcd2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.closed .cover {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, height 0s linear 0.2s;
+}
+
+.actions {
+  position: absolute;
+}
+
+.closed .actions {
+  transition: top 0s linear 0.2s;
+}
+
+.container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  text-align: center;
+  z-index: 1110;
+}
+
+.button {
+  transition: transform 0.2s ease-in-out;
+}
+
+.closed .button {
+  transform: scale(0, 0);
+}
+
+.action {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.tooltip {
+  position: absolute;
+  right: 75px;
+  top: 18px;
+  color: white;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.closed .tooltip {
+  opacity: 0;
+}
+
+.opened .main svg {
+  transform: rotate(135deg);
+}
