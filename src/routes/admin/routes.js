@@ -1,7 +1,7 @@
 import AdminIndex from '../../components/pages/admin/Index';
-import Details from '../../components/pages/admin/Details';
-import Edit from '../../components/pages/admin/Edit';
-import AppConfig from '../../../app_config/app';
+// import Details from '../../components/pages/admin/Details';
+// import Edit from '../../components/pages/admin/Edit';
+// import AppConfig from '../../../app_config/app';
 
 
 const AdminIndexRoutes = {

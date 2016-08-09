@@ -21,7 +21,7 @@ const DeleteButton = (props) => {
   }
   return (
     <IconButton style={styles.buttonStyles} tooltip="Delete" tooltipPosition='top-center' onClick={handleDelete}>
-      <DeleteIcon styles={styles.smallIcon} />
+      <DeleteIcon style={styles.smallIcon} />
     </IconButton>
   )
 }

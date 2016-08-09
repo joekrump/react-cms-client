@@ -3,13 +3,11 @@ import { capitalize } from '../../../helpers/string'
 import AppConfig from '../../../../app_config/app'
 import request from 'superagent';
 import { List } from 'material-ui/List';
-import { grey400 } from 'material-ui/styles/colors';
-import MenuItem from '../../Menu/MenuItem';
 import AddResourceButton from './AddButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
 
-
+// Helpers
 import { singularizeName } from '../../../helpers/ResourceHelper'
 
 const Index = React.createClass({
@@ -23,7 +21,6 @@ const Index = React.createClass({
     this.setState({items: null});
 
     request.get(AppConfig.apiBaseUrl + resourceNamePlural)
-      .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
       .end(function(err, res) {
         if(err){

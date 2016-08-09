@@ -1,9 +1,9 @@
   
-import AdminIndex from '../../components/pages/admin/Index';
 import Details from '../../components/pages/admin/Details';
 import Edit from '../../components/pages/admin/Edit';
 import New from '../../components/pages/admin/New';
-import AppConfig from '../../../app_config/app';
+// import AdminIndex from '../../components/pages/admin/Index';
+// import AppConfig from '../../../app_config/app';
 
 
 const AdminCRUDRoutes = {

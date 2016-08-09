@@ -36,10 +36,10 @@ export function singularizeName(wordToSingularize){
       case 'books': 
         return 'book'
       default: {
-        var lastThreeChars = pluralName.slice(-3).toLowerCase();
+        var lastThreeChars = wordToSingularize.slice(-3).toLowerCase();
 
         if(lastThreeChars === 'ies') {
-          return pluralName.slice(0, -3) + 'y'
+          return wordToSingularize.slice(0, -3) + 'y'
         } else {
           return wordToSingularize.slick(0, -1)
         }

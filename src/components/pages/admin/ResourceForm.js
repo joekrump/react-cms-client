@@ -31,48 +31,48 @@ class ResourceForm extends React.Component {
     this.submitToServer(this);
   }
   submitToServer(self){
-    console.log(self.props.formFields);
-
     var formInputValues = {};
 
     Object.keys(self.props.formFields).forEach((key) => {
       formInputValues[key] = self.props.formFields[key].value;
       return;
     })
+    try {
+      request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
+        .set('Authorization', 'Bearer ' + this.props.token)
+        .send(formInputValues)
+        .end(function(err, res){
+          if(err !== null) {
+            console.log(err);
+            console.log(res);
+            // Something unexpected happened
+          } else if (res.statusCode !== 200) {
+            // not status OK
+            console.log('Resource Form not OK ',res);
+          } else {
 
-    request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
-      .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
-      .set('Accept', 'application/json')
-      .set('Authorization', 'Bearer ' + this.props.token)
-      .send(formInputValues)
-      .end(function(err, res){
-        console.log(res);
-        if(err !== null) {
-          // Something unexpected happened
-        } else if (res.statusCode !== 200) {
-          // not status OK
-        } else {
+            self.props.updateFormCompleteStatus(true, self.props.formName);
+            setTimeout(self.resetForm, 3000);
+          }
+        });
+    } catch (e) {
+      console.log('Exception: ', e)
+    }
 
-          self.props.updateFormCompleteStatus(true, self.props.formName);
-          setTimeout(self.resetForm, 3000);
-        }
-      });
   }
   render() {
     let field;
-    let formFieldComponents = [];
     let i = 0;
 
-    for (let fieldName in this.props.formFields){
-      field = this.props.formFields[fieldName]
+    let formFieldComponents = Object.keys(this.props.formFields).map((fieldName) => {
+      field = this.props.formFields[fieldName];
 
-      formFieldComponents.push(
+      return (
         <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
-          <TextInput type={field.inputType} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={fieldName} autoFocus={i === 0}/>
+          <TextInput type={field.inputType} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={fieldName} autoFocus={i++ === 0}/>
         </ListItem>
       );
-      i++;
-    }
+    });
       
     return (
       <Form onSubmit={this.handleFormSubmit} className="payment-content">
