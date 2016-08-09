@@ -65,7 +65,7 @@ class ResourceForm extends React.Component {
     for (let fieldName in this.props.formFields){
       field = this.props.formFields[fieldName]
       formFieldComponents.push(
-        <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
+        <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
           <TextInput type={field.inputType} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={fieldName} />
         </ListItem>
       );
