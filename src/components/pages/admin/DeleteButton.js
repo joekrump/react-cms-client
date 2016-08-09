@@ -1,6 +1,8 @@
 import React from 'react'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import IconButton from 'material-ui/IconButton';
+import request from 'superagent';
+import AppConfig from '../../../../app_config/app'
 
 const styles = {
   smallIcon: {
@@ -16,8 +18,23 @@ const DeleteButton = (props) => {
 
   let handleDelete = (e) => {
     e.preventDefault();
-    console.log('TODO: Delete ' + props.id);
+
+    requestServerDelete();
     // TODO: Make DELETE request using superagent using post. Resource id should be accessible through props.id
+  }
+
+  let requestServerDelete = () => {
+    request.del(AppConfig.apiBaseUrl + props.resourceType + '/' + props.id)
+      .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
+      .end(function(err, res) {
+        if(err){
+          console.log("error", err);
+        } else if(res.statusCode !== 200) {
+          console.log('errorCode', res);
+        } else {
+          console.log('Removed')
+        }
+      }.bind(this))
   }
   return (
     <IconButton style={styles.buttonStyles} tooltip="Delete" tooltipPosition='top-center' onClick={handleDelete}>

@@ -55,7 +55,8 @@
     "redux": "^3.5.2",
     "redux-saga": "^0.11.0",
     "superagent": "^2.1.0",
-    "valid-url": "^1.0.9"
+    "valid-url": "^1.0.9",
+    "velocity-react": "^1.1.5"
   },
   "scripts": {
     "start": "node ./scripts/start.js",
