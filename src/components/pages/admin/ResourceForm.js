@@ -31,17 +31,28 @@ class ResourceForm extends React.Component {
     this.submitToServer(this);
   }
   submitToServer(self){
+    console.log(self.props.formFields);
+
+    var formInputValues = {};
+
+    Object.keys(self.props.formFields).forEach((key) => {
+      formInputValues[key] = self.props.formFields[key].value;
+      return;
+    })
+
     request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
       .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
       .set('Accept', 'application/json')
-      .send({ ...self.state.formFields })
+      .set('Authorization', 'Bearer ' + this.props.token)
+      .send(formInputValues)
       .end(function(err, res){
-
+        console.log(res);
         if(err !== null) {
           // Something unexpected happened
         } else if (res.statusCode !== 200) {
           // not status OK
         } else {
+
           self.props.updateFormCompleteStatus(true, self.props.formName);
           setTimeout(self.resetForm, 3000);
         }
@@ -76,7 +87,8 @@ class ResourceForm extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     isFormValid: !state.forms[ownProps.formName].error,
-    formFields: state.forms[ownProps.formName].fields
+    formFields: state.forms[ownProps.formName].fields,
+    token: state.auth.token
   }
 }
 

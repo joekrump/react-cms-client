@@ -11,7 +11,7 @@ const New = ({ params: { resourceNameSingular }, location: { query } }) => {
       {/* TODO: EDIT FORM GOES HERE must receive formName, submitUrl, resourceType (in order to get form fields), context: (edit, or create) */}
       <ResourceForm 
         formName={resourceNameSingular + 'Form'} 
-        submitUrl={resourceNameSingular +'/new'}
+        submitUrl={resourceNameSingular +'/create'}
         resourceType={resourceNameSingular}
         context='new'
       />
