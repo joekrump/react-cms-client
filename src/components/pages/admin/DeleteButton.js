@@ -16,29 +16,31 @@ const styles = {
 
 const DeleteButton = (props) => {
 
-  let handleDelete = (e) => {
-    e.preventDefault();
-    if(props.hideItemCallback){
-      props.hideItemCallback(); // Hide The IndexItem
-    }
-    // TODO: Optomistically hide / remove from DOM
-    // requestServerDelete();
-  }
-
-  let requestServerDelete = () => {
+  let requestServerDelete = (showItemCallback) => {
     request.del(AppConfig.apiBaseUrl + props.resourceType + '/' + props.id)
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
       .end(function(err, res) {
         if(err){
           console.log("error", err);
+          showItemCallback(true); // Set visibility to true
         } else if(res.statusCode !== 200) {
           console.log('errorCode', res);
+          showItemCallback(true); // Set visibility to true
         } else {
           console.log('Removed')
           // TODO: remove item from store.
         }
       }.bind(this))
   }
+
+  let handleDelete = (e) => {
+    e.preventDefault();
+
+    props.showItemCallback(false); // Hide The IndexItem
+    
+    requestServerDelete(props.showItemCallback);
+  }
+
   return (
     <IconButton style={styles.buttonStyles} tooltip="Delete" tooltipPosition='top-center' onClick={handleDelete}>
       <DeleteIcon style={styles.smallIcon} />

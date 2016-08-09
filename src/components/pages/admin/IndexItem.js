@@ -15,7 +15,7 @@ const IndexItem = React.createClass({
       visible: true
     }
   },
-  hideItem(visible = false) {
+  showItem(visible = false) {
     this.setState({visible});
   },
   render(){
@@ -24,7 +24,7 @@ const IndexItem = React.createClass({
         <ListItem
           className="index-list-item"
           disabled
-          rightIconButton={<IndexItemActions resourceType={this.props.resourceType} id={this.props.id} deleteCallback={ this.hideItem }/>}
+          rightIconButton={<IndexItemActions resourceType={this.props.resourceType} id={this.props.id} deleteCallback={ this.showItem }/>}
           primaryText={<div style={{color: muiTheme.palette.textColor}}><strong>{this.props.primary}</strong> - <span>{this.props.secondary}</span></div>}
           style={{backgroundColor: fade(fullBlack, 0.7)}}
         />
