@@ -5,7 +5,9 @@ import { push } from 'react-router-redux'
 function* redirectUserAfterLogin(action) {
    try {
       yield call(setSessionStorage, action.token, action.user);
-      yield put(push(action.redirectPath));
+      if(action.redirectPath !== undefined) {
+        yield put(push(action.redirectPath));
+      }
    } catch (e) {
       yield console.log('exception in admin saga, redirect after login ', e)
    }

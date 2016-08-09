@@ -1,3 +1,8 @@
 export function capitalize(stringToCapitalize){
-  return stringToCapitalize[0].toUpperCase() + stringToCapitalize.slice(1);
+  if(stringToCapitalize !== undefined && stringToCapitalize.length > 0) {
+    return stringToCapitalize[0].toUpperCase() + stringToCapitalize.slice(1);
+  } else {
+    return stringToCapitalize;
+  }
+  
 }

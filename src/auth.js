@@ -74,6 +74,7 @@ function parseSessionData(res){
 }
 
 function postLogoutToServer(callback, component) {
+
   request.post(AppConfig.apiBaseUrl +'auth/logout')
     .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
     .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
@@ -81,9 +82,13 @@ function postLogoutToServer(callback, component) {
     .end(function(err, res){
 
       if(err !== null) {
-        console.warn('Error: ', err);
+        // console.log(res);
+        console.warn(err);
         component.onChange(true) // if user didn't successfully logout then show that they are still logged in after optimistic change.
       } else if (res.statusCode !== 200) {
+        if(res.statusCode === 401) {
+          console.log('401!')
+        }
         console.log('not 200 status code ', res);
         console.log(res);
         component.onChange(true) 

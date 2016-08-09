@@ -21,7 +21,8 @@ const initialState = { //define initial state - an empty form
       password: {value: '', errors: null, inputType: 'password'}
     }
   },
-  usersForm: {
+  userForm: {
+    resourcePath: 'users/',
     submitDisabled: false,
     completed: false,
     error: null,
@@ -49,7 +50,8 @@ const initialState = { //define initial state - an empty form
       }
     }
   },
-  booksForm: {
+  bookForm: {
+    resourcePath: 'books/',
     submitDisabled: false,
     completed: false,
     error: null,

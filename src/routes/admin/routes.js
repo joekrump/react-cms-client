@@ -4,9 +4,9 @@ import Edit from '../../components/pages/admin/Edit';
 import AppConfig from '../../../app_config/app';
 
 
-const AdminRoutes = {
+const AdminIndexRoutes = {
 
-  path: ':resourceName',
+  path: ':resourceNamePlural',
   // onEnter(nextState, replace) {
   //   // Basic check to see if the user is trying to access a route for a resource that exists.
   //   let isRouteValid = false;
@@ -23,33 +23,6 @@ const AdminRoutes = {
   //   }
   // },
 
-  getChildRoutes(partialNextState, callback) {
-    require.ensure([], function (require) {
-      callback(null, [
-        { 
-          path: ':resourceId', 
-          indexRoute: { 
-            component: Details
-          },
-          getChildRoutes(partialNextState, callback) {
-            require.ensure([], function (require) {
-              callback(null, [
-                {
-                  path: 'edit',
-                  getComponents(nextState, callback) {
-                    require.ensure([], function (require) {
-                      callback(null, Edit)
-                    })
-                  }
-                }
-              ])
-            })
-          }
-        }
-      ])
-    })
-  },
-
   getIndexRoute(partialNextState, callback) {
     require.ensure([], function (require) {
       callback(null, {
@@ -65,4 +38,4 @@ const AdminRoutes = {
   // }
 }
 
-export default AdminRoutes;
+export default AdminIndexRoutes;

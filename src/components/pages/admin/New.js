@@ -2,20 +2,19 @@ import React from 'react';
 import { capitalize } from '../../../helpers/string'
 import ResourceForm from './ResourceForm';
 
-const Edit = ({ params: { resourceNameSingular, resourceId }, location: { query } }) => {
+const New = ({ params: { resourceNameSingular }, location: { query } }) => {
   return (
-
     <div className="admin-edit">
-      <h1>Edit {capitalize(resourceNameSingular)} {resourceId}</h1>
+      <h1>New {capitalize(resourceNameSingular)}</h1>
 
       {/* TODO: EDIT FORM GOES HERE must receive formName, submitUrl, resourceType (in order to get form fields), context: (edit, or create) */}
       <ResourceForm 
         formName={resourceNameSingular + 'Form'} 
-        submitUrl={resourceNameSingular + '/' + resourceId + '/update'}
+        submitUrl={resourceNameSingular +'/new'}
         resourceType={resourceNameSingular}
-        context='edit'
+        context='new'
       />
     </div>
   );
 };
-export default Edit;
+export default New;

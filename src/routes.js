@@ -9,7 +9,8 @@ import App from './components/App';
 import ReduxCounter from './components/pages/ReduxCounter';
 import auth from './auth';
 
-import AdminRoutes from './routes/admin/routes'
+import AdminIndexRoutes from './routes/admin/routes'
+import AdminCRUDRoutes from './routes/admin/crudRoutes'
 
 export const routes = {
   path: '/',
@@ -26,7 +27,8 @@ export const routes = {
       indexRoute: { component: Dashboard },
       onEnter: requireAuth,
       childRoutes: [
-        AdminRoutes
+        AdminIndexRoutes,
+        AdminCRUDRoutes
       ]
     },
     { path: '*', component: PageNotFound }

@@ -63,8 +63,6 @@ class ResourceForm extends React.Component {
     return (
       <Form onSubmit={this.handleFormSubmit} className="payment-content">
         <List>
-          {/* TODO: Make form header dynamic */}
-          <ListItem primaryText={<h2>ResourceForm</h2>} disabled={true} disableKeyboardFocus={true} />
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
             <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label="Submit"/>

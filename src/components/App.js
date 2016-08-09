@@ -30,7 +30,7 @@ const App = React.createClass({
     };
   },
   updateAuth(loggedIn) {
-    this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken, '/admin');
+    this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken);
   },
   handleToggleMenu() {
     let previousState = this.state;
