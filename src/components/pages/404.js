@@ -7,8 +7,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import './404.css'
 
 const PageNotFound = (props, state) => {
-  console.log('props', props);
-  console.log('state', state);
 
   return( 
     <div className="page-not-found-wrapper">

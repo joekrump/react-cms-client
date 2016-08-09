@@ -18,9 +18,11 @@ const DeleteButton = (props) => {
 
   let handleDelete = (e) => {
     e.preventDefault();
-
-    requestServerDelete();
-    // TODO: Make DELETE request using superagent using post. Resource id should be accessible through props.id
+    if(props.hideItemCallback){
+      props.hideItemCallback(); // Hide The IndexItem
+    }
+    // TODO: Optomistically hide / remove from DOM
+    // requestServerDelete();
   }
 
   let requestServerDelete = () => {
@@ -33,6 +35,7 @@ const DeleteButton = (props) => {
           console.log('errorCode', res);
         } else {
           console.log('Removed')
+          // TODO: remove item from store.
         }
       }.bind(this))
   }
