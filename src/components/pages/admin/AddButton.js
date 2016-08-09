@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { capitalize } from '../../../helpers/string'
 import SpeedDial from '../../Menu/SpeedDial'
 
+
 const AddButton = (props) => {
   // return (
   //   <FloatingActionButton style={{position: 'fixed', bottom: '30px', right: '30px'}} containerElement={

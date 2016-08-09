@@ -1,28 +1,23 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-// import {FormattedMessage} from 'react-intl'
+
 import {Link} from 'react-router'
 
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 import AddIcon from 'material-ui/svg-icons/content/add'
-import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
-import EventIcon from 'material-ui/svg-icons/action/event'
-import CheckIcon from 'material-ui/svg-icons/action/assignment-turned-in'
-import PasteIcon from 'material-ui/svg-icons/content/content-paste'
-import PollIcon from 'material-ui/svg-icons/social/poll'
+import UserIcon from 'material-ui/svg-icons/social/person-add'
+import BookIcon from 'material-ui/svg-icons/av/library-books'
+
+import {indigoA700, cyan500} from 'material-ui/styles/colors'
 
 // import routes from '../routes'
 
 import './SpeedDial.css'
-const color = 'rgb(95,193,178)'
 
 const actions = [
-  {icon: <PollIcon />, route: '/a'},
-  {icon: <PasteIcon />, route: '/b'},
-  {icon: <CheckIcon />, route: '/c'},
-  {icon: <EventIcon />, route: '/d'},
-  {icon: <CartIcon />, route: '/e'},
+  {icon: <UserIcon />, route: '/admin/user/new', tooltipText: 'Create a new User'},
+  {icon: <BookIcon />, route: '/admin/book/new', tooltipText: 'Create a new Book'},
 ]
 
 class SpeedDial extends Component {
@@ -60,10 +55,10 @@ class SpeedDial extends Component {
       return (
         <div className="action" key={id}>
           <div className='tooltip' style={{transitionDelay: delay + 'ms'}}>
-            <div id={id} />
+            <span id={id} >{action.tooltipText}</span>
           </div>
           <div className={"button"} style={{transitionDelay: delay + 'ms'}}>
-            <FloatingActionButton backgroundColor="white" iconStyle={{fill: color}} containerElement={link}>
+            <FloatingActionButton backgroundColor={cyan500} iconStyle={{fill: "white"}} containerElement={link} mini={true}>
               {action.icon}
             </FloatingActionButton>
           </div>
@@ -75,10 +70,10 @@ class SpeedDial extends Component {
       <div className={(this.state.open ? "opened" : "closed")}>
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>
         <div className="container">
-          <div className={"actions"} style={{top: this.state.open ? `${actions.length * -76}px` : '100px'}}>
+          <div className={"actions"} style={{top: this.state.open ? `${actions.length * -62}px` : '100px'}}>
             {actionButtons}
           </div>
-          <FloatingActionButton onMouseUp={this.handleToggle} className={"main"} backgroundColor={color}>
+          <FloatingActionButton onMouseUp={this.handleToggle} className={"main"} backgroundColor={indigoA700}>
             <AddIcon />
           </FloatingActionButton>
         </div>
@@ -88,7 +83,7 @@ class SpeedDial extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  height: 0,
+  height: 2000,
 })
 
 export default connect(mapStateToProps)(SpeedDial)
