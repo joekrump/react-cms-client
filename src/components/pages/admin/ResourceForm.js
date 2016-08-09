@@ -61,14 +61,17 @@ class ResourceForm extends React.Component {
   render() {
     let field;
     let formFieldComponents = [];
+    let i = 0;
 
     for (let fieldName in this.props.formFields){
       field = this.props.formFields[fieldName]
+
       formFieldComponents.push(
         <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
-          <TextInput type={field.inputType} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={fieldName} />
+          <TextInput type={field.inputType} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={fieldName} autoFocus={i === 0}/>
         </ListItem>
       );
+      i++;
     }
       
     return (

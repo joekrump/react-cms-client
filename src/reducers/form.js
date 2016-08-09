@@ -96,20 +96,8 @@ const formReducer = (state = initialState, action) => {
       });
 
     case "FORM_RESET":
-      var resetValues = {};
-
-      Object.keys(state[action.formName].fields).map((key) => {
-        resetValues[key] = {value: '', errors: null}
-        return 1;
-      });
-
       return assign({}, state, {
-        [action.formName]: {
-          error: null,
-          completed: false,
-          submitDisabled: false,
-          fields: resetValues
-        }
+        [action.formName]: initialState[action.formName]
       });
     case 'FORM_INPUT_ERROR':
       return assign({}, state, {
