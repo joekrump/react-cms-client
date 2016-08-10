@@ -18,7 +18,7 @@ export const bookForm = {
       label: 'Author Name',
       placeholder: ''
     },
-    page_count: {
+    pages_count: {
       value: '', 
       errors: null, 
       inputType: 'text',
