@@ -19,20 +19,20 @@ CRUD admin interface is setup to be generic.
 $ npm install
 ```
 
-2. Create config directory in the project root:
+2. Create app_config directory in the project root:
 ```bash
-$ mkdir config
+$ mkdir app_config
 ```
 
 3. Create two config files: `app.js` and `stripe.js` with the following content:
 - `app.js`:
 ```javascript
 const app_config = {
-  baseUrl: 'THE PATH THAT TO CLIENT: ex. http://localhost:3000', // If you are unsure what this is, try running `npm start` to see.
-  apiBaseUrl: 'THE PATH TO YOUR API SERVER (followed by a trailing slash "/"): ex. http://localhost:4000/api/',
+  baseUrl: 'THE PATH OF THE CLIENT: ex. http://localhost:3000', // Note: If you are unsure what this is, try running `npm start` to see.
+  apiBaseUrl: 'THE PATH TO YOUR API SERVER (followed by a trailing slash "/"): ex. http://localhost:8000/api/',
   adminRouteLinks: [
     { linkText: 'Dashboard', url: '/admin' },
-    // Add more that you would like here
+    // Add more that you would like here ex. { linkText: 'Users', url: '/users' } or { linkText: 'Books', url: '/books' }
   ],
   publicRouteLinks: [
     { linkText: 'Log In', url: '/login' },
