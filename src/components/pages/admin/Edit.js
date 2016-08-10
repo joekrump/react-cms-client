@@ -2,6 +2,7 @@ import React from 'react';
 import { capitalize } from '../../../helpers/string'
 import ResourceForm from './ResourceForm';
 import AddResourceButton from './AddButton';
+// import { pluralizeName } from '../../../helpers/ResourceHelper'
 
 const Edit = ({ params: { resourceNameSingular, resourceId }, location: { query } }) => {
   return (
@@ -9,10 +10,10 @@ const Edit = ({ params: { resourceNameSingular, resourceId }, location: { query 
     <div className="admin-edit">
       <h1>Edit {capitalize(resourceNameSingular)} {resourceId}</h1>
 
-      {/* TODO: EDIT FORM GOES HERE must receive formName, submitUrl, resourceType (in order to get form fields), context: (edit, or create) */}
       <ResourceForm 
         formName={resourceNameSingular + 'Form'} 
         submitUrl={resourceNameSingular + '/' + resourceId + '/update'}
+        resourceId={resourceId}
         resourceType={resourceNameSingular}
         context='edit'
       />

@@ -11,6 +11,9 @@ import BookIcon from 'material-ui/svg-icons/av/library-books'
 
 import {indigoA700, cyan500} from 'material-ui/styles/colors'
 
+
+import { push } from 'react-router-redux'
+
 // import routes from '../routes'
 
 import './SpeedDial.css'
@@ -40,13 +43,14 @@ class SpeedDial extends Component {
     })
   }
 
+  handleActionClick(e, actionRoute) {
+    e.preventDefault();
+    this.props.dispatch(push(actionRoute));
+    this.setState({open: false});
+  }
+
   render() {
     const actionButtons = actions.map((action, index) => {
-      const linkTo = {pathname: action.route}
-      if (action.id) {
-        linkTo.state = {do: 'new'}
-      }
-      const link = <Link to={linkTo} />
 
       const id = action.id || action.route.substr(1).replace(/\//g, '_')
 
@@ -58,7 +62,7 @@ class SpeedDial extends Component {
             <span id={id} >{action.tooltipText}</span>
           </div>
           <div className={"button"} style={{transitionDelay: delay + 'ms'}}>
-            <FloatingActionButton backgroundColor={cyan500} iconStyle={{fill: "white"}} containerElement={link} mini={true}>
+            <FloatingActionButton style={{backgroundColor: indigoA700}} iconStyle={{fill: "white"}} mini={true} onTouchTap={(e) => this.handleActionClick(e, action.route)}>
               {action.icon}
             </FloatingActionButton>
           </div>
@@ -73,7 +77,7 @@ class SpeedDial extends Component {
           <div className={"actions"} style={{top: this.state.open ? `${actions.length * -62}px` : '100px'}}>
             {actionButtons}
           </div>
-          <FloatingActionButton onMouseUp={this.handleToggle} className={"main"} backgroundColor={indigoA700}>
+          <FloatingActionButton onTouchTap={this.handleToggle} className="add-button">
             <AddIcon />
           </FloatingActionButton>
         </div>

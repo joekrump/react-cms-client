@@ -9,27 +9,42 @@ const listItemStyle = {
   padding: "0 16px"
 };
 
-class ResourceForm extends React.Component {
+const ResourceForm = React.createClass({
 
-  constructor (props){
-    super(props)
-
-    this.state = {
+  getInitialState(){
+    return {
+      existingData: {},
       submitDisabled: false
     }
+  },
+  componentDidMount(){
+    if(this.props.context === 'edit'){
 
-    this.resetForm = this.resetForm.bind(this)
-    this.handleFormSubmit = this.handleFormSubmit.bind(this)
-    this.submitToServer = this.submitToServer.bind(this)
-  }
+      request.get(AppConfig.apiBaseUrl + this.props.resourceType + '/' + this.props.resourceId)
+        .set('Authorization', 'Bearer ' + this.props.token)
+        .end(function(err, res){
+          if(err !== null) {
+            if(res.responseCode === 404) {
+              console.warn(res);
+            }
+            // Something unexpected happened
+          } else if (res.statusCode !== 200) {
+            // not status OK
+            console.log('Could not get Data for resource ', res);
+          } else {
+            this.setState({existingData: res.body.data})
+          }
+        }.bind(this));
+    } 
+  },
   resetForm(){
     this.props.resetForm(this.props.formName)
-  }
+  },
 
   handleFormSubmit(e) {
     e.preventDefault();
     this.submitToServer(this);
-  }
+  },
   submitToServer(self){
     var formInputValues = {};
 
@@ -52,24 +67,31 @@ class ResourceForm extends React.Component {
           } else {
 
             self.props.updateFormCompleteStatus(true, self.props.formName);
-            setTimeout(self.resetForm, 3000);
+            setTimeout(self.resetForm, 1000);
           }
         });
     } catch (e) {
       console.log('Exception: ', e)
     }
 
-  }
+  },
   render() {
     let field;
     let i = 0;
 
     let formFieldComponents = Object.keys(this.props.formFields).map((fieldName) => {
       field = this.props.formFields[fieldName];
-
       return (
         <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
-          <TextInput type={field.inputType} placeholder={field.placeholder} label={field.label} formName={this.props.formName} name={fieldName} autoFocus={i++ === 0}/>
+          <TextInput 
+            type={field.inputType} 
+            placeholder={field.placeholder} 
+            label={field.label} 
+            formName={this.props.formName} 
+            name={fieldName} 
+            autoFocus={i++ === 0} 
+            value={this.props.context === 'new' ? this.props.formFields[fieldName].value : this.state.existingData[fieldName]}
+          />
         </ListItem>
       );
     });
@@ -85,7 +107,7 @@ class ResourceForm extends React.Component {
       </Form>
     )
   }
-}
+})
 
 const mapStateToProps = (state, ownProps) => {
   return {
