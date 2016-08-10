@@ -54,8 +54,15 @@ const ResourceForm = React.createClass({
       return;
     })
     try {
-      request.put(AppConfig.apiBaseUrl + this.props.submitUrl)
-        .set('Authorization', 'Bearer ' + this.props.token)
+      let serverRequest;
+
+      if(this.props.context === 'edit') {
+        serverRequest = request.put(AppConfig.apiBaseUrl + this.props.submitUrl);
+      } else {
+        serverRequest = request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
+      }
+      
+      serverRequest.set('Authorization', 'Bearer ' + this.props.token)
         .set('Content-Type', 'application/json')
         .send(formInputValues)
         .end(function(err, res){
@@ -92,18 +99,17 @@ const ResourceForm = React.createClass({
             formName={this.props.formName} 
             name={fieldName} 
             autoFocus={i++ === 0} 
-            // value={this.props.context === 'new' ? this.props.formFields[fieldName].value : this.state.existingData[fieldName]}
           />
         </ListItem>
       );
     });
       
     return (
-      <Form onSubmit={this.handleFormSubmit} className="payment-content">
+      <Form onSubmit={this.handleFormSubmit} className="form-content">
         <List>
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label="Submit"/>
+            <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label={this.props.context === 'edit' ? 'Update' : 'Create'}/>
           </ListItem>
         </List>
       </Form>
