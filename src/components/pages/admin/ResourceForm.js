@@ -54,8 +54,9 @@ const ResourceForm = React.createClass({
       return;
     })
     try {
-      request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
+      request.put(AppConfig.apiBaseUrl + this.props.submitUrl)
         .set('Authorization', 'Bearer ' + this.props.token)
+        .set('Content-Type', 'application/json')
         .send(formInputValues)
         .end(function(err, res){
           if(err !== null) {

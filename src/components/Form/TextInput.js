@@ -23,6 +23,7 @@ const TextInput = () => ({
           onChange={(e) => this.handleInputChange(e)}
           errorText={this.props.errorText}
           value={this.props.value}
+          multiLine={this.props.multiLine}
           autoFocus={this.props.autoFocus !== undefined && this.props.autoFocus}
         />
       </div>

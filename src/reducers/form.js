@@ -1,84 +1,21 @@
 import assign from 'lodash.assign';
+import { bookForm,
+         loginForm,
+         paymentForm,
+         permissionForm,
+         roleForm,
+         userForm } from '../store/initial_states/forms/index'
 
-const initialState = { //define initial state - an empty form
-  paymentForm: {
-    submitDisabled: false,
-    completed: false,
-    errors: null,
-    fields: {
-      fname: {value: '', errors: null, inputType: 'text'},
-      lname: {value: '', errors: null, inputType: 'text'},
-      email: {value: '', errors: null, inputType: 'email'},
-      amt: {value: '', errors: null, inputType: 'text'}
-    }
-  },
-  loginForm: {
-    submitDisabled: false,
-    completed: false,
-    error: null,
-    fields: {
-      email: {value: '', errors: null, inputType: 'email'},
-      password: {value: '', errors: null, inputType: 'password'}
-    }
-  },
-  userForm: {
-    resourcePath: 'users/',
-    submitDisabled: false,
-    completed: false,
-    error: null,
-    fields: {
-      name: {
-        value: '', 
-        errors: null, 
-        inputType: 'text',
-        label: 'Name',
-        placeholder: ''
-      },
-      email: {
-        value: '', 
-        errors: null, 
-        inputType: 'email',
-        label: 'Email',
-        placeholder: ''
-      },
-      password: {
-        value: '', 
-        errors: null, 
-        inputType: 'password',
-        label: 'Password',
-        placeholder: '*********'
-      }
-    }
-  },
-  bookForm: {
-    resourcePath: 'books/',
-    submitDisabled: false,
-    completed: false,
-    error: null,
-    fields: {
-      title: {
-        value: '', 
-        errors: null, 
-        inputType: 'text',
-        label: 'Title',
-        placeholder: ''
-      },
-      author_name: {
-        value: '', 
-        errors: null, 
-        inputType: 'text',
-        label: 'Author Name',
-        placeholder: ''
-      },
-      page_count: {
-        value: '', 
-        errors: null, 
-        inputType: 'text',
-        label: 'Page Count',
-        placeholder: ''
-      }
-    }
-  }
+
+// define initial state of forms
+//
+const initialState = { 
+  bookForm,
+  loginForm,
+  paymentForm,
+  permissionForm,
+  roleForm,
+  userForm
 };
 
 const formReducer = (state = initialState, action) => {
