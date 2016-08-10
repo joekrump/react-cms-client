@@ -1,5 +1,5 @@
 import React from 'react';
-import merge from 'lodash/merge';
+import merge from 'lodash.merge';
 
 import MUIMenuItem from 'material-ui/MenuItem';
 
