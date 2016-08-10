@@ -8,8 +8,7 @@ import PageNotFound from './components/pages/404';
 import App from './components/App';
 import auth from './auth';
 
-import AdminIndexRoutes from './routes/admin/routes'
-import AdminCRUDRoutes from './routes/admin/crudRoutes'
+import AdminRoutes from './routes/admin/routes'
 
 export const routes = {
   path: '/',
@@ -25,8 +24,7 @@ export const routes = {
       indexRoute: { component: Dashboard },
       onEnter: requireAuth,
       childRoutes: [
-        AdminIndexRoutes,
-        AdminCRUDRoutes
+        AdminRoutes
       ]
     },
     { path: '*', component: PageNotFound }
