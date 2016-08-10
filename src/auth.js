@@ -108,7 +108,7 @@ function makeLoginRequest(email, password, loginRequestCallback) {
       if(err !== null) {
         // Something unexpected happened
         loginRequestCallback({ authenticated: false, token: null, user: null });
-        console.warn(err);
+        console.warn('Something went wrong in auth ', err);
       } else if (res.statusCode !== 200) {
         loginRequestCallback({ authenticated: false, token: null, user: null });
         console.log(res);

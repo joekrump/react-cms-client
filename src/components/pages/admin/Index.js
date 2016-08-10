@@ -34,7 +34,7 @@ const Index = React.createClass({
           this.setState({items: []}) // Reset Items
         } else {
           console.log(res);
-          this.setState({items: res.body.items})
+          this.setState({items: res.body.data})
         }
 
       }.bind(this))

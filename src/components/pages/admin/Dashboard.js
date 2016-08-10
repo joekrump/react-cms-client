@@ -19,7 +19,7 @@ const Dashboard = React.createClass({
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
       .end(function(err, res) {
         if(err){
-          console.log("error", err);
+          console.log("Something went wrong unexpectedly: ", err);
         } else if(res.statusCode !== 200) {
         } else {
           this.setState({widgets: res.body.widgets})
