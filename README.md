@@ -32,7 +32,7 @@ const app_config = {
   apiBaseUrl: 'THE PATH TO YOUR API SERVER (followed by a trailing slash "/"): ex. http://localhost:8000/api/',
   adminRouteLinks: [
     { linkText: 'Dashboard', url: '/admin' },
-    // Add more that you would like here ex. { linkText: 'Users', url: '/users' } or { linkText: 'Books', url: '/books' }
+    // Add more that you would like here ex. { linkText: 'Users', url: '/admin/users' } or { linkText: 'Books', url: '/admin/books' }
   ],
   publicRouteLinks: [
     { linkText: 'Log In', url: '/login' },
