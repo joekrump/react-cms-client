@@ -62,23 +62,31 @@ const ResourceForm = React.createClass({
         serverRequest = request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
       }
       
-      serverRequest.set('Authorization', 'Bearer ' + this.props.token)
-        .set('Content-Type', 'application/json')
-        .send(formInputValues)
-        .end(function(err, res){
-          if(err !== null) {
-            console.log(err);
-            console.log(res);
-            // Something unexpected happened
-          } else if (res.statusCode !== 200) {
-            // not status OK
-            console.log('Resource Form not OK ',res);
-          } else {
+      if(this.props.token){
+        serverRequest = serverRequest.set('Authorization', 'Bearer ' + this.props.token);
+      }
+      
+      serverRequest.set('Content-Type', 'application/json')
+      .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
+      .send(formInputValues)
+      .end(function(err, res){
+        if(err !== null) {
+          console.log(err);
+          console.log(res);
+          // Something unexpected happened
+        } else if (res.statusCode !== 200) {
+          // not status OK
+          console.log('Resource Form not OK ',res);
+        } else {
 
-            self.props.updateFormCompleteStatus(true, self.props.formName);
+          self.props.updateFormCompleteStatus(true, self.props.formName);
+          if(self.props.loginCallback) {
+            self.props.loginCallback(res.body.user, res.body.token)
+          } else {
             setTimeout(self.resetForm, 1000);
           }
-        });
+        }
+      });
     } catch (e) {
       console.log('Exception: ', e)
     }

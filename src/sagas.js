@@ -41,7 +41,7 @@ function clearSessionStorage(){
 
 // Generator for the admin saga
 function* loginSaga() {
-  yield* takeLatest("USER_LOGGED_IN", redirectUserAfterLogin);
+  yield * takeLatest("USER_LOGGED_IN", redirectUserAfterLogin);
 }
 
 function* logoutSaga() {

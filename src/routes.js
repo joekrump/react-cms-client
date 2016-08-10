@@ -61,23 +61,14 @@ function requiredNotAuth(nextState, replace) {
 
   if(auth.loggedIn()) {
     replace({ nextPathname: nextState.location.pathname }, '/admin')
-  } else if(! requireUsersExist()){
-    console.log('no users');
+  } else {
+
     replace({ nextPathname: nextState.location.pathname }, '/signup')
   }
 }
 
-function requireUsersExist(){  
-  request.get(AppConfig.apiBaseUrl + 'users/count')
-    .end(function(err, res) {
-      if(err){
-        console.log(res);
-        return 0;
-      } else if(res.statusCode !== 200) {
-        console.log(res);
-        return 0;
-      } else {
-        return res.body.count;
-      }
-    })
+function requireUsersExist(){
+  yield request.get(AppConfig.apiBaseUrl + 'users/count')
+    .set('Content-Type', 'application/json')
+    .end()
 }
