@@ -7,13 +7,8 @@ import AddResourceButton from './AddButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
 
-
 import { VelocityTransitionGroup } from 'velocity-react';
 import 'velocity-animate/velocity.ui';
-
-
-// Helpers
-import { singularizeName } from '../../../helpers/ResourceHelper'
 
 const Index = React.createClass({
   getInitialState() {

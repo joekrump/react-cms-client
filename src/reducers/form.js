@@ -4,6 +4,7 @@ import { bookForm,
          paymentForm,
          permissionForm,
          roleForm,
+         signupForm,
          userForm } from '../store/initial_states/forms/index'
 
 
@@ -15,6 +16,7 @@ const initialState = {
   paymentForm,
   permissionForm,
   roleForm,
+  signupForm,
   userForm
 };
 
