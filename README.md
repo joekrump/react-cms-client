@@ -1,4 +1,4 @@
-**l-api-v2** is a SPA frontend interface for an API using JWT for authenication and implements the following: 
+**l-api-v2** is a SPA frontend interface for an API using JWT for authentication and implements the following: 
 - [ReactJS](https://facebook.github.io/react/)
 - [React Router](https://github.com/reactjs/react-router)
 - [Redux](http://redux.js.org)
@@ -10,6 +10,7 @@
 
 The dev environment for the app was created using [react-create-app](https://github.com/facebookincubator/create-react-app), an excellent tool for generating a skeleton React app with all the basic configuration taken care of. Visit the url above for more details. Redux Devtools are also used in dev environment.
 
+CRUD admin interface is setup to be generic. 
 
 ## Setup Instructions
 
@@ -31,8 +32,7 @@ const app_config = {
   apiBaseUrl: 'THE PATH TO YOUR API SERVER (followed by a trailing slash "/"): ex. http://localhost:4000/api/',
   adminRouteLinks: [
     { linkText: 'Dashboard', url: '/admin' },
-    { linkText: 'Users', url: '/admin/users' },
-    { linkText: 'Books', url: '/admin/books' }
+    // Add more that you would like here
   ],
   publicRouteLinks: [
     { linkText: 'Log In', url: '/login' },
@@ -40,11 +40,13 @@ const app_config = {
     { linkText: 'Inbox', url: '/inbox' },
     { linkText: 'About', url: '/about' },
     { linkText: 'Make a payment', url: '/donate' },
-    { linkText: 'Redux Counter', url: '/redux-counter' }
+    // Add more here (BUT UNLIKE THE ADMIN ROUTES, MAKE SURE YOU ADD TO routes.js as well)
   ],
   validResources: [
     'users',
-    'books'
+    'books',
+    'permissions',
+    'roles'
   ]
 };
 
@@ -68,3 +70,14 @@ module.exports = stripe_config;
 ```bash
 $ npm start
 ```
+
+### Ongoing Work
+
+Route permissions are still a WIP and will utilize roles
+
+
+### Goals
+
+Add CRUD interface for pages
+Add Searching and Reordering of resources
+Add Media Management, including image manipulation
