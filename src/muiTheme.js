@@ -4,6 +4,7 @@ import baseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import {cyan500, cyan700,
   pinkA200,
   grey100, grey300, grey400, grey500,
+  lightBlue400, lightBlue600, lightBlueA400,
   white, darkBlack, fullBlack} from 'material-ui/styles/colors';
 
 import {fade} from 'material-ui/utils/colorManipulator';
@@ -13,8 +14,8 @@ const muiTheme = getMuiTheme(baseTheme, {
     primary1Color: cyan500,
     primary2Color: cyan700,
     primary3Color: grey400,
-    accent1Color: pinkA200,
-    accent2Color: grey100,
+    accent1Color: lightBlue400,
+    accent2Color: lightBlue600,
     accent3Color: grey500,
     textColor: white,
     alternateTextColor: white,
