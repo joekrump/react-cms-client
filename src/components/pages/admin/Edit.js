@@ -1,6 +1,6 @@
 import React from 'react';
 import { capitalize } from '../../../helpers/string'
-import ResourceForm from './ResourceForm';
+import ResourceForm from '../../Forms/ResourceForm';
 import AddResourceButton from './AddButton';
 import { singularizeName } from '../../../helpers/ResourceHelper'
 

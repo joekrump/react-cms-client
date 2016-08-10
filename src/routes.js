@@ -4,6 +4,7 @@ import Inbox from './components/pages/Inbox';
 import PaymentPage from './components/pages/PaymentPage';
 import Dashboard from './components/pages/admin/Dashboard';
 import Login from './components/pages/Login';
+import UserSettings from './components/Admin/UserSettings';
 import PageNotFound from './components/pages/404';
 import App from './components/App';
 import auth from './auth';
@@ -24,7 +25,8 @@ export const routes = {
       indexRoute: { component: Dashboard },
       onEnter: requireAuth,
       childRoutes: [
-        AdminRoutes
+        AdminRoutes,
+        { path: 'settings', component: UserSettings }
       ]
     },
     { path: '*', component: PageNotFound }

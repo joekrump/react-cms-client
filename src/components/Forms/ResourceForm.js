@@ -1,9 +1,9 @@
 import React from 'react';
 import request from 'superagent';
-import AppConfig from '../../../../app_config/app';
+import AppConfig from '../../../app_config/app';
 import { connect } from 'react-redux';
 import {List, ListItem} from 'material-ui/List';
-import { Form, TextInput, SubmitButton } from '../../Form/index';
+import { Form, TextInput, SubmitButton } from '../Form/index';
 
 const listItemStyle = {
   padding: "0 16px"
