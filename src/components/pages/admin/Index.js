@@ -18,8 +18,7 @@ import { singularizeName } from '../../../helpers/ResourceHelper'
 const Index = React.createClass({
   getInitialState() {
     return {
-      items: null,
-      resourceNameSingular: ''
+      items: null
     }
   },
   setItems(resourceNamePlural){
@@ -38,12 +37,7 @@ const Index = React.createClass({
         }
       }.bind(this))
   },
-  setSingularName(){
-    // Set the singular Name for the resource
-    this.setState({resourceNameSingular: singularizeName(this.props.params.resourceNamePlural) })
-  },
   componentDidMount() {
-    this.setSingularName();
     this.setItems(this.props.params.resourceNamePlural.toLowerCase());
   },
   componentWillReceiveProps(nextProps){
@@ -57,7 +51,7 @@ const Index = React.createClass({
 
     if(this.state.items !== null && this.state.items.length > 0) {
       items = this.state.items.map((item) => (
-        <IndexItem key={item.id} id={item.id} primary={item.primary} secondary={item.secondary} resourceType={this.state.resourceNameSingular} />
+        <IndexItem key={item.id} id={item.id} primary={item.primary} secondary={item.secondary} resourceType={this.props.params.resourceNamePlural} />
       ));
     } else {
       items = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
@@ -75,7 +69,7 @@ const Index = React.createClass({
           </List>
         
         { this.props.children }
-        <AddResourceButton resourceNameSingular={this.state.resourceNameSingular}/>
+        <AddResourceButton />
       </div>
     );
   }

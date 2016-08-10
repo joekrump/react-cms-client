@@ -2,22 +2,25 @@ import React from 'react';
 import { capitalize } from '../../../helpers/string'
 import ResourceForm from './ResourceForm';
 import AddResourceButton from './AddButton';
-// import { pluralizeName } from '../../../helpers/ResourceHelper'
+import { singularizeName } from '../../../helpers/ResourceHelper'
 
-const Edit = ({ params: { resourceNameSingular, resourceId }, location: { query } }) => {
+const Edit = ({ params: { resourceNamePlural, resourceId }, location: { query } }) => {
+  const nameSingular = singularizeName(resourceNamePlural);
+  
   return (
 
     <div className="admin-edit">
-      <h1>Edit {capitalize(resourceNameSingular)} {resourceId}</h1>
+      <h1>Edit {capitalize(nameSingular)} {resourceId}</h1>
 
       <ResourceForm 
-        formName={resourceNameSingular + 'Form'} 
-        submitUrl={resourceNameSingular + '/' + resourceId + '/update'}
+        formName={nameSingular + 'Form'} 
+        submitUrl={resourceNamePlural + '/' + resourceId}
         resourceId={resourceId}
-        resourceType={resourceNameSingular}
+        resourceType={nameSingular}
+        resourceNamePlural={resourceNamePlural}
         context='edit'
       />
-      <AddResourceButton resourceNameSingular={resourceNameSingular}/>
+      <AddResourceButton resourceNameSingular={nameSingular}/>
     </div>
   );
 };

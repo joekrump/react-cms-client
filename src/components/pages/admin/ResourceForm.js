@@ -20,7 +20,7 @@ const ResourceForm = React.createClass({
   componentDidMount(){
     if(this.props.context === 'edit'){
 
-      request.get(AppConfig.apiBaseUrl + this.props.resourceType + '/' + this.props.resourceId)
+      request.get(AppConfig.apiBaseUrl + this.props.resourceNamePlural + '/' + this.props.resourceId)
         .set('Authorization', 'Bearer ' + this.props.token)
         .end(function(err, res){
           if(err !== null) {

@@ -19,8 +19,8 @@ import { push } from 'react-router-redux'
 import './SpeedDial.css'
 
 const actions = [
-  {icon: <UserIcon />, route: '/admin/user/new', tooltipText: 'Create a new User'},
-  {icon: <BookIcon />, route: '/admin/book/new', tooltipText: 'Create a new Book'},
+  {icon: <UserIcon />, route: '/admin/users/new', tooltipText: 'Create a new User'},
+  {icon: <BookIcon />, route: '/admin/books/new', tooltipText: 'Create a new Book'},
 ]
 
 class SpeedDial extends Component {

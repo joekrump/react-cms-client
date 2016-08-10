@@ -41,7 +41,7 @@ export function singularizeName(wordToSingularize){
         if(lastThreeChars === 'ies') {
           return wordToSingularize.slice(0, -3) + 'y'
         } else {
-          return wordToSingularize.slick(0, -1)
+          return wordToSingularize.slice(0, -1)
         }
       }
     }
