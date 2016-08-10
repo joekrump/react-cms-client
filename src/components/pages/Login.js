@@ -54,32 +54,34 @@ const Login = React.createClass({
     this.setState(oldState)
   },
   render() {
-    return (<div className="login" onSubmit={this.handleSubmit}>
-      <h1>Login</h1>
-      <form>
-        <TextField
-          hintText="Email"
-          floatingLabelText="Email"
-          type="text"
-          name="email"
-          ref="loginEmail"
-          onChange={this.handleChange}
-          autoFocus
-        /><br />
-        <TextField
-          hintText="Password"
-          floatingLabelText="Password"
-          type="password"
-          name="password"
-          ref="loginPassword"
-          onChange={this.handleChange}
-        /><br />
-        <RaisedButton label="Login" primary onTouchTap={this.handleSubmit} type="submit" />
-        {this.state.error && (
-          <p>Bad login information</p>
-        )}
-      </form>
-    </div>);
+    return (
+      <div className="login" onSubmit={this.handleSubmit}>
+        <h1>Login</h1>
+        <form>
+          <TextField
+            hintText="Email"
+            floatingLabelText="Email"
+            type="text"
+            name="email"
+            ref="loginEmail"
+            onChange={this.handleChange}
+            autoFocus
+          /><br />
+          <TextField
+            hintText="Password"
+            floatingLabelText="Password"
+            type="password"
+            name="password"
+            ref="loginPassword"
+            onChange={this.handleChange}
+          /><br />
+          <RaisedButton label="Login" primary onTouchTap={this.handleSubmit} type="submit" />
+          {this.state.error && (
+            <p>Bad login information</p>
+          )}
+        </form>
+      </div>
+    );
   }
 });
 
