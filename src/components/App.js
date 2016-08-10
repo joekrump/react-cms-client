@@ -8,6 +8,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Divider from 'material-ui/Divider';
 import AppConfig from '../../app_config/app';
 import { cyan500 } from 'material-ui/styles/colors';
+import { Link } from 'react-router';
 
 import LeftNavMenuItem from './Nav/LeftNavMenuItem';
 import Gravatar from './Nav/Gravatar';
@@ -71,7 +72,7 @@ const App = React.createClass({
             leftAvatar={
               <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={this.props.user.email} diameter='50' />
             }
-            primaryText={this.props.user.name}
+            primaryText={<Link to="/admin/settings">{this.props.user.name}</Link>}
             style={{color: 'white', backgroundColor: cyan500}}
           />)
         ]
@@ -109,6 +110,7 @@ const App = React.createClass({
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
           anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
         >
+          <MenuItem primaryText="Settings" containerElement={<Link to="/admin/settings"/>} />
           <MenuItem primaryText="Log Out" onTouchTap={(event) => this.handleLogout(event, this)} />
         </IconMenu>
       )

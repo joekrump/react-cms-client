@@ -25,8 +25,8 @@ export const routes = {
       indexRoute: { component: Dashboard },
       onEnter: requireAuth,
       childRoutes: [
-        AdminRoutes,
-        { path: 'settings', component: UserSettings }
+        { path: 'settings', component: UserSettings },
+        AdminRoutes
       ]
     },
     { path: '*', component: PageNotFound }
