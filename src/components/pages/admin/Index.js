@@ -18,23 +18,25 @@ import { singularizeName } from '../../../helpers/ResourceHelper'
 const Index = React.createClass({
   getInitialState() {
     return {
-      items: null
+      items: [],
+      loading: true
     }
   },
   setItems(resourceNamePlural){
-    this.setState({items: null});
-
+    this.setState({loading: true})
     request.get(AppConfig.apiBaseUrl + resourceNamePlural)
       .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
       .end(function(err, res) {
+        this.setState({loading: false})
         if(err){
-          console.log("error", err);
+          this.setState({items: []}) // Reset Items
         } else if(res.statusCode !== 200) {
-          console.log('errorCode', res);
+          this.setState({items: []}) // Reset Items
         } else {
           console.log(res);
           this.setState({items: res.body.items})
         }
+
       }.bind(this))
   },
   componentDidMount() {
@@ -49,22 +51,24 @@ const Index = React.createClass({
   render() {
     let items = null;
 
-    if(this.state.items !== null && this.state.items.length > 0) {
-      items = this.state.items.map((item) => (
-        <IndexItem key={item.id} id={item.id} primary={item.primary} secondary={item.secondary} resourceType={this.props.params.resourceNamePlural} />
-      ));
-    } else {
-      items = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
+    if(!this.state.loading){
+      if(this.state.items.length > 0) {
+        items = this.state.items.map((item) => (
+          <IndexItem key={item.id} id={item.id} primary={item.primary} secondary={item.secondary} resourceType={this.props.params.resourceNamePlural} />
+        ));
+      } else {
+        items = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
+      }
     }
 
     return (
 
       <div className="admin-index">
-        <h1>Index Page for {capitalize(this.props.params.resourceNamePlural)}</h1>
-          {this.state.items === null ? (<CircularProgress />) : null}
+        <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
+          {this.state.loading ? (<CircularProgress />) : null}
           <List>
             <VelocityTransitionGroup enter={{animation: "transition.slideLeftIn"}}>
-              {this.props.items !== null ? (items) : null}
+              {items}
             </VelocityTransitionGroup>
           </List>
         

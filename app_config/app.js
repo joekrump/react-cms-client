@@ -4,7 +4,9 @@ const app_config = {
   adminRouteLinks: [
     { linkText: 'Dashboard', url: '/admin' },
     { linkText: 'Users', url: '/admin/users' },
-    { linkText: 'Books', url: '/admin/books' }
+    { linkText: 'Books', url: '/admin/books' },
+    { linkText: 'Manage Roles', url: '/admin/roles' },
+    { linkText: 'Manage Permissions', url: '/admin/permissions' }
   ],
   publicRouteLinks: [
     { linkText: 'Log In', url: '/login' },
@@ -15,7 +17,9 @@ const app_config = {
   ],
   validResourcesRootPaths: [
     '/users/', '/users',
-    '/books/', '/books'
+    '/books/', '/books',
+    '/roles/', '/roles',
+    '/permissions/', '/permissions'
   ]
 };
 
