@@ -21,7 +21,7 @@ export const permissionForm = {
     description: {
       value: '', 
       errors: null, 
-      inputType: 'textarea',
+      inputType: 'text',
       label: 'Description',
       placeholder: ''
     }

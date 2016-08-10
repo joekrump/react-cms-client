@@ -99,6 +99,7 @@ const ResourceForm = React.createClass({
             formName={this.props.formName} 
             name={fieldName} 
             autoFocus={i++ === 0} 
+            multiLine={field.inputType === 'textarea'}
           />
         </ListItem>
       );
