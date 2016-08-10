@@ -87,14 +87,28 @@ const formReducer = (state = initialState, action) => {
       return assign({}, state, {
         [action.formName]: {
           fields: assign({}, state[action.formName].fields, {
-            [action.fieldName]: {
+            [action.fieldName]: assign({}, state[action.formName].fields[action.fieldName], {
               value: action.value,
-              errors: state[action.formName].errors
-            }
+            })
           })
         }
       });
+    case "FORM_LOAD":
+      var newState = state;
 
+      Object.keys(state[action.formName].fields).forEach((fieldName) => {
+        newState = assign({}, newState, {
+          [action.formName]: {
+            fields: assign({}, newState[action.formName].fields, {
+              [fieldName]: assign({}, newState[action.formName].fields[fieldName], {
+                value: action.fieldValues[fieldName]
+              })
+            })
+          }
+        });
+      })
+
+      return newState;
     case "FORM_RESET":
       return assign({}, state, {
         [action.formName]: initialState[action.formName]

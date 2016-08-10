@@ -32,7 +32,8 @@ const ResourceForm = React.createClass({
             // not status OK
             console.log('Could not get Data for resource ', res);
           } else {
-            this.setState({existingData: res.body.data})
+            // this.setState({existingData: res.body.data})
+            this.props.loadFormWithData(res.body.data, this.props.formName);
           }
         }.bind(this));
     } 
@@ -90,7 +91,7 @@ const ResourceForm = React.createClass({
             formName={this.props.formName} 
             name={fieldName} 
             autoFocus={i++ === 0} 
-            value={this.props.context === 'new' ? this.props.formFields[fieldName].value : this.state.existingData[fieldName]}
+            // value={this.props.context === 'new' ? this.props.formFields[fieldName].value : this.state.existingData[fieldName]}
           />
         </ListItem>
       );
@@ -126,6 +127,13 @@ const mapDispatchToProps = (dispatch) => {
     //     formName
     //   })
     // },
+    loadFormWithData: (fieldValues, formName) => {
+      dispatch({
+        type: 'FORM_LOAD',
+        fieldValues,
+        formName
+      })
+    },
     updateFormCompleteStatus: (complete, formName) => {
       dispatch ({
         type: 'FORM_COMPLETE',

@@ -24,6 +24,14 @@ export function formError(errorMessage, formName){
   }
 }
 
+export function loadData(fieldValues, formName){
+  return {
+    type: "FORM_LOAD",
+    fieldValues,
+    formName
+  };
+}
+
 export function reset(formName) {
   return {
     type: "FORM_RESET",

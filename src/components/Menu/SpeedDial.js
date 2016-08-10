@@ -62,7 +62,7 @@ class SpeedDial extends Component {
             <span id={id} >{action.tooltipText}</span>
           </div>
           <div className={"button"} style={{transitionDelay: delay + 'ms'}}>
-            <FloatingActionButton style={{backgroundColor: indigoA700}} iconStyle={{fill: "white"}} mini={true} onTouchTap={(e) => this.handleActionClick(e, action.route)}>
+            <FloatingActionButton iconStyle={{fill: "white"}} mini={true} onTouchTap={(e) => this.handleActionClick(e, action.route)} secondary>
               {action.icon}
             </FloatingActionButton>
           </div>
