@@ -4,7 +4,7 @@ const initialState = {
   logged_in: false
 };
 
-const userReducer = (state = initialState, action) => {
+const auth = (state = initialState, action) => {
   switch (action.type) {
     case 'USER_LOGGED_IN':
       return {
@@ -18,9 +18,15 @@ const userReducer = (state = initialState, action) => {
         token: null,
         logged_in: false
       }
+    case 'TOKEN_UPDATED':
+      return {
+        user: state.user,
+        token: action.token,
+        logged_in: state.logged_in
+      }
     default:
       return state;
   }
 }
 
-export {userReducer as auth}
+export { auth }

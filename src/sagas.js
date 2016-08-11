@@ -9,24 +9,36 @@ function* redirectUserAfterLogin(action) {
         yield put(push(action.redirectPath));
       }
    } catch (e) {
-      yield console.log('exception in admin saga, redirect after login ', e)
+      yield console.log('exception in loginSaga, redirect after login ', e)
    }
 }
 
 function* redirectUserAfterLogout(action) {
-  console.log('after logout')
   try {
     // Clear session data
     yield call(clearSessionStorage);
     yield put(push(action.redirectPath));
   } catch (e) {
-     yield console.log('exception in admin saga, redirect after logout', e)
+     yield console.log('exception in logoutSaga, redirect after logout', e)
+  }
+}
+
+function* updateTokenOnUpdate(action) {
+  try {
+    // Clear session data
+    yield call(setSessionStorage, action.token, null);
+  } catch (e) {
+     yield console.log('exception in tokenUpdatedSaga, update token', e)
   }
 }
 
 function setSessionStorage(token, user){
-  sessionStorage.laravelAccessToken = token;
-  sessionStorage.laravelUser = JSON.stringify(user);
+  if(token) {
+    sessionStorage.laravelAccessToken = token;
+  }
+  if(user) {
+    sessionStorage.laravelUser = JSON.stringify(user);
+  }
 }
 
 function clearSessionStorage(){
@@ -41,16 +53,21 @@ function clearSessionStorage(){
 
 // Generator for the admin saga
 function* loginSaga() {
-  yield * takeLatest("USER_LOGGED_IN", redirectUserAfterLogin);
+  yield * takeLatest("USER_LOGGED_IN", redirectUserAfterLogin)
 }
 
 function* logoutSaga() {
   yield * takeLatest("USER_LOGGED_OUT", redirectUserAfterLogout)
 }
 
+function* tokenUpdatedSaga() {
+  yield * takeLatest("TOKEN_UPDATED", updateTokenOnUpdate)
+}
+
 export default function* rootSaga(){
   yield [
     loginSaga(),
-    logoutSaga()
+    logoutSaga(),
+    tokenUpdatedSaga()
   ]
 }
