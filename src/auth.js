@@ -1,5 +1,6 @@
 import request from 'superagent';
 import AppConfig from '../app_config/app';
+import { apiPost } from './http/requests'
 
 module.exports = {
   login(email, pass, handleLoggedInCallback) {
@@ -48,6 +49,7 @@ module.exports = {
    * @return {undefined}
    */
   onChange(isLoggedIn) {},
+
   /**
    * handle the logging in of a user.
    * @param  {function}  handleLoggedInCallback Callback function passed in that handles the logging in logic
@@ -57,7 +59,6 @@ module.exports = {
   handleLoggedIn(handleLoggedInCallback, data, isLoggedIn = false){
     // If there is a callback method for handling login then
     // run it with the loggedIn value set to true
-    //
     //
     this.onChange(isLoggedIn)
 
@@ -69,16 +70,9 @@ module.exports = {
   }
 }
 
-function parseSessionData(res){
-  return JSON.parse(res.text);
-}
-
 function postLogoutToServer(callback, component) {
-  request.post(AppConfig.apiBaseUrl +'auth/logout')
-    .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
-    .set('Accept', 'application/json')
+  apiPost('auth/logout')
     .end(function(err, res){
-
       if(err !== null) {
         if(res.statusCode === 401) {
           if (callback) {
@@ -99,27 +93,33 @@ function postLogoutToServer(callback, component) {
       }
     });
 }
-function makeLoginRequest(email, password, loginRequestCallback) {
-  request.post(AppConfig.apiBaseUrl +'auth/login')
-    .set('Accept', 'application/json')
-    .send({email, password})
-    .end(function(err, res){
 
-      if(err !== null) {
-        // Something unexpected happened
-        loginRequestCallback({ authenticated: false, token: null, user: null });
-        console.warn('Something went wrong in auth ', err);
+function makeLoginRequest(email, password, loginRequestCallback) {
+  apiPost('auth/login', false)
+  .send({ email, password })
+  .end(function(err, res){
+      if(err) {
+        handleLoginFailure(loginRequestCallback)
       } else if (res.statusCode !== 200) {
-        loginRequestCallback({ authenticated: false, token: null, user: null });
-        console.log(res);
+        handleLoginFailure(loginRequestCallback)
       } else {
-        // Store session token in browser sessionStorage.
-        loginRequestCallback({ 
-          authenticated: true, 
-          token: parseSessionData(res).token,
-          user: parseSessionData(res).user
-        });
+        handleLoginSuccess(loginRequestCallback, res);
       }
-    });
+  });
 }
 
+function handleLoginSuccess(loginRequestCallback, res) {
+  loginRequestCallback({ 
+    authenticated: true, 
+    token: res.body.token,
+    user: res.body.user
+  })
+}
+
+function handleLoginFailure(loginRequestCallback) {
+  loginRequestCallback({ 
+    authenticated: false, 
+    token: null, 
+    user: null 
+  })
+}
