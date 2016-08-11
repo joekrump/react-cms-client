@@ -11,6 +11,8 @@ import App from './components/App';
 import auth from './auth';
 import request from 'superagent';
 import AppConfig from '../app_config/app'
+import { replace } from 'react-router-redux'
+import { store } from './store'
 
 import AdminRoutes from './routes/admin/routes'
 
@@ -47,28 +49,57 @@ function requireAuth(nextState, replace) {
     replace({ nextPathname: nextState.location.pathname }, '/login')
   }
 }
-function allowSignupAccess(nextState, replace) {
-
+function allowSignupAccess() {
+  getUserCount().then((count) => {
+    if(count > 0) {
+      console.log('replace')
+      store.dispatch(replace('/login'));
+    }
+  }).catch((error) => {
+    console.log('Error: ', error)
+  })
 }
 
-function allowLoginAccess(nextState, replace) {
-  requiredNotAuth(nextState, replace)
-}
-// redirects user to /admin if they try to access a route that should only be 
-// accessible to a user who is not logged in.
-// 
-function requiredNotAuth(nextState, replace) {
+
+/**
+ * Check to see if /login should be accessible.
+ * @param  {[type]} nextState [description]
+ * @param  {[type]} replace   [description]
+ * @return undefined
+ */
+function allowLoginAccess() {
 
   if(auth.loggedIn()) {
-    replace({ nextPathname: nextState.location.pathname }, '/admin')
+    store.replace('/admin')
   } else {
-
-    replace({ nextPathname: nextState.location.pathname }, '/signup')
+    getUserCount().then((count) => {
+      if(count === 0) {
+        console.log('replace')
+        store.dispatch(replace('/signup'));
+      }
+    }).catch((error) => {
+      console.log('Error: ', error)
+    })
   }
 }
 
-function requireUsersExist(){
-  yield request.get(AppConfig.apiBaseUrl + 'users/count')
-    .set('Content-Type', 'application/json')
-    .end()
+/**
+ * Return a Promise that will be resolved once GET request for 
+ * user count is completed.
+ * @return Promise
+ */
+function getUserCount(){
+  return new Promise((resolve, reject) => {
+    request.get(AppConfig.apiBaseUrl + 'users/count')
+      .set('Content-Type', 'application/json')
+      .end(function(err, res) {
+        if(err){
+          reject(-1);
+        } else if(res.statusCode !== 200) {
+          reject(-1);
+        } else {
+          resolve(res.body.count);
+        }
+      })
+  })
 }
