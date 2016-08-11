@@ -45,7 +45,7 @@
     "gravatar": "^1.5.2",
     "lodash.assign": "^4.1.0",
     "lodash.merge": "^4.5.1",
-    "material-ui": "^0.15.2",
+    "material-ui": "^0.15.3",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
