@@ -68,4 +68,9 @@ const Dashboard = React.createClass({
     );
   }
 });
+
+Dashboard.contextTypes = {
+  store: React.PropTypes.object.isRequired
+};
+
 export default Dashboard;
