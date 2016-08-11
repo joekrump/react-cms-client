@@ -83,7 +83,9 @@ const ResourceForm = React.createClass({
           if(self.props.loginCallback) {
             self.props.loginCallback(res.body.user, res.body.token)
           } else {
-            setTimeout(self.resetForm, 1000);
+            if(self.props.context !== 'edit'){
+              setTimeout(self.resetForm, 500);
+            }
           }
         }
       });
