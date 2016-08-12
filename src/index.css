@@ -6,13 +6,13 @@ body {
 }
 
 a {
-  color: white;
+  color: rgb(255, 152, 0);
   font-weight: 600;
   text-decoration: none;
 }
 
 a:hover {
-  color: rgb(0, 188, 212);
+  color: rgb(255, 202, 0);
 }
 
 .drawer-link.link-active {

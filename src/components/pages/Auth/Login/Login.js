@@ -82,7 +82,7 @@ const Login = React.createClass({
           )}
         </form>
         <br/>
-        <Link to="forgot-password" style={{color: 'white'}}>Forgot Passord?</Link>
+        <Link to="forgot-password">Forgot Passord?</Link>
       </div>
     );
   }
