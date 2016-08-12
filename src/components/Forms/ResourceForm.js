@@ -1,9 +1,8 @@
 import React from 'react';
-import request from 'superagent';
-import AppConfig from '../../../app_config/app';
 import { connect } from 'react-redux';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../Form/index';
+import { apiGet, apiPut, apiPost, updateToken } from '../../http/requests'
 
 const listItemStyle = {
   padding: "0 16px"
@@ -20,8 +19,7 @@ const ResourceForm = React.createClass({
   componentDidMount(){
     if(this.props.context === 'edit'){
 
-      request.get(AppConfig.apiBaseUrl + this.props.resourceNamePlural + '/' + this.props.resourceId)
-        .set('Authorization', 'Bearer ' + this.props.token)
+      apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
         .end(function(err, res){
           if(err !== null) {
             if(res.responseCode === 404) {
@@ -33,6 +31,7 @@ const ResourceForm = React.createClass({
             console.log('Could not get Data for resource ', res);
           } else {
             // this.setState({existingData: res.body.data})
+            updateToken(res.header.authorization);
             this.props.loadFormWithData(res.body.data, this.props.formName);
           }
         }.bind(this));
@@ -54,21 +53,9 @@ const ResourceForm = React.createClass({
       return;
     })
     try {
-      let serverRequest;
+      let serverRequest = this.props.context === 'edit' ? apiPut(this.props.submitUrl) : apiPost(this.props.submitUrl);
 
-      if(this.props.context === 'edit') {
-        serverRequest = request.put(AppConfig.apiBaseUrl + this.props.submitUrl);
-      } else {
-        serverRequest = request.post(AppConfig.apiBaseUrl + this.props.submitUrl)
-      }
-      
-      if(this.props.token){
-        serverRequest = serverRequest.set('Authorization', 'Bearer ' + this.props.token);
-      }
-      
-      serverRequest.set('Content-Type', 'application/json')
-      .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
-      .send(formInputValues)
+      serverRequest.send(formInputValues)
       .end(function(err, res){
         if(err !== null) {
           console.log(err);

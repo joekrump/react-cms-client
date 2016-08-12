@@ -1,5 +1,3 @@
-import request from 'superagent';
-import AppConfig from '../app_config/app';
 import { apiPost } from './http/requests'
 
 module.exports = {

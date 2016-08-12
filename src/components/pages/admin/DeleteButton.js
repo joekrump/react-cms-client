@@ -1,8 +1,7 @@
 import React from 'react'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import IconButton from 'material-ui/IconButton';
-import request from 'superagent';
-import AppConfig from '../../../../app_config/app'
+import { apiDelete, updateToken } from '../../../http/requests'
 
 const styles = {
   smallIcon: {
@@ -17,8 +16,7 @@ const styles = {
 const DeleteButton = (props) => {
 
   let requestServerDelete = (showItemCallback) => {
-    request.del(AppConfig.apiBaseUrl + props.resourceType + '/' + props.id)
-      .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
+    apiDelete(props.resourceType + '/' + props.id)
       .end(function(err, res) {
         if(err){
           if(res.statusCode === 404) {
@@ -31,7 +29,7 @@ const DeleteButton = (props) => {
           console.log('errorCode', res);
           showItemCallback(true); // Set visibility to true
         } else {
-          console.log('Removed')
+          updateToken(res.header.authorization);
           // TODO: remove item from store.
         }
       })

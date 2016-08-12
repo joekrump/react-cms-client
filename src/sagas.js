@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga'
+import { takeLatest, takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 
@@ -61,7 +61,7 @@ function* logoutSaga() {
 }
 
 function* tokenUpdatedSaga() {
-  yield * takeLatest("TOKEN_UPDATED", updateTokenOnUpdate)
+  yield * takeEvery("TOKEN_UPDATED", updateTokenOnUpdate)
 }
 
 export default function* rootSaga(){

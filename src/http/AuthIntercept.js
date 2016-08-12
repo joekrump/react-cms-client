@@ -1,17 +1,9 @@
-const AuthIntercept = require('superagent-intercept')((err, res, onFailureCB, onSuccessCB) => {
-	if(err) {
-    if(onFailureCB) {
-    	onFailureCB()
-    }
-    
-	} else if (res.statusCode !== 200) {
-		console.log('Error in Post ', err, res)
-	  if(onFailureCB) {
-	  	onFailureCB();
-	  }
-	} else {
-		 onSuccessCB();
-	}
+import { store } from '../store'
+
+const AuthIntercept = require('superagent-intercept')((err, res) => {
+	if(res.status === 401 && store.getState().auth.logged_in) {
+		console.log('logged in but 401');
+	} 
 });
 
 export default AuthIntercept

@@ -1,11 +1,10 @@
-import request from 'superagent';
-import AppConfig from '../../../../app_config/app'
-
 import React from 'react';
 import Widget from '../../Dashboard/Widget' 
 import ActiveUsersWidget from '../../Dashboard/ActiveUsersWidget' 
 
 import FlexContainer from '../../Layout/FlexContainer';
+
+import { apiGet, updateToken } from '../../../http/requests'
 
 const Dashboard = React.createClass({
   getInitialState(){
@@ -14,14 +13,13 @@ const Dashboard = React.createClass({
     }
   },
   componentDidMount(){
-    request.get(AppConfig.apiBaseUrl + 'dashboard')
-      // .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
-      .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
+    apiGet('dashboard')
       .end(function(err, res) {
         if(err){
           console.log("Something went wrong unexpectedly: ", err);
         } else if(res.statusCode !== 200) {
         } else {
+          updateToken(res.headers.authorization);
           this.setState({widgets: res.body.widgets})
         }
       }.bind(this))

@@ -33,7 +33,7 @@ const Login = React.createClass({
         redirectPath = '/admin'
       }
       
-      this.props.loginUser(authData.user, authData.token, redirectPath)
+      this.props.loginUser(authData.user, authData.token, redirectPath);
       
     })
   },

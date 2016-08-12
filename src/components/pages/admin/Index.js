@@ -1,12 +1,10 @@
 import React from 'react';
 import { capitalize } from '../../../helpers/string'
-import AppConfig from '../../../../app_config/app'
-import request from 'superagent';
 import { List } from 'material-ui/List';
 import AddResourceButton from './AddButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
-
+import { apiGet, updateToken } from '../../../http/requests'
 import { VelocityTransitionGroup } from 'velocity-react';
 import 'velocity-animate/velocity.ui';
 
@@ -19,8 +17,7 @@ const Index = React.createClass({
   },
   setItems(resourceNamePlural){
     this.setState({loading: true})
-    request.get(AppConfig.apiBaseUrl + resourceNamePlural)
-      .set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
+    apiGet(resourceNamePlural)
       .end(function(err, res) {
         this.setState({loading: false})
         if(err){
@@ -28,6 +25,8 @@ const Index = React.createClass({
         } else if(res.statusCode !== 200) {
           this.setState({items: []}) // Reset Items
         } else {
+          console.log(res.header)
+          updateToken(res.header.authorization)
           this.setState({items: res.body.data})
         }
 

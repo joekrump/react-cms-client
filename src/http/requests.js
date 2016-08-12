@@ -1,6 +1,7 @@
 import request from 'superagent';
 import AppConfig from '../../app_config/app';
-
+import { store } from '../store'
+import AuthIntercept from './AuthIntercept'
 /**
  * Make a HTTP POST request
  * @param  string     url          Path to specific route (will be appended to AppConfig.apiBaseUrl)
@@ -44,10 +45,22 @@ export function apiDelete(url, authRequired = true) {
 function httpRequest(apiRequest, authRequired = true) {
 	
 	apiRequest.set('Accept', 'application/json')
-	
+
 	if(authRequired) {
-		apiRequest = apiRequest.set('Authorization', 'Bearer ' + sessionStorage.laravelAccessToken)
+		apiRequest = apiRequest.set('Authorization', 'Bearer ' + store.getState().auth.token)
 	}
 
-	return apiRequest;
+	return apiRequest.use(AuthIntercept);
+}
+
+/**
+ * Dispatch a TOKEN_UDPATED action
+ * @param  {string} token - token value to update
+ * @return {[type]}       [description]
+ */
+export function updateToken(token){
+	store.dispatch({
+		type: 'TOKEN_UPDATED',
+		token: token.split(" ")[1] // remove 'Bearer' from Authorization header and get just token
+	})
 }

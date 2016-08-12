@@ -1,10 +1,9 @@
 import React from 'react'
-import request from 'superagent'
-import AppConfig from '../../../app_config/app'
 import Gravatar from '../Nav/Gravatar';
 import { List, ListItem } from 'material-ui/List';
 import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
+import { apiGet, updateToken } from '../../http/requests'
 
 import CircularProgress from 'material-ui/CircularProgress';
 import './Widget.css'
@@ -17,14 +16,13 @@ const ActiveUsersWidget = React.createClass({
     }
   },
   componentDidMount(){
-    request.get(AppConfig.apiBaseUrl + 'users/active')
-      .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
-      .set('Authorization', 'Bearer ' + this.props.token)
+    apiGet('users/active')
       .end(function(err, res) {
         if(err){
           console.log("error", err);
         } else if(res.statusCode !== 200) {
         } else {
+          updateToken(res.header.authorization);
           this.setState({data: res.body.activeUsers})
         }
       }.bind(this))

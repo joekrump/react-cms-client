@@ -1,7 +1,5 @@
 import React from 'react';
-import request from 'superagent';
-import AppConfig from '../../../app_config/app';
-
+import { apiPost } from '../../http/requests'
 import { connect } from 'react-redux';
 
 // Icons
@@ -59,12 +57,10 @@ class PaymentForm extends React.Component {
       }
     }.bind(this));
   }
-  submitToServer(token, self){
-    request.post(AppConfig.apiBaseUrl + 'stripe/make-payment')
-      .set('Access-Control-Allow-Origin', AppConfig.baseUrl)
-      .set('Accept', 'application/json')
+  submitToServer(stripeToken, self){
+    apiPost('stripe/make-payment', false)
       .send({
-        token: token, 
+        token: stripeToken, 
         ...self.state.formFields
       })
       .end(function(err, res){

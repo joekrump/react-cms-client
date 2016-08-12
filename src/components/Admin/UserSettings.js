@@ -1,6 +1,7 @@
 import React from 'react'
 import ResourceForm from '../Forms/ResourceForm';
 import { connect } from 'react-redux'
+
 const UserSettings = () => ({
   
   render() {
@@ -20,7 +21,6 @@ const UserSettings = () => ({
       </div>
     );
   }
-
 });
 
 const mapStateToProps = (state) => {

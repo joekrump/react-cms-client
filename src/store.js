@@ -39,4 +39,4 @@ const store = createStore(
 // Run the saga
 sagaMiddleware.run(rootSaga)
 
-export {store}
+export { store }
