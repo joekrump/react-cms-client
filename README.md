@@ -37,7 +37,6 @@ const app_config = {
   publicRouteLinks: [
     { linkText: 'Log In', url: '/login' },
     { linkText: 'Home', url: '/' },
-    { linkText: 'Inbox', url: '/inbox' },
     { linkText: 'About', url: '/about' },
     { linkText: 'Make a payment', url: '/donate' },
     // Add more here (BUT UNLIKE THE ADMIN ROUTES, MAKE SURE YOU ADD TO routes.js as well)
