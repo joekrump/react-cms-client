@@ -1,7 +1,7 @@
-import AdminIndex from '../../components/pages/admin/Index';
-import Details from '../../components/pages/admin/Details';
-import Edit from '../../components/pages/admin/Edit';
-import New from '../../components/pages/admin/New';
+import AdminIndex from '../../components/Pages/Admin/Resources/Index/Index';
+import Show from '../../components/Pages/Admin/Resources/Show/Show';
+import Edit from '../../components/Pages/Admin/Resources/Edit/Edit';
+import New from '../../components/Pages/Admin/Resources/New/New';
 
 
 const AdminIndexRoutes = {
@@ -39,7 +39,7 @@ const AdminIndexRoutes = {
         }, 
         { path: ':resourceId', 
           indexRoute: { 
-            component: Details
+            component: Show
           },
           getChildRoutes(partialNextState, callback) {
             require.ensure([], (require) => {
