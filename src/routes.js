@@ -14,6 +14,7 @@ import { store } from './store'
 import { apiGet } from './http/requests'
 import AdminRoutes from './routes/admin/routes'
 
+// Routes for the app
 export const routes = {
   path: '/',
   component: App,
@@ -38,42 +39,46 @@ export const routes = {
 }
 
 
-// redirects user to /login if they try to access a route that should only be 
-// accessible to a user who is authenticated (logged in)
-// 
-function requireAuth(nextState, replace) {
+/**
+ * Redirects user to /login if they try to access a route that should only be 
+ * accessible to a user who is authenticated (logged in)
+ * @return undefined
+ */
+function requireAuth() {
   if (!auth.loggedIn()) {
-    console.log('NOT LOGGED IN, REDIRECTING...');
-    replace({ nextPathname: nextState.location.pathname }, '/login')
+    // console.log('NOT LOGGED IN, REDIRECTING...');
+    store.dispatch(replace('/login'))
   }
 }
+
+/**
+ * Allow user to access SignUp page, or redirect.
+ * @return undefined
+ */
 function allowSignupAccess() {
   getUserCount().then((count) => {
     if(count > 0) {
-      console.log('replace')
       store.dispatch(replace('/login'));
     }
   }).catch((error) => {
-    console.log('Error: ', error)
+    console.warn('Error: ', error)
   })
 }
 
 
 /**
  * Check to see if /login should be accessible.
- * @param  {[type]} nextState [description]
- * @param  {[type]} replace   [description]
  * @return undefined
  */
 function allowLoginAccess() {
 
   if(auth.loggedIn()) {
-    replace('/admin')
+    store.dispatch(replace('/admin'))
   } else {
     getUserCount().then((count) => {
       if(count === 0) {
         console.log('replace')
-        dispatch(replace('/signup'));
+        store.dispatch(replace('/signup'));
       }
     }).catch((error) => {
       console.log('Error: ', error)

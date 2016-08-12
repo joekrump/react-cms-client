@@ -5,6 +5,16 @@ body {
   color: #fff;
 }
 
+a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(0, 188, 212);
+}
+
 .drawer-link.link-active {
   color: green;
 }
