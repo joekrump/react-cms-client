@@ -1,10 +1,9 @@
-import React from 'react';
+import React from 'react'
 import Widget from '../../../Dashboard/Widget' 
 import ActiveUsersWidget from '../../../Dashboard/ActiveUsersWidget' 
-
-import FlexContainer from '../../../Layout/FlexContainer';
-
+import FlexContainer from '../../../Layout/FlexContainer'
 import { apiGet, updateToken } from '../../../../http/requests'
+import AdminLayout from '../Layout/Layout'
 
 const Dashboard = React.createClass({
   getInitialState(){
@@ -54,15 +53,17 @@ const Dashboard = React.createClass({
     }
 
     return (
-      <div className="dashboard">
-        <div>
-          <h1>Dashboard</h1>
-          <p>Congrats, you are logged in!</p>
+      <AdminLayout>
+        <div className="dashboard">
+          <div>
+            <h1>Dashboard</h1>
+            <p>Congrats, you are logged in!</p>
+          </div>
+          <FlexContainer>
+            {DashboardWidgets}
+          </FlexContainer>
         </div>
-        <FlexContainer>
-          {DashboardWidgets}
-        </FlexContainer>
-      </div>
+      </AdminLayout>
     );
   }
 });

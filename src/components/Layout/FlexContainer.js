@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './FlexContainer.css';
 
 const FlexContainer = (props) => (

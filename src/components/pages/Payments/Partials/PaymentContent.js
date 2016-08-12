@@ -1,6 +1,6 @@
 import React from 'react';
 import { PaymentForm } from './PaymentForm';
-import StripConfig from '../../../app_config/stripe';
+import StripConfig from '../../../../../app_config/stripe';
 import { redA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';

@@ -1,12 +1,14 @@
 import React from 'react';
-import { capitalize } from '../../../helpers/string'
+import { capitalize } from '../../../../../helpers/StringHelper'
+import AdminLayout from '../../Layout/Layout'
 
 const Details = ({ params: { resourceNameSingular, resourceId }, location: { query } }) => {
   return (
-
-    <div className="admin-index">
-      <h1>{capitalize(resourceNameSingular)} {resourceId}</h1>
-    </div>
+    <AdminLayout>
+      <div className="admin-index">
+        <h1>{capitalize(resourceNameSingular)} {resourceId}</h1>
+      </div>
+    </AdminLayout>
   );
 };
 export default Details;
