@@ -1,6 +1,5 @@
 import About from './components/pages/About';
 import Home from './components/pages/Home';
-import Inbox from './components/pages/Inbox';
 import PaymentPage from './components/pages/PaymentPage';
 import Dashboard from './components/pages/admin/Dashboard';
 import Login from './components/pages/Login';
@@ -22,7 +21,6 @@ export const routes = {
   indexRoute: { component: Home },
   childRoutes: [
     { path: 'about', component: About },
-    { path: 'inbox', component: Inbox },
     { path: 'donate', component: PaymentPage },
     { path: 'login', component: Login, onEnter: allowLoginAccess },
     { path: 'signup', component: SignUp, onEnter: allowSignupAccess },
