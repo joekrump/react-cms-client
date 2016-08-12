@@ -2,7 +2,7 @@ import React from 'react'
 import ResourceForm from '../Forms/ResourceForm';
 import { connect } from 'react-redux'
 
-const UserSettings = () => ({
+const Settings = () => ({
   
   render() {
     return (
@@ -31,4 +31,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(UserSettings);
+)(Settings);

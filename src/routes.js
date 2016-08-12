@@ -1,18 +1,17 @@
-import About from './components/pages/About';
-import Home from './components/pages/Home';
-import PaymentPage from './components/pages/PaymentPage';
-import Dashboard from './components/pages/admin/Dashboard';
-import Login from './components/pages/Login';
-import SignUp from './components/pages/SignUp';
-import UserSettings from './components/Admin/UserSettings';
-import ForgotPassword from './components/Admin/ForgotPassword';
-import PageNotFound from './components/pages/404';
+import About from './components/Pages/About/About';
+import Home from './components/Pages/Home/Home';
+import DonationPage from './components/Pages/Payments/DonationPage/DonationPage';
+import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
+import Login from './components/Pages/Auth/Login/Login';
+import SignUp from './components/Pages/Auth/Signup/SignUp';
+import UserSettings from './components/Admin/User/Settings/Settings';
+import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPassword';
+import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
 import auth from './auth';
 import { replace } from 'react-router-redux'
 import { store } from './store'
 import { apiGet } from './http/requests'
-
 import AdminRoutes from './routes/admin/routes'
 
 export const routes = {
@@ -21,7 +20,7 @@ export const routes = {
   indexRoute: { component: Home },
   childRoutes: [
     { path: 'about', component: About },
-    { path: 'donate', component: PaymentPage },
+    { path: 'donate', component: DonationPage },
     { path: 'login', component: Login, onEnter: allowLoginAccess },
     { path: 'signup', component: SignUp, onEnter: allowSignupAccess },
     { path: 'forgot-password', component: ForgotPassword },

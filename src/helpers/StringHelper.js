@@ -4,5 +4,4 @@ export function capitalize(stringToCapitalize){
   } else {
     return stringToCapitalize;
   }
-  
 }

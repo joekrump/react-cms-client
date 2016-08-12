@@ -1,20 +1,17 @@
 import React from 'react';
-
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import PaymentContent from '../Payment/PaymentContent';
-
 import { connect } from 'react-redux';
-
 import { grey100 } from 'material-ui/styles/colors';
 
-const PaymentPage = React.createClass({
+const DonationPage = React.createClass({
   handleSnackbarClose(){
     this.props.toggleSnackBar(false);
   },
   render() {
     return(<div>
-      <h1>Payment Page</h1>
+      <h1>Donation Page</h1>
       <Paper zDepth={2} className="form-container">
         <PaymentContent />
         <Snackbar
@@ -57,9 +54,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-const PaymentPageRedux = connect(
+export default connect(
   maptStateToProps,
   mapDispatchToProps
-)(PaymentPage)
-
-export default PaymentPageRedux;
+)(DonationPage)
