@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../auth';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 const Login = React.createClass({    
   getInitialState(){
@@ -80,6 +81,8 @@ const Login = React.createClass({
             <p>Bad login information</p>
           )}
         </form>
+        <br/>
+        <Link to="forgot-password" style={{color: 'white'}}>Forgot Passord?</Link>
       </div>
     );
   }

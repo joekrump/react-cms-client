@@ -26,7 +26,7 @@ export const routes = {
     { path: 'donate', component: PaymentPage },
     { path: 'login', component: Login, onEnter: allowLoginAccess },
     { path: 'signup', component: SignUp, onEnter: allowSignupAccess },
-    { path: 'reset-password', component: ForgotPassword },
+    { path: 'forgot-password', component: ForgotPassword },
     { 
       path: 'admin',
       indexRoute: { component: Dashboard },
