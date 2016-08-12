@@ -1,9 +1,8 @@
 import React from 'react';
-import { capitalize } from '../../../helpers/string'
-import ResourceForm from '../../Forms/ResourceForm';
-import AddResourceButton from './AddButton';
-import { singularizeName } from '../../../helpers/ResourceHelper'
-import AdminLayout from '../../Layout/Laout'
+import { capitalize } from '../../../../../helpers/StringHelper'
+import { singularizeName } from '../../../../../helpers/ResourceHelper'
+import ResourceForm from '../../../../Forms/ResourceForm';
+import AdminLayout from '../../Layout/Layout'
 
 const New = ({ params: { resourceNamePlural }, location: { query } }) => {
 
@@ -20,7 +19,6 @@ const New = ({ params: { resourceNamePlural }, location: { query } }) => {
           resourceType={nameSingular}
           context='new'
         />
-        <AddResourceButton resourceNameSingular={nameSingular}/>
       </div>
     </AdminLayout>
   );

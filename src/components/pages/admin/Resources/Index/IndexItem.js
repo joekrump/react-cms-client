@@ -2,7 +2,7 @@ import React from 'react'
 import { fullBlack } from 'material-ui/styles/colors';
 import { ListItem } from 'material-ui/List';
 import {fade} from 'material-ui/utils/colorManipulator';
-import muiTheme from '../../../muiTheme';
+import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 
 import { VelocityComponent } from 'velocity-react';

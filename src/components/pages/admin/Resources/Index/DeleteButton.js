@@ -1,7 +1,7 @@
 import React from 'react'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import IconButton from 'material-ui/IconButton';
-import { apiDelete, updateToken } from '../../../http/requests'
+import { apiDelete, updateToken } from '../../../../../http/requests'
 
 const styles = {
   smallIcon: {

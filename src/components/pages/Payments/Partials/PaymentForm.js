@@ -1,5 +1,5 @@
 import React from 'react';
-import { apiPost } from '../../http/requests'
+import { apiPost } from '../../../../http/requests'
 import { connect } from 'react-redux';
 
 // Icons
@@ -12,7 +12,7 @@ import { redA700, greenA700 } from 'material-ui/styles/colors';
 
 import StripeFields from './StripeFields';
 
-import { Form, TextInput, SubmitButton } from '../Form/index';
+import { Form, TextInput, SubmitButton } from '../../../Form/index';
 
 const listItemStyle = {
   padding: "0 16px"

@@ -1,13 +1,12 @@
 import React from 'react';
-import { capitalize } from '../../../../../helpers/StringHelper'
 import { List } from 'material-ui/List';
-import AddResourceButton from '../../../../Admin/AddButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
-import { apiGet, updateToken } from '../../../../../http/requests'
 import { VelocityTransitionGroup } from 'velocity-react';
 import 'velocity-animate/velocity.ui';
 import AdminLayout from '../../Layout/Layout'
+import { capitalize } from '../../../../../helpers/StringHelper'
+import { apiGet, updateToken } from '../../../../../http/requests'
 
 const Index = React.createClass({
   getInitialState() {
@@ -59,15 +58,13 @@ const Index = React.createClass({
       <AdminLayout>
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-            {this.state.loading ? (<CircularProgress />) : null}
-            <List>
-              <VelocityTransitionGroup enter={{animation: "transition.slideLeftIn"}}>
-                {items}
-              </VelocityTransitionGroup>
-            </List>
-          
-          { this.props.children }
-          <AddResourceButton />
+          {this.state.loading ? (<CircularProgress />) : null}
+          <List>
+            <VelocityTransitionGroup enter={{animation: "transition.slideLeftIn"}}>
+              {items}
+            </VelocityTransitionGroup>
+          </List>
+        { this.props.children }
         </div>
       </AdminLayout>
     );
