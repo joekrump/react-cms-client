@@ -6,6 +6,7 @@ import Dashboard from './components/pages/admin/Dashboard';
 import Login from './components/pages/Login';
 import SignUp from './components/pages/SignUp';
 import UserSettings from './components/Admin/UserSettings';
+import ForgotPassword from './components/Admin/ForgotPassword';
 import PageNotFound from './components/pages/404';
 import App from './components/App';
 import auth from './auth';
@@ -25,6 +26,7 @@ export const routes = {
     { path: 'donate', component: PaymentPage },
     { path: 'login', component: Login, onEnter: allowLoginAccess },
     { path: 'signup', component: SignUp, onEnter: allowSignupAccess },
+    { path: 'reset-password', component: ForgotPassword },
     { 
       path: 'admin',
       indexRoute: { component: Dashboard },

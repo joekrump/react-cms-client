@@ -38,7 +38,7 @@ export function apiGet(url, authRequired = true) {
  * @param  {Boolean}  authRequired (optional) Whether or not this request needs auth with it. Default: true
  */
 export function apiDelete(url, authRequired = true) {
-	let deleteRequest = deleteRequest.del(AppConfig.apiBaseUrl + url);
+	let deleteRequest = request.del(AppConfig.apiBaseUrl + url);
 	return httpRequest(deleteRequest, authRequired)
 }
 
