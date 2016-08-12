@@ -1,10 +1,10 @@
 import React from 'react';
-import Widget from '../../Dashboard/Widget' 
-import ActiveUsersWidget from '../../Dashboard/ActiveUsersWidget' 
+import Widget from '../../../Dashboard/Widget' 
+import ActiveUsersWidget from '../../../Dashboard/ActiveUsersWidget' 
 
-import FlexContainer from '../../Layout/FlexContainer';
+import FlexContainer from '../../../Layout/FlexContainer';
 
-import { apiGet, updateToken } from '../../../http/requests'
+import { apiGet, updateToken } from '../../../../http/requests'
 
 const Dashboard = React.createClass({
   getInitialState(){

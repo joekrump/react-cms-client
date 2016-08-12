@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
-import PaymentContent from '../Payment/PaymentContent';
+import PaymentContent from '../Partials/PaymentContent';
 import { connect } from 'react-redux';
 import { grey100 } from 'material-ui/styles/colors';
 
