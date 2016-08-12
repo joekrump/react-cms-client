@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import auth from '../../auth';
+import auth from '../../../../auth';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import ResourceForm from '../Forms/ResourceForm';
+import ResourceForm from '../../../Forms/ResourceForm';
 import { connect } from 'react-redux';
 
 const SignUp = () => ({
