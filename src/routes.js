@@ -4,7 +4,7 @@ import DonationPage from './components/Pages/Payments/DonationPage/DonationPage'
 import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
 import Login from './components/Pages/Auth/Login/Login';
 import SignUp from './components/Pages/Auth/Signup/SignUp';
-import UserSettings from './components/Admin/User/Settings/Settings';
+import UserSettings from './components/Pages/Admin/User/Settings/Settings';
 import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPassword';
 import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
