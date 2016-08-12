@@ -38,7 +38,7 @@ const app_config = {
     { linkText: 'Log In', url: '/login' },
     { linkText: 'Home', url: '/' },
     { linkText: 'About', url: '/about' },
-    { linkText: 'Make a payment', url: '/donate' },
+    { linkText: 'Make a donation', url: '/donate' },
     // Add more here (BUT UNLIKE THE ADMIN ROUTES, MAKE SURE YOU ADD TO routes.js as well)
   ],
   validResources: [
