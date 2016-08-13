@@ -5,21 +5,24 @@ import { connect } from 'react-redux'
 const Settings = () => ({
   
   render() {
-    return (
+    if(!this.props.user) {
+      return null;
+    } else {
+      return (
+        <div className="user-settings">
+          <h1>User Settings</h1>
 
-      <div className="user-settings">
-        <h1>User Settings</h1>
-
-        <ResourceForm 
-          formName={'userForm'} 
-          submitUrl={'users/' + this.props.user.id}
-          resourceId={this.props.user.id}
-          resourceType='user'
-          resourceNamePlural='users'
-          context='edit'
-        />
-      </div>
-    );
+          <ResourceForm 
+            formName={'userForm'} 
+            submitUrl={'users/' + this.props.user.id}
+            resourceId={this.props.user.id}
+            resourceType='user'
+            resourceNamePlural='users'
+            context='edit'
+          />
+        </div>
+      );
+    }   
   }
 });
 
