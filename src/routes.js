@@ -3,8 +3,9 @@ import Home from './components/Pages/Home/Home';
 import DonationPage from './components/Pages/Payments/DonationPage/DonationPage';
 import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
 import Login from './components/Pages/Auth/Login/Login';
-import SignUp from './components/Pages/Auth/Signup/SignUp';
+import SignUp from './components/Pages/Auth/SignUp/SignUp';
 import UserSettings from './components/Pages/Admin/User/Settings/Settings';
+import EditPage from './components/Pages/Admin/Page/Edit';
 import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPassword';
 import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
@@ -31,6 +32,7 @@ export const routes = {
       onEnter: requireAuth,
       childRoutes: [
         { path: 'settings', component: UserSettings },
+        { path: 'page/edit', component: EditPage },
         AdminRoutes
       ]
     },

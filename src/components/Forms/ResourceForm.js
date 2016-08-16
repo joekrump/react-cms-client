@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../Form/index';
 import { apiGet, apiPut, apiPost, updateToken } from '../../http/requests'
-import NotificationSnackbar from '../notifications/Snackbar/Snackbar'
+import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 
 const listItemStyle = {
   padding: "0 16px"
