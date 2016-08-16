@@ -10,17 +10,17 @@ const PageNotFound = (props, state) => {
 
   return( 
     <div className="page-not-found-wrapper">
-  <div className="container">
-    <div className="content">
-      <div className="title">Page Not Found</div>
-        <RaisedButton 
-          containerElement={<Link to='/' />}
-          label='Head back home'
-          primary={true} 
-          icon={<ActionHome />}
-        />
+      <div className="page-container">
+        <div className="content">
+          <div className="title">Page Not Found</div>
+          <RaisedButton 
+            containerElement={<Link to='/' />}
+            label='Head back home'
+            primary={true} 
+            icon={<ActionHome />}
+          />
+        </div>
       </div>
-    </div>
     </div>
   );
 };
