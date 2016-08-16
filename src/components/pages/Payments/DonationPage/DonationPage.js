@@ -33,7 +33,7 @@ const DonationPage = React.createClass({
   }
 })
 
-const maptStateToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     isFormValid: !state.forms.loginForm.error,
     snackbarOpen: state.payments.snackbarOpen,
@@ -55,6 +55,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  maptStateToProps,
+  mapStateToProps,
   mapDispatchToProps
 )(DonationPage)

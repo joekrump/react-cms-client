@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../Form/index';
 import { apiGet, apiPut, apiPost, updateToken } from '../../http/requests'
+import NotificationSnackbar from '../notifications/Snackbar/Snackbar'
 
 const listItemStyle = {
   padding: "0 16px"
@@ -43,13 +44,13 @@ const ResourceForm = React.createClass({
 
   handleFormSubmit(e) {
     e.preventDefault();
-    this.submitToServer(this);
+    this.submitToServer();
   },
-  submitToServer(self){
+  submitToServer(){
     var formInputValues = {};
 
-    Object.keys(self.props.formFields).forEach((key) => {
-      formInputValues[key] = self.props.formFields[key].value;
+    Object.keys(this.props.formFields).forEach((key) => {
+      formInputValues[key] = this.props.formFields[key].value;
       return;
     })
     try {
@@ -58,28 +59,41 @@ const ResourceForm = React.createClass({
       serverRequest.send(formInputValues)
       .end(function(err, res){
         if(err !== null) {
-          console.log(err);
-          console.log(res);
+          // console.log(err);
+          // console.log(res);
+          this.props.updateSnackbar(true, 'Error', res.body.message, 'error');
           // Something unexpected happened
         } else if (res.statusCode !== 200) {
           // not status OK
-          console.log('Resource Form not OK ',res);
+          // console.log('Resource Form not OK ',res);
+          // res.body.errors gives an array of errors from the server.
+          // 
+          this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
 
-          self.props.updateFormCompleteStatus(true, self.props.formName);
-          if(self.props.loginCallback) {
-            self.props.loginCallback(res.body.user, res.body.token)
+          this.props.updateFormCompleteStatus(
+            true, 
+            this.props.formName
+          );
+          
+          if(this.props.ceontext == 'edit') {
+            this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
           } else {
-            if(self.props.context !== 'edit'){
-              setTimeout(self.resetForm, 500);
+            this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
+          }
+
+          if(this.props.loginCallback) {
+            this.props.loginCallback(res.body.user, res.body.token)
+          } else {
+            if(this.props.context !== 'edit'){
+              setTimeout(this.resetForm, 500);
             }
           }
         }
-      });
+      }.bind(this));
     } catch (e) {
       console.log('Exception: ', e)
     }
-
   },
   render() {
     let field;
@@ -101,15 +115,21 @@ const ResourceForm = React.createClass({
         </ListItem>
       );
     });
-      
+
     return (
-      <Form onSubmit={this.handleFormSubmit} className="form-content">
+      <Form onSubmit={this.handleFormSubmit.bind(this)} className="form-content">
         <List>
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
             <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label={this.props.context === 'edit' ? 'Update' : 'Create'}/>
           </ListItem>
         </List>
+        <NotificationSnackbar 
+          open={this.props.snackbar.show} 
+          header={this.props.snackbar.header}
+          content={this.props.snackbar.content}
+          type={this.props.snackbar.notificationType}
+        />
       </Form>
     )
   }
@@ -119,19 +139,27 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isFormValid: !state.forms[ownProps.formName].error,
     formFields: state.forms[ownProps.formName].fields,
-    token: state.auth.token
+    token: state.auth.token,
+    snackbar: {
+      show: state.notifications.snackbar.show,
+      header: state.notifications.snackbar.header,
+      content: state.notifications.snackbar.content,
+      notificationType: state.notifications.snackbar.notificationType
+    }
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // updateFormError: (error, formName) => {
-    //   dispatch ({
-    //     type: 'FORM_ERROR',
-    //     error,
-    //     formName
-    //   })
-    // },
+    updateSnackbar: (show, header, content, notificationType) => {
+      dispatch ({
+        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        show,
+        header,
+        content,
+        notificationType
+      })
+    },
     loadFormWithData: (fieldValues, formName) => {
       dispatch({
         type: 'FORM_LOAD',
