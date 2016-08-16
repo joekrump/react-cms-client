@@ -31,7 +31,7 @@ const App = React.createClass({
     };
   },
   updateAuth(loggedIn) {
-    if(loggedIn) {
+    if(!loggedIn && auth.getUser() && auth.getToken()) {
       this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken);      
     }
   },
