@@ -10,7 +10,7 @@ const auth = (state = initialState, action) => {
       return {
         user: action.user,
         token: action.token,
-        logged_in: true
+        logged_in: action.token && action.user
       }
     case 'USER_LOGGED_OUT':
       return {

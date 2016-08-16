@@ -18,6 +18,7 @@ module.exports = {
 
     makeLoginRequest(email, pass, (res) => {
       if (res.authenticated) {
+        console.log(res);
         this.handleLoggedIn(handleLoggedInCallback, res, true);
       } else {
         this.handleLoggedIn(handleLoggedInCallback, res); // no second param as it defaults to false

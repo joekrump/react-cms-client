@@ -38,17 +38,6 @@ const Login = React.createClass({
       
     })
   },
-  updateAuth(loggedIn) {
-    this.setState({
-      loggedIn
-    })
-  },
-  componentWillMount(){
-    window.addEventListener(auth.onChange, this.updateAuth);
-  },
-  componentWillUnmount() {
-    window.removeEventListener(auth.onChange, this.updateAuth);
-  },
   handleChange(e){
     let oldState = this.state;
     oldState[e.target.name] = e.target.value;
