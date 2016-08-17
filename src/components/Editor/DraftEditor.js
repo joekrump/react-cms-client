@@ -110,13 +110,13 @@ class DraftEditor extends React.Component {
     console.log('not handled save')
     return 'not-handled';
   }
-
   render() {
     return (
       <div style={styles.root}>
         <div style={styles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
+            blockStyleFn={myBlockStyleFn}
             onChange={this.onChange}
             placeholder="Enter some text..."
             ref="editor"
@@ -134,6 +134,17 @@ class DraftEditor extends React.Component {
     );
   }
 }
+
+// The blockStyleFn prop on Editor allows you to define CSS classes 
+// to style blocks at render time. For instance, you may wish to style 
+// 'blockquote' type blocks with fancy italic text.
+function myBlockStyleFn(contentBlock) {
+  const type = contentBlock.getType();
+  if (type === 'blockquote') {
+    return 'superFancyBlockquote';
+  }
+}
+
 
 function myKeyBindingFn(e: SyntheticKeyboardEvent): string {
   if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
@@ -180,7 +191,6 @@ const TokenSpan = (props) => {
 const styles = {
   root: {
     fontFamily: '\'Helvetica\', sans-serif',
-    padding: 20,
     width: 600,
   },
   editor: {

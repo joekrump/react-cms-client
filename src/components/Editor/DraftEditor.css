@@ -1,8 +1,6 @@
-.DraftEditor-root {
-  /* Stop collapsing margins breaking our side control positioning */
-  padding-top: 1px;
-  position: relative;
-}
-.public-DraftEditorPlaceholder-root {
-  position: absolute;
+.superFancyBlockquote {
+  color: #999;
+  font-family: 'Hoefler Text', Georgia, serif;
+  font-style: italic;
+  text-align: center;
 }
