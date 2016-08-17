@@ -440,16 +440,16 @@ const styles = {
     padding: 3,
   },
   immutable: {
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     padding: '2px 0',
+    color: 'red'
   },
   mutable: {
-    backgroundColor: 'rgba(204, 204, 255, 1.0)',
     padding: '2px 0',
+    color: 'yellow'
   },
   segmented: {
-    backgroundColor: 'rgba(248, 222, 126, 1.0)',
     padding: '2px 0',
+    color: 'green'
   },
   button: {
     marginTop: 10,
