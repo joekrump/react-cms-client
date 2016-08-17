@@ -58,13 +58,15 @@
 }
 
 .RichEditor-styleButton {
-  color: #999;
+  color: #e6e6e6;
   cursor: pointer;
-  margin-right: 16px;
-  padding: 2px 0;
+  margin-right: 2px;
+  padding: 5px 10px;
   display: inline-block;
+  background-color: #5890ff;
 }
 
 .RichEditor-activeButton {
   color: #5890ff;
+  background-color: #e6e6e6;
 }

@@ -10,8 +10,14 @@ import {AtomicBlockUtils,
         Entity,
         getDefaultKeyBinding, 
         KeyBindingUtil,
+        Modifier,
         RichUtils} from 'draft-js';
+
 import {cyan50} from 'material-ui/styles/colors'
+
+import BlockStyleControls from './BlockStyleControls';
+import InlineStyleControls from './InlineStyleControls';
+import ColorControls from './ColorControls';
 import MediaEntity from './MediaEntity'
 
 import './DraftEditor.css';
@@ -115,13 +121,52 @@ class DraftEditor extends React.Component {
     this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    this.toggleColor = (toggledColor) => this._toggleColor(toggledColor);
   }
+
+  _toggleColor(toggledColor) {
+    const {editorState} = this.state;
+    const selection = editorState.getSelection();
+
+    // Let's just allow one color at a time. Turn off all active colors.
+    const nextContentState = Object.keys(colorStyleMap)
+      .reduce((contentState, color) => {
+        return Modifier.removeInlineStyle(contentState, selection, color)
+      }, editorState.getCurrentContent());
+
+    let nextEditorState = EditorState.push(
+      editorState,
+      nextContentState,
+      'change-inline-style'
+    );
+
+    const currentStyle = editorState.getCurrentInlineStyle();
+
+    // Unset style override for current color.
+    if (selection.isCollapsed()) {
+      nextEditorState = currentStyle.reduce((state, color) => {
+        return RichUtils.toggleInlineStyle(state, color);
+      }, nextEditorState);
+    }
+
+    // If the color is being toggled on, apply it.
+    if (!currentStyle.has(toggledColor)) {
+      nextEditorState = RichUtils.toggleInlineStyle(
+        nextEditorState,
+        toggledColor
+      );
+    }
+
+    this.onChange(nextEditorState);
+  }
+
 
   _handleKeyCommand(command: string): DraftHandleValue {
     if (command === 'myeditor-save') {
       // Perform a request to save your contents, set
       // a new `editorState`, etc.
       console.log('handled save')
+      this.logState();
       return 'handled';
     }
     const {editorState} = this.state;
@@ -239,6 +284,10 @@ class DraftEditor extends React.Component {
            editorState={editorState}
            onToggle={this.toggleInlineStyle}
          />
+         <ColorControls
+           editorState={editorState}
+           onToggle={this.toggleColor}
+         />
         <div style={styles.buttons}>
           <button onMouseDown={this.addAudio} style={{marginRight: 10}}>
             Add Audio
@@ -255,7 +304,7 @@ class DraftEditor extends React.Component {
           <Editor
             blockRendererFn={mediaBlockRenderer}
             blockStyleFn={myBlockStyleFn}
-            customStyleMap={styleMap}
+            customStyleMap={{...styleMap, ...colorStyleMap}}
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}
             keyBindingFn={myKeyBindingFn}
@@ -286,8 +335,6 @@ function mediaBlockRenderer(block) {
 
   return null;
 }
-
-
 
 // The blockStyleFn prop on Editor allows you to define CSS classes 
 // to style blocks at render time. For instance, you may wish to style 
@@ -344,10 +391,35 @@ const TokenSpan = (props) => {
 
 const styleMap = {
   CODE: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
     fontSize: 16,
     padding: 2,
+    color: 'blue'
+  }
+}
+
+const colorStyleMap = {
+  red: {
+    color: 'rgba(255, 0, 0, 1.0)',
+  },
+  orange: {
+    color: 'rgba(255, 127, 0, 1.0)',
+  },
+  yellow: {
+    color: 'rgba(180, 180, 0, 1.0)',
+  },
+  green: {
+    color: 'rgba(0, 180, 0, 1.0)',
+  },
+  blue: {
+    color: 'rgba(0, 0, 255, 1.0)',
+  },
+  indigo: {
+    color: 'rgba(75, 0, 130, 1.0)',
+  },
+  violet: {
+    color: 'rgba(127, 0, 255, 1.0)',
   },
 }
 
@@ -386,95 +458,5 @@ const styles = {
 };
 
 
-
-function getBlockStyle(block) {
-  switch (block.getType()) {
-    case 'blockquote': return 'RichEditor-blockquote';
-    default: return null;
-  }
-}
-
-class StyleButton extends React.Component {
-  constructor() {
-    super();
-    this.onToggle = (e) => {
-      e.preventDefault();
-      this.props.onToggle(this.props.style);
-    };
-  }
-
-  render() {
-    let className = 'RichEditor-styleButton';
-    if (this.props.active) {
-      className += ' RichEditor-activeButton';
-    }
-
-    return (
-      <span className={className} onMouseDown={this.onToggle}>
-        {this.props.label}
-      </span>
-    );
-  }
-}
-
-const BLOCK_TYPES = [
-  {label: 'H1', style: 'header-one'},
-  {label: 'H2', style: 'header-two'},
-  {label: 'H3', style: 'header-three'},
-  {label: 'H4', style: 'header-four'},
-  {label: 'H5', style: 'header-five'},
-  {label: 'H6', style: 'header-six'},
-  {label: 'Blockquote', style: 'blockquote'},
-  {label: 'UL', style: 'unordered-list-item'},
-  {label: 'OL', style: 'ordered-list-item'},
-  {label: 'Code Block', style: 'code-block'},
-];
-
-const BlockStyleControls = (props) => {
-  const {editorState} = props;
-  const selection = editorState.getSelection();
-  const blockType = editorState
-    .getCurrentContent()
-    .getBlockForKey(selection.getStartKey())
-    .getType();
-
-  return (
-    <div className="RichEditor-controls">
-      {BLOCK_TYPES.map((type) =>
-        <StyleButton
-          key={type.label}
-          active={type.style === blockType}
-          label={type.label}
-          onToggle={props.onToggle}
-          style={type.style}
-        />
-      )}
-    </div>
-  );
-};
-
-var INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
-  {label: 'Italic', style: 'ITALIC'},
-  {label: 'Underline', style: 'UNDERLINE'},
-  {label: 'Monospace', style: 'CODE'},
-];
-
-const InlineStyleControls = (props) => {
-  var currentStyle = props.editorState.getCurrentInlineStyle();
-  return (
-    <div className="RichEditor-controls">
-      {INLINE_STYLES.map(type =>
-        <StyleButton
-          key={type.label}
-          active={currentStyle.has(type.style)}
-          label={type.label}
-          onToggle={props.onToggle}
-          style={type.style}
-        />
-      )}
-    </div>
-  );
-};
 
 export default DraftEditor;
