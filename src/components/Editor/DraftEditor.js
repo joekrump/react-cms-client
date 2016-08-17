@@ -4,6 +4,7 @@ import {AtomicBlockUtils,
         convertToRaw,
         CompositeDecorator,
         ContentState,
+        DefaultDraftBlockRenderMap,
         Editor,
         EditorState,
         Entity,
@@ -11,6 +12,8 @@ import {AtomicBlockUtils,
         KeyBindingUtil,
         RichUtils} from 'draft-js';
 import {cyan50} from 'material-ui/styles/colors'
+import MediaEntity from './MediaEntity'
+
 import './DraftEditor.css';
 
 const {hasCommandModifier} = KeyBindingUtil;
@@ -105,11 +108,13 @@ class DraftEditor extends React.Component {
     };
     this.onURLChange = (e) => this.setState({urlValue: e.target.value});
     this.addAudio = this._addAudio.bind(this);
-              this.addImage = this._addImage.bind(this);
-              this.addVideo = this._addVideo.bind(this);
-              this.confirmMedia = this._confirmMedia.bind(this);
-              this.handleKeyCommand = this._handleKeyCommand.bind(this);
-              this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
+    this.addImage = this._addImage.bind(this);
+    this.addVideo = this._addVideo.bind(this);
+    this.confirmMedia = this._confirmMedia.bind(this);
+    this.handleKeyCommand = this._handleKeyCommand.bind(this);
+    this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
+    this.toggleBlockType = (type) => this._toggleBlockType(type);
+    this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
   }
 
   _handleKeyCommand(command: string): DraftHandleValue {
@@ -175,8 +180,37 @@ class DraftEditor extends React.Component {
     this._promptForMedia('video');
   }
 
+  _toggleBlockType(blockType) {
+    this.onChange(
+      RichUtils.toggleBlockType(
+        this.state.editorState,
+        blockType
+      )
+    );
+  }
+
+  _toggleInlineStyle(inlineStyle) {
+    this.onChange(
+      RichUtils.toggleInlineStyle(
+        this.state.editorState,
+        inlineStyle
+      )
+    );
+  }
+
   render() {
+    const {editorState} = this.state;
+
     let urlInput;
+    let editorClassName = 'RichEditor-editor';
+
+    var contentState = editorState.getCurrentContent();
+     if (!contentState.hasText()) {
+       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+         editorClassName += ' RichEditor-hidePlaceholder';
+       }
+     }
+
     if (this.state.showURLInput) {
       urlInput =
         <div style={styles.urlInputContainer}>
@@ -185,6 +219,7 @@ class DraftEditor extends React.Component {
             ref="url"
             style={styles.urlInput}
             type="text"
+            placeholder="Enter URL"
             value={this.state.urlValue}
             onKeyDown={this.onURLInputKeyDown}
           />
@@ -196,6 +231,14 @@ class DraftEditor extends React.Component {
 
     return (
       <div style={styles.root}>
+        <BlockStyleControls
+           editorState={editorState}
+           onToggle={this.toggleBlockType}
+         />
+         <InlineStyleControls
+           editorState={editorState}
+           onToggle={this.toggleInlineStyle}
+         />
         <div style={styles.buttons}>
           <button onMouseDown={this.addAudio} style={{marginRight: 10}}>
             Add Audio
@@ -208,16 +251,18 @@ class DraftEditor extends React.Component {
           </button>
         </div>
         {urlInput}
-        <div style={styles.editor} onClick={this.focus}>
+        <div className={editorClassName} onClick={this.focus}>
           <Editor
-            editorState={this.state.editorState}
-            blockStyleFn={myBlockStyleFn}
             blockRendererFn={mediaBlockRenderer}
+            blockStyleFn={myBlockStyleFn}
+            customStyleMap={styleMap}
+            editorState={editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            keyBindingFn={myKeyBindingFn}
             onChange={this.onChange}
             placeholder="Enter some text..."
             ref="editor"
-            handleKeyCommand={this.handleKeyCommand}
-            keyBindingFn={myKeyBindingFn}
+            spellCheck={true}
           />
         </div>
         <input
@@ -234,7 +279,7 @@ class DraftEditor extends React.Component {
 function mediaBlockRenderer(block) {
   if (block.getType() === 'atomic') {
     return {
-      component: Media,
+      component: MediaEntity,
       editable: false,
     };
   }
@@ -242,34 +287,7 @@ function mediaBlockRenderer(block) {
   return null;
 }
 
-const Audio = (props) => {
-  return <audio controls src={props.src} style={styles.media} />;
-};
 
-const Image = (props) => {
-  return <img src={props.src} style={styles.media} />;
-};
-
-const Video = (props) => {
-  return <video controls src={props.src} style={styles.media} />;
-};
-
-const Media = (props) => {
-  const entity = Entity.get(props.block.getEntityAt(0));
-  const {src} = entity.getData();
-  const type = entity.getType();
-
-  let media;
-  if (type === 'audio') {
-    media = <Audio src={src} />;
-  } else if (type === 'image') {
-    media = <Image src={src} />;
-  } else if (type === 'video') {
-    media = <Video src={src} />;
-  }
-
-  return media;
-};
 
 // The blockStyleFn prop on Editor allows you to define CSS classes 
 // to style blocks at render time. For instance, you may wish to style 
@@ -324,19 +342,18 @@ const TokenSpan = (props) => {
   );
 };
 
-const styles = {
-  root: {
-    fontFamily: '\'Helvetica\', sans-serif',
-    width: 600,
+const styleMap = {
+  CODE: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontSize: 16,
+    padding: 2,
   },
+}
+
+const styles = {
   buttons: {
     marginBottom: 10,
-  },
-  editor: {
-    border: '1px solid #ccc',
-    cursor: 'text',
-    minHeight: 80,
-    padding: 10,
   },
   button: {
     marginTop: 10,
@@ -365,10 +382,99 @@ const styles = {
   button: {
     marginTop: 10,
     textAlign: 'center',
-  },
-  media: {
-    width: '100%',
-  },
+  }
+};
+
+
+
+function getBlockStyle(block) {
+  switch (block.getType()) {
+    case 'blockquote': return 'RichEditor-blockquote';
+    default: return null;
+  }
+}
+
+class StyleButton extends React.Component {
+  constructor() {
+    super();
+    this.onToggle = (e) => {
+      e.preventDefault();
+      this.props.onToggle(this.props.style);
+    };
+  }
+
+  render() {
+    let className = 'RichEditor-styleButton';
+    if (this.props.active) {
+      className += ' RichEditor-activeButton';
+    }
+
+    return (
+      <span className={className} onMouseDown={this.onToggle}>
+        {this.props.label}
+      </span>
+    );
+  }
+}
+
+const BLOCK_TYPES = [
+  {label: 'H1', style: 'header-one'},
+  {label: 'H2', style: 'header-two'},
+  {label: 'H3', style: 'header-three'},
+  {label: 'H4', style: 'header-four'},
+  {label: 'H5', style: 'header-five'},
+  {label: 'H6', style: 'header-six'},
+  {label: 'Blockquote', style: 'blockquote'},
+  {label: 'UL', style: 'unordered-list-item'},
+  {label: 'OL', style: 'ordered-list-item'},
+  {label: 'Code Block', style: 'code-block'},
+];
+
+const BlockStyleControls = (props) => {
+  const {editorState} = props;
+  const selection = editorState.getSelection();
+  const blockType = editorState
+    .getCurrentContent()
+    .getBlockForKey(selection.getStartKey())
+    .getType();
+
+  return (
+    <div className="RichEditor-controls">
+      {BLOCK_TYPES.map((type) =>
+        <StyleButton
+          key={type.label}
+          active={type.style === blockType}
+          label={type.label}
+          onToggle={props.onToggle}
+          style={type.style}
+        />
+      )}
+    </div>
+  );
+};
+
+var INLINE_STYLES = [
+  {label: 'Bold', style: 'BOLD'},
+  {label: 'Italic', style: 'ITALIC'},
+  {label: 'Underline', style: 'UNDERLINE'},
+  {label: 'Monospace', style: 'CODE'},
+];
+
+const InlineStyleControls = (props) => {
+  var currentStyle = props.editorState.getCurrentInlineStyle();
+  return (
+    <div className="RichEditor-controls">
+      {INLINE_STYLES.map(type =>
+        <StyleButton
+          key={type.label}
+          active={currentStyle.has(type.style)}
+          label={type.label}
+          onToggle={props.onToggle}
+          style={type.style}
+        />
+      )}
+    </div>
+  );
 };
 
 export default DraftEditor;
