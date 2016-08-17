@@ -5,9 +5,13 @@ import {convertFromRaw,
         ContentState,
         Editor,
         EditorState,
-        Entity} from 'draft-js';
+        Entity,
+        getDefaultKeyBinding, 
+        KeyBindingUtil} from 'draft-js';
 import {cyan50} from 'material-ui/styles/colors'
 import './DraftEditor.css';
+
+const {hasCommandModifier} = KeyBindingUtil;
 
 const rawContent = {
   blocks: [
@@ -96,6 +100,17 @@ class DraftEditor extends React.Component {
     };
   }
 
+  handleKeyCommand(command: string): DraftHandleValue {
+    if (command === 'myeditor-save') {
+      // Perform a request to save your contents, set
+      // a new `editorState`, etc.
+      console.log('handled save')
+      return 'handled';
+    }
+    console.log('not handled save')
+    return 'not-handled';
+  }
+
   render() {
     return (
       <div style={styles.root}>
@@ -105,6 +120,8 @@ class DraftEditor extends React.Component {
             onChange={this.onChange}
             placeholder="Enter some text..."
             ref="editor"
+            handleKeyCommand={this.handleKeyCommand.bind(this)}
+            keyBindingFn={myKeyBindingFn}
           />
         </div>
         <input
@@ -116,6 +133,13 @@ class DraftEditor extends React.Component {
       </div>
     );
   }
+}
+
+function myKeyBindingFn(e: SyntheticKeyboardEvent): string {
+  if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
+    return 'myeditor-save';
+  }
+  return getDefaultKeyBinding(e);
 }
 
 function getEntityStrategy(mutability) {
