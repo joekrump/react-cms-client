@@ -1,5 +1,6 @@
 import React from 'react'
-import {convertFromRaw,
+import {AtomicBlockUtils,
+        convertFromRaw,
         convertToRaw,
         CompositeDecorator,
         ContentState,
@@ -7,7 +8,8 @@ import {convertFromRaw,
         EditorState,
         Entity,
         getDefaultKeyBinding, 
-        KeyBindingUtil} from 'draft-js';
+        KeyBindingUtil,
+        RichUtils} from 'draft-js';
 import {cyan50} from 'material-ui/styles/colors'
 import './DraftEditor.css';
 
@@ -90,6 +92,9 @@ class DraftEditor extends React.Component {
 
     this.state = {
       editorState: EditorState.createWithContent(blocks, decorator),
+      showURLInput: false,
+      url: '',
+      urlType: '',
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -98,29 +103,120 @@ class DraftEditor extends React.Component {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
     };
+    this.onURLChange = (e) => this.setState({urlValue: e.target.value});
+    this.addAudio = this._addAudio.bind(this);
+              this.addImage = this._addImage.bind(this);
+              this.addVideo = this._addVideo.bind(this);
+              this.confirmMedia = this._confirmMedia.bind(this);
+              this.handleKeyCommand = this._handleKeyCommand.bind(this);
+              this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
   }
 
-  handleKeyCommand(command: string): DraftHandleValue {
+  _handleKeyCommand(command: string): DraftHandleValue {
     if (command === 'myeditor-save') {
       // Perform a request to save your contents, set
       // a new `editorState`, etc.
       console.log('handled save')
       return 'handled';
     }
-    console.log('not handled save')
-    return 'not-handled';
+    const {editorState} = this.state;
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return true;
+    }
+    return false;
   }
+
+  _confirmMedia(e) {
+    e.preventDefault();
+    const {editorState, urlValue, urlType} = this.state;
+    const entityKey = Entity.create(urlType, 'IMMUTABLE', {src: urlValue})
+
+    this.setState({
+      editorState: AtomicBlockUtils.insertAtomicBlock(
+        editorState,
+        entityKey,
+        ' '
+      ),
+      showURLInput: false,
+      urlValue: '',
+    }, () => {
+      setTimeout(() => this.focus(), 0);
+    });
+  }
+
+  _onURLInputKeyDown(e) {
+    if (e.which === 13) {
+      this._confirmMedia(e);
+    }
+  }
+
+  _promptForMedia(type) {
+    const {editorState} = this.state;
+    this.setState({
+      showURLInput: true,
+      urlValue: '',
+      urlType: type,
+    }, () => {
+      setTimeout(() => this.refs.url.focus(), 0);
+    });
+  }
+
+  _addAudio() {
+    this._promptForMedia('audio');
+  }
+
+  _addImage() {
+    this._promptForMedia('image');
+  }
+
+  _addVideo() {
+    this._promptForMedia('video');
+  }
+
   render() {
+    let urlInput;
+    if (this.state.showURLInput) {
+      urlInput =
+        <div style={styles.urlInputContainer}>
+          <input
+            onChange={this.onURLChange}
+            ref="url"
+            style={styles.urlInput}
+            type="text"
+            value={this.state.urlValue}
+            onKeyDown={this.onURLInputKeyDown}
+          />
+          <button onMouseDown={this.confirmMedia}>
+            Confirm
+          </button>
+        </div>;
+    }
+
     return (
       <div style={styles.root}>
+        <div style={styles.buttons}>
+          <button onMouseDown={this.addAudio} style={{marginRight: 10}}>
+            Add Audio
+          </button>
+          <button onMouseDown={this.addImage} style={{marginRight: 10}}>
+            Add Image
+          </button>
+          <button onMouseDown={this.addVideo} style={{marginRight: 10}}>
+            Add Video
+          </button>
+        </div>
+        {urlInput}
         <div style={styles.editor} onClick={this.focus}>
           <Editor
             editorState={this.state.editorState}
             blockStyleFn={myBlockStyleFn}
+            blockRendererFn={mediaBlockRenderer}
             onChange={this.onChange}
             placeholder="Enter some text..."
             ref="editor"
-            handleKeyCommand={this.handleKeyCommand.bind(this)}
+            handleKeyCommand={this.handleKeyCommand}
             keyBindingFn={myKeyBindingFn}
           />
         </div>
@@ -134,6 +230,46 @@ class DraftEditor extends React.Component {
     );
   }
 }
+
+function mediaBlockRenderer(block) {
+  if (block.getType() === 'atomic') {
+    return {
+      component: Media,
+      editable: false,
+    };
+  }
+
+  return null;
+}
+
+const Audio = (props) => {
+  return <audio controls src={props.src} style={styles.media} />;
+};
+
+const Image = (props) => {
+  return <img src={props.src} style={styles.media} />;
+};
+
+const Video = (props) => {
+  return <video controls src={props.src} style={styles.media} />;
+};
+
+const Media = (props) => {
+  const entity = Entity.get(props.block.getEntityAt(0));
+  const {src} = entity.getData();
+  const type = entity.getType();
+
+  let media;
+  if (type === 'audio') {
+    media = <Audio src={src} />;
+  } else if (type === 'image') {
+    media = <Image src={src} />;
+  } else if (type === 'video') {
+    media = <Video src={src} />;
+  }
+
+  return media;
+};
 
 // The blockStyleFn prop on Editor allows you to define CSS classes 
 // to style blocks at render time. For instance, you may wish to style 
@@ -193,6 +329,9 @@ const styles = {
     fontFamily: '\'Helvetica\', sans-serif',
     width: 600,
   },
+  buttons: {
+    marginBottom: 10,
+  },
   editor: {
     border: '1px solid #ccc',
     cursor: 'text',
@@ -202,6 +341,14 @@ const styles = {
   button: {
     marginTop: 10,
     textAlign: 'center',
+  },
+  urlInputContainer: {
+    marginBottom: 10,
+  },
+  urlInput: {
+    fontFamily: '\'Georgia\', serif',
+    marginRight: 10,
+    padding: 3,
   },
   immutable: {
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
@@ -214,6 +361,13 @@ const styles = {
   segmented: {
     backgroundColor: 'rgba(248, 222, 126, 1.0)',
     padding: '2px 0',
+  },
+  button: {
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  media: {
+    width: '100%',
   },
 };
 
