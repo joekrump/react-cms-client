@@ -20,6 +20,7 @@ import InlineStyleControls from './InlineStyleControls';
 import ColorControls from './ColorControls';
 import MediaEntity from './MediaEntity'
 
+import './Draft.css';
 import './DraftEditor.css';
 
 const {hasCommandModifier} = KeyBindingUtil;
@@ -390,6 +391,9 @@ const TokenSpan = (props) => {
 };
 
 const styleMap = {
+  'STRIKETHROUGH': {
+    textDecoration: 'line-through',
+  },
   CODE: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
