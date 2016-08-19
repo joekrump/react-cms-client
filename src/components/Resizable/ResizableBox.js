@@ -19,13 +19,27 @@ export default class ResizableBox extends React.Component {
     height: this.props.height,
   };
 
+  getChildRatio(width, height) {
+    return width / height;
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log('component will receive props')
-    console.log(nextProps)
-    this.setState({
-      width: nextProps.width,
-      height: nextProps.height
-    })
+    if((nextProps.width < this.props.maxConstraints[0]) && (nextProps.height < this.props.maxConstraints[1])){
+      this.setState({
+        width: nextProps.width,
+        height: nextProps.height
+      })
+    } else if(nextProps.width > nextProps.height){
+      this.setState({
+        width: this.props.maxConstraints[0],
+        height: (this.props.maxConstraints[0] / (this.getChildRatio(nextProps.width, nextProps.height)))
+      })
+    } else {
+      this.setState({
+        width: (this.props.maxConstraints[1] * (this.getChildRatio(nextProps.width, nextProps.height))),
+        height: this.props.maxConstraints[1]
+      })
+    }
   }
 
   onResize = (event, {element, size}) => {

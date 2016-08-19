@@ -14,6 +14,11 @@ class ImageEntity extends React.Component {
     this.setState({width: size.width, height: size.height});
   };
 
+  handleImageResized = (event) => {
+    console.log('inner image resized')
+    console.log(event.target.width);
+  };
+
   componentDidMount() {
     var myImage = new Image();
     myImage.src = this.props.src;
@@ -30,10 +35,18 @@ class ImageEntity extends React.Component {
   }
 
   render() {
-    console.log('render', this.state)
+
+    let editorContainer = document.getElementsByClassName('RichEditor-editor')[0];
+    
     return (
-      <ResizableBox width={this.state.width} height={this.state.height} lockAspectRatio={true} onResize={this.onResize}>
-        <img src={this.props.src} style={{...this.props.style}} />
+      <ResizableBox 
+        width={this.state.width} 
+        height={this.state.height} 
+        lockAspectRatio={true} 
+        onResize={this.onResize}
+        maxConstraints={[editorContainer.clientWidth, window.innerHeight]}
+      >
+        <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
       </ResizableBox>
     )
   }
