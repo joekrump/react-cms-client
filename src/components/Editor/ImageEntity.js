@@ -35,16 +35,13 @@ class ImageEntity extends React.Component {
   }
 
   render() {
-
-    let editorContainer = document.getElementsByClassName('RichEditor-editor')[0];
-    
     return (
       <ResizableBox 
         width={this.state.width} 
         height={this.state.height} 
         lockAspectRatio={true} 
         onResize={this.onResize}
-        maxConstraints={[editorContainer.clientWidth, window.innerHeight]}
+        maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
       >
         <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
       </ResizableBox>

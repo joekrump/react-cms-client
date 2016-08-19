@@ -18,7 +18,8 @@ const MediaEntity = (props) => {
   if (type === 'audio') {
     media = <AudioEntity src={src} style={style}/>;
   } else if (type === 'image') {
-    media = <ImageEntity src={src} style={style}/>;
+    let editorContainer = document.getElementsByClassName('RichEditor-editor')[0];
+    media = <ImageEntity src={src} style={style} maxWidth={editorContainer.clientWidth} maxHeight={window.innerHeight}/>;
   } else if (type === 'video') {
     media = <VideoEntity src={src} style={style}/>;
   }
