@@ -1,6 +1,7 @@
 // @flow
 import {default as React, PropTypes} from 'react';
 import Resizable from './Resizable';
+import './Resizable.css'
 
 type State = {width: number, height: number, aspectRatio: number};
 type Size = {width: number, height: number};

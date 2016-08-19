@@ -3,8 +3,6 @@ import Resizable from '../Resizable/Resizable';
 import ResizableBox from '../Resizable/ResizableBox';
 
 
-import './css/Resizable.css';
-
 class ImageEntity extends React.Component {
 
   state = {width: 200, height: 200};
@@ -19,7 +17,7 @@ class ImageEntity extends React.Component {
 
   render() {
     return (
-      <ResizableBox className="box" height={600} width={600} lockAspectRatio={true} onResize={this.onResize}>
+      <ResizableBox height={600} width={600} lockAspectRatio={true} onResize={this.onResize}>
         <img src={this.props.src} style={{...this.props.style, 'padding': '10px'}} />
       </ResizableBox>
     )
