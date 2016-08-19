@@ -69,9 +69,12 @@ export default class Resizable extends React.Component {
   };
 
   componentWillReceiveProps(nextProps: Object) {
+    // console.log(nextProps.width)
     // If parent changes height/width, set that in our state.
     if (!this.state.resizing &&
         (nextProps.width !== this.props.width || nextProps.height !== this.props.height)) {
+
+      // console.log('setting new state')
       this.setState({
         width: nextProps.width,
         height: nextProps.height
@@ -168,7 +171,6 @@ export default class Resizable extends React.Component {
     const {children, draggableOpts, width, height,
         handleSize, lockAspectRatio, minConstraints, maxConstraints, onResize,
         onResizeStop, onResizeStart, ...p} = this.props;
-
     const className = p.className ?
       `${p.className} react-resizable`:
       'react-resizable';
@@ -190,7 +192,7 @@ export default class Resizable extends React.Component {
           onStart={this.resizeHandler('onResizeStart')}
           onDrag={this.resizeHandler('onResize')}
           >
-          <span className="react-resizable-handle" />
+          <button className="react-resizable-handle" />
         </DraggableCore>
       ]
     });

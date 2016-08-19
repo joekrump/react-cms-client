@@ -3,16 +3,12 @@ import {default as React, PropTypes} from 'react';
 import Resizable from './Resizable';
 import './Resizable.css'
 
-type State = {width: number, height: number, aspectRatio: number};
+type State = {aspectRatio: number};
 type Size = {width: number, height: number};
 type ResizeData = {element: Element, size: Size};
 
 // An example use of Resizable.
 export default class ResizableBox extends React.Component {
-  static propTypes = {
-    height: PropTypes.number,
-    width: PropTypes.number
-  };
 
   static defaultProps = {
     handleSize: [20,20]
@@ -22,6 +18,15 @@ export default class ResizableBox extends React.Component {
     width: this.props.width,
     height: this.props.height,
   };
+
+  componentWillReceiveProps(nextProps) {
+    console.log('component will receive props')
+    console.log(nextProps)
+    this.setState({
+      width: nextProps.width,
+      height: nextProps.height
+    })
+  }
 
   onResize = (event, {element, size}) => {
     const {width, height} = size;

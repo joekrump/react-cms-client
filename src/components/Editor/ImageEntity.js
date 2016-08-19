@@ -5,20 +5,35 @@ import ResizableBox from '../Resizable/ResizableBox';
 
 class ImageEntity extends React.Component {
 
-  state = {width: 200, height: 200};
-
-  onClick = () => {
-    this.setState({width: 200, height: 200});
-  };
+  state = {
+    width: 20,
+    height: 20
+  }
 
   onResize = (event, {element, size}) => {
     this.setState({width: size.width, height: size.height});
   };
 
+  componentDidMount() {
+    var myImage = new Image();
+    myImage.src = this.props.src;
+    myImage.addEventListener('load', (event) => {
+      this.setState({
+        width: event.target.width,
+        height: event.target.height
+      });
+    }, false);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextState.height !== this.state.height) && (nextState.width !== this.state.width)
+  }
+
   render() {
+    console.log('render', this.state)
     return (
-      <ResizableBox height={600} width={600} lockAspectRatio={true} onResize={this.onResize}>
-        <img src={this.props.src} style={{...this.props.style, 'padding': '10px'}} />
+      <ResizableBox width={this.state.width} height={this.state.height} lockAspectRatio={true} onResize={this.onResize}>
+        <img src={this.props.src} style={{...this.props.style}} />
       </ResizableBox>
     )
   }
