@@ -1,5 +1,6 @@
 import React from 'react'
 import {AtomicBlockUtils,
+        convertFromHTML,
         convertFromRaw,
         convertToRaw,
         CompositeDecorator,
@@ -18,10 +19,13 @@ import {cyan50} from 'material-ui/styles/colors'
 import BlockStyleControls from './BlockStyleControls';
 import InlineStyleControls from './InlineStyleControls';
 import ColorControls from './ColorControls';
+import MediaControls from './MediaControls';
 import MediaEntity from './MediaEntity'
 
-import './Draft.css';
-import './DraftEditor.css';
+import {stateToHTML} from 'draft-js-export-html';
+
+import './css/Draft.css';
+import './css/DraftEditor.css';
 
 const {hasCommandModifier} = KeyBindingUtil;
 
@@ -79,6 +83,8 @@ const rawContent = {
   },
 };
 
+const dummyHTMLcontent = '<h1 style="color:blue;">Testing</h1>'
+
 class DraftEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -99,6 +105,7 @@ class DraftEditor extends React.Component {
     ]);
 
     const blocks = convertFromRaw(rawContent);
+    // const blocks = convertFromHTML(dummyHTMLcontent);
 
     this.state = {
       editorState: EditorState.createWithContent(blocks, decorator),
@@ -123,6 +130,8 @@ class DraftEditor extends React.Component {
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
     this.toggleColor = (toggledColor) => this._toggleColor(toggledColor);
+    this.handleFileInput = (e) => this._handleFileInput(e);
+    this.insertImage = (file) => this._insertImage(file);
   }
 
   _toggleColor(toggledColor) {
@@ -166,8 +175,22 @@ class DraftEditor extends React.Component {
     if (command === 'myeditor-save') {
       // Perform a request to save your contents, set
       // a new `editorState`, etc.
+      // 
+      let options = {
+        inlineStyles: {
+          TOKEN: {style: styles.immutable},
+        },
+        blockRenderers: {
+          atomic: (block) => {
+            console.log(block.getData())
+            let data = block.getData();
+            return '<video controls src="'+data.get('src')+'"></video>';
+          },
+        },
+      }
       console.log('handled save')
       this.logState();
+      console.log(stateToHTML(this.state.editorState.getCurrentContent(), options))
       return 'handled';
     }
     const {editorState} = this.state;
@@ -218,8 +241,33 @@ class DraftEditor extends React.Component {
     this._promptForMedia('audio');
   }
 
+  _insertImage(file) {
+
+    const {editorState, urlValue, urlType} = this.state;
+    const entityKey = Entity.create('image', 'IMMUTABLE', {src: URL.createObjectURL(file)})
+
+    this.setState({
+      editorState: AtomicBlockUtils.insertAtomicBlock(
+        editorState,
+        entityKey,
+        ' '
+      ),
+      showURLInput: false,
+      urlValue: '',
+    }, () => {
+      setTimeout(() => this.focus(), 0);
+    });
+  }
+
+  _handleFileInput(e) {
+    console.log('handleFileInput')
+    const fileList = e.target.files;
+    const file = fileList[0];
+    this.insertImage(file);
+  }
+
   _addImage() {
-    this._promptForMedia('image');
+    this.refs.fileInput.click();
   }
 
   _addVideo() {
@@ -246,6 +294,7 @@ class DraftEditor extends React.Component {
 
   render() {
     const {editorState} = this.state;
+    console.log(editorState)
 
     let urlInput;
     let editorClassName = 'RichEditor-editor';
@@ -289,17 +338,14 @@ class DraftEditor extends React.Component {
            editorState={editorState}
            onToggle={this.toggleColor}
          />
-        <div style={styles.buttons}>
-          <button onMouseDown={this.addAudio} style={{marginRight: 10}}>
-            Add Audio
-          </button>
-          <button onMouseDown={this.addImage} style={{marginRight: 10}}>
-            Add Image
-          </button>
-          <button onMouseDown={this.addVideo} style={{marginRight: 10}}>
-            Add Video
-          </button>
-        </div>
+
+         <MediaControls
+          imageClickCallback={this.addImage}
+          audioClickCallback={this.addAudio}
+          videoClickCallback={this.addVideo}
+          editorState={editorState}
+          onToggle={this.toggleInlineStyle}
+         />
         {urlInput}
         <div className={editorClassName} onClick={this.focus}>
           <Editor
@@ -314,6 +360,8 @@ class DraftEditor extends React.Component {
             ref="editor"
             spellCheck={true}
           />
+          <input type="file" ref="fileInput" style={{display: 'none'}}
+            onChange={this.handleFileInput} />
         </div>
         <input
           onClick={this.logState}

@@ -1,14 +1,7 @@
 import React from 'react';
 
 const VideoEntity = (props) => {
-  return <video controls src={props.src} style={styles.media} />;
+  return <video controls src={props.src} style={props.style} />;
 };
 
 export default VideoEntity;
-
-
-const styles = {
-  media: {
-    width: '100%'
-  }
-}

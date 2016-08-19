@@ -4,6 +4,10 @@ import VideoEntity from './VideoEntity';
 import ImageEntity from './ImageEntity';
 import { Entity } from 'draft-js';
 
+const style = {
+  width: '100%'
+}
+
 const MediaEntity = (props) => {
   const entity = Entity.get(props.block.getEntityAt(0));
   const {src} = entity.getData();
@@ -12,14 +16,17 @@ const MediaEntity = (props) => {
   let media;
 
   if (type === 'audio') {
-    media = <AudioEntity src={src} />;
+    media = <AudioEntity src={src} style={style}/>;
   } else if (type === 'image') {
-    media = <ImageEntity src={src} />;
+    media = <ImageEntity src={src} style={style}/>;
   } else if (type === 'video') {
-    media = <VideoEntity src={src} />;
+    media = <VideoEntity src={src} style={style}/>;
   }
 
   return media;
 };
+
+
+
 
 export default MediaEntity;

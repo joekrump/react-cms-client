@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "draft-js": "^0.8.1",
+    "draft-js-export-html": "^0.4.0",
     "email-validator": "^1.0.4",
     "gravatar": "^1.5.2",
     "lodash.assign": "^4.1.0",

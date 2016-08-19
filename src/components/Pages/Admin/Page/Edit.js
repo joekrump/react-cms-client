@@ -1,11 +1,15 @@
 import React from 'react'
 import DraftEditor from '../../../Editor/DraftEditor'
-const Edit = () => ({
+// import {RichEditor} from 'draft-note-editor'
 
+// import '../../../Editor/css/Draft.css';
+// import '../../../Editor/css/RichEditor.css';
+
+const Edit = () => ({
 	render() {
 		return (
 			<div>
-				<h1>Edit a page</h1>
+        <h1>Test</h1>
         <DraftEditor />
 			</div>
 		)
