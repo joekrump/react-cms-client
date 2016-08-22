@@ -50,7 +50,6 @@ export function getEverageImageColor(imageElement, sampleSection = null){
   }
   
   length = data.data.length;
-  console.log(length)
   
   while ( (i += blockSize * 4) < length ) {
       ++count;
@@ -64,9 +63,6 @@ export function getEverageImageColor(imageElement, sampleSection = null){
   rgb.g = ~~(rgb.g/count);
   rgb.b = ~~(rgb.b/count);
   
-  console.log(rgb);
-
-
   return rgb;
 }
 
@@ -82,5 +78,5 @@ export function isDark(imageElement, sampleSection){
 }
 
 export function getIconColor(imageElement, sampleSection) {
-  return isLight(imageElement, sampleSection) ? '#fff' : '#000'
+  return isLight(imageElement, sampleSection) ? '#fff' : '#616161'
 }

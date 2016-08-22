@@ -13,7 +13,8 @@ class ImageEntity extends React.Component {
     iconColors: {
       resizeHandle: '#000',
       deleteImage: '#000'
-    }
+    },
+    active: true
   }
 
   onResize = (event, {element, size}) => {
@@ -28,7 +29,7 @@ class ImageEntity extends React.Component {
   componentDidMount() {
     const insertedImage = new Image(),
           resizeIconWidthHeight = 26,
-          deleteIconWidthHeight  = 40;
+          deleteIconWidthHeight  = 26;
 
     // Once the image loads get image control icon colors and set proper dimensions for the image
     // 
@@ -69,6 +70,11 @@ class ImageEntity extends React.Component {
     return (nextState.height !== this.state.height) && (nextState.width !== this.state.width)
   }
 
+  handleImageRemove = () => {
+    console.log('remove image')
+    this.setState({active: false})
+  }
+
   calcMinContstraints() {
     const minSize = 60; // 60px
     const ratio = this.state.width / this.state.height;
@@ -80,30 +86,34 @@ class ImageEntity extends React.Component {
   }
 
   render() {
-
-    return (
-      <ResizableBox 
-        width={this.state.width} 
-        height={this.state.height} 
-        lockAspectRatio={true} 
-        onResize={this.onResize}
-        maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
-        minConstraints={this.calcMinContstraints()}
-        resizeHandleColor={this.state.iconColors.resizeHandle}
-      >
-        <IconButton 
-          className="image-delete-button"
-          style={{position: 'absolute', top: 2, right: 2, zIndex: 40}} 
-          tooltipStyles={{zIndex: 100, top: 30, right: 48}}
-          tooltipPosition='top-left'
-          iconStyle={{color: this.state.iconColors.deleteImage, width: 20, height: 20}}
-          tooltip="Remove"
+    if(this.state.active){
+      return (
+        <ResizableBox 
+          width={this.state.width} 
+          height={this.state.height} 
+          lockAspectRatio={true} 
+          onResize={this.onResize}
+          maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
+          minConstraints={this.calcMinContstraints()}
+          resizeHandleColor={this.state.iconColors.resizeHandle}
         >
-          <DeleteIcon />
-        </IconButton>
-        <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
-      </ResizableBox>
-    )
+          <IconButton 
+            className="image-delete-button"
+            style={{position: 'absolute', top: 2, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
+            tooltipStyles={{zIndex: 100, top: 16, right: 26}}
+            tooltipPosition='top-left'
+            iconStyle={{color: this.state.iconColors.deleteImage, width: 20, height: 20}}
+            tooltip="Remove"
+            onTouchTap={this.handleImageRemove}
+          >
+            <DeleteIcon />
+          </IconButton>
+          <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
+        </ResizableBox>
+      )
+    } else {
+      return null;
+    }
   }
 }
 
