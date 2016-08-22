@@ -203,7 +203,7 @@ export default class Resizable extends React.Component {
           >
           <IconButton className="react-resizable-handle" 
             tooltip="Resize Image" 
-            iconStyle={{color: this.props.resizeHandleColor, width: '24px', height: '24px', zIndex: 100}} 
+            iconStyle={{color: this.props.resizeHandleColor, width: 20, height: 20, zIndex: 100}} 
             tooltipStyles={{zIndex: 100}}
             tooltipPosition='top-left'
             style={{position: 'absolute', zIndex: 40, width: 24, height: 24, padding: 0, right: 2, bottom: 2, cursor: 'se-resize'}}>
