@@ -10,7 +10,7 @@ class ImageEntity extends React.Component {
   state = {
     width: 24,
     height: 24,
-    resizeHandleColor: '#000'
+    resizeHandleColor: '#000',
   }
 
   onResize = (event, {element, size}) => {

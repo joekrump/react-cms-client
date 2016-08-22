@@ -8,10 +8,11 @@ figure {
   margin: 0;
 }
 
-.image-delete-button {
+.image-delete-button, .react-resizable-handle {
   opacity: 0;
 }
 
-.react-resizable:hover .image-delete-button {
+.react-resizable:hover .image-delete-button, .react-resizable:hover .react-resizable-handle {
   opacity: 1;
 }
+

@@ -1,4 +1,10 @@
-export function getEverageImageColor(imageElement){
+/**
+ * Get the average color for an image or section of an image.
+ * @param  {Image} imageElement  - The image object to get the sample from
+ * @param  (optional) {Object} sampleSection - An object of the format {x1: int, y1: int, x2: int, y2: int} which denotes a rectangular area to sample from
+ * @return {Object}               - An object containing the keys 'r', 'g' and 'b'.
+ */
+export function getEverageImageColor(imageElement, sampleSection = null){
   var blockSize = 5, // only visit every 5 pixels
       defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
       canvas = document.createElement('canvas'),
@@ -42,16 +48,17 @@ export function getEverageImageColor(imageElement){
   return rgb;
 }
 
-export function isLight(imageElement){
-  const rgb = getEverageImageColor(imageElement);
+
+export function isLight(imageElement, sampleSection){
+  const rgb = getEverageImageColor(imageElement, sampleSection);
   var o = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) /1000);
   return o < 126;
 }
 
-export function isDark(imageElement){
-  return !isLight(imageElement);
+export function isDark(imageElement, sampleSection){
+  return !isLight(imageElement, sampleSection);
 }
 
-export function getResizeHandleColor(imageElement) {
-  return isLight(imageElement) ? '#fff' : '#000'
+export function getResizeHandleColor(imageElement, sampleSection) {
+  return isLight(imageElement, sampleSection) ? '#fff' : '#000'
 }
