@@ -2,6 +2,8 @@ import React from 'react';
 import Resizable from '../Resizable/Resizable';
 import ResizableBox from '../Resizable/ResizableBox';
 import {getResizeHandleColor} from '../../helpers/ImageHelper';
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 
 class ImageEntity extends React.Component {
 
@@ -63,6 +65,16 @@ class ImageEntity extends React.Component {
         minConstraints={this.calcMinContstraints()}
         resizeHandleColor={this.state.resizeHandleColor}
       >
+        <IconButton 
+          className="image-delete-button"
+          style={{position: 'absolute', top: 2, right: 2, zIndex: 40}} 
+          tooltipStyles={{zIndex: 100, top: 30, right: 48}}
+          tooltipPosition='top-left'
+          iconStyle={{color: this.state.resizeHandleColor, width: 20, height: 20}}
+          tooltip="Remove"
+        >
+          <DeleteIcon />
+        </IconButton>
         <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
       </ResizableBox>
     )
