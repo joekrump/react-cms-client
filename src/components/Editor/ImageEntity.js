@@ -1,13 +1,14 @@
 import React from 'react';
 import Resizable from '../Resizable/Resizable';
 import ResizableBox from '../Resizable/ResizableBox';
-
+import {getResizeHandleColor} from '../../helpers/ImageHelper';
 
 class ImageEntity extends React.Component {
 
   state = {
     width: 20,
-    height: 20
+    height: 20,
+    handleColor: '#000'
   }
 
   onResize = (event, {element, size}) => {
@@ -20,14 +21,19 @@ class ImageEntity extends React.Component {
   };
 
   componentDidMount() {
-    var myImage = new Image();
-    myImage.src = this.props.src;
-    myImage.addEventListener('load', (event) => {
+    var insertedImage = new Image();
+    
+    insertedImage.addEventListener('load', (event) => {
+      let resizeHandleColor = getResizeHandleColor(insertedImage);
+      console.log(resizeHandleColor);
       this.setState({
         width: event.target.width,
         height: event.target.height
       });
     }, false);
+
+    insertedImage.src = this.props.src;
+
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -42,6 +48,7 @@ class ImageEntity extends React.Component {
         lockAspectRatio={true} 
         onResize={this.onResize}
         maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
+        resizeHandleColor={this.state.handleColor}
       >
         <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
       </ResizableBox>

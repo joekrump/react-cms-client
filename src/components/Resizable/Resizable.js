@@ -2,6 +2,7 @@
 import {default as React, PropTypes} from 'react';
 import {DraggableCore} from 'react-draggable';
 import cloneElement from './cloneElement';
+import CropIcon from 'material-ui/svg-icons/image/crop-din'
 
 type Position = {
 
@@ -199,7 +200,7 @@ export default class Resizable extends React.Component {
           onStart={this.resizeHandler('onResizeStart')}
           onDrag={this.resizeHandler('onResize')}
           >
-          <button className="react-resizable-handle" />
+          <CropIcon className="react-resizable-handle" style={{color: this.props.resizeHandleColor}} />
         </DraggableCore>
       ]
     });
