@@ -19,19 +19,38 @@ export function getEverageImageColor(imageElement, sampleSection = null){
       return defaultRGB;
   }
 
-  height = canvas.height = imageElement.naturalHeight || imageElement.offsetHeight || imageElement.height;
-  width = canvas.width = imageElement.naturalWidth || imageElement.offsetWidth || imageElement.width;
-  
-  context.drawImage(imageElement, 0, 0);
-  
   try {
-      data = context.getImageData(0, 0, width, height);
+    if(sampleSection !== null){
+      height = canvas.height = sampleSection.x2 - sampleSection.x1;
+      width = canvas.width = sampleSection.y2 - sampleSection.y1;
+      context.drawImage(
+        imageElement, 
+        sampleSection.x1, 
+        sampleSection.y1, 
+        height, 
+        width, 
+        0, 
+        0, 
+        height, 
+        width
+      );
+
+    } else {
+      height = canvas.height = imageElement.naturalHeight || imageElement.offsetHeight || imageElement.height;
+      width = canvas.width = imageElement.naturalWidth || imageElement.offsetWidth || imageElement.width;
+      context.drawImage(imageElement, 0, 0);
+      
+    }
+
+    data = context.getImageData(0, 0, width, height);
   } catch(e) {
-      /* security error, img on diff domain */alert('x');
+      /* security error, img on diff domain */
+      alert('x');
       return defaultRGB;
   }
   
   length = data.data.length;
+  console.log(length)
   
   while ( (i += blockSize * 4) < length ) {
       ++count;
@@ -45,6 +64,9 @@ export function getEverageImageColor(imageElement, sampleSection = null){
   rgb.g = ~~(rgb.g/count);
   rgb.b = ~~(rgb.b/count);
   
+  console.log(rgb);
+
+
   return rgb;
 }
 
@@ -59,6 +81,6 @@ export function isDark(imageElement, sampleSection){
   return !isLight(imageElement, sampleSection);
 }
 
-export function getResizeHandleColor(imageElement, sampleSection) {
+export function getIconColor(imageElement, sampleSection) {
   return isLight(imageElement, sampleSection) ? '#fff' : '#000'
 }

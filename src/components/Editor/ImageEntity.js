@@ -1,7 +1,7 @@
 import React from 'react';
 import Resizable from '../Resizable/Resizable';
 import ResizableBox from '../Resizable/ResizableBox';
-import {getResizeHandleColor} from '../../helpers/ImageHelper';
+import {getIconColor} from '../../helpers/ImageHelper';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 
@@ -10,7 +10,10 @@ class ImageEntity extends React.Component {
   state = {
     width: 24,
     height: 24,
-    resizeHandleColor: '#000',
+    iconColors: {
+      resizeHandle: '#000',
+      deleteImage: '#000'
+    }
   }
 
   onResize = (event, {element, size}) => {
@@ -23,15 +26,38 @@ class ImageEntity extends React.Component {
   };
 
   componentDidMount() {
-    var insertedImage = new Image();
-    
+    const insertedImage = new Image(),
+          resizeIconWidthHeight = 26,
+          deleteIconWidthHeight  = 40;
+
+    // Once the image loads get image control icon colors and set proper dimensions for the image
+    // 
     insertedImage.addEventListener('load', (event) => {
-      let resizeHandleColor = getResizeHandleColor(insertedImage);
-      console.log(resizeHandleColor);
+      const resizeHandleColor = getIconColor(insertedImage, {
+        x1: event.target.width - resizeIconWidthHeight, 
+        y1: event.target.height - resizeIconWidthHeight,
+        x2: event.target.width,
+        y2: event.target.height
+      });
+
+      console.log('resizeHandleColor: ', resizeHandleColor)
+
+      const deleteImageIconColor = getIconColor(insertedImage, {
+        x1: event.target.width - deleteIconWidthHeight, 
+        y1: 0,
+        x2: event.target.width,
+        y2: deleteIconWidthHeight
+      });
+
+      console.log('deleteImageIconColor: ', deleteImageIconColor)
+
       this.setState({
-        resizeHandleColor,
         width: event.target.width,
-        height: event.target.height
+        height: event.target.height,
+        iconColors: {
+          resizeHandle: resizeHandleColor,
+          deleteImage: deleteImageIconColor
+        }
       });
     }, false);
 
@@ -63,14 +89,14 @@ class ImageEntity extends React.Component {
         onResize={this.onResize}
         maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
         minConstraints={this.calcMinContstraints()}
-        resizeHandleColor={this.state.resizeHandleColor}
+        resizeHandleColor={this.state.iconColors.resizeHandle}
       >
         <IconButton 
           className="image-delete-button"
           style={{position: 'absolute', top: 2, right: 2, zIndex: 40}} 
           tooltipStyles={{zIndex: 100, top: 30, right: 48}}
           tooltipPosition='top-left'
-          iconStyle={{color: this.state.resizeHandleColor, width: 20, height: 20}}
+          iconStyle={{color: this.state.iconColors.deleteImage, width: 20, height: 20}}
           tooltip="Remove"
         >
           <DeleteIcon />
