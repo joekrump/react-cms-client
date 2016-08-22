@@ -15,8 +15,8 @@ class ImageEntity extends React.Component {
   };
 
   handleImageResized = (event) => {
-    console.log('inner image resized')
-    console.log(event.target.width);
+    // console.log('inner image resized')
+    // console.log(event.target.width);
   };
 
   componentDidMount() {

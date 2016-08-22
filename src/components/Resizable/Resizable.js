@@ -90,12 +90,19 @@ export default class Resizable extends React.Component {
 
   // If you do this, be careful of constraints
   runConstraints(width: number, height: number): [number, number] {
-    const [min, max] = [this.props.minConstraints, this.props.maxConstraints];
+    let [min, max] = [this.props.minConstraints, this.props.maxConstraints];
 
     if (this.props.lockAspectRatio) {
       const ratio = this.state.width / this.state.height;
       height = width / ratio;
       width = height * ratio;
+      // Set the max width or height to correspond to the ratio of the item
+      // and the limiting dimension.
+      if(ratio > 1) {
+        max[1] = max[0] / ratio;
+      } else {
+        max[0] = max[1] * ratio;
+      }
     }
 
     if (!min && !max) return [width, height];

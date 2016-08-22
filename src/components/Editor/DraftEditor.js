@@ -329,23 +329,22 @@ class DraftEditor extends React.Component {
         <BlockStyleControls
            editorState={editorState}
            onToggle={this.toggleBlockType}
-         />
-         <InlineStyleControls
-           editorState={editorState}
-           onToggle={this.toggleInlineStyle}
-         />
-         <ColorControls
-           editorState={editorState}
-           onToggle={this.toggleColor}
-         />
-
-         <MediaControls
+        />
+        <InlineStyleControls
+          editorState={editorState}
+          onToggle={this.toggleInlineStyle}
+        />
+        <ColorControls
+          editorState={editorState}
+          onToggle={this.toggleColor}
+        />
+        <MediaControls
           imageClickCallback={this.addImage}
           audioClickCallback={this.addAudio}
           videoClickCallback={this.addVideo}
           editorState={editorState}
           onToggle={this.toggleInlineStyle}
-         />
+        />
         {urlInput}
         <div className={editorClassName} onClick={this.focus}>
           <Editor
@@ -360,8 +359,10 @@ class DraftEditor extends React.Component {
             ref="editor"
             spellCheck={true}
           />
-          <input type="file" ref="fileInput" style={{display: 'none'}}
-            onChange={this.handleFileInput} />
+          <input type="file" 
+                 ref="fileInput" 
+                 style={{display: 'none'}}
+                 onChange={this.handleFileInput} />
         </div>
         <input
           onClick={this.logState}
