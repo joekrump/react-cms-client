@@ -8,7 +8,7 @@ class ImageEntity extends React.Component {
   state = {
     width: 20,
     height: 20,
-    handleColor: '#000'
+    resizeHandleColor: '#000'
   }
 
   onResize = (event, {element, size}) => {
@@ -27,6 +27,7 @@ class ImageEntity extends React.Component {
       let resizeHandleColor = getResizeHandleColor(insertedImage);
       console.log(resizeHandleColor);
       this.setState({
+        resizeHandleColor,
         width: event.target.width,
         height: event.target.height
       });
@@ -48,7 +49,7 @@ class ImageEntity extends React.Component {
         lockAspectRatio={true} 
         onResize={this.onResize}
         maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
-        resizeHandleColor={this.state.handleColor}
+        resizeHandleColor={this.state.resizeHandleColor}
       >
         <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
       </ResizableBox>
