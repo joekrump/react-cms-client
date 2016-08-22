@@ -10,7 +10,7 @@ const style = {
 
 const MediaEntity = (props) => {
   const entity = Entity.get(props.block.getEntityAt(0));
-  const {src} = entity.getData();
+  const {src, removeCallback} = entity.getData();
   const type = entity.getType();
 
   let media;
@@ -19,7 +19,7 @@ const MediaEntity = (props) => {
     media = <AudioEntity src={src} style={style}/>;
   } else if (type === 'image') {
     let editorContainer = document.getElementsByClassName('RichEditor-editor')[0];
-    media = <ImageEntity src={src} style={style} maxWidth={editorContainer.clientWidth} maxHeight={window.innerHeight}/>;
+    media = <ImageEntity src={src} style={style} maxWidth={editorContainer.clientWidth} maxHeight={window.innerHeight} block={props.block} removeCallback={removeCallback}/>;
   } else if (type === 'video') {
     media = <VideoEntity src={src} style={style}/>;
   }

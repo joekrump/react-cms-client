@@ -15,13 +15,11 @@ import {AtomicBlockUtils,
         RichUtils} from 'draft-js';
 
 import {cyan50} from 'material-ui/styles/colors'
-
 import BlockStyleControls from './BlockStyleControls';
 import InlineStyleControls from './InlineStyleControls';
 import ColorControls from './ColorControls';
 import MediaControls from './MediaControls';
 import MediaEntity from './MediaEntity'
-
 import {stateToHTML} from 'draft-js-export-html';
 
 import './css/Draft.css';
@@ -130,8 +128,11 @@ class DraftEditor extends React.Component {
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
     this.toggleColor = (toggledColor) => this._toggleColor(toggledColor);
+
+    // Image processing
     this.handleFileInput = (e) => this._handleFileInput(e);
     this.insertImage = (file) => this._insertImage(file);
+    this.removeSelected = (entityKey) => this._removeSelected(entityKey);
   }
 
   _toggleColor(toggledColor) {
@@ -227,7 +228,6 @@ class DraftEditor extends React.Component {
   }
 
   _promptForMedia(type) {
-    const {editorState} = this.state;
     this.setState({
       showURLInput: true,
       urlValue: '',
@@ -244,7 +244,7 @@ class DraftEditor extends React.Component {
   _insertImage(file) {
 
     const {editorState, urlValue, urlType} = this.state;
-    const entityKey = Entity.create('image', 'IMMUTABLE', {src: URL.createObjectURL(file)})
+    const entityKey = Entity.create('image', 'IMMUTABLE', {src: URL.createObjectURL(file), removeCallback: this.removeSelected})
 
     this.setState({
       editorState: AtomicBlockUtils.insertAtomicBlock(
@@ -259,8 +259,30 @@ class DraftEditor extends React.Component {
     });
   }
 
+  _removeSelected(entityKey){
+    console.log('WIP: REMOVE entity with key: ', entityKey)
+    // const {editorState} = this.state;
+    // const currentContent = editorState.getCurrentContent();
+    // console.log('block map', editorState.getCurrentContent().getBlockMap());
+    // console.log('Block for Key ', editorState.getCurrentContent().getBlockForKey(entityKey))
+    // console.log('Selection state', editorState.getSelection());
+    // let newContentState = Modifier.removeRange (
+    //   currentContent,
+    //   editorState.getSelection(),
+    //   'backward'
+    // )
+
+    // console.log('new content state: ', newContentState.getBlockForKey(entityKey))
+    // this.setState({
+    //   editorState: Modifier.applyEntity(
+    //     editorState,
+    //     editorState.getSelection(),
+    //     entityKey
+    //   )
+    // })
+  }
+
   _handleFileInput(e) {
-    console.log('handleFileInput')
     const fileList = e.target.files;
     const file = fileList[0];
     this.insertImage(file);
@@ -294,7 +316,6 @@ class DraftEditor extends React.Component {
 
   render() {
     const {editorState} = this.state;
-    console.log(editorState)
 
     let urlInput;
     let editorClassName = 'RichEditor-editor';
@@ -509,7 +530,5 @@ const styles = {
     textAlign: 'center',
   }
 };
-
-
 
 export default DraftEditor;

@@ -4,6 +4,8 @@ import ResizableBox from '../Resizable/ResizableBox';
 import {getIconColor} from '../../helpers/ImageHelper';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import { SelectionState } from 'draft-js';
+import getRangesForDraftEntity from 'draft-js/lib/getRangesForDraftEntity';
 
 class ImageEntity extends React.Component {
 
@@ -13,8 +15,7 @@ class ImageEntity extends React.Component {
     iconColors: {
       resizeHandle: '#000',
       deleteImage: '#000'
-    },
-    active: true
+    }
   }
 
   onResize = (event, {element, size}) => {
@@ -41,7 +42,6 @@ class ImageEntity extends React.Component {
         y2: event.target.height
       });
 
-      console.log('resizeHandleColor: ', resizeHandleColor)
 
       const deleteImageIconColor = getIconColor(insertedImage, {
         x1: event.target.width - deleteIconWidthHeight, 
@@ -50,7 +50,6 @@ class ImageEntity extends React.Component {
         y2: deleteIconWidthHeight
       });
 
-      console.log('deleteImageIconColor: ', deleteImageIconColor)
 
       this.setState({
         width: event.target.width,
@@ -71,8 +70,8 @@ class ImageEntity extends React.Component {
   }
 
   handleImageRemove = () => {
-    console.log('remove image')
-    this.setState({active: false})
+    const {block} = this.props
+    this.props.removeCallback(block.getKey())
   }
 
   calcMinContstraints() {
@@ -86,34 +85,30 @@ class ImageEntity extends React.Component {
   }
 
   render() {
-    if(this.state.active){
-      return (
-        <ResizableBox 
-          width={this.state.width} 
-          height={this.state.height} 
-          lockAspectRatio={true} 
-          onResize={this.onResize}
-          maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
-          minConstraints={this.calcMinContstraints()}
-          resizeHandleColor={this.state.iconColors.resizeHandle}
+    return (
+      <ResizableBox 
+        width={this.state.width} 
+        height={this.state.height} 
+        lockAspectRatio={true} 
+        onResize={this.onResize}
+        maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
+        minConstraints={this.calcMinContstraints()}
+        resizeHandleColor={this.state.iconColors.resizeHandle}
+      >
+        <IconButton 
+          className="image-delete-button"
+          style={{position: 'absolute', top: 2, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
+          tooltipStyles={{zIndex: 100, top: 16, right: 26}}
+          tooltipPosition='top-left'
+          iconStyle={{color: this.state.iconColors.deleteImage, width: 20, height: 20}}
+          tooltip="Remove"
+          onTouchTap={this.handleImageRemove}
         >
-          <IconButton 
-            className="image-delete-button"
-            style={{position: 'absolute', top: 2, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
-            tooltipStyles={{zIndex: 100, top: 16, right: 26}}
-            tooltipPosition='top-left'
-            iconStyle={{color: this.state.iconColors.deleteImage, width: 20, height: 20}}
-            tooltip="Remove"
-            onTouchTap={this.handleImageRemove}
-          >
-            <DeleteIcon />
-          </IconButton>
-          <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
-        </ResizableBox>
-      )
-    } else {
-      return null;
-    }
+          <DeleteIcon />
+        </IconButton>
+        <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
+      </ResizableBox>
+    )
   }
 }
 
