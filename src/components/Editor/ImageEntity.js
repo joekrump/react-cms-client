@@ -6,12 +6,13 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import { SelectionState } from 'draft-js';
 import getRangesForDraftEntity from 'draft-js/lib/getRangesForDraftEntity';
+import InlineImageControls from './InlineImageControls';
 
 class ImageEntity extends React.Component {
 
   state = {
-    width: 24,
-    height: 24,
+    width: this.props.width,
+    height: this.props.height,
     iconColors: {
       resizeHandle: '#000',
       deleteImage: '#000'
@@ -97,7 +98,7 @@ class ImageEntity extends React.Component {
       >
         <IconButton 
           className="image-delete-button"
-          style={{position: 'absolute', top: 2, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
+          style={{position: 'absolute', top: 26, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
           tooltipStyles={{zIndex: 100, top: 16, right: 26}}
           tooltipPosition='top-left'
           iconStyle={{color: this.state.iconColors.deleteImage, width: 20, height: 20}}
@@ -106,6 +107,9 @@ class ImageEntity extends React.Component {
         >
           <DeleteIcon />
         </IconButton>
+
+        <InlineImageControls />
+        
         <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
       </ResizableBox>
     )

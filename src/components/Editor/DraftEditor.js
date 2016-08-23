@@ -242,9 +242,15 @@ class DraftEditor extends React.Component {
   }
 
   _insertImage(file) {
+    const defaultWidthHeight = 10;
 
     const {editorState, urlValue, urlType} = this.state;
-    const entityKey = Entity.create('image', 'IMMUTABLE', {src: URL.createObjectURL(file), removeCallback: this.removeSelected})
+    const entityKey = Entity.create('image', 'IMMUTABLE', {
+      src: URL.createObjectURL(file), 
+      removeCallback: this.removeSelected, 
+      width: defaultWidthHeight, 
+      height: defaultWidthHeight
+    })
 
     this.setState({
       editorState: AtomicBlockUtils.insertAtomicBlock(

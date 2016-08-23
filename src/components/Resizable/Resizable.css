@@ -1,7 +1,8 @@
 .react-resizable {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 0;
+  padding: 20px 0 20px 0;
 }
 
 figure {
