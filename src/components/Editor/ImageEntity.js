@@ -19,10 +19,10 @@ const isResizable = {
 }
 
 const handleStyle = {
-  bottomRight: {position: 'absolute', width: 10, height: 10, right: -10, bottom: -10, cursor: 'se-resize', border: '1px solid white'},
-  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -10, bottom: -10, cursor: 'ne-resize', border: '1px solid white'},
-  topRight: {position: 'absolute', width: 10, height: 10, right: -10, top: -10, cursor: 'ne-resize', border: '1px solid white'},
-  topLeft: {position: 'absolute', width: 10, height: 10, left: -10, top: -10, cursor: 'se-resize', border: '1px solid white'}
+  bottomRight: {position: 'absolute', width: 10, height: 10, right: -13, bottom: -13, cursor: 'se-resize', border: '3px solid #5890ff'},
+  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -13, bottom: -13, cursor: 'ne-resize', border: '3px solid #5890ff'},
+  topRight: {position: 'absolute', width: 10, height: 10, right: -13, top: -13, cursor: 'ne-resize', border: '3px solid #5890ff'},
+  topLeft: {position: 'absolute', width: 10, height: 10, left: -13, top: -13, cursor: 'se-resize', border: '3px solid #5890ff'}
 }
 
 class ImageEntity extends React.Component {

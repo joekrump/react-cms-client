@@ -183,9 +183,14 @@ class DraftEditor extends React.Component {
         },
         blockRenderers: {
           atomic: (block) => {
-            console.log(block.getData())
-            let data = block.getData();
-            return '<video controls src="'+data.get('src')+'"></video>';
+            const entity = Entity.get(block.getEntityAt(0));
+            const type = entity.getType();
+            if(type === 'image') {
+              let entityData = entity.getData();
+              console.log('entity Data: ', entityData)
+              const { src } = entityData; 
+              return '<img src="'+ src +'"/>';
+            }
           },
         },
       }
