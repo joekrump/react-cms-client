@@ -7,11 +7,16 @@ import Resizable from 'react-resizable-box'
 
 import './ImageEntity.css'
 
+const isResizable = {
+  top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:true, bottomLeft:true, topLeft:false
+}
+
 class ImageEntity extends React.Component {
 
   state = {
     width: this.props.width,
     height: this.props.height,
+    ratio: 1,
     iconColors: {
       resizeHandle: '#000',
       deleteImage: '#000'
@@ -56,6 +61,7 @@ class ImageEntity extends React.Component {
       this.setState({
         width: event.target.width,
         height: event.target.height,
+        ratio: (event.target.width / event.target.height),
         iconColors: {
           resizeHandle: resizeHandleColor,
           deleteImage: deleteImageIconColor
@@ -75,13 +81,36 @@ class ImageEntity extends React.Component {
     this.props.removeCallback(block.getKey())
   }
 
-  calcMinContstraints() {
+  getMinConstraints() {
     const minSize = 60; // 60px
-    const ratio = this.state.width / this.state.height;
-    if(ratio > 1) {
-      return [60 * ratio, 60]
+    if(this.state.ratio > 1) {
+      return {
+        x: (minSize * this.state.ratio),
+        y: minSize
+      }
     } else {
-      return [60, 60 / ratio]
+      return {
+        x: minSize, 
+        y: (minSize / this.state.ratio)
+      }
+    }
+  }
+
+  getMaxConstraints(){
+    let x, y;
+
+    if(this.state.ratio > 1) {
+      x = this.props.maxWidth > this.state.width ? this.state.width : this.props.maxWidth
+      return {
+        x: x,
+        y: (x / this.state.ratio)
+      }
+    } else {
+      y = this.props.maxHeight > this.state.height ? this.state.height : this.props.maxHeight
+      return {
+        x: (y * this.state.ratio),
+        y: y
+      }
     }
   }
 
@@ -107,17 +136,18 @@ class ImageEntity extends React.Component {
   }
 
   render() {
-    console.log(this.state.alignmentClass);
+    let maxConstraints = this.getMaxConstraints();
+
     return (
       <Resizable
         customClass={this.state.alignmentClass}
         x={0}
         y={0}
-        width={this.props.maxWidth}
-        height={this.props.maxHeight}
-        maxWidth={this.props.maxWidth}
-        maxHeight={this.props.maxHeight}
-        isResizable={{ top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:true, bottomLeft:true, topLeft:false }}
+        width={maxConstraints.x}
+        height={maxConstraints.y}
+        maxWidth={maxConstraints.x}
+        maxHeight={maxConstraints.y}
+        isResizable={{ ...isResizable }}
       >
         <IconButton 
           className="image-delete-button"
