@@ -3,12 +3,24 @@ import {getIconColor} from '../../helpers/ImageHelper';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import InlineImageControls from './InlineImageControls';
-import Resizable from 'react-resizable-box'
+import Resizable from '../Resizable/Resizable'
 
 import './ImageEntity.css'
 
 const isResizable = {
-  top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:true, bottomLeft:true, topLeft:false
+  top: false, 
+  right: false, 
+  bottom: false, 
+  left: true, 
+  topRight: false, 
+  bottomRight:true, 
+  bottomLeft: true, 
+  topLeft: false
+}
+
+const handleStyle = {
+  bottomRight: {position: 'absolute', width: 10, height: 10, right: -10, bottom: -10, cursor: 'se-resize', border: '1px solid white'},
+  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -10, bottom: -10, cursor: 'ne-resize', border: '1px solid white'}
 }
 
 class ImageEntity extends React.Component {
@@ -24,9 +36,18 @@ class ImageEntity extends React.Component {
     alignmentClass: 'left-align'
   }
 
-  onResize = (event, {element, size}) => {
-    this.setState({width: size.width, height: size.height});
-  };
+  // onResize = (direct, styleSize, clientSize, delta) => {
+  //   let width, height;
+
+  //   // if(this.state.ratio > 1) {
+  //   //   width = styleSize.width;
+  //   //   height = styleSize.width / this.state.ratio
+  //   // } else {
+  //   //   width = styleSize.height * this.state.ratio;
+  //   //   height = styleSize.height
+  //   // }
+  //   // this.setState({width, height});
+  // };
 
   handleImageResized = (event) => {
     // console.log('inner image resized')
@@ -57,11 +78,11 @@ class ImageEntity extends React.Component {
         y2: deleteIconWidthHeight
       });
 
-
+      const maxConstraints = this.getMaxConstraints(event.target.width, event.target.height);
       this.setState({
-        width: event.target.width,
-        height: event.target.height,
-        ratio: (event.target.width / event.target.height),
+        width: maxConstraints.x,
+        height: maxConstraints.y,
+        ratio: maxConstraints.ratio,
         iconColors: {
           resizeHandle: resizeHandleColor,
           deleteImage: deleteImageIconColor
@@ -81,35 +102,41 @@ class ImageEntity extends React.Component {
     this.props.removeCallback(block.getKey())
   }
 
-  getMinConstraints() {
+  getMinConstraints(width, height) {
     const minSize = 60; // 60px
-    if(this.state.ratio > 1) {
+    const ratio = width / height;
+
+    if(ratio > 1) {
       return {
-        x: (minSize * this.state.ratio),
+        x: (minSize * ratio),
         y: minSize
       }
     } else {
       return {
         x: minSize, 
-        y: (minSize / this.state.ratio)
+        y: (minSize / ratio),
+        ratio: ratio
       }
     }
   }
 
-  getMaxConstraints(){
+  getMaxConstraints(width, height){
     let x, y;
+    const ratio = width / height;
 
-    if(this.state.ratio > 1) {
-      x = this.props.maxWidth > this.state.width ? this.state.width : this.props.maxWidth
+    if(ratio > 1) {
+      x = this.props.maxWidth > width ? width : this.props.maxWidth
       return {
         x: x,
-        y: (x / this.state.ratio)
+        y: (x / ratio),
+        ratio: ratio
       }
     } else {
-      y = this.props.maxHeight > this.state.height ? this.state.height : this.props.maxHeight
+      y = this.props.maxHeight > height ? height : this.props.maxHeight
       return {
-        x: (y * this.state.ratio),
-        y: y
+        x: (y * ratio),
+        y: y,
+        ratio: ratio
       }
     }
   }
@@ -141,13 +168,19 @@ class ImageEntity extends React.Component {
     return (
       <Resizable
         customClass={this.state.alignmentClass}
-        x={0}
-        y={0}
-        width={maxConstraints.x}
-        height={maxConstraints.y}
-        maxWidth={maxConstraints.x}
-        maxHeight={maxConstraints.y}
+        // x={0}
+        // y={0}
+        width={this.state.width}
+        // width={this.state.ratio > 1 ? this.state.width : 'auto'}
+        // height={this.state.ratio > 1 ? 'auto' : this.state.height}
+        height={this.state.height}
+        maxWidth={this.state.width}
+        maxHeight={this.state.height}
         isResizable={{ ...isResizable }}
+        handleStyle={{ ...handleStyle }}
+        // onResize={this.onResize}
+        lockRatio={true}
+        ratio={this.state.ratio}
       >
         <IconButton 
           className="image-delete-button"
@@ -167,7 +200,7 @@ class ImageEntity extends React.Component {
           handleAlignCenter={ this.handleAlignCenter }
         />
 
-        <img src={this.props.src} style={{...this.props.style}} />
+        <img src={this.props.src} style={{...this.props.style}}  />
       </Resizable>
     )
   }
