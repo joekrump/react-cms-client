@@ -1,19 +1,41 @@
+figure {
+  margin: 0;
+}
+
 .left-align {
   margin: 0 auto 0 0;
+ /* float: left;
+  margin: 0 15px 0 0;*/
 }
 
 .right-align {
   margin: 0 0 0 auto;
+  /*float: right;
+  margin: 0 0 0 15px;*/
 }
 
 .center-align {
   margin: 0 auto;
+  /*float: ;*/
 }
+.resizable-image {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 15px;
 
+}
 .resizable-image .image-editor-control {
   opacity: 0;
 }
 
 .resizable-image:hover .image-editor-control {
   opacity: 1;
+}
+
+.resizable-image:after {
+  content: "."; 
+  visibility: hidden; 
+  display: block; 
+  height: 0; 
+  clear: both;
 }
