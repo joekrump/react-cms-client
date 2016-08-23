@@ -3,7 +3,7 @@ import {getIconColor} from '../../helpers/ImageHelper';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import InlineImageControls from './InlineImageControls';
-import Resizable from '../Resizable/Resizable'
+import Resizable from 'react-resizable-box'
 
 import './ImageEntity.css'
 
@@ -66,9 +66,9 @@ class ImageEntity extends React.Component {
     insertedImage.src = this.props.src;
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (nextState.height !== this.state.height) && (nextState.width !== this.state.width)
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return (nextState.height !== this.state.height) && (nextState.width !== this.state.width)
+  // }
 
   handleImageRemove = () => {
     const {block} = this.props
@@ -107,7 +107,7 @@ class ImageEntity extends React.Component {
   }
 
   render() {
-
+    console.log(this.state.alignmentClass);
     return (
       <Resizable
         customClass={this.state.alignmentClass}
