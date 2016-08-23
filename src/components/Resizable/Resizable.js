@@ -160,18 +160,30 @@ export default class Resizable extends Component {
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
       newHeight = snap(clamp(newHeight, min, max), this.props.grid[1]);
     }
+
+    const delta = {
+      width: newWidth - original.width,
+      height: newHeight - original.height,
+    };
+
+    // If the ratio of the container should be kept,
+    // determine which dimention changed the most in the latest movement
+    // and use the new value of that dimention to calculate the other dimention
+    // using the ratio to be kept.
+    // 
     if(this.props.lockRatio) {
-      if(newWidth !== width) {
+      if(delta.width < delta.height) {
         newHeight = newWidth / this.state.ratio;
-      } else if(newHeight !== height) {
+      } else {
         newWidth = newHeight * this.state.ratio;
       }
     }
-
+      
     this.setState({
       width: width !== 'auto' ? newWidth : 'auto',
       height: height !== 'auto' ? newHeight : 'auto',
     });
+
     const resizable = this.refs.resizable;
     const styleSize = {
       width: newWidth || this.state.width,
@@ -181,10 +193,7 @@ export default class Resizable extends Component {
       width: resizable.clientWidth,
       height: resizable.clientHeight,
     };
-    const delta = {
-      width: newWidth - original.width,
-      height: newHeight - original.height,
-    };
+
     this.props.onResize(direction, styleSize, clientSize, delta);
   }
 
