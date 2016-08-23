@@ -165,7 +165,7 @@ class ImageEntity extends React.Component {
       >
         <IconButton 
           className="image-delete-button"
-          style={{position: 'absolute', top: 26, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
+          style={{position: 'absolute', top: 6, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
           tooltipStyles={{zIndex: 100, top: 16, right: 26}}
           tooltipPosition='top-left'
           iconStyle={{color: this.state.iconColors.deleteImage, width: 20, height: 20}}
