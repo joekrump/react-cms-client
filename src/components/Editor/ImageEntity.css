@@ -9,3 +9,11 @@
 .center-align {
   margin: 0 auto;
 }
+
+.resizable-image .image-editor-control {
+  opacity: 0;
+}
+
+.resizable-image:hover .image-editor-control {
+  opacity: 1;
+}

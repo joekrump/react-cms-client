@@ -33,7 +33,7 @@ class ImageEntity extends React.Component {
       resizeHandle: '#000',
       deleteImage: '#000'
     },
-    alignmentClass: 'left-align'
+    alignmentClass: 'resizable-image left-align'
   }
 
   handleImageResized = (event) => {
@@ -129,21 +129,21 @@ class ImageEntity extends React.Component {
   handleAlignLeft = (e) => {
     e.preventDefault();
     this.setState({
-      alignmentClass: 'left-align'
+      alignmentClass: 'resizable-image left-align'
     })
   }
 
   handleAlignRight = (e) => {
     e.preventDefault();
     this.setState({
-      alignmentClass: 'right-align'
+      alignmentClass: 'resizable-image right-align'
     })
   }
 
   handleAlignCenter = (e) => {
     e.preventDefault();
     this.setState({
-      alignmentClass: 'center-align'
+      alignmentClass: 'resizable-image center-align'
     })
   }
 
@@ -164,7 +164,7 @@ class ImageEntity extends React.Component {
         ratio={this.state.ratio}
       >
         <IconButton 
-          className="image-delete-button"
+          className="image-editor-control"
           style={{position: 'absolute', top: 6, right: 2, width: 24, height: 24, padding: 0, zIndex: 40}} 
           tooltipStyles={{zIndex: 100, top: 16, right: 26}}
           tooltipPosition='top-left'
@@ -175,7 +175,7 @@ class ImageEntity extends React.Component {
           <DeleteIcon />
         </IconButton>
 
-        <InlineImageControls 
+        <InlineImageControls
           handleAlignLeft={ this.handleAlignLeft }
           handleAlignRight={ this.handleAlignRight }
           handleAlignCenter={ this.handleAlignCenter }
