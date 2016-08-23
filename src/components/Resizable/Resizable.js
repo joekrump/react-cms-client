@@ -174,9 +174,7 @@ export default class Resizable extends React.Component {
 
     };
   }
-  handleTouchTap = () => {
-    this.setState({selected: true});
-  }
+
   render(): React.Element {
     // eslint-disable-next-line no-unused-vars
     const {children, draggableOpts, width, height,

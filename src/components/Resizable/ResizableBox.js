@@ -70,6 +70,7 @@ export default class ResizableBox extends React.Component {
         maxConstraints={maxConstraints}
         lockAspectRatio={lockAspectRatio}
         resizeHandleColor={resizeHandleColor}
+        // style={this.props.style}
         >
         <div style={{width: this.state.width + 'px', height: this.state.height + 'px'}} {...props} />
       </Resizable>

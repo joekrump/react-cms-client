@@ -16,6 +16,10 @@ class ImageEntity extends React.Component {
     iconColors: {
       resizeHandle: '#000',
       deleteImage: '#000'
+    },
+    alignmentStyle: {
+      width: this.props.width,
+      height: this.props.height
     }
   }
 
@@ -85,9 +89,37 @@ class ImageEntity extends React.Component {
     }
   }
 
+  handleAlignLeft = (e) => {
+    e.preventDefault();
+    this.setState({
+      alignmentStyle: {
+        margin: '0 auto 0 0'
+      }
+    })
+  }
+
+  handleAlignRight = (e) => {
+    e.preventDefault();
+    this.setState({
+      alignmentStyle: {
+        margin: '0 0 0 auto'
+      }
+    })
+  }
+
+  handleAlignCenter = (e) => {
+    e.preventDefault();
+    this.setState({
+      alignmentStyle: {
+        margin: '0 auto'
+      }
+    })
+  }
+
   render() {
     return (
       <ResizableBox 
+        
         width={this.state.width} 
         height={this.state.height} 
         lockAspectRatio={true} 
@@ -95,6 +127,7 @@ class ImageEntity extends React.Component {
         maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
         minConstraints={this.calcMinContstraints()}
         resizeHandleColor={this.state.iconColors.resizeHandle}
+        // style={this.state.alignmentStyle}
       >
         <IconButton 
           className="image-delete-button"
@@ -108,8 +141,12 @@ class ImageEntity extends React.Component {
           <DeleteIcon />
         </IconButton>
 
-        <InlineImageControls />
-        
+        <InlineImageControls 
+          handleAlignLeft={ this.handleAlignLeft }
+          handleAlignRight={ this.handleAlignRight }
+          handleAlignCenter={ this.handleAlignCenter }
+        />
+
         <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
       </ResizableBox>
     )
