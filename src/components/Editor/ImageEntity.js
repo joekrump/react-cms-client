@@ -1,12 +1,11 @@
 import React from 'react';
-import Resizable from '../Resizable/Resizable';
-import ResizableBox from '../Resizable/ResizableBox';
 import {getIconColor} from '../../helpers/ImageHelper';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
-import { SelectionState } from 'draft-js';
-import getRangesForDraftEntity from 'draft-js/lib/getRangesForDraftEntity';
 import InlineImageControls from './InlineImageControls';
+import Resizable from '../Resizable/Resizable'
+
+import './ImageEntity.css'
 
 class ImageEntity extends React.Component {
 
@@ -17,10 +16,7 @@ class ImageEntity extends React.Component {
       resizeHandle: '#000',
       deleteImage: '#000'
     },
-    alignmentStyle: {
-      width: this.props.width,
-      height: this.props.height
-    }
+    alignmentClass: 'left-align'
   }
 
   onResize = (event, {element, size}) => {
@@ -36,6 +32,7 @@ class ImageEntity extends React.Component {
     const insertedImage = new Image(),
           resizeIconWidthHeight = 26,
           deleteIconWidthHeight  = 26;
+
 
     // Once the image loads get image control icon colors and set proper dimensions for the image
     // 
@@ -67,7 +64,6 @@ class ImageEntity extends React.Component {
     }, false);
 
     insertedImage.src = this.props.src;
-
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -92,42 +88,36 @@ class ImageEntity extends React.Component {
   handleAlignLeft = (e) => {
     e.preventDefault();
     this.setState({
-      alignmentStyle: {
-        margin: '0 auto 0 0'
-      }
+      alignmentClass: 'left-align'
     })
   }
 
   handleAlignRight = (e) => {
     e.preventDefault();
     this.setState({
-      alignmentStyle: {
-        margin: '0 0 0 auto'
-      }
+      alignmentClass: 'right-align'
     })
   }
 
   handleAlignCenter = (e) => {
     e.preventDefault();
     this.setState({
-      alignmentStyle: {
-        margin: '0 auto'
-      }
+      alignmentClass: 'center-align'
     })
   }
 
   render() {
+
     return (
-      <ResizableBox 
-        
-        width={this.state.width} 
-        height={this.state.height} 
-        lockAspectRatio={true} 
-        onResize={this.onResize}
-        maxConstraints={[this.props.maxWidth, this.props.maxHeight]}
-        minConstraints={this.calcMinContstraints()}
-        resizeHandleColor={this.state.iconColors.resizeHandle}
-        // style={this.state.alignmentStyle}
+      <Resizable
+        customClass={this.state.alignmentClass}
+        x={0}
+        y={0}
+        width={this.props.maxWidth}
+        height={this.props.maxHeight}
+        maxWidth={this.props.maxWidth}
+        maxHeight={this.props.maxHeight}
+        isResizable={{ top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:true, bottomLeft:true, topLeft:false }}
       >
         <IconButton 
           className="image-delete-button"
@@ -147,8 +137,8 @@ class ImageEntity extends React.Component {
           handleAlignCenter={ this.handleAlignCenter }
         />
 
-        <img src={this.props.src} style={{...this.props.style}} onResize={this.handleImageResized}/>
-      </ResizableBox>
+        <img src={this.props.src} style={{...this.props.style}} />
+      </Resizable>
     )
   }
 }

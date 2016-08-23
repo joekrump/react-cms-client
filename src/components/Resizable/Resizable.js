@@ -1,218 +1,302 @@
-// @flow
-import {default as React, PropTypes} from 'react';
-import {DraggableCore} from 'react-draggable';
-import cloneElement from './cloneElement';
-import IconButton from 'material-ui/IconButton';
-import CropIcon from 'material-ui/svg-icons/image/crop-din'
+import React, { Component, PropTypes } from 'react';
+import Resizer from './resizer';
+import isEqual from 'lodash.isequal';
 
-type Position = {
+const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
+const snap = (n, size) => Math.round(n / size) * size;
+const directions = [
+  'top', 'right', 'bottom', 'left', 'topRight', 'bottomRight', 'bottomLeft', 'topLeft'
+];
 
-};
-type State = {
-  resizing: boolean,
-  width: number, height: number,
-  slackW: number, slackH: number
-};
-type DragCallbackData = {
-  node: HTMLElement,
-  x: number, y: number,
-  deltaX: number, deltaY: number,
-  lastX: number, lastY: number
-};
-
-export default class Resizable extends React.Component {
-
+export default class Resizable extends Component {
   static propTypes = {
-    //
-    // Required Props
-    //
-
-    // Require that one and only one child be present.
-    children: PropTypes.element.isRequired,
-
-    // Initial w/h
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-
-    //
-    // Optional props
-    //
-
-    // If you change this, be sure to update your css
-    handleSize: PropTypes.array,
-
-    // If true, will only allow width/height to move in lockstep
-    lockAspectRatio: PropTypes.bool,
-
-    // Min/max size
-    minConstraints: PropTypes.arrayOf(PropTypes.number),
-    maxConstraints: PropTypes.arrayOf(PropTypes.number),
-
-    // Callbacks
+    children: PropTypes.any,
+    onClick: PropTypes.func,
+    onDoubleClick: PropTypes.func,
+    onMouseDown: PropTypes.func,
     onResizeStop: PropTypes.func,
     onResizeStart: PropTypes.func,
+    onTouchStart: PropTypes.func,
     onResize: PropTypes.func,
-
-    // These will be passed wholesale to react-draggable's DraggableCore
-    draggableOpts: PropTypes.object
+    customStyle: PropTypes.object,
+    handleStyle: PropTypes.shape({
+      top: PropTypes.object,
+      right: PropTypes.object,
+      bottom: PropTypes.object,
+      left: PropTypes.object,
+      topRight: PropTypes.object,
+      bottomRight: PropTypes.object,
+      bottomLeft: PropTypes.object,
+      topLeft: PropTypes.object,
+    }),
+    handleClass: PropTypes.shape({
+      top: PropTypes.string,
+      right: PropTypes.string,
+      bottom: PropTypes.string,
+      left: PropTypes.string,
+      topRight: PropTypes.string,
+      bottomRight: PropTypes.string,
+      bottomLeft: PropTypes.string,
+      topLeft: PropTypes.string,
+    }),
+    isResizable: PropTypes.shape({
+      top: PropTypes.bool,
+      right: PropTypes.bool,
+      bottom: PropTypes.bool,
+      left: PropTypes.bool,
+      topRight: PropTypes.bool,
+      bottomRight: PropTypes.bool,
+      bottomLeft: PropTypes.bool,
+      topLeft: PropTypes.bool,
+    }),
+    customClass: PropTypes.string,
+    width: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+    height: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+    minWidth: PropTypes.number,
+    minHeight: PropTypes.number,
+    maxWidth: PropTypes.number,
+    maxHeight: PropTypes.number,
+    grid: PropTypes.arrayOf(PropTypes.number),
   };
 
-  static defaultProps =  {
-    handleSize: [20, 20],
-    lockAspectRatio: false,
-    minConstraints: [20, 20],
-    maxConstraints: [Infinity, Infinity]
-  };
-
-  state: State = {
-    resizing: false,
-    width: this.props.width, height: this.props.height,
-    slackW: 0, slackH: 0
-  };
-
-  componentWillReceiveProps(nextProps: Object) {
-    // console.log(nextProps.width)
-    // If parent changes height/width, set that in our state.
-    if (!this.state.resizing &&
-        (nextProps.width !== this.props.width || nextProps.height !== this.props.height)) {
-
-      // console.log('setting new state')
-      this.setState({
-        width: nextProps.width,
-        height: nextProps.height
-      });
-    }
+  static defaultProps = {
+    onResizeStart: () => null,
+    onResize: () => null,
+    onResizeStop: () => null,
+    isResizable: {
+      top: true, right: true, bottom: true, left: true,
+      topRight: true, bottomRight: true, bottomLeft: true, topLeft: true,
+    },
+    customStyle: {},
+    handleStyle: {},
+    handleClass: {},
+    grid: [1, 1],
   }
 
-  lockAspectRatio(width: number, height: number, aspectRatio: number): [number, number] {
-    height = width / aspectRatio;
-    width = height * aspectRatio;
-    return [width, height];
+  constructor(props) {
+    super(props);
+    const { width, height } = props;
+    this.state = {
+      isActive: false,
+      width,
+      height,
+    };
+
+    this.onResizeStartWithDirection = {};
+    directions.forEach(d => {
+      this.onResizeStartWithDirection[d] = this.onResizeStart.bind(this, d);
+    });
+    this.onTouchMove = this.onTouchMove.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+
+    window.addEventListener('mouseup', this.onMouseUp);
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('touchmove', this.onTouchMove);
+    window.addEventListener('touchend', this.onMouseUp);
   }
 
-  // If you do this, be careful of constraints
-  runConstraints(width: number, height: number): [number, number] {
-    let [min, max] = [this.props.minConstraints, this.props.maxConstraints];
-
-    if (this.props.lockAspectRatio) {
-      const ratio = this.state.width / this.state.height;
-      height = width / ratio;
-      width = height * ratio;
-      // Set the max width or height to correspond to the ratio of the item
-      // and the limiting dimension.
-      if(ratio > 1) {
-        max[1] = max[0] / ratio;
-      } else {
-        max[0] = max[1] * ratio;
-      }
-    }
-
-    if (!min && !max) return [width, height];
-
-    const [oldW, oldH] = [width, height];
-
-    // Add slack to the values used to calculate bound position. This will ensure that if
-    // we start removing slack, the element won't react to it right away until it's been
-    // completely removed.
-    let {slackW, slackH} = this.state;
-    width += slackW;
-    height += slackH;
-
-    if (min) {
-      width = Math.max(min[0], width);
-      height = Math.max(min[1], height);
-    }
-    if (max) {
-      width = Math.min(max[0], width);
-      height = Math.min(max[1], height);
-    }
-
-    // If the numbers changed, we must have introduced some slack. Record it for the next iteration.
-    slackW += (oldW - width);
-    slackH += (oldH - height);
-    if (slackW !== this.state.slackW || slackH !== this.state.slackH) {
-      this.setState({slackW, slackH});
-    }
-
-    return [width, height];
+  componentDidMount() {
+    const size = this.getBoxSize();
+    this.setSize(size);
   }
 
-  /**
-   * Wrapper around drag events to provide more useful data.
-   *
-   * @param  {String} handlerName Handler name to wrap.
-   * @return {Function}           Handler function.
-   */
-  resizeHandler(handlerName: string): Function {
-    return (e, {node, deltaX, deltaY}: DragCallbackData) => {
-      let width = this.state.width + deltaX;
-      let height = this.state.height + deltaY;
+  componentWillReceiveProps({ width, height }) {
+    if (width !== this.props.width) this.setState({ width });
+    if (height !== this.props.height) this.setState({ height });
+  }
 
-      // Early return if no change
-      const widthChanged = width !== this.state.width, heightChanged = height !== this.state.height;
-      if (handlerName === 'onResize' && !widthChanged && !heightChanged) return;
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
+  }
 
-      [width, height] = this.runConstraints(width, height);
+  componentWillUnmount() {
+    window.removeEventListener('mouseup', this.onMouseUp);
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('touchmove', this.onTouchMove);
+    window.removeEventListener('touchend', this.onMouseUp);
+  }
 
-      // Set the appropriate state for this handler.
-      const newState = {};
-      if (handlerName === 'onResizeStart') {
-        newState.resizing = true;
-      } else if (handlerName === 'onResizeStop') {
-        newState.resizing = false;
-        newState.slackW = newState.slackH = 0;
-      } else {
-        // Early return if no change after constraints
-        if (width === this.state.width && height === this.state.height) return;
-        newState.width = width;
-        newState.height = height;
-      }
+  onTouchMove(event) {
+    this.onMouseMove(event.touches[0]);
+  }
 
-      this.setState(newState, () => {
-        this.props[handlerName] && this.props[handlerName](e, {node, size: {width, height}});
-      });
+  onMouseMove({ clientX, clientY }) {
+    const { direction, original, isActive, width, height } = this.state;
+    const { minWidth, maxWidth, minHeight, maxHeight } = this.props;
+    if (!isActive) return;
+    let newWidth = original.width;
+    let newHeight = original.height;
+    if (/right/i.test(direction)) {
+      newWidth = original.width + clientX - original.x;
+      const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
+      const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
+      newWidth = clamp(newWidth, min, max);
+      newWidth = snap(newWidth, this.props.grid[0]);
+    }
+    if (/left/i.test(direction)) {
+      newWidth = original.width - clientX + original.x;
+      const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
+      const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
+      newWidth = clamp(newWidth, min, max);
+      newWidth = snap(newWidth, this.props.grid[0]);
+    }
+    if (/bottom/i.test(direction)) {
+      newHeight = original.height + clientY - original.y;
+      const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
+      const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
+      newHeight = clamp(newHeight, min, max);
+      newHeight = snap(newHeight, this.props.grid[1]);
+    }
+    if (/top/i.test(direction)) {
+      newHeight = original.height - clientY + original.y;
+      const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
+      const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
+      newHeight = clamp(newHeight, min, max);
+      newHeight = snap(newHeight, this.props.grid[1]);
+    }
+    this.setState({
+      width: width !== 'auto' ? newWidth : 'auto',
+      height: height !== 'auto' ? newHeight : 'auto',
+    });
+    const resizable = this.refs.resizable;
+    const styleSize = {
+      width: newWidth || this.state.width,
+      height: newHeight || this.state.height,
+    };
+    const clientSize = {
+      width: resizable.clientWidth,
+      height: resizable.clientHeight,
+    };
+    const delta = {
+      width: newWidth - original.width,
+      height: newHeight - original.height,
+    };
+    this.props.onResize(direction, styleSize, clientSize, delta);
+  }
 
+  onMouseUp() {
+    const { isActive, direction, original } = this.state;
+    if (!isActive) return;
+    const resizable = this.refs.resizable;
+    const styleSize = this.getBoxSize();
+    const clientSize = {
+      width: resizable.clientWidth,
+      height: resizable.clientHeight,
+    };
+    const delta = {
+      width: styleSize.width - original.width,
+      height: styleSize.height - original.height,
+    };
+    this.props.onResizeStop(direction, styleSize, clientSize, delta);
+    this.setState({ isActive: false });
+  }
+
+  onResizeStart(direction, e) {
+    const clientSize = {
+      width: this.refs.resizable.clientWidth,
+      height: this.refs.resizable.clientHeight,
+    };
+    this.props.onResizeStart(direction, this.getBoxSize(), clientSize, e);
+    const size = this.getBoxSize();
+    this.setState({
+      original: {
+        x: e.clientX,
+        y: e.clientY,
+        width: size.width,
+        height: size.height,
+      },
+      isActive: true,
+      direction,
+    });
+  }
+
+  getBoxSize() {
+    const style = window.getComputedStyle(this.refs.resizable, null);
+    const width = ~~style.getPropertyValue('width').replace('px', '');
+    const height = ~~style.getPropertyValue('height').replace('px', '');
+    return { width, height };
+  }
+
+  setSize(size) {
+    this.setState({
+      width: this.state.width || size.width,
+      height: this.state.height || size.height,
+    });
+  }
+
+  getBoxStyle() {
+    const getSize = key => {
+      if (typeof this.state[key] === 'undefined' || this.state[key] === 'auto') return 'auto';
+      else if (/px$/.test(this.state[key].toString())) return this.state[key];
+      else if (/%$/.test(this.state[key].toString())) return this.state[key];
+      return `${this.state[key]}px`;
+    };
+    return {
+      width: getSize('width'),
+      height: getSize('height'),
     };
   }
 
-  render(): React.Element {
-    // eslint-disable-next-line no-unused-vars
-    const {children, draggableOpts, width, height,
-        handleSize, lockAspectRatio, minConstraints, maxConstraints, onResize,
-        onResizeStop, onResizeStart, ...p} = this.props;
-    const className = p.className ?
-      `${p.className} react-resizable`:
-      'react-resizable';
-
-    // What we're doing here is getting the child of this element, and cloning it with this element's props.
-    // We are then defining its children as:
-    // Its original children (resizable's child's children), and
-    // A draggable handle.
-    return cloneElement(children, {
-      ...p,
-      className,
-      children: [
-        children.props.children,
-        <DraggableCore
-          {...draggableOpts}
-          key="resizableHandle"
-          ref="draggable"
-          onStop={this.resizeHandler('onResizeStop')}
-          onStart={this.resizeHandler('onResizeStart')}
-          onDrag={this.resizeHandler('onResize')}
-          >
-          <IconButton className="react-resizable-handle" 
-            tooltip="Resize Image" 
-            // iconStyle={{color: this.props.resizeHandleColor, width: 20, height: 20, zIndex: 100}} 
-            iconStyle={{color: 'lightblue', width: 16, height: 16, zIndex: 100}} 
-            tooltipStyles={{zIndex: 100, right: 0}}
-            tooltipPosition='top-left'
-            style={{position: 'absolute', zIndex: 40, width: 24, height: 24, padding: 0, right: -20, bottom: 0, cursor: 'se-resize'}}
-          >
-            <CropIcon />
-          </IconButton>
-        </DraggableCore>
-      ]
+  renderResizer() {
+    const { isResizable, handleStyle, handleClass } = this.props;
+    return Object.keys(isResizable).map(dir => {
+      if (isResizable[dir] !== false) {
+        return (
+          <Resizer
+            key={dir}
+            type={dir}
+            onResizeStart={this.onResizeStartWithDirection[dir]}
+            replaceStyles={handleStyle[dir]}
+            className={handleClass[dir]}
+          />
+        );
+      }
+      return null;
     });
+  }
+
+  render() {
+    const userSelect = this.state.isActive
+      ? {
+        userSelect: 'none',
+        MozUserSelect: 'none',
+        WebkitUserSelect: 'none',
+        MsUserSelect: 'none',
+      }
+      : {
+        userSelect: 'auto',
+        MozUserSelect: 'auto',
+        WebkitUserSelect: 'auto',
+        MsUserSelect: 'auto',
+      };
+    const style = this.getBoxStyle();
+    const { onClick, customStyle, customClass,
+            onMouseDown, onDoubleClick, onTouchStart } = this.props;
+    return (
+      <div
+        ref="resizable"
+        style={{
+          position: 'relative',
+          ...userSelect,
+          ...customStyle,
+          ...style,
+        }}
+        className={customClass}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
+        onDoubleClick={onDoubleClick}
+        onTouchStart={onTouchStart}
+      >
+        {this.props.children}
+        {this.renderResizer()}
+      </div>
+    );
   }
 }
