@@ -11,16 +11,18 @@ const isResizable = {
   top: false, 
   right: false, 
   bottom: false, 
-  left: true, 
-  topRight: false, 
+  left: false, 
+  topRight: true, 
   bottomRight:true, 
   bottomLeft: true, 
-  topLeft: false
+  topLeft: true
 }
 
 const handleStyle = {
   bottomRight: {position: 'absolute', width: 10, height: 10, right: -10, bottom: -10, cursor: 'se-resize', border: '1px solid white'},
-  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -10, bottom: -10, cursor: 'ne-resize', border: '1px solid white'}
+  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -10, bottom: -10, cursor: 'ne-resize', border: '1px solid white'},
+  topRight: {position: 'absolute', width: 10, height: 10, right: -10, top: -10, cursor: 'ne-resize', border: '1px solid white'},
+  topLeft: {position: 'absolute', width: 10, height: 10, left: -10, top: -10, cursor: 'se-resize', border: '1px solid white'}
 }
 
 class ImageEntity extends React.Component {
@@ -87,20 +89,18 @@ class ImageEntity extends React.Component {
     this.props.removeCallback(block.getKey())
   }
 
-  getMinConstraints(width, height) {
-    const minSize = 60; // 60px
-    const ratio = width / height;
+  getMinConstraints() {
+    const minSize = 100; // 100px
 
-    if(ratio > 1) {
+    if(this.state.ratio > 1) {
       return {
-        x: (minSize * ratio),
+        x: (minSize * this.state.ratio),
         y: minSize
       }
     } else {
       return {
         x: minSize, 
-        y: (minSize / ratio),
-        ratio: ratio
+        y: (minSize / this.state.ratio),
       }
     }
   }
@@ -148,7 +148,7 @@ class ImageEntity extends React.Component {
   }
 
   render() {
-    let maxConstraints = this.getMaxConstraints();
+    let minConstraints = this.getMinConstraints();
 
     return (
       <Resizable
@@ -157,6 +157,8 @@ class ImageEntity extends React.Component {
         height={this.state.height}
         maxWidth={this.state.width}
         maxHeight={this.state.height}
+        minWidth={minConstraints.x}
+        minHeight={minConstraints.y}
         isResizable={{ ...isResizable }}
         handleStyle={{ ...handleStyle }}
         // onResize={this.onResize}

@@ -140,26 +140,45 @@ export default class Resizable extends Component {
       newWidth = original.width + clientX - original.x;
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
       const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
+      // Exit early if trying to set width to larger than max
+      if(newWidth > max || newWidth < min){
+        return
+      }
       newWidth = snap(clamp(newWidth, min, max), this.props.grid[0]);
     }
     if (/left/i.test(direction)) {
       newWidth = original.width - clientX + original.x;
       const min = (minWidth < 0 || typeof minWidth === 'undefined') ? 0 : minWidth;
       const max = (maxWidth < 0 || typeof maxWidth === 'undefined') ? newWidth : maxWidth;
+
+      // Exit early if trying to set width to larger than max
+      if(newWidth > max || newWidth < min){
+        return
+      }
       newWidth = snap(clamp(newWidth, min, max), this.props.grid[0]);
     }
     if (/bottom/i.test(direction)) {
       newHeight = original.height + clientY - original.y;
       const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
+      // return early if trying to set height larger than max
+      if(newHeight > max || newHeight < min){
+        return
+      }
       newHeight = snap(clamp(newHeight, min, max), this.props.grid[1]);
     }
     if (/top/i.test(direction)) {
       newHeight = original.height - clientY + original.y;
       const min = (minHeight < 0 || typeof minHeight === 'undefined') ? 0 : minHeight;
       const max = (maxHeight < 0 || typeof maxHeight === 'undefined') ? newHeight : maxHeight;
+      // return early if trying to set height larger than max
+      if(newHeight > max || newHeight < min){
+        return
+      }
       newHeight = snap(clamp(newHeight, min, max), this.props.grid[1]);
     }
+
+
 
     const delta = {
       width: newWidth - original.width,
@@ -279,7 +298,6 @@ export default class Resizable extends Component {
   }
 
   render() {
-    console.log(this.state.ratio);
     const userSelect = this.state.isActive
       ? {
         userSelect: 'none',
