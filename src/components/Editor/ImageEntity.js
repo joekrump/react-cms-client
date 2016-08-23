@@ -36,19 +36,6 @@ class ImageEntity extends React.Component {
     alignmentClass: 'left-align'
   }
 
-  // onResize = (direct, styleSize, clientSize, delta) => {
-  //   let width, height;
-
-  //   // if(this.state.ratio > 1) {
-  //   //   width = styleSize.width;
-  //   //   height = styleSize.width / this.state.ratio
-  //   // } else {
-  //   //   width = styleSize.height * this.state.ratio;
-  //   //   height = styleSize.height
-  //   // }
-  //   // this.setState({width, height});
-  // };
-
   handleImageResized = (event) => {
     // console.log('inner image resized')
     // console.log(event.target.width);
@@ -58,8 +45,6 @@ class ImageEntity extends React.Component {
     const insertedImage = new Image(),
           resizeIconWidthHeight = 26,
           deleteIconWidthHeight  = 26;
-
-
     // Once the image loads get image control icon colors and set proper dimensions for the image
     // 
     insertedImage.addEventListener('load', (event) => {
@@ -168,11 +153,7 @@ class ImageEntity extends React.Component {
     return (
       <Resizable
         customClass={this.state.alignmentClass}
-        // x={0}
-        // y={0}
         width={this.state.width}
-        // width={this.state.ratio > 1 ? this.state.width : 'auto'}
-        // height={this.state.ratio > 1 ? 'auto' : this.state.height}
         height={this.state.height}
         maxWidth={this.state.width}
         maxHeight={this.state.height}
