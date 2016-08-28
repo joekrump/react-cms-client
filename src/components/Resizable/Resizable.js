@@ -82,12 +82,13 @@ export default class Resizable extends Component {
 
   constructor(props) {
     super(props);
-    const { width, height, ratio } = props;
+    const { width, height, ratio, inFocus } = props;
     this.state = {
       isActive: false,
       width,
       height,
-      ratio
+      ratio,
+      inFocus
     };
 
     this.onResizeStartWithDirection = {};
@@ -109,14 +110,17 @@ export default class Resizable extends Component {
     this.setSize(size);
   }
 
-  componentWillReceiveProps({ width, height, ratio }) {
+  componentWillReceiveProps({ width, height, ratio, inFocus }) {
     if (width !== this.props.width) this.setState({ width });
     if (height !== this.props.height) this.setState({ height });
     if (ratio !== this.props.ratio) this.setState({ ratio });
+    if (inFocus !== this.props.inFocus) this.setState({ inFocus });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
+    let shouldUpdate = !isEqual(this.props, nextProps) || !isEqual(this.state, nextState)
+    // console.log(shouldUpdate);
+    return shouldUpdate;
   }
 
   componentWillUnmount() {
@@ -287,6 +291,7 @@ export default class Resizable extends Component {
           <Resizer
             key={dir}
             type={dir}
+            inFocus={this.state.inFocus}
             onResizeStart={this.onResizeStartWithDirection[dir]}
             replaceStyles={handleStyle[dir]}
             className={handleClass[dir]}

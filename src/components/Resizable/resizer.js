@@ -92,7 +92,11 @@ export default class Resizer extends Component {
   }
 
   getStyle() {
-    if (this.props.replaceStyles) return this.props.replaceStyles;
+    let visible = {
+      opacity: this.props.inFocus ? 1 : 0
+    };
+
+    if (this.props.replaceStyles) return {...this.props.replaceStyles, ...visible};
     return { ...styles.base, ...styles[this.props.type] };
   }
 

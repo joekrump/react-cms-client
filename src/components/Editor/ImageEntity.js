@@ -18,18 +18,19 @@ const isResizable = {
   topLeft: true
 }
 
-const handleStyle = {
-  bottomRight: {position: 'absolute', width: 10, height: 10, right: -13, bottom: -13, cursor: 'se-resize', border: '3px solid #5890ff'},
-  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -13, bottom: -13, cursor: 'ne-resize', border: '3px solid #5890ff'},
-  topRight: {position: 'absolute', width: 10, height: 10, right: -13, top: -13, cursor: 'ne-resize', border: '3px solid #5890ff'},
-  topLeft: {position: 'absolute', width: 10, height: 10, left: -13, top: -13, cursor: 'se-resize', border: '3px solid #5890ff'}
+const handleStyles = {
+  bottomRight: {position: 'absolute', width: 10, height: 10, right: -13, bottom: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0},
+  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -13, bottom: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0},
+  topRight: {position: 'absolute', width: 10, height: 10, right: -13, top: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0},
+  topLeft: {position: 'absolute', width: 10, height: 10, left: -13, top: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0}
 }
-
 class ImageEntity extends React.Component {
 
   state = {
     width: this.props.width,
     height: this.props.height,
+    visible: true,
+    inFocus: false,
     ratio: 1,
     iconColors: {
       resizeHandle: '#000',
@@ -86,6 +87,7 @@ class ImageEntity extends React.Component {
 
   handleImageRemove = () => {
     const {block} = this.props
+    this.setState({visible: false})
     this.props.removeCallback(block.getKey())
   }
 
@@ -147,10 +149,21 @@ class ImageEntity extends React.Component {
     })
   }
 
+  handleImageFocus = (e) => {
+    e.preventDefault();
+    this.setState({inFocus: true});
+  }
+
+  handleBlur = (e) => {
+    e.preventDefault();
+    console.log('blur')
+  }
+
   render() {
     let minConstraints = this.getMinConstraints();
 
     return (
+      !this.state.visible ? null :
       <Resizable
         customClass={this.state.alignmentClass}
         width={this.state.width}
@@ -160,7 +173,10 @@ class ImageEntity extends React.Component {
         minWidth={minConstraints.x}
         minHeight={minConstraints.y}
         isResizable={{ ...isResizable }}
-        handleStyle={{ ...handleStyle }}
+        handleStyle={{ ...handleStyles}}
+        onClick= { this.handleImageFocus }
+        onBlur={this.handleBlur}
+        inFocus= { this.state.inFocus }
         // onResize={this.onResize}
         lockRatio={true}
         ratio={this.state.ratio}
