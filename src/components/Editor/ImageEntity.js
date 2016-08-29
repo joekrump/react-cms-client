@@ -55,7 +55,7 @@ class ImageEntity extends React.Component {
     if(inFocus === undefined) {
       inFocus = this.state.inFocus
     }
-    let className = 'resizable-image ' + alignment + '-align' + (inFocus ? ' in-focus' : '');
+    let className = 'resizable-image ' + alignment + (inFocus ? ' in-focus' : '');
     console.log(className)
 
     return className

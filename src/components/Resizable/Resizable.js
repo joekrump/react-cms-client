@@ -132,7 +132,7 @@ export default class Resizable extends Component {
     
   }
 
- 
+
 
   onTouchMove(event) {
     this.onMouseMove(event.touches[0]);
@@ -324,7 +324,7 @@ export default class Resizable extends Component {
     const { onClick, customStyle, customClass,
             onMouseDown, onDoubleClick, onTouchStart } = this.props;
     return (
-      <div
+      <figure
         ref="resizable"
         style={{
           position: 'relative',
@@ -340,7 +340,7 @@ export default class Resizable extends Component {
       >
         {this.props.children}
         {this.renderResizer()}
-      </div>
+      </figure>
     );
   }
 }
