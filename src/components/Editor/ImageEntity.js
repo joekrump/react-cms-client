@@ -38,6 +38,7 @@ class ImageEntity extends React.Component {
   state = {
     width: this.props.width,
     height: this.props.height,
+    alignment: 'left',
     inFocus: false,
     ratio: 1,
     iconColors: {
@@ -47,10 +48,25 @@ class ImageEntity extends React.Component {
     alignmentClass: 'resizable-image left-align'
   }
   
+  makeAlignmentClass = (alignment, inFocus) => {
+    if(alignment === undefined) {
+      alignment = this.state.alignment
+    }
+    if(inFocus === undefined) {
+      inFocus = this.state.inFocus
+    }
+    let className = 'resizable-image ' + alignment + '-align' + (inFocus ? ' in-focus' : '');
+    console.log(className)
+
+    return className
+  }
   onClick = (event) => {
-    console.log(event.target)
-    console.log(this.refs.resizableImage.refs.resizable);
-    console.log(event.target.isEqualNode(this.refs.resizable));
+    // if the image is currently in focus and there was a click on something that was not within this component
+    // then set inFocus to fasle.
+    if(this.state.inFocus && (!this.refs.resizableImage.refs.resizable.contains(event.target))) {
+      // remove the 'in-focus' class.
+      this.setState({inFocus: false, alignmentClass: this.makeAlignmentClass(this.state.alignment, false)});
+    }
   }
 
   // handleImageResized = (event) => {
@@ -149,30 +165,38 @@ class ImageEntity extends React.Component {
     }
   }
 
+  handleAlign = (alignmentDirection) => {
+    this.setState({
+      alignment: alignmentDirection,
+      alignmentClass: this.makeAlignmentClass(alignmentDirection)
+    })
+  }
   handleAlignLeft = (e) => {
     e.preventDefault();
-    this.setState({
-      alignmentClass: 'resizable-image left-align'
-    })
+    this.handleAlign('left')
   }
 
   handleAlignRight = (e) => {
     e.preventDefault();
-    this.setState({
-      alignmentClass: 'resizable-image right-align'
-    })
+    this.handleAlign('right')
   }
 
   handleAlignCenter = (e) => {
     e.preventDefault();
-    this.setState({
-      alignmentClass: 'resizable-image center-align'
-    })
+    this.handleAlign('center')
   }
 
   handleImageFocus = (e) => {
     e.preventDefault();
-    this.setState({inFocus: true});
+    console.log('handle focus')
+    console.log(this.state.alignment)
+    if(!this.state.inFocus) {
+      this.setState({
+        inFocus: true, 
+        alignmentClass: this.makeAlignmentClass(this.state.alignment, true)
+      });
+    }
+    
   }
 
   handleBlur = (e) => {

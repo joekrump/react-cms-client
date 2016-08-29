@@ -22,7 +22,9 @@ figure {
   display: block;
   margin-top: 15px;
   margin-bottom: 15px;
-
+  padding: 2px;
+  border: none;
+  background: rgba(0,0,0,0);
 }
 .resizable-image .image-editor-control {
   opacity: 0;
@@ -30,6 +32,11 @@ figure {
 
 .resizable-image:hover .image-editor-control {
   opacity: 1;
+}
+
+.resizable-image.in-focus {
+  box-shadow: inset 0 0 0 10px #5890ff;
+
 }
 
 .resizable-image:after {
