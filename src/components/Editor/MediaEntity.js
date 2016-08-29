@@ -8,26 +8,40 @@ const style = {
   width: '100%'
 }
 
-const MediaEntity = (props) => {
-  const entity = Entity.get(props.block.getEntityAt(0));
-  const {src, removeCallback} = entity.getData();
-  const type = entity.getType();
-
-  let media;
-
-  if (type === 'audio') {
-    media = <AudioEntity src={src} style={style}/>;
-  } else if (type === 'image') {
-    let editorContainer = document.getElementsByClassName('RichEditor-editor')[0];
-    media = <ImageEntity src={src} style={style} maxWidth={editorContainer.clientWidth} maxHeight={window.innerHeight - 150} block={props.block} removeCallback={removeCallback} width={props.width} height={props.height} />;
-  } else if (type === 'video') {
-    media = <VideoEntity src={src} style={style}/>;
+class MediaEntity extends React.Component {
+  state = {
+    visible: true
   }
+  removeCallback = () => {
+    this.setState({visible: false})
+  }
+  render() {
+    let entity = Entity.get(this.props.block.getEntityAt(0));
+    let {src, removeCallback} = entity.getData();
+    let type = entity.getType();
+    let media;
 
-  return media;
-};
+    if (type === 'audio') {
+      media = <AudioEntity src={src} style={style}/>;
+    } else if (type === 'image') {
 
+      let editorContainer = document.getElementsByClassName('RichEditor-editor')[0];
+      media = this.state.visible ? <ImageEntity src={src} 
+                style={style} 
+                maxWidth={editorContainer.clientWidth} 
+                maxHeight={window.innerHeight - 150} 
+                block={this.props.block} 
+                removeCallback={this.removeCallback} 
+                width={this.props.width} 
+                height={this.props.height} 
+              /> : null;
+    } else if (type === 'video') {
+      media = <VideoEntity src={src} style={style}/>;
+    }
 
-
+    return media;
+  }
+  
+}
 
 export default MediaEntity;

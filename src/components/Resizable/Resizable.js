@@ -103,6 +103,7 @@ export default class Resizable extends Component {
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('touchmove', this.onTouchMove);
     window.addEventListener('touchend', this.onMouseUp);
+    
   }
 
   componentDidMount() {
@@ -128,7 +129,10 @@ export default class Resizable extends Component {
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('touchmove', this.onTouchMove);
     window.removeEventListener('touchend', this.onMouseUp);
+    
   }
+
+ 
 
   onTouchMove(event) {
     this.onMouseMove(event.touches[0]);

@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import InlineImageControls from './InlineImageControls';
 import Resizable from '../Resizable/Resizable'
+import ReactDOM from 'react-dom'
 
 import './ImageEntity.css'
 
@@ -19,17 +20,24 @@ const isResizable = {
 }
 
 const handleStyles = {
-  bottomRight: {position: 'absolute', width: 10, height: 10, right: -13, bottom: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0},
-  bottomLeft: {position: 'absolute', width: 10, height: 10, left: -13, bottom: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0},
-  topRight: {position: 'absolute', width: 10, height: 10, right: -13, top: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0},
-  topLeft: {position: 'absolute', width: 10, height: 10, left: -13, top: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0}
+  bottomRight: {
+    position: 'absolute', width: 10, height: 10, right: -13, bottom: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0
+  },
+  bottomLeft: {
+    position: 'absolute', width: 10, height: 10, left: -13, bottom: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0
+  },
+  topRight: {
+    position: 'absolute', width: 10, height: 10, right: -13, top: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0
+  },
+  topLeft: {
+    position: 'absolute', width: 10, height: 10, left: -13, top: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0
+  }
 }
 class ImageEntity extends React.Component {
 
   state = {
     width: this.props.width,
     height: this.props.height,
-    visible: true,
     inFocus: false,
     ratio: 1,
     iconColors: {
@@ -38,11 +46,21 @@ class ImageEntity extends React.Component {
     },
     alignmentClass: 'resizable-image left-align'
   }
+  
+  onClick = (event) => {
+    console.log(event.target)
+    console.log(this.refs.resizableImage.refs.resizable);
+    console.log(event.target.isEqualNode(this.refs.resizable));
+  }
 
-  handleImageResized = (event) => {
-    // console.log('inner image resized')
-    // console.log(event.target.width);
-  };
+  // handleImageResized = (event) => {
+  //   // console.log('inner image resized')
+  //   // console.log(event.target.width);
+  // };
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onClick);
+  }
 
   componentDidMount() {
     const insertedImage = new Image(),
@@ -79,6 +97,7 @@ class ImageEntity extends React.Component {
     }, false);
 
     insertedImage.src = this.props.src;
+    window.addEventListener('click', this.onClick);
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -86,9 +105,11 @@ class ImageEntity extends React.Component {
   // }
 
   handleImageRemove = () => {
-    const {block} = this.props
-    this.setState({visible: false})
-    this.props.removeCallback(block.getKey())
+    // const {block} = this.props
+    // this.setState({visible: false})
+    // let nodeToRemove = ReactDOM.findDOMNode(this.refs.resizableImage);
+    // ReactDOM.unmountComponentAtNode(nodeToRemove)
+    this.props.removeCallback()
   }
 
   getMinConstraints() {
@@ -163,8 +184,8 @@ class ImageEntity extends React.Component {
     let minConstraints = this.getMinConstraints();
 
     return (
-      !this.state.visible ? null :
       <Resizable
+        ref="resizableImage"
         customClass={this.state.alignmentClass}
         width={this.state.width}
         height={this.state.height}
