@@ -1,5 +1,6 @@
 body {
   background: url('/images/background.jpeg');
+  background-attachment: fixed;
   font-family: sans-serif;
   margin: 0;
   color: #fff;
