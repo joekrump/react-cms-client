@@ -187,7 +187,7 @@ class DraftEditor extends React.Component {
             const type = entity.getType();
             if(type === 'image') {
               let entityData = entity.getData();
-              console.log('entity Data: ', entityData)
+              console.log(entityData)
               const { src } = entityData; 
               return '<img src="'+ src +'"/>';
             }
@@ -195,6 +195,8 @@ class DraftEditor extends React.Component {
         },
       }
       console.log('handled save')
+      let contentNode = document.getElementsByClassName('public-DraftEditor-content')[0];
+      console.log(contentNode.firstElementChild.innerHTML);
       this.logState();
       console.log(stateToHTML(this.state.editorState.getCurrentContent(), options))
       return 'handled';
@@ -254,7 +256,8 @@ class DraftEditor extends React.Component {
       src: URL.createObjectURL(file), 
       removeCallback: this.removeSelected, 
       width: defaultWidthHeight, 
-      height: defaultWidthHeight
+      height: defaultWidthHeight,
+      alignment: 'left'
     })
 
     this.setState({
@@ -295,8 +298,14 @@ class DraftEditor extends React.Component {
 
   _handleFileInput(e) {
     const fileList = e.target.files;
-    const file = fileList[0];
-    this.insertImage(file);
+    if(fileList.length > 0) {
+      // this.insertImage(fileList[0]);
+      console.log(fileList)
+      Object.keys(fileList).map((key) => {
+        // console.log(key);
+        this.insertImage(fileList[key]);
+      })
+    }
   }
 
   _addImage() {
@@ -394,7 +403,8 @@ class DraftEditor extends React.Component {
           <input type="file" 
                  ref="fileInput" 
                  style={{display: 'none'}}
-                 onChange={this.handleFileInput} />
+                 onChange={this.handleFileInput} 
+                 multiple/>
         </div>
         <input
           onClick={this.logState}

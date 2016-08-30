@@ -36,8 +36,10 @@ const handleStyles = {
 class ImageEntity extends React.Component {
 
   state = {
-    width: this.props.width,
-    height: this.props.height,
+    initWidth: this.props.width,
+    initHeight: this.props.height,
+    width: 0,
+    height: 0,
     alignment: 'left',
     inFocus: false,
     ratio: 1,
@@ -102,6 +104,8 @@ class ImageEntity extends React.Component {
 
       const maxConstraints = this.getMaxConstraints(event.target.width, event.target.height);
       this.setState({
+        initWidth: maxConstraints.x,
+        initHeight: maxConstraints.y,
         width: maxConstraints.x,
         height: maxConstraints.y,
         ratio: maxConstraints.ratio,
@@ -199,6 +203,10 @@ class ImageEntity extends React.Component {
     
   }
 
+  onResizeStop = (direction, styleSize, clientSize, delta) => {
+    this.setState({width: clientSize.width, height: clientSize.height})
+  }
+
   handleBlur = (e) => {
     e.preventDefault();
     console.log('blur')
@@ -206,15 +214,16 @@ class ImageEntity extends React.Component {
 
   render() {
     let minConstraints = this.getMinConstraints();
+    console.log(this.state.width);
 
     return (
       <Resizable
         ref="resizableImage"
         customClass={this.state.alignmentClass}
-        width={this.state.width}
-        height={this.state.height}
-        maxWidth={this.state.width}
-        maxHeight={this.state.height}
+        width={this.state.initWidth}
+        height={this.state.initHeight}
+        maxWidth={this.state.initWidth}
+        maxHeight={this.state.initHeight}
         minWidth={minConstraints.x}
         minHeight={minConstraints.y}
         isResizable={{ ...isResizable }}
@@ -222,7 +231,7 @@ class ImageEntity extends React.Component {
         onClick= { this.handleImageFocus }
         onBlur={this.handleBlur}
         inFocus= { this.state.inFocus }
-        // onResize={this.onResize}
+        onResizeStop={this.onResizeStop}
         lockRatio={true}
         ratio={this.state.ratio}
       >
@@ -239,6 +248,7 @@ class ImageEntity extends React.Component {
         </IconButton>
 
         <InlineImageControls
+          currentImageWidth={ this.state.width }
           handleAlignLeft={ this.handleAlignLeft }
           handleAlignRight={ this.handleAlignRight }
           handleAlignCenter={ this.handleAlignCenter }
