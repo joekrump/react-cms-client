@@ -9,7 +9,6 @@ import {Question, TextBox, ShortAnswer, Essay, Choice, MultipleChoice,
 import {Input, RadioButton, CheckBox, Select, TextField, TextArea} from "./widgets/input"
 import {Website, InlineMath, BlockMath, Image, SpreadSheet, CarryForward, Graph } from "./widgets/content"
 import {alignGroup, LeftAlign, CenterAlign, RightAlign, UnderlineMark, StrikeThroughMark, contentInsertMenu, questionInsertMenu, toolGroup} from "./widgets"
-import {analyzeCmdSpec, commentCmdSpec} from "./widgets/tool"
 
 import './schema.css'
 
@@ -127,13 +126,11 @@ export const commentCommands = CommandSet.default.update({
     lift: { menu: null},
     "code:toggle": {menu: {group: "textblock", rank: 99, select: "disable", display: {type: "label", label: "Code" }}},
     "strong:toggle": {menu: { group: "inline", rank: 20, select: "disable", display: strongIcon}}, 
-    "em:toggle": {menu: { group: "inline", rank: 21, select: "disable", display: emIcon}},
-    comment: commentCmdSpec
+    "em:toggle": {menu: { group: "inline", rank: 21, select: "disable", display: emIcon}}
 })
 
 export const noCommands = new CommandSet(null, () => null)
 
-export const commentOnlyCommands = noCommands.update({ comment: commentCmdSpec })
 
 
 export const grammarCommands = CommandSet.default.update({

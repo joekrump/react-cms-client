@@ -6,7 +6,6 @@ export {Question, TextBox, ShortAnswer, Essay, Choice, MultipleChoice,
 
 import {insertCSS} from "prosemirror/dist/util/dom"
 import {Dropdown, MenuCommandGroup} from "prosemirror/dist/menu/menu"
-import "./tool"
 
 export const contentCommandGroup = new MenuCommandGroup("content")
 export const contentInsertMenu = new Dropdown({label: "Content..", displayActive: true, class: "ProseMirror-widgetinsert-dropdown"}, [contentCommandGroup])

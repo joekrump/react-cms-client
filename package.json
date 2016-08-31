@@ -43,6 +43,7 @@
   "dependencies": {
     "draft-js": "^0.8.1",
     "draft-js-export-html": "^0.4.0",
+    "element-resize-event": "^2.0.5",
     "email-validator": "^1.0.4",
     "gravatar": "^1.5.2",
     "interact.js": "^1.2.6",

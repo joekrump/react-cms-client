@@ -1,6 +1,6 @@
 export {widgetParamHandler, defineFileHandler, namePattern, nameTitle, defParamsClick, selectedNodeAttr} from "./params"
 
-export const onResize = require("prosemirror/node_modules/element-resize-event/index.js")	 
+export const onResize = require('element-resize-event');
 
 export function defParser(type,tag,cls) {
 	type.register("parseDOM", tag, {
