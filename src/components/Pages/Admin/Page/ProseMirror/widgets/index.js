@@ -4,7 +4,7 @@ export {alignGroup,LeftAlign,CenterAlign,RightAlign,UnderlineMark,StrikeThroughM
 export {Question, TextBox, ShortAnswer, Essay, Choice, MultipleChoice, 
 	ScaleDisplay, Scale, CheckItem, CheckList, Selection} from "./questions"
 
-import {insertCSS} from "prosemirror/dist/dom"
+import {insertCSS} from "prosemirror/dist/util/dom"
 import {Dropdown, MenuCommandGroup} from "prosemirror/dist/menu/menu"
 import "./tool"
 

@@ -1,5 +1,5 @@
 import {Inline, Attribute} from "prosemirror/dist/model"
-import {elt,insertCSS} from "prosemirror/dist/dom"
+import {elt,insertCSS} from "prosemirror/dist/util/dom"
 import {defParser, defParamsClick, selectedNodeAttr} from "../../utils"
 
 const css = "widgets-img"

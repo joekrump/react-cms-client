@@ -1,5 +1,5 @@
 import {Block, Textblock, Fragment, Attribute} from "prosemirror/dist/model"
-import {elt, insertCSS} from "prosemirror/dist/dom"
+import {elt, insertCSS} from "prosemirror/dist/util/dom"
 import {TextBox} from "./textbox"
 import {defParser, defParamsClick, namePattern, nameTitle, selectedNodeAttr} from "../../utils"
 import {Question, qclass, insertQuestion} from "./question"

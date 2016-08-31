@@ -1,4 +1,4 @@
-import {elt,insertCSS} from "prosemirror/dist/dom"
+import {elt,insertCSS} from "prosemirror/dist/util/dom"
 import {Pos} from "prosemirror/dist/model"
 import {onResize} from "../../utils"
 

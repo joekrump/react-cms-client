@@ -1,5 +1,5 @@
 import {CommandSet} from "prosemirror/dist/edit"
-// import {insertCSS} from "prosemirror/dist/dom"
+// import {insertCSS} from "prosemirror/dist/util/dom"
 import {inlineGroup, insertMenu, textblockMenu, blockGroup, historyGroup} from "prosemirror/dist/menu/menu"
 import {Doc, Textblock, BlockQuote, OrderedList, BulletList, ListItem, HorizontalRule,
   Paragraph, Heading, Text, HardBreak,

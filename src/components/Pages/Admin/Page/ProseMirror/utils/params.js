@@ -1,4 +1,4 @@
-import {elt,insertCSS} from "prosemirror/dist/dom"
+import {elt,insertCSS} from "prosemirror/dist/util/dom"
 import {ParamPrompt} from "prosemirror/dist/ui/prompt"
 import {defineOption} from "prosemirror/dist/edit"
 import {selectableNodeAbove} from "prosemirror/dist/edit/dompos"

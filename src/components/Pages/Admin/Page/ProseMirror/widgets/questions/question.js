@@ -1,5 +1,5 @@
 import {Block, Paragraph, Attribute, Pos, Textblock} from "prosemirror/dist/model"
-import {elt, insertCSS} from "prosemirror/dist/dom"
+import {elt, insertCSS} from "prosemirror/dist/util/dom"
 import {defParser, defParamsClick} from "../../utils"
 import {joinPoint, joinableBlocks, canLift} from "prosemirror/dist/transform"
 import {TextBox} from "./textbox"

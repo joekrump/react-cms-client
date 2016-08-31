@@ -1,5 +1,5 @@
 import {Fragment,Block, Attribute, Pos, NodeKind} from "prosemirror/dist/model"
-import {insertCSS} from "prosemirror/dist/dom"
+import {insertCSS} from "prosemirror/dist/util/dom"
 import {Select} from "../input"
 import {defParser, defParamsClick, namePattern, nameTitle, selectedNodeAttr, getLastClicked} from "../../utils"
 import {Question, qclass, setChildAttrs, insertQuestion} from "./question"

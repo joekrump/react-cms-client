@@ -1,6 +1,6 @@
 import {MenuCommandGroup} from "prosemirror/dist/menu/menu"
 import {Doc, Paragraph, Textblock, Block, Attribute, Pos} from "prosemirror/dist/model"
-import {elt, insertCSS} from "prosemirror/dist/dom"
+import {elt, insertCSS} from "prosemirror/dist/util/dom"
 import {canWrap} from "prosemirror/dist/transform"
 import {defParser} from "../../utils"
 
