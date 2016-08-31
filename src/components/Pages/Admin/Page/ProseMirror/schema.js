@@ -1,5 +1,5 @@
 import {CommandSet} from "prosemirror/dist/edit"
-import {insertCSS} from "prosemirror/dist/dom"
+// import {insertCSS} from "prosemirror/dist/dom"
 import {inlineGroup, insertMenu, textblockMenu, blockGroup, historyGroup} from "prosemirror/dist/menu/menu"
 import {Doc, Textblock, BlockQuote, OrderedList, BulletList, ListItem, HorizontalRule,
   Paragraph, Heading, Text, HardBreak,
@@ -10,6 +10,8 @@ import {Input, RadioButton, CheckBox, Select, TextField, TextArea} from "./widge
 import {Website, InlineMath, BlockMath, Image, SpreadSheet, CarryForward, Graph } from "./widgets/content"
 import {alignGroup, LeftAlign, CenterAlign, RightAlign, UnderlineMark, StrikeThroughMark, contentInsertMenu, questionInsertMenu, toolGroup} from "./widgets"
 import {analyzeCmdSpec, commentCmdSpec} from "./widgets/tool"
+
+import './schema.css'
 
 export const widgetSchema = new Schema({
   nodes: {
@@ -142,48 +144,3 @@ export const grammarCommands = CommandSet.default.update({
     "em:toggle": {menu: { group: "inline", rank: 21, select: "disable", display: emIcon}},
     analyze: analyzeCmdSpec
 })
-
-insertCSS(`
-    
-.ProseMirror {
-}
-
-.ProseMirror-menu {
-  background: white;
-  color: black;
-}
-
-div.ProseMirror-dropdown-menu {
-  position: absolute;
-  background: white;
-  color: black;
-  border-radius: 6px;
-  border: 1px solid silver;
-  padding: 2px 2px;
-  z-index: 15;
-}
-
-div.ProseMirror-dropdown-menu {
-  cursor: pointer;
-  padding: 0 1em 0 2px;
-}
-
-div.ProseMirror-menubar-inner {
-  background: linear-gradient(to bottom, white, #0191C8);
-}
-
-div.ProseMirror-menu form {
-  background: linear-gradient(to bottom, white, #0191C8);
-  width: 300px;
-}
-
-div.ProseMirror-menu form select {
-  width: 100px;
-  background: white;
-}
-
-div.ProseMirror-menu input[type = "text"] {
-  background: white;
-}
-
-`)
