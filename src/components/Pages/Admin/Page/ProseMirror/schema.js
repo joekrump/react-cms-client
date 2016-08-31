@@ -4,10 +4,8 @@ import {inlineGroup, insertMenu, textblockMenu, blockGroup, historyGroup} from "
 import {Doc, Textblock, BlockQuote, OrderedList, BulletList, ListItem, HorizontalRule,
   Paragraph, Heading, Text, HardBreak,
   EmMark, StrongMark, LinkMark, CodeMark, Schema, SchemaSpec} from "prosemirror/dist/model"
-import {Question, TextBox, ShortAnswer, Essay, Choice, MultipleChoice, 
-  ScaleDisplay, Scale, CheckItem, CheckList, Selection} from "./widgets/questions"
-import {Input, RadioButton, CheckBox, Select, TextField, TextArea} from "./widgets/input"
-import {Website, InlineMath, BlockMath, Image, SpreadSheet, CarryForward, Graph } from "./widgets/content"
+
+import {BlockMath, Image, SpreadSheet, Block } from "./widgets/content"
 import {alignGroup, LeftAlign, CenterAlign, RightAlign, UnderlineMark, StrikeThroughMark, contentInsertMenu, questionInsertMenu, toolGroup} from "./widgets"
 
 import './schema.css'
@@ -24,20 +22,9 @@ export const widgetSchema = new Schema({
       // blocks
       paragraph: {type: Paragraph, content: "inline[_]*"},
       heading: {type: Heading, content: "inline_only[_]*"},
-    textbox: {type: TextBox, content:"inline[_]*"},
-    choice: {type: Choice, content: "radiobutton textbox"},
-    multiplechoice: {type: MultipleChoice, content: "paragraph+ choice+"},
-    scaledisplay: {type: ScaleDisplay},
-    scale: {type: Scale, content: "paragraph+ scaledisplay"},
-    checkitem: {type: CheckItem, content: "checkbox textbox"},
-    checklist: {type: CheckList, content: "paragraph+ checkitem+"},
-    shortanswer: {type: ShortAnswer, content: "paragraph+ textfield"},
-    essay: {type: Essay, content: "paragraph+ textarea"},
     selection: {type: Selection, content: "paragraph+ select"},
     blockmath: {type: BlockMath},
-    website: {type: Website},
     spreadsheet: {type: SpreadSheet},
-    graph: {type: Graph},
 
     // inline
       text: {type: Text},
@@ -45,13 +32,6 @@ export const widgetSchema = new Schema({
       hard_break: {type: HardBreak},
     inlinemath: {type: InlineMath},
     carryforward: {type: CarryForward},
-
-    // form elements
-    checkbox: {type: CheckBox},
-    radiobutton: {type: RadioButton},
-    select: {type: Select},
-    textfield: {type: TextField},
-    textarea: {type: TextArea},
 
     // alignment
     leftalign: {type: LeftAlign},

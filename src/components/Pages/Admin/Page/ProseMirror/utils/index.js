@@ -1,4 +1,4 @@
-export {widgetParamHandler, defineFileHandler, namePattern, nameTitle, defParamsClick, selectedNodeAttr} from "./params"
+export {defineFileHandler, namePattern, nameTitle, defParamsClick, selectedNodeAttr} from "./params"
 
 export const onResize = require('element-resize-event');
 

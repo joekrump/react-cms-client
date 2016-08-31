@@ -1,8 +1,6 @@
 export {BlockMath} from "./blockmath"
 export {Image} from "./image"
 export {SpreadSheet} from "./spreadsheet"
-export {CarryForward} from "./carryforward"
-export {Graph} from "./graph"
 import {Block} from "prosemirror/dist/model"
 
 if (window.MathJax)

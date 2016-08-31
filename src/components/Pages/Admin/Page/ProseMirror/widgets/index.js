@@ -1,8 +1,6 @@
 export {BlockMath,CarryForward,Image,InlineMath,SpreadSheet,Website,Graph} from "./content"
 export {Input, CheckBox, RadioButton, Select, TextField, TextArea} from "./input"
 export {alignGroup,LeftAlign,CenterAlign,RightAlign,UnderlineMark,StrikeThroughMark} from "./format"
-export {Question, TextBox, ShortAnswer, Essay, Choice, MultipleChoice, 
-	ScaleDisplay, Scale, CheckItem, CheckList, Selection} from "./questions"
 
 import {insertCSS} from "prosemirror/dist/util/dom"
 import {Dropdown, MenuCommandGroup} from "prosemirror/dist/menu/menu"
