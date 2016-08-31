@@ -1,8 +1,0 @@
-export {TextBox} from "./textbox"
-export {ShortAnswer} from "./shortanswer"
-export {Essay} from "./essay"
-export {MultipleChoice, Choice} from "./multiplechoice"
-export {CheckList, CheckItem} from "./checklist"
-export {Scale, ScaleDisplay} from "./scale"
-export {Selection} from "./selection"
-export {Question} from "./question"

@@ -1,6 +1,5 @@
 import {elt,insertCSS} from "prosemirror/dist/util/dom"
-import {ParamPrompt} from "prosemirror/dist/ui/prompt"
-import {defineOption} from "prosemirror/dist/edit"
+import {FieldPrompt} from "prosemirror/dist/ui/prompt"
 import {selectableNodeAbove} from "prosemirror/dist/edit/dompos"
 import {AssertionError} from "prosemirror/dist/util/error"
 
@@ -11,121 +10,6 @@ export const nameTitle = "letters,digits, -, _ (max:10)"
 
 export function defineFileHandler(handler) { fhandler = handler}
 export function getLastClicked() { return lastClicked }
-
-class WidgetParamPrompt extends ParamPrompt {
-	prompt() {
-		return openWidgetPrompt(this,{onClose: () => this.close()})
-	}
-}
-
-defineOption("commandParamPrompt", WidgetParamPrompt)
-
-function openWidgetPrompt(wpp, options) {
-	let close = () => {
-	    wpp.pm.off("interaction", close)
-	    if (dialog.parentNode) {
-	      dialog.parentNode.removeChild(dialog)
-	      if (options && options.onClose) options.onClose()
-	    }
-	}
-    let submit = () => {
-       let params = wpp.values()
-       if (params) {
-           wpp.command.exec(wpp.pm, params)
-           close()
-        }
-    }
-	wpp.pm.on("interaction", close)
-	let save = elt("input",{name: "save", type: "button", value: "Save"})
-    save.addEventListener("mousedown", e => { submit() })
-	let cancel = elt("input",{name: "cancel", type: "button", value: "Cancel"})
-    cancel.addEventListener("mousedown", e => {
-    	e.preventDefault(); e.stopPropagation()
-    	close()
-    })
-	let buttons = elt("div",{class: "widgetButtons"},save,cancel)
-	wpp.form = elt("form",{class: "widgetForm"},
-		elt("h4", null, wpp.command.label+" Settings"),
-		wpp.fields.map(f => elt("div", null, f)),
-		buttons)
-	// Submit if Enter pressed and all fields are valid
-    wpp.form.addEventListener("keypress", e => { 
-     	if (e.keyCode == 13) {
-        	e.preventDefault(); e.stopPropagation()
-     		save.click()
-     	}
-   })
-    
-	let dialog = elt("div",null,elt("div",{class: "widgetDialog"}),wpp.form)
-	wpp.pm.wrapper.appendChild(dialog)
-	return {close}
-}
-
-["text","number","range","email","url","date"].map(type =>
-  ParamPrompt.prototype.paramTypes[type] = {
-    render(param, value) {
-      let field =  elt("input", {type,placeholder: param.label,value,required: "required",autocomplete: "off"})
-      let label = param.name? param.name: param.label
-      field.setAttribute("name", label)
-      let opt = param.options
-	  if (opt) for (let prop in opt) { 
-		  if (prop == "required") field.removeAttribute(prop) 
-		  else field.setAttribute(prop, opt[prop]) 
-	  }
-	  let fieldLabel = elt("label",{for: label},label)
-	  return elt("div", {class: "widgetField"}, fieldLabel, field)
-    },
-    validate(dom) {
-        let input = dom.querySelector("input")
-        return input.checkValidity()? null: input.name+": "+input.validationMessage
-    },
-    read(dom) {
-       let input = dom.querySelector("input")
-       return input? input.value: input
-  }
-})
-
-ParamPrompt.prototype.paramTypes.file = {
-  render(param,value) {
-	let field = elt("input", {type: "text",readonly: true,placeholder: param.label,value,required: "required",autocomplete: "off"})
-    let label = param.name? param.name: param.label
-    field.setAttribute("name", label)
-    let opt = param.options
-	if (opt) for (let prop in opt) field.setAttribute(prop, opt[prop])
-	let fieldLabel = elt("label",{for: label},label)
-	let uploadButton = elt("input",{name: "upload", type: "button", value: "Upload"})
-	uploadButton.addEventListener("click",e => { buildUploadForm(pm, field) })
-	return elt("div", {class: "widgetField"}, fieldLabel, field, uploadButton)
-  },
-  validate(dom) {
-      let input = dom.querySelector("input")
-      return input.checkValidity()? null: input.name+": "+input.validationMessage
-  },
-  read(dom) {
-      let input = dom.querySelector("input")
-      return input? input.value: input
-  }
-}
-
-ParamPrompt.prototype.paramTypes.select = {
-  render(param, value) {
-    let options = param.options.call ? param.options(this) : param.options
-    let field = elt("select", null, options.map(o => elt("option", {value: o.value, selected: o.value == value ? "true" : null}, o.label)))
-    field.setAttribute("required","required")
-    let label = param.name? param.name: param.label
-    field.setAttribute("name", label)
-	let fieldLabel = elt("label",{for: name},label)
-	return elt("div", {class: "widgetField"}, fieldLabel, field)
-  },
-  validate(dom) {
-    let select = dom.querySelector("select")
-    return select.checkValidity()? null: select.name+": "+select.validationMessage
-  },
-  read(dom) {
-    let select = dom.querySelector("select")
-    return select? select.value: select
-  }
-}
 
 export function defParamsClick(type, cmdname, spots = ["topright"]) {
 	type.prototype.handleClick = (pm, e, pos, node) => {
