@@ -10,9 +10,18 @@ const Editor = React.createClass({
     }
   },
   componentDidMount(){
-
+    var bindings = {
+      saveContent: {
+        key: 'S',
+        shortKey: true,
+        handler: this.props.handleSave 
+      }
+    }
     var options = {
       modules: {
+        keyboard: {
+          bindings: bindings
+        },
         toolbar: [
           [{ 'header': 1 }, { 'header': 2 }],               // custom button values
           ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
