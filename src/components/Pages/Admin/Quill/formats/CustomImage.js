@@ -18,46 +18,32 @@ class CustomImage extends BlockEmbed {
     let editorContainer = document.getElementById('editor-root');
     let images = document.getElementsByClassName('ql-editor-image');
     let numImages = images.length;
-    console.log(numImages)
+
     var component = ReactDOM.render(
       <MuiThemeProvider muiTheme={muiTheme}><ImageEntity src={this.sanitize(value)} 
-                    className={'ql-editor-image image-' + numImages}
-                    style={style} 
-                    muiTheme={muiTheme}
-                    maxWidth={editorContainer.clientWidth} 
-                    maxHeight={window.innerHeight - 150} 
-                    width={defaultWidthHeight} 
-                    height={defaultWidthHeight} 
-                  /></MuiThemeProvider>,
-                  document.getElementById('editor-react-components'),
-                  () => {
-                    console.log('Callback count', document.getElementsByClassName('ql-editor-image'))
-                    console.log(numImages);
-                    var domNode = document.getElementsByClassName('image-' + numImages);
-                    console.log(domNode)
-                    if(domNode.length > 0) {
-                      node = super.create(domNode[0]);
-                    } else {
-                      node = super.create('customimage');
-                    }
-                    
-                  }
-    )
-    console.log('Post render count', document.getElementsByClassName('ql-editor-image'));
-    // node.innerHTML();
-    // if (typeof value === 'string') {
-    //   node.setAttribute('src', this.sanitize(value));
-    // }
+        className={'ql-editor-image image-' + numImages}
+        style={style} 
+        muiTheme={muiTheme}
+        maxWidth={editorContainer.clientWidth} 
+        maxHeight={window.innerHeight - 150} 
+        width={defaultWidthHeight} 
+        height={defaultWidthHeight} 
+      /></MuiThemeProvider>,
+      document.getElementById('editor-react-components'),
+      () => {
 
-    // console.log(<ImageEntity src={this.sanitize(value)} 
-    //                 style={style} 
-    //                 maxWidth={editorContainer.clientWidth} 
-    //                 maxHeight={window.innerHeight - 150} 
-    //                 width={defaultWidthHeight} 
-    //                 height={defaultWidthHeight} 
-    //               />)
-    console.log(node);
-    return node;
+        var quillImageNodes = document.getElementsByClassName('image-' + numImages);
+        // Check if there are any quillImageNodes with matching class.
+        if(quillImageNodes.length > 0) {
+          node = super.create('customimage')
+          node.appendChild(quillImageNodes[0]);
+        } else {
+          node = super.create('customimage');
+        }
+      }
+    )
+    // console.log();
+    return node.children[0];
   }
 
   static formats(domNode) {
