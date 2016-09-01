@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { apiGet, apiPut, apiPost, updateToken } from '../../../http/requests'
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
-import Editor from "../Admin/Page/Editor"
+import Editor from "../Admin/Quill/Editor"
 
 const listItemStyle = {
   padding: "0 16px"
@@ -56,7 +56,7 @@ const PageTemplate = React.createClass({
       this.setState({
         content: htmlContents
       });
-      
+
       serverRequest.send({contents: htmlContents})
       .end(function(err, res){
         if(err !== null) {

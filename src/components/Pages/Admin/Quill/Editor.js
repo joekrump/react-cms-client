@@ -1,7 +1,11 @@
 import React from 'react'
 import Quill from 'quill'
- 
+import Counter from './modules/Counter'
+
 import './quill.bubble.css'
+
+Quill.register('modules/counter', Counter);
+
 
 const Editor = React.createClass({
   getInitialState(){
@@ -24,6 +28,10 @@ const Editor = React.createClass({
     }
     var options = {
       modules: {
+        counter: {
+          container: '#counter',
+          unit: 'word'
+        },
         keyboard: {
           bindings: bindings
         },
@@ -56,7 +64,10 @@ const Editor = React.createClass({
   },
   render() {
     return (
-      <div id="editor-root"></div>
+      <div>
+        <div id="editor-root"></div>
+        <div id="counter">0</div>
+      </div>
     )
   }
 });
