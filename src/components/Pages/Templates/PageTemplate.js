@@ -45,21 +45,15 @@ const PageTemplate = React.createClass({
     this.props.resetForm(this.props.formName)
   },
 
-  handleFormSubmit(e) {
-    e.preventDefault();
-    this.submitToServer();
+  handleSave(htmlContents) {
+    this.submitToServer(htmlContents);
   },
-  submitToServer(){
-    var formInputValues = {};
+  submitToServer(htmlContents){
 
-    Object.keys(this.props.formFields).forEach((key) => {
-      formInputValues[key] = this.props.formFields[key].value;
-      return;
-    })
     try {
       let serverRequest = this.props.context === 'edit' ? apiPut(this.props.submitUrl) : apiPost(this.props.submitUrl);
 
-      serverRequest.send(formInputValues)
+      serverRequest.send({contents: htmlContents})
       .end(function(err, res){
         if(err !== null) {
           // console.log(err);
@@ -74,11 +68,6 @@ const PageTemplate = React.createClass({
           this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
 
-          this.props.updateFormCompleteStatus(
-            true, 
-            this.props.formName
-          );
-          
           if(this.props.context == 'edit') {
             this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
           } else {
@@ -88,9 +77,9 @@ const PageTemplate = React.createClass({
           if(this.props.loginCallback) {
             this.props.loginCallback(res.body.user, res.body.token)
           } else {
-            if(this.props.context !== 'edit'){
-              setTimeout(this.resetForm, 500);
-            }
+            // if(this.props.context !== 'edit'){
+            //   setTimeout(this.resetForm, 500);
+            // }
           }
         }
       }.bind(this));
@@ -100,18 +89,46 @@ const PageTemplate = React.createClass({
   },
   render() {
     return (
-      <Editor content={this.state.content}/>
+      <div>
+        <Editor content={this.state.content} handleSave={this.handleSave}/>
+        <NotificationSnackbar 
+          open={this.props.snackbar.show} 
+          header={this.props.snackbar.header}
+          content={this.props.snackbar.content}
+          type={this.props.snackbar.notificationType}
+        />
+      </div>
     )
   }
 })
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    token: state.auth.token
+    token: state.auth.token,
+    snackbar: {
+      show: state.notifications.snackbar.show,
+      header: state.notifications.snackbar.header,
+      content: state.notifications.snackbar.content,
+      notificationType: state.notifications.snackbar.notificationType
+    }
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateSnackbar: (show, header, content, notificationType) => {
+      dispatch ({
+        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        show,
+        header,
+        content,
+        notificationType
+      })
+    }
   }
 }
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(PageTemplate)

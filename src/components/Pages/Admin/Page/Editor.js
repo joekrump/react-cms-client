@@ -9,12 +9,17 @@ const Editor = React.createClass({
       editor: null
     }
   },
+  getEditorHTML() {
+    return this.state.editor.container.firstChild.innerHTML.replace(/\>\s+\</g, '>&nbsp;<')
+  },
   componentDidMount(){
     var bindings = {
       saveContent: {
         key: 'S',
         shortKey: true,
-        handler: this.props.handleSave 
+        handler: () => {
+          this.props.handleSave(this.getEditorHTML())
+        }
       }
     }
     var options = {
@@ -44,7 +49,6 @@ const Editor = React.createClass({
     })
   },
   componentWillReceiveProps(newProps){
-    console.log(newProps)
     if(newProps.content) {
       this.state.editor.pasteHTML(newProps.content) // set initial content if there is some.
       this.state.editor.focus();
@@ -52,11 +56,8 @@ const Editor = React.createClass({
   },
   render() {
     return (
-      <div id="editor-root">
-        
-      </div>
+      <div id="editor-root"></div>
     )
-    
   }
 });
 
