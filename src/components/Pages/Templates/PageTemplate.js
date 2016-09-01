@@ -36,7 +36,7 @@ const PageTemplate = React.createClass({
             updateToken(res.header.authorization);
             this.setState({
               content: res.body.data.editor_contents,
-              name: res.body.name
+              name: res.body.data.name
             })
           }
         }.bind(this));
@@ -110,9 +110,9 @@ const PageTemplate = React.createClass({
           // floatingLabelText="Page Name"
           onChange={(e) => this.handleNameChange(e)}
           // errorText={this.props.errorText}
-          value={this.props.name ? this.props.name : null}
+          value={this.state.name ? this.state.name : null}
           style={{width: '100%', fontSize: '4.0rem', lineHeight: '1.1', height: '6.0rem'}}
-          autoFocus={this.props.name ? false : true}
+          autoFocus={this.state.name ? false : true}
         />
         <Editor content={this.state.content} handleSave={this.handleSave}/>
         <NotificationSnackbar 
