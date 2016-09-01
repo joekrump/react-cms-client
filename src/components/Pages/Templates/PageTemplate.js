@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { apiGet, apiPut, apiPost, updateToken } from '../../../http/requests'
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
+import TextField from 'material-ui/TextField';
 import Editor from "../Admin/Quill/Editor"
 
 const listItemStyle = {
@@ -57,7 +58,11 @@ const PageTemplate = React.createClass({
         content: htmlContents
       });
 
-      serverRequest.send({contents: htmlContents})
+      serverRequest.send({
+        contents: htmlContents,
+        template_id: 1,
+        name: this.state.name
+      })
       .end(function(err, res){
         if(err !== null) {
           // console.log(err);
@@ -91,9 +96,24 @@ const PageTemplate = React.createClass({
       console.log('Exception: ', e)
     }
   },
+  handleNameChange(e) {
+    this.setState({
+      name: e.target.value
+    });
+  },
   render() {
     return (
       <div>
+        <TextField
+          type='text'
+          hintText="Page Name"
+          // floatingLabelText="Page Name"
+          onChange={(e) => this.handleNameChange(e)}
+          // errorText={this.props.errorText}
+          value={this.props.name ? this.props.name : null}
+          style={{width: '100%', fontSize: '4.0rem', lineHeight: '1.1', height: '6.0rem'}}
+          autoFocus={this.props.name ? false : true}
+        />
         <Editor content={this.state.content} handleSave={this.handleSave}/>
         <NotificationSnackbar 
           open={this.props.snackbar.show} 
