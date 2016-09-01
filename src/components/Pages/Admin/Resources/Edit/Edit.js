@@ -8,8 +8,7 @@ import PageTemplate from '../../../Templates/PageTemplate';
 
 const Edit = ({ params: { resourceNamePlural, resourceId }, location: { query } }) => {
   const nameSingular = singularizeName(resourceNamePlural);
-  console.log(nameSingular)
-  console.log(AppConfig.resourcesWithEditor.indexOf(nameSingular));
+
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1) {
     return (
       <AdminLayout>
