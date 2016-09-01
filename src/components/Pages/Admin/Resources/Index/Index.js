@@ -25,7 +25,6 @@ const Index = React.createClass({
         } else if(res.statusCode !== 200) {
           this.setState({items: []}) // Reset Items
         } else {
-          console.log(res.header)
           updateToken(res.header.authorization)
           this.setState({items: res.body.data})
         }

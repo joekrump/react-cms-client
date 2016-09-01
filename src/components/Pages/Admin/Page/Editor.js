@@ -6,8 +6,6 @@ import './quill.bubble.css'
 const Editor = () => ({
   
   componentDidMount(){
-    var contentWrapper = document.createElement('div');
-    contentWrapper.innerHTML = this.props.initContent;
 
     var options = {
       modules: {
@@ -25,6 +23,10 @@ const Editor = () => ({
     };
 
     var editor = new Quill('#editor-root', options);
+    if(this.props.content) {
+      editor.pasteHTML(this.props.content) // set initial content if there is some.
+    }
+    
   },
   render() {
     return (
