@@ -13,6 +13,8 @@ pm.setOption("tooltipMenu", {
 // import prosemirror from "prosemirror"
 // import BasicSchema from "prosemirror/dist/schema-basic"
 // import "prosemirror/dist/menu/toolt`ipmenu"
+import './quill.core.css'
+import './quill.bubble.css'
 
 const Editor = () => ({
   
@@ -20,10 +22,21 @@ const Editor = () => ({
     var contentWrapper = document.createElement('div');
     contentWrapper.innerHTML = this.props.initContent;
 
+    var toolbarOptions = ['bold', 'italic', 'underline', 'strike'];
+
+    var options = {
+      debug: 'info',
+      modules: {
+        toolbar: toolbarOptions
+      },
+      placeholder: 'Compose an epic...',
+      readOnly: false,
+      theme: 'bubble'
+    };
 
     var container = document.getElementById('editor-root');
-    var editor = new Quill(container);
-    
+    var editor = new Quill(container, options);
+
     // pm.setOption("tooltipMenu", {
     //   selectedBlockMenu: true,
     //   inlineContent: [inlineGroup,insertMenu],
