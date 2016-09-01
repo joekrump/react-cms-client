@@ -456,13 +456,16 @@
 .ql-bubble * {
   box-sizing: border-box;
 }
+
+.ql-bubble .ql-out-bottom,
+.ql-bubble .ql-out-top {
+  visibility: visible;
+}
+
 .ql-bubble .ql-hidden {
   display: none;
 }
-.ql-bubble .ql-out-bottom,
-.ql-bubble .ql-out-top {
-  visibility: hidden;
-}
+
 .ql-bubble .ql-tooltip {
   position: absolute;
 }

@@ -22,20 +22,18 @@ const Editor = () => ({
     var contentWrapper = document.createElement('div');
     contentWrapper.innerHTML = this.props.initContent;
 
-    var toolbarOptions = ['bold', 'italic', 'underline', 'strike'];
-
     var options = {
-      debug: 'info',
       modules: {
-        toolbar: toolbarOptions
+        toolbar: [
+          [{ header: [1, 2, false] }],
+          ['bold', 'italic', 'underline', 'image']
+        ]
       },
       placeholder: 'Compose an epic...',
-      readOnly: false,
       theme: 'bubble'
     };
 
-    var container = document.getElementById('editor-root');
-    var editor = new Quill(container, options);
+    var editor = new Quill('#editor-root', options);
 
     // pm.setOption("tooltipMenu", {
     //   selectedBlockMenu: true,
@@ -52,6 +50,7 @@ const Editor = () => ({
   render() {
     return (
       <div id="editor-root">
+        
       </div>
     )
     
