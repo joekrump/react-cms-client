@@ -1,10 +1,16 @@
 import React from 'react'
 import Quill from 'quill'
 import Counter from './modules/Counter'
+import ResizableImage from './formats/ResizableImage';
+import Icons from './ui/icons'
 
 import './quill.bubble.css'
 
-Quill.register('modules/counter', Counter);
+Quill.register({
+  'modules/counter': Counter,
+  'ui/icons': Icons,
+  'formats/resizable-image': ResizableImage
+}, true);
 
 
 const Editor = React.createClass({
@@ -41,7 +47,7 @@ const Editor = React.createClass({
           ['blockquote', 'code-block'],
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
           [{ 'align': [] }],
-          ['link', 'image']
+          ['link', 'resizable-image', 'image']
         ]
       },
       placeholder: 'Compose an epic...',
@@ -49,6 +55,36 @@ const Editor = React.createClass({
     };
 
     var editor = new Quill('#editor-root', options);
+    
+    var toolbar = editor.getModule('toolbar')
+
+    toolbar.addHandler('resizable-image', function(value) {
+              let fileInput = this.container.querySelector('input.ql-image[type=file]');
+              if (fileInput == null) {
+                fileInput = document.createElement('input');
+                fileInput.setAttribute('type', 'file');
+                fileInput.setAttribute('accept', 'image/*');
+                fileInput.classList.add('ql-image');
+                fileInput.addEventListener('change', () => {
+                  if (fileInput.files != null && fileInput.files[0] != null) {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                      let range = this.quill.getSelection(true);
+                      this.quill.updateContents(new Delta()
+                        .retain(range.index)
+                        .delete(range.length)
+                        .insert({ image: e.target.result })
+                      , Emitter.sources.USER);
+                      fileInput.value = "";
+                    }
+                    reader.readAsDataURL(fileInput.files[0]);
+                  }
+                });
+                this.container.appendChild(fileInput);
+              }
+              fileInput.click();
+            });
+
     if(this.props.content) {
       editor.pasteHTML(this.props.content) // set initial content if there is some.
     }
