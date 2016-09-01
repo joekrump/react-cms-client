@@ -65,9 +65,8 @@ const PageTemplate = React.createClass({
       })
       .end(function(err, res){
         if(err !== null) {
-          // console.log(err);
-          // console.log(res);
-          this.props.updateSnackbar(true, 'Error', res.body.message, 'error');
+          console.warn(err);
+          this.props.updateSnackbar(true, 'Error', res.statusText, 'error')
           // Something unexpected happened
         } else if (res.statusCode !== 200) {
           // not status OK
