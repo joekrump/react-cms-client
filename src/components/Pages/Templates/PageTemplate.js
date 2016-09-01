@@ -52,7 +52,11 @@ const PageTemplate = React.createClass({
 
     try {
       let serverRequest = this.props.context === 'edit' ? apiPut(this.props.submitUrl) : apiPost(this.props.submitUrl);
-
+      
+      this.setState({
+        content: htmlContents
+      });
+      
       serverRequest.send({contents: htmlContents})
       .end(function(err, res){
         if(err !== null) {
