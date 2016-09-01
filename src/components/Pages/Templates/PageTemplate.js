@@ -12,7 +12,8 @@ const PageTemplate = React.createClass({
 
   getInitialState(){
     return {
-      existingData: {},
+      content: null,
+      name: null,
       submitDisabled: false
     }
   },
@@ -32,7 +33,10 @@ const PageTemplate = React.createClass({
           } else {
             // this.setState({existingData: res.body.data})
             updateToken(res.header.authorization);
-            this.props.loadFormWithData(res.body.data, this.props.formName);
+            this.setState({
+              content: res.body.data.editor_contents,
+              name: res.body.name
+            })
           }
         }.bind(this));
     } 
@@ -96,7 +100,7 @@ const PageTemplate = React.createClass({
   },
   render() {
     return (
-      <Editor />
+      <Editor content={this.state.content}/>
     )
   }
 })

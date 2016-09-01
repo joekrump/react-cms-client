@@ -3,8 +3,12 @@ import Quill from 'quill'
  
 import './quill.bubble.css'
 
-const Editor = () => ({
-  
+const Editor = React.createClass({
+  getInitialState(){
+    return {
+      editor: null
+    }
+  },
   componentDidMount(){
 
     var options = {
@@ -26,7 +30,15 @@ const Editor = () => ({
     if(this.props.content) {
       editor.pasteHTML(this.props.content) // set initial content if there is some.
     }
-    
+    this.setState({
+      editor: editor
+    })
+  },
+  componentWillReceiveProps(newProps){
+    console.log(newProps)
+    if(newProps.content) {
+      this.state.editor.pasteHTML(newProps.content) // set initial content if there is some.
+    }
   },
   render() {
     return (
