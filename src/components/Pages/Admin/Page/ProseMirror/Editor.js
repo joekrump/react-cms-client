@@ -1,11 +1,9 @@
 import React from 'react'
 import {ProseMirror} from "prosemirror/dist/edit"
-import "prosemirror/dist/menu/tooltipmenu"
-import "prosemirror/dist/menu/menubar"
 import {defineFileHandler} from "./utils"
-import {widgetSchema, commands, mainMenuBar} from "./schema" 
+import {schema} from "./schema" 
  
-
+import {exampleSetup, buildMenuItems} from './example-setup'
  
 /*
 pm.setOption("tooltipMenu", {
@@ -20,7 +18,7 @@ defineFileHandler(function(files) {
 
 // import prosemirror from "prosemirror"
 // import BasicSchema from "prosemirror/dist/schema-basic"
-// import "prosemirror/dist/menu/tooltipmenu"
+// import "prosemirror/dist/menu/toolt`ipmenu"
 
 const Editor = () => ({
   
@@ -28,14 +26,30 @@ const Editor = () => ({
     var contentWrapper = document.createElement('div');
     contentWrapper.innerHTML = this.props.initContent;
 
+    let menu = buildMenuItems(schema);
+
     let pm = window.pm = new ProseMirror({
-      place: document.querySelector("#editor"),
-      menuBar: mainMenuBar,
-      schema: widgetSchema,
-      commands: commands,
-      doc: contentWrapper,
-      docFormat: "dom"
+      place: document.getElementById('editor-root'),
+      // menuBar: mainMenuBar,
+      plugins: [
+        exampleSetup.config({
+          menuBar: {float: true, content: menu.fullMenu},
+          tooltipMenu: true
+        })
+      ],
+      schema: schema,
+      // commands: commands,
+      doc: schema.parseDOM(contentWrapper),
+      // docFormat: "dom"
     })
+
+
+
+    // pm.setOption("tooltipMenu", {
+    //   selectedBlockMenu: true,
+    //   inlineContent: [inlineGroup,insertMenu],
+    //   blockContent: [[blockGroup, textblockMenu,alignGroup], [contentInsertMenu, questionInsertMenu]],
+    // })
 
     // var editor = new prosemirror.ProseMirror({
     //   place: document.getElementById('editor-root'),
