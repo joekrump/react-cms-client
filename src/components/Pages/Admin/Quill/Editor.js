@@ -1,7 +1,7 @@
 import React from 'react'
 import Quill from 'quill'
 import Counter from './modules/Counter'
-import ResizableImage from './formats/ResizableImage';
+import CustomImage from './formats/CustomImage';
 import Icons from './ui/icons'
 import Delta from 'rich-text/lib/delta';
 
@@ -9,9 +9,10 @@ import './quill.bubble.css'
 
 Quill.register({
   'modules/counter': Counter,
-  'formats/resizable-image': ResizableImage,
+  'ui/icons': Icons
 }, true);
 
+Quill.register(CustomImage);
 
 const Editor = React.createClass({
   getInitialState(){
@@ -48,7 +49,7 @@ const Editor = React.createClass({
             ['blockquote', 'code-block'],
             [{ 'list': 'ordered'}, { 'list': 'bullet' }],
             [{ 'align': [] }],
-            ['link', 'resizable-image', 'image']
+            ['link', 'image']
           ],
           handlers: {
             link: function(value) {
@@ -58,7 +59,7 @@ const Editor = React.createClass({
                 this.quill.theme.tooltip.edit();
               }
             },
-            'resizable-image': function(value) {
+            'image': function(value) {
               let fileInput = this.container.querySelector('input.ql-image[type=file]');
               if (fileInput == null) {
                 fileInput = document.createElement('input');
@@ -73,7 +74,7 @@ const Editor = React.createClass({
                       this.quill.updateContents(new Delta()
                         .retain(range.index)
                         .delete(range.length)
-                        .insert({ image: e.target.result })
+                        .insert({ customimage: e.target.result })
                       , Quill.sources.USER);
                       fileInput.value = "";
                     }

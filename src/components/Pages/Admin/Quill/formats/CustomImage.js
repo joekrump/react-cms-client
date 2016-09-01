@@ -1,7 +1,9 @@
-import Parchment from 'parchment';
+import Quill from 'quill'
+let BlockEmbed = Quill.import('blots/block/embed');
+var Link = Quill.import('formats/link');
 
 
-class ResizableImage extends Parchment.Embed {
+class CustomImage extends BlockEmbed {
   static create(value) {
     let node = super.create(value);
     if (typeof value === 'string') {
@@ -22,9 +24,7 @@ class ResizableImage extends Parchment.Embed {
   }
 
   static sanitize(url) {
-    // TODO: strip out some stuff
-    // 
-    // return sanitize(url, ['http', 'https', 'data']) ? url : '//:0';
+    return Link.sanitize(url, ['http', 'https', 'data']) ? url : '//:0';
   }
 
   static value(domNode) {
@@ -43,8 +43,9 @@ class ResizableImage extends Parchment.Embed {
     }
   }
 }
-Image.blotName = 'resizable_image';
-Image.tagName = 'IMG';
+
+CustomImage.blotName = 'customimage';
+CustomImage.tagName = 'img';
 
 
-export default ResizableImage;
+export default CustomImage;
