@@ -4,10 +4,11 @@
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
  */
+
 .ql-container {
   box-sizing: border-box;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 13px;
+/*  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;*/
   height: 100%;
   margin: 0px;
   position: relative;
@@ -26,7 +27,7 @@
 .ql-editor {
   box-sizing: border-box;
   cursor: text;
-  line-height: 1.42;
+  /*line-height: 1.42;*/
   height: 100%;
   outline: none;
   overflow-y: auto;
@@ -37,7 +38,7 @@
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-.ql-editor p,
+/*.ql-editor p,
 .ql-editor ol,
 .ql-editor ul,
 .ql-editor pre,
@@ -83,7 +84,7 @@
 }
 .ql-editor ol li:before {
   content: counter(list-num, decimal) '. ';
-}
+}*/
 .ql-editor ol li.ql-indent-1 {
   counter-increment: list-1;
 }
@@ -351,12 +352,14 @@
   text-align: right;
 }
 .ql-editor.ql-blank::before {
-  color: rgba(0,0,0,0.6);
+  margin-top: 1em;
+  color: #e6e6e6;
   content: attr(data-placeholder);
   font-style: italic;
   pointer-events: none;
   position: absolute;
 }
+
 .ql-bubble.ql-toolbar:after,
 .ql-bubble .ql-toolbar:after {
   clear: both;
@@ -522,7 +525,7 @@
 .ql-bubble .ql-direction.ql-active svg:first-child {
   display: none;
 }
-.ql-bubble .ql-editor h1 {
+/*.ql-bubble .ql-editor h1 {
   font-size: 2em;
 }
 .ql-bubble .ql-editor h2 {
@@ -539,21 +542,21 @@
 }
 .ql-bubble .ql-editor h6 {
   font-size: 0.67em;
-}
-.ql-bubble .ql-editor a {
+}*/
+/*.ql-bubble .ql-editor a {
   text-decoration: underline;
-}
-.ql-bubble .ql-editor blockquote {
+}*/
+/*.ql-bubble .ql-editor blockquote {
   border-left: 4px solid #ccc;
   margin-bottom: 5px;
   margin-top: 5px;
   padding-left: 16px;
-}
-.ql-bubble .ql-editor code,
+}*/
+/*.ql-bubble .ql-editor code,
 .ql-bubble .ql-editor pre {
   background-color: #f0f0f0;
   border-radius: 3px;
-}
+}*/
 .ql-bubble .ql-editor pre {
   white-space: pre-wrap;
   margin-bottom: 5px;

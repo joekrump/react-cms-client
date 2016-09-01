@@ -13,7 +13,7 @@ pm.setOption("tooltipMenu", {
 // import prosemirror from "prosemirror"
 // import BasicSchema from "prosemirror/dist/schema-basic"
 // import "prosemirror/dist/menu/toolt`ipmenu"
-import './quill.core.css'
+// import './quill.core.css'
 import './quill.bubble.css'
 
 const Editor = () => ({
@@ -25,8 +25,12 @@ const Editor = () => ({
     var options = {
       modules: {
         toolbar: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline', 'image']
+          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote', 'code-block'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'align': [] }],
+          ['link', 'image']
         ]
       },
       placeholder: 'Compose an epic...',
