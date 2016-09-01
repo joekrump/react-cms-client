@@ -112,6 +112,7 @@ const Editor = React.createClass({
       <div>
         <div id="editor-root"></div>
         <div id="counter">0</div>
+        <div id="editor-react-components" style={{display: 'none'}}></div>
       </div>
     )
   }

@@ -4,7 +4,6 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import InlineImageControls from './InlineImageControls';
 import Resizable from '../Resizable/Resizable'
-import ReactDOM from 'react-dom'
 
 import './ImageEntity.css'
 
@@ -47,7 +46,7 @@ class ImageEntity extends React.Component {
       resizeHandle: '#000',
       deleteImage: '#000'
     },
-    alignmentClass: 'resizable-image left-align'
+    alignmentClass: 'resizable-image left-align ' + this.props.className
   }
   
   makeAlignmentClass = (alignment, inFocus) => {
@@ -58,9 +57,7 @@ class ImageEntity extends React.Component {
       inFocus = this.state.inFocus
     }
     let className = 'resizable-image ' + alignment + (inFocus ? ' in-focus' : '');
-    console.log(className)
-
-    return className
+    return className + ' ' + this.props.className;
   }
   onClick = (event) => {
     // if the image is currently in focus and there was a click on something that was not within this component

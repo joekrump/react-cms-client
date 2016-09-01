@@ -27,7 +27,7 @@ module.exports = {
     '2'             : require('../assets/icons/header-2.svg')
   },
   'italic'          : require('../assets/icons/italic.svg'),
-  'image'           : require('../assets/icons/image.svg'),
+  // 'image'           : require('../assets/icons/image.svg'),
   'resizable-image' : require('../assets/icons/resizable-image.svg'),
   'indent': {
     '+1'            : require('../assets/icons/indent.svg'),
