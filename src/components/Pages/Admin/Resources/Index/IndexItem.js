@@ -18,14 +18,20 @@ const IndexItem = React.createClass({
   showItem(visible = false) {
     this.setState({visible});
   },
+  getText(){
+    return(
+      <div style={{color: muiTheme.palette.textColor}}><strong>{this.props.primary}</strong>{this.props.secondary ? (<span> -&nbsp;{this.props.secondary}</span>) : null}</div>
+    )
+  },
   render(){
+
     return(
       <VelocityComponent style={{display: 'block'}} animation={{height: this.state.visible ? 50 : 0, opacity: this.state.visible ? 1 : 0}} duration={300}>
         <ListItem
           className="index-list-item"
           disabled
           rightIconButton={<IndexItemActions resourceType={this.props.resourceType} id={this.props.id} deleteCallback={ this.showItem }/>}
-          primaryText={<div style={{color: muiTheme.palette.textColor}}><strong>{this.props.primary}</strong> - <span>{this.props.secondary}</span></div>}
+          primaryText={this.getText()}
           style={{backgroundColor: fade(fullBlack, 0.7)}}
         />
       </VelocityComponent>
