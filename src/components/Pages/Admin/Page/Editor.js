@@ -38,6 +38,7 @@ const Editor = React.createClass({
     console.log(newProps)
     if(newProps.content) {
       this.state.editor.pasteHTML(newProps.content) // set initial content if there is some.
+      this.state.editor.focus();
     }
   },
   render() {
