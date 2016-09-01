@@ -5,7 +5,7 @@ import React from 'react'
 // import '../../../Editor/css/Draft.css';
 // import '../../../Editor/css/RichEditor.css';
 
-import Editor from "./ProseMirror/Editor"
+import Editor from "./Editor"
 
 const Edit = () => ({
   
