@@ -3,13 +3,13 @@ import Quill from 'quill'
 import Counter from './modules/Counter'
 import ResizableImage from './formats/ResizableImage';
 import Icons from './ui/icons'
+import Delta from 'rich-text/lib/delta';
 
 import './quill.bubble.css'
 
 Quill.register({
   'modules/counter': Counter,
-  'ui/icons': Icons,
-  'formats/resizable-image': ResizableImage
+  'formats/resizable-image': ResizableImage,
 }, true);
 
 
@@ -41,24 +41,24 @@ const Editor = React.createClass({
         keyboard: {
           bindings: bindings
         },
-        toolbar: [
-          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-          ['blockquote', 'code-block'],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'align': [] }],
-          ['link', 'resizable-image', 'image']
-        ]
-      },
-      placeholder: 'Compose an epic...',
-      theme: 'bubble'
-    };
-
-    var editor = new Quill('#editor-root', options);
-    
-    var toolbar = editor.getModule('toolbar')
-
-    toolbar.addHandler('resizable-image', function(value) {
+        toolbar: {
+          container: [
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+            ['link', 'resizable-image', 'image']
+          ],
+          handlers: {
+            link: function(value) {
+              if (!value) {
+                this.quill.format('link', false);
+              } else {
+                this.quill.theme.tooltip.edit();
+              }
+            },
+            'resizable-image': function(value) {
               let fileInput = this.container.querySelector('input.ql-image[type=file]');
               if (fileInput == null) {
                 fileInput = document.createElement('input');
@@ -74,7 +74,7 @@ const Editor = React.createClass({
                         .retain(range.index)
                         .delete(range.length)
                         .insert({ image: e.target.result })
-                      , Emitter.sources.USER);
+                      , Quill.sources.USER);
                       fileInput.value = "";
                     }
                     reader.readAsDataURL(fileInput.files[0]);
@@ -83,7 +83,15 @@ const Editor = React.createClass({
                 this.container.appendChild(fileInput);
               }
               fileInput.click();
-            });
+            }
+          }
+        }
+      },
+      placeholder: 'Compose an epic...',
+      theme: 'bubble'
+    };
+
+    var editor = new Quill('#editor-root', options);
 
     if(this.props.content) {
       editor.pasteHTML(this.props.content) // set initial content if there is some.
