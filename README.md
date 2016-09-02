@@ -89,17 +89,21 @@ $ npm start
 ### Admin interface
 
 Example Index Page
+
 ![userindex](https://cloud.githubusercontent.com/assets/3317231/18188874/83a15590-706a-11e6-8b94-2421abb8cd3c.JPG)
 
 Example Admin Page with open SpeedDial menu
+
 ![roleindexwspeeddial](https://cloud.githubusercontent.com/assets/3317231/18188873/839b2a30-706a-11e6-9760-b2bf0ad29b07.JPG)
 
 Example Admin page with open Drawer
+
 ![menuopen](https://cloud.githubusercontent.com/assets/3317231/18188872/8392df88-706a-11e6-84eb-7863e1293b1e.JPG)
 
 ### Admin Login Page
 
 Login Page with Drawer showing frontent paths available
+
 ![login](https://cloud.githubusercontent.com/assets/3317231/18188871/837df6a4-706a-11e6-9008-df6bf144c9aa.JPG)
 
 Donation Page Content (implemented with Stripe)
