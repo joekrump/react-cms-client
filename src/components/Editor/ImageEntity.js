@@ -20,16 +20,16 @@ const isResizable = {
 
 const handleStyles = {
   bottomRight: {
-    position: 'absolute', width: 10, height: 10, right: -13, bottom: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0
+    position: 'absolute', width: 15, height: 15, right: 0, bottom: 0, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0
   },
   bottomLeft: {
-    position: 'absolute', width: 10, height: 10, left: -13, bottom: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0
+    position: 'absolute', width: 15, height: 15, left: 0, bottom: 0, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0
   },
   topRight: {
-    position: 'absolute', width: 10, height: 10, right: -13, top: -13, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0
+    position: 'absolute', width: 15, height: 15, right: 0, top: 0, cursor: 'ne-resize', border: '3px solid #5890ff', opacity: 0
   },
   topLeft: {
-    position: 'absolute', width: 10, height: 10, left: -13, top: -13, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0
+    position: 'absolute', width: 15, height: 15, left: 0, top: 0, cursor: 'se-resize', border: '3px solid #5890ff', opacity: 0
   }
 }
 class ImageEntity extends React.Component {
@@ -245,6 +245,7 @@ class ImageEntity extends React.Component {
         </IconButton>
 
         <InlineImageControls
+          alignment={this.state.alignment}
           currentImageWidth={ this.state.width }
           handleAlignLeft={ this.handleAlignLeft }
           handleAlignRight={ this.handleAlignRight }

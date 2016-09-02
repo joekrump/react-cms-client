@@ -24,7 +24,7 @@ class CustomImage extends BlockEmbed {
         className={'ql-editor-image image-' + numImages}
         style={style} 
         muiTheme={muiTheme}
-        maxWidth={editorContainer.clientWidth} 
+        maxWidth={editorContainer.clientWidth - 15} 
         maxHeight={window.innerHeight - 150} 
         width={defaultWidthHeight} 
         height={defaultWidthHeight} 

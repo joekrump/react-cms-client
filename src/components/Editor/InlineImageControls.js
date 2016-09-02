@@ -7,8 +7,20 @@ import FormatAlignCenter from 'material-ui/svg-icons/editor/format-align-center'
 
 const InlineImageControls = (props) => {
 
+  let style = {
+    position: 'absolute', 
+    width: '100%', 
+    top: 0, 
+  }
+
+  if(props.alignment === 'left'){
+    style.left = 0;
+  } else {
+    style.right = 0;
+  }
+
   return (
-    <div className="image-editor-control"  style={{position: 'absolute', width: '100%', top: 0, right: 0}}>
+    <div className="image-editor-control"  style={{...style}}>
       <div style={{position: 'relative', width: 200, margin: '0 auto', top: props.currentImageWidth < 260 ? -80 : 10, right: 0, zIndex: 40, backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: 10, textAlign: 'center'}}>
         <IconButton onTouchTap={props.handleAlignLeft}
           tooltip="Align Left"

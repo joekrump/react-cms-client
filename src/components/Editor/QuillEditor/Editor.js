@@ -19,7 +19,7 @@ import QuoteIcon from 'material-ui/svg-icons/editor/format-quote'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 
-
+// Custom Theme
 import HeroicTheme from './Quill/themes/heroic';
 
 const buttonStyle = {
