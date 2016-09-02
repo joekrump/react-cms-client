@@ -13,14 +13,6 @@ const InlineImageControls = (props) => {
     top: 0, 
   }
 
-  if(props.alignment === 'left'){
-    style.left = 0;
-    delete style.right
-  } else {
-    style.right = 0;
-    delete style.left
-  }
-
   let toolbarStyle = {
     position: 'relative', 
     width: 200, 
@@ -33,11 +25,28 @@ const InlineImageControls = (props) => {
     textAlign: 'center'
   }
 
+  if(props.alignment === 'left'){
+    delete style.left
+    delete toolbarStyle.right
+    
+    style.right = 0;
+    toolbarStyle.left = 0;
+  } else {
+    delete style.right
+    delete toolbarStyle.left
+
+    style.left = 0;
+    toolbarStyle.right = 0;
+  }
+
   if(props.currentImageWidth < 260) {
     style.bottom = 0;
+    toolbarStyle.bottom = 0;
+    toolbarStyle.position = 'absolute'
     delete style.top
   } else {
     style.top = 10;
+    toolbarStyle.position = 'relative'
     delete style.bottom
   }
 
