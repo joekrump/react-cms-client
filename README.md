@@ -106,16 +106,14 @@ Donation Page Content (implemented with Stripe)
 
 ![donationpagecontent](https://cloud.githubusercontent.com/assets/3317231/18188998/994dd7dc-706b-11e6-9f77-fc4e8bed10fa.JPG)
 
-### Ongoing Work
+### WIP
 
-Route permissions are still a WIP and will utilize roles
-Inline Editor with image manipulation functionality.
-Form Validation using Redux
-Allow Page nesting in Index
-
-### Goals
-
-Add Searching and Reordering of resources
-Add Media / File Management
-Webworkers for Caching data
+- [ ] Route permissions are still a WIP and will utilize roles
+- [ ] Inline Editor with image manipulation functionality.
+- [ ] Form Validation using Redux
+- [ ] Allow Page nesting in Index
+- [ ] Add Searching and Reordering of resources
+- [ ] Add Media / File Management
+- [ ] Webworkers for Caching data
+- [ ] Add Tests using Jest
 
