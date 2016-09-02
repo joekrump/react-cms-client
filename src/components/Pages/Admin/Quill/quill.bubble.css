@@ -802,8 +802,8 @@
   border-color: #fff;
 }
 .ql-bubble .ql-tooltip {
-  background-color: #444;
-  border-radius: 25px;
+/*  background-color: #444;
+  border-radius: 25px;*/
   color: #fff;
   margin-top: 10px;
 }

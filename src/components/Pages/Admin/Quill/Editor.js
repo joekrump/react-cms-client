@@ -5,7 +5,31 @@ import CustomImage from './formats/CustomImage';
 import Icons from './ui/icons'
 import Delta from 'rich-text/lib/delta';
 
+import PhotoIcon from 'material-ui/svg-icons/editor/insert-photo'
+import TitleIcon from 'material-ui/svg-icons/editor/title'
+import BoldIcon from 'material-ui/svg-icons/editor/format-bold'
+import ItalicIcon from 'material-ui/svg-icons/editor/format-italic'
+import NumberListIcon from 'material-ui/svg-icons/editor/format-list-bulleted'
+import BulletListIcon from 'material-ui/svg-icons/editor/format-list-numbered'
+import LinkIcon from 'material-ui/svg-icons/editor/insert-link'
+import AlignLeftIcon from 'material-ui/svg-icons/editor/format-align-left'
+import AlignCenterIcon from 'material-ui/svg-icons/editor/format-align-center'
+import AlignRightIcon from 'material-ui/svg-icons/editor/format-align-right'
+import QuoteIcon from 'material-ui/svg-icons/editor/format-quote'
+
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+
+const buttonStyle = {
+  width: '38px',
+  height: '38px',
+  padding: '5px'
+}
+
+var Emitter = Quill.import('core/emitter')
+
 import './quill.bubble.css'
+import './toolbar.css'
 
 Quill.register({
   'modules/counter': Counter,
@@ -43,14 +67,15 @@ const Editor = React.createClass({
           bindings: bindings
         },
         toolbar: {
-          container: [
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'align': [] }],
-            ['link', 'image']
-          ],
+          // container: [
+          //   [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+          //   ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          //   ['blockquote', 'code-block'],
+          //   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          //   [{ 'align': [] }],
+          //   ['link', 'image']
+          // ],
+          container: '#tooltip-controls',
           handlers: {
             link: function(value) {
               if (!value) {
@@ -78,7 +103,7 @@ const Editor = React.createClass({
                       , Quill.sources.USER);
                       fileInput.value = "";
                     }
-                    reader.readAsDataURL(fileInput.files[0]);
+                    console.log(reader.readAsDataURL(fileInput.files[0]));
                   }
                 });
                 this.container.appendChild(fileInput);
@@ -92,7 +117,32 @@ const Editor = React.createClass({
       theme: 'bubble'
     };
 
+
+
     var editor = new Quill('#editor-root', options);
+
+    // editor.on(Emitter.events.EDITOR_CHANGE, (type, range) => {
+    //   if (type !== Emitter.events.SELECTION_CHANGE) return;
+    //   if (range != null && range.length > 0) {
+    //     this.show();
+    //     // Lock our width so we will expand beyond our offsetParent boundaries
+    //     this.root.style.left = '0px';
+    //     this.root.style.width = '';
+    //     this.root.style.width = this.root.offsetWidth + 'px';
+    //     let lines = this.quill.scroll.lines(range.index, range.length);
+    //     if (lines.length === 1) {
+    //       this.position(this.quill.getBounds(range));
+    //     } else {
+    //       let lastLine = lines[lines.length - 1];
+    //       let index = lastLine.offset(this.quill.scroll);
+    //       let length = Math.min(lastLine.length() - 1, range.index + range.length - index);
+    //       let bounds = this.quill.getBounds(new Range(index, length));
+    //       this.position(bounds);
+    //     }
+    //   } else if (document.activeElement !== this.textbox && this.quill.hasFocus()) {
+    //     this.hide();
+    //   }
+    // });
 
     if(this.props.content) {
       editor.pasteHTML(this.props.content) // set initial content if there is some.
@@ -111,6 +161,20 @@ const Editor = React.createClass({
     return (
       <div>
         <div id="editor-root"></div>
+        <div id="tooltip-controls">
+          <IconButton style={{...buttonStyle}} tooltip="Title"><TitleIcon style={{color: 'white'}}/><sub>1</sub></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Sub-title"><TitleIcon style={{color: 'white'}}/><sub>2</sub></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Bold"><BoldIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Italic"><ItalicIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Quote"><QuoteIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Numbered List"><NumberListIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Bullet List"><BulletListIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Align Left"><AlignLeftIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Align Center"><AlignCenterIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Align Right"><AlignRightIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Insert Link"><LinkIcon style={{color: 'white'}}/></IconButton>
+          <IconButton style={{...buttonStyle}} tooltip="Insert Image"><PhotoIcon style={{color: 'white'}}/></IconButton>
+        </div>
         <div id="counter">0</div>
         <div id="editor-react-components"></div>
       </div>
