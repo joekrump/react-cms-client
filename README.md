@@ -7,6 +7,7 @@
 - [Material UI](http://www.material-ui.com/)
 - [SuperAgent](https://github.com/visionmedia/superagent)
 - [Stripe](https://stripe.com/)
+- [Quill](http://quilljs.com/)
 
 The dev environment for the app was created using [react-create-app](https://github.com/facebookincubator/create-react-app), an excellent tool for generating a skeleton React app with all the basic configuration taken care of. Visit the url above for more details. Redux Devtools are also used in dev environment.
 
@@ -45,7 +46,11 @@ const app_config = {
     'users',
     'books',
     'permissions',
-    'roles'
+    'roles',
+    'pages'
+  ],
+  resourcesWithEditor: [ // Specify resources that you would like to use the inline editor for rather than a form.
+    'page'
   ]
 };
 
@@ -70,13 +75,37 @@ module.exports = stripe_config;
 $ npm start
 ```
 
+## Screenshots of Current State of the App (09/01/2016)
+
+### Default Edit Page
+
+![updateuser](https://cloud.githubusercontent.com/assets/3317231/18188929/f211ae94-706a-11e6-96e6-965cbd448d59.JPG)
+
+### Edit Page with inline content editor:
+
+![image resize 2](https://cloud.githubusercontent.com/assets/3317231/18188875/83a42932-706a-11e6-9257-3da0cbdd4d2a.JPG)
+
+
+### Admin interface
+
+![menuopen](https://cloud.githubusercontent.com/assets/3317231/18188872/8392df88-706a-11e6-84eb-7863e1293b1e.JPG)
+![roleindexwspeeddial](https://cloud.githubusercontent.com/assets/3317231/18188873/839b2a30-706a-11e6-9760-b2bf0ad29b07.JPG)
+![userindex](https://cloud.githubusercontent.com/assets/3317231/18188874/83a15590-706a-11e6-8b94-2421abb8cd3c.JPG)
+
+### Admin Login Page
+
+![login](https://cloud.githubusercontent.com/assets/3317231/18188871/837df6a4-706a-11e6-9008-df6bf144c9aa.JPG)
+
 ### Ongoing Work
 
 Route permissions are still a WIP and will utilize roles
-
+Inline Editor with image manipulation functionality.
+Form Validation using Redux
 
 ### Goals
 
 Add CRUD interface for pages
 Add Searching and Reordering of resources
-Add Media Management, including image manipulation
+Add Media / File Management
+Webworkers for Caching data
+
