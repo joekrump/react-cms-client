@@ -1,8 +1,7 @@
 import React from 'react'
-import Quill from 'quill'
+import Quill from './QuillOriginal/quill'
 import Counter from './modules/Counter'
 import CustomImage from './formats/CustomImage';
-import Icons from './ui/icons'
 import Delta from 'rich-text/lib/delta';
 
 import PhotoIcon from 'material-ui/svg-icons/editor/insert-photo'
@@ -20,6 +19,9 @@ import QuoteIcon from 'material-ui/svg-icons/editor/format-quote'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 
+
+import HeroicTheme from './themes/heroic';
+
 const buttonStyle = {
   width: '38px',
   height: '38px',
@@ -33,7 +35,7 @@ import './toolbar.css'
 
 Quill.register({
   'modules/counter': Counter,
-  'ui/icons': Icons
+  'themes/heroic': HeroicTheme,
 }, true);
 
 Quill.register(CustomImage);
@@ -88,7 +90,7 @@ const Editor = React.createClass({
         }
       },
       placeholder: 'Compose an epic...',
-      theme: 'bubble'
+      theme: 'heroic'
     };
 
 
@@ -159,6 +161,11 @@ const Editor = React.createClass({
       case "align-right": 
         break;
       case "link": 
+        // if (!value) {
+        //   this.quill.format('link', false);
+        // } else {
+          this.state.editor.theme.tooltip.edit();
+        // }
         break;
       case "image":
         let fileInput = this.state.editor.container.querySelector('input.ql-image[type=file]');
@@ -193,6 +200,7 @@ const Editor = React.createClass({
   render() {
     return (
       <div>
+        <IconButton onTouchTap={this.handleToolTipOption.bind(this, "image")} style={{...buttonStyle}} tooltip="Insert Image"><PhotoIcon style={{color: 'white'}}/></IconButton>
         <div id="editor-root"></div>
         <div id="tooltip-controls">
           <IconButton onTouchTap={this.handleToolTipOption.bind(this, "title1")} style={{...buttonStyle}} tooltip="Title"><TitleIcon style={{color: 'white'}}/><sub>1</sub></IconButton>
@@ -206,7 +214,6 @@ const Editor = React.createClass({
           <IconButton onTouchTap={this.handleToolTipOption.bind(this, "align-center")} style={{...buttonStyle}} tooltip="Align Center"><AlignCenterIcon style={{color: 'white'}}/></IconButton>
           <IconButton onTouchTap={this.handleToolTipOption.bind(this, "align-right")} style={{...buttonStyle}} tooltip="Align Right"><AlignRightIcon style={{color: 'white'}}/></IconButton>
           <IconButton onTouchTap={this.handleToolTipOption.bind(this, "link")} style={{...buttonStyle}} tooltip="Insert Link"><LinkIcon style={{color: 'white'}}/></IconButton>
-          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "image")} style={{...buttonStyle}} tooltip="Insert Image"><PhotoIcon style={{color: 'white'}}/></IconButton>
         </div>
         <div id="counter">0</div>
         <div id="editor-react-components"></div>

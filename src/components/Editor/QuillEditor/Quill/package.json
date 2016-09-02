@@ -1,0 +1,159 @@
+{
+  "_args": [
+    [
+      {
+        "name": "quill",
+        "raw": "quill@1.0.0-rc.4",
+        "rawSpec": "1.0.0-rc.4",
+        "scope": null,
+        "spec": "1.0.0-rc.4",
+        "type": "version"
+      },
+      "c:\\Users\\DJ\\desktop\\code\\projects\\l-api-v2"
+    ]
+  ],
+  "_from": "quill@1.0.0-rc.4",
+  "_id": "quill@1.0.0-rc.4",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/quill",
+  "_nodeVersion": "6.2.1",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/quill-1.0.0-rc.4.tgz_1472668465180_0.7682646757457405"
+  },
+  "_npmUser": {
+    "email": "jhchen7@gmail.com",
+    "name": "jhchen"
+  },
+  "_npmVersion": "3.9.5",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "quill",
+    "raw": "quill@1.0.0-rc.4",
+    "rawSpec": "1.0.0-rc.4",
+    "scope": null,
+    "spec": "1.0.0-rc.4",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/quill/-/quill-1.0.0-rc.4.tgz",
+  "_shasum": "acb5ef66dfaa421d2e0d5a2fb5b13fb006955fdc",
+  "_shrinkwrap": null,
+  "_spec": "quill@1.0.0-rc.4",
+  "_where": "c:\\Users\\DJ\\desktop\\code\\projects\\l-api-v2",
+  "author": {
+    "email": "jhchen7@gmail.com",
+    "name": "Jason Chen"
+  },
+  "bugs": {
+    "url": "https://github.com/quilljs/quill/issues"
+  },
+  "config": {
+    "ports": {
+      "jekyll": "4000",
+      "karma": "9876",
+      "proxy": "9000",
+      "webpack": "9080"
+    }
+  },
+  "dependencies": {
+    "clone": "~1.0.2",
+    "deep-equal": "~1.0.1",
+    "eventemitter3": "~1.2.0",
+    "extend": "~3.0.0",
+    "parchment": "1.0.0-rc.2",
+    "rich-text": "~3.0.2"
+  },
+  "description": "Cross browser rich text editor",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.11.5",
+    "babel-preset-es2015": "^6.14.0",
+    "css-loader": "~0.24.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "html-loader": "~0.4.3",
+    "http-proxy": "^1.14.0",
+    "istanbul-instrumenter-loader": "~0.2.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-sauce-launcher": "^1.0.0",
+    "lodash": "^4.15.0",
+    "quill-docs": "github:quilljs/quilljs.github.io#1.0",
+    "style-loader": "~0.13.1",
+    "stylus": "~0.54.5",
+    "stylus-loader": "^2.3.1",
+    "ts-loader": "~0.8.2",
+    "typescript": "^1.8.10",
+    "wdio-jasmine-framework": "~0.2.5",
+    "webdriver-manager": "^10.2.3",
+    "webdriverio": "^4.2.8",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.0"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "acb5ef66dfaa421d2e0d5a2fb5b13fb006955fdc",
+    "tarball": "https://registry.npmjs.org/quill/-/quill-1.0.0-rc.4.tgz"
+  },
+  "files": [
+    "assets",
+    "blots",
+    "core",
+    "formats",
+    "modules",
+    "themes",
+    "ui",
+    "dist/quill.bubble.css",
+    "dist/quill.snow.css",
+    "dist/quill.core.css",
+    "dist/quill.js",
+    "dist/quill.core.js",
+    "dist/quill.min.js.map",
+    "dist/quill.min.js",
+    "core.js",
+    "quill.js"
+  ],
+  "gitHead": "0b9cf38222f287ab3f5660b905944e051515d7f2",
+  "homepage": "http://quilljs.com",
+  "keywords": [
+    "editor",
+    "rich text",
+    "wysiwyg"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "dist/quill.js",
+  "maintainers": [
+    {
+      "email": "jhchen7@gmail.com",
+      "name": "jhchen"
+    }
+  ],
+  "name": "quill",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quilljs/quill.git"
+  },
+  "scripts": {
+    "build": "webpack --config _develop/webpack.config.js; rm dist/quill.bubble.js dist/quill.snow.js;",
+    "build:release": "./_develop/scripts/release.sh",
+    "start": "npm run build; foreman start -f _develop/procfile",
+    "test": "npm run test:unit",
+    "test:all": "npm run test:unit; npm run test:functional",
+    "test:coverage": "webpack --coverage --config _develop/webpack.config.js; karma start _develop/karma.config.js --reporters coverage",
+    "test:functional": "./_develop/scripts/webdriver.sh",
+    "test:unit": "npm run build; karma start _develop/karma.config.js",
+    "travis": "karma start _develop/karma.config.js --reporters dots,saucelabs",
+    "webdriver:start": "webdriver-manager start",
+    "webdriver:update": "webdriver-manager update"
+  },
+  "version": "1.0.0-rc.4"
+}

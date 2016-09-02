@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { apiGet, apiPut, apiPost, updateToken } from '../../../http/requests'
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
 import TextField from 'material-ui/TextField';
-import Editor from "../Admin/Quill/Editor"
+import Editor from "../../Editor/QuillEditor/Editor"
 
 const listItemStyle = {
   padding: "0 16px"
