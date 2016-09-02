@@ -28,7 +28,7 @@ const buttonStyle = {
   padding: '5px'
 }
 
-var Emitter = Quill.import('core/emitter')
+// var Emitter = Quill.import('core/emitter')
 
 import './Quill/dist/quill.heroic.css'
 import './toolbar.css'
@@ -135,6 +135,9 @@ const Editor = React.createClass({
   },
   handleToolTipOption(type) {
     
+    let range = this.state.editor.getSelection();
+    let formats = this.state.editor.getFormat(range);
+
     switch(type) {
       case "title1": 
         this.state.editor.format('header', 1)
@@ -143,7 +146,7 @@ const Editor = React.createClass({
         this.state.editor.format('header', 2)
         break;
       case "bold": 
-        this.state.editor.format('bold', true)
+        this.state.editor.format('bold', !formats.bold)
         break;
       case "italic": 
         this.state.editor.format('italic', true)
@@ -157,11 +160,15 @@ const Editor = React.createClass({
       case "b-list":
         this.state.editor.format('list', 'bullet'); 
         break;
-      case "align-left": 
+      case "align-left":
+        console.log('align left');
+        this.state.editor.format('align', false, Quill.sources.USER) 
         break;
       case "align-center": 
+        this.state.editor.format('align', 'center')
         break;
       case "align-right": 
+        this.state.editor.format('align', 'right')
         break;
       case "link": 
         // if (!value) {

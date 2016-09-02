@@ -4,11 +4,15 @@ import Keyboard from '../modules/keyboard';
 import BaseTheme, { BaseTooltip } from './base';
 import icons from '../ui/icons';
 import { Range } from '../core/selection';
+import IconPicker from '../ui/icon-picker';
 
 const TOOLBAR_CONFIG = [
   ['bold', 'italic', 'link'],
   [{ header: 1 }, { header: 2 }, 'blockquote']
 ];
+
+const ALIGNS = [ false, 'center', 'right', 'justify' ];
+
 
 class HeroicTheme extends BaseTheme {
   constructor(quill, options) {
