@@ -15,13 +15,35 @@ const InlineImageControls = (props) => {
 
   if(props.alignment === 'left'){
     style.left = 0;
+    delete style.right
   } else {
     style.right = 0;
+    delete style.left
+  }
+
+  let toolbarStyle = {
+    position: 'relative', 
+    width: 200, 
+    margin: '0 auto', 
+    right: 0, 
+    zIndex: 40, 
+    backgroundColor: 'rgba(0,0,0,0.7)', 
+    color: '#fff', 
+    padding: 10, 
+    textAlign: 'center'
+  }
+
+  if(props.currentImageWidth < 260) {
+    style.bottom = 0;
+    delete style.top
+  } else {
+    style.top = 10;
+    delete style.bottom
   }
 
   return (
     <div className="image-editor-control"  style={{...style}}>
-      <div style={{position: 'relative', width: 200, margin: '0 auto', top: props.currentImageWidth < 260 ? -80 : 10, right: 0, zIndex: 40, backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: 10, textAlign: 'center'}}>
+      <div style={{...toolbarStyle}}>
         <IconButton onTouchTap={props.handleAlignLeft}
           tooltip="Align Left"
           tooltipPosition="top-center"

@@ -46,7 +46,7 @@ class ImageEntity extends React.Component {
       resizeHandle: '#000',
       deleteImage: '#000'
     },
-    alignmentClass: 'resizable-image left-align ' + this.props.className
+    alignmentClass: 'resizable-image left ' + this.props.className
   }
   
   makeAlignmentClass = (alignment, inFocus) => {
