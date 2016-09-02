@@ -8,8 +8,8 @@ import PhotoIcon from 'material-ui/svg-icons/editor/insert-photo'
 import TitleIcon from 'material-ui/svg-icons/editor/title'
 import BoldIcon from 'material-ui/svg-icons/editor/format-bold'
 import ItalicIcon from 'material-ui/svg-icons/editor/format-italic'
-import NumberListIcon from 'material-ui/svg-icons/editor/format-list-bulleted'
-import BulletListIcon from 'material-ui/svg-icons/editor/format-list-numbered'
+import NumberListIcon from 'material-ui/svg-icons/editor/format-list-numbered'
+import BulletListIcon from 'material-ui/svg-icons/editor/format-list-bulleted'
 import LinkIcon from 'material-ui/svg-icons/editor/insert-link'
 import AlignLeftIcon from 'material-ui/svg-icons/editor/format-align-left'
 import AlignCenterIcon from 'material-ui/svg-icons/editor/format-align-center'
@@ -149,10 +149,13 @@ const Editor = React.createClass({
         this.state.editor.format('italic', true)
         break;
       case "quote": 
+        this.state.editor.format('blockquote', true);
         break;
-      case "n-list": 
+      case "n-list":
+        this.state.editor.format('list', 'ordered');
         break;
-      case "b-list": 
+      case "b-list":
+        this.state.editor.format('list', 'bullet'); 
         break;
       case "align-left": 
         break;
