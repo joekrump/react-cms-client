@@ -30,5 +30,10 @@
 }
 
 .ql-tooltip {
-  transition: top 200ms ease-out,left 200ms ease-out;
+  transition: top 200ms ease-out, left 200ms ease-out;
+}
+
+input.ql-image {
+    height: 0;
+    width: 0;
 }

@@ -83,32 +83,6 @@ const Editor = React.createClass({
               } else {
                 this.quill.theme.tooltip.edit();
               }
-            },
-            'image': function(value) {
-              let fileInput = this.container.querySelector('input.ql-image[type=file]');
-              if (fileInput == null) {
-                fileInput = document.createElement('input');
-                fileInput.setAttribute('type', 'file');
-                fileInput.setAttribute('accept', 'image/*');
-                fileInput.classList.add('ql-image');
-                fileInput.addEventListener('change', () => {
-                  if (fileInput.files != null && fileInput.files[0] != null) {
-                    let reader = new FileReader();
-                    reader.onload = (e) => {
-                      let range = this.quill.getSelection(true);
-                      this.quill.updateContents(new Delta()
-                        .retain(range.index)
-                        .delete(range.length)
-                        .insert({ customimage: e.target.result })
-                      , Quill.sources.USER);
-                      fileInput.value = "";
-                    }
-                    console.log(reader.readAsDataURL(fileInput.files[0]));
-                  }
-                });
-                this.container.appendChild(fileInput);
-              }
-              fileInput.click();
             }
           }
         }
@@ -157,23 +131,82 @@ const Editor = React.createClass({
       this.state.editor.focus();
     }
   },
+  handleToolTipOption(type) {
+    
+    switch(type) {
+      case "title1": 
+        this.state.editor.format('header', 1)
+        break;
+      case "title2": 
+        this.state.editor.format('header', 2)
+        break;
+      case "bold": 
+        this.state.editor.format('bold', true)
+        break;
+      case "italic": 
+        this.state.editor.format('italic', true)
+        break;
+      case "quote": 
+        break;
+      case "n-list": 
+        break;
+      case "b-list": 
+        break;
+      case "align-left": 
+        break;
+      case "align-center": 
+        break;
+      case "align-right": 
+        break;
+      case "link": 
+        break;
+      case "image":
+        let fileInput = this.state.editor.container.querySelector('input.ql-image[type=file]');
+        if (fileInput == null) {
+          fileInput = document.createElement('input');
+          fileInput.setAttribute('type', 'file');
+          fileInput.setAttribute('accept', 'image/*');
+          fileInput.classList.add('ql-image');
+          fileInput.addEventListener('change', () => {
+            if (fileInput.files != null && fileInput.files[0] != null) {
+              let reader = new FileReader();
+              reader.onload = (e) => {
+                let range = this.state.editor.getSelection(true);
+                this.state.editor.updateContents(new Delta()
+                  .retain(range.index)
+                  .delete(range.length)
+                  .insert({ customimage: e.target.result })
+                , Quill.sources.USER);
+                fileInput.value = "";
+              }
+              console.log(reader.readAsDataURL(fileInput.files[0]));
+            }
+          });
+          this.state.editor.container.appendChild(fileInput);
+        }
+        fileInput.click();
+        break;
+      default:
+
+    }
+  },
   render() {
     return (
       <div>
         <div id="editor-root"></div>
         <div id="tooltip-controls">
-          <IconButton style={{...buttonStyle}} tooltip="Title"><TitleIcon style={{color: 'white'}}/><sub>1</sub></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Sub-title"><TitleIcon style={{color: 'white'}}/><sub>2</sub></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Bold"><BoldIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Italic"><ItalicIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Quote"><QuoteIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Numbered List"><NumberListIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Bullet List"><BulletListIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Align Left"><AlignLeftIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Align Center"><AlignCenterIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Align Right"><AlignRightIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Insert Link"><LinkIcon style={{color: 'white'}}/></IconButton>
-          <IconButton style={{...buttonStyle}} tooltip="Insert Image"><PhotoIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "title1")} style={{...buttonStyle}} tooltip="Title"><TitleIcon style={{color: 'white'}}/><sub>1</sub></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "title2")} style={{...buttonStyle}} tooltip="Sub-title"><TitleIcon style={{color: 'white'}}/><sub>2</sub></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "bold")} style={{...buttonStyle}} tooltip="Bold"><BoldIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "italic")} style={{...buttonStyle}} tooltip="Italic"><ItalicIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "quote")} style={{...buttonStyle}} tooltip="Quote"><QuoteIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "n-list")} style={{...buttonStyle}} tooltip="Numbered List"><NumberListIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "b-list")} style={{...buttonStyle}} tooltip="Bullet List"><BulletListIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "align-left")} style={{...buttonStyle}} tooltip="Align Left"><AlignLeftIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "align-center")} style={{...buttonStyle}} tooltip="Align Center"><AlignCenterIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "align-right")} style={{...buttonStyle}} tooltip="Align Right"><AlignRightIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "link")} style={{...buttonStyle}} tooltip="Insert Link"><LinkIcon style={{color: 'white'}}/></IconButton>
+          <IconButton onTouchTap={this.handleToolTipOption.bind(this, "image")} style={{...buttonStyle}} tooltip="Insert Image"><PhotoIcon style={{color: 'white'}}/></IconButton>
         </div>
         <div id="counter">0</div>
         <div id="editor-react-components"></div>
