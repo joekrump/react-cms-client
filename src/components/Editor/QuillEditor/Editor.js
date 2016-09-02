@@ -140,7 +140,7 @@ const Editor = React.createClass({
 
     switch(type) {
       case "title1": 
-        this.state.editor.format('header', 1)
+        this.state.editor.format('header', formats.header === 1 ? false : 1)
         break;
       case "title2": 
         this.state.editor.format('header', 2)
