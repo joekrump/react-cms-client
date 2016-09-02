@@ -1,10 +1,9 @@
 import extend from 'extend';
-import Emitter from '../QuillOriginal/core/emitter';
-import Keyboard from '../QuillOriginal/modules/keyboard';
-import BaseTheme, { BaseTooltip } from '../QuillOriginal/themes/base';
-import icons from '../QuillOriginal/ui/icons';
-import { Range } from '../QuillOriginal/core/selection';
-
+import Emitter from '../core/emitter';
+import Keyboard from '../modules/keyboard';
+import BaseTheme, { BaseTooltip } from './base';
+import icons from '../ui/icons';
+import { Range } from '../core/selection';
 
 const TOOLBAR_CONFIG = [
   ['bold', 'italic', 'link'],

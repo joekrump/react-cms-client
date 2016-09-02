@@ -1,7 +1,7 @@
 import React from 'react'
-import Quill from './QuillOriginal/quill'
-import Counter from './modules/Counter'
-import CustomImage from './formats/CustomImage';
+import Quill from './Quill/quill'
+import Counter from './Quill/modules/Counter'
+import CustomImage from './Quill/formats/CustomImage';
 import Delta from 'rich-text/lib/delta';
 
 import PhotoIcon from 'material-ui/svg-icons/editor/insert-photo'
@@ -20,7 +20,7 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 
 
-import HeroicTheme from './themes/heroic';
+import HeroicTheme from './Quill/themes/heroic';
 
 const buttonStyle = {
   width: '38px',
@@ -30,7 +30,7 @@ const buttonStyle = {
 
 var Emitter = Quill.import('core/emitter')
 
-import './quill.bubble.css'
+import './Quill/dist/quill.heroic.css'
 import './toolbar.css'
 
 Quill.register({
