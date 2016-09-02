@@ -111,10 +111,10 @@ Donation Page Content (implemented with Stripe)
 Route permissions are still a WIP and will utilize roles
 Inline Editor with image manipulation functionality.
 Form Validation using Redux
+Allow Page nesting in Index
 
 ### Goals
 
-Add CRUD interface for pages
 Add Searching and Reordering of resources
 Add Media / File Management
 Webworkers for Caching data
