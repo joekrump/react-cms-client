@@ -68,8 +68,8 @@ class ImageUploader {
           };
 
           // Apply a draft size to the image for editing
-          image.filename = parseCloudinaryURL(response.url)[0];
-          image.url = buildCloudinaryURL(
+          image.filename = this.parseCloudinaryURL(response.url)[0];
+          image.url = this.buildCloudinaryURL(
             image.filename,
             [{c: 'fit', h: 600, w: 600}]
           );
@@ -149,7 +149,7 @@ class ImageUploader {
         }
 
       // Build a URL for the image we'll insert
-      image.url = buildCloudinaryURL(image.filename, transforms);
+      image.url = this.buildCloudinaryURL(image.filename, transforms);
 
       // Build attributes for the image
       imageAttrs = {'alt': '', 'data-ce-max-width': image.maxWidth};
@@ -231,38 +231,38 @@ class ImageUploader {
     }
 
     rotate(angle) {
-          // Handle a request by the user to rotate the image
-          var height, transforms, width;
-          
-          // Update the angle of the image
-          image.angle += angle;
+      // Handle a request by the user to rotate the image
+      var height, transforms, width;
+      
+      // Update the angle of the image
+      image.angle += angle;
 
-          // Stay within 0-360 degree range
-          if (image.angle < 0) {
-            image.angle += 360;
-          } else if (image.angle > 270) {
-            image.angle -= 360;
-          }
-
-          // Rotate the image's dimensions
-          width = image.width;
-          height = image.height;
-          image.width = height;
-          image.height = width;
-          image.maxWidth = width;
-          
-          // Build the transform to rotate the image
-          transforms = [{c: 'fit', h: 600, w: 600}];
-          if (image.angle > 0) {
-            transforms.unshift({a: image.angle});
-          }
-
-          // Build a URL for the transformed image
-          image.url = buildCloudinaryURL(image.filename, transforms);
-          
-          // Update the image in the dialog
-          dialog.populate(image.url, [image.width, image.height]);
-        }
+      // Stay within 0-360 degree range
+      if (image.angle < 0) {
+        image.angle += 360;
+      } else if (image.angle > 270) {
+        image.angle -= 360;
       }
 
-      export default ImageUploader
+      // Rotate the image's dimensions
+      width = image.width;
+      height = image.height;
+      image.width = height;
+      image.height = width;
+      image.maxWidth = width;
+      
+      // Build the transform to rotate the image
+      transforms = [{c: 'fit', h: 600, w: 600}];
+      if (image.angle > 0) {
+        transforms.unshift({a: image.angle});
+      }
+
+      // Build a URL for the transformed image
+      image.url = this.buildCloudinaryURL(image.filename, transforms);
+      
+      // Update the image in the dialog
+      dialog.populate(image.url, [image.width, image.height]);
+    }
+  }
+
+export default ImageUploader
