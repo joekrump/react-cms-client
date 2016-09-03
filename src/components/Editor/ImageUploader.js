@@ -99,6 +99,16 @@ class ImageUploader {
       xhr.open('POST', CLOUDINARY_UPLOAD_URL, true);
       xhr.send(formData);
     });
+
+
+    dialog.addEventListener(
+        'imageuploader.rotateccw', 
+        () => { this.rotate(-90); }
+        );
+    dialog.addEventListener(
+        'imageUploader.rotatecw', 
+        () => { this.rotate(90); }
+    );
   }
 
   buildCloudinaryURL(filename, transforms) {
