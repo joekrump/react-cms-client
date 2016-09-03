@@ -42,6 +42,7 @@ module.exports = {
     root: nodeModulesPath,
     moduleTemplates: ['*-loader']
   },
+  devtool: "source-map",
   module: {
     preLoaders: [
       {
@@ -73,6 +74,10 @@ module.exports = {
       {
         test: /\.(mp4|webm)$/,
         loader: 'url?limit=10000'
+      },
+      {
+        test: /\.scss$/,
+        loader: "style!css!sass"
       }
     ]
   },

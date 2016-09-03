@@ -1,6 +1,8 @@
 import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
 import { apiPost, apiPut, updateToken, getResourceURL } from '../../http/requests'
 
+require('./styles/content-tools.scss');
+
 class Editor {
 
   constructor(getPageName, getSubmitURL, setSubmitURL, context, resourceNamePlural) {
@@ -11,17 +13,17 @@ class Editor {
     this.editContext = context;
     this.getPageName = getPageName;
     loadScript('/content-tools/content-tools.min.js', () => {
+      this.editor = ContentTools.EditorApp.get();
 
-      loadStylesheet('/content-tools/content-tools.min.css', () => {
-        this.editor = ContentTools.EditorApp.get();
+      this.editor.init('*[data-editable]', 'data-name');
 
-        this.editor.init('*[data-editable]', 'data-name');
+      this.editor.addEventListener('saved', this.handleSave.bind(this));
+      this.editor.addEventListener('start', this.handleEditStart.bind(this));
+      this.editor.addEventListener('stop', this.handleEditStop.bind(this));  
+      // loadStylesheet('/content-tools/content-tools.min.css', () => {
+      
 
-        this.editor.addEventListener('saved', this.handleSave.bind(this));
-        this.editor.addEventListener('start', this.handleEditStart.bind(this));
-        this.editor.addEventListener('stop', this.handleEditStop.bind(this));        
-
-      });
+      // });
     });
   }
 
