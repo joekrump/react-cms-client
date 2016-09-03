@@ -79,6 +79,8 @@ class Editor {
     // };
 
     try {
+      console.log('EDIT CONTEXT: ' + this.editContext);
+      
       let serverRequest = this.editContext === 'edit' ? apiPut(this.getSubmitURL()) : apiPost(this.getSubmitURL())
 
       serverRequest.send({
@@ -106,12 +108,13 @@ class Editor {
         } else {
           editor.busy(false);
           if(this.editContext !== 'edit') {
+            this.editContext = 'edit';
             this.setSubmitURL(this.getResourceURL(this.resourceNamePlural))
           }
 
           if (!passive) {
-              new ContentTools.FlashUI('ok');
-            }
+            new ContentTools.FlashUI('ok');
+          }
 
           // if(this.props.loginCallback) {
           //   this.props.loginCallback(res.body.user, res.body.token)
