@@ -1,7 +1,7 @@
 import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
 import { apiPost, apiPut } from '../../http/requests'
 import ContentTools from 'ContentTools';
-import ImageUploader from 'ImageUploader';
+import ImageUploader from './ImageUploader';
 
 require('./styles/content-tools.scss');
 
@@ -16,7 +16,7 @@ class Editor {
     this.editContext = context;
     this.getPageName = getPageName;
 
-    ContentTools.IMAGE_UPLOADER = new ImageUploader();
+    ContentTools.IMAGE_UPLOADER = this.createImageUploader;
 
     // Capture image resize events and update the Cloudinary URL
     ContentEdit.Root.get().bind('taint', function (element) {
@@ -57,6 +57,10 @@ class Editor {
     this.editor.addEventListener('saved', this.handleSave.bind(this));
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
     this.editor.addEventListener('stop', this.handleEditStop.bind(this));  
+  }
+
+  createImageUploader(dialog){
+    return new ImageUploader(dialog);
   }
 
   destoryEditor(){
