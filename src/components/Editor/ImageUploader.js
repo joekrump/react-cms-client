@@ -14,7 +14,7 @@ class ImageUploader {
     this.dialog = dialog;
 
     // Set up the event handlers
-    this.ialog.addEventListener('imageuploader.cancelupload', this.handleUploadCancel);
+    this.dialog.addEventListener('imageuploader.cancelupload', this.handleUploadCancel);
 
     this.dialog.addEventListener('imageuploader.clear', this.handleClearUploader);
 
@@ -24,12 +24,12 @@ class ImageUploader {
       var file = ev.detail().file;
 
       // Define functions to handle upload progress and completion
-      xhrProgress = (ev) => {
+      this.xhrProgress = (ev) => {
         // Set the progress for the upload
         this.dialog.progress((ev.loaded / ev.total) * 100);
       }
 
-      xhrComplete = (ev) => {
+      this.xhrComplete = (ev) => {
         var response;
 
         // Check the request is complete
@@ -86,14 +86,14 @@ class ImageUploader {
     });
 
 
-    dialog.addEventListener('imageuploader.rotateccw',  () => { 
+    this.dialog.addEventListener('imageuploader.rotateccw',  () => { 
       this.rotate(-90); 
     });
-    dialog.addEventListener('imageUploader.rotatecw', () => { 
+    this.dialog.addEventListener('imageUploader.rotatecw', () => { 
       this.rotate(90); 
     });
 
-    dialog.addEventListener('imageuploader.save', this.handleImageSave);
+    this.dialog.addEventListener('imageuploader.save', this.handleImageSave);
   }
 
 
@@ -174,7 +174,7 @@ class ImageUploader {
     this.dialog.save(this.image.url, [this.image.width, this.image.height]); 
   }
 
-  buildCloudinaryURL(filename, transforms) {
+  buildCloudinaryURL = (filename, transforms) => {
     // Build a Cloudinary URL from a filename and the list of transforms 
     // supplied. Transforms should be specified as objects (e.g {a: 90} becomes
     // 'a_90').
@@ -206,7 +206,7 @@ class ImageUploader {
     return urlParts.join('/');
   }
 
-  parseCloudinaryURL(url) {
+  parseCloudinaryURL = (url) => {
     // Parse a Cloudinary URL and return the filename and list of transforms
     var filename, i, j, transform, transformArgs, transforms, urlParts;
 
@@ -245,7 +245,7 @@ class ImageUploader {
     return [filename, transforms];
   }
 
-  rotate(angle) {
+  rotate = (angle) => {
     // Handle a request by the user to rotate the image
     var height, transforms, width;
     
@@ -276,7 +276,7 @@ class ImageUploader {
     this.image.url = this.buildCloudinaryURL(this.image.filename, transforms);
     
     // Update the image in the dialog
-    dialog.populate(this.image.url, [this.image.width, this.image.height]);
+    this.dialog.populate(this.image.url, [this.image.width, this.image.height]);
   }
 }
 
