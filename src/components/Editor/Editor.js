@@ -87,7 +87,7 @@ class Editor {
           this.editor.busy(false);
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
-            this.setSubmitURL(this.getResourceURL(this.resourceNamePlural))
+            this.setSubmitURL(getResourceURL(this.resourceNamePlural))
           }
 
           if (!passive) {

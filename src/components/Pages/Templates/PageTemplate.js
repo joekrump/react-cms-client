@@ -45,6 +45,7 @@ const PageTemplate = React.createClass({
 
     if(this.props.context === 'edit'){
       
+      // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
       apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
         .end(function(err, res){
           if(err !== null) {
@@ -61,12 +62,17 @@ const PageTemplate = React.createClass({
             this.setState({
               content: res.body.data.editor_contents,
               name: res.body.data.name,
-              editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)            
+              editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
             })
 
           }
         }.bind(this));
-    } 
+    } else {
+      // If the context is not edit then just load the editor.
+      this.setState({
+        editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
+      })
+    }
   },
   resetForm(){
     this.props.resetForm(this.props.formName)
