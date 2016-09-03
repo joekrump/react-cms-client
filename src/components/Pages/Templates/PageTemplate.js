@@ -17,7 +17,8 @@ const PageTemplate = React.createClass({
       content: null,
       name: null,
       submitDisabled: false,
-      submitURL: ''
+      submitURL: '',
+      editor: null
     }
   },
   getPageName(){
@@ -31,6 +32,9 @@ const PageTemplate = React.createClass({
       submitURL: url
     });
   },
+  componentWillUnmount() {
+    this.state.editor.destoryEditor();
+  },
   componentDidMount(){
 
     this.setState({
@@ -39,7 +43,9 @@ const PageTemplate = React.createClass({
 
     if(this.props.context === 'edit'){
 
-      new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural);
+      this.setState({
+        editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
+      })
       
       apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
         .end(function(err, res){

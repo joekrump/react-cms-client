@@ -13,31 +13,35 @@ class Editor {
     loadScript('/content-tools/content-tools.min.js', () => {
 
       loadStylesheet('/content-tools/content-tools.min.css', () => {
-        var editor = ContentTools.EditorApp.get();
+        this.editor = ContentTools.EditorApp.get();
 
-        editor.init('*[data-editable]', 'data-name');
+        this.editor.init('*[data-editable]', 'data-name');
 
-        editor.addEventListener('saved', this.handleSave.bind(this, editor));
-        editor.addEventListener('start', this.handleEditStart.bind(this, editor));
-        editor.addEventListener('stop', this.handleEditStop.bind(this, editor));        
+        this.editor.addEventListener('saved', this.handleSave.bind(this));
+        this.editor.addEventListener('start', this.handleEditStart.bind(this));
+        this.editor.addEventListener('stop', this.handleEditStop.bind(this));        
 
       });
     });
   }
+
+  destoryEditor(){
+    this.editor.destroy();
+  }
   
-  handleEditStart(editor, event) {
+  handleEditStart(event) {
     // Call save every 30 seconds
     let autoSave = () => {
-      editor.save(true);
+      this.editor.save(true);
     };
-    editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
+    this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
   }
-  handleEditStop(editor, event) {
+  handleEditStop(event) {
 
     // Stop the autosave
-    clearInterval(editor.autoSaveTimer);
+    clearInterval(this.editor.autoSaveTimer);
   }
-  handleSave(editor, event) {
+  handleSave(event) {
     var name, onStateChange, passive, payload, regions, xhr;
 
     // Check if this was a passive save
@@ -50,7 +54,7 @@ class Editor {
     }
 
     // Set the editors state to busy while we save our changes
-    editor.busy(true);
+    this.editor.busy(true);
 
     // // Collect the contents of each region into a FormData instance
     // payload = new FormData();
@@ -80,7 +84,7 @@ class Editor {
 
     try {
       console.log('EDIT CONTEXT: ' + this.editContext);
-      
+
       let serverRequest = this.editContext === 'edit' ? apiPut(this.getSubmitURL()) : apiPost(this.getSubmitURL())
 
       serverRequest.send({
