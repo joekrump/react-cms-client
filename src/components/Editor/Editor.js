@@ -1,11 +1,12 @@
 import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
-import { apiPost, apiPut, updateToken } from '../../../http/requests'
+import { apiPost, apiPut, updateToken, getResourceURL } from '../../http/requests'
 
 class Editor {
 
-  constructor(getPageName, getSubmitURL, setSubmitURL, context) {
+  constructor(getPageName, getSubmitURL, setSubmitURL, context, resourceNamePlural) {
     this.getSubmitURL = getSubmitURL;
     this.setSubmitURL = setSubmitURL;
+    this.resourceNamePlural = resourceNamePlural;
     // new or edit
     this.editContext = context;
     this.getPageName = getPageName;
@@ -105,7 +106,7 @@ class Editor {
         } else {
           editor.busy(false);
           if(this.editContext !== 'edit') {
-            this.setSubmitURL('test')
+            this.setSubmitURL(this.getResourceURL(this.resourceNamePlural))
           }
 
           if (!passive) {

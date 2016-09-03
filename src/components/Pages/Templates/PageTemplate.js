@@ -39,7 +39,7 @@ const PageTemplate = React.createClass({
 
     if(this.props.context === 'edit'){
 
-      new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context);
+      new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural);
       
       apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
         .end(function(err, res){
