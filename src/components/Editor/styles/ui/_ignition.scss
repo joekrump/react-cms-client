@@ -31,9 +31,9 @@
         /**
          * Position of the switch on the page
          */
-        left: 16px;
         position: fixed;
-        top: 16px;
+        bottom: 76px;
+        right: 148px;
 
 
         /**
@@ -76,7 +76,7 @@
          * The ignition switch is constructed of 3 buttons, edit, confirm and
          * cancel.
          */
-        $buttonSize: 48px;
+        $buttonSize: 56px;
 
         &__button {
 
