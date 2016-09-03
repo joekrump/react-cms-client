@@ -23,6 +23,15 @@ export function apiPut(url, authRequired = true) {
 }
 
 /**
+ * Get the path to the API server for a resource (used for DELETE AND POST requests)
+ * @param  {string} resourceNamePlural The plural name of the resource (ex. Pages)
+ * @return {string}                    A URL string to the API server for the resource
+ */
+export function getResourceURL(resourceNamePlural){
+	return AppConfig.apiBaseUrl + resourceNamePlural
+}
+
+/**
  * Make a HTTP GET request
  * @param  string     url          Path to specific route (will be appended to AppConfig.apiBaseUrl)
  * @param  {Boolean}  authRequired (optional) Whether or not this request needs auth with it. Default: true

@@ -16,17 +16,30 @@ const PageTemplate = React.createClass({
     return {
       content: null,
       name: null,
-      submitDisabled: false
+      submitDisabled: false,
+      submitURL: ''
     }
   },
-  onSave(){
-
+  getPageName(){
+    return this.state.name;
+  },
+  getSubmitURL(){
+    return this.state.submitURL
+  },
+  setSubmitURL(url){
+    this.setState({
+      submitURL: url
+    });
   },
   componentDidMount(){
 
+    this.setState({
+      submitURL: this.props.submitUrl
+    });
+
     if(this.props.context === 'edit'){
 
-      new Editor(this);
+      new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context);
       
       apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
         .end(function(err, res){
@@ -52,61 +65,6 @@ const PageTemplate = React.createClass({
   },
   resetForm(){
     this.props.resetForm(this.props.formName)
-  },
-
-  handleSave(htmlContents) {
-    this.submitToServer(htmlContents);
-  },
-  submitToServer(htmlContents){
-
-    try {
-      let serverRequest = this.props.context === 'edit' ? apiPut(this.props.submitUrl) : apiPost(this.props.submitUrl);
-      
-      this.setState({
-        content: htmlContents
-      });
-
-      serverRequest.send({
-        contents: htmlContents,
-        template_id: 1,
-        name: this.state.name
-      })
-      .end(function(err, res){
-        if(err !== null) {
-
-          console.warn(err);
-          
-          if(res && res.statusText) {
-            this.props.updateSnackbar(true, 'Error', res.statusText, 'error')
-          }
-          
-          // Something unexpected happened
-        } else if (res.statusCode !== 200) {
-          // not status OK
-          // console.log('Resource Form not OK ',res);
-          // res.body.errors gives an array of errors from the server.
-          // 
-          this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
-        } else {
-
-          if(this.props.context == 'edit') {
-            this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
-          } else {
-            this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
-          }
-
-          if(this.props.loginCallback) {
-            this.props.loginCallback(res.body.user, res.body.token)
-          } else {
-            // if(this.props.context !== 'edit'){
-            //   setTimeout(this.resetForm, 500);
-            // }
-          }
-        }
-      }.bind(this));
-    } catch (e) {
-      console.log('Exception: ', e)
-    }
   },
   handleNameChange(e) {
     this.setState({
