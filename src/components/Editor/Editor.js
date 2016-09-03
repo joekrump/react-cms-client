@@ -94,7 +94,7 @@ class Editor {
       })
       .end(function(err, res){
         if(err !== null) {
-          editor.busy(false);
+          this.editor.busy(false);
           console.warn(err);
           
           if(res && res.statusText) {
@@ -103,14 +103,14 @@ class Editor {
           
           // Something unexpected happened
         } else if (res.statusCode !== 200) {
-          editor.busy(false);
+          this.editor.busy(false);
           // not status OK
           // console.log('Resource Form not OK ',res);
           // res.body.errors gives an array of errors from the server.
           // 
           // this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
-          editor.busy(false);
+          this.editor.busy(false);
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
             this.setSubmitURL(this.getResourceURL(this.resourceNamePlural))

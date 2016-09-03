@@ -33,7 +33,9 @@ const PageTemplate = React.createClass({
     });
   },
   componentWillUnmount() {
-    this.state.editor.destoryEditor();
+    if(this.state.editor){
+      this.state.editor.destoryEditor();
+    }
   },
   componentDidMount(){
 
@@ -42,10 +44,6 @@ const PageTemplate = React.createClass({
     });
 
     if(this.props.context === 'edit'){
-
-      this.setState({
-        editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
-      })
       
       apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
         .end(function(err, res){
@@ -62,7 +60,8 @@ const PageTemplate = React.createClass({
             updateToken(res.header.authorization);
             this.setState({
               content: res.body.data.editor_contents,
-              name: res.body.data.name
+              name: res.body.data.name,
+              editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)            
             })
 
           }
