@@ -1,5 +1,5 @@
 import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
-import { apiPost, apiPut, updateToken, getResourceURL } from '../../http/requests'
+import { apiPost, apiPut } from '../../http/requests'
 import ContentTools from 'ContentTools';
 
 require('./styles/content-tools.scss');
@@ -87,7 +87,7 @@ class Editor {
           this.editor.busy(false);
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
-            this.setSubmitURL(getResourceURL(this.resourceNamePlural))
+            this.setSubmitURL(this.resourceNamePlural + '/' + res.body.data.id)
           }
 
           if (!passive) {
