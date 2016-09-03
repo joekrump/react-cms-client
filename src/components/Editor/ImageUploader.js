@@ -1,8 +1,8 @@
 import AppConfig from '../../../app_config/app'
 // Define settings for the uploader 
-var CLOUDINARY_PRESET_NAME = AppConfig.cloudinary_preset_name;
-var CLOUDINARY_RETRIEVE_URL = 'http://res.cloudinary.com/mycloud/image/upload';
-var CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/mycloud/image/upload';
+var CLOUDINARY_PRESET_NAME = AppConfig.CLOUDINARY_PRESET_NAME;
+var CLOUDINARY_RETRIEVE_URL = AppConfig.CLOUDINARY_RETRIEVE_URL;
+var CLOUDINARY_UPLOAD_URL = AppConfig.CLOUDINARY_UPLOAD_URL;
 
 class ImageUploader {
 
