@@ -1,47 +1,35 @@
 import AppConfig from '../../../app_config/app'
 // Define settings for the uploader 
-var CLOUDINARY_PRESET_NAME = AppConfig.CLOUDINARY_PRESET_NAME;
-var CLOUDINARY_RETRIEVE_URL = AppConfig.CLOUDINARY_RETRIEVE_URL;
-var CLOUDINARY_UPLOAD_URL = AppConfig.CLOUDINARY_UPLOAD_URL;
+const CLOUDINARY_PRESET_NAME = AppConfig.CLOUDINARY_PRESET_NAME;
+const CLOUDINARY_RETRIEVE_URL = AppConfig.CLOUDINARY_RETRIEVE_URL;
+const CLOUDINARY_UPLOAD_URL = AppConfig.CLOUDINARY_UPLOAD_URL;
 
 class ImageUploader {
 
   constructor(dialog) {
-    var image, xhr, xhrComplete, xhrProgress;
+    this.image = null;
+    this.xhr = null;
+    this.xhrComplete = null;
+    this.xhrProgress = null;
+    this.dialog = dialog;
 
     // Set up the event handlers
-    dialog.addEventListener('imageuploader.cancelupload', function () {
-      // Cancel the current upload
+    this.ialog.addEventListener('imageuploader.cancelupload', this.handleUploadCancel);
 
-      // Stop the upload
-      if (xhr) {
-        xhr.upload.removeEventListener('progress', xhrProgress);
-        xhr.removeEventListener('readystatechange', xhrComplete);
-        xhr.abort();
-      }
+    this.dialog.addEventListener('imageuploader.clear', this.handleClearUploader);
 
-      // Set the dialog to empty
-      dialog.state('empty');
-    });
-
-    dialog.addEventListener('imageuploader.clear', function () {
-      // Clear the current image
-      dialog.clear();
-      image = null;
-    });
-
-    dialog.addEventListener('imageuploader.fileready', function (ev) {
+    this.dialog.addEventListener('imageuploader.fileready', (ev) => {
       // Upload a file to Cloudinary
       var formData;
       var file = ev.detail().file;
 
       // Define functions to handle upload progress and completion
-      function xhrProgress(ev) {
-          // Set the progress for the upload
-          dialog.progress((ev.loaded / ev.total) * 100);
-        }
+      xhrProgress = (ev) => {
+        // Set the progress for the upload
+        this.dialog.progress((ev.loaded / ev.total) * 100);
+      }
 
-      function xhrComplete(ev) {
+      xhrComplete = (ev) => {
         var response;
 
         // Check the request is complete
@@ -49,10 +37,7 @@ class ImageUploader {
           return;
         }
 
-        // Clear the request
-        xhr = null
-        xhrProgress = null
-        xhrComplete = null
+        this.resetXHR();
 
         // Handle the result of the upload
         if (parseInt(ev.target.status) == 200) {
@@ -60,7 +45,7 @@ class ImageUploader {
           response = JSON.parse(ev.target.responseText);
 
           // Store the image details
-          image = {
+          this.image = {
             angle: 0,
             height: parseInt(response.height),
             maxWidth: parseInt(response.width),
@@ -68,14 +53,14 @@ class ImageUploader {
           };
 
           // Apply a draft size to the image for editing
-          image.filename = this.parseCloudinaryURL(response.url)[0];
-          image.url = this.buildCloudinaryURL(
-            image.filename,
+          this.image.filename = this.parseCloudinaryURL(response.url)[0];
+          this.image.url = this.buildCloudinaryURL(
+            this.image.filename,
             [{c: 'fit', h: 600, w: 600}]
           );
           
           // Populate the dialog
-          dialog.populate(image.url, [image.width, image.height]);
+          this.dialog.populate(this.image.url, [this.image.width, this.image.height]);
 
         } else {
           // The request failed, notify the user
@@ -84,8 +69,8 @@ class ImageUploader {
       }
 
       // Set the dialog state to uploading and reset the progress bar to 0
-      dialog.state('uploading');
-      dialog.progress(0);
+      this.dialog.state('uploading');
+      this.dialog.progress(0);
 
       // Build the form data to post to the server
       formData = new FormData();
@@ -93,11 +78,11 @@ class ImageUploader {
       formData.append('upload_preset', CLOUDINARY_PRESET_NAME);
 
       // Make the request
-      xhr = new XMLHttpRequest();
-      xhr.upload.addEventListener('progress', xhrProgress);
-      xhr.addEventListener('readystatechange', xhrComplete);
-      xhr.open('POST', CLOUDINARY_UPLOAD_URL, true);
-      xhr.send(formData);
+      this.xhr = new XMLHttpRequest();
+      this.xhr.upload.addEventListener('progress', this.xhrProgress);
+      this.xhr.addEventListener('readystatechange', this.xhrComplete);
+      this.xhr.open('POST', CLOUDINARY_UPLOAD_URL, true);
+      this.xhr.send(formData);
     });
 
 
@@ -108,55 +93,85 @@ class ImageUploader {
       this.rotate(90); 
     });
 
-    dialog.addEventListener('imageuploader.save', function () {
-      // Handle a user saving an image
-      var cropRegion, cropTransform, imageAttrs, ratio, transforms;
-      
-      // Build a list of transforms
-      transforms = [];
-      
-      // Angle
-      if (image.angle != 0) {
-        transforms.push({a: image.angle});
+    dialog.addEventListener('imageuploader.save', this.handleImageSave);
+  }
+
+
+  resetXHR = () => {
+    // Clear the request
+    this.xhr = null
+    this.xhrProgress = null
+    this.xhrComplete = null
+  }
+
+  handleClearUploader = () => {
+    // Clear the current image
+      this.dialog.clear();
+      this.image = null;
+  }
+
+  handleUploadCancel = () => {
+    // Cancel the current upload
+
+    // Stop the upload
+    if (this.xhr) {
+      this.xhr.upload.removeEventListener('progress', this.xhrProgress);
+      this.xhr.removeEventListener('readystatechange', this.xhrComplete);
+      this.xhr.abort();
+    }
+
+    // Set the dialog to empty
+    this.dialog.state('empty');
+  }
+
+  handleImageSave = () => {
+    // Handle a user saving an image
+    var cropRegion, cropTransform, imageAttrs, ratio, transforms;
+    
+    // Build a list of transforms
+    transforms = [];
+    
+    // Angle
+    if (this.image.angle != 0) {
+      transforms.push({a: image.angle});
+    }
+
+    // Crop
+    cropRegion = this.dialog.cropRegion();
+    if (cropRegion.toString() != [0, 0, 1, 1].toString()) {
+      cropTransform = {
+        c: 'crop',
+        x: parseInt(this.image.width * cropRegion[1]),
+        y: parseInt(this.image.height * cropRegion[0]),
+        w: parseInt(this.image.width * (cropRegion[3] - cropRegion[1])),
+        h: parseInt(this.image.height * (cropRegion[2] - cropRegion[0]))
+      };
+      transforms.push(cropTransform);
+
+        // Update the image size based on the crop
+        this.image.width = cropTransform.w;
+        this.image.height = cropTransform.h;
+        this.image.maxWidth = cropTransform.w;
       }
 
-      // Crop
-      cropRegion = dialog.cropRegion();
-      if (cropRegion.toString() != [0, 0, 1, 1].toString()) {
-        cropTransform = {
-          c: 'crop',
-          x: parseInt(image.width * cropRegion[1]),
-          y: parseInt(image.height * cropRegion[0]),
-          w: parseInt(image.width * (cropRegion[3] - cropRegion[1])),
-          h: parseInt(image.height * (cropRegion[2] - cropRegion[0]))
-        };
-        transforms.push(cropTransform);
+    // Resize (the image is inserted in the page at a default size)
+    if (this.image.width > 400 || this.image.height > 400) {
+      transforms.push({c: 'fit', w: 400, h: 400});
 
-          // Update the image size based on the crop
-          image.width = cropTransform.w;
-          image.height = cropTransform.h;
-          image.maxWidth = cropTransform.w;
-        }
+        // Update the size of the image in-line with the resize
+        ratio = Math.min(400 / this.image.width, 400 / this.image.height);
+        this.image.width *= ratio;
+        this.image.height *= ratio;
+      }
 
-      // Resize (the image is inserted in the page at a default size)
-      if (image.width > 400 || image.height > 400) {
-        transforms.push({c: 'fit', w: 400, h: 400});
+    // Build a URL for the image we'll insert
+    this.image.url = this.buildCloudinaryURL(this.image.filename, transforms);
 
-          // Update the size of the image in-line with the resize
-          ratio = Math.min(400 / image.width, 400 / image.height);
-          image.width *= ratio;
-          image.height *= ratio;
-        }
+    // Build attributes for the image
+    imageAttrs = {'alt': '', 'data-ce-max-width': this.image.maxWidth};
 
-      // Build a URL for the image we'll insert
-      image.url = this.buildCloudinaryURL(image.filename, transforms);
-
-      // Build attributes for the image
-      imageAttrs = {'alt': '', 'data-ce-max-width': image.maxWidth};
-
-      // Save/insert the image
-      dialog.save(image.url, [image.width, image.height]); 
-    });
+    // Save/insert the image
+    this.dialog.save(this.image.url, [this.image.width, this.image.height]); 
   }
 
   buildCloudinaryURL(filename, transforms) {
@@ -235,33 +250,33 @@ class ImageUploader {
     var height, transforms, width;
     
     // Update the angle of the image
-    image.angle += angle;
+    this.image.angle += angle;
 
     // Stay within 0-360 degree range
-    if (image.angle < 0) {
-      image.angle += 360;
+    if (this.image.angle < 0) {
+      this.image.angle += 360;
     } else if (image.angle > 270) {
-      image.angle -= 360;
+      this.image.angle -= 360;
     }
 
     // Rotate the image's dimensions
-    width = image.width;
-    height = image.height;
-    image.width = height;
-    image.height = width;
-    image.maxWidth = width;
+    width = this.image.width;
+    height = this.image.height;
+    this.image.width = height;
+    this.image.height = width;
+    this.image.maxWidth = width;
     
     // Build the transform to rotate the image
     transforms = [{c: 'fit', h: 600, w: 600}];
-    if (image.angle > 0) {
-      transforms.unshift({a: image.angle});
+    if (this.image.angle > 0) {
+      transforms.unshift({a: this.image.angle});
     }
 
     // Build a URL for the transformed image
-    image.url = this.buildCloudinaryURL(image.filename, transforms);
+    this.image.url = this.buildCloudinaryURL(this.image.filename, transforms);
     
     // Update the image in the dialog
-    dialog.populate(image.url, [image.width, image.height]);
+    dialog.populate(this.image.url, [this.image.width, this.image.height]);
   }
 }
 
