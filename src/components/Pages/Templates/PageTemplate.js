@@ -28,6 +28,28 @@ const PageTemplate = React.createClass({
           var editor = ContentTools.EditorApp.get();
           editor.init('*[data-editable]', 'data-name');
 
+          editor.addEventListener('saved', function (ev) {
+              // Save the changes ...
+              var regions = ev.detail().regions;
+              console.log(regions);
+          });
+
+          // Add support for auto-save
+          editor.addEventListener('start', function (ev) {
+              var _this = this;
+
+              // Call save every 30 seconds
+              function autoSave() {
+                  _this.save(true);
+              };
+              this.autoSaveTimer = setInterval(autoSave, 30 * 1000);
+          });
+
+          editor.addEventListener('stop', function (ev) {
+              // Stop the autosave
+              clearInterval(this.autoSaveTimer);
+          });
+
             var ImageUploader;
 
             ImageUploader = (function() {
