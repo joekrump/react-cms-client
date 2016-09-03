@@ -1,6 +1,7 @@
 import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
 import { apiPost, apiPut } from '../../http/requests'
 import ContentTools from 'ContentTools';
+import ImageUploader from 'ImageUploader';
 
 require('./styles/content-tools.scss');
 
@@ -14,6 +15,42 @@ class Editor {
     // 
     this.editContext = context;
     this.getPageName = getPageName;
+
+    ContentTools.IMAGE_UPLOADER = new ImageUploader();
+
+    // Capture image resize events and update the Cloudinary URL
+    ContentEdit.Root.get().bind('taint', function (element) {
+        var args, filename, newSize, transforms, url;
+
+        // Check the element tainted is an image
+        if (element.type() != 'Image') {
+            return;
+        }
+
+        // Parse the existing URL
+        args = ContentTools.IMAGE_UPLOADER.parseCloudinaryURL(element.attr('src'));
+        filename = args[0];
+        transforms = args[1];
+
+        // If no filename is found then exit (not a Cloudinary image)
+        if (!filename) {
+            return;
+        }
+
+        // Remove any existing resize transform
+        if (transforms.length > 0 &&
+                transforms[transforms.length -1]['c'] == 'fill') {
+            transforms.pop();
+        }
+
+        // Change the resize transform for the element
+        transforms.push({c: 'fill', w: element.size()[0], h: element.size()[1]});
+        url = ContentTools.IMAGE_UPLOADER.buildCloudinaryURL(filename, transforms);
+        if (url != element.attr('src')) {
+            element.attr('src', url);
+        }
+    });
+
     // Initialise editor for the page.
     // 
     this.editor = ContentTools.EditorApp.get();

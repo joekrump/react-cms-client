@@ -109,6 +109,56 @@ class ImageUploader {
         'imageUploader.rotatecw', 
         () => { this.rotate(90); }
     );
+
+    dialog.addEventListener('imageuploader.save', function () {
+            // Handle a user saving an image
+            var cropRegion, cropTransform, imageAttrs, ratio, transforms;
+            
+            // Build a list of transforms
+            transforms = [];
+            
+            // Angle
+            if (image.angle != 0) {
+                transforms.push({a: image.angle});
+            }
+
+            // Crop
+            cropRegion = dialog.cropRegion();
+            if (cropRegion.toString() != [0, 0, 1, 1].toString()) {
+                cropTransform = {
+                    c: 'crop',
+                    x: parseInt(image.width * cropRegion[1]),
+                    y: parseInt(image.height * cropRegion[0]),
+                    w: parseInt(image.width * (cropRegion[3] - cropRegion[1])),
+                    h: parseInt(image.height * (cropRegion[2] - cropRegion[0]))
+                    };
+                transforms.push(cropTransform);
+                
+                // Update the image size based on the crop
+                image.width = cropTransform.w;
+                image.height = cropTransform.h;
+                image.maxWidth = cropTransform.w;
+            }
+
+            // Resize (the image is inserted in the page at a default size)
+            if (image.width > 400 || image.height > 400) {
+                transforms.push({c: 'fit', w: 400, h: 400});
+                
+                // Update the size of the image in-line with the resize
+                ratio = Math.min(400 / image.width, 400 / image.height);
+                image.width *= ratio;
+                image.height *= ratio;
+            }
+
+            // Build a URL for the image we'll insert
+            image.url = buildCloudinaryURL(image.filename, transforms);
+
+            // Build attributes for the image
+            imageAttrs = {'alt': '', 'data-ce-max-width': image.maxWidth};
+
+            // Save/insert the image
+            dialog.save(image.url, [image.width, image.height]); 
+        });
   }
 
   buildCloudinaryURL(filename, transforms) {
