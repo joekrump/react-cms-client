@@ -1,5 +1,6 @@
 import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
 import { apiPost, apiPut, updateToken, getResourceURL } from '../../http/requests'
+import ContentTools from 'ContentTools';
 
 require('./styles/content-tools.scss');
 
@@ -10,21 +11,16 @@ class Editor {
     this.setSubmitURL = setSubmitURL;
     this.resourceNamePlural = resourceNamePlural;
     // new or edit
+    // 
     this.editContext = context;
     this.getPageName = getPageName;
-    loadScript('/content-tools/content-tools.min.js', () => {
-      this.editor = ContentTools.EditorApp.get();
-
-      this.editor.init('*[data-editable]', 'data-name');
-
-      this.editor.addEventListener('saved', this.handleSave.bind(this));
-      this.editor.addEventListener('start', this.handleEditStart.bind(this));
-      this.editor.addEventListener('stop', this.handleEditStop.bind(this));  
-      // loadStylesheet('/content-tools/content-tools.min.css', () => {
-      
-
-      // });
-    });
+    // Initialise editor for the page.
+    // 
+    this.editor = ContentTools.EditorApp.get();
+    this.editor.init('*[data-editable]', 'data-name');
+    this.editor.addEventListener('saved', this.handleSave.bind(this));
+    this.editor.addEventListener('start', this.handleEditStart.bind(this));
+    this.editor.addEventListener('stop', this.handleEditStop.bind(this));  
   }
 
   destoryEditor(){
@@ -58,32 +54,6 @@ class Editor {
     // Set the editors state to busy while we save our changes
     this.editor.busy(true);
 
-    // // Collect the contents of each region into a FormData instance
-    // payload = new FormData();
-    // payload.append('contents', regions.article);
-    // payload.append('name', this.getPageName())
-
-    // for (name in regions) {
-    //     payload.append(name, regions[name]);
-    // }
-
-    // Send the update content to the server to be saved
-    // onStateChange = function(event) {
-    //   // Check if the request is finished
-    //   if (event.target.readyState == 4) {
-    //     editor.busy(false);
-    //     if (event.target.status == '200') {
-    //       // Save was successful, notify the user with a flash
-    //       if (!passive) {
-    //           new ContentTools.FlashUI('ok');
-    //       }
-    //     } else {
-    //       // Save failed, notify the user with a flash
-    //       new ContentTools.FlashUI('no');
-    //     }
-    //   }
-    // };
-
     try {
       console.log('EDIT CONTEXT: ' + this.editContext);
 
@@ -102,10 +72,12 @@ class Editor {
           if(res && res.statusText) {
             // this.props.updateSnackbar(true, 'Error', res.statusText, 'error')
           }
+          new ContentTools.FlashUI('no');
           
           // Something unexpected happened
         } else if (res.statusCode !== 200) {
           this.editor.busy(false);
+          new ContentTools.FlashUI('no');
           // not status OK
           // console.log('Resource Form not OK ',res);
           // res.body.errors gives an array of errors from the server.
