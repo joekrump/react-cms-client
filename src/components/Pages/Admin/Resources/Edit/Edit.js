@@ -4,14 +4,13 @@ import FloatingBackButton from '../../../../Nav/FloatingBackButton'
 
 import {getEditorContent} from './EditHelper'
 
-const Edit = ({ params: { resourceNamePlural, resourceId }, location: { query } }) => {
-  return (
-    <AdminLayout>
-      <div className="admin-edit">
-        <FloatingBackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
-        {getEditorContent(resourceNamePlural, resourceId)}
-      </div>
-    </AdminLayout>
-  )
-};
+const Edit = ({ params: { resourceNamePlural, resourceId }, location: { query } }) => (
+  <AdminLayout>
+    <div className="admin-edit">
+      <FloatingBackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
+      {getEditorContent(resourceNamePlural, resourceId)}
+    </div>
+  </AdminLayout>
+);
+
 export default Edit;
