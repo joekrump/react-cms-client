@@ -5,11 +5,6 @@ import ResourceForm from '../../../../Forms/ResourceForm';
 import AdminLayout from '../../Layout/Layout'
 import AppConfig from '../../../../../../app_config/app';
 import PageTemplate from '../../../Templates/PageTemplate';
-
-import { Link } from 'react-router'
-import FlatButton from 'material-ui/FlatButton';
-import BackArrow from 'material-ui/svg-icons/navigation/arrow-back'
-import {fullWhite, cyan300, cyan500, lightBlack } from 'material-ui/styles/colors';
 import FloatingBackButton from '../../../../Nav/FloatingBackButton'
 
 const New = ({ params: { resourceNamePlural }, location: { query } }) => {
@@ -32,6 +27,7 @@ const New = ({ params: { resourceNamePlural }, location: { query } }) => {
     return (
       <AdminLayout>
         <div className="admin-edit">
+          <FloatingBackButton label={resourceNamePlural} link={'/admin/' + toLowercase(resourceNamePlural)} />
           <h1>New {capitalize(nameSingular)}</h1>
 
           <ResourceForm 
