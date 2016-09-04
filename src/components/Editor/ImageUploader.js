@@ -205,7 +205,7 @@ export class ImageUploader {
     
     // Angle
     if (this.image.angle != 0) {
-      transforms.push({a: image.angle});
+      transforms.push({a: this.image.angle});
     }
 
     // Crop
@@ -256,7 +256,7 @@ export class ImageUploader {
     // Stay within 0-360 degree range
     if (this.image.angle < 0) {
       this.image.angle += 360;
-    } else if (image.angle > 270) {
+    } else if (this.image.angle > 270) {
       this.image.angle -= 360;
     }
 

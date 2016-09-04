@@ -64,6 +64,11 @@ class Editor {
 
   destoryEditor(){
     this.editor.destroy();
+    this.getSubmitURL = null;
+    this.setSubmitURL = null;
+    this.resourceNamePlural = null;
+    this.editContext = null;
+    this.getPageName = null;
   }
   
   handleEditStart(event) {
