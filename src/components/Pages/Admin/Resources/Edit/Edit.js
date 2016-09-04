@@ -2,13 +2,13 @@ import React from 'react';
 import AdminLayout from '../../Layout/Layout'
 import FloatingBackButton from '../../../../Nav/FloatingBackButton'
 
-import {getEditorContent} from './EditHelper'
+import {getEditorContent} from '../ResourcePageHelper'
 
 const Edit = ({ params: { resourceNamePlural, resourceId }, location: { query } }) => (
   <AdminLayout>
     <div className="admin-edit">
       <FloatingBackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
-      {getEditorContent(resourceNamePlural, resourceId)}
+      {getEditorContent('edit', resourceNamePlural, resourceId)}
     </div>
   </AdminLayout>
 );
