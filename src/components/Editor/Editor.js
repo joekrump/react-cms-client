@@ -1,4 +1,3 @@
-import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
 import { apiPost, apiPut } from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
@@ -18,11 +17,12 @@ class Editor {
 
     ContentTools.IMAGE_UPLOADER = this.createImageUploader;
     // Capture image resize events and update the Cloudinary URL
+    // eslint-disable-next-line
     ContentEdit.Root.get().bind('taint', function (element) {
-      var args, filename, newSize, transforms, url;
+      var args, filename, transforms, url;
 
       // Check the element tainted is an image
-      if (element.type() != 'Image') {
+      if (element.type() !== 'Image') {
         return;
       }
 
@@ -37,14 +37,14 @@ class Editor {
       }
 
       // Remove any existing resize transform
-      if (transforms.length > 0 && transforms[transforms.length -1]['c'] == 'fill') {
+      if (transforms.length > 0 && transforms[transforms.length -1]['c'] === 'fill') {
         transforms.pop();
       }
 
       // Change the resize transform for the element
       transforms.push({c: 'fill', w: element.size()[0], h: element.size()[1]});
       url = buildCloudinaryURL(filename, transforms);
-      if (url != element.attr('src')) {
+      if (url !== element.attr('src')) {
         element.attr('src', url);
       }
     });
@@ -88,14 +88,14 @@ class Editor {
     clearInterval(this.editor.autoSaveTimer);
   }
   handleSave(event) {
-    var name, onStateChange, passive, payload, regions, xhr;
+    var passive, regions;
 
     // Check if this was a passive save
     passive = event.detail().passive;
 
     // Check to see if there are any changes to save
     regions = event.detail().regions;
-    if (Object.keys(regions).length == 0) {
+    if (Object.keys(regions).length === 0) {
         return;
     }
 
@@ -111,6 +111,7 @@ class Editor {
         template_id: 1,
         name: regions.name.replace(/<\/?[^>]+(>|$)/g, "")
       })
+
       .end(function(err, res){
         if(err !== null) {
           this.editor.busy(false);
