@@ -9,7 +9,7 @@ $base-z-index: 9999 !default;
  * For UI widgets that appear on the page (as opposed to appearing in front of a
  * modal screen) we define a base background colour.
  */
-$in-page-background: #e9e9e9 !default;
+$in-page-background: #0288D1 !default;
 
 /**
  * The colour used when casting shadows for widgets that appear to float.
@@ -20,16 +20,16 @@ $shadow-color: rgba(black, 0.35) !default;
  * Confirm, Cancel and Edit actions are common amoung the various ui components.
  * Each action has an associated/common colour.
  */
-$cancel-action-color: #e74c3c !default;
-$confirm-action-color: #27ae60 !default;
-$edit-action-color: #2980b9 !default;
-$muted-action-color: #646464 !default;
+$cancel-action-color: #FF7043 !default;
+$confirm-action-color: #00E676 !default;
+$edit-action-color: #00BCD4 !default;
+$muted-action-color: #E0E0E0 !default;
 
 /**
  * The background colour used to highlight editiable regions to users when they
  * hold down the shift key.
  */
-$highlight-color: rgba(#f39c12, 0.25) !default;
+$highlight-color: rgba(#0288D1, 0.25) !default;
 
 
 /**
@@ -94,7 +94,7 @@ $highlight-color: rgba(#f39c12, 0.25) !default;
 }
 
 // Text colours
-$icon-color: #464646 !default;
+$icon-color: #e6e6e6 !default;
 $text-color: #646464 !default;
 
 // Type mixins
