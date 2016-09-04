@@ -1,14 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { apiGet, apiPut, apiPost, updateToken } from '../../../http/requests'
-import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
-import TextField from 'material-ui/TextField';
-
+import { apiGet, updateToken } from '../../../http/requests'
 import Editor from "../../Editor/Editor"
-
-const listItemStyle = {
-  padding: "0 16px"
-};
 
 const PageTemplate = React.createClass({
 

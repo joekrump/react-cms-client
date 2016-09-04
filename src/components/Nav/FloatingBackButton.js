@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router'
 import FlatButton from 'material-ui/FlatButton';
 import BackArrow from 'material-ui/svg-icons/navigation/arrow-back'
-import {fullWhite, cyan300, cyan500, lightBlack } from 'material-ui/styles/colors';
+import { fullWhite, cyan300 } from 'material-ui/styles/colors';
 
 
 require('./FloatingBackButton.scss');
