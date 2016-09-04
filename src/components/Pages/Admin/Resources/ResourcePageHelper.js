@@ -13,7 +13,7 @@ export function getEditorContent(context, resourceNamePlural, resourceId){
     
     return (
       <PageTemplate 
-        submitUrl={resourceNamePlural}
+        submitUrl={context === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
         resourceType={nameSingular}
         resourceId={resourceId}
         resourceNamePlural={resourceNamePlural}

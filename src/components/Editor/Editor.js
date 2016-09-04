@@ -55,7 +55,10 @@ class Editor {
     this.editor.init('*[data-editable]', 'data-name');
     this.editor.addEventListener('saved', this.handleSave.bind(this));
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
-    this.editor.addEventListener('stop', this.handleEditStop.bind(this));  
+    this.editor.addEventListener('stop', this.handleEditStop.bind(this));
+    // Start the editor for the page by default.
+    // this.editor.start();
+
   }
 
   createImageUploader(dialog){
@@ -75,6 +78,7 @@ class Editor {
     // Call save every 30 seconds
     let autoSave = () => {
       this.editor.save(true);
+      console.log(this.editor.getState());
     };
     this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
   }
@@ -99,14 +103,13 @@ class Editor {
     this.editor.busy(true);
 
     try {
-      console.log('EDIT CONTEXT: ' + this.editContext);
 
       let serverRequest = this.editContext === 'edit' ? apiPut(this.getSubmitURL()) : apiPost(this.getSubmitURL())
 
       serverRequest.send({
-        contents: regions.article,
+        contents: regions.content,
         template_id: 1,
-        name: this.getPageName()
+        name: regions.name
       })
       .end(function(err, res){
         if(err !== null) {

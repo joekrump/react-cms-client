@@ -83,25 +83,13 @@ const PageTemplate = React.createClass({
     });
   },
   render() {
+    console.log(this.getSubmitURL());
     return (
       <div>
-        <TextField
-          type='text'
-          hintText="Page Name"
-          // floatingLabelText="Page Name"
-          onChange={(e) => this.handleNameChange(e)}
-          // errorText={this.props.errorText}
-          value={this.state.name ? this.state.name : ''}
-          style={{width: '100%', fontSize: '4.0rem', lineHeight: '1.1', height: '6.0rem'}}
-          autoFocus={this.state.name ? false : true}
-        />
-        <div data-editable data-name="article" dangerouslySetInnerHTML={{__html: this.state.content}} />
-        <NotificationSnackbar 
-          open={this.props.snackbar.show} 
-          header={this.props.snackbar.header}
-          content={this.props.snackbar.content}
-          type={this.props.snackbar.notificationType}
-        />
+        <div data-editable data-name="name">
+          <h1>{this.state.name ? this.state.name : ''}</h1>
+        </div>
+        <div data-editable data-name="content" dangerouslySetInnerHTML={{__html: this.state.content}} />
       </div>
     )
   }
