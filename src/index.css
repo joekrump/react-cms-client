@@ -25,6 +25,17 @@ a:hover {
   margin: 0 auto;
 }
 
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
 
 @media (max-width: 900px){
   .page-container {

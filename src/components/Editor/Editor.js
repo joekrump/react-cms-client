@@ -98,19 +98,25 @@ class Editor {
     if (Object.keys(regions).length === 0) {
         return;
     }
+    let payload = {}
+    let regionValue;
+
+    (Object.keys(regions)).map((key) => {
+      console.log(key)
+      if(key === 'name') {
+        regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "")
+      } else {
+        regionValue = regions[key]
+      }
+      payload[key] = regionValue;
+    })
 
     // Set the editors state to busy while we save our changes
-    this.editor.busy(true);
-
     try {
-
+      this.editor.busy(true);
+      console.log(payload);
       let serverRequest = this.editContext === 'edit' ? apiPut(this.getSubmitURL()) : apiPost(this.getSubmitURL())
-
-      serverRequest.send({
-        contents: regions.content,
-        template_id: 1,
-        name: regions.name.replace(/<\/?[^>]+(>|$)/g, "")
-      })
+      serverRequest.send(payload)
 
       .end(function(err, res){
         if(err !== null) {
@@ -152,6 +158,7 @@ class Editor {
         }
       }.bind(this));
     } catch (e) {
+      this.editor.busy(false);
       console.log('Exception: ', e)
     }
   }
