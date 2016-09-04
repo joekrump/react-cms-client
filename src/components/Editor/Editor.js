@@ -1,7 +1,7 @@
 import { loadScript, loadStylesheet } from '../../helpers/ScriptsHelper'
 import { apiPost, apiPut } from '../../http/requests'
 import ContentTools from 'ContentTools';
-import ImageUploader from './ImageUploader';
+import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
 
 require('./styles/content-tools.scss');
 
@@ -17,7 +17,6 @@ class Editor {
     this.getPageName = getPageName;
 
     ContentTools.IMAGE_UPLOADER = this.createImageUploader;
-
     // Capture image resize events and update the Cloudinary URL
     ContentEdit.Root.get().bind('taint', function (element) {
       var args, filename, newSize, transforms, url;
@@ -28,7 +27,7 @@ class Editor {
       }
 
       // Parse the existing URL
-      args = ContentTools.IMAGE_UPLOADER.parseCloudinaryURL(element.attr('src'));
+      args = parseCloudinaryURL(element.attr('src'));
       filename = args[0];
       transforms = args[1];
 
@@ -44,7 +43,7 @@ class Editor {
 
       // Change the resize transform for the element
       transforms.push({c: 'fill', w: element.size()[0], h: element.size()[1]});
-      url = ContentTools.IMAGE_UPLOADER.buildCloudinaryURL(filename, transforms);
+      url = buildCloudinaryURL(filename, transforms);
       if (url != element.attr('src')) {
         element.attr('src', url);
       }

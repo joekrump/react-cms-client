@@ -5,7 +5,7 @@ const CLOUDINARY_RETRIEVE_URL = AppConfig.CLOUDINARY_RETRIEVE_URL;
 const CLOUDINARY_UPLOAD_URL = AppConfig.CLOUDINARY_UPLOAD_URL;
 
 
-const buildCloudinaryURL = (filename, transforms) => {
+export const buildCloudinaryURL = (filename, transforms) => {
   // Build a Cloudinary URL from a filename and the list of transforms 
   // supplied. Transforms should be specified as objects (e.g {a: 90} becomes
   // 'a_90').
@@ -37,7 +37,7 @@ const buildCloudinaryURL = (filename, transforms) => {
   return urlParts.join('/');
 }
 
-const parseCloudinaryURL = (url) => {
+export const parseCloudinaryURL = (url) => {
   // Parse a Cloudinary URL and return the filename and list of transforms
   var filename, i, j, transform, transformArgs, transforms, urlParts;
 
@@ -76,7 +76,7 @@ const parseCloudinaryURL = (url) => {
   return [filename, transforms];
 }
 
-class ImageUploader {
+export class ImageUploader {
 
   constructor(dialog) {
     this.image = null;
@@ -280,5 +280,3 @@ class ImageUploader {
     this.dialog.populate(this.image.url, [this.image.width, this.image.height]);
   }
 }
-
-export default ImageUploader
