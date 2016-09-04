@@ -76,7 +76,7 @@ const ResourceForm = React.createClass({
             this.props.formName
           );
           
-          if(this.props.context == 'edit') {
+          if(this.props.context === 'edit') {
             this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
           } else {
             this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
