@@ -105,23 +105,23 @@ export class ImageUploader {
         var response;
 
         // Check the request is complete
-        if (ev.target.readyState != 4) {
+        if (ev.target.readyState !== 4) {
           return;
         }
 
         this.resetXHR();
 
         // Handle the result of the upload
-        if (parseInt(ev.target.status) == 200) {
+        if (parseInt(ev.target.status, 10) === 200) {
           // Unpack the response (from JSON)
           response = JSON.parse(ev.target.responseText);
 
           // Store the image details
           this.image = {
             angle: 0,
-            height: parseInt(response.height),
-            maxWidth: parseInt(response.width),
-            width: parseInt(response.width)
+            height: parseInt(response.height, 10),
+            maxWidth: parseInt(response.width, 10),
+            width: parseInt(response.width, 10)
           };
 
           // Apply a draft size to the image for editing
@@ -136,6 +136,7 @@ export class ImageUploader {
 
         } else {
           // The request failed, notify the user
+          // eslint-disable-next-line
           new ContentTools.FlashUI('no');
         }
       }
@@ -198,25 +199,25 @@ export class ImageUploader {
 
   handleImageSave = () => {
     // Handle a user saving an image
-    var cropRegion, cropTransform, imageAttrs, ratio, transforms;
+    var cropRegion, cropTransform, ratio, transforms;
     
     // Build a list of transforms
     transforms = [];
     
     // Angle
-    if (this.image.angle != 0) {
+    if (this.image.angle !== 0) {
       transforms.push({a: this.image.angle});
     }
 
     // Crop
     cropRegion = this.dialog.cropRegion();
-    if (cropRegion.toString() != [0, 0, 1, 1].toString()) {
+    if (cropRegion.toString() !== [0, 0, 1, 1].toString()) {
       cropTransform = {
         c: 'crop',
-        x: parseInt(this.image.width * cropRegion[1]),
-        y: parseInt(this.image.height * cropRegion[0]),
-        w: parseInt(this.image.width * (cropRegion[3] - cropRegion[1])),
-        h: parseInt(this.image.height * (cropRegion[2] - cropRegion[0]))
+        x: parseInt(this.image.width * cropRegion[1], 10),
+        y: parseInt(this.image.height * cropRegion[0], 10),
+        w: parseInt(this.image.width * (cropRegion[3] - cropRegion[1]), 10),
+        h: parseInt(this.image.height * (cropRegion[2] - cropRegion[0]), 10)
       };
       transforms.push(cropTransform);
 
@@ -227,11 +228,11 @@ export class ImageUploader {
       }
 
     // Resize (the image is inserted in the page at a default size)
-    if (this.image.width > 400 || this.image.height > 400) {
-      transforms.push({c: 'fit', w: 400, h: 400});
+    if (this.image.width > 1000 || this.image.height > 1000) {
+      transforms.push({c: 'fit', w: 1000, h: 1000});
 
         // Update the size of the image in-line with the resize
-        ratio = Math.min(400 / this.image.width, 400 / this.image.height);
+        ratio = Math.min(1000 / this.image.width, 1000 / this.image.height);
         this.image.width *= ratio;
         this.image.height *= ratio;
       }
@@ -240,7 +241,7 @@ export class ImageUploader {
     this.image.url = buildCloudinaryURL(this.image.filename, transforms);
 
     // Build attributes for the image
-    imageAttrs = {'alt': '', 'data-ce-max-width': this.image.maxWidth};
+    // imageAttrs = {'alt': '', 'data-ce-max-width': this.image.maxWidth};
 
     // Save/insert the image
     this.dialog.save(this.image.url, [this.image.width, this.image.height]); 
@@ -268,7 +269,7 @@ export class ImageUploader {
     this.image.maxWidth = width;
     
     // Build the transform to rotate the image
-    transforms = [{c: 'fit', h: 600, w: 600}];
+    transforms = [{c: 'fit', h: 1000, w: 1000}];
     if (this.image.angle > 0) {
       transforms.unshift({a: this.image.angle});
     }
