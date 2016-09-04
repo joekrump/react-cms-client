@@ -83,7 +83,6 @@ const PageTemplate = React.createClass({
     });
   },
   render() {
-    console.log(this.getSubmitURL());
     return (
       <div>
         <div data-editable data-name="name">

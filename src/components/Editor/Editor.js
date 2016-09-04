@@ -109,7 +109,7 @@ class Editor {
       serverRequest.send({
         contents: regions.content,
         template_id: 1,
-        name: regions.name
+        name: regions.name.replace(/<\/?[^>]+(>|$)/g, "")
       })
       .end(function(err, res){
         if(err !== null) {
