@@ -30,12 +30,30 @@ export function loadScript(filepath, onLoadCallback, onErrorCallback){
     document.getElementsByTagName("head")[0].appendChild(fileref)
 }
 
-export function loadStylesheet(filepath, onLoadCallback) {
+/**
+ * Function that load a stylesheet from a specified source
+ * @param  {string} filepath          The path to the stylesheet that should be loaded
+ * @param  {function} onLoadCallback  A function that should run if the stylesheet loads successfully
+ * @param  {function} onErrorCallback A function that should run if the stylesheet fails to load
+ * @return {undefined}                No return from this function.
+ */
+export function loadStylesheet(filepath, onLoadCallback, onErrorCallback) {
     var fileref=document.createElement("link")
 
     if(onLoadCallback) {
         fileref.onload = function() {
             onLoadCallback();
+        }
+    }
+
+    if (onErrorCallback) {
+        fileref.onerror = function() {
+            onErrorCallback();
+        }
+    } else {
+        fileref.onerror = function(error) {
+            console.warn('Script failed to load: ', filepath);
+            console.warn(error);
         }
     }
     
