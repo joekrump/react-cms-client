@@ -3,23 +3,14 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import SendIcon from 'material-ui/svg-icons/content/send';
 
-export default React.createClass({
+const SubmitButton = (props) => (
+  <RaisedButton
+    primary
+    disabled={!props.isFormValid}
+    label={props.label ? props.label : 'Submit'}
+    type="submit"
+    icon={props.withIcon ? (<SendIcon />) : null}
+  />
+);
 
-  getDefaultProps() {
-    return {
-      label: 'Submit'
-    };
-  },
-
-  render() {
-    return (
-      <RaisedButton
-        primary
-        disabled={!this.props.isFormValid}
-        label={this.props.label}
-        type="submit"
-        icon={this.props.withIcon ? (<SendIcon />) : null}
-        />
-    );
-  }
-});
+export default SubmitButton;
