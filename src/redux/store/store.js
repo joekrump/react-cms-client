@@ -32,7 +32,7 @@ const store = createStore(
   reducer,
   compose(
     applyMiddleware(sagaMiddleware, reactRouterReduxMiddleware),
-    window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument() 
+    ((typeof window !== 'undefined') && window.devToolsExtension) ? window.devToolsExtension() : DevTools.instrument() 
   )
 );
 
