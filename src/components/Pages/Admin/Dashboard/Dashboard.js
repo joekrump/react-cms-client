@@ -5,12 +5,14 @@ import FlexContainer from '../../../Layout/FlexContainer'
 import { apiGet, updateToken } from '../../../../http/requests'
 import AdminLayout from '../Layout/Layout'
 
-const Dashboard = React.createClass({
-  getInitialState(){
-    return {
+class Dashboard extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       widgets: []
     }
-  },
+  }
+
   componentDidMount(){
     apiGet('dashboard')
       .end(function(err, res) {
@@ -22,7 +24,7 @@ const Dashboard = React.createClass({
           this.setState({widgets: res.body.widgets})
         }
       }.bind(this))
-  },
+  }
   render() {
     var DashboardWidgets = null;
     var widgetComponent = null;
@@ -66,7 +68,7 @@ const Dashboard = React.createClass({
       </AdminLayout>
     );
   }
-});
+}
 
 Dashboard.contextTypes = {
   store: React.PropTypes.object.isRequired
