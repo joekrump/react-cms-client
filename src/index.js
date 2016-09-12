@@ -30,7 +30,7 @@ ReactDOM.render((
    <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
       <div>
-        <Router history={history} routes={routes} />
+        <Router history={history} routes={routes} onUpdate={() => window.scrollTo(0, 0)}/>
       </div>
     </MuiThemeProvider>
   </Provider>
