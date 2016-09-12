@@ -38,6 +38,8 @@ export const routes = {
   ]
 }
 
+export default routes;
+
 
 /**
  * Redirects user to /login if they try to access a route that should only be 

@@ -112,6 +112,7 @@ class Editor {
     })
 
     // Set the editors state to busy while we save our changes
+    // 
     try {
       this.editor.busy(true);
       console.log(payload);
