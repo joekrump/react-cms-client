@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "ContentTools": "^1.2.11",
+    "express": "^4.14.0",
     "gravatar": "^1.5.2",
     "install": "^0.8.1",
     "lodash.assign": "^4.1.0",
