@@ -1,8 +1,7 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-
 import AddIcon from 'material-ui/svg-icons/content/add'
 import AddPageIcon from 'material-ui/svg-icons/action/note-add'
 import UserIcon from 'material-ui/svg-icons/social/person-add'
@@ -23,7 +22,7 @@ const actions = [
   {icon: <PermissionIcon />, route: '/admin/permissions/new', tooltipText: 'Create a new Role Permission'}
 ]
 
-class SpeedDial extends Component {
+class SpeedDial extends React.Component {
   static propTypes = {
     // from redux:
     height: PropTypes.number.isRequired,

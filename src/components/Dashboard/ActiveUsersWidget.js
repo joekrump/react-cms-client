@@ -9,12 +9,13 @@ import CircularProgress from 'material-ui/CircularProgress';
 import './Widget.css'
 import { connect } from 'react-redux';
 
-const ActiveUsersWidget = React.createClass({
-  getInitialState(){
-    return {
+class ActiveUsersWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       data: []
     }
-  },
+  }
   componentDidMount(){
     apiGet('users/active')
       .end(function(err, res) {
@@ -26,7 +27,7 @@ const ActiveUsersWidget = React.createClass({
           this.setState({data: res.body.activeUsers})
         }
       }.bind(this))
-  },
+  }
   render() {
 
     var usersSection = null;
@@ -57,7 +58,7 @@ const ActiveUsersWidget = React.createClass({
 
     return ( usersSection )
   }
-});
+}
 
 const mapStateToProps = ( state ) => {
   return {
