@@ -1,8 +1,8 @@
 var path = require('path');
-var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+// var autoprefixer = require('autoprefixer');
+// var HtmlWebpackPlugin = require('html-webpack-plugin');
+// var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // TODO: hide this behind a flag and eliminate dead code on eject.
 // This shouldn't be exposed to the user.
@@ -13,11 +13,11 @@ if (process.argv[2] === '--debug-template') {
   relativePath = '../template';
 }
 var srcPath = path.resolve(__dirname, relativePath, 'src');
-var nodeModulesPath = path.join(__dirname, '..', 'node_modules');
+// var nodeModulesPath = path.join(__dirname, '..', 'node_modules');
 var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: path.join(srcPath, 'server'),
   output: {
     path: buildPath,
