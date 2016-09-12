@@ -23,7 +23,6 @@ const NotificationSnackbar = () => ({
       default:
     }
 
-    console.log(this.props);
     return (
       <Snackbar
         open={this.props.open}

@@ -9,14 +9,15 @@ const listItemStyle = {
   padding: "0 16px"
 };
 
-const ResourceForm = React.createClass({
-
-  getInitialState(){
-    return {
+class ResourceForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       existingData: {},
       submitDisabled: false
     }
-  },
+  }
+
   componentDidMount(){
     if(this.props.context === 'edit'){
 
@@ -37,15 +38,16 @@ const ResourceForm = React.createClass({
           }
         }.bind(this));
     } 
-  },
+  }
   resetForm(){
     this.props.resetForm(this.props.formName)
-  },
+  }
 
   handleFormSubmit(e) {
     e.preventDefault();
+    console.log(this);
     this.submitToServer();
-  },
+  }
   submitToServer(){
     var formInputValues = {};
 
@@ -94,7 +96,7 @@ const ResourceForm = React.createClass({
     } catch (e) {
       console.log('Exception: ', e)
     }
-  },
+  }
   render() {
     let field;
     let i = 0;
@@ -117,7 +119,7 @@ const ResourceForm = React.createClass({
     });
 
     return (
-      <Form onSubmit={this.handleFormSubmit.bind(this)} className="form-content">
+      <Form onSubmit={(event) => this.handleFormSubmit(event)} className="form-content">
         <List>
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
@@ -133,7 +135,7 @@ const ResourceForm = React.createClass({
       </Form>
     )
   }
-})
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {
