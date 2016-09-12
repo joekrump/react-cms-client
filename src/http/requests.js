@@ -1,6 +1,6 @@
 import request from 'superagent';
 import AppConfig from '../../app_config/app';
-import { store } from '../store'
+import { store } from '../redux/store/store'
 import AuthIntercept from './AuthIntercept'
 /**
  * Make a HTTP POST request

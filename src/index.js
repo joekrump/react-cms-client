@@ -1,3 +1,5 @@
+// Root for client
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -7,7 +9,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 
 import routes from './routes'
-import { store } from './store'
+import { store } from './redux/store/store'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 

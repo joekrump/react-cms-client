@@ -10,7 +10,7 @@ import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
 import auth from './auth';
 import { replace } from 'react-router-redux'
-import { store } from './store'
+import { store } from './redux/store/store'
 import { apiGet } from './http/requests'
 import AdminRoutes from './routes/admin/routes'
 

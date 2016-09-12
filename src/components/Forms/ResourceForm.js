@@ -88,7 +88,7 @@ class ResourceForm extends React.Component {
             this.props.loginCallback(res.body.user, res.body.token)
           } else {
             if(this.props.context !== 'edit'){
-              setTimeout(this.resetForm, 500);
+              setTimeout(() => this.resetForm(), 500);
             }
           }
         }

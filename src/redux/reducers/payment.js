@@ -1,4 +1,4 @@
-import { redA700 } from 'material-ui/styles/colors';
+import { redA700 } from '../../../node_modules/material-ui/styles/colors';
 
 const initialState = { //define initial state - an empty form
   stripeToken: null, 

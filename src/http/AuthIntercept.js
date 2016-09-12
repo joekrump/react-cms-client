@@ -1,4 +1,4 @@
-import { store } from '../store'
+import { store } from '../redux/store/store'
 
 const AuthIntercept = require('superagent-intercept')((err, res) => {
 	// console.log(res.status);
