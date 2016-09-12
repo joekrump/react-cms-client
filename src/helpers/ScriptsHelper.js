@@ -1,3 +1,10 @@
+/**
+ * Function to laod scripts dynamically from a specified source.
+ * @param  {string} filepath     The path to the script that should be loaded.
+ * @param  {function} (optional) onLoadCallback  A function that runs once the script has been loaded
+ * @param  {function} (optional) onErrorCallback A function that runs if there was an error loading the script
+ * @return {undefined}           No return from this function
+ */
 export function loadScript(filepath, onLoadCallback, onErrorCallback){
     var fileref=document.createElement('script')
     
@@ -7,7 +14,7 @@ export function loadScript(filepath, onLoadCallback, onErrorCallback){
         }
     }
 
-    if(onErrorCallback) {
+    if (onErrorCallback) {
         fileref.onerror = function() {
             onErrorCallback();
         }
