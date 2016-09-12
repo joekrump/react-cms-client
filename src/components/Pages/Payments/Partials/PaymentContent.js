@@ -5,36 +5,30 @@ import { redA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';
 import PaymentThankYou from './ThankYou';
+import { loadScript } from '../../../../helpers/ScriptsHelper'
 
 import './PaymentContent.css';
 
-var ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin;
+// var ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin;
+const stripeScriptURL = 'https://js.stripe.com/v2/';
 
-const PaymentContent = React.createClass({
-  mixins: [ ReactScriptLoaderMixin ],
-
-  getInitialState(){
-    return {
+class PaymentContent extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       stripeLoading: true,
       stripeLoadingError: false
     }
-  },
-  getScriptURL: function() {
-    return 'https://js.stripe.com/v2/';
-  },
-
-  onScriptLoaded: function() {
-    if (!PaymentForm.getStripeToken) {
-      // Put your publishable key here
-      // eslint-disable-next-line
-      Stripe.setPublishableKey(StripConfig.test.pk);
-      this.setState({ stripeLoading: false, stripeLoadingError: false });
-    }
-  },
-
-  onScriptError: function() {
-    this.setState({ stripeLoading: false, stripeLoadingError: true });
-  },
+    loadScript(stripeScriptURL, () => {
+      if (!PaymentForm.getStripeToken) {
+        // Put your publishable key here
+        // eslint-disable-next-line
+        Stripe.setPublishableKey(StripConfig.test.pk);
+        this.setState({ stripeLoading: false, stripeLoadingError: false });
+      }
+    },
+    () => this.setState({ stripeLoading: false, stripeLoadingError: true }));
+  }
   render(){
     var content = null;
 
@@ -74,7 +68,7 @@ const PaymentContent = React.createClass({
       content
     );
   }
-});
+}
 
 const maptStateToProps = (state) => {
   return {
