@@ -5,15 +5,17 @@ import auth from '../../../../auth';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-const Login = React.createClass({    
-  getInitialState(){
-    return {
+class Login extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
       email: '',
       password: '',
       error: false,
       loggedIn: auth.loggedIn()
     };
-  },
+  }
+
   handleSubmit(e){
     e.preventDefault()
     auth.login(this.state.email, this.state.password, (authData, loggedIn) => {
@@ -37,15 +39,15 @@ const Login = React.createClass({
       this.props.loginUser(authData.user, authData.token, redirectPath);
       
     })
-  },
+  }
   handleChange(e){
     let oldState = this.state;
     oldState[e.target.name] = e.target.value;
     this.setState(oldState)
-  },
+  }
   render() {
     return (
-      <div className="login" onSubmit={this.handleSubmit}>
+      <div className="login" onSubmit={(event) => this.handleSubmit()}>
         <h1>Login</h1>
         <form>
           <TextField
@@ -54,7 +56,7 @@ const Login = React.createClass({
             type="text"
             name="email"
             ref="loginEmail"
-            onChange={this.handleChange}
+            onChange={(event) => this.handleChange(event)}
             autoFocus
           /><br />
           <TextField
@@ -75,7 +77,7 @@ const Login = React.createClass({
       </div>
     );
   }
-});
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
