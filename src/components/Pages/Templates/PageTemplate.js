@@ -3,33 +3,40 @@ import { connect } from 'react-redux';
 import { apiGet, updateToken } from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 
-const PageTemplate = React.createClass({
+class PageTemplate extends React.Component {
 
-  getInitialState(){
-    return {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       content: null,
       name: null,
       submitDisabled: false,
       submitURL: '',
       editor: null
     }
-  },
+  }
+
   getPageName(){
     return this.state.name;
-  },
+  }
+
   getSubmitURL(){
     return this.state.submitURL
-  },
+  }
+
   setSubmitURL(url){
     this.setState({
       submitURL: url
     });
-  },
+  }
+
   componentWillUnmount() {
     if(this.state.editor){
       this.state.editor.destoryEditor();
     }
-  },
+  }
+
   componentDidMount(){
 
     this.setState({
@@ -66,15 +73,18 @@ const PageTemplate = React.createClass({
         editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
       })
     }
-  },
+  }
+
   resetForm(){
     this.props.resetForm(this.props.formName)
-  },
+  }
+
   handleNameChange(e) {
     this.setState({
       name: e.target.value
     });
-  },
+  }
+  
   render() {
     return (
       <div>
@@ -85,7 +95,7 @@ const PageTemplate = React.createClass({
       </div>
     )
   }
-})
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {

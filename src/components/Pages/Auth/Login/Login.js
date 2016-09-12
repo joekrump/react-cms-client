@@ -47,7 +47,7 @@ class Login extends React.Component{
   }
   render() {
     return (
-      <div className="login" onSubmit={(event) => this.handleSubmit()}>
+      <div className="login" onSubmit={(event) => this.handleSubmit(event)}>
         <h1>Login</h1>
         <form>
           <TextField
@@ -65,9 +65,9 @@ class Login extends React.Component{
             type="password"
             name="password"
             ref="loginPassword"
-            onChange={this.handleChange}
+            onChange={(event) => this.handleChange(event)}
           /><br />
-          <RaisedButton label="Login" primary onTouchTap={this.handleSubmit} type="submit" />
+          <RaisedButton label="Login" primary onTouchTap={(event) => this.handleSubmit(event)} type="submit" />
           {this.state.error && (
             <p>Bad login information</p>
           )}
