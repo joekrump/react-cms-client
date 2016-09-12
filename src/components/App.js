@@ -19,48 +19,46 @@ import { connect } from 'react-redux';
 
 import ListItem from 'material-ui/List/ListItem';
 
-const App = React.createClass({
-  contextTypes: {
-      router: React.PropTypes.object
-  },
-  getInitialState(){
-    return  {
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       menu: {
         isOpen: false
       }
-    };
-  },
+    }
+  }
   updateAuth(loggedIn) {
     if(!loggedIn && auth.getUser() && auth.getToken()) {
       this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken);      
     }
-  },
+  }
   handleToggleMenu() {
     let previousState = this.state;
     previousState.menu.isOpen = !previousState.menu.isOpen;
     this.setState(previousState);
-  },
+  }
   closeMenu() {
     this.setState({menu: {isOpen: false}});
-  },
+  }
   componentDidMount() {
     // Do something when the app first mounts
-  },
+  }
   componentWillMount() {
-    auth.onChange = this.updateAuth
+    auth.onChange = () => this.updateAuth()
     if(sessionStorage.laravelAccessToken){
       auth.login()
     }
-  },
+  }
   componentWillReceiveProps(nextProps){
 
     if(nextProps.location.pathname !== this.props.location.pathname){
       this.closeMenu(); 
     }
-  },
+  }
   pageIsActive(url, indexOnly = false){
     return this.context.router.isActive({pathname: url}, indexOnly)
-  },
+  }
   getLeftMenuItems() {
     let staticNavLinks = [];
     let menuItems = [];
@@ -93,7 +91,7 @@ const App = React.createClass({
       return 1;
     })
     return menuItems
-  },
+  }
   handleLogout(e){
     e.preventDefault();
     
@@ -101,7 +99,7 @@ const App = React.createClass({
       // dispatch an action if the server has successfully logged out the user.
       this.props.logoutUser('/login');
     });
-  },
+  }
   render() {
     
     var iconElementRight = null;
@@ -123,7 +121,7 @@ const App = React.createClass({
         <Drawer 
           open={this.state.menu.isOpen}
           docked={false} 
-          onRequestChange={this.handleToggleMenu}
+          onRequestChange={() => this.handleToggleMenu()}
         >
           {this.getLeftMenuItems()}
         </Drawer>
@@ -131,7 +129,7 @@ const App = React.createClass({
           {/*TODO: put site title in a NODE config file of some-sort. */}
           <AppBar 
             title='React CMS' 
-            onLeftIconButtonTouchTap={this.handleToggleMenu} 
+            onLeftIconButtonTouchTap={() => this.handleToggleMenu()} 
             style={{position: 'fixed'}}
             iconElementRight={iconElementRight}
           />
@@ -142,7 +140,7 @@ const App = React.createClass({
       </div>
     )
   }
-})
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -169,6 +167,10 @@ const mapDispatchToProps = (dispatch) => {
       })
     }
   };
+}
+
+App.contextTypes = {
+  router: React.PropTypes.object
 }
 
 export default connect(
