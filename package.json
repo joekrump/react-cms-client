@@ -50,6 +50,7 @@
     "express": "^4.14.0",
     "foreman": "^2.0.0",
     "gravatar": "^1.5.2",
+    "hogan-express": "^0.5.2",
     "install": "^0.8.1",
     "lodash.assign": "^4.1.0",
     "lodash.isequal": "^4.4.0",
