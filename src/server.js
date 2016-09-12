@@ -4,7 +4,7 @@ import { match, RoutingContext } from 'react-router'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import hogan from 'hogan-express'
-import NotFoundPage from './components/Pages/Errors/404/404';
+// import NotFoundPage from './components/Pages/Errors/404/404.js';
 
 // Routes
 import routes from './routes'
@@ -12,8 +12,8 @@ import routes from './routes'
 // Express
 const app = express()
 app.engine('html', hogan)
-app.set('views', __dirname + '/views')
-app.use('/', express.static(__dirname + '/public/'))
+app.set('views', __dirname + '../views')
+app.use('/', express.static(__dirname + '/'))
 app.set('port', (process.env.PORT || 3001))
 
 app.get('*',(req, res) => {
@@ -34,8 +34,8 @@ app.get('*',(req, res) => {
       res.status(200).render('index.html')
     
     } else {
-      markup = renderToString(<NotFoundPage/>);
-      res.status(404);
+      // markup = renderToString(<NotFoundPage />);
+      res.status(404).render('index.html')
     }
   })
 })

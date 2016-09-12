@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var fs = require('fs')
 // var autoprefixer = require('autoprefixer');
 // var HtmlWebpackPlugin = require('html-webpack-plugin');
 // var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -9,43 +10,82 @@ var webpack = require('webpack');
 var isInNodeModules = 'node_modules' ===
   path.basename(path.resolve(path.join(__dirname, '..', '..')));
 var relativePath = isInNodeModules ? '../../..' : '..';
-if (process.argv[2] === '--debug-template') {
-  relativePath = '../template';
-}
 var srcPath = path.resolve(__dirname, relativePath, 'src');
-// var nodeModulesPath = path.join(__dirname, '..', 'node_modules');
-var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build');
+var nodeModulesPath = path.join(__dirname, '..', 'node_modules');
+var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'server_build');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = {
-  devtool: 'eval',
-  entry: path.join(srcPath, 'server'),
-  output: {
-    path: buildPath,
-    filename: 'server.js',
-    publicPath: '/'
-  },
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      include: srcPath,
-      loader: 'babel',
-      query: require('./babel.prod')
-    }]
-  },
-  plugins: [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-        warnings: false
-      },
-      mangle: {
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-        screw_ie8: true
-      }
+
+var webpack = require('webpack');
+var path = require('path');
+var fs = require('fs');
+
+
+var nodeModules = {};
+fs.readdirSync('node_modules')
+    .filter(function(x) {
+        return ['.bin'].indexOf(x) === -1;
     })
-  ]
+    .forEach(function(mod) {
+        nodeModules[mod] = 'commonjs ' + mod;
+    });
+
+//console.log('Node Modules: '+ JSON.stringify(nodeModules));
+module.exports =
+
+{
+    // The configuration for the server-side rendering
+    name: 'server',
+    target: 'node',
+    entry: ['babel-polyfill', path.join(srcPath, 'server')],
+    output: {
+      path: buildPath,
+      filename: 'server.js',
+      publicPath: '/'
+    },
+    externals: nodeModules,
+    resolve: {
+      extensions: ['', '.js'],
+    },
+    resolveLoader: {
+      root: nodeModulesPath,
+      moduleTemplates: ['*-loader']
+    },
+    module: {
+      loaders: [
+        {
+          test: /\.js$/,
+          include: srcPath,
+          loader: 'babel',
+          query: require('./babel.prod')
+        },
+        {
+          test: /\.css$/,
+          include: srcPath,
+          // Disable autoprefixer in css-loader itself:
+          // https://github.com/webpack/css-loader/issues/281
+          // We already have it thanks to postcss.
+          loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss')
+        },
+        {
+          test: /\.json$/,
+          loader: 'json'
+        },
+        {
+          test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)$/,
+          loader: 'file',
+        },
+        {
+          test: /\.(mp4|webm)$/,
+          loader: 'url?limit=10000'
+        },
+        {
+          test: /\.scss$/,
+          loader: "style!css!sass"
+        }
+      ]
+    },
+    plugins: [
+      new webpack.optimize.DedupePlugin()
+    ]
 };
