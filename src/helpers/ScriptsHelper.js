@@ -1,9 +1,20 @@
-export function loadScript(filepath, onLoadCallback){
+export function loadScript(filepath, onLoadCallback, onErrorCallback){
     var fileref=document.createElement('script')
     
     if(onLoadCallback) {
         fileref.onload = function() {
             onLoadCallback();
+        }
+    }
+
+    if(onErrorCallback) {
+        fileref.onerror = function() {
+            onErrorCallback();
+        }
+    } else {
+        fileref.onerror = function(error) {
+            console.warn('Script failed to load: ', filepath);
+            console.warn(error);
         }
     }
     
