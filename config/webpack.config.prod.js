@@ -20,6 +20,10 @@ var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build
 
 module.exports = {
   bail: true,
+  stats: { 
+    colors: true
+  },
+  progress: true,
   devtool: 'source-map',
   entry: ['babel-polyfill', 'babel-register', path.join(srcPath, 'index')],
   output: {

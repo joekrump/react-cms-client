@@ -18,6 +18,7 @@ const styleContext = {
   insertCss: styles => styles._insertCss(),
 };
 
+var path = require('path');
 
 // Configuring userAgent for Material-UI
 // 
@@ -26,10 +27,11 @@ const styleContext = {
 global.navigator = { navigator: 'all' };
 // Express
 const app = express()
+const basePath = path.dirname(app.get('views'));
 app.engine('html', hogan)
-console.log('Dirname: ', __dirname);
-// app.set('views', __dirname + 'build')
-app.use(express.static('views'))
+app.set('views', path.join(basePath, 'build'));
+console.log(app.get('views'))
+// app.use('/', express.static(path.join(__dirname + 'build')))
 app.set('port', (process.env.PORT || 3001))
 
 function renderPage(renderProps){

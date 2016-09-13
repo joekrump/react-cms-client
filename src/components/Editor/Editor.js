@@ -65,7 +65,7 @@ class Editor {
     return new ImageUploader(dialog);
   }
 
-  destoryEditor(){
+  destroyEditor(){
     this.editor.destroy();
     this.getSubmitURL = null;
     this.setSubmitURL = null;

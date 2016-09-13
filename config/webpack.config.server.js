@@ -14,13 +14,6 @@ var srcPath = path.resolve(__dirname, relativePath, 'src');
 var nodeModulesPath = path.join(__dirname, '..', 'node_modules');
 var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'server_build');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-
-var webpack = require('webpack');
-var path = require('path');
-var fs = require('fs');
-
-
 var nodeModules = {};
 fs.readdirSync('node_modules')
     .filter(function(x) {

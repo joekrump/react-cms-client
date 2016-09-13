@@ -33,7 +33,7 @@ class PageTemplate extends React.Component {
 
   componentWillUnmount() {
     if(this.state.editor){
-      this.state.editor.destoryEditor();
+      this.state.editor.destroyEditor();
     }
   }
 
