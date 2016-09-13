@@ -4,7 +4,7 @@ module.exports = {
   login(email, pass, handleLoggedInCallback) {
 
     // If there is a laravelAccessToken just log in
-    if (sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
+    if ((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
       this.handleLoggedIn(handleLoggedInCallback, {
         authenticated: true, 
         user: sessionStorage.laravelUser, 
@@ -25,10 +25,18 @@ module.exports = {
     })
   },
   getUser() {
-    return sessionStorage.laravelUser ? JSON.parse(sessionStorage.laravelUser) : null;
+    if(typeof sessionStorage !== 'undefined') {
+      return sessionStorage.laravelUser ? JSON.parse(sessionStorage.laravelUser) : null;
+    } else {
+      return null;
+    }
   },
   getToken() {
-    return sessionStorage.laravelAccessToken
+    if(typeof sessionStorage !== 'undefined') {
+      return sessionStorage.laravelAccessToken
+    } else {
+      return null;
+    }
   },
 
   logout(logoutCallback) {
@@ -39,7 +47,11 @@ module.exports = {
   },
 
   loggedIn() {
-    return !!sessionStorage.laravelAccessToken && !((sessionStorage.laravelAccessToken === null) || (sessionStorage.laravelAccessToken === undefined))
+    if(typeof sessionStorage !== 'undefined'){
+      return !!sessionStorage.laravelAccessToken && !((sessionStorage.laravelAccessToken === null) || (sessionStorage.laravelAccessToken === undefined))
+    } else {
+      return false;
+    }
   },
   /**
    * When the status of a user changes (logged in or not) perform some additional logic

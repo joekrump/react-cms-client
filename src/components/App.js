@@ -30,7 +30,7 @@ class App extends React.Component {
   }
   updateAuth(loggedIn) {
     if(!loggedIn && auth.getUser() && auth.getToken()) {
-      this.props.loginUser(auth.getUser(), sessionStorage.laravelAccessToken);      
+      this.props.loginUser(auth.getUser(), (typeof sessionStorage !== 'undefined' ? sessionStorage.laravelAccessToken : null));      
     }
   }
   handleToggleMenu() {
@@ -46,7 +46,7 @@ class App extends React.Component {
   }
   componentWillMount() {
     auth.onChange = () => this.updateAuth()
-    if(sessionStorage.laravelAccessToken){
+    if((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken){
       auth.login()
     }
   }

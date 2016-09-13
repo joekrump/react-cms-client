@@ -33,18 +33,22 @@ function* updateTokenOnUpdate(action) {
 }
 
 function setSessionStorage(token, user){
-  if(token) {
-    sessionStorage.laravelAccessToken = token;
+  if(typeof sessionStorage !== 'undefined'){
+    if(token) {
+      sessionStorage.laravelAccessToken = token;
+    }
+    if(user) {
+      sessionStorage.laravelUser = JSON.stringify(user);
+    }
   }
-  if(user) {
-    sessionStorage.laravelUser = JSON.stringify(user);
-  }
+
 }
 
 function clearSessionStorage(){
-  console.log('removing session storage')
-  sessionStorage.removeItem('laravelAccessToken')
-  sessionStorage.removeItem('laravelUser')
+  if(typeof sessionStorage !== 'undefined'){
+    sessionStorage.removeItem('laravelAccessToken')
+    sessionStorage.removeItem('laravelUser')
+  }
 }
 
     
