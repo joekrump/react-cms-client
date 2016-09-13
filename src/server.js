@@ -5,7 +5,8 @@ import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import hogan from 'hogan-express'
 import NotFoundPage from './components/Pages/Errors/404/404.js';
-
+import { store } from './redux/store/store'
+import { Provider } from 'react-redux' // Add Provider for passing context of store.
 // Routes
 import routes from './routes'
 
@@ -25,7 +26,11 @@ app.get('*',(req, res) => {
 
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     
-    const reactMarkup = ReactDOMServer.renderToStaticMarkup(<RoutingContext {...renderProps}/>)
+    const reactMarkup = ReactDOMServer.renderToStaticMarkup(
+      <Provider store={store}>
+        <RoutingContext {...renderProps}/>
+      </Provider>
+    )
 
     res.locals.reactMarkup = reactMarkup
 

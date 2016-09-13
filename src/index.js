@@ -24,7 +24,7 @@ const styleContext = {
 
 
 ReactDOM.render((
-   <Provider store={store}>
+  <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
       <StyleContextProvider context={styleContext}>
         <Router history={history} routes={routes} onUpdate={() => window.scrollTo(0, 0)} />

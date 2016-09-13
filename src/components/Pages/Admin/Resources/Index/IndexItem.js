@@ -6,7 +6,7 @@ import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 
 // import { VelocityComponent } from 'velocity-react';
-import 'velocity-animate/velocity.ui';
+// import 'velocity-animate/velocity.ui';
 
 class IndexItem extends React.Component{
   constructor(props) {
