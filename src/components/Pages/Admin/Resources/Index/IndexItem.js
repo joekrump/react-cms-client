@@ -5,7 +5,7 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 
-import { VelocityComponent } from 'velocity-react';
+// import { VelocityComponent } from 'velocity-react';
 import 'velocity-animate/velocity.ui';
 
 class IndexItem extends React.Component{
@@ -27,8 +27,8 @@ class IndexItem extends React.Component{
   }
 
   render(){
+    /*<VelocityComponent style={{display: 'block'}} animation={{height: this.state.visible ? 50 : 0, opacity: this.state.visible ? 1 : 0}} duration={300}>*/
     return(
-      <VelocityComponent style={{display: 'block'}} animation={{height: this.state.visible ? 50 : 0, opacity: this.state.visible ? 1 : 0}} duration={300}>
         <ListItem
           className="index-list-item"
           disabled
@@ -36,7 +36,7 @@ class IndexItem extends React.Component{
           primaryText={this.getText()}
           style={{backgroundColor: fade(fullBlack, 0.7)}}
         />
-      </VelocityComponent>
+
     );
   }
 }

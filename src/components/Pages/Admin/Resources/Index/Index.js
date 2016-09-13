@@ -2,8 +2,8 @@ import React from 'react';
 import { List } from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
-import { VelocityTransitionGroup } from 'velocity-react';
-import 'velocity-animate/velocity.ui';
+// import { VelocityTransitionGroup } from 'velocity-react';
+// import 'velocity-animate/velocity.ui';
 import AdminLayout from '../../Layout/Layout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import { apiGet, updateToken } from '../../../../../http/requests'
@@ -53,15 +53,25 @@ class Index extends React.Component {
       }
     }
 
+    // let listItems = null;
+
+    // if(typeof window !== 'undefined') {
+    //   listItems = (
+    //     <VelocityTransitionGroup enter={{animation: "transition.slideLeftIn"}}>
+    //       {items}
+    //     </VelocityTransitionGroup>
+    //   )
+    // } else {
+    //   listItems = items;
+    // }
+
     return (
       <AdminLayout>
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
           {this.state.loading ? (<CircularProgress />) : null}
           <List>
-            <VelocityTransitionGroup enter={{animation: "transition.slideLeftIn"}}>
-              {items}
-            </VelocityTransitionGroup>
+            {items}
           </List>
         { this.props.children }
         </div>
