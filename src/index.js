@@ -7,31 +7,28 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
-
 import routes from './routes'
 import { store } from './redux/store/store'
-
 import injectTapEventPlugin from 'react-tap-event-plugin'
-
 import muiTheme from './muiTheme';
-
-// Top level styling
-import './index.scss'
+import StyleContextProvider from './components/StyleContextProvider'
 
 injectTapEventPlugin();
 
 React.Perf = require('react-addons-perf');
 
 const history = syncHistoryWithStore(browserHistory, store)
+const styleContext = {
+  insertCss: styles => styles._insertCss(),
+};
 
-// Finally, we render a <Router> with some <Route>s.
-// It does all the fancy routing stuff for us.
+
 ReactDOM.render((
    <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
-      <div>
-        <Router history={history} routes={routes} onUpdate={() => window.scrollTo(0, 0)}/>
-      </div>
+      <StyleContextProvider context={styleContext}>
+        <Router history={history} routes={routes} onUpdate={() => window.scrollTo(0, 0)} />
+      </StyleContextProvider>
     </MuiThemeProvider>
   </Provider>
 ), document.getElementById('root'));
