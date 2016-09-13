@@ -16,7 +16,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import muiTheme from './muiTheme';
 
 // Top level styling
-import './index.css'
+import './index.scss'
 
 injectTapEventPlugin();
 

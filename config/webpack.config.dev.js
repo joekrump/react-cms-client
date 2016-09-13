@@ -61,7 +61,11 @@ module.exports = {
       {
         test: /\.css$/,
         include: srcPath,
-        loader: 'style!css!postcss'
+        loaders: [
+          'isomorphic-style',
+          'css',
+          'postcss'
+        ]
       },
       {
         test: /\.json$/,
@@ -77,7 +81,13 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: "style!css!sass"
+        include: srcPath,
+        loaders: [
+          'isomorphic-style',
+          'css',
+          'sass',
+          'postcss'
+        ]
       }
     ]
   },

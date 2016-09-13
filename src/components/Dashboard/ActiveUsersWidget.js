@@ -6,7 +6,8 @@ import { lightGreenA400 } from 'material-ui/styles/colors';
 import { apiGet, updateToken } from '../../http/requests'
 
 import CircularProgress from 'material-ui/CircularProgress';
-import './Widget.css'
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './Widget.scss'
 import { connect } from 'react-redux';
 
 class ActiveUsersWidget extends React.Component {
@@ -66,6 +67,6 @@ const mapStateToProps = ( state ) => {
   }
 }
 
-export default connect(
-  mapStateToProps
-)(ActiveUsersWidget);
+export default withStyles(s)(
+  connect(mapStateToProps)(ActiveUsersWidget)
+);

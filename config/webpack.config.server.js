@@ -62,10 +62,11 @@ module.exports =
         {
           test: /\.css$/,
           include: srcPath,
-          // Disable autoprefixer in css-loader itself:
-          // https://github.com/webpack/css-loader/issues/281
-          // We already have it thanks to postcss.
-          loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss')
+          loaders: [
+            'isomorphic-style',
+            'css',
+            'postcss'
+          ]
         },
         {
           test: /\.json$/,
@@ -81,7 +82,13 @@ module.exports =
         },
         {
           test: /\.scss$/,
-          loader: "style!css!sass"
+          include: srcPath,
+          loaders: [
+            'isomorphic-style',
+            'css',
+            'sass',
+            'postcss'
+          ]
         }
       ]
     },

@@ -28,6 +28,7 @@
     "file-loader": "0.9.0",
     "fs-extra": "^0.30.0",
     "html-webpack-plugin": "2.22.0",
+    "isomorphic-style-loader": "^1.0.0",
     "jest-cli": "^15.0.1",
     "json-loader": "0.5.4",
     "node-sass": "^3.8.0",
@@ -70,7 +71,7 @@
     "velocity-react": "^1.1.5"
   },
   "scripts": {
-    "start": "nf start -p 3000",
+    "start": "node ./scripts/start.js",
     "server": "node ./server_build/server.js",
     "build": "node ./scripts/build.js",
     "build-server": "node ./scripts/build-server.js",
