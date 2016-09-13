@@ -1,8 +1,8 @@
 import { apiPost, apiPut } from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
-
-require('./styles/content-tools.scss');
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './styles/content-tools.scss';
 
 class Editor {
 
@@ -165,4 +165,4 @@ class Editor {
   }
 }
 
-export default Editor;
+export default withStyles(s)(Editor);

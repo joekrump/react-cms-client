@@ -1,9 +1,8 @@
 import React from 'react'
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
-
-
-import './IndexItemActions.css'
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './IndexItemActions.scss'
 
 
 const IndexItemActions = (props) => {
@@ -16,4 +15,4 @@ const IndexItemActions = (props) => {
   );
 }
 
-export default IndexItemActions;
+export default withStyles(IndexItemActions);

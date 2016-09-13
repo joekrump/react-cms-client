@@ -3,9 +3,8 @@ import { Link } from 'react-router'
 import FlatButton from 'material-ui/FlatButton';
 import BackArrow from 'material-ui/svg-icons/navigation/arrow-back'
 import { fullWhite, cyan300 } from 'material-ui/styles/colors';
-
-
-require('./FloatingBackButton.scss');
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './FloatingBackButton.scss'
 
 const FloatingBackButton = (props) => (
 
@@ -21,4 +20,4 @@ const FloatingBackButton = (props) => (
   />
 )
 
-export default FloatingBackButton;
+export default withStyles(s)(FloatingBackButton);

@@ -9,10 +9,8 @@ import BookIcon from 'material-ui/svg-icons/av/library-books'
 import RoleIcon from 'material-ui/svg-icons/social/group-add'
 import PermissionIcon from 'material-ui/svg-icons/hardware/security'
 import { push } from 'react-router-redux'
-
-// import routes from '../routes'
-
-import './SpeedDial.css'
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './SpeedDial.scss'
 
 const actions = [
   {icon: <AddPageIcon />, route: '/admin/pages/new', tooltipText: 'Create a new Page'},
@@ -89,4 +87,4 @@ const mapStateToProps = (state) => ({
   height: 2000,
 })
 
-export default connect(mapStateToProps)(SpeedDial)
+export default withStyles(s)(connect(mapStateToProps)(SpeedDial));

@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router'
 import ActionHome from 'material-ui/svg-icons/action/home';
 import RaisedButton from 'material-ui/RaisedButton';
-
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 // Top level styling
-import './404.css'
+import s from './404.scss'
 
 const PageNotFound = (props, state) => {
 
@@ -25,6 +25,6 @@ const PageNotFound = (props, state) => {
   );
 };
 
-export default PageNotFound;
+export default withStyles(PageNotFound);
 
 

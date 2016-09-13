@@ -6,8 +6,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';
 import PaymentThankYou from './ThankYou';
 import { loadScript } from '../../../../helpers/ScriptsHelper'
-
-import './PaymentContent.css';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './PaymentContent.scss';
 
 // var ReactScriptLoaderMixin = require('react-script-loader').ReactScriptLoaderMixin;
 const stripeScriptURL = 'https://js.stripe.com/v2/';
@@ -80,4 +80,4 @@ const PaymentContentRedux = connect(
   maptStateToProps
 )(PaymentContent)
 
-export default PaymentContentRedux;
+export default withStyles(s)(PaymentContentRedux);
