@@ -26,7 +26,8 @@ const muiTheme = getMuiTheme(baseTheme, {
   },
   appBar: {
     height: 56,
-  }
+  },
+  userAgent: (typeof req !== 'undefined') ? req.headers['user-agent'] : false
 });
 
 

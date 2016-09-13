@@ -9,6 +9,11 @@ import NotFoundPage from './components/Pages/Errors/404/404.js';
 // Routes
 import routes from './routes'
 
+// Configuring userAgent for Material-UI
+// 
+// global.navigator = global.navigator || {};
+// global.navigator.userAgent = req.headers['user-agent'] || 'all';
+global.navigator = { navigator: 'all' };
 // Express
 const app = express()
 app.engine('html', hogan)
