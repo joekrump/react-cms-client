@@ -15,4 +15,4 @@ const IndexItemActions = (props) => {
   );
 }
 
-export default withStyles(IndexItemActions);
+export default withStyles(s)(IndexItemActions);
