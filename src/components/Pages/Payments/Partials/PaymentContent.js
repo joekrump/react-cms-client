@@ -1,6 +1,6 @@
 import React from 'react';
 import { PaymentForm } from './PaymentForm';
-import StripConfig from '../../../../../app_config/stripe';
+import StripeConfig from '../../../../../app_config/stripe';
 import { redA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';
@@ -23,7 +23,7 @@ class PaymentContent extends React.Component {
       if (!PaymentForm.getStripeToken) {
         // Put your publishable key here
         // eslint-disable-next-line
-        Stripe.setPublishableKey(StripConfig.test.pk);
+        Stripe.setPublishableKey(StripeConfig.test.pk);
         this.setState({ stripeLoading: false, stripeLoadingError: false });
       }
     },

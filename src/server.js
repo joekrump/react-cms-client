@@ -4,7 +4,7 @@ import { match, RoutingContext } from 'react-router'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import hogan from 'hogan-express'
-// import NotFoundPage from './components/Pages/Errors/404/404.js';
+import NotFoundPage from './components/Pages/Errors/404/404.js';
 
 // Routes
 import routes from './routes'
@@ -34,7 +34,7 @@ app.get('*',(req, res) => {
       res.status(200).render('index.html')
     
     } else {
-      // markup = renderToString(<NotFoundPage />);
+      res.locals.reactMarkup = renderToString(<NotFoundPage />);
       res.status(404).render('index.html')
     }
   })
