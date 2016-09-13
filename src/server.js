@@ -30,8 +30,8 @@ const app = express()
 const basePath = path.dirname(app.get('views'));
 app.engine('html', hogan)
 app.set('views', path.join(basePath, 'build'));
-console.log(app.get('views'))
-// app.use('/', express.static(path.join(__dirname + 'build')))
+console.log(app.get('views'));
+app.use('/', express.static('build'));
 app.set('port', (process.env.PORT || 3001))
 
 function renderPage(renderProps){
@@ -54,7 +54,7 @@ app.get('*',(req, res) => {
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      
+      console.log(renderProps);
       res.locals.reactMarkup = renderPage(renderProps);
       // Success!
       res.status(200).render('index.html')

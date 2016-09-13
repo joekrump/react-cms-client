@@ -21,22 +21,30 @@ const DevTools = createDevTools(
   </DockMonitor>
 )
 
-const reactRouterReduxMiddleware = routerMiddleware(browserHistory)
+const makeStore = (additionalReducers, additionalMiddleware) => {
 
-const reducer = combineReducers({
-  ...reducers,
-  routing: routerReducer
-})
+  const reactRouterReduxMiddleware = routerMiddleware(browserHistory)
 
-const store = createStore(
-  reducer,
-  compose(
-    applyMiddleware(sagaMiddleware, reactRouterReduxMiddleware),
-    ((typeof window !== 'undefined') && window.devToolsExtension) ? window.devToolsExtension() : DevTools.instrument() 
-  )
-);
+  const reducer = combineReducers({
+    ...reducers,
+    ...additionalReducers,
+    routing: routerReducer
+  })
 
-// Run the saga
-sagaMiddleware.run(rootSaga)
+  const store = createStore(
+    reducer,
+    compose(
+      applyMiddleware(sagaMiddleware, reactRouterReduxMiddleware, ...additionalMiddleware),
+      ((typeof window !== 'undefined') && window.devToolsExtension) ? window.devToolsExtension() : DevTools.instrument() 
+    )
+  );
 
-export { store }
+  // Run the saga
+  sagaMiddleware.run(rootSaga)
+
+  return store;
+}
+
+
+
+export default makeStore;

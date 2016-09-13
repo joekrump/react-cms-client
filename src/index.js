@@ -8,7 +8,7 @@ import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 import routes from './routes'
-import { store } from './redux/store/store'
+import makeStore from './redux/store/store'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
@@ -22,6 +22,7 @@ const styleContext = {
   insertCss: styles => styles._insertCss(),
 };
 
+const store = makeStore();
 
 ReactDOM.render((
   <Provider store={store}>
