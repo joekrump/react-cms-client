@@ -1,6 +1,6 @@
 // app-server.js
 import React from 'react'
-import { match, RoutingContext } from 'react-router'
+import { match, RouterContext } from 'react-router'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import hogan from 'hogan-express'
@@ -10,6 +10,15 @@ import { Provider } from 'react-redux' // Add Provider for passing context of st
 // Routes
 import routes from './routes'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import muiTheme from './muiTheme';
+import StyleContextProvider from './components/StyleContextProvider'
+
+const styleContext = {
+  insertCss: styles => styles._insertCss(),
+};
+
+
 // Configuring userAgent for Material-UI
 // 
 // global.navigator = global.navigator || {};
@@ -18,21 +27,25 @@ global.navigator = { navigator: 'all' };
 // Express
 const app = express()
 app.engine('html', hogan)
-app.set('views', __dirname + '../views')
-app.use('/', express.static(__dirname + '/'))
+console.log('Dirname: ', __dirname);
+// app.set('views', __dirname + 'build')
+app.use(express.static('views'))
 app.set('port', (process.env.PORT || 3001))
+
+function renderPage(renderProps){
+  return ReactDOMServer.renderToStaticMarkup(
+    <Provider store={store}>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <RouterContext {...renderProps}/>
+      </MuiThemeProvider>
+    </Provider>
+  );
+}
 
 app.get('*',(req, res) => {
 
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
-    
-    const reactMarkup = ReactDOMServer.renderToStaticMarkup(
-      <Provider store={store}>
-        <RoutingContext {...renderProps}/>
-      </Provider>
-    )
-
-    res.locals.reactMarkup = reactMarkup
+        
 
     if (error) {
       res.status(500).send(error.message)
@@ -40,6 +53,7 @@ app.get('*',(req, res) => {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
       
+      res.locals.reactMarkup = renderPage(renderProps);
       // Success!
       res.status(200).render('index.html')
     

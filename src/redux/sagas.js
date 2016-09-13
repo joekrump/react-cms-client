@@ -41,7 +41,6 @@ function setSessionStorage(token, user){
       sessionStorage.laravelUser = JSON.stringify(user);
     }
   }
-
 }
 
 function clearSessionStorage(){
