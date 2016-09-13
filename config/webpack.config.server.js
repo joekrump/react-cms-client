@@ -37,11 +37,7 @@ module.exports =
     // The configuration for the server-side rendering
     name: 'server',
     target: 'node',
-    // entry: ['babel-polyfill', path.join(srcPath, 'server')],
-    entry: {
-      js: ['babel-polyfill', path.join(srcPath, 'server')],
-      vendor: ['react']
-    },
+    entry: ['babel-polyfill', 'babel-register', path.join(srcPath, 'server')],
     output: {
       path: buildPath,
       filename: 'server.js',

@@ -21,7 +21,7 @@ var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build
 module.exports = {
   bail: true,
   devtool: 'source-map',
-  entry: path.join(srcPath, 'index'),
+  entry: ['babel-polyfill', 'babel-register', path.join(srcPath, 'index')],
   output: {
     path: buildPath,
     filename: '[name].[chunkhash].js',
