@@ -74,7 +74,7 @@ class SpeedDial extends React.Component {
           <div className={"actions"} style={{top: this.state.open ? `${actions.length * -62}px` : '100px'}}>
             {actionButtons}
           </div>
-          <FloatingActionButton onTouchTap={this.handleToggle} className="add-button">
+          <FloatingActionButton onTouchTap={this.handleToggle} className="add-button main">
             <AddIcon />
           </FloatingActionButton>
         </div>

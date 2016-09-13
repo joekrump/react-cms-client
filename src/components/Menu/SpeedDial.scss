@@ -14,19 +14,10 @@
   /*background: linear-gradient(135deg, #5dc1b2 0%, #1fbcd2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
-.closed .cover {
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out, height 0s linear 0.2s;
-}
-
 .actions {
   position: absolute;
   width: 56px; /* Width of a regular size floating action button*/
   text-align: center;
-}
-
-.closed .actions {
-  transition: top 0s linear 0.2s;
 }
 
 .container {
@@ -40,10 +31,6 @@
 
 .button {
   transition: transform 0.2s ease-in-out;
-}
-
-.closed .button {
-  transform: scale(0, 0);
 }
 
 .action {
@@ -61,10 +48,26 @@
   transition: opacity 0.2s ease-in-out;
 }
 
-.closed .tooltip {
-  opacity: 0;
+.closed {
+  .tooltip {
+    opacity: 0;
+  }
+  .button {
+    transform: scale(0, 0);
+  }
+  .actions {
+    transition: top 0s linear 0.2s;
+  }
+  .cover {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, height 0s linear 0.2s;
+  }
 }
 
-.opened .main svg {
-  transform: rotate(135deg);
+.opened {
+  .main {
+    svg {
+      transform: rotate(45deg);
+    }
+  } 
 }
