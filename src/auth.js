@@ -1,4 +1,5 @@
-import { apiPost } from './http/requests'
+import APIClient from './http/requests'
+
 
 module.exports = {
   login(email, pass, handleLoggedInCallback) {
@@ -39,11 +40,11 @@ module.exports = {
     }
   },
 
-  logout(logoutCallback) {
+  logout(logoutCallback, store) {
 
     this.onChange(false)
 
-    postLogoutToServer(logoutCallback, this);
+    logoutFromServer(logoutCallback, this, store);
   },
 
   loggedIn() {
@@ -80,42 +81,43 @@ module.exports = {
   }
 }
 
-function postLogoutToServer(callback, component) {
-  apiPost('auth/logout')
-    .end(function(err, res){
-      if(err !== null) {
-        if(res.statusCode === 401) {
-          if (callback) {
-            callback()
-          } 
-        } else {
-          // if user didn't successfully logout then show that they are still logged in after optimistic change.
-          component.onChange(true) 
-        }
-      } else if (res.statusCode !== 200) {
-        // if user didn't successfully logout then show that they are still logged in after optimistic change.
-        component.onChange(true) 
-      } else {
-        // if all goes well, and there is a callback, call it.
-        if (callback) {
-          callback()
-        } 
-      }
-    });
+function logoutFromServer(callback, component, store) {
+  let client = APIClient(store);
+
+  client.post('auth/logout').then((res) => {
+    if (res.statusCode !== 200) {
+      // if user didn't successfully logout then show that they are still logged in after optimistic change.
+      component.onChange(true) 
+    } else {
+      // if all goes well, and there is a callback, call it.
+      if (callback) {
+        callback()
+      } 
+    }
+  }).catch((res) => {
+    if(res.statusCode === 401) {
+      if (callback) {
+        callback()
+      } 
+    } else {
+      // if user didn't successfully logout then show that they are still logged in after optimistic change.
+      component.onChange(true) 
+    }
+  })
 }
 
-function makeLoginRequest(email, password, loginRequestCallback) {
-  apiPost('auth/login', false)
-  .send({ email, password })
-  .end(function(err, res){
-      if(err) {
-        handleLoginFailure(loginRequestCallback)
-      } else if (res.statusCode !== 200) {
-        handleLoginFailure(loginRequestCallback)
-      } else {
-        handleLoginSuccess(loginRequestCallback, res);
-      }
-  });
+function makeLoginRequest(email, password, loginRequestCallback, store) {
+  let client = APIClient(store);
+
+  client.post('auth/login', false, {data: { email, password }}).then((res) => {
+    if (res.statusCode !== 200) {
+      handleLoginFailure(loginRequestCallback)
+    } else {
+      handleLoginSuccess(loginRequestCallback, res);
+    }
+  }).catch((res) => {
+    handleLoginFailure(loginRequestCallback)
+  })
 }
 
 function handleLoginSuccess(loginRequestCallback, res) {

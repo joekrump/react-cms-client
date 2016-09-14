@@ -98,7 +98,7 @@ class App extends React.Component {
     auth.logout(() => {
       // dispatch an action if the server has successfully logged out the user.
       this.props.logoutUser('/login');
-    });
+    }, this.context.store);
   }
   render() {
     
@@ -170,7 +170,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 App.contextTypes = {
-  router: React.PropTypes.object
+  router: React.PropTypes.object,
+  store: React.PropTypes.object
 }
 
 export default connect(

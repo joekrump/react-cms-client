@@ -3,8 +3,7 @@ import Gravatar from '../Nav/Gravatar';
 import { List, ListItem } from 'material-ui/List';
 import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
-import { apiGet, updateToken } from '../../http/requests'
-
+import APIClient from '../../http/requests'
 import CircularProgress from 'material-ui/CircularProgress';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Widget.scss'
@@ -18,6 +17,7 @@ class ActiveUsersWidget extends React.Component {
     }
   }
   componentDidMount(){
+    console.log(this);
     apiGet('users/active')
       .end(function(err, res) {
         if(err){
