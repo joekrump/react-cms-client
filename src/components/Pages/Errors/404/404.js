@@ -25,6 +25,6 @@ const PageNotFound = (props, state) => {
   );
 };
 
-export default withStyles(PageNotFound);
+export default withStyles(s)(PageNotFound);
 
 
