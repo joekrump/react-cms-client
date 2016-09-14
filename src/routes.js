@@ -13,8 +13,11 @@ import { replace } from 'react-router-redux'
 import APIClient from './http/requests'
 import AdminRoutes from './routes/admin/routes'
 
-// Routes for the app
-
+/**
+ * Returns the routes in the app
+ * @param  {object} store - The redux store for the app`
+ * @return {object}       - the routes for the app
+ */
 const getRoutes = (store) => {
 
   let routes = {
