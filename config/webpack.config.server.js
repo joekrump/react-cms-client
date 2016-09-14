@@ -30,6 +30,7 @@ module.exports =
     // The configuration for the server-side rendering
     name: 'server',
     target: 'node',
+    devtool: 'source-map',
     entry: ['babel-polyfill', 'babel-register', path.join(srcPath, 'server')],
     output: {
       path: buildPath,

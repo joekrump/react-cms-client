@@ -14,6 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
+import createSagaMiddleware from 'redux-saga'
 import rootSaga from './redux/sagas'
 
 const styleContext = {
@@ -32,7 +33,7 @@ const app = express()
 const basePath = path.dirname(app.get('views'));
 app.engine('html', hogan)
 app.set('views', path.join(basePath, 'build'));
-console.log(app.get('views'));
+// console.log(app.get('views'));
 app.use('/', express.static('build'));
 app.set('port', (process.env.PORT || 3001))
 
