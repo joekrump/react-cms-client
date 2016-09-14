@@ -9,12 +9,10 @@ import VerifiedUserIcon from 'material-ui/svg-icons/action/verified-user';
 // mui components
 import {List, ListItem} from 'material-ui/List';
 import { redA700, greenA700 } from 'material-ui/styles/colors';
-
+import CircularProgress from 'material-ui/CircularProgress';
 import StripeFields from './StripeFields';
-
 import { Form, TextInput, SubmitButton } from '../../../Form/index';
 import StripeConfig from '../../../../../app_config/stripe';
-import CircularProgress from 'material-ui/CircularProgress';
 import { loadScript } from '../../../../helpers/ScriptsHelper'
 
 const listItemStyle = {
@@ -27,9 +25,6 @@ class PaymentForm extends React.Component {
 
   constructor (props){
     super(props)
-
-
-
     this.resetForm = this.resetForm.bind(this)
     this.getStripeToken = this.getStripeToken.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
