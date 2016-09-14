@@ -1,4 +1,4 @@
-import { apiPost, apiPut } from '../../http/requests'
+import APIClient from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -6,10 +6,13 @@ import s from './styles/content-tools.scss';
 
 class Editor {
 
-  constructor(getPageName, getSubmitURL, setSubmitURL, context, resourceNamePlural) {
+  constructor(getPageName, getSubmitURL, setSubmitURL, context, resourceNamePlural, store) {
     this.getSubmitURL = getSubmitURL;
     this.setSubmitURL = setSubmitURL;
     this.resourceNamePlural = resourceNamePlural;
+    this.store = store;
+
+    console.log('loading editor...')
     // new or edit
     // 
     this.editContext = context;
@@ -115,29 +118,14 @@ class Editor {
     // 
     try {
       this.editor.busy(true);
-      console.log(payload);
-      let serverRequest = this.editContext === 'edit' ? apiPut(this.getSubmitURL()) : apiPost(this.getSubmitURL())
-      serverRequest.send(payload)
+      let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
+      let client = new APIClient(this.store);
 
-      .end(function(err, res){
-        if(err !== null) {
-          this.editor.busy(false);
-          console.warn(err);
-          
-          if(res && res.statusText) {
-            // this.props.updateSnackbar(true, 'Error', res.statusText, 'error')
-          }
-          new ContentTools.FlashUI('no');
-          
-          // Something unexpected happened
-        } else if (res.statusCode !== 200) {
+      client[httpMethod](this.getSubmitURL(), true, {data: payload})
+      .then((res) => {
+        if (res.statusCode !== 200) {
           this.editor.busy(false);
           new ContentTools.FlashUI('no');
-          // not status OK
-          // console.log('Resource Form not OK ',res);
-          // res.body.errors gives an array of errors from the server.
-          // 
-          // this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
           this.editor.busy(false);
           if(this.editContext !== 'edit') {
@@ -148,16 +136,16 @@ class Editor {
           if (!passive) {
             new ContentTools.FlashUI('ok');
           }
-
-          // if(this.props.loginCallback) {
-          //   this.props.loginCallback(res.body.user, res.body.token)
-          // } else {
-          //   // if(this.props.context !== 'edit'){
-          //   //   setTimeout(this.resetForm, 500);
-          //   // }
-          // }
         }
-      }.bind(this));
+      }).catch((res) => {
+        this.editor.busy(false);
+        console.warn(res);
+        
+        if(res && res.statusText) {
+          // this.props.updateSnackbar(true, 'Error', res.statusText, 'error')
+        }
+        new ContentTools.FlashUI('no');
+      })
     } catch (e) {
       this.editor.busy(false);
       console.log('Exception: ', e)

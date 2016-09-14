@@ -57,16 +57,27 @@ class PageTemplate extends React.Component {
             this.setState({
               content: res.body.data.editor_contents,
               name: res.body.data.name,
-              editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
+              editor: this.makeEditor()
             })
           }
+        }).catch((res) => {
+          console.log('Error: ', res)
         })
     } else {
       // If the context is not edit then just load the editor.
-      this.setState({
-        editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
-      })
+      this.setState({editor: this.makeEditor()});
     }
+  }
+
+  makeEditor(){
+    return new Editor(
+      this.getPageName, 
+      this.getSubmitURL, 
+      this.setSubmitURL, 
+      this.props.context, 
+      this.props.resourceNamePlural, 
+      this.context.store
+    )
   }
 
   resetForm(){
