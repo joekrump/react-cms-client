@@ -17,17 +17,17 @@ class ActiveUsersWidget extends React.Component {
     }
   }
   componentDidMount(){
-    console.log(this);
-    apiGet('users/active')
-      .end(function(err, res) {
-        if(err){
-          console.log("error", err);
-        } else if(res.statusCode !== 200) {
-        } else {
-          updateToken(res.header.authorization);
-          this.setState({data: res.body.activeUsers})
-        }
-      }.bind(this))
+    let client = new APIClient(this.context.store);
+    client.get('users/active').then((res) => {
+      if(res.statusCode !== 200) {
+        // Couldn't get the active users for some reason. Likely something wrong with the API server.
+      } else {
+        client.updateToken(res.header.authorization);
+        this.setState({data: res.body.activeUsers})
+      }
+    }).catch((res) => {
+      console.log("error", res);
+    })
   }
   render() {
 
@@ -59,6 +59,10 @@ class ActiveUsersWidget extends React.Component {
 
     return ( usersSection )
   }
+}
+
+ActiveUsersWidget.contextTypes = {
+  store: React.PropTypes.object
 }
 
 const mapStateToProps = ( state ) => {

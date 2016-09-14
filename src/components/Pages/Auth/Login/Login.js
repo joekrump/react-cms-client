@@ -95,11 +95,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-
 Login.contextTypes = {
   store: React.PropTypes.object
 }
-
 
 const LoginRedux = connect(
   null,

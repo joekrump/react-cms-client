@@ -2,7 +2,7 @@ import React from 'react'
 import Widget from '../../../Dashboard/Widget' 
 import ActiveUsersWidget from '../../../Dashboard/ActiveUsersWidget' 
 import FlexContainer from '../../../Layout/FlexContainer'
-import { apiGet, updateToken } from '../../../../http/requests'
+import APIClient from '../../../../http/requests'
 import AdminLayout from '../Layout/Layout'
 
 class Dashboard extends React.Component {
@@ -14,16 +14,17 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount(){
-    apiGet('dashboard')
-      .end(function(err, res) {
-        if(err){
-          console.log("Something went wrong unexpectedly: ", err);
-        } else if(res.statusCode !== 200) {
-        } else {
-          updateToken(res.headers.authorization);
-          this.setState({widgets: res.body.widgets})
-        }
-      }.bind(this))
+    let client = new APIClient(this.context.store);
+    client.get('dashboard').then((res) => {
+      if(res.statusCode !== 200) {
+      } else {
+        this.setState({widgets: res.body.widgets})
+        client.updateToken(res.headers.authorization);
+      }
+    })
+    .catch((res) => {
+      console.log("Something went wrong unexpectedly: ", res);
+    })
   }
   render() {
     var DashboardWidgets = null;

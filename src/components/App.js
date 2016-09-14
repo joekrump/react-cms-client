@@ -170,8 +170,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 App.contextTypes = {
-  router: React.PropTypes.object,
-  store: React.PropTypes.object
+  router: React.PropTypes.object.isRequired,
+  store: React.PropTypes.object.isRequired
 }
 
 export default connect(
