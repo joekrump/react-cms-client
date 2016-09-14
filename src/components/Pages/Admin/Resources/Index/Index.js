@@ -27,10 +27,7 @@ class Index extends React.Component {
         this.setState({items: []}) // Reset Items
         console.log('Bad Response: ', res)
       } else {
-        console.log('success')
-        console.log(this.state)
         this.setState({items: res.body.data})
-        console.log(this.state);
         client.updateToken(res.header.authorization)
       }
     }).catch((res) => {
@@ -49,7 +46,6 @@ class Index extends React.Component {
     }
   }
   render() {
-    console.log(this.state)
     let items = null;
 
     if(!this.state.loading){
