@@ -6,12 +6,8 @@ import IndexItem from './IndexItem'
 // import 'velocity-animate/velocity.ui';
 import AdminLayout from '../../Layout/Layout'
 import { capitalize } from '../../../../../helpers/StringHelper'
-// import { apiGet, updateToken } from '../../../../../http/requests'
 import APIClient from '../../../../../http/requests';
-// import { connect } from 'react-redux';
 
-
-// console.log(client);
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
@@ -19,7 +15,6 @@ class Index extends React.Component {
       items: [],
       loading: true
     }
-    console.log('Index in constructor', context)
   }
   setItems(resourceNamePlural){
     this.setState({loading: true})
@@ -29,6 +24,7 @@ class Index extends React.Component {
       this.setState({loading: false})
       if(res.statusCode !== 200) {
         this.setState({items: []}) // Reset Items
+        console.log('Bad Response: ', res)
       } else {
         client.updateToken(res.header.authorization)
         this.setState({items: res.body.data})
@@ -36,7 +32,7 @@ class Index extends React.Component {
     }).catch((res) => {
       this.setState({loading: false})
       this.setState({items: []}) // Reset Items
-      console.log('Error: ', res)
+      console.warn('Error: ', res)
     })
   }
   componentDidMount() {
@@ -50,7 +46,6 @@ class Index extends React.Component {
     }
   }
   render() {
-    console.log('Index: ', this);
     let items = null;
 
     if(!this.state.loading){
