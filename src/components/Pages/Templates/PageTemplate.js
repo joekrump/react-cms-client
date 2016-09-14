@@ -30,15 +30,17 @@ class PageTemplate extends React.Component {
   }
 
   handleSaveSuccess(url, passive){
-    this.store.dispatch(replace('/admin/' + url + '/edit'))
+    if(url) {
+      this.store.dispatch(replace('/admin/' + url + '/edit'))
+
+      this.setState({
+        submitURL: url
+      });
+    }
 
     if (!passive) {
       new ContentTools.FlashUI('ok');
     }
-
-    this.setState({
-      submitURL: url
-    });
   }
 
   componentWillUnmount() {

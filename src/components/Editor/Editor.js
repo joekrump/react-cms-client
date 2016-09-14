@@ -127,6 +127,8 @@ class Editor {
             this.editContext = 'edit';
             this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
             this.handleSaveSuccess(this.submitURL, passive)
+          } else {
+            this.handleSaveSuccess(null, passive)
           }
         }
       }).catch((res) => {
