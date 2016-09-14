@@ -22,21 +22,24 @@ class Index extends React.Component {
 
     client.get(resourceNamePlural).then((res) => {
       this.setState({loading: false})
+
       if(res.statusCode !== 200) {
         this.setState({items: []}) // Reset Items
         console.log('Bad Response: ', res)
       } else {
-        client.updateToken(res.header.authorization)
+        console.log('success')
+        console.log(this.state)
         this.setState({items: res.body.data})
+        console.log(this.state);
+        client.updateToken(res.header.authorization)
       }
     }).catch((res) => {
       this.setState({loading: false})
-      this.setState({items: []}) // Reset Items
       console.warn('Error: ', res)
+      this.setState({items: []}) // Reset Items
     })
   }
   componentDidMount() {
-
     this.setItems(this.props.params.resourceNamePlural.toLowerCase());
   }
   componentWillReceiveProps(nextProps){
@@ -46,6 +49,7 @@ class Index extends React.Component {
     }
   }
   render() {
+    console.log(this.state)
     let items = null;
 
     if(!this.state.loading){
