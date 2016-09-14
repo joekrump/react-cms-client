@@ -3,16 +3,8 @@ import { createDevTools } from 'redux-devtools'
 import LogMonitor from 'redux-devtools-log-monitor'
 import SliderMonitor from 'redux-slider-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor'
-
 import React from 'react'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { routerReducer, routerMiddleware } from 'react-router-redux'
-import * as reducers from '../reducers'
-import { browserHistory } from 'react-router'
-import createSagaMiddleware from 'redux-saga'
-import rootSaga from '../sagas'
-
-const sagaMiddleware = createSagaMiddleware()
 
 const DevTools = createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q" changeMonitorKey='ctrl-m' defaultPosition='bottom'>
@@ -21,30 +13,44 @@ const DevTools = createDevTools(
   </DockMonitor>
 )
 
-const makeStore = (additionalReducers, additionalMiddleware) => {
+const Store = () => {
 
-  const reactRouterReduxMiddleware = routerMiddleware(browserHistory)
+  let store =  null;
 
-  const reducer = combineReducers({
-    ...reducers,
-    ...additionalReducers,
-    routing: routerReducer
-  })
+  const getStore = () => {
+    return store;
+  }
+  /**
+   * [description]
+   * @param  {[type]} reducers   [description]
+   * @param  {[type]} middleware [description]
+   * @param  {[type]} callback   [description]
+   * @return {[type]}            [description]
+   */
+  const setStore = (reducers, middleware, callback) => {
 
-  const store = createStore(
-    reducer,
-    compose(
-      applyMiddleware(sagaMiddleware, reactRouterReduxMiddleware, ...additionalMiddleware),
-      ((typeof window !== 'undefined') && window.devToolsExtension) ? window.devToolsExtension() : DevTools.instrument() 
-    )
-  );
+    const reducer = combineReducers({
+      ...reducers
+    })
+    store = createStore(
+      reducer,
+      compose(
+        applyMiddleware(...middleware),
+        ((typeof window !== 'undefined') && window.devToolsExtension) ? window.devToolsExtension() : DevTools.instrument() 
+      )
+    );
+    
+    if(callback){
+      callback();
+    }
 
-  // Run the saga
-  sagaMiddleware.run(rootSaga)
-
-  return store;
+    return store;
+  }
+  return {
+    setStore: setStore,
+    getStore: getStore
+  }
 }
 
 
-
-export default makeStore;
+export default Store;

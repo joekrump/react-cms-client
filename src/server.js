@@ -1,11 +1,11 @@
 // app-server.js
 import React from 'react'
-import { match, RouterContext } from 'react-router'
+import { createMemoryHistory, match, RouterContext } from 'react-router'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import hogan from 'hogan-express'
 import NotFoundPage from './components/Pages/Errors/404/404.js';
-import { store } from './redux/store/store'
+import makeStore from './redux/store/store'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 // Routes
 import routes from './routes'
@@ -13,6 +13,8 @@ import routes from './routes'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
+import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
+import rootSaga from './redux/sagas'
 
 const styleContext = {
   insertCss: styles => styles._insertCss(),
@@ -44,11 +46,37 @@ function renderPage(renderProps){
   );
 }
 
+const sagaMiddleware = createSagaMiddleware()
+
+
+/* configure store */
+function configureStore(memoryHistory, initialState) {
+
+  const middleware = {
+    routerMiddleware: routerMiddleware(memoryHistory),
+    sagaMiddleware
+  }
+  const reducers = {
+    ...reducers,
+    routing: routerReducer
+  }
+
+  const store = makeStore(reducers, middleware)
+
+  return store;
+}
+
 app.get('*',(req, res) => {
+
+  const memoryHistory = createMemoryHistory(req.path)
+  let store = configureStore(memoryHistory)
+
+  sagaMiddleware.run(rootSaga)
+
+  const history = syncHistoryWithStore(memoryHistory, store)
 
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
         
-
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {

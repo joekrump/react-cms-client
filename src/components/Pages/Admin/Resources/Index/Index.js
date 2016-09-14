@@ -6,32 +6,38 @@ import IndexItem from './IndexItem'
 // import 'velocity-animate/velocity.ui';
 import AdminLayout from '../../Layout/Layout'
 import { capitalize } from '../../../../../helpers/StringHelper'
-import { apiGet, updateToken } from '../../../../../http/requests'
+// import { apiGet, updateToken } from '../../../../../http/requests'
+import APIClient from '../../../../../http/requests';
+// import { connect } from 'react-redux';
 
+// const client = new APIClient();
+// console.log(client);
 class Index extends React.Component {
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       items: [],
       loading: true
     }
+    console.log('Index in constructor', context)
   }
   setItems(resourceNamePlural){
     this.setState({loading: true})
-    apiGet(resourceNamePlural)
-      .end(function(err, res) {
-        this.setState({loading: false})
-        if(err){
-          this.setState({items: []}) // Reset Items
-        } else if(res.statusCode !== 200) {
-          this.setState({items: []}) // Reset Items
-        } else {
-          updateToken(res.header.authorization)
-          this.setState({items: res.body.data})
-        }
-      }.bind(this))
+    // client.get(resourceNamePlural)
+    //   .end(function(err, res) {
+    //     this.setState({loading: false})
+    //     if(err){
+    //       this.setState({items: []}) // Reset Items
+    //     } else if(res.statusCode !== 200) {
+    //       this.setState({items: []}) // Reset Items
+    //     } else {
+    //       client.updateToken(res.header.authorization)
+    //       this.setState({items: res.body.data})
+    //     }
+    //   }.bind(this))
   }
   componentDidMount() {
+
     this.setItems(this.props.params.resourceNamePlural.toLowerCase());
   }
   componentWillReceiveProps(nextProps){
@@ -41,6 +47,7 @@ class Index extends React.Component {
     }
   }
   render() {
+    console.log('Index: ', this);
     let items = null;
 
     if(!this.state.loading){
@@ -78,6 +85,10 @@ class Index extends React.Component {
       </AdminLayout>
     );
   }
+}
+
+Index.contextTypes = {
+  store: React.PropTypes.object
 }
 
 export default Index;

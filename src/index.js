@@ -8,21 +8,44 @@ import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 import routes from './routes'
-import makeStore from './redux/store/store'
+import Store from './redux/store/store'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
+
+
+import { routerReducer, routerMiddleware } from 'react-router-redux'
+import * as reducers from './redux/reducers'
+import createSagaMiddleware from 'redux-saga'
+import rootSaga from './redux/sagas'
 
 injectTapEventPlugin();
 
 React.Perf = require('react-addons-perf');
 
-const history = syncHistoryWithStore(browserHistory, store)
+
 const styleContext = {
   insertCss: styles => styles._insertCss(),
 };
 
-const store = makeStore();
+const reactRouterReduxMiddleware = routerMiddleware(browserHistory) 
+const sagaMiddleware = createSagaMiddleware()
+
+// Make the store with reducers and middleware specified. 
+// 
+const store = Store().setStore({
+  ...reducers,
+  routing: routerReducer
+},
+[
+  sagaMiddleware,
+  reactRouterReduxMiddleware
+], () => {
+  // Run the saga
+  sagaMiddleware.run(rootSaga)
+});
+
+const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render((
   <Provider store={store}>
