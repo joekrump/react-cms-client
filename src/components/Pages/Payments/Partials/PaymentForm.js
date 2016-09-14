@@ -1,5 +1,5 @@
 import React from 'react';
-import { apiPost } from '../../../../http/requests'
+import APIClient from '../../../../http/requests'
 import { connect } from 'react-redux';
 
 // Icons
@@ -21,8 +21,6 @@ const listItemStyle = {
   padding: "0 16px"
 };
 const stripeScriptURL = 'https://js.stripe.com/v2/';
-
-
 const formName = "paymentForm";
 
 class PaymentForm extends React.Component {
@@ -30,26 +28,40 @@ class PaymentForm extends React.Component {
   constructor (props){
     super(props)
 
-    this.state = {
-      submitDisabled: false,
-      stripeLoading: true,
-      stripeLoadingError: false
-    }
+
 
     this.resetForm = this.resetForm.bind(this)
     this.getStripeToken = this.getStripeToken.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.submitToServer = this.submitToServer.bind(this)
 
-    loadScript(stripeScriptURL, () => {
-      if (!this.getStripeToken()) {
-        // Put your publishable key here
-        // eslint-disable-next-line
-        Stripe.setPublishableKey(StripeConfig.test.pk);
-        this.setState({ stripeLoading: false, stripeLoadingError: false });
+    if(typeof Stripe === 'undefined') {
+      this.state = {
+        submitDisabled: false,
+        stripeLoading: true,
+        stripeLoadingError: false
       }
-    },
-    () => this.setState({ stripeLoading: false, stripeLoadingError: true }));
+
+      loadScript(stripeScriptURL, () => {
+        if (!this.getStripeToken()) {
+          // Put your publishable key here
+          // eslint-disable-next-line
+          Stripe.setPublishableKey(StripeConfig.test.pk);
+          this.setState({ stripeLoading: false, stripeLoadingError: false });
+        }
+      },
+      () => this.setState({ stripeLoading: false, stripeLoadingError: true }));
+    } else {
+      this.state = {
+        submitDisabled: false,
+        stripeLoading: false,
+        stripeLoadingError: false
+      }
+    }
+  }
+  componentDidMount() {
+    let client = new APIClient(this.context.store);
+    this.setState({client});
   }
   resetForm(){
     this.props.resetForm()
@@ -75,18 +87,13 @@ class PaymentForm extends React.Component {
     }.bind(this));
   }
   submitToServer(stripeToken, self){
-    apiPost('stripe/make-payment', false)
-      .send({
+    this.state.client.post('stripe/make-payment', false, {
+      data: {
         token: stripeToken, 
         ...self.state.formFields
-      })
-      .end(function(err, res){
-
-        if(err !== null) {
-          // Something unexpected happened
-          self.props.updatePaymentError(res);
-          self.props.updatePaymentNotification(true, redA700, 'Error', res);
-        } else if (res.statusCode !== 200) {
+      }}).
+      then((res) => {
+        if (res.statusCode !== 200) {
           self.props.updatePaymentError(res);
           self.props.updatePaymentNotification(true, redA700, 'Error', res);
         } else {
@@ -95,7 +102,12 @@ class PaymentForm extends React.Component {
           self.props.updateFormCompleteStatus(true);
           setTimeout(self.resetForm, 3000);
         }
-      });
+      })
+      .catch((err) => {
+        // Something unexpected happened
+        self.props.updatePaymentError(err);
+        self.props.updatePaymentNotification(true, redA700, 'Error', err);
+      })
   }
   render() {
     let StripeFieldListItems = StripeFields.map((StripeField, i) => {
@@ -145,6 +157,10 @@ class PaymentForm extends React.Component {
       )
     }
   }
+}
+
+PaymentForm.contextTypes = {
+  store: React.PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
