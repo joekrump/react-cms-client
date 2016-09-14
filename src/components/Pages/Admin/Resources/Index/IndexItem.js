@@ -32,6 +32,7 @@ class IndexItem extends React.Component{
 
   render(){
     /*<VelocityComponent style={{display: 'block'}} animation={{height: this.state.visible ? 50 : 0, opacity: this.state.visible ? 1 : 0}} duration={300}>*/
+    // TODO: Implement this using className switches based on visibility.
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
