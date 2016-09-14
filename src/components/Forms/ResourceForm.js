@@ -37,7 +37,9 @@ class ResourceForm extends React.Component {
       .catch((res) => {
         console.warn('Error getting resource data: ', res);
       })
-    } 
+    } else {
+      this.resetForm();
+    }
   }
   resetForm(){
     this.props.resetForm(this.props.formName)
