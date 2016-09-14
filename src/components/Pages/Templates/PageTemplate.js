@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from '../../Editor/styles/content-tools.scss';
 
 class PageTemplate extends React.Component {
 
@@ -133,7 +135,7 @@ PageTemplate.contextTypes = {
 };
 
 
-export default connect(
+export default withStyles(s)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(PageTemplate)
+)(PageTemplate))

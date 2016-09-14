@@ -1,8 +1,6 @@
 import APIClient from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './styles/content-tools.scss';
 
 class Editor {
 
@@ -60,8 +58,6 @@ class Editor {
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
     this.editor.addEventListener('stop', this.handleEditStop.bind(this));
     // Start the editor for the page by default.
-    // this.editor.start();
-
   }
 
   createImageUploader(dialog){
@@ -153,4 +149,4 @@ class Editor {
   }
 }
 
-export default withStyles(s)(Editor);
+export default Editor;
