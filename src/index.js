@@ -8,7 +8,7 @@ import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 import routes from './routes'
-import Store from './redux/store/store'
+import storeHelper from './redux/store/store'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
@@ -33,7 +33,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 // Make the store with reducers and middleware specified. 
 // 
-const store = Store().setStore({
+const store = storeHelper().setStore({
   ...reducers,
   routing: routerReducer
 },

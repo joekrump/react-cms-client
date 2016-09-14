@@ -20,30 +20,30 @@ class APIClient {
 		this.store = store;
 		this.updateToken = this._updateToken.bind(this);
 
-		methods.forEach((method) =>
-		  this[method] = (path, authRequired = true, { params, data } = {}) => new Promise((resolve, reject) => {
-		    const request = superagent[method](formatUrl(path));
+		methods.forEach((method) => {
+			this[method] = (path, authRequired = true, { params, data } = {}) => new Promise((resolve, reject) => {
+			  const request = superagent[method](formatUrl(path));
 
-		    request.set('Accept', 'application/json')
-		    
-		    if (params) {
-		      request.query(params);
-		    }
+			  request.set('Accept', 'application/json')
+			  
+			  if (params) {
+			    request.query(params);
+			  }
 
-		    if(authRequired) {
-		    	// Get statetree and get auth.token from that.
-		      request.set('Authorization', 'Bearer ' + this.store.getState().auth.token)
-		    }
+			  if(authRequired) {
+			  	// Get statetree and get auth.token from that.
+			    request.set('Authorization', 'Bearer ' + this.store.getState().auth.token)
+			  }
 
-		    // request.use(AuthIntercept);
+			  // request.use(AuthIntercept);
 
-		    if (data) {
-		      request.send(data);
-		    }
+			  if (data) {
+			    request.send(data);
+			  }
 
-		    request.end((err, res) => err ? reject(res || err) : resolve(res));
-		  })
-		);
+			  request.end((err, res) => err ? reject(res || err) : resolve(res));
+			})
+		});
 	}
 
 	/**

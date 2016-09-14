@@ -17,7 +17,7 @@ class ContextProvider extends React.Component {
   getChildContext() {
     const context = this.props.context;
     return {
-      insertCss: context.insertCss || emptyFunction,
+      insertCss: context.insertCss || null,
     };
   }
 

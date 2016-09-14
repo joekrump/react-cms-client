@@ -104,7 +104,7 @@ class Editor {
     let payload = {}
     let regionValue;
 
-    (Object.keys(regions)).map((key) => {
+    (Object.keys(regions)).forEach((key) => {
       console.log(key)
       if(key === 'name') {
         regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "")
