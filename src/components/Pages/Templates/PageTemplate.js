@@ -5,6 +5,7 @@ import Editor from "../../Editor/Editor"
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../Editor/styles/content-tools.scss';
 import { replace } from 'react-router-redux'
+import ContentTools from 'ContentTools';
 
 class PageTemplate extends React.Component {
 
@@ -28,8 +29,12 @@ class PageTemplate extends React.Component {
     return this.state.submitURL
   }
 
-  handleSaveSuccess(url){
-    this.context.store.dispatch(replace('/admin/' + url + '/edit'))
+  handleSaveSuccess(url, passive){
+    this.store.dispatch(replace('/admin/' + url + '/edit'))
+
+    if (!passive) {
+      new ContentTools.FlashUI('ok');
+    }
 
     this.setState({
       submitURL: url
@@ -43,7 +48,6 @@ class PageTemplate extends React.Component {
   }
 
   componentDidMount(){
-
     this.setState({
       submitURL: this.props.submitUrl
     });

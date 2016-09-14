@@ -6,12 +6,9 @@ class Editor {
 
   constructor(getPageName, submitURL, handleSaveSuccess, context, resourceNamePlural, store) {
     this.submitURL = submitURL;
-    console.log(this.submitURL);
     this.handleSaveSuccess = handleSaveSuccess;
     this.resourceNamePlural = resourceNamePlural;
     this.store = store;
-
-    console.log('loading editor...')
     // new or edit
     // 
     this.editContext = context;
@@ -55,7 +52,7 @@ class Editor {
     // 
     this.editor = ContentTools.EditorApp.get();
     this.editor.init('*[data-editable]', 'data-name');
-    this.editor.addEventListener('saved', (event) => {this.handleSave(event)});
+    this.editor.addEventListener('saved', (event) => {this.handleSave(event, this.submitURL)});
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
     this.editor.addEventListener('stop', this.handleEditStop.bind(this));
     // Start the editor for the page by default.
@@ -87,7 +84,7 @@ class Editor {
     // Stop the autosave
     clearInterval(this.editor.autoSaveTimer);
   }
-  handleSave(event) {
+  handleSave(event, submitURL) {
     var passive, regions;
 
     // Check if this was a passive save
@@ -102,7 +99,6 @@ class Editor {
     let regionValue;
 
     (Object.keys(regions)).forEach((key) => {
-      console.log(key)
       if(key === 'name') {
         regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "")
       } else {
@@ -120,7 +116,7 @@ class Editor {
 
       console.log(this);
 
-      client[httpMethod](this.submitURL, true, {data: payload})
+      client[httpMethod](submitURL, true, {data: payload})
       .then((res) => {
         if (res.statusCode !== 200) {
           this.editor.busy(false);
@@ -130,11 +126,7 @@ class Editor {
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
             this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
-            this.handleSaveSuccess(this.submitURL)
-          }
-
-          if (!passive) {
-            new ContentTools.FlashUI('ok');
+            this.handleSaveSuccess(this.submitURL, passive)
           }
         }
       }).catch((res) => {
