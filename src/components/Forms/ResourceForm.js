@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../Form/index';
-import { apiGet, apiPut, apiPost, updateToken } from '../../http/requests'
+import APIClient from '../../http/requests'
 import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 
 const listItemStyle = {
@@ -19,24 +19,24 @@ class ResourceForm extends React.Component {
   }
 
   componentDidMount(){
+    let client = new APIClient(this.context.store)
+    this.setState({client});
+
     if(this.props.context === 'edit'){
 
-      apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
-        .end(function(err, res){
-          if(err !== null) {
-            if(res.responseCode === 404) {
-              console.warn(res);
-            }
-            // Something unexpected happened
-          } else if (res.statusCode !== 200) {
-            // not status OK
-            console.log('Could not get Data for resource ', res);
-          } else {
-            // this.setState({existingData: res.body.data})
-            updateToken(res.header.authorization);
-            this.props.loadFormWithData(res.body.data, this.props.formName);
-          }
-        }.bind(this));
+      client.get(this.props.resourceNamePlural + '/' + this.props.resourceId)
+      .then((res) => {
+        if (res.statusCode !== 200) {
+          console.log('Bad response: ', res);
+        } else {
+          // this.setState({existingData: res.body.data})
+          client.updateToken(res.header.authorization);
+          this.props.loadFormWithData(res.body.data, this.props.formName);
+        }
+      })
+      .catch((res) => {
+        console.warn('Error getting resource data: ', res);
+      })
     } 
   }
   resetForm(){
@@ -45,7 +45,6 @@ class ResourceForm extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    console.log(this);
     this.submitToServer();
   }
   submitToServer(){
@@ -56,45 +55,41 @@ class ResourceForm extends React.Component {
       return;
     })
     try {
-      let serverRequest = this.props.context === 'edit' ? apiPut(this.props.submitUrl) : apiPost(this.props.submitUrl);
+      let httpMethod = this.props.context === 'edit' ? 'put' : 'post';
 
-      serverRequest.send(formInputValues)
-      .end(function(err, res){
-        if(err !== null) {
-          // console.log(err);
-          // console.log(res);
-          this.props.updateSnackbar(true, 'Error', res.body.message, 'error');
-          // Something unexpected happened
-        } else if (res.statusCode !== 200) {
-          // not status OK
-          // console.log('Resource Form not OK ',res);
-          // res.body.errors gives an array of errors from the server.
-          // 
+      this.state.client[httpMethod](this.props.submitUrl, true, {data: formInputValues})
+      .then((res) => {
+        if (res.statusCode !== 200) {
           this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
-
-          this.props.updateFormCompleteStatus(
-            true, 
-            this.props.formName
-          );
-          
-          if(this.props.context === 'edit') {
-            this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
-          } else {
-            this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
-          }
-
-          if(this.props.loginCallback) {
-            this.props.loginCallback(res.body.user, res.body.token)
-          } else {
-            if(this.props.context !== 'edit'){
-              setTimeout(() => this.resetForm(), 500);
-            }
-          }
+          handleSuccess(res);
         }
-      }.bind(this));
+      })
+      .catch((res) => {
+        this.props.updateSnackbar(true, 'Error', res.body.message, 'error');
+      })
     } catch (e) {
       console.log('Exception: ', e)
+    }
+  }
+  handleSuccess(res) {
+    this.props.updateFormCompleteStatus(
+      true, 
+      this.props.formName
+    );
+    
+    if(this.props.context === 'edit') {
+      this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
+    } else {
+      this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
+    }
+
+    if(this.props.loginCallback) {
+      this.props.loginCallback(res.body.user, res.body.token)
+    } else {
+      if(this.props.context !== 'edit'){
+        setTimeout(() => this.resetForm(), 500);
+      }
     }
   }
   render() {
@@ -184,6 +179,11 @@ const mapDispatchToProps = (dispatch) => {
     }
   };
 }
+
+ResourceForm.contextTypes = {
+  store: React.PropTypes.object.isRequired
+};
+
 
 export default connect(
   mapStateToProps,
