@@ -38,7 +38,7 @@ class Login extends React.Component{
       
       this.props.loginUser(authData.user, authData.token, redirectPath);
       
-    })
+    }, this.context.store)
   }
   handleChange(e){
     let oldState = this.state;
@@ -93,6 +93,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(callback)
     }
   }
+}
+
+
+Login.contextTypes = {
+  store: React.PropTypes.object
 }
 
 

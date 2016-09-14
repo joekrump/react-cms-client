@@ -2,7 +2,7 @@ import APIClient from './http/requests'
 
 
 module.exports = {
-  login(email, pass, handleLoggedInCallback) {
+  login(email, pass, handleLoggedInCallback, store) {
 
     // If there is a laravelAccessToken just log in
     if ((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
@@ -23,7 +23,7 @@ module.exports = {
       } else {
         this.handleLoggedIn(handleLoggedInCallback, res); // no second param as it defaults to false
       }
-    })
+    }, store)
   },
   getUser() {
     if(typeof sessionStorage !== 'undefined') {
@@ -82,7 +82,7 @@ module.exports = {
 }
 
 function logoutFromServer(callback, component, store) {
-  let client = APIClient(store);
+  let client = new APIClient(store);
 
   client.post('auth/logout').then((res) => {
     if (res.statusCode !== 200) {
@@ -107,7 +107,7 @@ function logoutFromServer(callback, component, store) {
 }
 
 function makeLoginRequest(email, password, loginRequestCallback, store) {
-  let client = APIClient(store);
+  let client = new APIClient(store);
 
   client.post('auth/login', false, {data: { email, password }}).then((res) => {
     if (res.statusCode !== 200) {

@@ -47,7 +47,7 @@ class App extends React.Component {
   componentWillMount() {
     auth.onChange = () => this.updateAuth()
     if((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken){
-      auth.login()
+      auth.login(null, null, null, this.context.store)
     }
   }
   componentWillReceiveProps(nextProps){

@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 import AppConfig from '../../app_config/app';
-import AuthIntercept from './AuthIntercept'
+// import AuthIntercept from './AuthIntercept'
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
@@ -35,7 +35,7 @@ class APIClient {
 		      request.set('Authorization', 'Bearer ' + this.store.getState().auth.token)
 		    }
 
-		    request.use(AuthIntercept);
+		    // request.use(AuthIntercept);
 
 		    if (data) {
 		      request.send(data);
