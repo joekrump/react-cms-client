@@ -8,7 +8,7 @@ import NotFoundPage from './components/Pages/Errors/404/404.js';
 import makeStore from './redux/store/store'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 // Routes
-import routes from './routes'
+import getRoutes from './routes'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import muiTheme from './muiTheme';
@@ -75,7 +75,7 @@ app.get('*',(req, res) => {
 
   const history = syncHistoryWithStore(memoryHistory, store)
 
-  match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+  match({ getRoutes(store), location: req.url }, (error, redirectLocation, renderProps) => {
         
     if (error) {
       res.status(500).send(error.message)
