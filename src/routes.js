@@ -10,8 +10,7 @@ import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
 import auth from './auth';
 import { replace } from 'react-router-redux'
-import { store } from './redux/store/store'
-import { apiGet } from './http/requests'
+import APIClient from './http/requests'
 import AdminRoutes from './routes/admin/routes'
 
 // Routes for the app
@@ -22,13 +21,13 @@ export const routes = {
   childRoutes: [
     { path: 'about', component: About },
     { path: 'donate', component: DonationPage },
-    { path: 'login', component: Login, onEnter: allowLoginAccess },
-    { path: 'signup', component: SignUp, onEnter: allowSignupAccess },
+    { path: 'login', component: Login, /*onEnter: allowLoginAccess*/ },
+    { path: 'signup', component: SignUp, /*onEnter: allowSignupAccess*/ },
     { path: 'forgot-password', component: ForgotPassword },
     { 
       path: 'admin',
       indexRoute: { component: Dashboard },
-      onEnter: requireAuth,
+      /*onEnter: requireAuth,*/
       childRoutes: [
         { path: 'settings', component: UserSettings },
         AdminRoutes
@@ -46,64 +45,71 @@ export default routes;
  * accessible to a user who is authenticated (logged in)
  * @return undefined
  */
-function requireAuth() {
-  if (!auth.loggedIn()) {
-    // console.log('NOT LOGGED IN, REDIRECTING...');
-    store.dispatch(replace('/login'))
-  }
-}
+// function requireAuth(param1, param2, param3) {
+//   console.log(param1);
+//   console.log(param2);
+//   console.log(param3);
+//   if (!auth.loggedIn()) {
+//     // console.log('NOT LOGGED IN, REDIRECTING...');
+//     store.dispatch(replace('/login'))
+//   }
+// }
 
 /**
  * Allow user to access SignUp page, or redirect.
  * @return undefined
  */
-function allowSignupAccess() {
-  getUserCount().then((count) => {
-    if(count > 0) {
-      store.dispatch(replace('/login'));
-    }
-  }).catch((error) => {
-    console.warn('Error: ', error)
-  })
-}
+// function allowSignupAccess(param1, param2, param3) {
+//   console.log(param1, param2, param3)
+//   getUserCount(store).then((count) => {
+//     if(count > 0) {
+//       store.dispatch(replace('/login'));
+//     }
+//   }).catch((error) => {
+//     console.warn('Error: ', error)
+//   })
+// }
 
 
 /**
  * Check to see if /login should be accessible.
  * @return undefined
  */
-function allowLoginAccess() {
+// function allowLoginAccess(param1, param2, param3) {
+//   console.log(param1, param2, param3)
 
-  if(auth.loggedIn()) {
-    store.dispatch(replace('/admin'))
-  } else {
-    getUserCount().then((count) => {
-      if(count === 0) {
-        console.log('replace')
-        store.dispatch(replace('/signup'));
-      }
-    }).catch((error) => {
-      console.log('Error: ', error)
-    })
-  }
-}
+//   if(auth.loggedIn()) {
+//     store.dispatch(replace('/admin'))
+//   } else {
+//     getUserCount(store).then((count) => {
+//       if(count === 0) {
+//         console.log('replace')
+//         store.dispatch(replace('/signup'));
+//       }
+//     }).catch((error) => {
+//       console.log('Error: ', error)
+//     })
+//   }
+// }
 
 /**
  * Return a Promise that will be resolved once GET request for 
  * user count is completed.
  * @return Promise
  */
-function getUserCount(){
-  return new Promise((resolve, reject) => {
-    apiGet('users/count', false)
-      .end(function(err, res) {
-        if(err){
-          reject(-1);
-        } else if(res.statusCode !== 200) {
-          reject(-1);
-        } else {
-          resolve(res.body.count);
-        }
-      })
-  })
-}
+// function getUserCount(param1, param2, param3) {
+//   console.log(param1, param2, param3)
+//   return new Promise((resolve, reject) => {
+//     let client = new APIClient(store);
+//     client.get('users/count', false)
+//       .end(function(err, res) {
+//         if(err){
+//           reject(-1);
+//         } else if(res.statusCode !== 200) {
+//           reject(-1);
+//         } else {
+//           resolve(res.body.count);
+//         }
+//       })
+//   })
+// }
