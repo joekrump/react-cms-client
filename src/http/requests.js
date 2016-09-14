@@ -9,9 +9,9 @@ function formatUrl(path) {
 }
 
 class APIClient {
-	
+
 	/**
-	 * Constructor for APIClient class. Generates RESTful HTTP methods. (see 'methods' variable above.)
+	 * Constructor for this class. Generates RESTful HTTP methods. (see 'methods' variable above.)
 	 * Note: The methods built correspond to the methods available in the superagent library.
 	 * @param  {Object} store The Redux 'liftedStore' for the app. Used to access token from store and to make dispatch requests.
 	 * @return undefined

@@ -8,8 +8,4 @@ const Layout = (props) => (
   </div>
 );
 
-Layout.contextTypes = {
-  store: React.PropTypes.object
-}
-
 export default Layout;
