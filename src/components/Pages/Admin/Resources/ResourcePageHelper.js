@@ -24,7 +24,7 @@ export function getEditorContent(context, resourceNamePlural, resourceId){
     
     return (
       <div>
-        <h1>New {capitalize(nameSingular)}</h1>
+        <h1>{context === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
 
         <ResourceForm 
           formName={nameSingular + 'Form'} 
