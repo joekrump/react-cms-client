@@ -62,7 +62,7 @@ class ResourceForm extends React.Component {
         if (res.statusCode !== 200) {
           this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
-          handleSuccess(res);
+          this.handleSuccess(res);
         }
       })
       .catch((res) => {
