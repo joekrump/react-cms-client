@@ -10,7 +10,7 @@ import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
 // import { connect } from 'react-redux';
 
-// const client = new APIClient();
+
 // console.log(client);
 class Index extends React.Component {
   constructor(props, context) {
@@ -23,18 +23,21 @@ class Index extends React.Component {
   }
   setItems(resourceNamePlural){
     this.setState({loading: true})
-    // client.get(resourceNamePlural)
-    //   .end(function(err, res) {
-    //     this.setState({loading: false})
-    //     if(err){
-    //       this.setState({items: []}) // Reset Items
-    //     } else if(res.statusCode !== 200) {
-    //       this.setState({items: []}) // Reset Items
-    //     } else {
-    //       client.updateToken(res.header.authorization)
-    //       this.setState({items: res.body.data})
-    //     }
-    //   }.bind(this))
+    let client = new APIClient(this.context.store);
+
+    client.get(resourceNamePlural).then((res) => {
+      this.setState({loading: false})
+      if(res.statusCode !== 200) {
+        this.setState({items: []}) // Reset Items
+      } else {
+        client.updateToken(res.header.authorization)
+        this.setState({items: res.body.data})
+      }
+    }).catch((res) => {
+      this.setState({loading: false})
+      this.setState({items: []}) // Reset Items
+      console.log('Error: ', res)
+    })
   }
   componentDidMount() {
 

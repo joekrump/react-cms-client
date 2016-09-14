@@ -1,9 +1,6 @@
 import request from 'superagent';
 import AppConfig from '../../app_config/app';
-// import Store from '../redux/store/store'
 import AuthIntercept from './AuthIntercept'
-import React from 'react';
-import { connect } from 'react-redux';
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
@@ -13,9 +10,11 @@ function formatUrl(path) {
   return AppConfig.apiBaseUrl + adjustedPath;
 }
 
-class APIClient extends React.Component {
-	constructor(props) {
-		super(props);
+class APIClient {
+	constructor(store) {
+		
+		this.store = store;
+
 		this.updateToken = this._updateToken.bind(this);
 
 		methods.forEach((method) =>
@@ -29,7 +28,7 @@ class APIClient extends React.Component {
 		    }
 
 		    if(authRequired) {
-		      request.set('Authorization', 'Bearer ' + this.props.token)
+		      request.set('Authorization', 'Bearer ' + this.store.auth.token)
 		    }
 
 		    request.use(AuthIntercept);
@@ -38,7 +37,7 @@ class APIClient extends React.Component {
 		      request.send(data);
 		    }
 
-		    request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
+		    request.end((err, res) => err ? reject(res || err) : resolve(res));
 		  })
 		);
 	}
@@ -49,7 +48,10 @@ class APIClient extends React.Component {
 	 * @return {[type]}       [description]
 	 */
 	_updateToken(token){
-		this.props.updateToken(token);
+		this.store.dispatch({
+			type: 'TOKEN_UPDATED',
+			token: token.split(" ")[1] // remove 'Bearer' from Authorization header and get just token
+		})
 	}
 
 	/**
@@ -62,28 +64,11 @@ class APIClient extends React.Component {
 	}
 
 	render() {
-		return (null);
+		return this;
 	}
 }
-const mapStateToProps = (state) => ({
-  token: state.auth.token
-})
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		updateToken: (token) => {
-			dispatch({
-				type: 'TOKEN_UPDATED',
-				token: token.split(" ")[1] // remove 'Bearer' from Authorization header and get just token
-			})
-		}
-	};
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(APIClient)
+export default APIClient;
 
 // /**
 //  * Make a HTTP POST request
