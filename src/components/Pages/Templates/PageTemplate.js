@@ -74,7 +74,7 @@ class PageTemplate extends React.Component {
   makeEditor(){
     return new Editor(
       this.getPageName, 
-      this.getSubmitURL, 
+      this.props.submitUrl, 
       this.setSubmitURL, 
       this.props.context, 
       this.props.resourceNamePlural, 

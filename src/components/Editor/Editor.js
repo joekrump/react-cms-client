@@ -4,8 +4,9 @@ import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUplo
 
 class Editor {
 
-  constructor(getPageName, getSubmitURL, setSubmitURL, context, resourceNamePlural, store) {
-    this.getSubmitURL = getSubmitURL;
+  constructor(getPageName, submitURL, setSubmitURL, context, resourceNamePlural, store) {
+    this.submitURL = submitURL;
+    console.log(this.submitURL);
     this.setSubmitURL = setSubmitURL;
     this.resourceNamePlural = resourceNamePlural;
     this.store = store;
@@ -54,7 +55,7 @@ class Editor {
     // 
     this.editor = ContentTools.EditorApp.get();
     this.editor.init('*[data-editable]', 'data-name');
-    this.editor.addEventListener('saved', this.handleSave.bind(this));
+    this.editor.addEventListener('saved', (event) => {this.handleSave(event)});
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
     this.editor.addEventListener('stop', this.handleEditStop.bind(this));
     // Start the editor for the page by default.
@@ -66,7 +67,7 @@ class Editor {
 
   destroyEditor(){
     this.editor.destroy();
-    this.getSubmitURL = null;
+    this.submitURL = null;
     this.setSubmitURL = null;
     this.resourceNamePlural = null;
     this.editContext = null;
@@ -77,7 +78,7 @@ class Editor {
     // Call save every 30 seconds
     let autoSave = () => {
       this.editor.save(true);
-      console.log(this.editor.getState());
+      // console.log(this.editor.getState());
     };
     this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
   }
@@ -117,7 +118,9 @@ class Editor {
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
       let client = new APIClient(this.store);
 
-      client[httpMethod](this.getSubmitURL(), true, {data: payload})
+      console.log(this);
+
+      client[httpMethod](this.submitURL, true, {data: payload})
       .then((res) => {
         if (res.statusCode !== 200) {
           this.editor.busy(false);
@@ -126,7 +129,8 @@ class Editor {
           this.editor.busy(false);
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
-            this.setSubmitURL(this.resourceNamePlural + '/' + res.body.data.id)
+            this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
+            this.setSubmitURL(this.submitURL)
           }
 
           if (!passive) {
@@ -145,6 +149,7 @@ class Editor {
     } catch (e) {
       this.editor.busy(false);
       console.log('Exception: ', e)
+      new ContentTools.FlashUI('no');
     }
   }
 }
