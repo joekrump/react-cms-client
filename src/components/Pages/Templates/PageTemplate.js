@@ -4,6 +4,7 @@ import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../Editor/styles/content-tools.scss';
+import { replace } from 'react-router-redux'
 
 class PageTemplate extends React.Component {
 
@@ -27,7 +28,9 @@ class PageTemplate extends React.Component {
     return this.state.submitURL
   }
 
-  setSubmitURL(url){
+  handleSaveSuccess(url){
+    this.context.store.dispatch(replace('/admin/' + url + '/edit'))
+
     this.setState({
       submitURL: url
     });
@@ -75,7 +78,7 @@ class PageTemplate extends React.Component {
     return new Editor(
       this.getPageName, 
       this.props.submitUrl, 
-      this.setSubmitURL, 
+      this.handleSaveSuccess, 
       this.props.context, 
       this.props.resourceNamePlural, 
       this.context.store

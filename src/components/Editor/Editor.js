@@ -4,10 +4,10 @@ import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUplo
 
 class Editor {
 
-  constructor(getPageName, submitURL, setSubmitURL, context, resourceNamePlural, store) {
+  constructor(getPageName, submitURL, handleSaveSuccess, context, resourceNamePlural, store) {
     this.submitURL = submitURL;
     console.log(this.submitURL);
-    this.setSubmitURL = setSubmitURL;
+    this.handleSaveSuccess = handleSaveSuccess;
     this.resourceNamePlural = resourceNamePlural;
     this.store = store;
 
@@ -68,7 +68,7 @@ class Editor {
   destroyEditor(){
     this.editor.destroy();
     this.submitURL = null;
-    this.setSubmitURL = null;
+    this.handleSaveSuccess = null;
     this.resourceNamePlural = null;
     this.editContext = null;
     this.getPageName = null;
@@ -130,7 +130,7 @@ class Editor {
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
             this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
-            this.setSubmitURL(this.submitURL)
+            this.handleSaveSuccess(this.submitURL)
           }
 
           if (!passive) {

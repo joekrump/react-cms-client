@@ -47,7 +47,6 @@ const getRoutes = (store) => {
 
 export default getRoutes;
 
-
 /**
  * Redirects user to /login if they try to access a route that should only be 
  * accessible to a user who is authenticated (logged in)
@@ -73,7 +72,6 @@ function allowSignupAccess(event, store) {
     console.warn('Error: ', error)
   })
 }
-
 
 /**
  * Check to see if /login should be accessible.
