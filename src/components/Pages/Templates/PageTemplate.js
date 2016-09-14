@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { apiGet, updateToken } from '../../../http/requests'
+import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 
 class PageTemplate extends React.Component {
@@ -44,29 +44,23 @@ class PageTemplate extends React.Component {
     });
 
     if(this.props.context === 'edit'){
-      
+      let client = new APIClient(this.context.store)
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
-      apiGet(this.props.resourceNamePlural + '/' + this.props.resourceId)
-        .end(function(err, res){
-          if(err !== null) {
-            if(res.responseCode === 404) {
-              console.warn(res);
-            }
-            // Something unexpected happened
-          } else if (res.statusCode !== 200) {
+      client.get(this.props.resourceNamePlural + '/' + this.props.resourceId)
+        .then((res) => {
+          if (res.statusCode !== 200) {
             // not status OK
-            console.log('Could not get Data for resource ', res);
+            console.log('Could not get data for Page ', res);
           } else {
             // this.setState({existingData: res.body.data})
-            updateToken(res.header.authorization);
+            client.updateToken(res.header.authorization);
             this.setState({
               content: res.body.data.editor_contents,
               name: res.body.data.name,
               editor: new Editor(this.getPageName, this.getSubmitURL, this.setSubmitURL, this.props.context, this.props.resourceNamePlural)
             })
-
           }
-        }.bind(this));
+        })
     } else {
       // If the context is not edit then just load the editor.
       this.setState({
@@ -122,6 +116,11 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
+
+PageTemplate.contextTypes = {
+  store: React.PropTypes.object.isRequired
+};
+
 
 export default connect(
   mapStateToProps,
