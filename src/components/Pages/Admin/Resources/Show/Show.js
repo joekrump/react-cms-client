@@ -1,6 +1,6 @@
 import React from 'react';
 import { capitalize } from '../../../../../helpers/StringHelper'
-import AdminLayout from '../../Layout/Layout'
+import AdminLayout from '../../Layout/AdminLayout'
 
 const Details = ({ params: { resourceNameSingular, resourceId }, location: { query } }) => {
   return (

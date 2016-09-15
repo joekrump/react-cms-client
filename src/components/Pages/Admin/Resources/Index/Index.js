@@ -4,7 +4,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
 // import { VelocityTransitionGroup } from 'velocity-react';
 // import 'velocity-animate/velocity.ui';
-import AdminLayout from '../../Layout/Layout'
+import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
 

@@ -5,12 +5,7 @@ import FloatingBackButton from '../../../../Nav/FloatingBackButton'
 import {getEditorContent} from '../ResourcePageHelper'
 
 const Edit = ({ params: { resourceNamePlural, resourceId }, location: { query } }) => (
-  <AdminLayout>
-    <div className="admin-edit">
-      <FloatingBackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
-      {getEditorContent('edit', resourceNamePlural, resourceId, {...query})}
-    </div>
-  </AdminLayout>
+  getEditorContent('edit', resourceNamePlural, resourceId, {...query})
 );
 
 export default Edit;

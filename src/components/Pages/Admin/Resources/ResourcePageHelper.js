@@ -7,7 +7,7 @@ import { singularizeName } from '../../../../helpers/ResourceHelper'
 
 export function getEditorContent(context, resourceNamePlural, resourceId, queryProps){
   const nameSingular = singularizeName(resourceNamePlural);
-  console.log(queryProps);
+
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
     return (
       <PageTemplate 

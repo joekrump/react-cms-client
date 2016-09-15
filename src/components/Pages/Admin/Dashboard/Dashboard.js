@@ -3,7 +3,7 @@ import Widget from '../../../Dashboard/Widget'
 import ActiveUsersWidget from '../../../Dashboard/ActiveUsersWidget' 
 import FlexContainer from '../../../Layout/FlexContainer'
 import APIClient from '../../../../http/requests'
-import AdminLayout from '../Layout/Layout'
+import AdminLayout from '../Layout/AdminLayout'
 
 class Dashboard extends React.Component {
   constructor(props) {
