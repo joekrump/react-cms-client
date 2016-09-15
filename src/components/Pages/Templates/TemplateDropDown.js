@@ -14,11 +14,12 @@ export default class TemplateDropDown extends React.Component {
 
   handleChange = (event, index, value) => {
     this.setState({value});
+    this.props.handleChangeCallback(value);
   }
 
   render() {
     let menuItems = this.props.templateOptions.map((option) => {
-      return (<MenuItem value={option.id} primaryText={option.display_name} />)
+      return (<MenuItem key={'template-option-' + option.id} value={option.id} primaryText={option.display_name} />)
     })
     return (
       <div>

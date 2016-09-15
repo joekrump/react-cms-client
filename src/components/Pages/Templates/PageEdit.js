@@ -157,10 +157,8 @@ class PageEdit extends React.Component {
     )
   }
 
-  handleTemplateChange(event) {
-    event.preventDefault();
-    // TODO: handle the event.
-    // update the template_id
+  handleTemplateChange(template_id) {
+    this.setState({template_id})
   }
 
   resetForm(){
@@ -181,7 +179,7 @@ class PageEdit extends React.Component {
           <TemplateDropDown 
             templateOptions={this.state.templates} 
             defaultValue={this.props.template_id} 
-            onChangeCallback={(event) => this.handleTemplateChange(event)} 
+            handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
         </FloatingPageMenu>
         {this.state.template}
