@@ -66,13 +66,12 @@ class PageEdit extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     // If there has been a change to the template_id then rerender the page with the
     // corresponding template.
-    // if(this.state.editor === null && nextState.editor !== null) {
-    //   console.log('State of Editor that has been added:', nextState.editor.editor.getState())
-    //   if(nextState.editor.editor.isReady()) {
-    //     nextState.editor.editor.syncRegions
-    //     nextState.editor.editor.start()
-    //   }
-    // }
+    if(this.state.editor === null && nextState.editor !== null && this.props.context === 'new') {
+      if(nextState.editor.editor.isReady()) {
+        nextState.editor.editor.syncRegions();
+        nextState.editor.editor.start()
+      }
+    }
     if(this.state.template_id !== nextState.template_id){
       this.setState({
         template: this.getTemplateComponent(nextState.template_id)
