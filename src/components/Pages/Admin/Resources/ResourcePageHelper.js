@@ -1,10 +1,10 @@
 import React from 'react';
 import ResourceForm from '../../../Forms/ResourceForm';
 import AppConfig from '../../../../../app_config/app';
-import PageTemplate from '../../Templates/PageTemplate';
 import { capitalize } from '../../../../helpers/StringHelper'
 import { singularizeName } from '../../../../helpers/ResourceHelper'
 import AdminLayout from '../Layout/AdminLayout'
+import PageEdit from '../../Templates/PageEdit';
 import EditPageLayout from '../Layout/EditPageLayout'
 import FloatingBackButton from '../../../Nav/FloatingBackButton'
 
@@ -16,7 +16,7 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
       <EditPageLayout>
         <div className="admin-edit">
           <FloatingBackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
-          <PageTemplate 
+          <PageEdit 
             submitUrl={context === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
             resourceType={nameSingular}
             resourceId={resourceId}

@@ -11,7 +11,7 @@ import HomePageTemplate from './HomePageTemplate'
 import ContactPageTemplate from './ContactPageTemplate'
 import BasicPageTemplate from './BasicPageTemplate'
 
-class PageTemplate extends React.Component {
+class PageEdit extends React.Component {
 
   constructor(props) {
     super(props);
@@ -182,7 +182,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-PageTemplate.contextTypes = {
+PageEdit.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
@@ -190,4 +190,4 @@ PageTemplate.contextTypes = {
 export default withStyles(s)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(PageTemplate))
+)(PageEdit))
