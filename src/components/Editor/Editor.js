@@ -15,6 +15,11 @@ class Editor {
     this.getPageName = getPageName;
 
     ContentTools.IMAGE_UPLOADER = this.createImageUploader;
+    ContentTools.MIN_CROP = 30;
+    ContentTools.DEFAULT_VIDEO_WIDTH = 800;
+    ContentTools.DEFAULT_VIDEO_HEIGHT = 600;
+    ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 2000;
+
     // Capture image resize events and update the Cloudinary URL
     // eslint-disable-next-line
     ContentEdit.Root.get().bind('taint', function (element) {
@@ -52,6 +57,10 @@ class Editor {
     // 
     this.editor = ContentTools.EditorApp.get();
     this.editor.init('*[data-editable]', 'data-name');
+
+
+    this.editor.regions();
+
     this.editor.addEventListener('saved', (event) => {this.handleSave(event, this.submitURL)});
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
     this.editor.addEventListener('stop', this.handleEditStop.bind(this));
