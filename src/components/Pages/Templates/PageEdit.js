@@ -81,44 +81,61 @@ class PageEdit extends React.Component {
     }
   }
 
+  handleSuccessfulDataFetch(client, res, updateStateCallback) {
+    if (res.statusCode !== 200) {
+      console.log('Could not get data for Page ', res);
+    } else {
+      client.updateToken(res.header.authorization);
+      updateStateCallback(res);
+    }
+  }
+
+  setPreExistingPageData(res) {
+    this.setState({
+      content: res.body.data.content,
+      name: res.body.data.name,
+      templates: res.body.data.templates,
+      editor: this.makeEditor()
+    })
+    if(!this.state.template_id) {
+      this.setState({
+        template_id: res.body.data.template_id
+      })
+    }
+    this.setState({
+      template: this.getTemplateComponent(this.state.template_id)
+    })
+  }
+
+  setNewPageData(res) {
+    this.setState({
+      templates: this.body.data.templates,
+      editor: this.makeEditor()
+    })
+  }
+
   componentDidMount(){
     this.setState({
       resourceURL: this.props.submitUrl
     });
 
-    if(this.props.context === 'edit'){
-      let client = new APIClient(this.context.store)
-      // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
-      client.get(this.state.resourceURL)
-        .then((res) => {
-          if (res.statusCode !== 200) {
-            // not status OK
-            console.log('Could not get data for Page ', res);
-          } else {
-            // this.setState({existingData: res.body.data})
-            client.updateToken(res.header.authorization);
+    let client = new APIClient(this.context.store)
 
-            this.setState({
-              content: res.body.data.content,
-              name: res.body.data.name,
-              templates: res.body.data.templates,
-              editor: this.makeEditor()
-            })
-            if(!this.state.template_id) {
-              this.setState({
-                template_id: res.body.data.template_id
-              })
-            }
-            this.setState({
-              template: this.getTemplateComponent(this.state.template_id)
-            })
-          }
-        }).catch((res) => {
-          console.log('Error: ', res)
-        })
+    if(this.props.context === 'edit'){
+      // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
+      client.get(this.state.resourceURL).then((res) => {
+         this.handleSuccessfulDataFetch(client, res, (res) => setPreExistingPageData(res))
+      }).catch((res) => {
+        console.log('Error: ', res)
+      })
     } else {
-      // If the context is not edit then just load the editor.
-      this.setState({editor: this.makeEditor()});
+      // The context otherwise will be 'new' in this case get a list of templates and make the Editor.
+      //
+      client.get('/page-templates').then((res) => {
+        this.handleSuccessfulDataFetch(client, res, (res) => setNewPageData(res))
+      }).catch((res) => {
+        console.log('Error: ', res)
+      })
     }
   }
 

@@ -162,7 +162,8 @@ class Editor {
         payload[key] = regionValue;
       })
     }
-    if(this.dirty_data) {
+    
+    if(this.dirty_data || (this.editContext === 'new')) {
       if(payload == null) {
         payload = {}
       }
