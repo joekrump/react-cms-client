@@ -2,9 +2,16 @@ body {
   background-color: #363636;
   background-image: url('/images/background.jpeg');
   background-attachment: fixed;
-  font-family: sans-serif;
+  font-family: 'Lato', sans-serif;
   margin: 0;
   color: #fff;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+h1, h2 {
+  font-weight: 300;
 }
 
 a {
