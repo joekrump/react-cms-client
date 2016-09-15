@@ -31,7 +31,9 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
     return (
       <AdminLayout>
         <div className="admin-edit">
-          <BackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
+          <FloatingPageMenu>
+            <BackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
+          </FloatingPageMenu>
           <h1>{context === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
 
           <ResourceForm 

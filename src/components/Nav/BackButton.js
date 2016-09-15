@@ -9,7 +9,7 @@ import s from './BackButton.scss'
 const BackButton = (props) => (
 
   <FlatButton
-    className='floating-back-btn'
+    className='back-btn'
     // backgroundColor={cyan500}
     hoverColor={cyan300}
     containerElement={<Link to={props.link} />}
