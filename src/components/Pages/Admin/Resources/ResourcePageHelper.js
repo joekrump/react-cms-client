@@ -6,7 +6,7 @@ import { singularizeName } from '../../../../helpers/ResourceHelper'
 import AdminLayout from '../Layout/AdminLayout'
 import PageEdit from '../../Templates/PageEdit';
 import EditPageLayout from '../Layout/EditPageLayout'
-import FloatingBackButton from '../../../Nav/FloatingBackButton'
+import BackButton from '../../../Nav/BackButton'
 
 export function getEditorContent(context, resourceNamePlural, resourceId, queryProps){
   const nameSingular = singularizeName(resourceNamePlural);
@@ -15,7 +15,6 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
     return (
       <EditPageLayout>
         <div className="admin-edit">
-          <FloatingBackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
           <PageEdit 
             submitUrl={context === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
             resourceType={nameSingular}
@@ -31,7 +30,7 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
     return (
       <AdminLayout>
         <div className="admin-edit">
-          <FloatingBackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
+          <BackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
           <h1>{context === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
 
           <ResourceForm 

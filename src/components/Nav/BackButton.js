@@ -4,9 +4,9 @@ import FlatButton from 'material-ui/FlatButton';
 import BackArrow from 'material-ui/svg-icons/navigation/arrow-back'
 import { fullWhite, cyan300 } from 'material-ui/styles/colors';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './FloatingBackButton.scss'
+import s from './BackButton.scss'
 
-const FloatingBackButton = (props) => (
+const BackButton = (props) => (
 
   <FlatButton
     className='floating-back-btn'
@@ -16,9 +16,8 @@ const FloatingBackButton = (props) => (
     label={props.label}
     labelStyle={{color: fullWhite}}
     // hoverColor={cyan500}
-    style={{position: 'fixed'}}
     icon={<BackArrow style={{ color: fullWhite }}/>}
   />
 )
 
-export default withStyles(s)(FloatingBackButton);
+export default withStyles(s)(BackButton);
