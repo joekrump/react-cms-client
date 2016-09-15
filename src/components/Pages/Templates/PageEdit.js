@@ -11,6 +11,8 @@ import HomePageTemplate from './HomePageTemplate'
 import ContactPageTemplate from './ContactPageTemplate'
 import BasicPageTemplate from './BasicPageTemplate'
 
+import TemplateDropDown from './TemplateDropDown'
+
 class PageEdit extends React.Component {
 
   constructor(props) {
@@ -20,6 +22,7 @@ class PageEdit extends React.Component {
       content: null,
       name: null,
       template: null,
+      templates: [],
       template_id: props.template_id,
       submitDisabled: false,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
@@ -83,6 +86,7 @@ class PageEdit extends React.Component {
             this.setState({
               content: res.body.data.content,
               name: res.body.data.name,
+              templates: res.body.data.templates,
               editor: this.makeEditor()
             })
             if(!this.state.template_id) {
@@ -152,7 +156,12 @@ class PageEdit extends React.Component {
   }
   
   render() {
-    return this.state.template
+    return (
+      <div>
+        <TemplateDropDown templateOptions={this.state.templates} defaultValue={this.props.template_id}/>
+        {this.state.template}
+      </div>
+    )
   }
 }
 

@@ -18,7 +18,7 @@ export default class TemplateDropDown extends React.Component {
 
   render() {
     let menuItems = this.props.templateOptions.map((option) => {
-      return (<MenuItem value={option.value} primaryText={option.text} />)
+      return (<MenuItem value={option.id} primaryText={option.display_name} />)
     })
     return (
       <div>
