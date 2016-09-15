@@ -6,6 +6,9 @@
  * @return {undefined}           No return from this function
  */
 export function loadScript(filepath, onLoadCallback, onErrorCallback){
+    if(typeof document === 'undefined'){
+        return;
+    }
     var fileref=document.createElement('script')
     
     if(onLoadCallback) {
@@ -38,6 +41,9 @@ export function loadScript(filepath, onLoadCallback, onErrorCallback){
  * @return {undefined}                No return from this function.
  */
 export function loadStylesheet(filepath, onLoadCallback, onErrorCallback) {
+    if(typeof document === 'undefined'){
+        return;
+    }
     var fileref=document.createElement("link")
 
     if(onLoadCallback) {

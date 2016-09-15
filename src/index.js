@@ -47,12 +47,14 @@ const store = storeHelper().setStore({
 
 const history = syncHistoryWithStore(browserHistory, store)
 
-ReactDOM.render((
-  <Provider store={store}>
-    <MuiThemeProvider muiTheme={muiTheme}>
-      <StyleContextProvider context={styleContext}>
-        <Router history={history} routes={getRoutes(store)} onUpdate={() => window.scrollTo(0, 0)} />
-      </StyleContextProvider>
-    </MuiThemeProvider>
-  </Provider>
-), document.getElementById('root'));
+if(typeof document !== 'undefined'){
+  ReactDOM.render((
+    <Provider store={store}>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <StyleContextProvider context={styleContext}>
+          <Router history={history} routes={getRoutes(store)} onUpdate={() => window.scrollTo(0, 0)} />
+        </StyleContextProvider>
+      </MuiThemeProvider>
+    </Provider>
+  ), document.getElementById('root'));
+}

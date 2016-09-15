@@ -12,15 +12,15 @@ import getRoutes from './routes'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import muiTheme from './muiTheme';
-// import StyleContextProvider from './components/StyleContextProvider'
+import StyleContextProvider from './components/StyleContextProvider'
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './redux/sagas'
 import reducers from './redux/reducers'
 
-// const styleContext = {
-//   insertCss: styles => styles._insertCss(),
-// };
+const styleContext = {
+  insertCss: styles => styles._insertCss(),
+};
 
 var path = require('path');
 
@@ -83,7 +83,9 @@ function renderPage(renderProps, store){
   return ReactDOMServer.renderToStaticMarkup(
     <Provider store={store}>
       <MuiThemeProvider muiTheme={muiTheme}>
+        <StyleContextProvider context={styleContext}>
         <RouterContext {...renderProps}/>
+        </StyleContextProvider>
       </MuiThemeProvider>
     </Provider>
   );
