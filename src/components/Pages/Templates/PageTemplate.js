@@ -15,17 +15,12 @@ class PageTemplate extends React.Component {
     this.state = {
       content: null,
       name: null,
-      templateName: null,
+      template: null,
+      template_id: props.template_id,
       submitDisabled: false,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
       editor: null
     }
-
-    if(props.context === 'edit') {
-      context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
-    }
-    
-    console.log(props.template_id);
   }
 
   getPageName(){
@@ -55,6 +50,14 @@ class PageTemplate extends React.Component {
       this.state.editor.destroyEditor();
     }
   }
+  componentWillMount() {
+    if(this.props.context === 'edit') {
+      this.context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
+    }
+    this.setState({
+      template: this.getTemplateComponent(this.props.template_id)
+    })
+  }
 
   componentDidMount(){
     this.setState({
@@ -73,11 +76,13 @@ class PageTemplate extends React.Component {
             // this.setState({existingData: res.body.data})
             client.updateToken(res.header.authorization);
 
-            this.setTemplate(res.body.data.template_id, this.setTemplateComponent);
             this.setState({
               content: res.body.data.content,
               name: res.body.data.name,
               editor: this.makeEditor()
+            })
+            this.setState({
+              template: this.getTemplateComponent()
             })
           }
         }).catch((res) => {
@@ -89,33 +94,62 @@ class PageTemplate extends React.Component {
     }
   }
 
-  setTemplate(template_id, callback){
-    let templateName = 'basic';
+  getTemplateComponent(template_id){
+    let template = null; 
 
     switch(template_id) {
       case 1: {
-        templateName = 'basic'
+        template = this.getBasicTemplate();
         break;
       }
       case 2: {
-        templateName = 'fancy'
+        template = 'fancy'
+        this.getFancyTemplate();
         break;
       }
       case 3: {
-        templateName = 'other'
+        template = 'other'
+        this.getOtherTemplate();
         break;
       }
       default: {
+        template = this.getBasicTemplate();
         break;
       }
     }
-    this.setState({templateName});
 
-    callback(templateName);
+    return template
   }
 
-  setTemplateComponent(templateName){
-    
+  getBasicTemplate(){
+    return (
+      <div>
+        <div data-editable data-name="name">
+          <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+        </div>
+        <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
+      </div>
+    )
+  }
+
+  getFancyTemplate(){
+    return (<div>
+      <div><h3>FANCY</h3></div>
+      <div data-editable data-name="name">
+        <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+      </div>
+      <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
+    </div>)
+  }
+
+  getOtherTemplate(){
+    return (<div>
+      <div><h3>OTHER</h3></div>
+      <div data-editable data-name="name">
+        <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+      </div>
+      <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
+    </div>)
   }
 
   makeEditor(){
@@ -140,15 +174,7 @@ class PageTemplate extends React.Component {
   }
   
   render() {
-
-    return (
-      <div>
-        <div data-editable data-name="name">
-          <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
-        </div>
-        <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
-      </div>
-    )
+    return this.state.template
   }
 }
 
