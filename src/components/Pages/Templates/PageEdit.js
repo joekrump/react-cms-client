@@ -43,12 +43,8 @@ class PageEdit extends React.Component {
   handleSaveSuccess(url, passive){
     if(url) {
       this.store.dispatch(replace('/admin/' + url + '/edit'))
-
-      this.setState({
-        resourceURL: url
-      });
     }
-
+    console.log('Passive', passive)
     if (!passive) {
       new ContentTools.FlashUI('ok');
     }
@@ -85,7 +81,9 @@ class PageEdit extends React.Component {
     if (res.statusCode !== 200) {
       console.log('Could not get data for Page ', res);
     } else {
-      client.updateToken(res.header.authorization);
+      if(res.header && res.header.authorization) {
+        client.updateToken(res.header.authorization);
+      }
       updateStateCallback(res);
     }
   }
@@ -109,7 +107,7 @@ class PageEdit extends React.Component {
 
   setNewPageData(res) {
     this.setState({
-      templates: this.body.data.templates,
+      templates: res.body.data,
       editor: this.makeEditor()
     })
   }
@@ -124,15 +122,15 @@ class PageEdit extends React.Component {
     if(this.props.context === 'edit'){
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
       client.get(this.state.resourceURL).then((res) => {
-         this.handleSuccessfulDataFetch(client, res, (res) => setPreExistingPageData(res))
+         this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
       }).catch((res) => {
         console.log('Error: ', res)
       })
     } else {
       // The context otherwise will be 'new' in this case get a list of templates and make the Editor.
       //
-      client.get('/page-templates').then((res) => {
-        this.handleSuccessfulDataFetch(client, res, (res) => setNewPageData(res))
+      client.get('page-templates').then((res) => {
+        this.handleSuccessfulDataFetch(client, res, (res) => this.setNewPageData(res))
       }).catch((res) => {
         console.log('Error: ', res)
       })

@@ -18,6 +18,10 @@ export default class TemplateDropDown extends React.Component {
   }
 
   render() {
+    if(!this.props.templateOptions.length === 0) {
+      return null;
+    }
+
     let menuItems = this.props.templateOptions.map((option) => {
       return (<MenuItem key={'template-option-' + option.id} value={option.id} primaryText={option.display_name} />)
     })
