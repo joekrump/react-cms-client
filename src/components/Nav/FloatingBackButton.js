@@ -16,6 +16,7 @@ const FloatingBackButton = (props) => (
     label={props.label}
     labelStyle={{color: fullWhite}}
     // hoverColor={cyan500}
+    style={{position: 'fixed'}}
     icon={<BackArrow style={{ color: fullWhite }}/>}
   />
 )
