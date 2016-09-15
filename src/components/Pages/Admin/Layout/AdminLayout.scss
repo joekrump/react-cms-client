@@ -1,0 +1,24 @@
+.admin-container{
+  padding-top: 63px;
+  width: 80%;
+  margin: 0 auto;
+  text-align: inherit;
+}
+
+@media (max-width: 900px){
+  .admin-container {
+    width: 80%;
+      margin: 0 auto;
+  }
+}
+@media (max-width: 500px){
+  .admin-container {
+    width: 96%;
+    min-width: 300px;
+  }
+}
+@media (min-width: 901px) {
+  .admin-container {
+    width: 980px;
+  }
+}

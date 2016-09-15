@@ -1,5 +1,7 @@
 import React from 'react'
 import SpeedDial from '../../../Menu/SpeedDial'
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './AdminLayout.scss'
 
 const AdminLayout = (props) => (
   <div className="admin-container">
@@ -8,4 +10,4 @@ const AdminLayout = (props) => (
   </div>
 );
 
-export default AdminLayout;
+export default withStyles(s)(AdminLayout);
