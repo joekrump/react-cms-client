@@ -48,6 +48,7 @@ class IndexItem extends React.Component{
     // 
     delete queryProps.primary;
 
+    console.log(queryProps);
     return(
         <ListItem
           className="index-list-item"

@@ -9,7 +9,7 @@ import ContentTools from 'ContentTools';
 
 class PageTemplate extends React.Component {
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -81,8 +81,13 @@ class PageTemplate extends React.Component {
               name: res.body.data.name,
               editor: this.makeEditor()
             })
+            if(!this.state.template_id) {
+              this.setState({
+                template_id: res.body.data.template_id
+              })
+            }
             this.setState({
-              template: this.getTemplateComponent()
+              template: this.getTemplateComponent(this.state.template_id)
             })
           }
         }).catch((res) => {
@@ -96,6 +101,7 @@ class PageTemplate extends React.Component {
 
   getTemplateComponent(template_id){
     let template = null; 
+    template_id = parseInt(template_id);
 
     switch(template_id) {
       case 1: {
@@ -103,13 +109,11 @@ class PageTemplate extends React.Component {
         break;
       }
       case 2: {
-        template = 'fancy'
-        this.getFancyTemplate();
+        template = this.getFancyTemplate();
         break;
       }
       case 3: {
-        template = 'other'
-        this.getOtherTemplate();
+        template = this.getOtherTemplate();
         break;
       }
       default: {
