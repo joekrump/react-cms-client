@@ -23,4 +23,33 @@
   &.other {
     background-color: #09a08a;
   }
+  .page-container{
+    width: 80%;
+    margin: 0 auto;
+    text-align: inherit;
+  }
+}
+
+@media (max-width: 900px){
+  .page {
+    .page-container {
+      width: 80%;
+        margin: 0 auto;
+    }
+  }
+}
+@media (max-width: 500px){
+  .page {
+    .page-container {
+      width: 96%;
+    }
+    min-width: 300px;
+  }
+}
+@media (min-width: 901px) {
+  .page {
+    .page-container {
+      width: 980px;
+    }
+  }
 }

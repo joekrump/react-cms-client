@@ -128,31 +128,41 @@ class PageTemplate extends React.Component {
 
   getBasicTemplate(){
     return (
-      <div className="page">
-        <div data-editable data-name="name">
-          <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+      <div className="page basic">
+        <div className="page-container">
+          <div data-editable data-name="name">
+            <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+          </div>
+          <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
         </div>
-        <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
       </div>
     )
   }
 
   getFancyTemplate(){
-    return (<div className="page fancy">
-      <div data-editable data-name="name">
-        <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+    return (
+      <div className="page fancy">
+        <div className="page-container">
+          <div data-editable data-name="name">
+            <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+          </div>
+          <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
+        </div>
       </div>
-      <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
-    </div>)
+    )
   }
 
   getOtherTemplate(){
-    return (<div className="page other">
-      <div data-editable data-name="name">
-        <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+    return (
+      <div className="page other">
+        <div className="page-container">
+          <div data-editable data-name="name">
+            <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
+          </div>
+          <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
+        </div>
       </div>
-      <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
-    </div>)
+    )
   }
 
   makeEditor(){
