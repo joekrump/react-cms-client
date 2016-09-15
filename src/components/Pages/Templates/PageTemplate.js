@@ -15,6 +15,7 @@ class PageTemplate extends React.Component {
     this.state = {
       content: null,
       name: null,
+      templateName: null,
       submitDisabled: false,
       submitURL: '',
       editor: null
@@ -65,8 +66,10 @@ class PageTemplate extends React.Component {
           } else {
             // this.setState({existingData: res.body.data})
             client.updateToken(res.header.authorization);
+
+            this.setTemplate(res.body.data.template_id, this.setTemplateComponent);
             this.setState({
-              content: res.body.data.editor_contents,
+              content: res.body.data.content,
               name: res.body.data.name,
               editor: this.makeEditor()
             })
@@ -78,6 +81,35 @@ class PageTemplate extends React.Component {
       // If the context is not edit then just load the editor.
       this.setState({editor: this.makeEditor()});
     }
+  }
+
+  setTemplate(template_id, callback){
+    let templateName = 'basic';
+
+    switch(template_id) {
+      case 1: {
+        templateName = 'basic'
+        break;
+      }
+      case 2: {
+        templateName = 'fancy'
+        break;
+      }
+      case 3: {
+        templateName = 'other'
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    this.setState({templateName});
+
+    callback(templateName);
+  }
+
+  setTemplateComponent(templateName){
+    
   }
 
   makeEditor(){
@@ -102,12 +134,13 @@ class PageTemplate extends React.Component {
   }
   
   render() {
+
     return (
       <div>
         <div data-editable data-name="name">
-          <h1>{this.state.name ? this.state.name : ''}</h1>
+          <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
         </div>
-        <div data-editable data-name="content" dangerouslySetInnerHTML={{__html: this.state.content}} />
+        <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
       </div>
     )
   }

@@ -9,7 +9,7 @@ const IndexItemActions = (props) => {
   return (
     <div className="action-button-container">
       {props.extraButtons ? props.extraButtons : null}
-      <EditButton resourceType={props.resourceType} id={props.id} />
+      <EditButton resourceType={props.resourceType} id={props.id} queryProps={{...props.queryProps}}/>
       <DeleteButton resourceType={props.resourceType} id={props.id} showItemCallback={props.deleteCallback}/>
     </div>
   );

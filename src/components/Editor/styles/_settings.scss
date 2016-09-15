@@ -9,13 +9,14 @@ $base-z-index: 9999 !default;
  * For UI widgets that appear on the page (as opposed to appearing in front of a
  * modal screen) we define a base background colour.
  */
-$in-page-background: #0288D1 !default;
+$in-page-background: transparent !default;
 
 /**
  * The colour used when casting shadows for widgets that appear to float.
  */
 $shadow-color: rgba(black, 0.35) !default;
 
+$toolbox-background: #212121 !default;
 /**
  * Confirm, Cancel and Edit actions are common amoung the various ui components.
  * Each action has an associated/common colour.
@@ -29,7 +30,7 @@ $muted-action-color: #E0E0E0 !default;
  * The background colour used to highlight editiable regions to users when they
  * hold down the shift key.
  */
-$highlight-color: rgba(#0288D1, 0.25) !default;
+$highlight-color: transparent  !default;
 
 
 /**

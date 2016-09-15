@@ -7,7 +7,7 @@ $image-path-prefix: './external/styles/images/' !default;
 /**
  * Colours common to the UI,
  */
-$highlight-color: #0288D1 !default;
+$highlight-color: transparent !default;
 
 
 /**
@@ -154,7 +154,7 @@ $highlight-color: #0288D1 !default;
      */
     &--empty {
         &:after {
-            content: 'Compose Something Epic...';
+            content: '...';
             display: inline-block;
             font-style: italic;
             opacity: 0.8;
@@ -256,7 +256,7 @@ $highlight-color: #0288D1 !default;
      */
     &--focused,
     &--over {
-        background-color: rgba($highlight-color, 0.3);
+        background-color: $highlight-color;
         outline: none;
         /**
          * For images and videos we add an outline so as not to distort their

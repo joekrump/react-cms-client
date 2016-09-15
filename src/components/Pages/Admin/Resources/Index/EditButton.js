@@ -20,7 +20,10 @@ const EditButton = (props) => {
     <IconButton style={styles.buttonStyles} tooltip="Edit" 
       tooltipPosition='top-center' 
       containerElement={
-        <Link to={'/admin/' + props.resourceType + '/' + props.id + '/edit'} />
+        <Link to={{
+          pathname: '/admin/' + props.resourceType + '/' + props.id + '/edit',
+          query: {...props.queryProps}
+        }} />
       }
     >
       <EditIcon style={styles.smallIcon} />

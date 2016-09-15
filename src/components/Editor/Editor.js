@@ -114,8 +114,6 @@ class Editor {
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
       let client = new APIClient(this.store);
 
-      console.log(this);
-
       client[httpMethod](submitURL, true, {data: payload})
       .then((res) => {
         if (res.statusCode !== 200) {

@@ -42,11 +42,19 @@ class IndexItem extends React.Component{
       style.height = 0;
       style.padding = 0;
     }
+    // console.log(this.props);
     return(
         <ListItem
           className="index-list-item"
           disabled
-          rightIconButton={<IndexItemActions resourceType={this.props.resourceType} id={this.props.id} deleteCallback={ () => this.showItem() }/>}
+          rightIconButton={
+            <IndexItemActions 
+              resourceType={this.props.resourceType} 
+              id={this.props.id} 
+              deleteCallback={ () => this.showItem() } 
+              queryProps={{...this.props.extraData}} 
+            />
+          }
           primaryText={this.getText()}
           style={{...style}}
         />

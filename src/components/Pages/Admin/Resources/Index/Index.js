@@ -51,7 +51,13 @@ class Index extends React.Component {
     if(!this.state.loading){
       if(this.state.items.length > 0) {
         items = this.state.items.map((item) => (
-          <IndexItem key={item.id} id={item.id} primary={item.primary} secondary={item.secondary} resourceType={this.props.params.resourceNamePlural} />
+          <IndexItem key={item.id} 
+            id={item.id} 
+            primary={item.primary} 
+            secondary={item.secondary} 
+            resourceType={this.props.params.resourceNamePlural} 
+            extraData={{...item}}
+          />
         ));
       } else {
         items = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);

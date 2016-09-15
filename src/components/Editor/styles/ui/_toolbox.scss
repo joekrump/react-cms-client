@@ -26,8 +26,8 @@
          * storage). However we set a default position for the first time the
          * toolbox is displayed.
          */
-        background: rgba($in-page-background, 0.9);
-        border: 1px solid rgba(lighten($in-page-background, 10%), 0.5);
+        background: $toolbox-background;
+        border: 1px solid rgba(lighten($toolbox-background, 10%), 0.5);
         box-shadow: 0 3px 3px $shadow-color;
         left: 128px;
         padding: $spacing;
