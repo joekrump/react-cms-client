@@ -1,16 +1,16 @@
 import React from 'react'
-
+import FrontendLayout from '../../../Layout/FrontendLayout'
 // import { connect } from 'react-redux'
 
 const ForgotPassword = () => ({
   
   render() {
     return (
-
-      <div className="password-reset">
-        <h1>Reset Password</h1>
-
-      </div>
+      <FrontendLayout>
+        <div className="password-reset">
+          <h1>Reset Password</h1>
+        </div>
+      </FrontendLayout>
     );
   }
 });

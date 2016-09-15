@@ -4,9 +4,10 @@ import Snackbar from 'material-ui/Snackbar';
 import PaymentContent from '../Partials/PaymentContent';
 import { connect } from 'react-redux';
 import { grey100 } from 'material-ui/styles/colors';
+import FrontendLayout from '../../../Layout/FrontendLayout'
 
 const DonationPage = (props) => (
-  <div>
+  <FrontendLayout>
     <h1>Donation Page</h1>
     <Paper zDepth={2} className="form-container">
       <PaymentContent />
@@ -25,7 +26,7 @@ const DonationPage = (props) => (
         onRequestClose={() => props.toggleSnackBar(false)}
       />
     </Paper>
-  </div>
+  </FrontendLayout>
 );
 
 const mapStateToProps = (state) => {

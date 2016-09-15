@@ -21,7 +21,8 @@ a:hover {
   color: green;
 }
 
-.admin-container {
+// A container class for !admin pages.
+.frontend-container {
   padding-top: 65px;
   margin: 0 auto;
 }
@@ -39,18 +40,18 @@ a:hover {
 }
 
 @media (max-width: 900px){
-  .admin-container {
+  .frontend-container {
     width: 80%;
   }
 }
 @media (max-width: 500px){
-  .admin-container {
+  .frontend-container {
     width: 96%;
     min-width: 300px;
   }
 }
 @media (min-width: 901px) {
-  .admin-container {
+  .frontend-container {
     width: 980px;
   }
 }

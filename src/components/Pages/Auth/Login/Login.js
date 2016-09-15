@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../../../auth';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import FrontendLayout from '../../../Layout/FrontendLayout'
 
 class Login extends React.Component{
   constructor(props) {
@@ -47,34 +48,36 @@ class Login extends React.Component{
   }
   render() {
     return (
-      <div className="login" onSubmit={(event) => this.handleSubmit(event)}>
-        <h1>Login</h1>
-        <form>
-          <TextField
-            hintText="Email"
-            floatingLabelText="Email"
-            type="text"
-            name="email"
-            ref="loginEmail"
-            onChange={(event) => this.handleChange(event)}
-            autoFocus
-          /><br />
-          <TextField
-            hintText="Password"
-            floatingLabelText="Password"
-            type="password"
-            name="password"
-            ref="loginPassword"
-            onChange={(event) => this.handleChange(event)}
-          /><br />
-          <RaisedButton label="Login" primary onTouchTap={(event) => this.handleSubmit(event)} type="submit" />
-          {this.state.error && (
-            <p>Bad login information</p>
-          )}
-        </form>
-        <br/>
-        <Link to="forgot-password">Forgot Passord?</Link>
-      </div>
+      <FrontendLayout>
+        <div className="login" onSubmit={(event) => this.handleSubmit(event)}>
+          <h1>Login</h1>
+          <form>
+            <TextField
+              hintText="Email"
+              floatingLabelText="Email"
+              type="text"
+              name="email"
+              ref="loginEmail"
+              onChange={(event) => this.handleChange(event)}
+              autoFocus
+            /><br />
+            <TextField
+              hintText="Password"
+              floatingLabelText="Password"
+              type="password"
+              name="password"
+              ref="loginPassword"
+              onChange={(event) => this.handleChange(event)}
+            /><br />
+            <RaisedButton label="Login" primary onTouchTap={(event) => this.handleSubmit(event)} type="submit" />
+            {this.state.error && (
+              <p>Bad login information</p>
+            )}
+          </form>
+          <br/>
+          <Link to="forgot-password">Forgot Passord?</Link>
+        </div>
+      </FrontendLayout>
     );
   }
 }

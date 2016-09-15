@@ -1,6 +1,7 @@
 import React from 'react'
 import ResourceForm from '../../../Forms/ResourceForm';
 import { connect } from 'react-redux';
+import FrontendLayout from '../../../Layout/FrontendLayout'
 
 const SignUp = () => ({
   loginNewUser($user, $token){
@@ -8,18 +9,19 @@ const SignUp = () => ({
   },
   render() {
     return (
+      <FrontendLayout>
+        <div className="user-signup">
+          <h1>Sign Up</h1>
 
-      <div className="user-signup">
-        <h1>Sign Up</h1>
-
-        <ResourceForm 
-          formName={'signupForm'} 
-          submitUrl={'auth/signup'}
-          resourceType='user'
-          context='new'
-          loginCallback={this.loginNewUser.bind(this)}
-        />
-      </div>
+          <ResourceForm 
+            formName={'signupForm'} 
+            submitUrl={'auth/signup'}
+            resourceType='user'
+            context='new'
+            loginCallback={this.loginNewUser.bind(this)}
+          />
+        </div>
+      </FrontendLayout>
     );
   }
 });
