@@ -6,8 +6,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../Editor/styles/content-tools.scss';
 import { replace } from 'react-router-redux'
 import ContentTools from 'ContentTools';
+// Available templates
 import HomePageTemplate from './HomePageTemplate'
 import ContactPageTemplate from './ContactPageTemplate'
+import BasicPageTemplate from './BasicPageTemplate'
 
 class PageTemplate extends React.Component {
 
@@ -108,49 +110,24 @@ class PageTemplate extends React.Component {
 
     switch(template_id) {
       case 1: {
-        template = this.getBasicTemplate();
+        template = (<BasicPageTemplate name={this.state.name} content={this.state.content} />)
         break;
       }
       case 2: {
-        template = this.getFancyTemplate();
+        template = (<ContactPageTemplate name={this.state.name} content={this.state.content} />)
         break;
       }
       case 3: {
-        template = this.getOtherTemplate();
+        template = (<HomePageTemplate name={this.state.name} content={this.state.content} />);
         break;
       }
       default: {
-        template = this.getBasicTemplate();
+        template = (<BasicPageTemplate name={this.state.name} content={this.state.content} />)
         break;
       }
     }
 
     return template
-  }
-
-  getBasicTemplate(){
-    return (
-      <div className="page basic">
-        <div className="page-container">
-          <div data-editable data-name="name">
-            <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
-          </div>
-          <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
-        </div>
-      </div>
-    )
-  }
-
-  getFancyTemplate(){
-    return (
-      <ContactPageTemplate name={this.state.name} content={this.state.content} />
-    )
-  }
-
-  getOtherTemplate(){
-    return (
-      <HomePageTemplate name={this.state.name} content={this.state.content} />
-    )
   }
 
   makeEditor(){
