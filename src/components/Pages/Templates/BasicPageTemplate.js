@@ -1,4 +1,6 @@
 import React from 'react'
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './BasicPageTemplate.scss';
 
 const BasicPageTemplate = (props) => (
   <div className="page basic">
@@ -11,4 +13,4 @@ const BasicPageTemplate = (props) => (
   </div>
 )
 
-export default BasicPageTemplate;
+export default withStyles(s)(BasicPageTemplate);

@@ -1,0 +1,11 @@
+.page {
+  &.home {
+    background-color: #1fbcd2;
+    .big-box {
+      border: 1px solid white;
+      padding: 30px;
+      text-align: center;
+      margin: 15px auto;
+    }
+  }
+}
