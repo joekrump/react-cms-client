@@ -128,7 +128,7 @@ class PageTemplate extends React.Component {
 
   getBasicTemplate(){
     return (
-      <div>
+      <div className="page">
         <div data-editable data-name="name">
           <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
         </div>
@@ -138,8 +138,7 @@ class PageTemplate extends React.Component {
   }
 
   getFancyTemplate(){
-    return (<div style={{backgroundColor: '#2980b9'}}>
-      <div><h3>FANCY</h3></div>
+    return (<div className="page fancy">
       <div data-editable data-name="name">
         <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
       </div>
@@ -148,8 +147,7 @@ class PageTemplate extends React.Component {
   }
 
   getOtherTemplate(){
-    return (<div style={{backgroundColor: '#09a08a'}}>
-      <div><h3>OTHER</h3></div>
+    return (<div className="page other">
       <div data-editable data-name="name">
         <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
       </div>

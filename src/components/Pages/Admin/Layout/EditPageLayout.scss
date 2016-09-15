@@ -2,3 +2,25 @@
   padding-top: 63px;
   width: 100%;
 }
+
+.page {
+
+  .align-right {
+    float: right;
+  }
+  .align-left {
+    float: left;
+  }
+  
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  &.fancy {
+    background-color: #2980b9;
+  }
+  &.other {
+    background-color: #09a08a;
+  }
+}
