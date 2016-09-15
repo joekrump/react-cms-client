@@ -38,49 +38,12 @@ app.set('views', path.join(basePath, 'build'));
 app.use('/', express.static('build'));
 app.set('port', (process.env.PORT || 3001))
 
-function renderPage(renderProps){
-  return ReactDOMServer.renderToStaticMarkup(
-    <Provider store={store}>
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <RouterContext {...renderProps}/>
-      </MuiThemeProvider>
-    </Provider>
-  );
-}
-
 const sagaMiddleware = createSagaMiddleware()
-
-
-
-/* configure store */
-// function configureStore(memoryHistory, initialState) {
-
-//   const middleware = {
-//     routerMiddleware(memoryHistory),
-//     sagaMiddleware
-//   }
-//   const reducers = {
-//     ...reducers,
-//     routing: routerReducer
-//   }
-
-//   return makeStore(reducers, middleware, () => sagaMiddleware.run(rootSaga));
-// }
 
 app.get('*',(req, res) => {
 
   const memoryHistory = createMemoryHistory(req.path)
-  const store = storeHelper().setStore({
-    ...reducers,
-    routing: routerReducer
-  },
-  [
-    sagaMiddleware,
-    routerMiddleware(memoryHistory)
-  ], () => {
-    // Run the saga
-    sagaMiddleware.run(rootSaga)
-  });
+  const store = makeStore(sagaMiddleware, memoryHistory)
   // syncHistoryWithStore(memoryHistory, store)
   const routes        = getRoutes(store);
 
@@ -91,7 +54,7 @@ app.get('*',(req, res) => {
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      res.locals.reactMarkup = renderPage(renderProps);
+      res.locals.reactMarkup = renderPage(renderProps, store);
       // Success!
       res.status(200).render('index.html')
     
@@ -101,6 +64,30 @@ app.get('*',(req, res) => {
     }
   })
 })
+
+function makeStore(sagaMiddleware, memoryHistory) {
+  return storeHelper().setStore({
+    ...reducers,
+    routing: routerReducer
+  },
+  [
+    sagaMiddleware,
+    routerMiddleware(memoryHistory)
+  ], () => {
+    // Run the saga
+    sagaMiddleware.run(rootSaga)
+  });
+}
+
+function renderPage(renderProps, store){
+  return ReactDOMServer.renderToStaticMarkup(
+    <Provider store={store}>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <RouterContext {...renderProps}/>
+      </MuiThemeProvider>
+    </Provider>
+  );
+}
 
 app.listen(app.get('port'))
 
