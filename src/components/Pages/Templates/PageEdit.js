@@ -12,7 +12,9 @@ import ContactPageTemplate from './ContactPageTemplate'
 import BasicPageTemplate from './BasicPageTemplate'
 
 import TemplateDropDown from './TemplateDropDown'
-
+import BackButton from '../../Nav/BackButton'
+import FloatingPageMenu from '../../Menu/FloatingPageMenu'
+          
 class PageEdit extends React.Component {
 
   constructor(props) {
@@ -174,11 +176,14 @@ class PageEdit extends React.Component {
   render() {
     return (
       <div>
-        <TemplateDropDown 
-          templateOptions={this.state.templates} 
-          defaultValue={this.props.template_id} 
-          onChangeCallback={(event) => this.handleTemplateChange(event)} 
-        />
+        <FloatingPageMenu>
+          <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
+          <TemplateDropDown 
+            templateOptions={this.state.templates} 
+            defaultValue={this.props.template_id} 
+            onChangeCallback={(event) => this.handleTemplateChange(event)} 
+          />
+        </FloatingPageMenu>
         {this.state.template}
       </div>
     )

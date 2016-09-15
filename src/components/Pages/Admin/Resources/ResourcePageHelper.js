@@ -7,6 +7,7 @@ import AdminLayout from '../Layout/AdminLayout'
 import PageEdit from '../../Templates/PageEdit';
 import EditPageLayout from '../Layout/EditPageLayout'
 import BackButton from '../../../Nav/BackButton'
+import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
 
 export function getEditorContent(context, resourceNamePlural, resourceId, queryProps){
   const nameSingular = singularizeName(resourceNamePlural);
