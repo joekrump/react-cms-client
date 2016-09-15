@@ -77,8 +77,10 @@ class Editor {
   }
 
   handleKeyDown(event) {
-    // If not editing then return early.
-    if(this.editor.getState().toUpperCase() !== 'EDITING') {
+    let editorState = this.editor.getState().toUpperCase();
+    // If editor is not in a state of EDITING and is also not in a READY state with dirty_data == true
+    // then return early.
+    if(editorState !== 'EDITING' && (editorState !== 'READY' && this.dirty_data)) {
       return;
     }
     // If the control key is not down in the editor then return early.
@@ -128,7 +130,6 @@ class Editor {
     this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
   }
   handleEditStop(event) {
-
     // Stop the autosave
     clearInterval(this.editor.autoSaveTimer);
   }
