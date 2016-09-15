@@ -6,7 +6,7 @@ import PageTemplate from '../../Templates/PageTemplate';
 import { capitalize } from '../../../../helpers/StringHelper'
 import { singularizeName } from '../../../../helpers/ResourceHelper'
 
-export function getEditorContent(context, resourceNamePlural, resourceId, otherProps){
+export function getEditorContent(context, resourceNamePlural, resourceId, queryProps){
   const nameSingular = singularizeName(resourceNamePlural);
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
@@ -17,7 +17,7 @@ export function getEditorContent(context, resourceNamePlural, resourceId, otherP
         resourceId={resourceId}
         resourceNamePlural={resourceNamePlural}
         context={context}
-        template_id={otherProps ? otherProps.template_id : 1}
+        template_id={queryProps ? queryProps.template_id : 1}
       />
     )
   } else {
