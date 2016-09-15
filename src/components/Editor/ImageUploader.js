@@ -76,6 +76,9 @@ export const parseCloudinaryURL = (url) => {
   return [filename, transforms];
 }
 
+const maxWidth = 2000;
+const maxHeight = maxWidth;
+
 export class ImageUploader {
 
   constructor(dialog) {
@@ -228,11 +231,11 @@ export class ImageUploader {
       }
 
     // Resize (the image is inserted in the page at a default size)
-    if (this.image.width > 1000 || this.image.height > 1000) {
-      transforms.push({c: 'fit', w: 1000, h: 1000});
+    if (this.image.width > maxWidth || this.image.height > maxHeight) {
+      transforms.push({c: 'fit', w: maxWidth, h: maxHeight});
 
         // Update the size of the image in-line with the resize
-        ratio = Math.min(1000 / this.image.width, 1000 / this.image.height);
+        ratio = Math.min(maxWidth / this.image.width, maxHeight / this.image.height);
         this.image.width *= ratio;
         this.image.height *= ratio;
       }
@@ -269,7 +272,7 @@ export class ImageUploader {
     this.image.maxWidth = width;
     
     // Build the transform to rotate the image
-    transforms = [{c: 'fit', h: 1000, w: 1000}];
+    transforms = [{c: 'fit', h: maxWidth, w: maxHeight}];
     if (this.image.angle > 0) {
       transforms.unshift({a: this.image.angle});
     }

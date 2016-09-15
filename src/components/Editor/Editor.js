@@ -85,6 +85,12 @@ class Editor {
     clearInterval(this.editor.autoSaveTimer);
   }
   handleSave(event, submitURL) {
+    // console.log('Event: ', event)
+    // console.log('this: ', this)
+    if(!submitURL) {
+      // IF no URL to save to is provided then return early
+      return;
+    }
     var passive, regions;
 
     // Check if this was a passive save
