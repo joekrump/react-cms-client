@@ -9,7 +9,7 @@ import ContentTools from 'ContentTools';
 
 class PageTemplate extends React.Component {
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
 
     this.state = {
@@ -17,9 +17,15 @@ class PageTemplate extends React.Component {
       name: null,
       templateName: null,
       submitDisabled: false,
-      submitURL: '',
+      resourceURL: props.resourceNamePlural + '/' + props.resourceId,
       editor: null
     }
+
+    if(props.context === 'edit') {
+      context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
+    }
+    
+    console.log(props.template_id);
   }
 
   getPageName(){
@@ -27,7 +33,7 @@ class PageTemplate extends React.Component {
   }
 
   getSubmitURL(){
-    return this.state.submitURL
+    return this.state.resourceURL
   }
 
   handleSaveSuccess(url, passive){
@@ -35,7 +41,7 @@ class PageTemplate extends React.Component {
       this.store.dispatch(replace('/admin/' + url + '/edit'))
 
       this.setState({
-        submitURL: url
+        resourceURL: url
       });
     }
 
@@ -52,13 +58,13 @@ class PageTemplate extends React.Component {
 
   componentDidMount(){
     this.setState({
-      submitURL: this.props.submitUrl
+      resourceURL: this.props.submitUrl
     });
 
     if(this.props.context === 'edit'){
       let client = new APIClient(this.context.store)
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
-      client.get(this.props.resourceNamePlural + '/' + this.props.resourceId)
+      client.get(this.state.resourceURL)
         .then((res) => {
           if (res.statusCode !== 200) {
             // not status OK

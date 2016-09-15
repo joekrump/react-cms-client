@@ -2,7 +2,6 @@ import React from 'react';
 import ResourceForm from '../../../Forms/ResourceForm';
 import AppConfig from '../../../../../app_config/app';
 import PageTemplate from '../../Templates/PageTemplate';
-
 import { capitalize } from '../../../../helpers/StringHelper'
 import { singularizeName } from '../../../../helpers/ResourceHelper'
 
