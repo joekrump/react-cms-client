@@ -96,7 +96,7 @@ class Editor {
       if(event.keyCode === sKeyCode) {
         // save() already checks to see if there is dirty data before it issues a request to the server
         // so no need to check it again here.
-        this.editor.save(true);
+        this.editor.save(false);
         handled = true;
       }
     }
