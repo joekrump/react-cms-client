@@ -6,6 +6,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../Editor/styles/content-tools.scss';
 import { replace } from 'react-router-redux'
 import ContentTools from 'ContentTools';
+import HomePageTemplate from './HomePageTemplate'
 
 class PageTemplate extends React.Component {
 
@@ -154,14 +155,7 @@ class PageTemplate extends React.Component {
 
   getOtherTemplate(){
     return (
-      <div className="page other">
-        <div className="page-container">
-          <div data-editable data-name="name">
-            <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
-          </div>
-          <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.state.content}} />
-        </div>
-      </div>
+      <HomePageTemplate name={this.state.name} content={this.state.content} />
     )
   }
 
