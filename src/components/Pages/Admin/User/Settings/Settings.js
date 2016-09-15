@@ -1,7 +1,7 @@
 import React from 'react'
 import ResourceForm from '../../../../Forms/ResourceForm';
 import { connect } from 'react-redux'
-
+import AdminLayout from '../../Layout/AdminLayout'
 const Settings = () => ({
   
   render() {
@@ -9,18 +9,20 @@ const Settings = () => ({
       return null;
     } else {
       return (
-        <div className="user-settings">
-          <h1>User Settings</h1>
+        <AdminLayout>
+          <div className="user-settings">
+            <h1>User Settings</h1>
 
-          <ResourceForm 
-            formName={'userForm'} 
-            submitUrl={'users/' + this.props.user.id}
-            resourceId={this.props.user.id}
-            resourceType='user'
-            resourceNamePlural='users'
-            context='edit'
-          />
-        </div>
+            <ResourceForm 
+              formName={'userForm'} 
+              submitUrl={'users/' + this.props.user.id}
+              resourceId={this.props.user.id}
+              resourceType='user'
+              resourceNamePlural='users'
+              context='edit'
+            />
+          </div>
+        </AdminLayout>
       );
     }   
   }
