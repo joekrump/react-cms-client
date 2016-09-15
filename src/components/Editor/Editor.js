@@ -2,6 +2,8 @@ import APIClient from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
 
+const sKeyCode = 83;
+
 class Editor {
 
   constructor(getPageName, submitURL, handleSaveSuccess, context, resourceNamePlural, store) {
@@ -61,7 +63,38 @@ class Editor {
     this.editor.addEventListener('saved', (event) => {this.handleSave(event, this.submitURL)});
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
     this.editor.addEventListener('stop', this.handleEditStop.bind(this));
-    // Start the editor for the page by default.
+
+    if(typeof window !== 'undefined') {
+      window.addEventListener('keydown', (event) => this.handleKeyDown(event));
+    }
+  }
+
+  handleKeyDown(event) {
+    // If not editing then return early.
+    if(this.editor.getState().toUpperCase() !== 'EDITING') {
+      return;
+    }
+    // If the control key is not down in the editor then return early.
+    if(!this.editor.ctrlDown()) {
+      return;
+    }
+    this.handleKeyboardSave(event);
+  }
+
+  handleKeyboardSave(event) {
+    let handled = false;
+    if (event.keyCode !== undefined) {
+      if(event.keyCode === sKeyCode) {
+        // save() already checks to see if there is dirty data before it issues a request to the server
+        // so no need to check it again here.
+        this.editor.save(true);
+        handled = true;
+      }
+    }
+
+    if(handled) {
+      event.preventDefault();
+    }
   }
 
   createImageUploader(dialog){
@@ -69,6 +102,9 @@ class Editor {
   }
 
   destroyEditor(){
+    if(typeof window !== 'undefined') {
+      window.removeEventListener('keydown', (event) => this.handleKeyDown(event));
+    }
     this.editor.destroy();
     this.submitURL = null;
     this.handleSaveSuccess = null;
