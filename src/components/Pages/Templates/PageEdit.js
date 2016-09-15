@@ -71,6 +71,9 @@ class PageEdit extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     // If there has been a change to the template_id then rerender the page with the
     // corresponding template.
+    if(this.state.editor === null && nextState.editor !== null) {
+      console.log('State of Editor that has been added:', nextState.editor.editor.getState())
+    }
     if(this.state.template_id !== nextState.template_id){
       this.setState({
         template: this.getTemplateComponent(nextState.template_id)
@@ -122,7 +125,7 @@ class PageEdit extends React.Component {
   getTemplateComponent(template_id){
     let template = null;
     // May come in as a string from query params so parse as int.
-    template_id = parseInt(template_id);
+    template_id = parseInt(template_id, 10);
 
     switch(template_id) {
       case 1: {
@@ -172,13 +175,14 @@ class PageEdit extends React.Component {
   }
   
   render() {
+    console.log('PageEdit props', this.state.template_id)
     return (
       <div>
         <FloatingPageMenu>
           <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
-            defaultValue={this.props.template_id} 
+            templateDefault={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
         </FloatingPageMenu>

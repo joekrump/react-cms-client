@@ -8,7 +8,7 @@ export default class TemplateDropDown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.defaultValue ? props.defaultValue : 1
+      value: props.defaultTemplate ? props.defaultTemplate : 1
     };
   }
 
