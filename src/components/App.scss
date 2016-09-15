@@ -21,7 +21,7 @@ a:hover {
   color: green;
 }
 
-.page-container {
+.admin-container {
   padding-top: 65px;
   margin: 0 auto;
 }
@@ -39,18 +39,18 @@ a:hover {
 }
 
 @media (max-width: 900px){
-  .page-container {
+  .admin-container {
     width: 80%;
   }
 }
 @media (max-width: 500px){
-  .page-container {
+  .admin-container {
     width: 96%;
     min-width: 300px;
   }
 }
 @media (min-width: 901px) {
-  .page-container {
+  .admin-container {
     width: 980px;
   }
 }

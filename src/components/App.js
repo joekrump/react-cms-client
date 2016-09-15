@@ -134,9 +134,7 @@ class App extends React.Component {
             iconElementRight={iconElementRight}
           />
         </header>
-        <div className="page-container">
-          {this.props.children}
-        </div>
+        {this.props.children}
       </div>
     )
   }
