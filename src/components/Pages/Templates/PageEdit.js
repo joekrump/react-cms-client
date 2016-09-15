@@ -66,6 +66,16 @@ class PageEdit extends React.Component {
     })
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    // If there has been a change to the template_id then rerender the page with the
+    // corresponding template.
+    if(this.state.template_id !== nextState.template_id){
+      this.setState({
+        template: this.getTemplateComponent(nextState.template_id)
+      })
+    }
+  }
+
   componentDidMount(){
     this.setState({
       resourceURL: this.props.submitUrl
@@ -145,6 +155,12 @@ class PageEdit extends React.Component {
     )
   }
 
+  handleTemplateChange(event) {
+    event.preventDefault();
+    // TODO: handle the event.
+    // update the template_id
+  }
+
   resetForm(){
     this.props.resetForm(this.props.formName)
   }
@@ -158,7 +174,7 @@ class PageEdit extends React.Component {
   render() {
     return (
       <div>
-        <TemplateDropDown templateOptions={this.state.templates} defaultValue={this.props.template_id}/>
+        <TemplateDropDown templateOptions={this.state.templates} defaultValue={this.props.template_id} onChangeCallback={(event) => this.handleTemplateChange(event)} />
         {this.state.template}
       </div>
     )
