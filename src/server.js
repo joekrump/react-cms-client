@@ -5,21 +5,22 @@ import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import hogan from 'hogan-express'
 import NotFoundPage from './components/Pages/Errors/404/404.js';
-import makeStore from './redux/store/store'
+import storeHelper from './redux/store/store'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 // Routes
 import getRoutes from './routes'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import muiTheme from './muiTheme';
-import StyleContextProvider from './components/StyleContextProvider'
+// import StyleContextProvider from './components/StyleContextProvider'
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './redux/sagas'
+import reducers from './redux/reducers'
 
-const styleContext = {
-  insertCss: styles => styles._insertCss(),
-};
+// const styleContext = {
+//   insertCss: styles => styles._insertCss(),
+// };
 
 var path = require('path');
 
@@ -50,31 +51,40 @@ function renderPage(renderProps){
 const sagaMiddleware = createSagaMiddleware()
 
 
+
 /* configure store */
-function configureStore(memoryHistory, initialState) {
+// function configureStore(memoryHistory, initialState) {
 
-  const middleware = {
-    routerMiddleware: routerMiddleware(memoryHistory),
-    sagaMiddleware
-  }
-  const reducers = {
-    ...reducers,
-    routing: routerReducer
-  }
+//   const middleware = {
+//     routerMiddleware(memoryHistory),
+//     sagaMiddleware
+//   }
+//   const reducers = {
+//     ...reducers,
+//     routing: routerReducer
+//   }
 
-  return makeStore(reducers, middleware, () => sagaMiddleware.run(rootSaga));
-}
-
-
+//   return makeStore(reducers, middleware, () => sagaMiddleware.run(rootSaga));
+// }
 
 app.get('*',(req, res) => {
 
   const memoryHistory = createMemoryHistory(req.path)
-  const store         = configureStore(memoryHistory)
-  syncHistoryWithStore(memoryHistory, store)
+  const store = storeHelper().setStore({
+    ...reducers,
+    routing: routerReducer
+  },
+  [
+    sagaMiddleware,
+    routerMiddleware(memoryHistory)
+  ], () => {
+    // Run the saga
+    sagaMiddleware.run(rootSaga)
+  });
+  // syncHistoryWithStore(memoryHistory, store)
   const routes        = getRoutes(store);
 
-  match({routes , location: req.url }, (error, redirectLocation, renderProps) => {
+  match({routes, location: req.url }, (error, redirectLocation, renderProps) => {
         
     if (error) {
       res.status(500).send(error.message)
