@@ -117,7 +117,7 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div id="app">
         <Drawer 
           open={this.state.menu.isOpen}
           docked={false} 

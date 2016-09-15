@@ -124,7 +124,6 @@ class Editor {
     // Call save every 30 seconds
     let autoSave = () => {
       this.editor.save(true);
-      // console.log(this.editor.getState());
     };
     this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
   }
@@ -134,8 +133,6 @@ class Editor {
     clearInterval(this.editor.autoSaveTimer);
   }
   handleSave(event, submitURL) {
-    // console.log('Event: ', event)
-    // console.log('this: ', this)
     if(!submitURL) {
       // IF no URL to save to is provided then return early
       return;
@@ -168,7 +165,6 @@ class Editor {
       if(payload == null) {
         payload = {}
       }
-      console.log('new template_id to save');
       payload.template_id = this.template_id;
     } 
 

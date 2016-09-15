@@ -177,9 +177,8 @@ class PageEdit extends React.Component {
   }
   
   render() {
-    console.log('PageEdit props', this.state.template_id)
     return (
-      <div>
+      <div className="page-edit">
         <FloatingPageMenu>
           <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
