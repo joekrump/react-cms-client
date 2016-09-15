@@ -92,6 +92,7 @@
             text-align: center;
             @include type-icons($font-size: 24px);
             width: $buttonSize;
+            box-shadow: rgba(0, 151, 167, 0.22) 0px 3px 10px, rgba(0, 151, 167, 0.4) 0px 3px 10px;
 
             // Each button displays an icon
             &:before {
