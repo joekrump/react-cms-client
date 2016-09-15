@@ -42,7 +42,12 @@ class IndexItem extends React.Component{
       style.height = 0;
       style.padding = 0;
     }
-    // console.log(this.props);
+    let queryProps = this.props.extraData
+    
+    // The priamry component is not required in the queryProps so remove it.
+    // 
+    delete queryProps.primary;
+
     return(
         <ListItem
           className="index-list-item"
@@ -52,7 +57,7 @@ class IndexItem extends React.Component{
               resourceType={this.props.resourceType} 
               id={this.props.id} 
               deleteCallback={ () => this.showItem() } 
-              queryProps={{...this.props.extraData}} 
+              queryProps={{...queryProps}} 
             />
           }
           primaryText={this.getText()}

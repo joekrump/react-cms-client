@@ -10,7 +10,6 @@ export function getEditorContent(context, resourceNamePlural, resourceId, otherP
   const nameSingular = singularizeName(resourceNamePlural);
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
-    console.log(otherProps);
     return (
       <PageTemplate 
         submitUrl={context === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
