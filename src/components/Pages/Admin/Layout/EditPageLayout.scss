@@ -11,7 +11,7 @@
 }
 
 .page {
-  height: calc(100% - 10px);
+  min-height: calc(100% - 10px);
   .align-right {
     float: right;
     margin-left: 15px;
