@@ -100,7 +100,8 @@ class PageTemplate extends React.Component {
   }
 
   getTemplateComponent(template_id){
-    let template = null; 
+    let template = null;
+    // May come in as a string from query params so parse as int.
     template_id = parseInt(template_id);
 
     switch(template_id) {
@@ -137,7 +138,7 @@ class PageTemplate extends React.Component {
   }
 
   getFancyTemplate(){
-    return (<div>
+    return (<div style={{backgroundColor: '#2980b9'}}>
       <div><h3>FANCY</h3></div>
       <div data-editable data-name="name">
         <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
@@ -147,7 +148,7 @@ class PageTemplate extends React.Component {
   }
 
   getOtherTemplate(){
-    return (<div>
+    return (<div style={{backgroundColor: '#09a08a'}}>
       <div><h3>OTHER</h3></div>
       <div data-editable data-name="name">
         <h1 data-ce-placeholder="Page Title">{this.state.name ? this.state.name : ''}</h1>
