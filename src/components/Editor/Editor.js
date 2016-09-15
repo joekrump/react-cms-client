@@ -35,18 +35,18 @@ class Editor {
       filename = args[0];
       transforms = args[1];
 
-      // If no filename is found then exit (not a Cloudinary image)
+      // // If no filename is found then exit (not a Cloudinary image)
       if (!filename) {
         return;
       }
 
       // Remove any existing resize transform
-      if (transforms.length > 0 && transforms[transforms.length -1]['c'] === 'fill') {
+      if (transforms.length > 0 && transforms[transforms.length -1]['c'] === 'scale') {
         transforms.pop();
       }
 
-      // Change the resize transform for the element
-      transforms.push({c: 'fill', w: element.size()[0], h: element.size()[1]});
+      // // Change the resize transform for the element
+      transforms.push({c: 'scale', w: element.size()[0], h: element.size()[1]});
       url = buildCloudinaryURL(filename, transforms);
       if (url !== element.attr('src')) {
         element.attr('src', url);
@@ -57,9 +57,6 @@ class Editor {
     // 
     this.editor = ContentTools.EditorApp.get();
     this.editor.init('*[data-editable]', 'data-name');
-
-
-    this.editor.regions();
 
     this.editor.addEventListener('saved', (event) => {this.handleSave(event, this.submitURL)});
     this.editor.addEventListener('start', this.handleEditStart.bind(this));
