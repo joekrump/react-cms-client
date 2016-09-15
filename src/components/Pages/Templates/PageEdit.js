@@ -156,12 +156,14 @@ class PageEdit extends React.Component {
       this.handleSaveSuccess, 
       this.props.context, 
       this.props.resourceNamePlural, 
-      this.context.store
+      this.context.store,
+      this.state.template_id
     )
   }
 
   handleTemplateChange(template_id) {
     this.setState({template_id})
+    this.state.editor.updateTemplateId(template_id);
   }
 
   resetForm(){

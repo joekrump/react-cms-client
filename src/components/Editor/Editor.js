@@ -6,11 +6,13 @@ const sKeyCode = 83;
 
 class Editor {
 
-  constructor(getPageName, submitURL, handleSaveSuccess, context, resourceNamePlural, store) {
+  constructor(getPageName, submitURL, handleSaveSuccess, context, resourceNamePlural, store, template_id) {
     this.submitURL = submitURL;
     this.handleSaveSuccess = handleSaveSuccess;
     this.resourceNamePlural = resourceNamePlural;
     this.store = store;
+    this.template_id = parseInt(template_id, 10);
+    this.dirty_data = false;
     // new or edit
     // 
     this.editContext = context;
@@ -67,6 +69,11 @@ class Editor {
     if(typeof window !== 'undefined') {
       window.addEventListener('keydown', (event) => this.handleKeyDown(event));
     }
+  }
+
+  updateTemplateId(template_id){
+    this.template_id = template_id;
+    this.dirty_data = true;
   }
 
   handleKeyDown(event) {
@@ -133,27 +140,37 @@ class Editor {
       // IF no URL to save to is provided then return early
       return;
     }
-    var passive, regions;
-
+    
     // Check if this was a passive save
-    passive = event.detail().passive;
-
+    // 
+    let passive = event.detail().passive;
     // Check to see if there are any changes to save
-    regions = event.detail().regions;
-    if (Object.keys(regions).length === 0) {
+    // 
+    let regions = event.detail().regions;
+    let numRegions = Object.keys(regions).length;
+    let payload = null;
+    
+    if (numRegions === 0 && !this.dirty_data) {
         return;
+    } else {
+      let regionValue;
+      payload = {};
+      (Object.keys(regions)).forEach((key) => {
+        if(key === 'name') {
+          regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "")
+        } else {
+          regionValue = regions[key]
+        }
+        payload[key] = regionValue;
+      })
     }
-    let payload = {}
-    let regionValue;
-
-    (Object.keys(regions)).forEach((key) => {
-      if(key === 'name') {
-        regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "")
-      } else {
-        regionValue = regions[key]
+    if(this.dirty_data) {
+      if(payload == null) {
+        payload = {}
       }
-      payload[key] = regionValue;
-    })
+      console.log('new template_id to save');
+      payload.template_id = this.template_id;
+    } 
 
     // Set the editors state to busy while we save our changes
     // 
@@ -176,6 +193,7 @@ class Editor {
           } else {
             this.handleSaveSuccess(null, passive)
           }
+          this.dirty_data = false;
         }
       }).catch((res) => {
         this.editor.busy(false);
