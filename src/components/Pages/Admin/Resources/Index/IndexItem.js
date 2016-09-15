@@ -47,8 +47,6 @@ class IndexItem extends React.Component{
     // The priamry component is not required in the queryProps so remove it.
     // 
     delete queryProps.primary;
-
-    console.log(queryProps);
     return(
         <ListItem
           className="index-list-item"

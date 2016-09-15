@@ -174,7 +174,11 @@ class PageEdit extends React.Component {
   render() {
     return (
       <div>
-        <TemplateDropDown templateOptions={this.state.templates} defaultValue={this.props.template_id} onChangeCallback={(event) => this.handleTemplateChange(event)} />
+        <TemplateDropDown 
+          templateOptions={this.state.templates} 
+          defaultValue={this.props.template_id} 
+          onChangeCallback={(event) => this.handleTemplateChange(event)} 
+        />
         {this.state.template}
       </div>
     )
