@@ -79,6 +79,31 @@ class PageEdit extends React.Component {
     }
   }
 
+  componentDidMount(){
+    this.setState({
+      resourceURL: this.props.submitUrl
+    });
+
+    let client = new APIClient(this.context.store)
+
+    if(this.props.context === 'edit'){
+      // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
+      client.get(this.state.resourceURL).then((res) => {
+         this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
+      }).catch((res) => {
+        console.log('Error: ', res)
+      })
+    } else {
+      // The context otherwise will be 'new' in this case get a list of templates and make the Editor.
+      //
+      client.get('page-templates').then((res) => {
+        this.handleSuccessfulDataFetch(client, res, (res) => this.setNewPageData(res))
+      }).catch((res) => {
+        console.log('Error: ', res)
+      })
+    }
+  }
+  
   handleSuccessfulDataFetch(client, res, updateStateCallback) {
     if (res.statusCode !== 200) {
       console.log('Could not get data for Page ', res);
@@ -114,30 +139,6 @@ class PageEdit extends React.Component {
     })
   }
 
-  componentDidMount(){
-    this.setState({
-      resourceURL: this.props.submitUrl
-    });
-
-    let client = new APIClient(this.context.store)
-
-    if(this.props.context === 'edit'){
-      // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
-      client.get(this.state.resourceURL).then((res) => {
-         this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
-      }).catch((res) => {
-        console.log('Error: ', res)
-      })
-    } else {
-      // The context otherwise will be 'new' in this case get a list of templates and make the Editor.
-      //
-      client.get('page-templates').then((res) => {
-        this.handleSuccessfulDataFetch(client, res, (res) => this.setNewPageData(res))
-      }).catch((res) => {
-        console.log('Error: ', res)
-      })
-    }
-  }
 
   getTemplateComponent(template_id){
     let template = null;

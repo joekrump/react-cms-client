@@ -13,7 +13,7 @@ const DevTools = createDevTools(
   </DockMonitor>
 )
 
-const Store = () => {
+const StoreHelper = () => {
 
   let store =  null;
 
@@ -57,4 +57,4 @@ const Store = () => {
 }
 
 
-export default Store;
+export default StoreHelper;

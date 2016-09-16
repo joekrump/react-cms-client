@@ -5,11 +5,10 @@ import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import hogan from 'hogan-express'
 import NotFoundPage from './components/Pages/Errors/404/404.js';
-import storeHelper from './redux/store/store'
+import StoreHelper from './redux/store/store'
 import { Provider } from 'react-redux' // Add Provider for passing context of store.
 // Routes
 import getRoutes from './routes'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
@@ -17,35 +16,35 @@ import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-rou
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './redux/sagas'
 import reducers from './redux/reducers'
+import path from 'path';
 
+// Configuring userAgent for Material-UI
+// 
+global.navigator = { navigator: 'all' };
+// Express
+// 
+const app = express()
+const basePath = path.dirname(app.get('views'));
+
+// setup redux middleware that doesn't detpend on a request.
+// 
+const sagaMiddleware = createSagaMiddleware()
 const styleContext = {
   insertCss: styles => styles._insertCss(),
 };
 
-var path = require('path');
 
-// Configuring userAgent for Material-UI
-// 
-// global.navigator = global.navigator || {};
-// global.navigator.userAgent = req.headers['user-agent'] || 'all';
-global.navigator = { navigator: 'all' };
-// Express
-const app = express()
-const basePath = path.dirname(app.get('views'));
 app.engine('html', hogan)
 app.set('views', path.join(basePath, 'build'));
-// console.log(app.get('views'));
 app.use('/', express.static('build'));
 app.set('port', (process.env.PORT || 3001))
-
-const sagaMiddleware = createSagaMiddleware()
 
 app.get('*',(req, res) => {
 
   const memoryHistory = createMemoryHistory(req.path)
   const store = makeStore(sagaMiddleware, memoryHistory)
   // syncHistoryWithStore(memoryHistory, store)
-  const routes        = getRoutes(store);
+  const routes = getRoutes(store);
 
   match({routes, location: req.url }, (error, redirectLocation, renderProps) => {
         
@@ -66,7 +65,7 @@ app.get('*',(req, res) => {
 })
 
 function makeStore(sagaMiddleware, memoryHistory) {
-  return storeHelper().setStore({
+  return StoreHelper().setStore({
     ...reducers,
     routing: routerReducer
   },
