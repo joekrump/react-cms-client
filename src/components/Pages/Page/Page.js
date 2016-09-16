@@ -12,9 +12,6 @@ class Page extends React.Component {
     super();
     
     this.state = {
-      content: null,
-      name: null,
-      template_id: null,
       statusCode: 200,
       page: null
     }
@@ -30,24 +27,15 @@ class Page extends React.Component {
         console.log('Error: ', res)
       })
     }
-
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    // If there has been a change to the template_id then rerender the page with the
-    // corresponding template.
-    if(this.state.template_id !== nextState.template_id){
-      this.setState({
-        page: this.getRenderedPage(nextState.template_id)
-      })
-    }
   }
 
   setPreExistingPageData(res) {
     this.setState({
-      content: res.body.data.content,
-      name: res.body.data.name,
-      template_id: res.body.data.template_id
+      page: this.getRenderedPage(
+        res.body.data.template_id, 
+        res.body.data.content, 
+        res.body.data.name
+      )
     })
   }
 
@@ -59,26 +47,26 @@ class Page extends React.Component {
     }
   }
 
-  getRenderedPage(template_id){
+  getRenderedPage(template_id, content, name){
     let page = null;
     // May come in as a string from query params so parse as int.
     template_id = parseInt(template_id, 10);
 
     switch(template_id) {
       case 1: {
-        page = (<BasicPageTemplate name={this.state.name} content={this.state.content} />)
+        page = (<BasicPageTemplate name={name} content={content} />)
         break;
       }
       case 2: {
-        page = (<ContactPageTemplate name={this.state.name} content={this.state.content} />)
+        page = (<ContactPageTemplate name={name} content={content} />)
         break;
       }
       case 3: {
-        page = (<HomePageTemplate name={this.state.name} content={this.state.content} />);
+        page = (<HomePageTemplate name={name} content={content} />);
         break;
       }
       default: {
-        page = (<BasicPageTemplate name={this.state.name} content={this.state.content} />)
+        page = (<BasicPageTemplate name={name} content={content} />)
         break;
       }
     }
