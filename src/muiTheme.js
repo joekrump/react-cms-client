@@ -26,6 +26,7 @@ const muiTheme = getMuiTheme(baseTheme, {
   appBar: {
     height: 56,
   },
+  // eslint-disable-next-line
   userAgent: (typeof req !== 'undefined') ? req.headers['user-agent'] : false
 });
 

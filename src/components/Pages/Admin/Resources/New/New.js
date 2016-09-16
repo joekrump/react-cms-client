@@ -1,4 +1,3 @@
-import React from 'react';
 import {getEditorContent} from '../ResourcePageHelper'
 
 const New = ({ params: { resourceNamePlural }, location: { query } }) => (

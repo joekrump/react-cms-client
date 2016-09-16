@@ -1,5 +1,4 @@
 import Page from './components/Pages/Page/Page';
-import Home from './components/Pages/Home/Home';
 import DonationPage from './components/Pages/Payments/DonationPage/DonationPage';
 import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
 import Login from './components/Pages/Auth/Login/Login';
@@ -9,7 +8,7 @@ import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPasswor
 import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
 import auth from './auth';
-import { replace, goBack } from 'react-router-redux'
+import { replace } from 'react-router-redux'
 import APIClient from './http/requests'
 import AdminRoutes from './routes/admin/routes'
 

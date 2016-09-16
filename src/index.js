@@ -56,5 +56,5 @@ if(typeof document !== 'undefined'){
         </StyleContextProvider>
       </MuiThemeProvider>
     </Provider>
-  ), document.getElementById('root'));
+  ), document.getElementById('base'));
 }

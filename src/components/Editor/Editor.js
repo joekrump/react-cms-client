@@ -22,6 +22,8 @@ class Editor {
     ContentTools.MIN_CROP = 30;
     ContentTools.DEFAULT_VIDEO_WIDTH = 800;
     ContentTools.DEFAULT_VIDEO_HEIGHT = 600;
+
+    // eslint-disable-next-line
     ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 2000;
 
     // Capture image resize events and update the Cloudinary URL

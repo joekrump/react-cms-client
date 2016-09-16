@@ -86,8 +86,8 @@ class PaymentForm extends React.Component {
       data: {
         token: stripeToken, 
         ...self.state.formFields
-      }}).
-      then((res) => {
+      }})
+      .then((res) => {
         if (res.statusCode !== 200) {
           self.props.updatePaymentError(res);
           self.props.updatePaymentNotification(true, redA700, 'Error', res);
