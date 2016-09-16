@@ -2,22 +2,25 @@ import React from 'react';
 import { Link } from 'react-router'
 import FlatButton from 'material-ui/FlatButton';
 import BackArrow from 'material-ui/svg-icons/navigation/arrow-back'
-import { fullWhite, cyan300 } from 'material-ui/styles/colors';
+import { fullWhite } from 'material-ui/styles/colors';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './BackButton.scss'
 
-const BackButton = (props) => (
+const BackButton = (props, context) => (
 
   <FlatButton
     className='back-btn'
     // backgroundColor={cyan500}
-    hoverColor={cyan300}
+    hoverColor={context.muiTheme.palette.primary2Color}
     containerElement={<Link to={props.link} />}
     label={props.label}
     labelStyle={{color: fullWhite}}
-    // hoverColor={cyan500}
     icon={<BackArrow style={{ color: fullWhite }}/>}
   />
 )
+
+BackButton.contextTypes = {
+    muiTheme: React.PropTypes.object.isRequired
+}
 
 export default withStyles(s)(BackButton);

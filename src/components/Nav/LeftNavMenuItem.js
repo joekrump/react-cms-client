@@ -1,13 +1,16 @@
 import React from 'react';
 import MenuItem from 'material-ui/MenuItem';
-import { cyan500 } from 'material-ui/styles/colors';
 import { Link } from 'react-router'
 
-const LeftNavMenuItem = (props) => {
+const LeftNavMenuItem = (props, context) => {
   return (
     <MenuItem className={"drawer-link"} containerElement={<Link to={props.url} />} 
-        primaryText={props.linkText} style={props.isActive ?  { color: cyan500 } : null } />
+        primaryText={props.linkText} style={props.isActive ?  { backgroundColor: 'rgba(255,255,255,0.1' } : null } />
   )
 };
+
+LeftNavMenuItem.contextTypes = {
+  muiTheme: React.PropTypes.object.isRequired
+}
 
 export default LeftNavMenuItem;

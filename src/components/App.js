@@ -7,16 +7,11 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Divider from 'material-ui/Divider';
 import AppConfig from '../../app_config/app';
-import { cyan500 } from 'material-ui/styles/colors';
 import { Link } from 'react-router';
-
 import LeftNavMenuItem from './Nav/LeftNavMenuItem';
 import Gravatar from './Nav/Gravatar';
-
 import auth from '../auth';
-
 import { connect } from 'react-redux';
-
 import ListItem from 'material-ui/List/ListItem';
 
 class App extends React.Component {
@@ -62,7 +57,6 @@ class App extends React.Component {
   getLeftMenuItems() {
     let staticNavLinks = [];
     let menuItems = [];
-
     if(this.props.loggedIn){
       if(this.props.user) {
         menuItems = [
@@ -73,7 +67,7 @@ class App extends React.Component {
               <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={this.props.user.email} diameter='50' />
             }
             primaryText={<Link to="/admin/settings">{this.props.user.name}</Link>}
-            style={{color: 'white', backgroundColor: cyan500}}
+            style={{color: 'white', backgroundColor: this.context.muiTheme.palette.primary1Color}}
           />)
         ]
       }
@@ -169,7 +163,8 @@ const mapDispatchToProps = (dispatch) => {
 
 App.contextTypes = {
   router: React.PropTypes.object.isRequired,
-  store: React.PropTypes.object.isRequired
+  store: React.PropTypes.object.isRequired,
+  muiTheme: React.PropTypes.object.isRequired
 }
 
 export default connect(
