@@ -160,7 +160,7 @@ class PageEdit extends React.Component {
         break;
       }
       case 4: {
-        template = (<LoginPageTemplate name={this.state.name} content={this.state.content} />);
+        template = (<LoginPageTemplate name={this.state.name} content={this.state.content} disabled={true} />);
         break;
       }
       default: {

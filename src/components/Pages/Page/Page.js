@@ -2,6 +2,7 @@ import React from 'react';
 import HomePageTemplate from '../Templates/HomePageTemplate'
 import ContactPageTemplate from '../Templates/ContactPageTemplate'
 import BasicPageTemplate from '../Templates/BasicPageTemplate'
+import LoginPageTemplate from '../Templates/LoginPageTemplate'
 import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';
@@ -17,17 +18,15 @@ class Page extends React.Component {
   }
 
   componentDidMount(){
-    if(this.props.params && !this.props.params.slug) {
-      this.loadPageContent('home');
-    } else if(this.props.params && this.props.params.slug) {
-      this.loadPageContent(this.props.params.slug);
-    }
+    this.loadPageContent(this.props.location.pathname);
   }
 
-  loadPageContent(slug) {
+  loadPageContent(pathname) {
     const client = new APIClient(this.context.store);
 
-    client.get('data/pages/' + slug).then((res) => {
+    client.get('data/pages/by-path', false, {params: {
+      fullpath: pathname
+    }}).then((res) => {
        this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
     }, (res) => {
       if(res.statusCode && res.statusCode !== 200) {
@@ -83,6 +82,10 @@ class Page extends React.Component {
       }
       case 3: {
         page = (<HomePageTemplate name={name} content={content} />);
+        break;
+      }
+      case 4: {
+        page = (<LoginPageTemplate name={name} content={content} location={this.props.location} />);
         break;
       }
       default: {

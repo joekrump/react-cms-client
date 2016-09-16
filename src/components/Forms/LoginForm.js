@@ -12,7 +12,8 @@ class LoginForm extends React.Component{
       email: '',
       password: '',
       error: false,
-      loggedIn: auth.loggedIn()
+      loggedIn: auth.loggedIn(),
+      disabled: props.disabled
     };
   }
 
@@ -66,7 +67,7 @@ class LoginForm extends React.Component{
             ref="loginPassword"
             onChange={(event) => this.handleChange(event)}
           /><br />
-          <RaisedButton label="Login" primary onTouchTap={(event) => this.handleSubmit(event)} type="submit" />
+          <RaisedButton label="Login" primary onTouchTap={(event) => this.handleSubmit(event)} type="submit" disabled={this.state.disabled} />
           {this.state.error && (
             <p>Bad login information</p>
           )}
