@@ -1,5 +1,5 @@
 import React from 'react';
-import APIClient from '../../../../http/requests'
+import APIClient from '../../http/requests'
 import { connect } from 'react-redux';
 
 // Icons
@@ -12,8 +12,8 @@ import { redA700, greenA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
 import StripeFields from './StripeFields';
 import { Form, TextInput, SubmitButton } from '../../../Form/index';
-import StripeConfig from '../../../../../app_config/stripe';
-import { loadScript } from '../../../../helpers/ScriptsHelper'
+import StripeConfig from '../../../app_config/stripe';
+import { loadScript } from '../../helpers/ScriptsHelper'
 
 const listItemStyle = {
   padding: "0 16px"
