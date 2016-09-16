@@ -1,19 +1,28 @@
-.not-found{
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  font-weight: 100;
+body {
+  background-blend-mode: soft-light;
 }
+.page {
+  &.not-found{
+    margin: 0;
+    padding: 0;
+    font-weight: 100;
+    line-height: 1.1;
+    .page-container {
+      position: relative;
+      top: 100px;
+      border: 1px solid #e6e6e6;
+      padding: 30px;
 
-.admin-container {
-    vertical-align: middle;
-}
+      .content {
+        display: block;
+        font-weight: 400;
+        margin-bottom: 15px;
+      }
 
-.content {
-    display: block;
-}
-
-.title {
-    font-size: 96px;
-    font-family: 'Lato';
+      .title {
+        font-size: 96px;
+        margin-bottom: 30px;
+      }
+    }
+  }
 }
