@@ -1,4 +1,4 @@
-import About from './components/Pages/About/About';
+import Page from './components/Pages/Page/Page';
 import Home from './components/Pages/Home/Home';
 import DonationPage from './components/Pages/Payments/DonationPage/DonationPage';
 import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
@@ -25,7 +25,6 @@ const getRoutes = (store) => {
     component: App,
     indexRoute: { component: Home },
     childRoutes: [
-      { path: 'about', component: About },
       { path: 'donate', component: DonationPage },
       { path: 'login', component: Login, onEnter: (event) => allowLoginAccess(event, store) },
       { path: 'signup', component: SignUp, onEnter: (event) => allowSignupAccess(event, store) },
@@ -39,6 +38,8 @@ const getRoutes = (store) => {
           AdminRoutes
         ]
       },
+      // { path: 'about', component: About },
+      { path: ':slug', component: Page },
       { path: '*', component: PageNotFound }
     ]
   }

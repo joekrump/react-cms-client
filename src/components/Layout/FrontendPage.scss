@@ -1,0 +1,53 @@
+.frontend-page-container {
+  padding-top: 56px;
+  width: 100%;
+  height: calc(100% - 56px);
+}
+
+.page {
+  min-height: calc(100% - 10px);
+  .align-right {
+    float: right;
+    margin-left: 15px;
+  }
+  .align-left {
+    float: left;
+    margin-right: 15px;
+  }
+  
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  .page-container{
+    width: 80%;
+    margin: 0 auto;
+    text-align: inherit;
+    padding-top: .63em;
+  }
+}
+
+@media (max-width: 900px){
+  .page {
+    .page-container {
+      width: 80%;
+        margin: 0 auto;
+    }
+  }
+}
+@media (max-width: 500px){
+  .page {
+    .page-container {
+      width: 96%;
+    }
+    min-width: 400px;
+  }
+}
+@media (min-width: 1000px) {
+  .page {
+    .page-container {
+      width: 980px;
+    }
+  }
+}
