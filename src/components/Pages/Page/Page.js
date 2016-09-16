@@ -6,12 +6,14 @@ import LoginPageTemplate from '../Templates/LoginPageTemplate'
 import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';
+import {connect} from 'react-redux';
 
 class Page extends React.Component {
   
   constructor(props) {
     super(props);
     this.state = {
+      pathname: props.location.pathname,
       statusCode: 200,
       page: null
     }
@@ -58,12 +60,10 @@ class Page extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(!nextProps.params.slug) {
-      // this.setState({statusCode: 404});
-      this.loadPageContent('home');
-    } else if(this.props.params.slug !== nextProps.params.slug) {
-      this.loadPageContent(nextProps.params.slug);
-    }
+    this.setState({
+      pathname: nextProps.location.pathname
+    });
+    this.loadPageContent(nextProps.location.pathname);
   }
 
   getRenderedPage(template_id, content, name){
@@ -73,11 +73,11 @@ class Page extends React.Component {
 
     switch(template_id) {
       case 1: {
-        page = (<BasicPageTemplate name={name} content={content} />)
+        page = (<BasicPageTemplate name={name} content={content} pathname={this.state.pathname}/>)
         break;
       }
       case 2: {
-        page = (<ContactPageTemplate name={name} content={content} />)
+        page = (<ContactPageTemplate name={name} content={content} pathname={this.state.pathname}/>)
         break;
       }
       case 3: {
@@ -85,11 +85,11 @@ class Page extends React.Component {
         break;
       }
       case 4: {
-        page = (<LoginPageTemplate name={name} content={content} location={this.props.location} />);
+        page = (<LoginPageTemplate name={name} content={content} pathname={this.state.pathname} location={this.props.location}/>);
         break;
       }
       default: {
-        page = (<BasicPageTemplate name={name} content={content} />)
+        page = (<BasicPageTemplate name={name} content={content} pathname={this.state.pathname}/>)
         break;
       }
     }
@@ -113,4 +113,11 @@ Page.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
-export default Page;
+const mapStateToProps = (state, ownProps) => {
+  console.log('Page ownProps:', ownProps)
+  return {
+    pathname: state.routing.locationBeforeTransitions.pathname
+  }
+}
+
+export default connect(mapStateToProps)(Page)
