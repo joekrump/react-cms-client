@@ -9,7 +9,7 @@ import s from './404.scss'
 const PageNotFound = (props, state) => {
 
   return( 
-    <div className="page-not-found-wrapper">
+    <div className="page not-found">
       <div className="page-container">
         <div className="content">
           <div className="title">Page Not Found</div>

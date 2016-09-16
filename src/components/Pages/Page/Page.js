@@ -23,7 +23,12 @@ class Page extends React.Component {
     if(this.props.routeParams && this.props.routeParams.slug) {
       client.get('data/pages/' + this.props.routeParams.slug).then((res) => {
          this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
+      }, (res) => {
+        if(res.statusCode && res.statusCode !== 200) {
+          this.setState({statusCode: res.statusCode})
+        }
       }).catch((res) => {
+        
         console.log('Error: ', res)
       })
     }
@@ -75,7 +80,7 @@ class Page extends React.Component {
   }
 
   render() {
-    if(this.state.statusCode === 404) {
+    if(this.state.statusCode !== 200) {
       return (<PageNotFound />)
     }
     return (
