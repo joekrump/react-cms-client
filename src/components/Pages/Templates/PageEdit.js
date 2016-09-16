@@ -11,6 +11,7 @@ import HomePageTemplate from './HomePageTemplate'
 import ContactPageTemplate from './ContactPageTemplate'
 import BasicPageTemplate from './BasicPageTemplate'
 import LoginPageTemplate from './LoginPageTemplate'
+import PaymentPageTemplate from './PaymentPageTemplate'
 
 import TemplateDropDown from './TemplateDropDown'
 import BackButton from '../../Nav/BackButton'
@@ -161,6 +162,10 @@ class PageEdit extends React.Component {
       }
       case 4: {
         template = (<LoginPageTemplate name={this.state.name} content={this.state.content} disabled={true} />);
+        break;
+      }
+      case 5: {
+        template = (<PaymentPageTemplate name={this.state.name} content={this.state.content} disabled={true} />);
         break;
       }
       default: {

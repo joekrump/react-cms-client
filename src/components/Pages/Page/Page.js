@@ -3,6 +3,7 @@ import HomePageTemplate from '../Templates/HomePageTemplate'
 import ContactPageTemplate from '../Templates/ContactPageTemplate'
 import BasicPageTemplate from '../Templates/BasicPageTemplate'
 import LoginPageTemplate from '../Templates/LoginPageTemplate'
+import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';
@@ -86,6 +87,10 @@ class Page extends React.Component {
       }
       case 4: {
         page = (<LoginPageTemplate name={name} content={content} pathname={this.state.pathname} location={this.props.location}/>);
+        break;
+      }
+      case 5: {
+        page = (<PaymentPageTemplate name={name} content={content} pathname={this.state.pathname} />);
         break;
       }
       default: {

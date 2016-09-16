@@ -36,7 +36,7 @@ class PaymentFormContainer extends React.Component {
     }
     else {
       content = (
-        <PaymentForm />
+        <PaymentForm disabled={this.props.disabled} />
       )
     }
 

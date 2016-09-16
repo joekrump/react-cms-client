@@ -1,5 +1,5 @@
 import React from 'react';
-import APIClient from '../../http/requests'
+import APIClient from '../../../http/requests'
 import { connect } from 'react-redux';
 
 // Icons
@@ -11,9 +11,9 @@ import {List, ListItem} from 'material-ui/List';
 import { redA700, greenA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
 import StripeFields from './StripeFields';
-import { Form, TextInput, SubmitButton } from '../../../Form/index';
-import StripeConfig from '../../../app_config/stripe';
-import { loadScript } from '../../helpers/ScriptsHelper'
+import { Form, TextInput, SubmitButton } from '../../Form/index';
+import StripeConfig from '../../../../app_config/stripe';
+import { loadScript } from '../../../helpers/ScriptsHelper'
 
 const listItemStyle = {
   padding: "0 16px"
@@ -48,7 +48,7 @@ class PaymentForm extends React.Component {
       () => this.setState({ stripeLoading: false, stripeLoadingError: true }));
     } else {
       this.state = {
-        submitDisabled: false,
+        submitDisabled: props.disabled,
         stripeLoading: false,
         stripeLoadingError: false
       }
