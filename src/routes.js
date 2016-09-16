@@ -12,7 +12,6 @@ import auth from './auth';
 import { replace, goBack } from 'react-router-redux'
 import APIClient from './http/requests'
 import AdminRoutes from './routes/admin/routes'
-import PageRoutes from './routes/pages/routes'
 
 /**
  * Returns the routes in the app

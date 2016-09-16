@@ -10,7 +10,6 @@ class Page extends React.Component {
   
   constructor(props) {
     super(props);
-    console.log('Page contructor');
     this.state = {
       statusCode: 200,
       page: null
@@ -18,10 +17,9 @@ class Page extends React.Component {
   }
 
   componentDidMount(){
-    
-    // console.log(this)
-    // console.log(this)
-    if(this.props.params && this.props.params.slug) {
+    if(this.props.params && !this.props.params.slug) {
+      this.loadPageContent('home');
+    } else if(this.props.params && this.props.params.slug) {
       this.loadPageContent(this.props.params.slug);
     }
   }
@@ -62,7 +60,8 @@ class Page extends React.Component {
 
   componentWillReceiveProps(nextProps){
     if(!nextProps.params.slug) {
-      this.setState({statusCode: 404});
+      // this.setState({statusCode: 404});
+      this.loadPageContent('home');
     } else if(this.props.params.slug !== nextProps.params.slug) {
       this.loadPageContent(nextProps.params.slug);
     }

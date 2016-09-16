@@ -1,3 +1,9 @@
+body {
+  background-color: #363636;
+  background-image: url('/images/background.jpeg');
+  background-blend-mode: overlay;
+  background-attachment: fixed;
+}
 .admin-container{
   padding-top: 63px;
   width: 80%;
