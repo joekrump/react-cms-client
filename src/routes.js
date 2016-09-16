@@ -1,7 +1,6 @@
 import Page from './components/Pages/Page/Page';
 import DonationPage from './components/Pages/Payments/DonationPage/DonationPage';
 import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
-import Login from './components/Pages/Auth/Login/Login';
 import SignUp from './components/Pages/Auth/SignUp/SignUp';
 import UserSettings from './components/Pages/Admin/User/Settings/Settings';
 import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPassword';
@@ -25,7 +24,7 @@ const getRoutes = (store) => {
     indexRoute: { component: Page },
     childRoutes: [
       { path: 'donate', component: DonationPage },
-      { path: 'login', component: Login, onEnter: (nextState, replace) => allowLoginAccess(nextState, replace, store) },
+      { path: 'login', component: Page, onEnter: (nextState, replace) => allowLoginAccess(nextState, replace, store) },
       { path: 'signup', component: SignUp, onEnter: (nextState, replace) => allowSignupAccess(nextState, replace, store) },
       { path: 'forgot-password', component: ForgotPassword },
       { 

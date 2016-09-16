@@ -10,6 +10,7 @@ import ContentTools from 'ContentTools';
 import HomePageTemplate from './HomePageTemplate'
 import ContactPageTemplate from './ContactPageTemplate'
 import BasicPageTemplate from './BasicPageTemplate'
+import LoginPageTemplate from './LoginPageTemplate'
 
 import TemplateDropDown from './TemplateDropDown'
 import BackButton from '../../Nav/BackButton'
@@ -156,6 +157,10 @@ class PageEdit extends React.Component {
       }
       case 3: {
         template = (<HomePageTemplate name={this.state.name} content={this.state.content} />);
+        break;
+      }
+      case 4: {
+        template = (<LoginPageTemplate name={this.state.name} content={this.state.content} />);
         break;
       }
       default: {
