@@ -8,9 +8,9 @@ import FrontendPage from '../../Layout/FrontendPage';
 
 class Page extends React.Component {
   
-  constructor() {
-    super();
-    
+  constructor(props) {
+    super(props);
+    console.log('Page contructor');
     this.state = {
       statusCode: 200,
       page: null
@@ -18,20 +18,27 @@ class Page extends React.Component {
   }
 
   componentDidMount(){
-    let client = new APIClient(this.context.store)
+    
     // console.log(this)
-    if(this.props.routeParams && this.props.routeParams.slug) {
-      client.get('data/pages/' + this.props.routeParams.slug).then((res) => {
-         this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
-      }, (res) => {
-        if(res.statusCode && res.statusCode !== 200) {
-          this.setState({statusCode: res.statusCode})
-        }
-      }).catch((res) => {
-        
-        console.log('Error: ', res)
-      })
+    // console.log(this)
+    if(this.props.params && this.props.params.slug) {
+      this.loadPageContent(this.props.params.slug);
     }
+  }
+
+  loadPageContent(slug) {
+    const client = new APIClient(this.context.store);
+
+    client.get('data/pages/' + slug).then((res) => {
+       this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
+    }, (res) => {
+      if(res.statusCode && res.statusCode !== 200) {
+        this.setState({statusCode: res.statusCode})
+      }
+    }).catch((res) => {
+      
+      console.log('Error: ', res)
+    })
   }
 
   setPreExistingPageData(res) {
@@ -40,7 +47,8 @@ class Page extends React.Component {
         res.body.data.template_id, 
         res.body.data.content, 
         res.body.data.name
-      )
+      ),
+      statusCode: 200
     })
   }
 
@@ -49,6 +57,14 @@ class Page extends React.Component {
       this.setState({statusCode: res.statusCode})
     } else {
       updateStateCallback(res);
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(!nextProps.params.slug) {
+      this.setState({statusCode: 404});
+    } else if(this.props.params.slug !== nextProps.params.slug) {
+      this.loadPageContent(nextProps.params.slug);
     }
   }
 
@@ -84,7 +100,7 @@ class Page extends React.Component {
       return (<PageNotFound />)
     }
     return (
-      <FrontendPage>
+      <FrontendPage slug={this.props.params.slug}>
         {this.state.page}
       </FrontendPage>
     );

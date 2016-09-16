@@ -9,9 +9,10 @@ import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPasswor
 import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
 import auth from './auth';
-import { replace } from 'react-router-redux'
+import { replace, goBack } from 'react-router-redux'
 import APIClient from './http/requests'
 import AdminRoutes from './routes/admin/routes'
+import PageRoutes from './routes/pages/routes'
 
 /**
  * Returns the routes in the app
@@ -23,23 +24,23 @@ const getRoutes = (store) => {
   let routes = {
     path: '/',
     component: App,
-    indexRoute: { component: Home },
+    indexRoute: { component: Page },
     childRoutes: [
       { path: 'donate', component: DonationPage },
-      { path: 'login', component: Login, onEnter: (event) => allowLoginAccess(event, store) },
-      { path: 'signup', component: SignUp, onEnter: (event) => allowSignupAccess(event, store) },
+      { path: 'login', component: Login, onEnter: (nextState, replace) => allowLoginAccess(nextState, replace, store) },
+      { path: 'signup', component: SignUp, onEnter: (nextState, replace) => allowSignupAccess(nextState, replace, store) },
       { path: 'forgot-password', component: ForgotPassword },
       { 
         path: 'admin',
         indexRoute: { component: Dashboard },
-        onEnter: (event) => requireAuth(event, store),
+        onEnter: () => requireAuth(store),
         childRoutes: [
           { path: 'settings', component: UserSettings },
           AdminRoutes
         ]
       },
-      // { path: 'about', component: About },
-      { path: ':slug', component: Page },
+      // PageRoutes,
+      { path: ':slug', component: Page},
       { path: '*', component: PageNotFound }
     ]
   }
@@ -53,9 +54,8 @@ export default getRoutes;
  * accessible to a user who is authenticated (logged in)
  * @return undefined
  */
-function requireAuth(event, store) {
+function requireAuth(store) {
   if (!auth.loggedIn()) {
-    // console.log('NOT LOGGED IN, REDIRECTING...');
     store.dispatch(replace('/login'))
   }
 }
@@ -64,7 +64,7 @@ function requireAuth(event, store) {
  * Allow user to access SignUp page, or redirect.
  * @return undefined
  */
-function allowSignupAccess(event, store) {
+function allowSignupAccess(nextState, replace, store) {
   getUserCount(store).then((count) => {
     if(count > 0) {
       store.dispatch(replace('/login'));
@@ -78,7 +78,7 @@ function allowSignupAccess(event, store) {
  * Check to see if /login should be accessible.
  * @return undefined
  */
-function allowLoginAccess(event, store) {
+function allowLoginAccess(nextState, replace, store) {
 
   if(auth.loggedIn()) {
     store.dispatch(replace('/admin'))
@@ -99,7 +99,7 @@ function allowLoginAccess(event, store) {
  * user count is completed.
  * @return Promise
  */
-function getUserCount(event, store) {
+function getUserCount(nextState, replace, store) {
   return new Promise((resolve, reject) => {
     let client = new APIClient(store);
     client.get('users/count', false)
