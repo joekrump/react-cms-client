@@ -12,6 +12,7 @@ class Editor {
     this.resourceNamePlural = resourceNamePlural;
     this.store = store;
     this.template_id = parseInt(template_id, 10);
+    this.slug = '';
     this.dirty_data = false;
     // new or edit
     // 
@@ -75,6 +76,12 @@ class Editor {
 
   updateTemplateId(template_id){
     this.template_id = template_id;
+    this.dirty_data = true;
+  }
+
+  updateSlug(slug) {
+    // trim leading and trailing '-' 
+    this.slug = slug.replace(/^-+/, '').replace(/-+$/, '');
     this.dirty_data = true;
   }
 
@@ -174,6 +181,11 @@ class Editor {
         payload = {}
       }
       payload.template_id = this.template_id;
+      // if there is dirty data and there is a slug, then send the slug in the payload.
+      // TODO: refactor this. As slug shouldn't be sent with every request.
+      if(this.slug) {
+        payload.slug = this.slug;
+      }
     } 
 
     // Set the editors state to busy while we save our changes

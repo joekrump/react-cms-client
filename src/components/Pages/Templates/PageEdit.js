@@ -33,7 +33,7 @@ class PageEdit extends React.Component {
       submitDisabled: false,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
       editor: null,
-      slug: null
+      slug: ''
     }
   }
 
@@ -201,16 +201,17 @@ class PageEdit extends React.Component {
     this.props.resetForm(this.props.formName)
   }
 
-  handleNameChange(e) {
-    this.setState({
-      name: e.target.value
-    });
-  }
+  // handleNameChange(e) {
+  //   this.setState({
+  //     name: e.target.value
+  //   });
+  // }
   
   handleSlugChange(event) {
     this.setState({
       slug: slugify(event.target.value)
     })
+    this.state.editor.updateSlug(this.state.slug)
   }
 
   render() {
