@@ -33,7 +33,9 @@ export default class TemplateDropDown extends React.Component {
     })
     return (
       <div>
-        <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+        <DropDownMenu value={this.state.value} onChange={this.handleChange}
+          style={{width: 302}}
+        >
           {menuItems}
         </DropDownMenu>
       </div>

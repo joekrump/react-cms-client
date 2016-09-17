@@ -224,6 +224,7 @@ class PageEdit extends React.Component {
             floatingLabelText='Page Slug'
             onChange={(e) => this.handleSlugChange(e)}
             value={this.state.slug}
+            style={{marginLeft: 24}}
           />
         </FloatingPageMenu>
         {this.state.template}
