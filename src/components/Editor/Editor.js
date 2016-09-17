@@ -80,8 +80,8 @@ class Editor {
   }
 
   updateSlug(slug) {
-    // trim leading and trailing '-' 
-    this.slug = slug.replace(/^-+/, '').replace(/-+$/, '');
+    // remove trailing '-' 
+    this.slug = slug.replace(/-$/, '');
     this.dirty_data = true;
   }
 
