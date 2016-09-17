@@ -26,7 +26,7 @@ class IndexItem extends React.Component{
   
   getText(){
     return(
-      <div style={{color: muiTheme.palette.textColor}}><strong>{this.props.primary}</strong>{this.props.secondary ? (<span> -&nbsp;{this.props.secondary}</span>) : null}</div>
+      <div className="inner-text" style={{color: muiTheme.palette.textColor}}><strong>{this.props.primary}</strong>{this.props.secondary ? (<span> -&nbsp;{this.props.secondary}</span>) : null}</div>
     )
   }
 
@@ -36,7 +36,7 @@ class IndexItem extends React.Component{
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
-      style.padding = '16px 56px 16px 16px'
+      style.padding = '16px 16px 16px 16px'
     } else {
       style.opacity = 0;
       style.height = 0;

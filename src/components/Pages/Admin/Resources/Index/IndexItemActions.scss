@@ -1,22 +1,28 @@
-.action-button-container {
-  position: absolute;
-  top: 0;
-  right: 4px;
-}
-
 .action-button.index-item-button {
   background: none;
   border: none;
 }
 
 .index-list-item {
+  .inner-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
   .action-button-container  {
+    position: absolute;
+    top: 0;
+    right: 4px;
     opacity: 0;
   }
-}
 
-.index-list-item:hover {
-  .action-button-container {
-    opacity: 1;
+  &:hover {
+    .inner-text {
+      padding-right: 96px;
+    }
+    .action-button-container {
+      opacity: 1;
+    }
   }
 }
