@@ -16,7 +16,9 @@ import PaymentPageTemplate from './PaymentPageTemplate'
 import TemplateDropDown from './TemplateDropDown'
 import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
-          
+import TextField from 'material-ui/TextField';
+import {slugify} from '../../../helpers/StringHelper';
+
 class PageEdit extends React.Component {
 
   constructor(props) {
@@ -30,7 +32,8 @@ class PageEdit extends React.Component {
       template_id: props.template_id,
       submitDisabled: false,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
-      editor: null
+      editor: null,
+      slug: null
     }
   }
 
@@ -122,6 +125,7 @@ class PageEdit extends React.Component {
       content: res.body.data.content,
       name: res.body.data.name,
       templates: res.body.data.templates,
+      slug: res.body.data.slug,
       editor: this.makeEditor()
     })
     if(!this.state.template_id) {
@@ -140,7 +144,6 @@ class PageEdit extends React.Component {
       editor: this.makeEditor()
     })
   }
-
 
   getTemplateComponent(template_id){
     let template = null;
@@ -204,6 +207,12 @@ class PageEdit extends React.Component {
     });
   }
   
+  handleSlugChange(event) {
+    this.setState({
+      slug: slugify(event.target.value)
+    })
+  }
+
   render() {
     return (
       <div className="page-edit">
@@ -213,6 +222,13 @@ class PageEdit extends React.Component {
             templateOptions={this.state.templates} 
             defaultTemplate={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
+          />
+          <TextField
+            type='text'
+            hintText='example-slug'
+            floatingLabelText='Page Slug'
+            onChange={(e) => this.handleSlugChange(e)}
+            value={this.state.slug}
           />
         </FloatingPageMenu>
         {this.state.template}
