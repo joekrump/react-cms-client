@@ -21,8 +21,8 @@ class Editor {
 
     ContentTools.IMAGE_UPLOADER = this.createImageUploader;
     ContentTools.MIN_CROP = 30;
-    ContentTools.DEFAULT_VIDEO_WIDTH = 800;
-    ContentTools.DEFAULT_VIDEO_HEIGHT = 600;
+    ContentTools.DEFAULT_VIDEO_WIDTH = 889;
+    ContentTools.DEFAULT_VIDEO_HEIGHT = 500;
 
     // eslint-disable-next-line
     ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 2000;

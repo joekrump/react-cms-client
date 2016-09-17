@@ -130,7 +130,7 @@ class PageEdit extends React.Component {
     })
     if(!this.state.template_id) {
       this.setState({
-        template_id: res.body.data.template_id
+        template_id: parseInt(res.body.data.template_id, 10)
       })
     }
     this.setState({
