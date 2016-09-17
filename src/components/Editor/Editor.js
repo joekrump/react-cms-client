@@ -79,9 +79,10 @@ class Editor {
     this.dirty_data = true;
   }
 
-  updateSlug(slug) {
+  updateSlug(slug, callback) {
     // remove trailing '-' 
-    this.slug = slug.replace(/-$/, '');
+    this.slug = slug;
+    callback(this.slug);
     this.dirty_data = true;
   }
 

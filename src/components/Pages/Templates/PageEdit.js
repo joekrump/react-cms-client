@@ -202,10 +202,12 @@ class PageEdit extends React.Component {
   }
 
   handleSlugChange(event) {
-    this.setState({
-      slug: slugify(event.target.value)
+    // this.setState({
+    //   slug: slugify(event.target.value)
+    // })
+    this.state.editor.updateSlug(slugify(event.target.value), (formattedSlug) => {
+      this.setState({slug: formattedSlug})
     })
-    this.state.editor.updateSlug(event.target.value)
   }
 
   render() {
