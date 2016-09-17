@@ -18,8 +18,8 @@ export default class TemplateDropDown extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(this.props.defaultTemplate !== nextProps.defaultTemplate) {
-      this.setState({value: nextProps.defaultTemplate})
+    if((nextProps.defaultTemplate) && this.props.defaultTemplate !== nextProps.defaultTemplate) {
+      this.setState({value: parseInt(nextProps.defaultTemplate, 10)})
     }
   }
 
