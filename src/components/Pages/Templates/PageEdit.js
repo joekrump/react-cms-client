@@ -211,7 +211,7 @@ class PageEdit extends React.Component {
           <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
-            templateDefault={this.state.template_id} 
+            defaultTemplate={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
         </FloatingPageMenu>
