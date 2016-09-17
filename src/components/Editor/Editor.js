@@ -152,6 +152,10 @@ class Editor {
     
     if (numRegions === 0 && !this.dirty_data) {
         return;
+    } else if(this.editContext === 'new' && !regions.name) {
+      // A name for a page is required for it to be save.
+      // TODO: issue an error of some sort here.
+      return;
     } else {
       let regionValue;
       payload = {};
