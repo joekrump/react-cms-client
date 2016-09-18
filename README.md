@@ -3,11 +3,12 @@
 - [React Router](https://github.com/reactjs/react-router)
 - [Redux](http://redux.js.org)
 - [React Redux](https://github.com/reactjs/react-redux)
+- [Redux Saga](https://github.com/yelouafi/redux-saga)
 - [react-router-redux](https://github.com/reactjs/react-router-redux)
 - [Material UI](http://www.material-ui.com/)
 - [SuperAgent](https://github.com/visionmedia/superagent)
-- [Stripe](https://stripe.com/)
-- [Quill](http://quilljs.com/)
+- [Stripe](https://stripe.com)
+- [ContentTools](http://getcontenttools.com)
 
 The dev environment for the app was created using [react-create-app](https://github.com/facebookincubator/create-react-app), an excellent tool for generating a skeleton React app with all the basic configuration taken care of. Visit the url above for more details. Redux Devtools are also used in dev environment.
 
@@ -51,7 +52,10 @@ const app_config = {
   ],
   resourcesWithEditor: [ // Specify resources that you would like to use the inline editor for rather than a form.
     'page'
-  ]
+  ],
+  CLOUDINARY_PRESET_NAME: 'PRESET NAME',
+  CLOUDINARY_RETRIEVE_URL: 'RETREIVE PATH FOR CLOUDINARY',
+  CLOUDINARY_UPLOAD_URL: 'UPLOAD PATH FOR CLOUDINARY'
 };
 
 module.exports = app_config;
