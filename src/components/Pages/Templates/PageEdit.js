@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import APIClient from '../../../http/requests'
-import Editor from "../../Editor/Editor"
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from '../../Editor/styles/content-tools.scss';
 import { replace } from 'react-router-redux'
 import ContentTools from 'ContentTools';
+import APIClient from '../../../http/requests'
+import Editor from "../../Editor/Editor"
+import s from '../../Editor/styles/content-tools.scss';
 // Available templates
 import HomePageTemplate from './HomePageTemplate'
 import ContactPageTemplate from './ContactPageTemplate'
@@ -13,10 +13,11 @@ import BasicPageTemplate from './BasicPageTemplate'
 import LoginPageTemplate from './LoginPageTemplate'
 import PaymentPageTemplate from './PaymentPageTemplate'
 
-import TemplateDropDown from './TemplateDropDown'
+import TextField from 'material-ui/TextField';
+import Toggle from 'material-ui/Toggle';
 import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
-import TextField from 'material-ui/TextField';
+import TemplateDropDown from './TemplateDropDown'
 import {slugify} from '../../../helpers/StringHelper';
 
 class PageEdit extends React.Component {
@@ -26,11 +27,13 @@ class PageEdit extends React.Component {
 
     this.state = {
       content: null,
+      deleteable: false,
       editor: null,
       editContext: this.props.editContext,
       full_path: '/',
       name: null,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
+      showTitle: false,
       slug: props.slug ? props.slug : '',
       slugManuallySet: props.slug ? true : false,
       submitDisabled: false,
@@ -250,6 +253,18 @@ class PageEdit extends React.Component {
     this.state.editor.updateSlug(slug);
   }
 
+  handleToggleShowTitle(event) {
+    this.setState({
+      showTitle: !this.state.showTitle
+    })
+  }
+
+  handleToggleDeleteable(event) {
+    this.setState({
+      deleteable: !this.state.deleteable
+    })
+  }
+
   render() {
     return (
       <div className="page-edit">
@@ -261,7 +276,7 @@ class PageEdit extends React.Component {
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
           {/* Do not display the slug text field if this is the homepage (page with full_path of "/") */}
-          {this.state.full_path === '/' ?
+          {this.state.editContext === 'edit' && this.state.full_path === '/' ?
             null :
             <TextField
               type='text'
@@ -272,6 +287,18 @@ class PageEdit extends React.Component {
               style={{marginLeft: 24}}
             /> 
           }
+          <Toggle
+            label="Show Page Title?"
+            labelPosition="right"
+            defaultToggled={(event) => this.state.showPageTitle(event)}
+            style={{marginLeft: 24, marginTop: 5}}
+          />
+          <Toggle 
+            label="Allow Page to be deleted?"
+            labelPosition="right"
+            defaultToggled={(event) => this.state.deleteable(event)}
+            style={{marginLeft: 24, marginTop: 5}}
+          />
         </FloatingPageMenu>
         {this.state.template}
       </div>
