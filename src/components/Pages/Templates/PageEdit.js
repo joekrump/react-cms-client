@@ -42,33 +42,6 @@ class PageEdit extends React.Component {
     }
   }
 
-  getPageName(){
-    return this.state.name;
-  }
-
-  handleSaveSuccess(url, res, passive){
-    let newState = {
-      content: res.body.data.content,
-      name: res.body.data.name,
-      slugManuallySet: this.state.slug !== ''
-    };
-
-    // If the server has had to modify the state for some reason then show the updated state.
-    //
-    if(res.body.data.slug !== this.state.slug) {
-      newState.slug = res.body.data.slug;
-    }
-
-    this.setState(newState);
-
-    if(url) {
-      // this.context.store.dispatch(replace('/admin/' + url + '/edit'))
-    }
-    if (!passive) {
-      new ContentTools.FlashUI('ok');
-    }
-  }
-
   componentWillUnmount() {
     if(this.state.editor){
       this.state.editor.destroyEditor();
@@ -124,7 +97,44 @@ class PageEdit extends React.Component {
       })
     }
   }
+
+  /**
+   * Callback function used to update state data once the Editor has saved it.
+   * @param  {string} url      - New url to the page that has been saved.
+   * @param  {object} res      - The response from the server
+   * @param  {boolean} passive - Whether or not the Editor was in passive mode when saving.
+   * @return undefined.
+   */
+  handleSaveSuccess(url, res, passive){
+    let newState = {
+      content: res.body.data.content,
+      name: res.body.data.name,
+      slugManuallySet: this.state.slug !== ''
+    };
+
+    // If the server has had to modify the state for some reason then show the updated state.
+    //
+    if(res.body.data.slug !== this.state.slug) {
+      newState.slug = res.body.data.slug;
+    }
+
+    this.setState(newState);
+
+    if(url) {
+      // this.context.store.dispatch(replace('/admin/' + url + '/edit'))
+    }
+    if (!passive) {
+      new ContentTools.FlashUI('ok');
+    }
+  }
   
+  /**
+   * Function used to update state data after it has been retreived from the API server.
+   * @param  {APIClient} client             - The client use to make HTTP requests.
+   * @param  {Object} res                   - The response from the API server
+   * @param  {function} updateStateCallback - A callback function used to update the state.
+   * @return undefined
+   */
   handleSuccessfulDataFetch(client, res, updateStateCallback) {
     if (res.statusCode !== 200) {
       console.log('Could not get data for Page ', res);
@@ -136,6 +146,10 @@ class PageEdit extends React.Component {
     }
   }
 
+  /**
+   * Set state values for the Page being edited based on the response for the API server.
+   * @param {object} res - The response from the server
+   */
   setPreExistingPageData(res) {
     this.setState({
       content: res.body.data.content,
@@ -157,12 +171,22 @@ class PageEdit extends React.Component {
     })
   }
 
+  /**
+   * Initialize state values for a new Page.
+   * @param {[type]} res [description]
+   */
   setNewPageData(res) {
     this.setState({
       templates: res.body.data,
       editor: this.makeEditor()
     })
   }
+
+  /**
+   * Handler for when the Page name value changes.
+   * @param  {event} event - the event that was fired
+   * @return undefined
+   */
   handleNameChanged(event){
     // If this is not a new page, or if there is already a slug return early.
     // 
@@ -174,6 +198,11 @@ class PageEdit extends React.Component {
     this.updateSlug(slugify((event.target).textContent));
   }
 
+  /**
+   * Determine which page template component to render and return that component.
+   * @param  {integer} template_id - The id corresponding to the template to render
+   * @return {React.Component}     - The page template to render.
+   */
   getTemplateComponent(template_id){
     let template = null;
 
@@ -224,12 +253,16 @@ class PageEdit extends React.Component {
       }
     }
 
-    return template
+    return template;
   }
 
+  /**
+   * Create the Editor to use for editing content of a Page.
+   * @return {Editor} - The editor to use for editing Page content.
+   */
   makeEditor(){
     return new Editor(
-      this.getPageName, 
+      () => (this.state.name), 
       this.props.submitUrl, 
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
@@ -239,6 +272,11 @@ class PageEdit extends React.Component {
     )
   }
 
+  /**
+   * Hander for when the value of the page template from the DropDown is changed.
+   * @param  {integer} template_id - The new template_id
+   * @return undefined
+   */
   handleTemplateChange(template_id) {
     this.setState({template_id})
     this.state.editor.updateTemplateId(template_id);
@@ -248,6 +286,11 @@ class PageEdit extends React.Component {
     this.props.resetForm(this.props.formName)
   }
 
+  /**
+   * Handler for when the value of the slug TextField changes.
+   * @param  {Event} event - The event that was fired
+   * @return undefined
+   */
   handleSlugChange(event) {
     this.setState({slugManuallySet: true})
     this.updateSlug(slugify(event.target.value));
@@ -263,12 +306,6 @@ class PageEdit extends React.Component {
   handleToggleShowTitle(event) {
     this.setState({
       showTitle: !this.state.showTitle
-    })
-  }
-
-  handleToggleDeleteable(event) {
-    this.setState({
-      deleteable: !this.state.deleteable
     })
   }
 
