@@ -290,13 +290,15 @@ class PageEdit extends React.Component {
           <Toggle
             label="Show Page Title?"
             labelPosition="right"
-            defaultToggled={(event) => this.state.showPageTitle(event)}
+            onToggle={(event) => this.handleToggleShowTitle(event)}
+            defaultToggled={this.state.showPageTitle}
             style={{marginLeft: 24, marginTop: 5}}
           />
           <Toggle 
             label="Allow Page to be deleted?"
             labelPosition="right"
-            defaultToggled={(event) => this.state.deleteable(event)}
+            onToggle={(event) => this.handleToggleDeleteable(event)}
+            defaultToggled={this.state.deleteable}
             style={{marginLeft: 24, marginTop: 5}}
           />
         </FloatingPageMenu>
