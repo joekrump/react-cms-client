@@ -25,6 +25,7 @@ $actionSpacing: 8px;
   position: fixed;
   flex-direction: row-reverse;
   display: flex;
+  z-index: 1112;
   .button {
     background: none;
     border: 0px;
@@ -38,9 +39,17 @@ $actionSpacing: 8px;
   right: 20px;
   width: 300px;
   z-index: 1110;
+  .dial-control-area {
+    width: 96px;
+    background-color: transparent;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1111;
+  }
   .actions {
     position: absolute;
-    margin-bottom: 56px + $actionSpacing; // height of fab + action spacing.
+    padding-bottom: 56px + $actionSpacing; // height of fab + action spacing.
     bottom: 0;
     right: 0;
 
@@ -51,7 +60,7 @@ $actionSpacing: 8px;
       padding: $actionSpacing 0;
       text-align: center;
       visibility: hidden;
-
+      z-index: 1113;
       .button {
         background: none;
         border: 0px;

@@ -1,6 +1,6 @@
+import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Tooltip from 'material-ui/internal/Tooltip'
-import React from 'react';
 import merge from 'lodash.merge';
 
 class CustomFAB extends React.Component {

@@ -34,14 +34,11 @@ class SpeedDial extends React.Component {
       open: false,
       hoveredTooltip: false
     }
+    this.openSpeedDial = this.openSpeedDial.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
+    this.closeSpeedDial = this.closeSpeedDial.bind(this)
   }
 
-  handleToggle() {
-    this.setState({
-      open: !this.state.open,
-    })
-  }
 
   handleActionClick(e, actionRoute) {
     e.preventDefault();
@@ -49,13 +46,37 @@ class SpeedDial extends React.Component {
     this.setState({open: false});
   }
 
+  handleToggle(e) {
+    this.setState({
+      open: !this.state.open,
+    })
+  }
+
+  openSpeedDial(e) {
+    if(this.state.open) {
+      return;
+    }
+    this.handleToggle(e);
+  }
+
+  closeSpeedDial(e) {
+    if(!this.state.open) {
+      return;
+    }
+    console.log((e.target.parentNode));
+    this.handleToggle(e);
+  }
+
   render() {
+    let mouseOutAreaHeight = 80;
+
     const actionButtons = actions.map((action, index) => {
 
       const id = action.id || action.route.substr(1).replace(/\//g, '_')
+      
+      mouseOutAreaHeight += 58;
 
       const delay = (30 * (this.state.open ? (actions.length - index) : index))
-      console.log('Delay', delay);
       return (
         <CustomFAB 
           key={id}
@@ -74,18 +95,23 @@ class SpeedDial extends React.Component {
       <div className={(this.state.open ? "opened" : "closed")}>
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>
         <div className="container">
-          <div className="actions">
-            {actionButtons}
+          <div className="dial-control-area" style={{height: (this.state.open ? mouseOutAreaHeight + 'px' : 0)}}>
+            <div className="actions">
+              {actionButtons}
+            </div>
+            <CustomFAB
+              className="fab" 
+              iconStyle={{fill: "white"}} 
+              onMouseOver={this.openSpeedDial} 
+              onTouchTap={this.handleToggle} 
+              primary
+              tooltipText='Actions'
+              icon={<AddIcon />}
+              toolTypeStyles={{marginTop: '-16px', marginBottom: '24px'}}
+            />
+          
           </div>
-          <CustomFAB
-            className="fab" 
-            iconStyle={{fill: "white"}} 
-            onTouchTap={this.handleToggle} 
-            primary
-            tooltipText='Actions'
-            icon={<AddIcon />}
-            toolTypeStyles={{marginTop: '-16px', marginBottom: '24px'}}
-          />
+
         </div>
       </div>
     )
