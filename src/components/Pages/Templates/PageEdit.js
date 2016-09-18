@@ -46,10 +46,6 @@ class PageEdit extends React.Component {
     return this.state.name;
   }
 
-  getSubmitURL(){
-    return this.state.resourceURL
-  }
-
   handleSaveSuccess(url, res, passive){
     let newState = {
       content: res.body.data.content,
@@ -78,6 +74,7 @@ class PageEdit extends React.Component {
       this.state.editor.destroyEditor();
     }
   }
+
   componentWillMount() {
     if(this.state.editContext === 'edit') {
       this.context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
@@ -168,10 +165,12 @@ class PageEdit extends React.Component {
   }
   handleNameChanged(event){
     // If this is not a new page, or if there is already a slug return early.
+    // 
     if(this.state.editContext !== 'new' || this.state.slugManuallySet) {
       return;
     }
     // otherwise, update the slug based on what the name currently is.
+    // 
     this.updateSlug(slugify((event.target).textContent));
   }
 
