@@ -25,7 +25,6 @@ $actionSpacing: 8px;
   position: fixed;
 };
 
-
 .container {
   position: fixed;
   bottom: 20px;
@@ -51,25 +50,6 @@ $actionSpacing: 8px;
         text-align: center;
         width: 56px; // width of fab
         transition: all 120ms cubic-bezier(.25,.25,0,1);
-      }
-
-      .tooltip {
-        display: inline-block;
-        color: white;
-        white-space: nowrap;
-        opacity: 0;
-        
-        .inner-text {
-          line-height: 1.0;
-          color: #ececec;
-          display: inline-block;
-          max-width: 230px;
-          overflow: hidden;
-          padding: 6px $actionSpacing;
-          text-overflow: ellipsis;
-          vertical-align: middle;
-          font-size: 81.25%;
-        }
       }
     }
   }
@@ -101,11 +81,6 @@ $actionSpacing: 8px;
     .actions {
       .action {
         visibility: visible;
-        &:hover {
-          .tooltip {
-            opacity: 1;
-          }
-        }
       }
     }
   }
