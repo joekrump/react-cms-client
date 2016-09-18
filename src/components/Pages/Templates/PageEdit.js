@@ -40,6 +40,7 @@ class PageEdit extends React.Component {
   }
 
   getPageName(){
+    //
     return this.state.name;
   }
 
@@ -71,7 +72,7 @@ class PageEdit extends React.Component {
       this.context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
     }
     this.setState({
-      template: this.getTemplateComponent(parseInt(this.props.template_id, 10))
+      template: this.getTemplateComponent(this.props.template_id)
     })
   }
 
@@ -163,7 +164,6 @@ class PageEdit extends React.Component {
 
   getTemplateComponent(template_id){
     let template = null;
-    // May come in as a string from query params so parse as int.
 
     switch(template_id) {
       case 1: {
@@ -249,13 +249,14 @@ class PageEdit extends React.Component {
   }
 
   render() {
+    console.log(this.state.template_id);
     return (
       <div className="page-edit">
         <FloatingPageMenu>
           <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
-            defaultTemplate={this.state.template_id} 
+            defaultTemplateId={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
           <TextField

@@ -13,6 +13,12 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
   const nameSingular = singularizeName(resourceNamePlural);
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
+    let template_id;
+
+    if(queryProps && (typeof queryProps.template_id === 'string')) {
+      template_id = parseInt(queryProps.template_id, 10)
+    }
+    
     return (
       <EditPageLayout>
         <div className="admin-edit">
@@ -22,7 +28,7 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
             resourceId={resourceId}
             resourceNamePlural={resourceNamePlural}
             context={context}
-            template_id={queryProps ? queryProps.template_id : 1}
+            template_id={queryProps ? template_id : 1}
           />
         </div>
       </EditPageLayout>
