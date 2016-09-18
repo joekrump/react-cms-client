@@ -7,17 +7,17 @@ import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
 // Available templates
-import HomePageTemplate from './HomePageTemplate'
-import ContactPageTemplate from './ContactPageTemplate'
-import BasicPageTemplate from './BasicPageTemplate'
-import LoginPageTemplate from './LoginPageTemplate'
-import PaymentPageTemplate from './PaymentPageTemplate'
+import HomePageTemplate from '../Templates/HomePageTemplate'
+import ContactPageTemplate from '../Templates/ContactPageTemplate'
+import BasicPageTemplate from '../Templates/BasicPageTemplate'
+import LoginPageTemplate from '../Templates/LoginPageTemplate'
+import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
-import TemplateDropDown from './TemplateDropDown'
+import TemplateDropDown from '../Templates/TemplateDropDown'
 import {slugify} from '../../../helpers/StringHelper';
 
 class PageEdit extends React.Component {

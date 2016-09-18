@@ -4,7 +4,7 @@ import AppConfig from '../../../../../app_config/app';
 import { capitalize } from '../../../../helpers/StringHelper'
 import { singularizeName } from '../../../../helpers/ResourceHelper'
 import AdminLayout from '../Layout/AdminLayout'
-import PageEdit from '../../Templates/PageEdit';
+import PageEdit from '../../Page/Edit';
 import EditPageLayout from '../Layout/EditPageLayout'
 import BackButton from '../../../Nav/BackButton'
 import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
