@@ -55,14 +55,14 @@ class SpeedDial extends React.Component {
 
       return (
         <div className="action" key={id}>
-          <div className='tooltip' style={{transitionDelay: delay + 'ms'}}>
-            <span id={id} >{action.tooltipText}</span>
-          </div>
-          <div className={"button"} style={{transitionDelay: delay + 'ms'}}>
+          <button className={"button"} style={{transitionDelay: delay + 'ms'}}>
             <FloatingActionButton iconStyle={{fill: "white"}} mini={true} onTouchTap={(e) => this.handleActionClick(e, action.route)} secondary>
               {action.icon}
             </FloatingActionButton>
-          </div>
+          </button>
+          <label className='tooltip' style={{transitionDelay: delay + 'ms'}}>
+            <span id={id} className="inner-text">{action.tooltipText}</span>
+          </label>
         </div>
       )
     })
@@ -71,10 +71,10 @@ class SpeedDial extends React.Component {
       <div className={(this.state.open ? "opened" : "closed")}>
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>
         <div className="container">
-          <div className={"actions"} style={{top: this.state.open ? `${actions.length * -62}px` : '100px'}}>
+          <div className={"actions"}>
             {actionButtons}
           </div>
-          <FloatingActionButton onTouchTap={this.handleToggle} className="add-button main">
+          <FloatingActionButton onTouchTap={this.handleToggle} className="fab">
             <AddIcon />
           </FloatingActionButton>
         </div>

@@ -1,3 +1,5 @@
+$actionSpacing: 8px;
+
 .cover {
   position: fixed;
   width: 100%;
@@ -14,49 +16,79 @@
   /*background: linear-gradient(135deg, #5dc1b2 0%, #1fbcd2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
-.actions {
-  position: absolute;
-  width: 56px; /* Width of a regular size floating action button*/
-  text-align: center;
-}
+.fab {
+  margin: 0px;
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  position: fixed;
+};
+
 
 .container {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 56px;
-  text-align: center;
+  width: 300px;
   z-index: 1110;
-}
+  .actions {
+    position: absolute;
+    bottom: 56px + $actionSpacing; // height of fab + action spacing.
+    right: 0;
 
-.button {
-  transition: transform 0.2s ease-in-out;
-}
+    .action {
+      flex-direction: row-reverse;
+      display: flex;
+      height: 42px;
+      padding: $actionSpacing 0;
+      text-align: center;
+      visibility: hidden;
 
-.action {
-  position: relative;
-  margin-bottom: 20px;
-}
+      .button {
+        background: none;
+        border: 0px;
+        text-align: center;
+        width: 56px; // width of fab
+        transition: all 120ms cubic-bezier(.25,.25,0,1);
+      }
 
-.tooltip {
-  position: absolute;
-  right: 75px;
-  top: 18px;
-  color: white;
-  white-space: nowrap;
-  opacity: 1;
-  transition: opacity 0.2s ease-in-out;
+      .tooltip {
+        display: inline-block;
+        margin-right: $actionSpacing;
+        color: white;
+        white-space: nowrap;
+        opacity: 0;
+        line-height: 42px; // height of small action buttons
+        transition: opacity 120ms cubic-bezier(.4,0,1,1);
+        
+        .inner-text {
+          line-height: 1.0;
+          color: #ececec;
+          display: inline-block;
+          box-shadow: 0 1px 2px rgba(0,0,0,.15);
+          background: rgba(70,70,70,.9);
+          max-width: 230px;
+          overflow: hidden;
+          padding: 6px $actionSpacing;
+          text-overflow: ellipsis;
+          vertical-align: middle;
+          font-size: 81.25%;
+        }
+      }
+    }
+  }
 }
 
 .closed {
-  .tooltip {
-    opacity: 0;
-  }
-  .button {
-    transform: scale(0, 0);
-  }
   .actions {
     transition: top 0s linear 0.2s;
+    .tooltip {
+      opacity: 0;
+    }
+    .button {
+      transform: scale(0, 0);
+    }
   }
   .cover {
     opacity: 0;
@@ -65,9 +97,21 @@
 }
 
 .opened {
-  .main {
+  .fab {
     svg {
       transform: rotate(45deg);
     }
-  } 
+  }
+  .container {
+    .actions {
+      .action {
+        visibility: visible;
+        &:hover {
+          .tooltip {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
 }
