@@ -11,7 +11,7 @@ class CustomFAB extends React.Component {
     }
   }
   // Get default styles merged with prop styles.
-  getStyles() {
+  getToolTipStyles() {
     let styles = {
       lineHeight: '32px',
       position: 'relative',
@@ -20,13 +20,13 @@ class CustomFAB extends React.Component {
       marginTop: '-8px'
     };
 
-    return merge(this.props.style, styles);
+    return merge(styles, this.props.toolTypeStyles);
   }
 
   render() {
     return (
-      <div className="action">
-        <button className={"button"} >
+      <div className={this.props.className ? this.props.className : "action"}>
+        <button className="button" style={{transitionDelay: this.props.delay + 'ms'}}>
           <FloatingActionButton 
             onMouseEnter={()=>{this.setState({hoveredTooltip: true})}}
             onMouseLeave={()=>{this.setState({hoveredTooltip: false})}}
@@ -43,7 +43,7 @@ class CustomFAB extends React.Component {
           horizontalPosition="left"
           verticalPosition="middle"
           touch={true}
-          style={this.getStyles()}
+          style={this.getToolTipStyles()}
         />
       </div>
     )

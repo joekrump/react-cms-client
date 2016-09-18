@@ -23,6 +23,13 @@ $actionSpacing: 8px;
   bottom: 20px;
   left: auto;
   position: fixed;
+  flex-direction: row-reverse;
+  display: flex;
+  .button {
+    background: none;
+    border: 0px;
+    width: 56px;
+  }
 };
 
 .container {
@@ -33,7 +40,8 @@ $actionSpacing: 8px;
   z-index: 1110;
   .actions {
     position: absolute;
-    bottom: 56px + $actionSpacing; // height of fab + action spacing.
+    margin-bottom: 56px + $actionSpacing; // height of fab + action spacing.
+    bottom: 0;
     right: 0;
 
     .action {
@@ -49,7 +57,7 @@ $actionSpacing: 8px;
         border: 0px;
         text-align: center;
         width: 56px; // width of fab
-        transition: all 120ms cubic-bezier(.25,.25,0,1);
+        transition: all 120ms ease-in-out;
       }
     }
   }
@@ -58,9 +66,6 @@ $actionSpacing: 8px;
 .closed {
   .actions {
     transition: top 0s linear 0.2s;
-    .tooltip {
-      opacity: 0;
-    }
     .button {
       transform: scale(0, 0);
     }

@@ -55,10 +55,11 @@ class SpeedDial extends React.Component {
       const id = action.id || action.route.substr(1).replace(/\//g, '_')
 
       const delay = (30 * (this.state.open ? (actions.length - index) : index))
-
+      console.log('Delay', delay);
       return (
         <CustomFAB 
           key={id}
+          delay={delay}
           iconStyle={{fill: "white"}} 
           mini={true} 
           onTouchTap={(e) => this.handleActionClick(e, action.route)} 
@@ -73,12 +74,18 @@ class SpeedDial extends React.Component {
       <div className={(this.state.open ? "opened" : "closed")}>
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>
         <div className="container">
-          <div className={"actions"}>
+          <div className="actions">
             {actionButtons}
           </div>
-          <FloatingActionButton onTouchTap={this.handleToggle} className="fab">
-            <AddIcon />
-          </FloatingActionButton>
+          <CustomFAB
+            className="fab" 
+            iconStyle={{fill: "white"}} 
+            onTouchTap={this.handleToggle} 
+            primary
+            tooltipText='Actions'
+            icon={<AddIcon />}
+            toolTypeStyles={{marginTop: '-16px', marginBottom: '24px'}}
+          />
         </div>
       </div>
     )
