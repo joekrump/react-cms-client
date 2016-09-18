@@ -27,13 +27,12 @@ class PageEdit extends React.Component {
 
     this.state = {
       content: null,
-      deleteable: false,
       editor: null,
       editContext: this.props.editContext,
       full_path: '/',
       name: null,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
-      showTitle: false,
+      showPageTitle: true,
       slug: props.slug ? props.slug : '',
       slugManuallySet: props.slug ? true : false,
       submitDisabled: false,
@@ -292,13 +291,6 @@ class PageEdit extends React.Component {
             labelPosition="right"
             onToggle={(event) => this.handleToggleShowTitle(event)}
             defaultToggled={this.state.showPageTitle}
-            style={{marginLeft: 24, marginTop: 5}}
-          />
-          <Toggle 
-            label="Allow Page to be deleted?"
-            labelPosition="right"
-            onToggle={(event) => this.handleToggleDeleteable(event)}
-            defaultToggled={this.state.deleteable}
             style={{marginLeft: 24, marginTop: 5}}
           />
         </FloatingPageMenu>
