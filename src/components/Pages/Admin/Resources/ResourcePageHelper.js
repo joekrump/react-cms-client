@@ -9,7 +9,7 @@ import EditPageLayout from '../Layout/EditPageLayout'
 import BackButton from '../../../Nav/BackButton'
 import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
 
-export function getEditorContent(context, resourceNamePlural, resourceId, queryProps){
+export function getEditorContent(editContext, resourceNamePlural, resourceId, queryProps){
   const nameSingular = singularizeName(resourceNamePlural);
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
@@ -19,11 +19,11 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
       <EditPageLayout>
         <div className="admin-edit">
           <PageEdit 
-            submitUrl={context === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
+            submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
             resourceType={nameSingular}
             resourceId={resourceId}
             resourceNamePlural={resourceNamePlural}
-            context={context}
+            editContext={editContext}
             template_id={queryProps && queryProps.template_id ? parseInt(queryProps.template_id, 10) : 1}
           />
         </div>
@@ -36,15 +36,15 @@ export function getEditorContent(context, resourceNamePlural, resourceId, queryP
           <FloatingPageMenu>
             <BackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
           </FloatingPageMenu>
-          <h1>{context === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
+          <h1>{editContext === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
 
           <ResourceForm 
             formName={nameSingular + 'Form'} 
-            submitUrl={context === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
+            submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
             resourceId={resourceId}
             resourceType={nameSingular}
             resourceNamePlural={resourceNamePlural}
-            context={context}
+            context={editContext}
           />
         </div>
       </AdminLayout>

@@ -26,21 +26,21 @@ class PageEdit extends React.Component {
 
     this.state = {
       content: null,
+      editor: null,
+      editContext: this.props.editContext,
+      full_path: '/',
       name: null,
+      resourceURL: props.resourceNamePlural + '/' + props.resourceId,
+      slug: props.slug ? props.slug : '',
+      slugManuallySet: props.slug ? true : false,
+      submitDisabled: false,
       template: null,
       templates: [],
-      template_id: props.template_id,
-      submitDisabled: false,
-      resourceURL: props.resourceNamePlural + '/' + props.resourceId,
-      editor: null,
-      slug: props.slug ? props.slug : '',
-      editContext: this.props.context,
-      slugManuallySet: props.slug ? true : false
+      template_id: props.template_id
     }
   }
 
   getPageName(){
-    //
     return this.state.name;
   }
 
@@ -99,7 +99,7 @@ class PageEdit extends React.Component {
 
     let client = new APIClient(this.context.store)
 
-    if(this.props.context === 'edit'){
+    if(this.props.editContext === 'edit'){
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
       client.get(this.state.resourceURL).then((res) => {
          this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
@@ -131,12 +131,14 @@ class PageEdit extends React.Component {
   setPreExistingPageData(res) {
     this.setState({
       content: res.body.data.content,
+      full_path: res.body.data.full_path,
       name: res.body.data.name,
       templates: res.body.data.templates,
       slug: res.body.data.slug,
       editor: this.makeEditor(),
       slugManuallySet: res.body.data.slug ? true : false
-    })
+    });
+
     if(!this.state.template_id) {
       this.setState({
         template_id: parseInt(res.body.data.template_id, 10)
@@ -154,7 +156,7 @@ class PageEdit extends React.Component {
     })
   }
   handleNameChanged(event){
-    // IF this is not a new page, or if there is already a slug return early.
+    // If this is not a new page, or if there is already a slug return early.
     if(this.state.editContext !== 'new' || this.state.slugManuallySet) {
       return;
     }
@@ -258,14 +260,18 @@ class PageEdit extends React.Component {
             defaultTemplateId={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
-          <TextField
-            type='text'
-            hintText='example-slug'
-            floatingLabelText='Page Slug'
-            onChange={(e) => this.handleSlugChange(e)}
-            value={this.state.slug}
-            style={{marginLeft: 24}}
-          />
+          {/* Do not display the slug text field if this is the homepage (page with full_path of "/") */}
+          {this.state.full_path === '/' ?
+            null :
+            <TextField
+              type='text'
+              hintText='example-slug'
+              floatingLabelText='Page Slug'
+              onChange={(e) => this.handleSlugChange(e)}
+              value={this.state.slug}
+              style={{marginLeft: 24}}
+            /> 
+          }
         </FloatingPageMenu>
         {this.state.template}
       </div>
@@ -302,7 +308,6 @@ const mapDispatchToProps = (dispatch) => {
 PageEdit.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
-
 
 export default withStyles(s)(connect(
   mapStateToProps,
