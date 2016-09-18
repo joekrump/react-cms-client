@@ -119,7 +119,6 @@ Page.contextTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('Page ownProps:', ownProps)
   return {
     pathname: state.routing.locationBeforeTransitions.pathname
   }

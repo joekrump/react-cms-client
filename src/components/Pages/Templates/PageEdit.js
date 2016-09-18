@@ -249,7 +249,6 @@ class PageEdit extends React.Component {
   }
 
   render() {
-    console.log(this.state.template_id);
     return (
       <div className="page-edit">
         <FloatingPageMenu>

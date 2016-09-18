@@ -41,8 +41,6 @@ const StoreHelper = () => {
         ((typeof window !== 'undefined') && window.devToolsExtension) ? window.devToolsExtension() : DevTools.instrument() 
       )
     );
-
-    console.log(store.getState());
     
     if(callback){
       callback();
