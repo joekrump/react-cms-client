@@ -8,8 +8,6 @@ export default class TemplateDropDown extends React.Component {
   constructor(props) {
     super(props);
     
-    // let template_id = typeof props.defaultTemplate === 'string' ? parseInt(props.defaultTemplate) : props.defaultTemplate;
-    
     this.state = {
       value: props.defaultTemplateId ? props.defaultTemplateId : 1
     };
