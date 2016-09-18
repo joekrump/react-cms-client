@@ -5,10 +5,10 @@ import s from './HomePageTemplate.scss';
 const HomePageTemplate = (props) => (
   <div className="page home">
     <div className="page-container">
-      <div className="big-box"  data-editable data-name="name">
+      <div id="name" className="big-box" data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
         <h1 data-ce-placeholder="Page Title">{props.name ? props.name : ''}</h1>
       </div>
-      <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: props.content}} />
+      <div data-editable data-name="content" data-ce-placeholder="Content..." dangerouslySetInnerHTML={{__html: props.content}} />
     </div>
   </div>
 )

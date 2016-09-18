@@ -33,7 +33,9 @@ class PageEdit extends React.Component {
       submitDisabled: false,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
       editor: null,
-      slug: ''
+      slug: props.slug ? props.slug : '',
+      editContext: this.props.context,
+      slugManuallySet: props.slug ? true : false
     }
   }
 
@@ -45,9 +47,14 @@ class PageEdit extends React.Component {
     return this.state.resourceURL
   }
 
-  handleSaveSuccess(url, passive){
+  handleSaveSuccess(url, res, passive){
+    this.setState({
+      content: res.body.data.content,
+      name: res.body.data.name,
+      slugManuallySet: this.state.slug !== ''
+    });
     if(url) {
-      this.store.dispatch(replace('/admin/' + url + '/edit'))
+      // this.context.store.dispatch(replace('/admin/' + url + '/edit'))
     }
     if (!passive) {
       new ContentTools.FlashUI('ok');
@@ -60,20 +67,20 @@ class PageEdit extends React.Component {
     }
   }
   componentWillMount() {
-    if(this.props.context === 'edit') {
+    if(this.state.editContext === 'edit') {
       this.context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
     }
     this.setState({
-      template: this.getTemplateComponent(this.props.template_id)
+      template: this.getTemplateComponent(parseInt(this.props.template_id, 10))
     })
   }
 
   componentWillUpdate(nextProps, nextState) {
     // If there has been a change to the template_id then rerender the page with the
     // corresponding template.
-    if(this.state.editor === null && nextState.editor !== null && this.props.context === 'new') {
+    if(this.state.editor === null && nextState.editor !== null && this.state.editContext === 'new') {
       if(nextState.editor.editor.isReady()) {
-        nextState.editor.editor.syncRegions();
+        // nextState.editor.editor.syncRegions();
         nextState.editor.editor.start()
       }
     }
@@ -126,7 +133,8 @@ class PageEdit extends React.Component {
       name: res.body.data.name,
       templates: res.body.data.templates,
       slug: res.body.data.slug,
-      editor: this.makeEditor()
+      editor: this.makeEditor(),
+      slugManuallySet: res.body.data.slug ? true : false
     })
     if(!this.state.template_id) {
       this.setState({
@@ -144,35 +152,62 @@ class PageEdit extends React.Component {
       editor: this.makeEditor()
     })
   }
+  handleNameChanged(event){
+    // IF this is not a new page, or if there is already a slug return early.
+    if(this.state.editContext !== 'new' || this.state.slugManuallySet) {
+      return;
+    }
+    // otherwise, update the slug based on what the name currently is.
+    this.updateSlug(slugify((event.target).textContent));
+  }
 
   getTemplateComponent(template_id){
     let template = null;
     // May come in as a string from query params so parse as int.
-    template_id = parseInt(template_id, 10);
 
     switch(template_id) {
       case 1: {
-        template = (<BasicPageTemplate name={this.state.name} content={this.state.content} />)
+        template = (<BasicPageTemplate 
+          name={this.state.name} 
+          content={this.state.content}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 2: {
-        template = (<ContactPageTemplate name={this.state.name} content={this.state.content} />)
+        template = (<ContactPageTemplate 
+          name={this.state.name} 
+          content={this.state.content}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 3: {
-        template = (<HomePageTemplate name={this.state.name} content={this.state.content} />);
+        template = (<HomePageTemplate 
+          name={this.state.name} 
+          content={this.state.content}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       case 4: {
-        template = (<LoginPageTemplate name={this.state.name} content={this.state.content} disabled={true} />);
+        template = (<LoginPageTemplate 
+          name={this.state.name} 
+          content={this.state.content} 
+          disabled={true}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       case 5: {
-        template = (<PaymentPageTemplate name={this.state.name} content={this.state.content} disabled={true} />);
+        template = (<PaymentPageTemplate 
+          name={this.state.name} 
+          content={this.state.content} 
+          disabled={true}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       default: {
-        template = (<BasicPageTemplate name={this.state.name} content={this.state.content} />)
+        template = (<BasicPageTemplate 
+          name={this.state.name} 
+          content={this.state.content}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
     }
@@ -184,8 +219,8 @@ class PageEdit extends React.Component {
     return new Editor(
       this.getPageName, 
       this.props.submitUrl, 
-      this.handleSaveSuccess, 
-      this.props.context, 
+      (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
+      this.state.editContext, 
       this.props.resourceNamePlural, 
       this.context.store,
       this.state.template_id
@@ -202,12 +237,15 @@ class PageEdit extends React.Component {
   }
 
   handleSlugChange(event) {
-    // this.setState({
-    //   slug: slugify(event.target.value)
-    // })
-    this.state.editor.updateSlug(slugify(event.target.value), (formattedSlug) => {
-      this.setState({slug: formattedSlug})
+    this.setState({slugManuallySet: true})
+    this.updateSlug(slugify(event.target.value));
+  }
+
+  updateSlug(slug) {
+    this.setState({
+      slug: slug
     })
+    this.state.editor.updateSlug(slug);
   }
 
   render() {

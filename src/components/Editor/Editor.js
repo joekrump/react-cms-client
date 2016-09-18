@@ -6,7 +6,7 @@ const sKeyCode = 83;
 
 class Editor {
 
-  constructor(getPageName, submitURL, handleSaveSuccess, context, resourceNamePlural, store, template_id) {
+  constructor(getPageName, submitURL, handleSaveSuccess, editContext, resourceNamePlural, store, template_id) {
     this.submitURL = submitURL;
     this.handleSaveSuccess = handleSaveSuccess;
     this.resourceNamePlural = resourceNamePlural;
@@ -16,7 +16,7 @@ class Editor {
     this.dirty_data = false;
     // new or edit
     // 
-    this.editContext = context;
+    this.editContext = editContext;
     this.getPageName = getPageName;
 
     ContentTools.IMAGE_UPLOADER = this.createImageUploader;
@@ -74,15 +74,17 @@ class Editor {
     }
   }
 
+  getEditor(){
+    return this.editor;
+  }
+
   updateTemplateId(template_id){
     this.template_id = template_id;
     this.dirty_data = true;
   }
 
-  updateSlug(slug, callback) {
-    // remove trailing '-' 
+  updateSlug(slug) {
     this.slug = slug;
-    callback(this.slug);
     this.dirty_data = true;
   }
 
@@ -206,9 +208,9 @@ class Editor {
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
             this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
-            this.handleSaveSuccess(this.submitURL, passive)
+            this.handleSaveSuccess(this.submitURL, res, passive)
           } else {
-            this.handleSaveSuccess(null, passive)
+            this.handleSaveSuccess(null, res, passive)
           }
           this.dirty_data = false;
         }
