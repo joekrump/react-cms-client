@@ -51,11 +51,20 @@ class PageEdit extends React.Component {
   }
 
   handleSaveSuccess(url, res, passive){
-    this.setState({
+    let newState = {
       content: res.body.data.content,
       name: res.body.data.name,
       slugManuallySet: this.state.slug !== ''
-    });
+    };
+
+    // If the server has had to modify the state for some reason then show the updated state.
+    //
+    if(res.body.data.slug !== this.state.slug) {
+      newState.slug = res.body.data.slug;
+    }
+
+    this.setState(newState);
+
     if(url) {
       // this.context.store.dispatch(replace('/admin/' + url + '/edit'))
     }
