@@ -17,7 +17,8 @@ class CustomFAB extends React.Component {
       position: 'relative',
       display: 'inline-block',
       marginBottom: '16px',
-      marginTop: '-8px',
+      marginTop: '-8px', // marginTop and top should add up to be the height of the action element that contains them.
+      top: '34px',
       zIndex: 2000
     };
 
@@ -25,24 +26,27 @@ class CustomFAB extends React.Component {
   }
 
   render() {
+
     return (
       <div className={this.props.className ? this.props.className : "action"}>
-        <button className="button" style={{transitionDelay: this.props.delay + 'ms'}}>
+        <div className="button" style={{transitionDelay: this.props.delay + 'ms'}}>
           <FloatingActionButton 
             onMouseEnter={()=>{this.setState({hoveredTooltip: true})}}
             onMouseLeave={()=>{this.setState({hoveredTooltip: false})}}
-            {...this.props}
+            iconStyle={this.props.iconStyle}
+            secondary={this.props.secondary}
+            mini={this.props.mini}
           >
             {this.props.icon ? (this.props.icon) : null}
           </FloatingActionButton>
 
-        </button>
+        </div>
         <Tooltip 
           className="tooltip"
           show={this.state.hoveredTooltip}
           label={this.props.tooltipText}
           horizontalPosition="left"
-          verticalPosition="middle"
+          verticalPosition="top"
           touch={true}
           style={this.getToolTipStyles()}
         />

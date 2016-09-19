@@ -13,6 +13,7 @@ const TextInput = () => ({
   },
 
   render(){
+    console.log(this.props.validations)
     return (
       <div>
         <TextField

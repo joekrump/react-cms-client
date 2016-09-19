@@ -80,7 +80,7 @@ class SpeedDial extends React.Component {
           iconStyle={{fill: "white"}} 
           mini={true} 
           onTouchTap={(e) => this.handleActionClick(e, action.route)} 
-          secondary
+          secondary={true}
           tooltipText={action.tooltipText}
           icon={action.icon}
         />
@@ -102,10 +102,9 @@ class SpeedDial extends React.Component {
               className="fab" 
               iconStyle={{fill: "white"}} 
               onTouchTap={this.handleToggle} 
-              primary
               tooltipText='Actions'
               icon={<AddIcon />}
-              toolTypeStyles={{marginTop: '-16px', marginBottom: '24px'}}
+              toolTypeStyles={{marginTop: '-8px', marginBottom: '34px', top: '42px'}}
             />
           </div>
         </div>

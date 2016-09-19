@@ -4,7 +4,7 @@ import { List, ListItem } from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../Form/index';
 import APIClient from '../../http/requests'
 import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
-
+import validations from '../../form-validation/validations'
 const listItemStyle = {
   padding: "0 16px"
 };
@@ -107,7 +107,8 @@ class ResourceForm extends React.Component {
             placeholder={field.placeholder} 
             label={field.label} 
             formName={this.props.formName} 
-            name={fieldName} 
+            name={fieldName}
+            validations={validations[this.props.formName][fieldName]} 
             autoFocus={i++ === 0} 
             multiLine={field.inputType === 'textarea'}
           />
