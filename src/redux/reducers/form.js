@@ -28,6 +28,7 @@ const formReducer = (state = initialState, action) => {
           fields: assign({}, state[action.formName].fields, {
             [action.fieldName]: assign({}, state[action.formName].fields[action.fieldName], {
               value: action.value,
+              errors: action.errors
             })
           })
         }

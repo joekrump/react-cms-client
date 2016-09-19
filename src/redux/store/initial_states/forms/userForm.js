@@ -5,21 +5,21 @@ export const userForm = {
   fields: {
     name: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'text',
       label: 'Name',
       placeholder: ''
     },
     email: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'email',
       label: 'Email',
       placeholder: ''
     },
     password: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'password',
       label: 'Password',
       placeholder: '*********'

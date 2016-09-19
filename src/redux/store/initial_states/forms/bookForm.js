@@ -5,21 +5,21 @@ export const bookForm = {
   fields: {
     title: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'text',
       label: 'Title',
       placeholder: ''
     },
     author_name: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'text',
       label: 'Author Name',
       placeholder: ''
     },
     pages_count: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'text',
       label: 'Page Count',
       placeholder: ''

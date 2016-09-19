@@ -69,6 +69,7 @@
     "redux-saga": "^0.11.0",
     "superagent": "^2.1.0",
     "superagent-intercept": "^0.1.1",
+    "validator": "^5.7.0",
     "velocity-react": "^1.1.5"
   },
   "scripts": {

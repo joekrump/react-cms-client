@@ -1,19 +1,43 @@
-// src/components/Form/TextOm[it.js
+// src/components/Form/TextInput.js
+// 
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
+import Validator from '../../form-validation/Validator'
 
 const TextInput = () => ({
   updateValue(value) {
-    this.props.handleInputChange(value, this.props.name, this.props.formName);
+    let errors = [];
+    let validationResult = null;
+    this.props.validations.rules.forEach((rule) => {
+      validationResult = Validator[rule](value);
+      if(validationResult.reason !== null) {
+        errors.push(validationResult.reason);
+      }
+    });
+    this.props.handleInputChange(value, this.props.name, this.props.formName, errors);
   },
 
   handleInputChange(event) {
     this.updateValue(event.target.value)
   },
 
+  getErrors(){
+    if(this.props.errors.length > 1) {
+      return this.makeErrorComponent(this.props.errors.join(', '));
+    } else if(this.props.errors.length > 0) {
+      return this.makeErrorComponent(this.props.errors[0]);
+    } else {
+      return null;
+    }
+  },
+
+  makeErrorComponent(errorText){
+    return (<span style={{color: 'red'}}>{errorText}</span>)
+  },
+
   render(){
-    console.log(this.props.validations)
+    let errors = this.getErrors();
     return (
       <div>
         <TextField
@@ -21,7 +45,7 @@ const TextInput = () => ({
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
           onChange={(e) => this.handleInputChange(e)}
-          errorText={this.props.errorText}
+          errorText={errors}
           value={this.props.value}
           multiLine={this.props.multiLine}
           autoFocus={this.props.autoFocus !== undefined && this.props.autoFocus}
@@ -34,18 +58,19 @@ const TextInput = () => ({
 const mapStateToProps = (state, ownProps) => {
   return {
     value: state.forms[ownProps.formName].fields[ownProps.name].value,
-    errorText: state.forms[ownProps.formName].fields[ownProps.name].errors
+    errors: state.forms[ownProps.formName].fields[ownProps.name].errors
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleInputChange: (value, fieldName, formName) => {
+    handleInputChange: (value, fieldName, formName, errors) => {
       dispatch ({
         type: 'FORM_INPUT_CHANGE',
         value,
         fieldName,
-        formName
+        formName,
+        errors
       })
     }
   };

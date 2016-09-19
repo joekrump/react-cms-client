@@ -5,21 +5,21 @@ export const permissionForm = {
   fields: {
     name: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'text',
       label: 'Name',
       placeholder: ''
     },
     display_name: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'text',
       label: 'Display Name',
       placeholder: ''
     },
     description: {
       value: '', 
-      errors: null, 
+      errors: [], 
       inputType: 'text',
       label: 'Description',
       placeholder: ''

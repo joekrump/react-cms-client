@@ -2,9 +2,9 @@ export const paymentForm = {
   valid: false,
   completed: false,
   fields: {
-    fname: {value: '', errors: null, inputType: 'text'},
-    lname: {value: '', errors: null, inputType: 'text'},
-    email: {value: '', errors: null, inputType: 'email'},
-    amt: {value: '', errors: null, inputType: 'number'},
+    fname: {value: '', errors: [], inputType: 'text'},
+    lname: {value: '', errors: [], inputType: 'text'},
+    email: {value: '', errors: [], inputType: 'email'},
+    amt: {value: '', errors: [], inputType: 'number'},
   }
 }
