@@ -1,9 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-
-import FloatingActionButton from 'material-ui/FloatingActionButton'
 import AddIcon from 'material-ui/svg-icons/content/add'
-import Tooltip from 'material-ui/internal/Tooltip'
 import CustomFAB from './CustomFAB'
 import AddPageIcon from 'material-ui/svg-icons/action/note-add'
 import UserIcon from 'material-ui/svg-icons/social/person-add'
@@ -34,9 +31,9 @@ class SpeedDial extends React.Component {
       open: false,
       hoveredTooltip: false
     }
-    this.openSpeedDial = this.openSpeedDial.bind(this)
+    this.openSpeedDial = this.handleOpenSpeedDial.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
-    this.closeSpeedDial = this.closeSpeedDial.bind(this)
+    this.closeSpeedDial = this.handleCloseSpeedDial.bind(this)
   }
 
   handleActionClick(e, actionRoute) {
@@ -51,14 +48,14 @@ class SpeedDial extends React.Component {
     })
   }
 
-  openSpeedDial(e) {
+  handleOpenSpeedDial(e) {
     if(this.state.open) {
       return;
     }
     this.handleToggle(e);
   }
 
-  closeSpeedDial(e) {
+  handleCloseSpeedDial(e) {
     if(!this.state.open) {
       return;
     }
@@ -95,8 +92,8 @@ class SpeedDial extends React.Component {
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>
         <div className="container">
           <div className="dial-control-area" style={{height: (this.state.open ? mouseOutAreaHeight + 'px' : 0)}}
-            onMouseLeave={this.closeSpeedDial}
-            onMouseEnter={this.openSpeedDial}
+            onMouseLeave={this.handleCloseSpeedDial}
+            onMouseEnter={this.handleOpenSpeedDial}
           >
             <div className="actions">
               {actionButtons}

@@ -13,8 +13,6 @@ export function getEditorContent(editContext, resourceNamePlural, resourceId, qu
   const nameSingular = singularizeName(resourceNamePlural);
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
-    let template_id;
-
     return (
       <EditPageLayout>
         <div className="admin-edit">

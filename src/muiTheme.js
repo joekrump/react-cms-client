@@ -1,7 +1,7 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import baseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
-import { indigoA400, indigoA700, grey100, grey300, grey400, grey600,
+import { indigoA400, indigoA700, grey100, grey300, grey400,
   lightBlue500, lightBlue700, white, darkBlack, fullBlack } from 'material-ui/styles/colors';
 
 import {fade} from 'material-ui/utils/colorManipulator';
