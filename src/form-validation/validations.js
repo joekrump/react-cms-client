@@ -1,3 +1,8 @@
+// src/form-validation/validations.js
+// 
+// Find available validation rules at https://github.com/chriso/validator.js
+// Note: place rules in the order in which you want the rules to run.
+// 
 module.exports = {
   bookForm: {
     title: {
@@ -59,7 +64,7 @@ module.exports = {
       rules: ['isRequired']
     },
     email: {
-      rules: ['isRequired']
+      rules: ['isRequired', 'isEmail']
     },
     password: {
       rules: ['isRequired']

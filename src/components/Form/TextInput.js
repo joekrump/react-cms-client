@@ -11,10 +11,11 @@ const TextInput = () => ({
     let validationResult = null;
     // Run validation rules for the field if there are any
     if(this.props.validations) {
-      this.props.validations.rules.forEach((rule) => {
+      this.props.validations.rules.some((rule) => {
         validationResult = Validator[rule](value);
         if(validationResult.reason !== null) {
           errors.push(validationResult.reason);
+          return true;
         }
       });
     }

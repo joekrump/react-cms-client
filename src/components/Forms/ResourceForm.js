@@ -13,8 +13,7 @@ class ResourceForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      existingData: {},
-      submitDisabled: false
+      existingData: {}
     }
   }
 
@@ -137,7 +136,7 @@ class ResourceForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    formValid: !state.forms[ownProps.formName].valid,
+    formValid:  state.forms[ownProps.formName].valid,
     formFields: state.forms[ownProps.formName].fields,
     token: state.auth.token,
     snackbar: {
