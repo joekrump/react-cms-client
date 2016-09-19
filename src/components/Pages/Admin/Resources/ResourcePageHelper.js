@@ -42,7 +42,7 @@ export function getEditorContent(editContext, resourceNamePlural, resourceId, qu
             resourceId={resourceId}
             resourceType={nameSingular}
             resourceNamePlural={resourceNamePlural}
-            context={editContext}
+            editContext={editContext}
           />
         </div>
       </AdminLayout>

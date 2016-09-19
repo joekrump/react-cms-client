@@ -21,7 +21,7 @@ class ResourceForm extends React.Component {
     let client = new APIClient(this.context.store)
     this.setState({client});
 
-    if(this.props.context === 'edit'){
+    if(this.props.editContext === 'edit'){
 
       client.get(this.props.resourceNamePlural + '/' + this.props.resourceId)
       .then((res) => {
@@ -56,7 +56,7 @@ class ResourceForm extends React.Component {
       return;
     })
     try {
-      let httpMethod = this.props.context === 'edit' ? 'put' : 'post';
+      let httpMethod = this.props.editContext === 'edit' ? 'put' : 'post';
 
       this.state.client[httpMethod](this.props.submitUrl, true, {data: formInputValues})
       .then((res) => {
@@ -79,7 +79,7 @@ class ResourceForm extends React.Component {
       this.props.formName
     );
     
-    if(this.props.context === 'edit') {
+    if(this.props.editContext === 'edit') {
       this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
     } else {
       this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
@@ -88,11 +88,18 @@ class ResourceForm extends React.Component {
     if(this.props.loginCallback) {
       this.props.loginCallback(res.body.user, res.body.token)
     } else {
-      if(this.props.context !== 'edit'){
+      if(this.props.editContext !== 'edit'){
         setTimeout(() => this.resetForm(), 500);
       }
     }
   }
+
+  getFieldValidationRules(){
+    return validations[this.props.formName][fieldName].rules[this.props.editContext] ? 
+                validations[this.props.formName][fieldName].rules[this.props.editContext] :
+                validations[this.props.formName][fieldName].rules
+  }
+
   render() {
     let field;
     let i = 0;
@@ -107,7 +114,7 @@ class ResourceForm extends React.Component {
             label={field.label} 
             formName={this.props.formName} 
             name={fieldName}
-            validations={validations[this.props.formName][fieldName]} 
+            validationRules={() => getFieldValidationRules()} 
             autoFocus={i++ === 0} 
             multiLine={field.inputType === 'textarea'}
           />
@@ -120,7 +127,7 @@ class ResourceForm extends React.Component {
         <List>
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <SubmitButton isFormValid={this.props.formValid} withIcon={true} label={this.props.context === 'edit' ? 'Update' : 'Create'}/>
+            <SubmitButton isFormValid={this.props.formValid} withIcon={true} label={this.props.editContext === 'edit' ? 'Update' : 'Create'}/>
           </ListItem>
         </List>
         <NotificationSnackbar 

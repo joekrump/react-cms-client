@@ -67,7 +67,10 @@ module.exports = {
       rules: ['isRequired', 'isEmail']
     },
     password: {
-      rules: ['isRequired']
+      rules: {
+        new: ['isRequired'],
+        edit: []
+      }
     }
   }
 }
