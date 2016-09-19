@@ -17,7 +17,8 @@ class CustomFAB extends React.Component {
       position: 'relative',
       display: 'inline-block',
       marginBottom: '16px',
-      marginTop: '-8px'
+      marginTop: '-8px',
+      zIndex: 2000
     };
 
     return merge(styles, this.props.toolTypeStyles);

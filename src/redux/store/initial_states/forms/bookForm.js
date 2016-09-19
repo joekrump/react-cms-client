@@ -1,8 +1,7 @@
 export const bookForm = {
   resourcePath: 'books/',
-  submitDisabled: false,
+  valid: false,
   completed: false,
-  error: null,
   fields: {
     title: {
       value: '', 

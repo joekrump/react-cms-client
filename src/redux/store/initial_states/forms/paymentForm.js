@@ -1,7 +1,6 @@
 export const paymentForm = {
-  submitDisabled: false,
+  valid: false,
   completed: false,
-  errors: null,
   fields: {
     fname: {value: '', errors: null, inputType: 'text'},
     lname: {value: '', errors: null, inputType: 'text'},

@@ -1,7 +1,6 @@
 export const loginForm = {
-  submitDisabled: false,
   completed: false,
-  error: null,
+  valid: false,
   fields: {
     email: {value: '', errors: null, inputType: 'email'},
     password: {value: '', errors: null, inputType: 'password'}

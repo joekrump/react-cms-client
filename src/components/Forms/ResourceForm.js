@@ -120,7 +120,7 @@ class ResourceForm extends React.Component {
         <List>
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label={this.props.context === 'edit' ? 'Update' : 'Create'}/>
+            <SubmitButton isFormValid={this.props.formValid} withIcon={true} label={this.props.context === 'edit' ? 'Update' : 'Create'}/>
           </ListItem>
         </List>
         <NotificationSnackbar 
@@ -136,7 +136,7 @@ class ResourceForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isFormValid: !state.forms[ownProps.formName].error,
+    formValid: !state.forms[ownProps.formName].valid,
     formFields: state.forms[ownProps.formName].fields,
     token: state.auth.token,
     snackbar: {

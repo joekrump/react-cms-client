@@ -31,9 +31,9 @@ class SpeedDial extends React.Component {
       open: false,
       hoveredTooltip: false
     }
-    this.openSpeedDial = this.handleOpenSpeedDial.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-    this.closeSpeedDial = this.handleCloseSpeedDial.bind(this)
+    this.handleOpenSpeedDial  = this.handleOpenSpeedDial.bind(this)
+    this.handleToggle         = this.handleToggle.bind(this)
+    this.handleCloseSpeedDial = this.handleCloseSpeedDial.bind(this)
   }
 
   handleActionClick(e, actionRoute) {

@@ -1,8 +1,7 @@
 export const userForm = {
   resourcePath: 'users/',
-  submitDisabled: false,
+  valid: false,
   completed: false,
-  error: null,
   fields: {
     name: {
       value: '', 
