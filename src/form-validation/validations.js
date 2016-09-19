@@ -1,68 +1,68 @@
 module.exports = {
   bookForm: {
     title: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     author_name: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     pages_count: {
-      rules: ['required']
+      rules: ['isRequired']
     }
   },
   loginForm: {
     email: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     password: {
-      rules: ['required']
+      rules: ['isRequired']
     }
   },
   paymentForm: {
     fname: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     lname: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     email: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     amt: {
-      rules: ['required']
+      rules: ['isRequired']
     }
   },
   permissionForm: {
     name: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     display_name: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     description: {
-      rules: ['required']
+      rules: ['isRequired']
     }
   },
   roleForm: {
     name: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     display_name: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     description: {
-      rules: ['required']
+      rules: ['isRequired']
     }
   },
   userForm: {
     name: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     email: {
-      rules: ['required']
+      rules: ['isRequired']
     },
     password: {
-      rules: ['required']
+      rules: ['isRequired']
     }
   }
 }
