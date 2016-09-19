@@ -39,7 +39,6 @@ class SpeedDial extends React.Component {
     this.closeSpeedDial = this.closeSpeedDial.bind(this)
   }
 
-
   handleActionClick(e, actionRoute) {
     e.preventDefault();
     this.props.dispatch(push(actionRoute));
@@ -95,23 +94,24 @@ class SpeedDial extends React.Component {
       <div className={(this.state.open ? "opened" : "closed")}>
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>
         <div className="container">
-          <div className="dial-control-area" style={{height: (this.state.open ? mouseOutAreaHeight + 'px' : 0)}}>
+          <div className="dial-control-area" style={{height: (this.state.open ? mouseOutAreaHeight + 'px' : 0)}}
+            onMouseLeave={this.closeSpeedDial}
+            onMouseEnter={this.openSpeedDial}
+          >
             <div className="actions">
               {actionButtons}
             </div>
             <CustomFAB
               className="fab" 
               iconStyle={{fill: "white"}} 
-              onMouseOver={this.openSpeedDial} 
+              onMouseEnter={this.openSpeedDial} 
               onTouchTap={this.handleToggle} 
               primary
               tooltipText='Actions'
               icon={<AddIcon />}
               toolTypeStyles={{marginTop: '-16px', marginBottom: '24px'}}
             />
-          
           </div>
-
         </div>
       </div>
     )
