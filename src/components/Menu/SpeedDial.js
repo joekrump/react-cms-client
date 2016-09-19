@@ -104,7 +104,6 @@ class SpeedDial extends React.Component {
             <CustomFAB
               className="fab" 
               iconStyle={{fill: "white"}} 
-              onMouseEnter={this.openSpeedDial} 
               onTouchTap={this.handleToggle} 
               primary
               tooltipText='Actions'
