@@ -166,13 +166,6 @@ const mapDispatchToProps = (dispatch) => {
         formName
       })
     },
-    updateFormCompleteStatus: (complete, formName) => {
-      dispatch ({
-        type: 'FORM_COMPLETE',
-        complete,
-        formName
-      })
-    },
     resetForm: (formName) => {
       dispatch ({
         type: 'FORM_RESET',

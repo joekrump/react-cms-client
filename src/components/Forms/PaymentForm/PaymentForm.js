@@ -173,17 +173,10 @@ const mapDispatchToProps = (dispatch) => {
         stripeToken
       })
     },
-    // updatePaymentError: (error) => {
-    //   dispatch ({
-    //     type: 'FORM_ERROR',
-    //     error,
-    //     formName: formName
-    //   })
-    // },
-    updateFormCompleteStatus: (complete) => {
+    updateFormCompleteStatus: (valid) => {
       dispatch ({
-        type: 'FORM_COMPLETE',
-        complete,
+        type: 'FORM_VALID',
+        valid,
         formName: formName
       })
     },

@@ -65,16 +65,10 @@ const formReducer = (state = initialState, action) => {
           })
         }
       });
-    // case 'FORM_ERROR':
-    //   return assign({}, state, {
-    //     [action.formName]: assign({}, state[action.formName], {
-    //       error: action.error
-    //     })
-    //   });
-    case 'FORM_COMPLETE':
+    case 'FORM_VALID':
       return assign({}, state, {
         [action.formName]: assign({}, state[action.formName], {
-          completed: action.complete
+          valid: action.valid
         })
       });
     default:
