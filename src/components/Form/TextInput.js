@@ -9,12 +9,16 @@ const TextInput = () => ({
   updateValue(value) {
     let errors = [];
     let validationResult = null;
-    this.props.validations.rules.forEach((rule) => {
-      validationResult = Validator[rule](value);
-      if(validationResult.reason !== null) {
-        errors.push(validationResult.reason);
-      }
-    });
+    // Run validation rules for the field if there are any
+    if(this.props.validations) {
+      this.props.validations.rules.forEach((rule) => {
+        validationResult = Validator[rule](value);
+        if(validationResult.reason !== null) {
+          errors.push(validationResult.reason);
+        }
+      });
+    }
+
     this.props.handleInputChange(value, this.props.name, this.props.formName, errors);
   },
 
