@@ -7,24 +7,28 @@ import Validator from '../../form-validation/Validator'
 
 const TextInput = () => ({
   updateValue(value) {
+    // Handle the input change and dispatch redux method to update field value as well as errors
+    this.props.handleInputChange(value, this.props.name, this.props.formName, this.checkIfValid(value));
+  },
+
+  handleInputChange(event) {
+    this.updateValue(event.target.value)
+  },
+
+  checkIfValid(value){
     let errors = [];
     let validationResult = null;
     // Run validation rules for the field if there are any
-    if(this.props.validations) {
-      this.props.validations.rules.some((rule) => {
-        validationResult = Validator[rule](value);
+    if(this.props.validationRules) {
+      this.props.validationRules.some((rule) => {
+        validationResult = Validator[rule](value, this.props.compareValues);
         if(validationResult.reason !== null) {
           errors.push(validationResult.reason);
           return true;
         }
       });
     }
-
-    this.props.handleInputChange(value, this.props.name, this.props.formName, errors);
-  },
-
-  handleInputChange(event) {
-    this.updateValue(event.target.value)
+    return errors;
   },
 
   getErrors(){

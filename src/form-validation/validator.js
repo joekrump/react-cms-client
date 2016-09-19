@@ -15,20 +15,20 @@ const Validator = {
     return (value != null && value.match(/.*[0-9]+.*/i) != null) ?
       valid() : invalid('This field should contain at least one digit.')
   },
-  hasLength: (value, {min, max}) => {
+  hasLength: (value, compareValues) => {
     if (value == null) {
       return invalid('Value cannot be null.')
     }
-    if (min != null && value.length < min) {
-      return invalid(`Length should be at least ${min}.`)
+    if (compareValues.min != null && value.length < compareValues.min) {
+      return invalid(`Length should be at least ${compareValues.min}.`)
     }
-    if (max != null && value.length > max) {
-      return invalid(`Length should be at most ${max}.`)
+    if (compareValues.max != null && value.length > compareValues.max) {
+      return invalid(`Length should be at most ${compareValues.max}.`)
     }
     return valid()
   },
-  areSame: (value1, value2) => {
-    return value1 === value2 ?
+  areSame: (value1, compareValues) => {
+    return value1 === compareValues.areSameValue ?
       valid() : invalid('Values do not match.')
   }
 }

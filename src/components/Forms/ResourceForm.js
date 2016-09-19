@@ -94,7 +94,7 @@ class ResourceForm extends React.Component {
     }
   }
 
-  getFieldValidationRules(){
+  getFieldValidationRules(fieldName){
     return validations[this.props.formName][fieldName].rules[this.props.editContext] ? 
                 validations[this.props.formName][fieldName].rules[this.props.editContext] :
                 validations[this.props.formName][fieldName].rules
@@ -114,7 +114,7 @@ class ResourceForm extends React.Component {
             label={field.label} 
             formName={this.props.formName} 
             name={fieldName}
-            validationRules={() => getFieldValidationRules()} 
+            validationRules={this.getFieldValidationRules(fieldName)} 
             autoFocus={i++ === 0} 
             multiLine={field.inputType === 'textarea'}
           />
