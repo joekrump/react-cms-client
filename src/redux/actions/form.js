@@ -16,13 +16,13 @@ export function inputError(errors, fieldName, formName){
   }
 }
 
-export function formError(errorMessage, formName){
-  return {
-    type: 'FORM_ERROR',
-    errorMessage,
-    formName
-  }
-}
+// export function formError(errorMessage, formName){
+//   return {
+//     type: 'FORM_ERROR',
+//     errorMessage,
+//     formName
+//   }
+// }
 
 export function loadData(fieldValues, formName){
   return {

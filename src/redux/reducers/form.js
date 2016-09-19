@@ -55,6 +55,7 @@ const formReducer = (state = initialState, action) => {
     case 'FORM_INPUT_ERROR':
       return assign({}, state, {
         [action.formName]: {
+          valid: false,
           fields: assign({}, state[action.formName].fields, {
             [action.fieldName]: {
               value: action[action.formName].value,
@@ -63,12 +64,12 @@ const formReducer = (state = initialState, action) => {
           })
         }
       });
-    case 'FORM_ERROR':
-      return assign({}, state, {
-        [action.formName]: assign({}, state[action.formName], {
-          error: action.error
-        })
-      });
+    // case 'FORM_ERROR':
+    //   return assign({}, state, {
+    //     [action.formName]: assign({}, state[action.formName], {
+    //       error: action.error
+    //     })
+    //   });
     case 'FORM_COMPLETE':
       return assign({}, state, {
         [action.formName]: assign({}, state[action.formName], {

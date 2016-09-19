@@ -70,7 +70,7 @@ class PaymentForm extends React.Component {
     // eslint-disable-next-line
     Stripe.createToken(e.target, function(status, response) {
       if (response.error) {
-        this.props.updatePaymentError(response.error.message)
+        // this.props.updatePaymentError(response.error.message)
         this.props.updatePaymentNotification(true, redA700, 'Error', response.error.message);
       }
       else {
@@ -160,7 +160,7 @@ PaymentForm.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    isFormValid: !state.forms.paymentForm.error,
+    isFormValid: state.forms.paymentForm.valid,
     stripeToken: state.payments.stripeToken
   }
 }
@@ -173,13 +173,13 @@ const mapDispatchToProps = (dispatch) => {
         stripeToken
       })
     },
-    updatePaymentError: (error) => {
-      dispatch ({
-        type: 'FORM_ERROR',
-        error,
-        formName: formName
-      })
-    },
+    // updatePaymentError: (error) => {
+    //   dispatch ({
+    //     type: 'FORM_ERROR',
+    //     error,
+    //     formName: formName
+    //   })
+    // },
     updateFormCompleteStatus: (complete) => {
       dispatch ({
         type: 'FORM_COMPLETE',
