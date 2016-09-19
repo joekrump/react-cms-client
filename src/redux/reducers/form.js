@@ -1,4 +1,5 @@
 import assign from 'lodash.assign';
+import merge from 'lodash.merge';
 import { bookForm,
          loginForm,
          paymentForm,
@@ -23,8 +24,9 @@ const initialState = {
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
     case "FORM_INPUT_CHANGE":
-      return assign({}, state, {
+      return merge({}, state, {
         [action.formName]: {
+          valid: (state[action.formName].valid && (action.errors.length === 0)),
           fields: assign({}, state[action.formName].fields, {
             [action.fieldName]: assign({}, state[action.formName].fields[action.fieldName], {
               value: action.value,
@@ -37,8 +39,10 @@ const formReducer = (state = initialState, action) => {
       var newState = state;
 
       Object.keys(state[action.formName].fields).forEach((fieldName) => {
-        newState = assign({}, newState, {
+        newState = merge({}, newState, {
           [action.formName]: {
+            valid: action.valid,
+
             fields: assign({}, newState[action.formName].fields, {
               [fieldName]: assign({}, newState[action.formName].fields[fieldName], {
                 value: action.fieldValues[fieldName]
@@ -54,7 +58,7 @@ const formReducer = (state = initialState, action) => {
         [action.formName]: initialState[action.formName]
       });
     case 'FORM_INPUT_ERROR':
-      return assign({}, state, {
+      return merge({}, state, {
         [action.formName]: {
           valid: false,
           fields: assign({}, state[action.formName].fields, {
@@ -66,8 +70,8 @@ const formReducer = (state = initialState, action) => {
         }
       });
     case 'FORM_VALID':
-      return assign({}, state, {
-        [action.formName]: assign({}, state[action.formName], {
+      return merge({}, state, {
+        [action.formName]: merge({}, state[action.formName], {
           valid: action.valid
         })
       });

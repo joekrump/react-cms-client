@@ -22,6 +22,9 @@ class ResourceForm extends React.Component {
     this.setState({client});
 
     if(this.props.editContext === 'edit'){
+      // If a form is loading with editContext of 'edit' the values being loaded into form fields should be valid
+      // therefore, the form itself can be set to valid initially.
+      // this.props.resetValid(true, this.props.formName);
 
       client.get(this.props.resourceNamePlural + '/' + this.props.resourceId)
       .then((res) => {
@@ -30,7 +33,7 @@ class ResourceForm extends React.Component {
         } else {
           // this.setState({existingData: res.body.data})
           client.updateToken(res.header.authorization);
-          this.props.loadFormWithData(res.body.data, this.props.formName);
+          this.props.loadFormWithData(res.body.data, this.props.formName, true);
         }
       })
       .catch((res) => {
@@ -39,6 +42,9 @@ class ResourceForm extends React.Component {
     } else {
       this.resetForm();
     }
+  }
+  componentWillReceiveProps(props) {
+    console.log(props)
   }
   resetForm(){
     this.props.resetForm(this.props.formName)
@@ -127,7 +133,7 @@ class ResourceForm extends React.Component {
         <List>
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <SubmitButton isFormValid={this.props.formValid} withIcon={true} label={this.props.editContext === 'edit' ? 'Update' : 'Create'}/>
+            <SubmitButton isFormValid={this.props.isValid} withIcon={true} label={this.props.editContext === 'edit' ? 'Update' : 'Create'}/>
           </ListItem>
         </List>
         <NotificationSnackbar 
@@ -143,7 +149,7 @@ class ResourceForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    formValid:  state.forms[ownProps.formName].valid,
+    isValid:  state.forms[ownProps.formName].valid,
     formFields: state.forms[ownProps.formName].fields,
     token: state.auth.token,
     snackbar: {
@@ -166,17 +172,25 @@ const mapDispatchToProps = (dispatch) => {
         notificationType
       })
     },
-    loadFormWithData: (fieldValues, formName) => {
+    loadFormWithData: (fieldValues, formName, isValid) => {
       dispatch({
         type: 'FORM_LOAD',
         fieldValues,
-        formName
+        formName,
+        valid: isValid
       })
     },
     resetForm: (formName) => {
       dispatch ({
         type: 'FORM_RESET',
         formName
+      })
+    },
+    resetValid: (valid, formName) => {
+      dispatch ({
+        type: 'FORM_VALID',
+        formName,
+        valid
       })
     }
   };

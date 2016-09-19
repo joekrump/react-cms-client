@@ -17,11 +17,12 @@ export function inputError(errors, fieldName, formName){
   }
 }
 
-export function loadData(fieldValues, formName){
+export function loadData(fieldValues, formName, valid){
   return {
     type: "FORM_LOAD",
     fieldValues,
-    formName
+    formName,
+    valid
   };
 }
 
@@ -34,7 +35,7 @@ export function reset(formName) {
 export function valid(valid, formName) {
   return {
     type: "FORM_VALID",
-    valid,
+    action,
     formName
   };
 }
