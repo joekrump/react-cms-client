@@ -33,7 +33,6 @@ class PaymentForm extends React.Component {
 
     if(typeof Stripe === 'undefined') {
       this.state = {
-        submitDisabled: false,
         stripeLoading: true,
         stripeLoadingError: false
       }
@@ -49,7 +48,6 @@ class PaymentForm extends React.Component {
       () => this.setState({ stripeLoading: false, stripeLoadingError: true }));
     } else {
       this.state = {
-        submitDisabled: props.disabled,
         stripeLoading: false,
         stripeLoadingError: false
       }
@@ -159,7 +157,7 @@ class PaymentForm extends React.Component {
             {/* STRIPE FIELDS TO GO HERE */}
             { StripeFieldListItems }
             <ListItem disabled={true} disableKeyboardFocus={true}>
-              <SubmitButton isFormValid={!this.state.submitDisabled} withIcon={true} label="Submit Payment"/>
+              <SubmitButton isFormValid={this.props.isFormValid} withIcon={true} label="Submit Payment"/>
             </ListItem>
           </List>
         </Form>
