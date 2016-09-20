@@ -1,7 +1,6 @@
 export const permissionForm = {
   resourcePath: 'permissions/',
   valid: false,
-  completed: false,
   fields: {
     name: {
       value: '', 

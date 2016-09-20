@@ -1,7 +1,6 @@
 export const roleForm = {
   resourcePath: 'roles/',
   valid: false,
-  completed: false,
   fields: {
     name: {
       value: '', 

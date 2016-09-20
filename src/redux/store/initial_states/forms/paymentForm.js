@@ -1,6 +1,5 @@
 export const paymentForm = {
   valid: false,
-  completed: false,
   fields: {
     fname: {value: '', errors: [], inputType: 'text'},
     lname: {value: '', errors: [], inputType: 'text'},

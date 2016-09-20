@@ -45,14 +45,17 @@ function* updateTokenOnUpdate(action) {
 }
 
 /**
- * When an input field is updated, check to see if the form is valid also
+ * When an input field is updated, check to see if the form is valid now
  * @param {Object} action        - The redux action that was taken by a saga to react to.
  * @yield {redux-saga/effect}
  */
 function* checkFormIsValidOnUpdate(action) {
   let form = yield select(getForm, action.formName)
-  let isValid = yield call(checkFormIsValid, form);
-  yield put({type: 'FORM_VALID', formName: action.formName, valid: isValid})
+  // If the form was previously invalid, check to see if it is now valid.
+  if(!form.valid) {
+    let isValid = yield call(checkFormIsValid, form);
+    yield put({type: 'FORM_VALID', formName: action.formName, valid: isValid})
+  }
 }
 
 /**

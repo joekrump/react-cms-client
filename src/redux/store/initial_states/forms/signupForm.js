@@ -1,7 +1,6 @@
 export const signupForm = {
   resourcePath: 'users/',
   valid: false,
-  completed: false,
   fields: {
     name: {
       value: '', 

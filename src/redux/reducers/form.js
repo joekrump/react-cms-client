@@ -24,9 +24,10 @@ const initialState = {
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
     case "FORM_INPUT_CHANGE":
-      return merge({}, state, {
+      return assign({}, state, {
         [action.formName]: {
           valid: (state[action.formName].valid && (action.errors.length === 0)),
+          resourcePath: state[action.formName].resourcePath,
           fields: assign({}, state[action.formName].fields, {
             [action.fieldName]: assign({}, state[action.formName].fields[action.fieldName], {
               value: action.value,
@@ -42,7 +43,6 @@ const formReducer = (state = initialState, action) => {
         newState = merge({}, newState, {
           [action.formName]: {
             valid: action.valid,
-
             fields: assign({}, newState[action.formName].fields, {
               [fieldName]: assign({}, newState[action.formName].fields[fieldName], {
                 value: action.fieldValues[fieldName]
@@ -58,7 +58,7 @@ const formReducer = (state = initialState, action) => {
         [action.formName]: initialState[action.formName]
       });
     case 'FORM_INPUT_ERROR':
-      return merge({}, state, {
+      return assign({}, state, {
         [action.formName]: {
           valid: false,
           fields: assign({}, state[action.formName].fields, {
@@ -70,7 +70,7 @@ const formReducer = (state = initialState, action) => {
         }
       });
     case 'FORM_VALID':
-      return merge({}, state, {
+      return assign({}, state, {
         [action.formName]: merge({}, state[action.formName], {
           valid: action.valid
         })

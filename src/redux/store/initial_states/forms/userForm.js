@@ -1,7 +1,6 @@
 export const userForm = {
   resourcePath: 'users/',
   valid: false,
-  completed: false,
   fields: {
     name: {
       value: '', 
