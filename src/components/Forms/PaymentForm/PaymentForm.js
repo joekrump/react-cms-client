@@ -141,6 +141,7 @@ class PaymentForm extends React.Component {
               <TextInput placeholder="First Name" label="First Name" formName={formName} 
                 name="fname"
                 validationRules={validations[formName].fname.rules}
+                autoFocus={true}
                 />
             </ListItem>
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
