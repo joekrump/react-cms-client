@@ -65,15 +65,16 @@ function* checkFormIsValidOnUpdate(action) {
  */
 function checkFormIsValid(form) {
   let isValid = false;
-  Object.keys(form.fields).some((fieldName) => {
+  let fieldNames = Object.keys(form.fields)
 
-    if(form.fields[fieldName].errors.length > 0 || (form.fields[fieldName].value.length === 0)) {
+  for(let i = 0; i < fieldNames.length; i++){
+    if(form.fields[fieldNames[i]].errors.length > 0 || (form.fields[fieldNames[i]].value.length === 0)) {
       isValid = false;
-      return true;
+      break;
     } else {
       isValid = true;
     }
-  });
+  }
 
   return isValid;
 }
