@@ -1,10 +1,10 @@
 // src/form-validation/Validator.js
-import validator from 'validator'
+import {isEmail, isInt} from 'validator'
 import {valid, invalid} from '../helpers/ValidationHelper'
 
 const Validator = {
   isEmail: (value) => {
-    return (validator.isEmail(value)) ?
+    return (isEmail(value)) ?
       valid() : invalid('Please enter a valid email.')
   },
   isRequired: (value) => {
@@ -32,7 +32,7 @@ const Validator = {
       valid() : invalid('Values do not match.')
   },
   isInt: (value) => {
-    return validator.isInt(value) ? valid() : invalid('Value must be an integer.')
+    return isInt(value) ? valid() : invalid('Value must be an integer.')
   }
 }
 
