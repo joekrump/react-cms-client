@@ -32,7 +32,7 @@ const NotificationSnackbar = () => ({
             {this.props.content}
           </div>)}
         autoHideDuration={4000}
-        bodyStyle={{height: 'auto'}}
+        bodyStyle={{height: 'auto', border: `1px solid ${color}`, borderBottom: 'none'}}
         style={{
           transform: this.props.open ? 'translate3d(0, 0, 0)' : 'translate3d(0, 200px, 0)'
         }}
