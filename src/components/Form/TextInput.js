@@ -20,13 +20,13 @@ const TextInput = () => ({
     let validationResult = null;
     // Run validation rules for the field if there are any
     if(this.props.validationRules) {
-      this.props.validationRules.some((rule) => {
-        validationResult = Validator[rule](value, this.props.compareValues);
+      for(let i = 0; i < this.props.validationRules.length; i++){
+        validationResult = Validator[this.props.validationRules[i]](value, this.props.compareValues);
         if(validationResult.reason !== null) {
           errors.push(validationResult.reason);
-          return true;
+          break;
         }
-      });
+      }
     }
     return errors;
   },
