@@ -26,7 +26,7 @@ const formReducer = (state = initialState, action) => {
     case "FORM_INPUT_CHANGE":
       return assign({}, state, {
         [action.formName]: {
-          valid: (state[action.formName].valid && (action.errors.length === 0)),
+          valid: (state[action.formName].valid /*&& (action.errors.length === 0)*/),
           resourcePath: state[action.formName].resourcePath,
           fields: assign({}, state[action.formName].fields, {
             [action.fieldName]: assign({}, state[action.formName].fields[action.fieldName], {

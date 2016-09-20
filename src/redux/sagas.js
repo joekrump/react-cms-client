@@ -52,10 +52,10 @@ function* updateTokenOnUpdate(action) {
 function* checkFormIsValidOnUpdate(action) {
   let form = yield select(getForm, action.formName)
   // If the form was previously invalid, check to see if it is now valid.
-  if(!form.valid) {
+  // if(!form.valid) {
     let isValid = yield call(checkFormIsValid, form);
     yield put({type: 'FORM_VALID', formName: action.formName, valid: isValid})
-  }
+  // }
 }
 
 /**
@@ -67,7 +67,7 @@ function checkFormIsValid(form) {
   let isValid = false;
   Object.keys(form.fields).some((fieldName) => {
 
-    if(form.fields[fieldName].errors.length > 0) {
+    if(form.fields[fieldName].errors.length > 0 || (form.fields[fieldName].length === 0)) {
       isValid = false;
       return true;
     } else {

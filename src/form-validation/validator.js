@@ -8,7 +8,7 @@ const Validator = {
       valid() : invalid('Please enter a valid email.')
   },
   isRequired: (value) => {
-    return (value != null && value.length > 0) ?
+    return (value != null && (value.trim().length > 0)) ?
       valid() : invalid('This field is required')
   },
   hasNumber: (value) => {

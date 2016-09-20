@@ -59,7 +59,6 @@ class SpeedDial extends React.Component {
     if(!this.state.open) {
       return;
     }
-    console.log((e.target.parentNode));
     this.handleToggle(e);
   }
 

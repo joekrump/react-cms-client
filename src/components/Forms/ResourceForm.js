@@ -35,6 +35,8 @@ class ResourceForm extends React.Component {
           client.updateToken(res.header.authorization);
           this.props.loadFormWithData(res.body.data, this.props.formName, true);
         }
+      }, (res) => {
+        console.warn('Error getting resource data: ', res);
       })
       .catch((res) => {
         console.warn('Error getting resource data: ', res);
@@ -43,9 +45,7 @@ class ResourceForm extends React.Component {
       this.resetForm();
     }
   }
-  componentWillReceiveProps(props) {
-    console.log(props)
-  }
+
   resetForm(){
     this.props.resetForm(this.props.formName)
   }
@@ -71,9 +71,11 @@ class ResourceForm extends React.Component {
         } else {
           this.handleSuccess(res);
         }
+      }, (res) => {
+        this.props.updateSnackbar(true, 'Error', 'ERROR!', 'warning');
       })
       .catch((res) => {
-        this.props.updateSnackbar(true, 'Error', res.body.message, 'error');
+        this.props.updateSnackbar(true, 'Error', res.body.data, 'error');
       })
     } catch (e) {
       console.log('Exception: ', e)

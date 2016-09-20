@@ -12,7 +12,7 @@ module.exports = {
       rules: ['isRequired']
     },
     pages_count: {
-      rules: ['isRequired']
+      rules: ['isRequired', 'hasNumber']
     }
   },
   loginForm: {
