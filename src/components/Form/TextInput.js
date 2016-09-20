@@ -12,14 +12,11 @@ const TextInput = () => ({
   },
 
   handleInputChange(event) {
-    console.log(event)
-    console.log(this.props.value)
     if(event.type === 'blur') {
       this.updateValue(this.props.value)
     } else {
       this.updateValue(event.target.value)
     }
-    
   },
 
   checkIfValid(value){
@@ -70,7 +67,7 @@ const TextInput = () => ({
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
           onChange={(e) => this.handleInputChange(e)}
-
+          onBlur={(e) => this.handleInputChange(e)}
           errorText={errors}
           value={this.props.value}
           multiLine={this.props.multiLine}
