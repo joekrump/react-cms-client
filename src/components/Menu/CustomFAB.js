@@ -36,6 +36,7 @@ class CustomFAB extends React.Component {
             iconStyle={this.props.iconStyle}
             secondary={this.props.secondary}
             mini={this.props.mini}
+            onTouchTap={(event) => this.props.onTouchTap(event)}
           >
             {this.props.icon ? (this.props.icon) : null}
           </FloatingActionButton>

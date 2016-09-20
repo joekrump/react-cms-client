@@ -45,7 +45,8 @@ const formReducer = (state = initialState, action) => {
             valid: action.valid,
             fields: assign({}, newState[action.formName].fields, {
               [fieldName]: assign({}, newState[action.formName].fields[fieldName], {
-                value: action.fieldValues[fieldName]
+                value: action.fieldValues[fieldName],
+                errors: []
               })
             })
           }
