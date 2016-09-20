@@ -14,6 +14,7 @@ import StripeFields from './StripeFields';
 import { Form, TextInput, SubmitButton } from '../../Form/index';
 import StripeConfig from '../../../../app_config/stripe';
 import { loadScript } from '../../../helpers/ScriptsHelper'
+import validations from '../../../form-validation/validations'
 
 const listItemStyle = {
   padding: "0 16px"
@@ -128,19 +129,31 @@ class PaymentForm extends React.Component {
           <List>
             <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon color={'#fff'}/>} disabled={true} disableKeyboardFocus={true} />
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-              <TextInput placeholder="First Name" label="First Name" formName={formName} name="fname"/>
+              <TextInput placeholder="First Name" label="First Name" formName={formName} 
+                name="fname"
+                validationRules={validations[formName].fname.rules}
+                />
             </ListItem>
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-              <TextInput placeholder="Last Name" label="Last Name" formName={formName} name="lname"/>
+              <TextInput placeholder="Last Name" label="Last Name" formName={formName} 
+                name="lname"
+                validationRules={validations[formName].lname.rules}
+                />
             </ListItem>
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-              <TextInput placeholder="Email" label="Email" formName={formName} name="email"/>
+              <TextInput placeholder="Email" label="Email" formName={formName} 
+                name="email"
+                validationRules={validations[formName].email.rules}
+              />
             </ListItem>
           </List>
           <List>
             <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon color={'#fff'}/>} disabled={true} disableKeyboardFocus={true} />
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-              <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} name="amt"/>
+              <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} 
+                name="amt"
+                validationRules={validations[formName].amt.rules}
+              />
             </ListItem>
             {/* STRIPE FIELDS TO GO HERE */}
             { StripeFieldListItems }

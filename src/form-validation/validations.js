@@ -25,7 +25,7 @@ module.exports = {
   },
   paymentForm: {
     fname: {
-      rules: ['isRequired']
+      rules: ['isRequired', 'isValidName']
     },
     lname: {
       rules: ['isRequired']

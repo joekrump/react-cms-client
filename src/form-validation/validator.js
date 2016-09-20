@@ -11,6 +11,11 @@ const Validator = {
     return (value != null && (value.trim().length > 0)) ?
       valid() : invalid('This field is required')
   },
+  isValidName: (value) => {
+    let result = String(value).match(/([^±!@£$%^&*_+§¡€#¢§¶•ªº«\/<>?:;|()=.,]*$)/)
+    return result.index === 0 ?
+      valid() : invalid(`This field may not contain ${result.input[result.index - 1]}`)
+  },
   hasNumber: (value) => {
     return (value != null && value.match(/.*[0-9]+.*/i) != null) ?
       valid() : invalid('This field should contain at least one digit.')
