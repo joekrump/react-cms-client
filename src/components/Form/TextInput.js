@@ -12,16 +12,24 @@ const TextInput = () => ({
   },
 
   handleInputChange(event) {
-    this.updateValue(event.target.value)
+    console.log(event)
+    console.log(this.props.value)
+    if(event.type === 'blur') {
+      this.updateValue(this.props.value)
+    } else {
+      this.updateValue(event.target.value)
+    }
+    
   },
 
   checkIfValid(value){
     let errors = [];
     let validationResult = null;
+    let hasOptions = this.props.validationOptions;
     // Run validation rules for the field if there are any
     if(this.props.validationRules) {
       for(let i = 0; i < this.props.validationRules.length; i++){
-        validationResult = Validator[this.props.validationRules[i]](value, this.props.validationOptions[this.props.validationRules[i]]);
+        validationResult = this.validateInput(value, i);
         if(validationResult.reason !== null) {
           errors.push(validationResult.reason);
           break;
@@ -30,7 +38,15 @@ const TextInput = () => ({
     }
     return errors;
   },
-
+  validateInput(value, i){
+    return Validator[this.props.validationRules[i]](
+      value, 
+      this.getOptionsForRule([this.props.validationRules[i]])
+    );
+  },
+  getOptionsForRule(ruleName){
+    return this.props.validationOptions ? this.props.validationOptions[ruleName] : undefined;
+  },
   getErrors(){
     if(this.props.errors.length > 1) {
       return this.makeErrorComponent(this.props.errors.join(', '));
@@ -54,6 +70,7 @@ const TextInput = () => ({
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
           onChange={(e) => this.handleInputChange(e)}
+
           errorText={errors}
           value={this.props.value}
           multiLine={this.props.multiLine}
