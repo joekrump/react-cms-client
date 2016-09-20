@@ -75,17 +75,14 @@ class ResourceForm extends React.Component {
         this.props.updateSnackbar(true, 'Error', 'ERROR!', 'warning');
       })
       .catch((res) => {
-        this.props.updateSnackbar(true, 'Error', res.body.data, 'error');
+        console.log(res);
+        this.props.updateSnackbar(true, 'Error', res.data, 'error');
       })
     } catch (e) {
       console.log('Exception: ', e)
     }
   }
   handleSuccess(res) {
-    this.props.updateFormCompleteStatus(
-      true, 
-      this.props.formName
-    );
     
     if(this.props.editContext === 'edit') {
       this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');

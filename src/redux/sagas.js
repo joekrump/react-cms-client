@@ -67,7 +67,7 @@ function checkFormIsValid(form) {
   let isValid = false;
   Object.keys(form.fields).some((fieldName) => {
 
-    if(form.fields[fieldName].errors.length > 0 || (form.fields[fieldName].length === 0)) {
+    if(form.fields[fieldName].errors.length > 0 || (form.fields[fieldName].value.length === 0)) {
       isValid = false;
       return true;
     } else {

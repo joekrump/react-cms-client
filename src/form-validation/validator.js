@@ -30,6 +30,9 @@ const Validator = {
   areSame: (value1, compareValues) => {
     return value1 === compareValues.areSameValue ?
       valid() : invalid('Values do not match.')
+  },
+  isInt: (value) => {
+    return validator.isInt(value) ? valid() : invalid('Value must be an integer.')
   }
 }
 
