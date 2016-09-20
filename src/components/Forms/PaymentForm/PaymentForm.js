@@ -1,3 +1,5 @@
+// src/componetns/Forms/PaymentForm/PaymentForm.js
+// 
 import React from 'react';
 import APIClient from '../../../http/requests'
 import { connect } from 'react-redux';
@@ -30,8 +32,17 @@ class PaymentForm extends React.Component {
     this.getStripeToken = this.getStripeToken.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.submitToServer = this.submitToServer.bind(this)
-
-    if(typeof Stripe === 'undefined') {
+    
+    // Reset the form initially.
+    this.resetForm();
+    // if the form is being displayed in edit mode, no nead to actually load Stripe into the page.
+    // 
+    if(props.editMode) {
+      this.state = {
+        stripeLoading: false,
+        stripeLoadingError: false
+      }
+    } else if (typeof Stripe === 'undefined') {
       this.state = {
         stripeLoading: true,
         stripeLoadingError: false
@@ -157,7 +168,7 @@ class PaymentForm extends React.Component {
             {/* STRIPE FIELDS TO GO HERE */}
             { StripeFieldListItems }
             <ListItem disabled={true} disableKeyboardFocus={true}>
-              <SubmitButton isFormValid={this.props.isFormValid} withIcon={true} label="Submit Payment"/>
+              <SubmitButton isFormValid={this.props.isFormValid && !this.props.submitDisabled} withIcon={true} label="Submit Payment"/>
             </ListItem>
           </List>
         </Form>

@@ -240,7 +240,8 @@ class PageEdit extends React.Component {
         template = (<PaymentPageTemplate 
           name={this.state.name} 
           content={this.state.content} 
-          disabled={true}
+          submitDisabled={true}
+          editMode={true}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
