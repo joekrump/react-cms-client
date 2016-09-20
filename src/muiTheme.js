@@ -30,6 +30,9 @@ const muiTheme = getMuiTheme(baseTheme, {
     disabledColor: fade(indigoA400, 0.4),
     disabledTextColor: fade(grey400, 0.4)
   },
+  snackbar: {
+    backgroundColor: fade(fullBlack, 0.7)
+  },
   // eslint-disable-next-line
   userAgent: (typeof req !== 'undefined') ? req.headers['user-agent'] : false
 });
