@@ -28,13 +28,13 @@ module.exports = {
       rules: ['isRequired', 'isValidName']
     },
     lname: {
-      rules: ['isRequired']
+      rules: ['isRequired', 'isValidName']
     },
     email: {
-      rules: ['isRequired']
+      rules: ['isRequired', 'isEmail']
     },
     amt: {
-      rules: ['isRequired']
+      rules: ['isRequired', 'isValidMoney']
     }
   },
   permissionForm: {

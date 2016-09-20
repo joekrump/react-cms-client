@@ -153,6 +153,7 @@ class PaymentForm extends React.Component {
               <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} 
                 name="amt"
                 validationRules={validations[formName].amt.rules}
+                validationOptions={{isValidMoney: {min: 5}}}
               />
             </ListItem>
             {/* STRIPE FIELDS TO GO HERE */}

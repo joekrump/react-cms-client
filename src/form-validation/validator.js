@@ -1,5 +1,8 @@
 // src/form-validation/Validator.js
-import {isEmail, isInt} from 'validator'
+import {
+  isEmail, 
+  isInt,
+  isFloat} from 'validator'
 import {valid, invalid} from '../helpers/ValidationHelper'
 
 const Validator = {
@@ -12,9 +15,21 @@ const Validator = {
       valid() : invalid('This field is required')
   },
   isValidName: (value) => {
+    // Check to see if any of the characters in the regex are in the string value.
+    // If they are, give a message that says that they are not allowed.
     let result = String(value).match(/([^±!@£$%^&*_+§¡€#¢§¶•ªº«\/<>?:;|()=.,]*$)/)
     return result.index === 0 ?
       valid() : invalid(`This field may not contain ${result.input[result.index - 1]}`)
+  },
+  /**
+   * Check if the value is a valid money amount
+   * @param  {Number}  value   - the entry being checked    
+   * @param  {Object}  options - ex. {min: 10, max: 30}
+   * @return {Boolean}         [description]
+   */
+  isValidMoney(value, options) {
+    return isInt(value, options) || isFloat(value, options) ?
+      valid() : invalid(`Value must be a number and at least ${options.min}`)
   },
   hasNumber: (value) => {
     return (value != null && value.match(/.*[0-9]+.*/i) != null) ?
