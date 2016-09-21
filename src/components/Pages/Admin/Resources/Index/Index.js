@@ -7,6 +7,8 @@ import IndexItem from './IndexItem'
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -98,4 +100,4 @@ Index.contextTypes = {
   store: React.PropTypes.object
 }
 
-export default Index;
+export default DragDropContext(HTML5Backend)(Index);
