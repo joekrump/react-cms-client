@@ -4,33 +4,12 @@ import { ListItem } from 'material-ui/List';
 import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
-import { DragSource } from 'react-dnd';
-import { ItemTypes } from './IndexItemTypes'
 // import { VelocityComponent } from 'velocity-react';
 // import 'velocity-animate/velocity.ui';
-
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
 }
-
-const orderableSource = {
-  beginDrag(props) {
-    return {
-      itemId: props.id,
-      itemDepth: props.depth,
-      itemPosition: props.position
-    };
-  }
-};
-
-function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  }
-}
-
 
 class IndexItem extends React.Component{
   constructor(props) {
