@@ -31,6 +31,7 @@ class IndexItem extends React.Component{
   }
 
   render(){
+
     /*<VelocityComponent style={{display: 'block'}} animation={{height: this.state.visible ? 50 : 0, opacity: this.state.visible ? 1 : 0}} duration={300}>*/
     // TODO: Implement this using className switches based on visibility.
     if(this.state.visible) {
@@ -43,13 +44,19 @@ class IndexItem extends React.Component{
       style.padding = 0;
     }
     let queryProps = this.props.extraData
-    
+    // let primary, 
+    //     secondary, 
+    //     id, 
+    //     deletable, 
+    //     children, 
+    //     extraData;
     // The priamry component is not required in the queryProps so remove it.
     // 
     delete queryProps.primary;
     return(
+      <div className="index-item-container">
         <ListItem
-          className="index-list-item"
+          className={"index-list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
           disabled
           rightIconButton={
             <IndexItemActions 
@@ -63,7 +70,22 @@ class IndexItem extends React.Component{
           primaryText={this.getText()}
           style={{...style}}
         />
-
+        { this.props.childItems ? 
+          this.props.childItems.map((child) => (
+            // {primary, secondary, id, deletable, children, ...extraData} = child;
+            <IndexItem 
+              key={`${this.props.resourceType}-${child.id}`}
+              id={child.id}
+              primary={child.primary}
+              secondary={child.secondary}
+              resourceType={this.props.resourceType}
+              deletable={child.deletable}
+              childItems={child.children}
+              extraData={{...child}}
+            />
+          )) : null
+        }
+      </div>
     );
   }
 }

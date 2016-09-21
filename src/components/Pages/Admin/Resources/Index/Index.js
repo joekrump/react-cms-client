@@ -56,9 +56,9 @@ class Index extends React.Component {
             primary={item.primary} 
             secondary={item.secondary} 
             resourceType={this.props.params.resourceNamePlural} 
-            extraData={{...item}}
             deletable={item.deletable}
-            children={item.children}
+            childItems={item.children}
+            extraData={{...item}}
           />
         ));
       } else {
