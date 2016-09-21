@@ -58,6 +58,7 @@ class Index extends React.Component {
             resourceType={this.props.params.resourceNamePlural} 
             deletable={item.deletable}
             childItems={item.children}
+            depth={item.depth}
             extraData={{...item}}
           />
         ));

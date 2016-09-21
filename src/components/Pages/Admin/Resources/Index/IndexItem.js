@@ -30,6 +30,10 @@ class IndexItem extends React.Component{
     )
   }
 
+  getDepth(){
+    return this.props.depth ? this.props.depth :  0;
+  }
+
   render(){
 
     /*<VelocityComponent style={{display: 'block'}} animation={{height: this.state.visible ? 50 : 0, opacity: this.state.visible ? 1 : 0}} duration={300}>*/
@@ -38,11 +42,13 @@ class IndexItem extends React.Component{
       style.opacity = 1;
       style.height = null;
       style.padding = '16px 16px 16px 16px'
+      style.marginLeft = (this.getDepth() * 30) + 'px'
     } else {
       style.opacity = 0;
       style.height = 0;
       style.padding = 0;
     }
+
     let queryProps = this.props.extraData
     // let primary, 
     //     secondary, 
@@ -56,7 +62,7 @@ class IndexItem extends React.Component{
     return(
       <div className="index-item-container">
         <ListItem
-          className={"index-list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
+          className="index-list-item"
           disabled
           rightIconButton={
             <IndexItemActions 
@@ -81,6 +87,7 @@ class IndexItem extends React.Component{
               resourceType={this.props.resourceType}
               deletable={child.deletable}
               childItems={child.children}
+              depth={child.depth}
               extraData={{...child}}
             />
           )) : null
