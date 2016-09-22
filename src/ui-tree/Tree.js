@@ -67,7 +67,6 @@ export default class Tree {
     this.nodeArray[parentIndex].childNodeIndexes.push(nodeItemIndex);
     // if the node has children then add them to the nodeArray next.
     if (treeNode.children && treeNode.children.length) {
-      console.log(nodeItemIndex);
       this.walk(treeNode.children, nodeItemIndex);
     }
     return nodeItemIndex;
@@ -108,7 +107,7 @@ export default class Tree {
     return this.getNodeItem(parentItem.childNodeIndexes[prevSiblingIndex]);
   }
 
-  _getSiblingItems(parentItem, childIndex) {
+  _getSiblingItems(childIndex, parentItem) {
     let childNodeIndex = parentItem.childNodeIndexes.indexOf(childIndex);
     let siblingItems = [];
     siblingItems.push(this.getPrevSibling(parentItem, childNodeIndex));
