@@ -16,7 +16,8 @@ class Index extends React.Component {
     this.state = {
       loading: true,
       tree: [],
-      active: null
+      active: null,
+      treeModified: false
     }
   }
 
@@ -39,9 +40,9 @@ class Index extends React.Component {
   }
 
   handleTreeChange(tree) {
-    console.log(tree);
     this.setState({
-      tree: tree
+      tree: tree,
+      treeModified: true
     });
   }
 
@@ -79,6 +80,13 @@ class Index extends React.Component {
     if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
       this.setItems(nextProps.params.resourceNamePlural);
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextState.treeModified) {
+      return false;
+    }
+    return true;
   }
 
   render() {
