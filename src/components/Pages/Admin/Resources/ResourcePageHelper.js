@@ -9,7 +9,7 @@ import EditPageLayout from '../Layout/EditPageLayout'
 import BackButton from '../../../Nav/BackButton'
 import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
 
-export function getEditorContent(editContext, resourceNamePlural, resourceId, queryProps){
+export function getEditorContent(editContext, resourceNamePlural, resourceId){
   const nameSingular = singularizeName(resourceNamePlural);
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
@@ -22,7 +22,6 @@ export function getEditorContent(editContext, resourceNamePlural, resourceId, qu
             resourceId={resourceId}
             resourceNamePlural={resourceNamePlural}
             editContext={editContext}
-            template_id={queryProps && queryProps.template_id ? parseInt(queryProps.template_id, 10) : 1}
           />
         </div>
       </EditPageLayout>

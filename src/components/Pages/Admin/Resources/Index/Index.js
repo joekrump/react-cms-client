@@ -2,13 +2,14 @@ import React from 'react';
 import { List } from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
-// import { VelocityTransitionGroup } from 'velocity-react';
-// import 'velocity-animate/velocity.ui';
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
 import Tree from 'react-ui-tree'
 import {tree} from './dummyTree'
+import s from './Index.scss'
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { ListItem } from 'material-ui/List';
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -22,7 +23,9 @@ class Index extends React.Component {
 
   renderNode(node) {
     if(!node.id){
-      return null;
+      return (
+        <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
+      );
     }
     return (
       <IndexItem key={node.id} 
@@ -32,9 +35,7 @@ class Index extends React.Component {
         secondary={node.secondary} 
         resourceType={this.props.params.resourceNamePlural} 
         deletable={node.deletable}
-        childItems={node.children}
         depth={node.depth}
-        extraData={{...node}}
         onClick={this.onClickNode.bind(null, node)}
       />
     );
@@ -84,14 +85,9 @@ class Index extends React.Component {
   }
 
   render() {
-    // return (
-
-    // )
     return (
       <AdminLayout>
         <div className="admin-index">
-          <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-          {this.state.loading ? (<CircularProgress />) : null}
           <List className="tree">
             <Tree
               paddingLeft={30}
@@ -101,6 +97,7 @@ class Index extends React.Component {
               renderNode={(node) => this.renderNode(node)}
             />
           </List>
+          { this.state.loading ? (<CircularProgress />) : null }
         { this.props.children }
         </div>
       </AdminLayout>
@@ -112,4 +109,4 @@ Index.contextTypes = {
   store: React.PropTypes.object
 }
 
-export default Index;
+export default withStyles(s)(Index);
