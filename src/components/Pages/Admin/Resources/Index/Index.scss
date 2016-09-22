@@ -1,0 +1,102 @@
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.f-no-select {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.m-draggable {
+  position: absolute;
+  opacity: 0.8;
+  z-index: 4000;
+}
+
+.m-node {
+  &.placeholder > * {
+    visibility: hidden;
+  }
+
+  &.placeholder {
+    border: 1px dashed #1385e5;
+  }
+
+  .inner {
+    position: relative;
+    cursor: pointer;
+    padding-left: 30px;
+    background-color: rgba(0,0,0,0.7);
+  }
+
+  .collapse {
+    position: absolute;
+    left: 0;
+    cursor: pointer;
+    padding: 12px 5px 14px 10px;   
+  }
+
+  .caret-right:before {
+    content: '\25B8';
+  }
+
+  .caret-down:before {
+    content: '\25BE';
+  }
+}
+
+.tree {
+  position: relative;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.tree > .m-tree > .m-node > .inner {
+  cursor: default;
+  background: none;
+  .collapse {
+    display: none;
+    cursor: default;
+  }
+}
+
+.action-button.index-item-button {
+  background: none;
+  border: none;
+}
+
+.is-active {
+  border: 1px dashed white;
+  opacity: 0.5;
+}
+
+.index-list-item {
+  .inner-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .action-button-container  {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    opacity: 0;
+  }
+
+  &:hover {
+    .inner-text {
+      padding-right: 96px;
+    }
+    .action-button-container {
+      opacity: 1;
+    }
+  }
+}
