@@ -49,11 +49,12 @@ export default class Tree {
     });
   }
   _insertIntoNodeArray(treeNode, parentIndex){
-    let nodeArrayItem = {};
+    let nodeArrayItem = {
+      node: treeNode, 
+      childNodeIndexes: []
+    };
     let nodeItemIndex = 0;
-    // let children = [];
-
-    nodeArrayItem.node = treeNode;
+    
     // if this object has a parent then assign 
     if (parentIndex !== undefined) {
       nodeArrayItem.parentIndex = parentIndex;
