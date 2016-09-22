@@ -57,6 +57,23 @@ class IndexItem extends React.Component{
     //     extraData;
     // The priamry component is not required in the queryProps so remove it.
     // 
+    // 
+    //         { this.props.childItems ? 
+        //   this.props.childItems.map((child) => (
+        //     // {primary, secondary, id, deletable, children, ...extraData} = child;
+        //     <IndexItem 
+        //       key={`${this.props.resourceType}-${child.id}`}
+        //       id={child.id}
+        //       primary={child.primary}
+        //       secondary={child.secondary}
+        //       resourceType={this.props.resourceType}
+        //       deletable={child.deletable}
+        //       childItems={child.children}
+        //       depth={child.depth}
+        //       extraData={{...child}}
+        //     />
+        //   )) : null
+        // }
     delete queryProps.primary;
     return(
       <div className="index-item-container">
@@ -75,22 +92,7 @@ class IndexItem extends React.Component{
           primaryText={this.getText()}
           style={{...style}}
         />
-        { this.props.childItems ? 
-          this.props.childItems.map((child) => (
-            // {primary, secondary, id, deletable, children, ...extraData} = child;
-            <IndexItem 
-              key={`${this.props.resourceType}-${child.id}`}
-              id={child.id}
-              primary={child.primary}
-              secondary={child.secondary}
-              resourceType={this.props.resourceType}
-              deletable={child.deletable}
-              childItems={child.children}
-              depth={child.depth}
-              extraData={{...child}}
-            />
-          )) : null
-        }
+
       </div>
     );
   }
