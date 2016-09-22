@@ -8,14 +8,13 @@ import APIClient from '../../../../../http/requests';
 import Tree from 'react-ui-tree'
 import s from './Index.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { ListItem } from 'material-ui/List';
 
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
       loading: true,
-      tree: [],
+      tree: {},
       active: null,
       treeModified: false
     }
@@ -34,7 +33,7 @@ class Index extends React.Component {
         resourceType={this.props.params.resourceNamePlural} 
         deletable={node.deletable}
         depth={node.depth}
-        onClick={this.onClickNode.bind(null, node)}
+        onTouchTap={this.onTouchTapNode.bind(null, node)}
       />
     );
   }
@@ -46,14 +45,14 @@ class Index extends React.Component {
     });
   }
 
-  onClickNode(node) {
+  onTouchTapNode(node) {
     this.setState({
       active: node
     });
   }
 
   setItems(resourceNamePlural){
-    this.setState({loading: true, tree: []})
+    this.setState({loading: true, tree: {}})
     let client = new APIClient(this.context.store);
 
     client.get(resourceNamePlural).then((res) => {
