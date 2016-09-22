@@ -26,7 +26,7 @@ class Index extends React.Component {
     }
     return (
       <IndexItem key={node.id} 
-        className={node === this.state.active ? 'is-active' : ''}
+        className={'node' + (node === this.state.active ? ' is-active' : '')}
         id={node.id} 
         primary={node.primary} 
         secondary={node.secondary} 
@@ -38,6 +38,12 @@ class Index extends React.Component {
         onClick={this.onClickNode.bind(null, node)}
       />
     );
+  }
+
+  handleTreeChange(tree) {
+    this.setState({
+      tree: tree
+    });
   }
 
   onClickNode(node) {
@@ -75,28 +81,31 @@ class Index extends React.Component {
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
+
+
+
   render() {
-    return (
-      <Tree
-        paddingLeft={20}
-        tree={this.state.tree}
-        onChange={this.handleChange}
-        isNodeCollapsed={this.isNodeCollapsed}
-        renderNode={(node) => this.renderNode(node)}
-      />
-    )
     // return (
-    //   <AdminLayout>
-    //     <div className="admin-index">
-    //       <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-    //       {this.state.loading ? (<CircularProgress />) : null}
-    //       <List>
-    //         {items}
-    //       </List>
-    //     { this.props.children }
-    //     </div>
-    //   </AdminLayout>
-    // );
+
+    // )
+    return (
+      <AdminLayout>
+        <div className="admin-index">
+          <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
+          {this.state.loading ? (<CircularProgress />) : null}
+          <List className="tree">
+            <Tree
+              paddingLeft={0}
+              tree={this.state.tree}
+              onChange={(tree) => this.handleTreeChange(tree)}
+              isNodeCollapsed={this.isNodeCollapsed}
+              renderNode={(node) => this.renderNode(node)}
+            />
+          </List>
+        { this.props.children }
+        </div>
+      </AdminLayout>
+    );
   }
 }
 

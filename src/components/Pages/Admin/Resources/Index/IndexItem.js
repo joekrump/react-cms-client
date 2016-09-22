@@ -40,6 +40,7 @@ class IndexItem extends React.Component{
       style.height = null;
       style.padding = '16px 16px 16px 16px'
       style.marginLeft = (this.getDepth() * 30) + 'px'
+      style.cursor = 'move'
     } else {
       style.opacity = 0;
       style.height = 0;
