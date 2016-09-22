@@ -45,7 +45,7 @@ class IndexItem extends React.Component{
               resourceType={this.props.resourceType} 
               id={this.props.id} 
               deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
-              deletable={this.props.deletable}
+              deletable={this.props.deletable ? this.props.deletable : true}
             />
           }
           primaryText={this.getText()}

@@ -49,7 +49,8 @@
   top: 0;
   left: 0;
   bottom: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
   *, *:before, *:after {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -64,6 +65,10 @@
     display: none;
     cursor: default;
   }
+}
+
+.tree > .m-tree > .m-node > .children {
+  padding-left: 0!important;
 }
 
 .action-button.index-item-button {

@@ -22,9 +22,7 @@ class Index extends React.Component {
 
   renderNode(node) {
     if(!node.id){
-      return (
-        <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-      );
+      return null;
     }
     return (
       <IndexItem key={node.id} 
@@ -87,6 +85,7 @@ class Index extends React.Component {
     return (
       <AdminLayout>
         <div className="admin-index">
+          <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
           <List className="tree">
             <Tree
               paddingLeft={30}
