@@ -5,7 +5,7 @@ import IndexItem from './IndexItem'
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
-import Tree from 'react-ui-tree'
+import UITree from 'react-ui-tree'
 import s from './Index.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
@@ -94,7 +94,7 @@ class Index extends React.Component {
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
           <List className="tree">
-            <Tree
+            <UITree
               paddingLeft={30}
               tree={this.state.tree}
               onChange={(tree) => this.handleTreeChange(tree)}
