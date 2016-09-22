@@ -41,6 +41,7 @@ class Index extends React.Component {
   }
 
   handleTreeChange(tree) {
+    console.log(tree);
     this.setState({
       tree: tree
     });
@@ -82,8 +83,6 @@ class Index extends React.Component {
     }
   }
 
-
-
   render() {
     // return (
 
@@ -95,7 +94,7 @@ class Index extends React.Component {
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="tree">
             <Tree
-              paddingLeft={0}
+              paddingLeft={30}
               tree={this.state.tree}
               onChange={(tree) => this.handleTreeChange(tree)}
               isNodeCollapsed={this.isNodeCollapsed}
