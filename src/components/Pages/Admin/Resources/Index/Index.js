@@ -14,7 +14,6 @@ class Index extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      // items: [],
       loading: true,
       tree: [],
       active: null
@@ -77,38 +76,6 @@ class Index extends React.Component {
     }
   }
   render() {
-    // let items = null;
-
-    // if(!this.state.loading){
-    //   if(this.state.items.length > 0) {
-    //     items = this.state.items.map((item) => (
-    //       <IndexItem key={item.id} 
-    //         id={item.id} 
-    //         primary={item.primary} 
-    //         secondary={item.secondary} 
-    //         resourceType={this.props.params.resourceNamePlural} 
-    //         deletable={item.deletable}
-    //         childItems={item.children}
-    //         depth={item.depth}
-    //         extraData={{...item}}
-    //       />
-    //     ));
-    //   } else {
-    //     items = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
-    //   }
-    // }
-
-    // let listItems = null;
-
-    // if(typeof window !== 'undefined') {
-    //   listItems = (
-    //     <VelocityTransitionGroup enter={{animation: "transition.slideLeftIn"}}>
-    //       {items}
-    //     </VelocityTransitionGroup>
-    //   )
-    // } else {
-    //   listItems = items;
-    // }
     return (
       <Tree
         paddingLeft={20}
