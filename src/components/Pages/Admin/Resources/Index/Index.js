@@ -5,7 +5,7 @@ import IndexItem from './IndexItem'
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
-import UITree from 'react-ui-tree'
+import UITree from '../../../../../ui-tree/UITree'
 import s from './Index.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
