@@ -156,7 +156,7 @@ class UITree extends React.Component {
 
     let diffX = dragging.x - paddingLeft/2 - (nodeItem.left-2) * paddingLeft;
     let diffY = dragging.y - dragging.h/2 - (nodeItem.top-2) * dragging.h;
-
+    console.log(nodeItem);
     let siblings = tree.getSiblingIndexes(dragging.index, this.getArrayNode(nodeItem.parentIndex));
 
     if(diffX < 0) { // left

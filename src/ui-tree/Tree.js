@@ -55,7 +55,7 @@ export default class Tree {
 
     nodeArrayItem.node = treeNode;
     // if this object has a parent then assign 
-    if (parentIndex) {
+    if (parentIndex !== undefined) {
       nodeArrayItem.parentIndex = parentIndex;
     } else {
       nodeArrayItem.parentIndex = null;
@@ -67,6 +67,7 @@ export default class Tree {
     this.nodeArray[parentIndex].childNodeIndexes.push(nodeItemIndex);
     // if the node has children then add them to the nodeArray next.
     if (treeNode.children && treeNode.children.length) {
+      console.log(nodeItemIndex);
       this.walk(treeNode.children, nodeItemIndex);
     }
     return nodeItemIndex;

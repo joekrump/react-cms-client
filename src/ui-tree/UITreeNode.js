@@ -102,16 +102,16 @@ export default class UITreeNode extends React.Component {
   handleCollapse(e) {
     e.stopPropagation();
 
-    const {index : {id: nodeId}, onCollapse} = this.props;
-    if(this.props.onCollapse) onCollapse(nodeId);
+    // const {index : {id: nodeId}, onCollapse} = this.props;
+    if(this.props.onCollapse) onCollapse(this.props.index);
   }
 
   handleMouseDown(e) {
-    const {index: {id: nodeId}} = this.props;
+    // const {index: {id: nodeId}} = this.props;
     const dom = this.refs.inner;
 
     if(this.props.onDragStart) {
-      this.props.onDragStart(nodeId, dom, e);
+      this.props.onDragStart(this.props.index, dom, e);
     }
   }
 }
