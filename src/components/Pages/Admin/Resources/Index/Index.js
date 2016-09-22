@@ -52,7 +52,7 @@ class Index extends React.Component {
   }
 
   setItems(resourceNamePlural){
-    this.setState({loading: true})
+    this.setState({loading: true, tree: []})
     let client = new APIClient(this.context.store);
 
     client.get(resourceNamePlural).then((res) => {
