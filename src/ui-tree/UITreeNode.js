@@ -17,7 +17,7 @@ export default class UITreeNode extends React.Component {
 
       return (
         <span
-          className={'collapse' + (collapsed ? 'caret-right' : 'caret-down')}
+          className={'collapse ' + (collapsed ? 'caret-right' : 'caret-down')}
           onMouseDown={(e) => {e.stopPropagation()}}
           onClick={this.handleCollapse}>
         </span>
@@ -92,7 +92,7 @@ export default class UITreeNode extends React.Component {
     var styles = {};
 
     return (
-      <div className={'m-node' . index === dragging ? ' placeholder' : ' '} style={styles}>
+      <div className={'m-node' + (index === dragging ? ' placeholder' : ' ')} style={styles}>
         {this.renderInner()}
         {this.renderChildren()}
       </div>

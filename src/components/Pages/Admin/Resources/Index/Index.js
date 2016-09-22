@@ -39,6 +39,7 @@ class Index extends React.Component {
   }
 
   handleTreeChange(tree) {
+    console.log(tree);
     this.setState({
       tree: tree,
       treeModified: true
