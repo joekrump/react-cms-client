@@ -6,7 +6,6 @@ import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
 import Tree from 'react-ui-tree'
-import {tree} from './dummyTree'
 import s from './Index.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { ListItem } from 'material-ui/List';
