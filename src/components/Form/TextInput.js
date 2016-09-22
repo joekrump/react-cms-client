@@ -22,8 +22,8 @@ const TextInput = () => ({
   checkIfValid(value){
     let errors = [];
     let validationResult = null;
-    let hasOptions = this.props.validationOptions;
     // Run validation rules for the field if there are any
+    // 
     if(this.props.validationRules) {
       for(let i = 0; i < this.props.validationRules.length; i++){
         validationResult = this.validateInput(value, i);
