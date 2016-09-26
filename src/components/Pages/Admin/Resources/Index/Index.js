@@ -17,13 +17,6 @@ class Index extends React.Component {
       loading: true
     }
   }
-  dragulaDecorator(componentBackingInstance){
-    if (componentBackingInstance) {
-      let options = { };
-      Dragula([componentBackingInstance], options);
-    }
-  }
-
   setItems(resourceNamePlural){
     this.setState({loading: true})
     let client = new APIClient(this.context.store);
@@ -44,6 +37,7 @@ class Index extends React.Component {
       this.setState({items: []}) // Reset Items
     })
   }
+
   componentDidMount() {
     this.setItems(this.props.params.resourceNamePlural.toLowerCase());
   }
@@ -53,25 +47,31 @@ class Index extends React.Component {
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
+  dragulaDecorator(componentBackingInstance) {
+    if (componentBackingInstance) {
+      // let options = { };
+      Dragula([componentBackingInstance]);
+    }
+  }
   render() {
-    let items = null;
+    let content = null;
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
-        items = this.state.items.map((item) => (
-          <IndexItem key={item.id} 
-            id={item.id} 
-            primary={item.primary} 
-            secondary={item.secondary} 
+        content = (
+          <IndexItem key="index-root" 
+            id={0} 
+            primary={''} 
+            secondary={''} 
             resourceType={this.props.params.resourceNamePlural} 
-            deletable={item.deletable}
-            childItems={item.children}
-            depth={item.depth}
-            extraData={{...item}}
+            deletable={false}
+            childItems={this.state.items}
+            depth={-1}
+            root={true}
           />
-        ));
+        )
       } else {
-        items = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
+        content = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
       }
     }
 
@@ -80,8 +80,8 @@ class Index extends React.Component {
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
           {this.state.loading ? (<CircularProgress />) : null}
-          <List ref={(data) => this.dragulaDecorator(data)}>
-            {items}
+          <List>
+            {content}
           </List>
         { this.props.children }
         </div>

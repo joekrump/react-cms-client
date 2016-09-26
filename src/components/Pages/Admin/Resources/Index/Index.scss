@@ -6,12 +6,18 @@
   user-select: none;
 }
 
-.index-list-item {
-  padding: 4px 0;
+.index-item {
+  padding: 4px 0 4px 30px;
   border: 1px dotted #bbb;
-  .index-list-item {
-    padding: 8px;
+  border-right: none;
+  cursor: move;
+  &.gu-transit {
+    border-color: lightgreen;
   }
+}
+
+.list-item {
+  padding: 8px;
   .inner-text {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -24,17 +30,20 @@
     right: 4px;
     opacity: 0;
   }
-
+  
   &:hover {
     .inner-text {
       padding-right: 96px;
     }
     .action-button-container {
-      opacity: 1;
+      
     }
   }
 }
+.list-item:hover > .inner-text {
+  padding-right: 96px;
+}
 
-.nested {
-  
+.list-item:hover > .action-button-container {
+  opacity: 1;
 }

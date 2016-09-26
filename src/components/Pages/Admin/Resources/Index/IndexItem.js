@@ -4,6 +4,7 @@ import { ListItem } from 'material-ui/List';
 import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
+import Dragula from 'react-dragula';
 
 // import { VelocityComponent } from 'velocity-react';
 // import 'velocity-animate/velocity.ui';
@@ -23,6 +24,18 @@ class IndexItem extends React.Component{
   showItem(visible = false) {
     this.setState({visible});
   }
+
+
+  dragulaDecorator(componentBackingInstance) {
+    if (componentBackingInstance) {
+      let options = { 
+        isContainer: (el) => {
+          return this.props.root;
+        }
+      };
+      Dragula([componentBackingInstance]);
+    }
+  }
   
   getText(){
     return(
@@ -34,33 +47,39 @@ class IndexItem extends React.Component{
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
-      style.padding = '16px 16px 16px 16px'
-      style.marginLeft = (this.props.depth * 30) + 'px'
+      // style.padding = '16px 16px 16px 16px'
+      // style.marginLeft = (this.props.depth * 30) + 'px'
     } else {
       style.opacity = 0;
       style.height = 0;
       style.padding = 0;
     }
+
     let queryProps = this.props.extraData
 
-    delete queryProps.primary;
+    if(this.props.extraData) {  
+      delete queryProps.primary;
+    }
+    
     return(
-      <div className="index-item-container f-no-select">
-        <ListItem
-          className={"index-list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
-          disabled
-          rightIconButton={
-            <IndexItemActions 
-              resourceType={this.props.resourceType} 
-              id={this.props.id} 
-              deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
-              queryProps={{...queryProps}}
-              deletable={this.props.deletable}
-            />
-          }
-          primaryText={this.getText()}
-          style={{...style}}
-        />
+      <div className="index-item f-no-select" ref={(componentBackingInstance) => this.dragulaDecorator(componentBackingInstance)}>
+        {!this.props.root ?   
+          <ListItem
+            className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
+            disabled
+            rightIconButton={
+              <IndexItemActions 
+                resourceType={this.props.resourceType} 
+                id={this.props.id} 
+                deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
+                queryProps={{...queryProps}}
+                deletable={this.props.deletable}
+              />
+            }
+            primaryText={this.getText()}
+            style={{...style}}
+          /> : null
+        }
         { this.props.childItems ? 
           this.props.childItems.map((child) => (
             // {primary, secondary, id, deletable, children, ...extraData} = child;
