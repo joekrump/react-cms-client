@@ -2,13 +2,12 @@ import React from 'react';
 import { List } from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
-// import { VelocityTransitionGroup } from 'velocity-react';
-// import 'velocity-animate/velocity.ui';
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.scss';
+import Dragula from 'react-dragula';
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -18,6 +17,13 @@ class Index extends React.Component {
       loading: true
     }
   }
+  dragulaDecorator(componentBackingInstance){
+    if (componentBackingInstance) {
+      let options = { };
+      Dragula([componentBackingInstance], options);
+    }
+  }
+
   setItems(resourceNamePlural){
     this.setState({loading: true})
     let client = new APIClient(this.context.store);
@@ -74,7 +80,7 @@ class Index extends React.Component {
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
           {this.state.loading ? (<CircularProgress />) : null}
-          <List>
+          <List ref={(data) => this.dragulaDecorator(data)}>
             {items}
           </List>
         { this.props.children }

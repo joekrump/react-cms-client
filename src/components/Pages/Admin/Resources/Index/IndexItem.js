@@ -72,6 +72,7 @@ class IndexItem extends React.Component{
               resourceType={this.props.resourceType}
               deletable={child.deletable}
               childItems={child.children}
+              depth={child.depth}
               extraData={{...child}}
             />
           )) : null
