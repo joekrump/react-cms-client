@@ -31,30 +31,21 @@ class IndexItem extends React.Component{
   }
 
   render(){
-
-    /*<VelocityComponent style={{display: 'block'}} animation={{height: this.state.visible ? 50 : 0, opacity: this.state.visible ? 1 : 0}} duration={300}>*/
-    // TODO: Implement this using className switches based on visibility.
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
       style.padding = '16px 16px 16px 16px'
+      style.marginLeft = (this.props.depth * 30) + 'px'
     } else {
       style.opacity = 0;
       style.height = 0;
       style.padding = 0;
     }
     let queryProps = this.props.extraData
-    // let primary, 
-    //     secondary, 
-    //     id, 
-    //     deletable, 
-    //     children, 
-    //     extraData;
-    // The priamry component is not required in the queryProps so remove it.
-    // 
+
     delete queryProps.primary;
     return(
-      <div className="index-item-container">
+      <div className="index-item-container f-no-select">
         <ListItem
           className={"index-list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
           disabled

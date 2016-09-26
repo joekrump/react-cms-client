@@ -2,74 +2,40 @@ import React from 'react';
 import { List } from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
 import IndexItem from './IndexItem'
+// import { VelocityTransitionGroup } from 'velocity-react';
+// import 'velocity-animate/velocity.ui';
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
-// import UITree from '../../../../../ui-tree/UITree'
-import Dragula from 'react-dragula';
-import s from './Index.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './index.scss';
 
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      loading: true,
-      tree: {children:[]},
-      active: null,
-      treeModified: false
+      items: [],
+      loading: true
     }
   }
-
-  renderNode(node) {
-    if(!node.id){
-      return null;
-    }
-    return (
-      <IndexItem key={node.id} 
-        className="node"
-        id={node.id} 
-        primary={node.primary} 
-        secondary={node.secondary} 
-        resourceType={this.props.params.resourceNamePlural} 
-        deletable={node.deletable}
-        depth={node.depth}
-      />
-    );
-  }
-
-  handleTreeChange(tree) {
-    console.log(tree);
-    this.setState({
-      tree: tree,
-      treeModified: true
-    });
-  }
-
-  onTouchTapNode(node) {
-    this.setState({
-      active: node
-    });
-  }
-
   setItems(resourceNamePlural){
-    this.setState({loading: true, tree: {children:[]}})
+    this.setState({loading: true})
     let client = new APIClient(this.context.store);
 
     client.get(resourceNamePlural).then((res) => {
       this.setState({loading: false})
 
       if(res.statusCode !== 200) {
-        this.setState({tree: {children:[]}}) // Reset Items
+        this.setState({items: []}) // Reset Items
         console.log('Bad Response: ', res)
       } else {
-        this.setState({tree: {children: res.body.data}})
+        this.setState({items: res.body.data})
         client.updateToken(res.header.authorization)
       }
     }).catch((res) => {
       this.setState({loading: false})
       console.warn('Error: ', res)
-      this.setState({tree: {}}) // Reset Items
+      this.setState({items: []}) // Reset Items
     })
   }
   componentDidMount() {
@@ -81,50 +47,41 @@ class Index extends React.Component {
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if(nextState.treeModified) {
-      return false;
-    }
-    return true;
-  }
-
-  dragulaDecorator(componentBackingInstance) {
-    if (componentBackingInstance) {
-      let options = { };
-      Dragula([componentBackingInstance], options);
-    }
-  }
-
-  // <UITree
-  //   paddingLeft={30}
-  //   tree={this.state.tree}
-  //   onChange={(tree) => this.handleTreeChange(tree)}
-  //   isNodeCollapsed={this.isNodeCollapsed}
-  //   renderNode={(node) => this.renderNode(node)}
-  // />
-  renderNodes() {
-    return this.state.tree.children.map((node) => {
-      return this.renderNode(node);
-    })
-  }
-  
   render() {
+    let items = null;
+
+    if(!this.state.loading){
+      if(this.state.items.length > 0) {
+        items = this.state.items.map((item) => (
+          <IndexItem key={item.id} 
+            id={item.id} 
+            primary={item.primary} 
+            secondary={item.secondary} 
+            resourceType={this.props.params.resourceNamePlural} 
+            deletable={item.deletable}
+            childItems={item.children}
+            depth={item.depth}
+            extraData={{...item}}
+          />
+        ));
+      } else {
+        items = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
+      }
+    }
+
     return (
       <AdminLayout>
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-          <List className="tree" ref={this.dragulaDecorator}>
-            {this.renderNodes()}
+          {this.state.loading ? (<CircularProgress />) : null}
+          <List>
+            {items}
           </List>
-          { this.state.loading ? (<CircularProgress />) : null }
         { this.props.children }
         </div>
       </AdminLayout>
     );
   }
-
-
 }
 
 Index.contextTypes = {
