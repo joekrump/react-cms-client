@@ -5,7 +5,8 @@ import IndexItem from './IndexItem'
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
-import UITree from '../../../../../ui-tree/UITree'
+// import UITree from '../../../../../ui-tree/UITree'
+import Dragula from 'react-dragula';
 import s from './Index.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
@@ -89,19 +90,28 @@ class Index extends React.Component {
     return true;
   }
 
+  dragulaDecorator(componentBackingInstance) {
+    if (componentBackingInstance) {
+      let options = { };
+      Dragula([componentBackingInstance], options);
+    }
+  }
+
+  // <UITree
+  //   paddingLeft={30}
+  //   tree={this.state.tree}
+  //   onChange={(tree) => this.handleTreeChange(tree)}
+  //   isNodeCollapsed={this.isNodeCollapsed}
+  //   renderNode={(node) => this.renderNode(node)}
+  // />
+  
   render() {
     return (
       <AdminLayout>
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-          <List className="tree">
-            <UITree
-              paddingLeft={30}
-              tree={this.state.tree}
-              onChange={(tree) => this.handleTreeChange(tree)}
-              isNodeCollapsed={this.isNodeCollapsed}
-              renderNode={(node) => this.renderNode(node)}
-            />
+          <List className="tree" ref={this.dragulaDecorator}>
+
           </List>
           { this.state.loading ? (<CircularProgress />) : null }
         { this.props.children }
@@ -109,6 +119,8 @@ class Index extends React.Component {
       </AdminLayout>
     );
   }
+
+
 }
 
 Index.contextTypes = {
