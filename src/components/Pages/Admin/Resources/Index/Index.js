@@ -15,7 +15,7 @@ class Index extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      tree: {},
+      tree: {children:[]},
       active: null,
       treeModified: false
     }
@@ -27,14 +27,13 @@ class Index extends React.Component {
     }
     return (
       <IndexItem key={node.id} 
-        className={'node' + (node === this.state.active ? ' is-active' : '')}
+        className="node"
         id={node.id} 
         primary={node.primary} 
         secondary={node.secondary} 
         resourceType={this.props.params.resourceNamePlural} 
         deletable={node.deletable}
         depth={node.depth}
-        onTouchTap={this.onTouchTapNode.bind(null, node)}
       />
     );
   }
@@ -54,14 +53,14 @@ class Index extends React.Component {
   }
 
   setItems(resourceNamePlural){
-    this.setState({loading: true, tree: {}})
+    this.setState({loading: true, tree: {children:[]}})
     let client = new APIClient(this.context.store);
 
     client.get(resourceNamePlural).then((res) => {
       this.setState({loading: false})
 
       if(res.statusCode !== 200) {
-        this.setState({tree: {}}) // Reset Items
+        this.setState({tree: {children:[]}}) // Reset Items
         console.log('Bad Response: ', res)
       } else {
         this.setState({tree: {children: res.body.data}})
@@ -104,6 +103,11 @@ class Index extends React.Component {
   //   isNodeCollapsed={this.isNodeCollapsed}
   //   renderNode={(node) => this.renderNode(node)}
   // />
+  renderNodes() {
+    return this.state.tree.children.map((node) => {
+      return this.renderNode(node);
+    })
+  }
   
   render() {
     return (
@@ -111,7 +115,7 @@ class Index extends React.Component {
         <div className="admin-index">
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
           <List className="tree" ref={this.dragulaDecorator}>
-
+            {this.renderNodes()}
           </List>
           { this.state.loading ? (<CircularProgress />) : null }
         { this.props.children }
