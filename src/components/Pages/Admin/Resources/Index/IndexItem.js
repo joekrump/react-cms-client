@@ -38,20 +38,27 @@ class IndexItem extends React.Component{
     if(this.props.depth > 2) {
       return null;
     }
-    let nestedItems = this.props.childItems.map((child) => (
+    let nestedItems = this.props.childItems.map((child, i) => (
       <IndexItem 
         key={`${this.props.resourceType}-${child.id}`}
         id={child.id}
+        index={this.props.index + (i + 1)}
         primary={child.primary}
         secondary={child.secondary}
         resourceType={this.props.resourceType}
         deletable={child.deletable}
         childItems={child.children}
-        depth={child.depth}
+        depth={this.props.depth + 1}
         extraData={{...child}}
+        editMode={this.props.editMode}
       />
     ))
-    return (<div className="nested leaf" id={this.props.id}>{nestedItems}</div>);
+    return (<div className="nested leaf" 
+                 data-depth={this.props.depth + 1}
+                 data-index={this.props.index + 1}
+                 id={this.props.id}>
+                  {nestedItems}
+            </div>);
   }
   render(){
     if(this.state.visible) {
@@ -71,11 +78,13 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div className="index-item f-no-select">
+      <div className="index-item f-no-select"
+        data-depth={this.props.depth}
+        data-index={this.props.index}>
         <ListItem
           className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
           disabled
-          leftIcon={this.props.editMode ? <DragHandleIcon className="drag-handle" color="white" styles={smallIconStyle}/> : null}
+          leftIcon={this.props.editMode ? <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> : null}
           rightIconButton={
             <IndexItemActions 
               resourceType={this.props.resourceType} 

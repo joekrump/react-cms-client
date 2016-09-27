@@ -24,12 +24,15 @@ class Index extends React.Component {
   }
   handleDrop(el, target, source, sibling){
     try {
+
       console.log('DROPPED!')
-      // console.log('containers: ', this.state.dragulaDrake.containers);
-      console.log(el);
-      console.log(target);
-      console.log(source);
-      console.log(sibling);
+      console.log('containers: ', this.state.dragulaDrake.containers);
+      console.log('Index: ', el.dataset.index)
+      console.log('Depth: ', el.dataset.depth)
+      console.log('el: ', el);
+      console.log('target: ', target);
+      console.log('source: ', source);
+      console.log('sibling: ', sibling);
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
