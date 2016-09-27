@@ -10,6 +10,7 @@ import s from './index.scss';
 import Dragula from 'react-dragula';
 import ListItems from './ListItems';
 import TreeHelper from '../../../../../helpers/TreeHelper';
+import { connect } from 'react-redux';
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -24,15 +25,13 @@ class Index extends React.Component {
   }
   handleDrop(el, target, source, sibling){
     try {
-
       console.log('DROPPED!')
-      console.log('containers: ', this.state.dragulaDrake.containers);
-      console.log('Index: ', el.dataset.index)
-      console.log('Depth: ', el.dataset.depth)
-      console.log('el: ', el);
-      console.log('target: ', target);
-      console.log('source: ', source);
-      console.log('sibling: ', sibling);
+      // console.log('Element Index: ', el.dataset.index)
+      // console.log('Sibling Index: ', sibling.dataset.index);
+      // previous index, new index, placement
+      console.log('before: ', this.state.TreeHelper.nodeArray);
+      this.state.TreeHelper.move(el.dataset.index, (sibling.dataset.index - 1), 'prepend')
+      console.log('after: ', this.state.TreeHelper.nodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
@@ -70,6 +69,7 @@ class Index extends React.Component {
             dragulaDrake: drake,
             TreeHelper: (new TreeHelper(res.body.data))
           });
+          this.props.updateTree(this.state.TreeHelper.nodeArray);
         }
       }
     }).catch((res) => {
@@ -102,7 +102,7 @@ class Index extends React.Component {
   }
   render() {
     let content = null;
-    console.log(this.state.TreeHelper.nodeArray)
+    // console.log(this.state.TreeHelper.nodeArray)
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
@@ -127,8 +127,29 @@ class Index extends React.Component {
   }
 }
 
-Index.contextTypes = {
-  store: React.PropTypes.object
+const mapStateToProps = (state, ownProps) => {
+  return {
+    nodeArray: state.tree.indexTree.nodeArray
+  }
 }
 
-export default withStyles(s)(Index);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateTree: (nodeArray) => {
+      dispatch ({
+        type: 'UPDATE_TREE',
+        nodeArray
+      })
+    }
+  };
+}
+
+Index.contextTypes = {
+  store: React.PropTypes.object.isRequired
+};
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(s)(Index))

@@ -43,7 +43,6 @@ class ListItems extends React.Component {
     })
     return (<div className="nested" data-depth={0} data-index={0}>{items}</div>)
   }
-
 }
 
 export default ListItems;

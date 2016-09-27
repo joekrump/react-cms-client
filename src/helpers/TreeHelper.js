@@ -1,6 +1,5 @@
 export default class TreeHelper {
   constructor(nestedArray) {
-    console.log('init!')
     // Set according to param or default to an object
     // with no children.
     this.nestedArray = nestedArray;
@@ -25,13 +24,14 @@ export default class TreeHelper {
     this.getPrevSibling = this._getPrevSibling.bind(this)
     this.getSiblingItems = this._getSiblingItems.bind(this)
 
-    let rootNode = {node: this.treeObject, childNodeIndexes: []};
+    let rootNode = {node: {children: this.nestedArray}, childNodeIndexes: []};
     this.nodeArray.push(rootNode);
 
     if(this.nestedArray && this.nestedArray.length > 0) {
       // build a flat array that represents the order that the nodes display in.
       this.walk(this.nestedArray, 0);
     }
+    console.log(this.nodeArray)
   }
   /**
    * Create an array of nodes in the order that they appear.
@@ -45,7 +45,7 @@ export default class TreeHelper {
     treeNodes.forEach((treeNode, i) => {
       this.insertIntoNodeArray(treeNode, parentIndex);
       if(treeNode.children.length > 0) {
-        this.walk(treeNode.children, (parentIndex + i));
+        this.walk(treeNode.children, (parentIndex + (i + 1)));
       }
     });
   }
@@ -54,6 +54,7 @@ export default class TreeHelper {
     let nodeItemIndex = 0;
 
     nodeArrayItem.node = treeNode;
+    nodeArrayItem.childNodeIndexes = [];
     // if this object has a parent then assign 
     if (parentIndex) {
       nodeArrayItem.parentIndex = parentIndex;
@@ -65,12 +66,8 @@ export default class TreeHelper {
     nodeItemIndex = this.nodeArray.length - 1;
 
     // Either initialize childNodeIndexs or push to existing array.
-    if (this.nodeArray[parentIndex].childNodeIndexes) {
-      this.nodeArray[parentIndex].childNodeIndexes.push(nodeItemIndex);
-    } else {
-      this.nodeArray[parentIndex].childNodeIndexes = []
-    }
-
+    this.nodeArray[parentIndex].childNodeIndexes.push(nodeItemIndex);
+    
     return nodeItemIndex;
   }
   _getSiblingIndexes(childIndex, parentItem) {
@@ -136,13 +133,16 @@ export default class TreeHelper {
   }
   // remove a node update its parent as well.
   _remove(index) {
-    let parentNode = this.nodeArray[this.nodeArray[index].parent_id];
+    let parentNodeItem = this.nodeArray[this.nodeArray[index].parentIndex];
+    console.log(index);
+    console.log('parentIndex: ', this.nodeArray[index].parentIndex);
+    console.log('parent: ', parentNodeItem)
     // remove from the parent's list of children
-    parentNode.node.children.splice(parentNode.children.indexOf(this.nodeArray[index].node), 1);
+    parentNodeItem.node.children.splice(parentNodeItem.node.children.indexOf(this.nodeArray[index].node), 1);
     // splice from the list of childNodeIndexes
-    parentNode.childNodeIndexes.splice(parentNode.childNodeIndexes.indexOf(index), 1);
+    parentNodeItem.childNodeIndexes.splice(parentNodeItem.childNodeIndexes.indexOf(index), 1);
     // update the parent node.
-    this.nodeArray[parentNode.id] = parentNode; 
+    this.nodeArray[this.nodeArray[index].parentIndex] = parentNodeItem; 
     // remove the item and all its children from nodeArray and then return an array of the items
     // removed.
     // return this.nodeArray.splice(index, this.getNumberToSplice(index));
@@ -158,7 +158,7 @@ export default class TreeHelper {
   _insert(treeNode, parentIndex, i) {
     let parentArrayNodeItem = this.nodeArray[parentIndex];
     let parentTreeNode      = parentArrayNodeItem.node;
-    let newNodeIndex        = this.insertIntoNodeArray(parentTreeNode)
+    let newNodeIndex        = this.insertIntoNodeArray(parentTreeNode, parentIndex)
     
     parentArrayNodeItem.childNodeIndexes = parentArrayNodeItem.childNodeIndexes || [];
     parentTreeNode.children              = parentTreeNode.children || [];
@@ -176,9 +176,17 @@ export default class TreeHelper {
    */
   _insertBefore(newNodeArrayItem, destIndex) {
     let destNodeArrayItem   = this.nodeArray[destIndex];
+    // console.log('dest node array item: ', destNodeArrayItem);
+    // console.log('parentIndex: ', destNodeArrayItem.parentIndex)
+    // console.log('Parent: ', this.nodeArray[destNodeArrayItem.parentIndex] )
+    let parentIndex = destNodeArrayItem.parentIndex;
+
+    if(destNodeArrayItem.parentIndex === undefined){
+      parentIndex = 0;
+    }
     // let parentNodeArrayItem = this.nodeArray[destNodeArrayItem.parentIndex];
-    let indexToInsertAt     = this.nodeArray[destNodeArrayItem.parentIndex].childNodeIndexes.indexOf(destIndex);
-    return this.insert(newNodeArrayItem, destNodeArrayItem.parentIndex, indexToInsertAt);
+    let indexToInsertAt = this.nodeArray[parentIndex].childNodeIndexes.indexOf(destIndex);
+    return this.insert(newNodeArrayItem, parentIndex, indexToInsertAt);
   }
   /**
    * [_insertAfter description]
