@@ -58,7 +58,6 @@ class IndexItem extends React.Component{
       style.opacity = 1;
       style.height = null;
       style.padding = '16px 16px 16px ' + (this.props.editMode ? '56px' : '16px')
-      // style.marginLeft = (this.props.depth * 30) + 'px'
     } else {
       style.opacity = 0;
       style.height = 0;
