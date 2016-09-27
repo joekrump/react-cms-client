@@ -13,15 +13,11 @@ export default class TreeHelper {
     this.remove              = this._remove.bind(this);
     this.insert              = this._insert.bind(this);
     this.getNodeItem         = this._getNodeItem.bind(this);
-    // this.initNextIndex   = this._initNextIndex.bind(this);
-    // this.initPrevIndex   = this._initPrevIndex.bind(this);
     this.insertBefore        = this._insertBefore.bind(this);
     this.insertAfter         = this._insertAfter.bind(this);
     this.prepend             = this._prepend.bind(this);
     this.append              = this._append.bind(this);
-    this.updateNodesPosition = this._updateNodesPosition.bind(this);
     this.move                = this._move.bind(this);
-    this.getNodeByTop        = this._getNodeByTop.bind(this);
     this.getSiblingIndexes = this._getSiblingIndexes.bind(this)
     this.getPrevIndex = this._getPrevIndex.bind(this)
     this.getNextIndex = this._getNextIndex.bind(this)
@@ -122,24 +118,6 @@ export default class TreeHelper {
     return siblingItems;
   }
 
-  // _initPrevAndNextIndexes(siblingsCount, childIndex, parentIndex){
-  //   this.nodeArray[parentIndex].children[childIndex].nextIndex = this.initNextIndex(siblingsCount, childIndex);
-  //   this.nodeArray[parentIndex].children[childIndex].prevIndex = this.initPrevIndex(siblingsCount, childIndex);
-  // }
-  // _initNextIndex(siblingsCount, index){
-  //   if((siblingsCount - 1) < index) {
-  //     return index + 1;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-  // _initPrevIndex(siblingsCount, index){
-  //   if(index > 0) {
-  //     return index - 1;
-  //   } else {
-  //     return null;
-  //   }
-  // }
   /**
    * Remove an item from the nodeArray by splicing it out.
    * @param  {[type]} index [description]
@@ -240,45 +218,7 @@ export default class TreeHelper {
     destNodeArrayItem.childNodeIndexes = destNodeArrayItem.childNodeIndexes || [];
     return this.insert(newNodeArrayItem, destIndex, destNodeArrayItem.childNodeIndexes.length);
   }
-  _updateNodesPosition() {
-    var top = 1;
-    var left = 1;
-    var root = this.getNodeItem(0);
-    var self = this;
-
-    root.top = top++;
-    root.left = left++;
-
-    if(root.childNodeIndexes && root.childNodeIndexes.length) {
-      walk(root.childNodeIndexes, root, left, root.node.collapsed);
-    }
-
-    function walk(childIndexes, parent, left, collapsed) {
-      var height = 1;
-      
-      for(let i = 0; i < childIndexes; i++){
-        var node = self.getNodeItem(childIndexes[i]);
-        if(collapsed) {
-          node.top = null;
-          node.left = null;
-        } else {
-          node.top = top++;
-          node.left = left;
-        }
-
-        if(node.childNodeIndexes && node.childNodeIndexes.length) {
-          height += walk(node.childNodeIndexes, node, left+1, collapsed || node.node.collapsed);
-        } else {
-          node.height = 1;
-          height += 1;
-        }
-      }
-
-      if(parent.node.collapsed) parent.height = 1;
-      else parent.height = height;
-      return parent.height;
-    }
-  }
+ 
   _move(prevIndex, newIndex, placement) {
     if(prevIndex === newIndex || newIndex === 1) return;
 
@@ -290,16 +230,6 @@ export default class TreeHelper {
     else if(placement === 'prepend') nodeArrayIndex = this.prepend(nodeArrayItem, newIndex);
     else if(placement === 'append') nodeArrayIndex = this.append(nodeArrayItem, newIndex);
 
-    // TODO: refactor
-    // this.updateNodesPosition();
     return nodeArrayIndex;
-  }
-  _getNodeByTop(top) {
-    var indexes = this.indexes;
-    for(var id in indexes) {
-      if(indexes.hasOwnProperty(id)) {
-        if(indexes[id].top === top) return indexes[id];
-      }
-    }
   }
 }
