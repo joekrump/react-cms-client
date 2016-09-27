@@ -23,6 +23,7 @@ class Index extends React.Component {
   handleDrop(el, target, source, sibling){
     try {
       console.log('DROPPED!')
+      // console.log('containers: ', this.state.dragulaDrake.containers);
       console.log(el);
       console.log(target);
       console.log(source);
@@ -53,11 +54,8 @@ class Index extends React.Component {
             containers: [].slice.apply(document.querySelectorAll('.nested')),
             moves: (el, source, handle, sibling) => {
               // should not be able to go to a depth beyond 3 (depths start at 0)
-              console.log((el).classList);
-              return (el).classList.contains('index-item')
-              // console.log('el ', el)
-              // console.log('handle ', handle)
-              // return false;
+              // console.log((handle).classList);
+              return handle.classList.contains('drag-handle')
             }
           });
           drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
@@ -103,7 +101,7 @@ class Index extends React.Component {
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
-        content = (<ListItems items={this.state.items} resourceType={this.props.params.resourceNamePlural} />)
+        content = (<ListItems items={this.state.items} resourceType={this.props.params.resourceNamePlural} editMode={this.state.editMode} />)
       } else {
         content = (<div className="empty"><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
       }

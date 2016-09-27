@@ -4,9 +4,15 @@ import { ListItem } from 'material-ui/List';
 import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
+import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
+}
+
+let smallIconStyle = {
+  width: '24px',
+  height: '24px'
 }
 
 class IndexItem extends React.Component{
@@ -45,13 +51,13 @@ class IndexItem extends React.Component{
         extraData={{...child}}
       />
     ))
-    return (<div className="nested leaf">{nestedItems}</div>);
+    return (<div className="nested leaf" id={this.props.id}>{nestedItems}</div>);
   }
   render(){
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
-      style.padding = '16px 16px 16px 16px'
+      style.padding = '16px 16px 16px ' + (this.props.editMode ? '56px' : '16px')
       // style.marginLeft = (this.props.depth * 30) + 'px'
     } else {
       style.opacity = 0;
@@ -70,6 +76,7 @@ class IndexItem extends React.Component{
         <ListItem
           className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
           disabled
+          leftIcon={this.props.editMode ? <DragHandleIcon className="drag-handle" color="white" styles={smallIconStyle}/> : null}
           rightIconButton={
             <IndexItemActions 
               resourceType={this.props.resourceType} 

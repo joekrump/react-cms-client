@@ -29,7 +29,9 @@
 }
 
 .index-item {
-  cursor: move;
+  .drag-handle {
+    cursor: move;
+  }
   padding: 0 0 0 30px;
   &.gu-transit {
     opacity: 0.5;

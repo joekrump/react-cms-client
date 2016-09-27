@@ -14,6 +14,7 @@ const ListItems = (props) => {
       depth={item.depth}
       root={!item.depth || item.depth === 0}
       extraData={{...item}}
+      editMode={props.editMode}
     />
   ))
   return (<div className="nested">{items}</div>)
