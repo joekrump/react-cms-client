@@ -27,9 +27,13 @@ class Index extends React.Component {
       if(res.statusCode !== 200) {
         this.setState({items: []}) // Reset Items
         console.log('Bad Response: ', res)
+
       } else {
         this.setState({items: res.body.data})
         client.updateToken(res.header.authorization)
+        if(typeof document !== 'undefined'){
+          Dragula([].slice.apply(document.querySelectorAll('.nested')));
+        }
       }
     }).catch((res) => {
       this.setState({loading: false})
@@ -45,12 +49,6 @@ class Index extends React.Component {
     // TODO: update how this works by tying into redux
     if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
       this.setItems(nextProps.params.resourceNamePlural);
-    }
-  }
-  dragulaDecorator(componentBackingInstance) {
-    if (componentBackingInstance) {
-      // let options = { };
-      Dragula([].slice.apply(document.querySelectorAll('.nested')));
     }
   }
   render() {

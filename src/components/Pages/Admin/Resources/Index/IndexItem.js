@@ -24,18 +24,6 @@ class IndexItem extends React.Component{
   showItem(visible = false) {
     this.setState({visible});
   }
-
-
-  dragulaDecorator(componentBackingInstance) {
-    if (componentBackingInstance) {
-      let options = { 
-        isContainer: (el) => {
-          return this.props.root;
-        }
-      };
-      Dragula([].slice.apply(document.querySelectorAll('.nested')));
-    }
-  }
   
   getText(){
     return(
@@ -62,7 +50,7 @@ class IndexItem extends React.Component{
     }
     
     return(
-      <div className="index-item f-no-select" ref={(componentBackingInstance) => this.dragulaDecorator(componentBackingInstance)}>
+      <div className="index-item f-no-select" >
         {!this.props.root ?   
           <ListItem
             className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
