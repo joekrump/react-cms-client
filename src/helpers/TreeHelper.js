@@ -61,67 +61,6 @@ export default class TreeHelper {
     
     return nodeItemIndex;
   }
-  // _getSiblingIndexes(childIndex, parentItem) {
-  //   let childNodeIndex = parentItem.childNodeIndexes.indexOf(childIndex);
-  //   let siblings = [];
-  //   siblings.push(this.getPrevIndex(childNodeIndex));
-  //   siblings.push(this.getNextIndex(parentItem.childNodeIndexes.length, childNodeIndex));
-  //   return siblings;
-  // }
-  // _getPrevIndex(childIndex) {
-  //   if(childIndex > 0) {
-  //     return childIndex - 1;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-  // _getNextIndex(childIndexCount, childIndex) {
-  //   if((childIndexCount - 1) < childIndex) {
-  //     return childIndex + 1;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-  // _getNextSibling(parentItem, childNodeIndex){
-  //   let nextSiblingIndex = this.getNextIndex(parentItem.childNodeIndexes.length, childNodeIndex);
-  //   if(nextSiblingIndex === null) {
-  //     return null;
-  //   }
-  //   return this.getNodeItem(parentItem.childNodeIndexes[nextSiblingIndex]);
-  // }
-  // _getPrevSibling(parentItem, childNodeIndex){
-  //   let prevSiblingIndex = this.getPrevIndex(childNodeIndex);
-  //   if(prevSiblingIndex === null) {
-  //     return null;
-  //   }
-  //   return this.getNodeItem(parentItem.childNodeIndexes[prevSiblingIndex]);
-  // }
-
-  // _getSiblingItems(parentItem, childIndex) {
-  //   let childNodeIndex = parentItem.childNodeIndexes.indexOf(childIndex);
-  //   let siblingItems = [];
-  //   siblingItems.push(this.getPrevSibling(parentItem, childNodeIndex));
-  //   siblingItems.push(this.getNextSibling(parentItem, childNodeIndex));
-  //   return siblingItems;
-  // }
-
-  // /**
-  //  * Remove an item from the nodeArray by splicing it out.
-  //  * @param  {[type]} index [description]
-  //  * @return {[type]}       [description]
-  //  */
-  // _getNumberToSplice(index) {
-  //   let numToSplice = 1;
-  //   let nodeArrayItem = this.nodeArray[index];
-
-  //   if(nodeArrayItem.childNodeIndexes && nodeArrayItem.childNodeIndexes.length) {
-  //     for(let i = 0; i < nodeArrayItem.childNodeIndexes.length; i++){
-  //       numToSplice += this.getNumberToSplice(nodeArrayItem.childNodeIndexes[i])
-  //     }
-  //   }
-  //   // return the number of items to splice
-  //   return numToSplice;
-  // }
 
   /**
    * Updates the nodeArray
