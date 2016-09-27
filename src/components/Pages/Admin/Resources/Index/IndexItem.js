@@ -29,6 +29,9 @@ class IndexItem extends React.Component{
   }
 
   renderNestedItems() {
+    if(this.props.depth > 2) {
+      return null;
+    }
     let nestedItems = this.props.childItems.map((child) => (
       <IndexItem 
         key={`${this.props.resourceType}-${child.id}`}
@@ -48,7 +51,7 @@ class IndexItem extends React.Component{
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
-      // style.padding = '16px 16px 16px 16px'
+      style.padding = '16px 16px 16px 16px'
       // style.marginLeft = (this.props.depth * 30) + 'px'
     } else {
       style.opacity = 0;

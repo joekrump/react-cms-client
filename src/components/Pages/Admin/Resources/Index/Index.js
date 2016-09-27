@@ -21,15 +21,18 @@ class Index extends React.Component {
     }
   }
   handleDrop(el, target, source, sibling){
-    console.log(el);
-    console.log(target);
-    console.log(source);
-    console.log(sibling);
+    try {
+      console.log('DROPPED!')
+      console.log(el);
+      console.log(target);
+      console.log(source);
+      console.log(sibling);
+    } catch (e) {
+      console.warn('ERROR: ', e)
+    } 
   }
   handleOver(el, container, source){
-    console.log(el);
-    console.log(container);
-    console.log(source);
+    // Nesting
   }
   setItems(resourceNamePlural){
     this.setState({loading: true})
@@ -46,9 +49,22 @@ class Index extends React.Component {
         this.setState({items: res.body.data})
         client.updateToken(res.header.authorization)
         if(typeof document !== 'undefined'){
-          let drake = Dragula([].slice.apply(document.querySelectorAll('.nested')));
+          let drake = Dragula({
+            containers: [].slice.apply(document.querySelectorAll('.nested')),
+            moves: (el, source, handle, sibling) => {
+              // should not be able to go to a depth beyond 3 (depths start at 0)
+              console.log((el).classList);
+              return (el).classList.contains('index-item')
+              // console.log('el ', el)
+              // console.log('handle ', handle)
+              // return false;
+            }
+          });
           drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
           drake.on('over', (el, container, source) => this.handleOver(el, container, source));
+          // drake.canMove((item) => {
+
+          // })
           this.setState({
             dragulaDrake: drake
           });

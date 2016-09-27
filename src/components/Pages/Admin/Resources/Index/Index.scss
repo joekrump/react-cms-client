@@ -6,6 +6,11 @@
   user-select: none;
 }
 
+.nested {
+  padding: 0;
+  transition: padding .2s ease-in-out;
+}
+
 .index-edit .nested {
   &.leaf {
     padding: 15px 0 0 0;
@@ -33,13 +38,12 @@
     }
     .nested {
       border: none;
-      padding: 0;
+      // padding: 0;
     }
   }
 }
 
 .list-item {
-  padding: 8px;
   .inner-text {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -52,16 +56,8 @@
     right: 4px;
     opacity: 0;
   }
-  
-  &:hover {
-    .inner-text {
-      padding-right: 96px;
-    }
-    .action-button-container {
-      
-    }
-  }
 }
+
 .list-item:hover > .inner-text {
   padding-right: 96px;
 }
