@@ -89,7 +89,7 @@ class Index extends React.Component {
       if(this.state.items.length > 0) {
         content = (<ListItems items={this.state.items} resourceType={this.props.params.resourceNamePlural} />)
       } else {
-        content = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
+        content = (<div className="empty"><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
       }
     }
     return (
