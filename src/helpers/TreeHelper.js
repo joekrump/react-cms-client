@@ -142,6 +142,7 @@ export default class TreeHelper {
     console.log('childArrayIndex: ', childArrayIndex)
     let indexToMoveTo = -1;
     let siblingParentIndex = 0;
+    let siblingChildIndex;
 
     // splice out the item reference
     console.log('REMOVING item from childNodeIndexes')
@@ -151,10 +152,10 @@ export default class TreeHelper {
 
     if(siblingNodeId !== null) {
       let indexOfSiblingNode = this.lookupArray.indexOf(siblingNodeId);
-      indexToMoveTo = indexOfSiblingNode - 1;
+      indexToMoveTo = indexOfSiblingNode;
       siblingParentIndex = this.nodeArray[indexOfSiblingNode].parentIndex;
       // Add the item to the siblings parent
-      let siblingChildIndex = this.nodeArray[siblingParentIndex].childNodeIndexes.indexOf(indexOfSiblingNode)
+      siblingChildIndex = this.nodeArray[siblingParentIndex].childNodeIndexes.indexOf(indexOfSiblingNode)
     }
     
     console.log('Removing from nodeArray')
@@ -185,6 +186,14 @@ export default class TreeHelper {
       this.lookupArray.splice(indexToMoveTo, 0, itemsRemoved[0].model_id);
     }
 
+    // if the node that was moved had children, then update their parentIndex to the indexToMoveTo.
+    // 
+    if(itemsRemove[0].childNodeIndexes.length > 0) {
+      itemsRemove[0].childNodeIndexes.forEach((index) => {
+        this.nodeArray[index].parentIndex = indexToMoveTo;
+      })
+    }
+
     console.log('After Add nodeArray: ', this.nodeArray)
     console.log('After Add lookupArray: ', this.lookupArray)
     
@@ -197,7 +206,7 @@ export default class TreeHelper {
       // if the item does not have a sibling it must be the direct child of the root
       // so get the root (at index 0) and push to the end of its childNodeIndexes
       this.nodeArray[0].childNodeIndexes.push(indexToMoveTo);
-      console.log('before: ', this.nodeArray[0].childNodeIndexes)
+      console.log('after: ', this.nodeArray[0].childNodeIndexes)
     }
 
   }
