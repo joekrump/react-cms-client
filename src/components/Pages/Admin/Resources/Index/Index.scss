@@ -7,12 +7,18 @@
 }
 
 .index-item {
-  padding: 4px 0 4px 30px;
-  border: 1px dotted #bbb;
+  padding: 0 0 0 30px;
+  // border: 1px dotted #bbb;
   border-right: none;
   cursor: move;
   &.gu-transit {
-    border-color: lightgreen;
+    opacity: 0.5;
+    .list-item {
+      border: 1px dotted lightgreen;
+    }
+  }
+  &.gu-mirror {
+    display: none;
   }
 }
 
