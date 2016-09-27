@@ -14,8 +14,21 @@ class Index extends React.Component {
     super(props);
     this.state = {
       items: [],
-      loading: true
+      loading: true,
+      dragulaDrake: null,
+      editMode: false
     }
+  }
+  handleDrop(el, target, source, sibling){
+    console.log(el);
+    console.log(target);
+    console.log(source);
+    console.log(sibling);
+  }
+  handleOver(el, container, source){
+    console.log(el);
+    console.log(container);
+    console.log(source);
   }
   setItems(resourceNamePlural){
     this.setState({loading: true})
@@ -32,7 +45,12 @@ class Index extends React.Component {
         this.setState({items: res.body.data})
         client.updateToken(res.header.authorization)
         if(typeof document !== 'undefined'){
-          Dragula([].slice.apply(document.querySelectorAll('.nested')));
+          let drake = Dragula([].slice.apply(document.querySelectorAll('.nested')));
+          drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
+          drake.on('over', (el, container, source) => this.handleOver(el, container, source));
+          this.setState({
+            dragulaDrake: drake
+          });
         }
       }
     }).catch((res) => {
@@ -45,11 +63,23 @@ class Index extends React.Component {
   componentDidMount() {
     this.setItems(this.props.params.resourceNamePlural.toLowerCase());
   }
+  componentWillUnmount() {
+    this.state.dragulaDrake.destroy();
+    this.state.dragulaDrake.setState({
+      dragulaDrake: null
+    })
+  }
   componentWillReceiveProps(nextProps){
     // TODO: update how this works by tying into redux
     if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
       this.setItems(nextProps.params.resourceNamePlural);
     }
+  }
+  toggleEditMode(event) {
+    event.preventDefault();
+    this.setState({
+      editMode: !this.state.editMode
+    })
   }
   render() {
     let content = null;
@@ -67,6 +97,7 @@ class Index extends React.Component {
               childItems={this.state.items}
               depth={-1}
               root={true}
+              drake={this.state.dragulaDrake}
             />
           </div>
         )
@@ -74,11 +105,12 @@ class Index extends React.Component {
         content = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
       }
     }
-
+    console.log(this.state.dragulaDrake);
     return (
       <AdminLayout>
-        <div className="admin-index">
+        <div className={"admin-index" + (this.state.editMode ? ' index-edit' : '')}>
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
+          <button onClick={(event) => this.toggleEditMode(event)}>Adjust Nesting</button>
           {this.state.loading ? (<CircularProgress />) : null}
           <List>
             {content}

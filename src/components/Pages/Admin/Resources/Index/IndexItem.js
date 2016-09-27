@@ -13,7 +13,8 @@ class IndexItem extends React.Component{
   constructor(props) {
     super(props)
     this.state = {
-      visible: true
+      visible: true,
+      hoverClass: ''
     }
   }
 
@@ -39,11 +40,11 @@ class IndexItem extends React.Component{
         childItems={child.children}
         depth={child.depth}
         extraData={{...child}}
+        drake={this.props.drake}
       />
     ))
     return (<div className="nested">{nestedItems}</div>);
   }
-
   render(){
     if(this.state.visible) {
       style.opacity = 1;
@@ -63,7 +64,7 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div className="index-item f-no-select" >
+      <div className="index-item f-no-select">
         {!this.props.root ?   
           <ListItem
             className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}

@@ -5,8 +5,10 @@
   -ms-user-select: none;
   user-select: none;
 }
-.nested {
-  padding: 10px 0 0 0;
+
+.index-edit .nested {
+  padding: 15px 0 0 0;
+  // border: 1px dotted white;
 }
 .index-item {
   padding: 0 0 0 30px;
@@ -17,6 +19,10 @@
     opacity: 0.5;
     .list-item {
       border: 1px dotted lightgreen;
+    }
+    .nested {
+      border: none;
+      padding: 0;
     }
   }
   &.gu-mirror {
