@@ -188,9 +188,11 @@ export default class TreeHelper {
 
     // if the node that was moved had children, then update their parentIndex to the indexToMoveTo.
     // 
-    if(itemsRemove[0].childNodeIndexes.length > 0) {
-      itemsRemove[0].childNodeIndexes.forEach((index) => {
+    if(itemsRemoved[0].childNodeIndexes.length > 0) {
+      itemsRemoved[0].childNodeIndexes.forEach((index) => {
+        console.log('previous parentIndex: ', this.nodeArray[index].parentIndex)
         this.nodeArray[index].parentIndex = indexToMoveTo;
+        console.log('new parentIndex: ', this.nodeArray[index].parentIndex)
       })
     }
 
