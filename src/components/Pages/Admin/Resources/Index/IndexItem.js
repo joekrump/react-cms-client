@@ -4,10 +4,6 @@ import { ListItem } from 'material-ui/List';
 import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
-import Dragula from 'react-dragula';
-
-// import { VelocityComponent } from 'velocity-react';
-// import 'velocity-animate/velocity.ui';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
@@ -31,6 +27,23 @@ class IndexItem extends React.Component{
     )
   }
 
+  renderNestedItems() {
+    let nestedItems = this.props.childItems.map((child) => (
+      <IndexItem 
+        key={`${this.props.resourceType}-${child.id}`}
+        id={child.id}
+        primary={child.primary}
+        secondary={child.secondary}
+        resourceType={this.props.resourceType}
+        deletable={child.deletable}
+        childItems={child.children}
+        depth={child.depth}
+        extraData={{...child}}
+      />
+    ))
+    return (<div className="nested">{nestedItems}</div>);
+  }
+
   render(){
     if(this.state.visible) {
       style.opacity = 1;
@@ -48,7 +61,7 @@ class IndexItem extends React.Component{
     if(this.props.extraData) {  
       delete queryProps.primary;
     }
-    
+
     return(
       <div className="index-item f-no-select" >
         {!this.props.root ?   
@@ -68,24 +81,7 @@ class IndexItem extends React.Component{
             style={{...style}}
           /> : null
         }
-        <div className="nested">
-          { this.props.childItems ? 
-            this.props.childItems.map((child) => (
-              // {primary, secondary, id, deletable, children, ...extraData} = child;
-              <IndexItem 
-                key={`${this.props.resourceType}-${child.id}`}
-                id={child.id}
-                primary={child.primary}
-                secondary={child.secondary}
-                resourceType={this.props.resourceType}
-                deletable={child.deletable}
-                childItems={child.children}
-                depth={child.depth}
-                extraData={{...child}}
-              />
-            )) : null
-          }
-        </div>
+        { this.props.childItems ? this.renderNestedItems() : null}
       </div>
     );
   }
