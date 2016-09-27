@@ -10,7 +10,7 @@ export default class TreeHelper {
     this.walk                = this._walk.bind(this);
     this.getNumberToSplice   = this._getNumberToSplice.bind(this);
     this.remove              = this._remove.bind(this);
-    this.insert              = this._insert.bind(this);
+    this.update              = this._update.bind(this);
     this.getNodeItem         = this._getNodeItem.bind(this);
     this.insertBefore        = this._insertBefore.bind(this);
     this.insertAfter         = this._insertAfter.bind(this);
@@ -155,7 +155,7 @@ export default class TreeHelper {
    * @param  {[type]} i           [description]
    * @return {[type]}             [description]
    */
-  _insert(treeNode, parentIndex, i) {
+  _update(nodeToUpdateId, siblingNodeId) {
     let parentArrayNodeItem = this.nodeArray[parentIndex];
     let parentTreeNode      = parentArrayNodeItem.node;
     let newNodeIndex        = this.insertIntoNodeArray(parentTreeNode, parentIndex)
