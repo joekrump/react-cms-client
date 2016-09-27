@@ -29,9 +29,9 @@ class Index extends React.Component {
       // console.log('Element Index: ', el.dataset.index)
       // console.log('Sibling Index: ', sibling.dataset.index);
       // previous index, new index, placement
-      console.log('before: ', this.state.TreeHelper.nodeArray);
-      this.state.TreeHelper.move(el.dataset.index, (sibling.dataset.index - 1), 'prepend')
-      console.log('after: ', this.state.TreeHelper.nodeArray);
+      // console.log('before: ', this.state.TreeHelper.nodeArray);
+      this.state.TreeHelper.update(parseInt(el.id, 10), parseInt(sibling.id, 10))
+      // console.log('after: ', this.state.TreeHelper.nodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
     } 

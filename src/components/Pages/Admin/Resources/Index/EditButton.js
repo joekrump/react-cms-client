@@ -21,7 +21,7 @@ const EditButton = (props) => {
       tooltipPosition='top-center' 
       containerElement={
         <Link to={{
-          pathname: '/admin/' + props.resourceType + '/' + props.id + '/edit',
+          pathname: '/admin/' + props.resourceType + '/' + props.modelId + '/edit',
           query: {...props.queryProps}
         }} />
       }

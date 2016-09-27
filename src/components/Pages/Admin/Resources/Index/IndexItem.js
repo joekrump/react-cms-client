@@ -41,7 +41,7 @@ class IndexItem extends React.Component{
     let nestedItems = this.props.childItems.map((child, i) => (
       <IndexItem 
         key={`${this.props.resourceType}-${child.id}`}
-        id={child.id}
+        modelId={child.id}
         index={this.props.index + (i + 1)}
         primary={child.primary}
         secondary={child.secondary}
@@ -53,12 +53,7 @@ class IndexItem extends React.Component{
         editMode={this.props.editMode}
       />
     ))
-    return (<div className="nested leaf" 
-                 data-depth={this.props.depth + 1}
-                 data-index={this.props.index + 1}
-                 id={this.props.id}>
-                  {nestedItems}
-            </div>);
+    return (<div className="nested leaf">{nestedItems}</div>);
   }
   render(){
     if(this.state.visible) {
@@ -78,9 +73,7 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div className="index-item f-no-select"
-        data-depth={this.props.depth}
-        data-index={this.props.index}>
+      <div id={this.props.modelId} className="index-item f-no-select">
         <ListItem
           className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
           disabled
@@ -88,7 +81,7 @@ class IndexItem extends React.Component{
           rightIconButton={
             <IndexItemActions 
               resourceType={this.props.resourceType} 
-              id={this.props.id} 
+              modelId={this.props.modelId} 
               deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
               queryProps={{...queryProps}}
               deletable={this.props.deletable}

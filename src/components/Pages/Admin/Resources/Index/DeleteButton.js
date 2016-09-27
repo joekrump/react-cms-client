@@ -24,7 +24,7 @@ class DeleteButton extends React.Component {
 
   requestServerDelete(showItemCallback){
     
-    this.state.client.del(this.props.resourceType + '/' + this.props.id)
+    this.state.client.del(this.props.resourceType + '/' + this.props.modelId)
     .then((res) => {
       if(res.statusCode !== 200) {
         console.log('errorCode', res);
@@ -36,7 +36,7 @@ class DeleteButton extends React.Component {
     })
     .catch((res) => {
       if(res.statusCode === 404) {
-        console.warn('Error: Could not delete. No ' + this.props.resourceType + ' with ID=' + this.props.id + ' found.');
+        console.warn('Error: Could not delete. No ' + this.props.resourceType + ' with ID=' + this.props.modelId + ' found.');
         // TODO: put message in SnackBar notification
       } else {
         showItemCallback(true); // Set visibility to true

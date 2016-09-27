@@ -26,20 +26,20 @@ class ListItems extends React.Component {
         index = i;
       }
 
-      return(<IndexItem 
-        key={`${this.props.resourceType}-${item.id}`}
-        id={item.id}
-        index={index}
-        primary={item.primary}
-        secondary={item.secondary}
-        resourceType={this.props.resourceType}
-        deletable={item.deletable}
-        childItems={item.children}
-        depth={0}
-        root={true}
-        extraData={{...item}}
-        editMode={this.props.editMode}
-      />)
+      return( <IndexItem 
+                key={`${this.props.resourceType}-${item.id}`}
+                modelId={item.id}
+                index={index}
+                primary={item.primary}
+                secondary={item.secondary}
+                resourceType={this.props.resourceType}
+                deletable={item.deletable}
+                childItems={item.children}
+                depth={0}
+                root={true}
+                extraData={{...item}}
+                editMode={this.props.editMode}
+              />)
     })
     return (<div className="nested" data-depth={0} data-index={0}>{items}</div>)
   }

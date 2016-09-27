@@ -5,7 +5,7 @@ export default class TreeHelper {
     this.nestedArray = nestedArray;
     this.tree = {};
     this.nodeArray = [];
-    this.idLookupArray = []; // will contain only model_ids of items stored in nodeArray for quick lookup.
+    this.lookupArray = []; // will contain only model_ids of items stored in nodeArray for quick lookup.
 
     // bind this to functions
     this.insertIntoNodeArray = this._insertIntoNodeArray.bind(this);
@@ -13,14 +13,14 @@ export default class TreeHelper {
     this.update              = this._update.bind(this);
     
     this.nodeArray.push({model_id: -1, childNodeIndexes: []}); // push the root value
-    this.idLookupArray.push(-1); // push the root value
+    this.lookupArray.push(-1); // push the root value
 
     if(this.nestedArray && this.nestedArray.length > 0) {
       // build a flat array that represents the order that the nodes display in.
       this.walk(this.nestedArray, 0);
     }
     console.log(this.nodeArray)
-    console.log(this.idLookupArray)
+    console.log(this.lookupArray)
   }
   /**
    * Create an array of nodes in the order that they appear.
@@ -52,7 +52,7 @@ export default class TreeHelper {
     }
     // push this node to the large array of all nodes.
     this.nodeArray.push(nodeArrayItem);
-    this.idLookupArray.push(treeNode.id);
+    this.lookupArray.push(treeNode.id);
 
     nodeItemIndex = this.nodeArray.length - 1;
 
@@ -131,9 +131,15 @@ export default class TreeHelper {
    */
   _update(nodeToUpdateId, siblingNodeId) {
     // find the entry in nodeArray based on the id provided
-    let indexOfUpdateNode = this.idLookupArray.indexOf(nodeToUpdateId);
+    console.log('nodeToUpdateId: ', nodeToUpdateId)
+    console.log('siblingNodeId: ', siblingNodeId)
+
+    let indexOfUpdateNode = this.lookupArray.indexOf(nodeToUpdateId);
+    console.log('indexOfUpdateNode: ', indexOfUpdateNode)
     let nodeToUpdate = this.nodeArray[indexOfUpdateNode];
+    console.log('nodeToUpdate: ', nodeToUpdate)
     let childArrayIndex = this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.indexOf(indexOfUpdateNode);
+    console.log('childArrayIndex: ', childArrayIndex)
     let indexToMoveTo = -1;
     let siblingParentIndex = 0;
 
@@ -144,7 +150,7 @@ export default class TreeHelper {
     console.log('After childNodeIndexes: ', this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes)
 
     if(siblingNodeId !== null) {
-      let indexOfSiblingNode = this.idLookupArray.indexOf(siblingNodeId);
+      let indexOfSiblingNode = this.lookupArray.indexOf(siblingNodeId);
       indexToMoveTo = indexOfSiblingNode - 1;
       siblingParentIndex = this.nodeArray[indexOfSiblingNode].parentIndex;
       // Add the item to the siblings parent
@@ -158,7 +164,7 @@ export default class TreeHelper {
     //
     let itemsRemoved = this.nodeArray.splice(indexOfUpdateNode, 1);
     // keep the lookup array in the same state as the nodeArray
-    this.idLookupArray.splice(indexOfUpdateNode, 1);
+    this.lookupArray.splice(indexOfUpdateNode, 1);
 
     console.log('After nodeArray: ', this.nodeArray)
     console.log('After lookupArray ', this.lookupArray)
@@ -173,14 +179,14 @@ export default class TreeHelper {
       indexToMoveTo = this.nodeArray.length; 
 
       this.nodeArray.push(itemsRemoved[0])
-      this.idLookupArray.push(itemsRemoved[0].model_id)
+      this.lookupArray.push(itemsRemoved[0].model_id)
     } else {
       this.nodeArray.splice(indexToMoveTo, 0, itemsRemoved[0]);
-      this.idLookupArray.splice(indexToMoveTo, 0, itemsRemoved[0].model_id);
+      this.lookupArray.splice(indexToMoveTo, 0, itemsRemoved[0].model_id);
     }
 
     console.log('After Add nodeArray: ', this.nodeArray)
-    console.log('After Add lookupArray: ', this.idLookupArray)
+    console.log('After Add lookupArray: ', this.lookupArray)
     
     console.log('Adding reference to parent')
     console.log('before: ', this.nodeArray[siblingParentIndex].childNodeIndexes)
