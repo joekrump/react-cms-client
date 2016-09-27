@@ -11,15 +11,16 @@ export default class TreeHelper {
     this.insertIntoNodeArray = this._insertIntoNodeArray.bind(this);
     this.walk                = this._walk.bind(this);
     this.update              = this._update.bind(this);
-
-    let rootNode = {model_id: -1, childNodeIndexes: []};
-    this.nodeArray.push(rootNode);
+    
+    this.nodeArray.push({model_id: -1, childNodeIndexes: []}); // push the root value
+    this.idLookupArray.push(-1); // push the root value
 
     if(this.nestedArray && this.nestedArray.length > 0) {
       // build a flat array that represents the order that the nodes display in.
       this.walk(this.nestedArray, 0);
     }
     console.log(this.nodeArray)
+    console.log(this.idLookupArray)
   }
   /**
    * Create an array of nodes in the order that they appear.
@@ -51,6 +52,8 @@ export default class TreeHelper {
     }
     // push this node to the large array of all nodes.
     this.nodeArray.push(nodeArrayItem);
+    this.idLookupArray.push(treeNode.id);
+
     nodeItemIndex = this.nodeArray.length - 1;
 
     // Either initialize childNodeIndexs or push to existing array.
@@ -128,16 +131,68 @@ export default class TreeHelper {
    */
   _update(nodeToUpdateId, siblingNodeId) {
     // find the entry in nodeArray based on the id provided
-    // 
-    // find the entry of the sibling node based on the id provided
-    // 
-    // Get the current parent of the entry that is being removed
-    // 
-    // remove the item's index from the parent's array of childItemIndexes
-    // 
-    // Get parent of the sibling item, if the sibling item does not have a parentIndex then the 
-    // parent is the root of the tree.
-    // 
-    // Add the moved item's index to the array of childItemIndexes for the siblings parent
+    let indexOfUpdateNode = this.idLookupArray.indexOf(nodeToUpdateId);
+    let nodeToUpdate = this.nodeArray[indexOfUpdateNode];
+    let childArrayIndex = this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.indexOf(indexOfUpdateNode);
+    let indexToMoveTo = -1;
+    let siblingParentIndex = 0;
+
+    // splice out the item reference
+    console.log('REMOVING item from childNodeIndexes')
+    console.log('Previous childNodeIndexes: ', this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes)
+    this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.splice(childArrayIndex, 1) // splice out the item
+    console.log('After childNodeIndexes: ', this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes)
+
+    if(siblingNodeId !== null) {
+      let indexOfSiblingNode = this.idLookupArray.indexOf(siblingNodeId);
+      indexToMoveTo = indexOfSiblingNode - 1;
+      siblingParentIndex = this.nodeArray[indexOfSiblingNode].parentIndex;
+      // Add the item to the siblings parent
+      let siblingChildIndex = this.nodeArray[siblingParentIndex].childNodeIndexes.indexOf(indexOfSiblingNode)
+    }
+    
+    console.log('Removing from nodeArray')
+    console.log('Previous nodeArray: ', this.nodeArray)
+    console.log('Previous lookupArray ', this.lookupArray)
+    // Remove the item from its previous index
+    //
+    let itemsRemoved = this.nodeArray.splice(indexOfUpdateNode, 1);
+    // keep the lookup array in the same state as the nodeArray
+    this.idLookupArray.splice(indexOfUpdateNode, 1);
+
+    console.log('After nodeArray: ', this.nodeArray)
+    console.log('After lookupArray ', this.lookupArray)
+    
+    // update the parentIndex for the item
+    itemsRemoved[0].parentIndex = siblingParentIndex;
+    
+    console.log('Adding Back In')
+    if(indexToMoveTo === -1){
+      // can use length because the array is currently 1 shorter than it should be
+      // because the item was removed from its previous index.
+      indexToMoveTo = this.nodeArray.length; 
+
+      this.nodeArray.push(itemsRemoved[0])
+      this.idLookupArray.push(itemsRemoved[0].model_id)
+    } else {
+      this.nodeArray.splice(indexToMoveTo, 0, itemsRemoved[0]);
+      this.idLookupArray.splice(indexToMoveTo, 0, itemsRemoved[0].model_id);
+    }
+
+    console.log('After Add nodeArray: ', this.nodeArray)
+    console.log('After Add lookupArray: ', this.idLookupArray)
+    
+    console.log('Adding reference to parent')
+    console.log('before: ', this.nodeArray[siblingParentIndex].childNodeIndexes)
+    if(siblingChildIndex) {
+      this.nodeArray[siblingParentIndex].childNodeIndexes.splice((siblingChildIndex + 1), 0, indexToMoveTo)
+      console.log('after: ', this.nodeArray[siblingParentIndex].childNodeIndexes)
+    } else {
+      // if the item does not have a sibling it must be the direct child of the root
+      // so get the root (at index 0) and push to the end of its childNodeIndexes
+      this.nodeArray[0].childNodeIndexes.push(indexToMoveTo);
+      console.log('before: ', this.nodeArray[0].childNodeIndexes)
+    }
+
   }
 }
