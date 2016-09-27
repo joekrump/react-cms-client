@@ -33,7 +33,7 @@ class IndexItem extends React.Component{
           return this.props.root;
         }
       };
-      Dragula([componentBackingInstance]);
+      Dragula([].slice.apply(document.querySelectorAll('.nested')));
     }
   }
   
@@ -80,22 +80,24 @@ class IndexItem extends React.Component{
             style={{...style}}
           /> : null
         }
-        { this.props.childItems ? 
-          this.props.childItems.map((child) => (
-            // {primary, secondary, id, deletable, children, ...extraData} = child;
-            <IndexItem 
-              key={`${this.props.resourceType}-${child.id}`}
-              id={child.id}
-              primary={child.primary}
-              secondary={child.secondary}
-              resourceType={this.props.resourceType}
-              deletable={child.deletable}
-              childItems={child.children}
-              depth={child.depth}
-              extraData={{...child}}
-            />
-          )) : null
-        }
+        <div className="nested">
+          { this.props.childItems ? 
+            this.props.childItems.map((child) => (
+              // {primary, secondary, id, deletable, children, ...extraData} = child;
+              <IndexItem 
+                key={`${this.props.resourceType}-${child.id}`}
+                id={child.id}
+                primary={child.primary}
+                secondary={child.secondary}
+                resourceType={this.props.resourceType}
+                deletable={child.deletable}
+                childItems={child.children}
+                depth={child.depth}
+                extraData={{...child}}
+              />
+            )) : null
+          }
+        </div>
       </div>
     );
   }

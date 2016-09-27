@@ -50,7 +50,7 @@ class Index extends React.Component {
   dragulaDecorator(componentBackingInstance) {
     if (componentBackingInstance) {
       // let options = { };
-      Dragula([componentBackingInstance]);
+      Dragula([].slice.apply(document.querySelectorAll('.nested')));
     }
   }
   render() {
@@ -59,16 +59,18 @@ class Index extends React.Component {
     if(!this.state.loading){
       if(this.state.items.length > 0) {
         content = (
-          <IndexItem key="index-root" 
-            id={0} 
-            primary={''} 
-            secondary={''} 
-            resourceType={this.props.params.resourceNamePlural} 
-            deletable={false}
-            childItems={this.state.items}
-            depth={-1}
-            root={true}
-          />
+          <div className="nested">
+            <IndexItem key="index-root" 
+              id={0} 
+              primary={''} 
+              secondary={''} 
+              resourceType={this.props.params.resourceNamePlural} 
+              deletable={false}
+              childItems={this.state.items}
+              depth={-1}
+              root={true}
+            />
+          </div>
         )
       } else {
         content = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
