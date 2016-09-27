@@ -39,8 +39,8 @@ class IndexItem extends React.Component{
         deletable={child.deletable}
         childItems={child.children}
         depth={child.depth}
+        root={!child.depth || child.depth === 0}
         extraData={{...child}}
-        drake={this.props.drake}
       />
     ))
     return (<div className="nested">{nestedItems}</div>);
@@ -64,24 +64,22 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div className="index-item f-no-select">
-        {!this.props.root ?   
-          <ListItem
-            className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
-            disabled
-            rightIconButton={
-              <IndexItemActions 
-                resourceType={this.props.resourceType} 
-                id={this.props.id} 
-                deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
-                queryProps={{...queryProps}}
-                deletable={this.props.deletable}
-              />
-            }
-            primaryText={this.getText()}
-            style={{...style}}
-          /> : null
-        }
+      <div className={"index-item f-no-select" + (this.props.root ? ' root' : ' leaf')}>
+        <ListItem
+          className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
+          disabled
+          rightIconButton={
+            <IndexItemActions 
+              resourceType={this.props.resourceType} 
+              id={this.props.id} 
+              deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
+              queryProps={{...queryProps}}
+              deletable={this.props.deletable}
+            />
+          }
+          primaryText={this.getText()}
+          style={{...style}}
+        /> 
         { this.props.childItems ? this.renderNestedItems() : null}
       </div>
     );

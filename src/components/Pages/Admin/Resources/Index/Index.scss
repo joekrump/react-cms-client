@@ -10,11 +10,18 @@
   padding: 15px 0 0 0;
   // border: 1px dotted white;
 }
+.gu-mirror {
+  display: none;
+}
+.admin-index {
+  .item-list {
+    margin-left: -30px;
+  }
+}
+
 .index-item {
-  padding: 0 0 0 30px;
-  // border: 1px dotted #bbb;
-  border-right: none;
   cursor: move;
+  padding: 0 0 0 30px;
   &.gu-transit {
     opacity: 0.5;
     .list-item {
@@ -24,9 +31,6 @@
       border: none;
       padding: 0;
     }
-  }
-  &.gu-mirror {
-    display: none;
   }
 }
 

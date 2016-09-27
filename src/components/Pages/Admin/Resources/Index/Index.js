@@ -8,6 +8,7 @@ import APIClient from '../../../../../http/requests';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.scss';
 import Dragula from 'react-dragula';
+import ListItems from './ListItems';
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -86,33 +87,18 @@ class Index extends React.Component {
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
-        content = (
-          <div className="nested">
-            <IndexItem key="index-root" 
-              id={0} 
-              primary={''} 
-              secondary={''} 
-              resourceType={this.props.params.resourceNamePlural} 
-              deletable={false}
-              childItems={this.state.items}
-              depth={-1}
-              root={true}
-              drake={this.state.dragulaDrake}
-            />
-          </div>
-        )
+        content = (<ListItems items={this.state.items} resourceType={this.props.params.resourceNamePlural} />)
       } else {
         content = (<div><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
       }
     }
-    console.log(this.state.dragulaDrake);
     return (
       <AdminLayout>
         <div className={"admin-index" + (this.state.editMode ? ' index-edit' : '')}>
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
           <button onClick={(event) => this.toggleEditMode(event)}>Adjust Nesting</button>
           {this.state.loading ? (<CircularProgress />) : null}
-          <List>
+          <List className="item-list">
             {content}
           </List>
         { this.props.children }
