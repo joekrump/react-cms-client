@@ -1,8 +1,9 @@
 export default class TreeHelper {
-  constructor(treeObject) {
+  constructor(nestedArray) {
+    console.log('init!')
     // Set according to param or default to an object
     // with no children.
-    this.treeObject = treeObject || {children:[]};
+    this.nestedArray = nestedArray;
     this.tree = {};
     this.nodeArray = [];
     // bind this to functions
@@ -31,8 +32,10 @@ export default class TreeHelper {
     let rootNode = {node: this.treeObject, childNodeIndexes: []};
     this.nodeArray.push(rootNode);
 
-    if(this.treeObject.children && this.treeObject.children.length) {
-      this.walk(this.treeObject.children, 0);
+    if(this.nestedArray && this.nestedArray.length > 0) {
+      console.log('walking!')
+      this.walk(this.nestedArray, 0);
+
     }
   }
   /**
@@ -44,31 +47,35 @@ export default class TreeHelper {
    * @return undefined
    */
   _walk(treeNodes, parentIndex) { 
-    treeNodes.forEach((treeNode) => {
+    treeNodes.forEach((treeNode, i) => {
       this.insertIntoNodeArray(treeNode, parentIndex);
+      if(treeNode.children.length > 0) {
+        this.walk(treeNode.children, (++parentIndex));
+      }
     });
   }
   _insertIntoNodeArray(treeNode, parentIndex){
     let nodeArrayItem = {};
     let nodeItemIndex = 0;
-    // let children = [];
 
     nodeArrayItem.node = treeNode;
     // if this object has a parent then assign 
     if (parentIndex) {
       nodeArrayItem.parentIndex = parentIndex;
     } else {
-      nodeArrayItem.parentIndex = null;
+      nodeArrayItem.parentIndex = 0;
     }
     // push this node to the large array of all nodes.
     this.nodeArray.push(nodeArrayItem);
     nodeItemIndex = this.nodeArray.length - 1;
 
-    this.nodeArray[parentIndex].childNodeIndexes.push(nodeItemIndex);
-    // if the node has children then add them to the nodeArray next.
-    if (treeNode.children && treeNode.children.length) {
-      this.walk(treeNode.children, nodeItemIndex);
+    // Either initialize childNodeIndexs or push to existing array.
+    if (this.nodeArray[parentIndex].childNodeIndexes) {
+      this.nodeArray[parentIndex].childNodeIndexes.push(nodeItemIndex);
+    } else {
+      this.nodeArray[parentIndex].childNodeIndexes = []
     }
+
     return nodeItemIndex;
   }
   _getSiblingIndexes(childIndex, parentItem) {

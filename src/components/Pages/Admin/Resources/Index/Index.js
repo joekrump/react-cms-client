@@ -9,6 +9,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.scss';
 import Dragula from 'react-dragula';
 import ListItems from './ListItems';
+import TreeHelper from '../../../../../helpers/TreeHelper';
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -17,7 +18,8 @@ class Index extends React.Component {
       items: [],
       loading: true,
       dragulaDrake: null,
-      editMode: false
+      editMode: false,
+      TreeHelper: {}
     }
   }
   handleDrop(el, target, source, sibling){
@@ -47,24 +49,23 @@ class Index extends React.Component {
         console.log('Bad Response: ', res)
 
       } else {
-        this.setState({items: res.body.data})
+        // Set items so that new elements are in the DOM before Dragula is initialized.
+        this.setState({items: res.body.data}) 
+
         client.updateToken(res.header.authorization)
         if(typeof document !== 'undefined'){
           let drake = Dragula({
             containers: [].slice.apply(document.querySelectorAll('.nested')),
             moves: (el, source, handle, sibling) => {
-              // should not be able to go to a depth beyond 3 (depths start at 0)
-              // console.log((handle).classList);
               return handle.classList.contains('drag-handle')
             }
           });
           drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
           drake.on('over', (el, container, source) => this.handleOver(el, container, source));
-          // drake.canMove((item) => {
 
-          // })
           this.setState({
-            dragulaDrake: drake
+            dragulaDrake: drake,
+            TreeHelper: (new TreeHelper(res.body.data))
           });
         }
       }
@@ -98,6 +99,7 @@ class Index extends React.Component {
   }
   render() {
     let content = null;
+    console.log(this.state.TreeHelper.nodeArray)
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
