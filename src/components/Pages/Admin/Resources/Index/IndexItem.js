@@ -39,11 +39,10 @@ class IndexItem extends React.Component{
         deletable={child.deletable}
         childItems={child.children}
         depth={child.depth}
-        root={!child.depth || child.depth === 0}
         extraData={{...child}}
       />
     ))
-    return (<div className="nested">{nestedItems}</div>);
+    return (<div className="nested leaf">{nestedItems}</div>);
   }
   render(){
     if(this.state.visible) {
@@ -64,7 +63,7 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div className={"index-item f-no-select" + (this.props.root ? ' root' : ' leaf')}>
+      <div className="index-item f-no-select">
         <ListItem
           className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
           disabled

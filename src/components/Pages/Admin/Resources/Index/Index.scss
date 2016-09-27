@@ -7,8 +7,9 @@
 }
 
 .index-edit .nested {
-  padding: 15px 0 0 0;
-  // border: 1px dotted white;
+  &.leaf {
+    padding: 15px 0 0 0;
+  }
 }
 .gu-mirror {
   display: none;
