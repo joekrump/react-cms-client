@@ -29,9 +29,8 @@ export default class TreeHelper {
     this.nodeArray.push(rootNode);
 
     if(this.nestedArray && this.nestedArray.length > 0) {
-      console.log('walking!')
+      // build a flat array that represents the order that the nodes display in.
       this.walk(this.nestedArray, 0);
-
     }
   }
   /**
@@ -46,7 +45,7 @@ export default class TreeHelper {
     treeNodes.forEach((treeNode, i) => {
       this.insertIntoNodeArray(treeNode, parentIndex);
       if(treeNode.children.length > 0) {
-        this.walk(treeNode.children, (++parentIndex));
+        this.walk(treeNode.children, (parentIndex + i));
       }
     });
   }
