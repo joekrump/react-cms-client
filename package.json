@@ -29,7 +29,7 @@
     "fs-extra": "^0.30.0",
     "html-webpack-plugin": "2.22.0",
     "isomorphic-style-loader": "^1.0.0",
-    "jest-cli": "^15.0.1",
+    "jest-cli": "^15.1.1",
     "json-loader": "0.5.4",
     "node-sass": "^3.8.0",
     "opn": "4.0.2",
