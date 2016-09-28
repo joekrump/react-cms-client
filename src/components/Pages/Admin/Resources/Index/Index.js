@@ -28,13 +28,12 @@ class Index extends React.Component {
   handleDrop(el, target, source, sibling){
     try {
       let siblingId = sibling ? parseInt(sibling.id) : null;
+
       // if there is a source then this item is being nested.
       if(source.dataset.parentmodelid) {
         this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       } else {
-        console.log('siblingId: ', siblingId)
-        console.log('el.id: ', el.id)
-        // otherwise this is a matter of updating the order of items.
+           // otherwise this is a matter of updating the order of items.
         this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId)
       }
       // previous index, new index, placement
