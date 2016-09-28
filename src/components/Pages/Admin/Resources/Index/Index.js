@@ -30,16 +30,14 @@ class Index extends React.Component {
       let siblingId = sibling ? parseInt(sibling.id) : null;
 
       if(source.dataset.parentmodelid) {
-        this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
+        this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      // previous index, new index, placement
-      // console.log('before: ', this.state.TreeHelper.nodeArray);
       
-      // this.props.updateTree(this.state.TreeHelper.nodeArray);
-      // this.setState({
-      //   changesToSave: true
-      // })
-      // console.log('after: ', this.state.TreeHelper.nodeArray);
+      this.props.updateTree(this.state.TreeHelper.nodeArray);
+      this.setState({
+        changesToSave: true
+      })
+      console.log('after: ', this.state.TreeHelper.nodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
