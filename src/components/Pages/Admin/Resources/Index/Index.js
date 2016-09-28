@@ -1,7 +1,6 @@
 import React from 'react';
 import { List } from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
-import IndexItem from './IndexItem'
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
@@ -33,6 +32,8 @@ class Index extends React.Component {
       if(source.dataset.parentmodelid) {
         this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       } else {
+        console.log('siblingId: ', siblingId)
+        console.log('el.id: ', el.id)
         // otherwise this is a matter of updating the order of items.
         this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId)
       }

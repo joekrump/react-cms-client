@@ -52,3 +52,13 @@ test('Move last item to first', () => {
   expect(helper.lookupArray[1]).toBe(16)
 })
 
+test('Move first to last and then last to first', () => {
+  let helper = new TreeHelper(dummyTreeData);
+
+  helper.updateOrder(1, null);
+  helper.updateOrder(helper.nodeArray.length - 1, 1);
+  console.log(helper.lookupArray);
+  expect(helper.lookupArray[1]).toBe(1)
+})
+
+
