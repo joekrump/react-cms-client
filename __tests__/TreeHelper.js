@@ -89,10 +89,10 @@ it('Allows multiple items to be nested', () => {
   helper.updateOrder(5, 1); // nest 5 under 2 and above 1
 
   let parentIndex = helper.lookupArray.indexOf(2);
-  let indexOfThree = helper.lookupArray.indexOf(5);
-  let indexOfOne = helper.lookupArray.indexOf(1);
+  let indexOfFive = helper.lookupArray.indexOf(5);
+  let indexOfOne  = helper.lookupArray.indexOf(1);
 
-  expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfThree,indexOfOne]);
+  expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfFive,indexOfOne]);
 })
 
 it('Allows multiple items to be nested with explicit parentId', () => {
@@ -101,17 +101,18 @@ it('Allows multiple items to be nested with explicit parentId', () => {
   helper.updateOrder(5, 1, 2); // nest 5 under 2 and above 1
 
   let parentIndex = helper.lookupArray.indexOf(2);
-  let indexOfThree = helper.lookupArray.indexOf(5);
-  let indexOfOne = helper.lookupArray.indexOf(1);
+  let indexOfFive = helper.lookupArray.indexOf(5);
+  let indexOfOne  = helper.lookupArray.indexOf(1);
 
-  expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfThree,indexOfOne]);
+  expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfFive,indexOfOne]);
 })
 
 it('Allows parent item to move with children', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   helper.updateOrder(16, 1); // nest 16 under 2 and above 1
-  // should now look like:
+  
+  // helper.nodeArray should look like this: 
   // [ { model_id: -1, childIndexes: [ 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ] },
   // { model_id: 2, childIndexes: [ 2, 3 ], parentIndex: 0 },
   // { model_id: 16, childIndexes: [], parentIndex: 1 },
@@ -130,8 +131,33 @@ it('Allows parent item to move with children', () => {
   // { model_id: 14, childIndexes: [], parentIndex: 0 },
   // { model_id: 15, childIndexes: [], parentIndex: 0 } ]
   
-  // now move 2 to 10
+  // now move 2 (and its children) in front of 10
   helper.updateOrder(2, 10);
-  console.log(helper.nodeArray);
+
+  // helper.nodeArray should look like this: 
+  // [ { model_id: -1, childIndexes: [ 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17 ] },
+  //   { model_id: 3, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 4, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 5, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 6, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 7, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 8, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 9, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 2, childIndexes: [ 9, 10 ], parentIndex: 0 },
+  //   { model_id: 16, childIndexes: [], parentIndex: 8 },
+  //   { model_id: 1, childIndexes: [], parentIndex: 8 },
+  //   { model_id: 10, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 11, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 12, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 13, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 14, childIndexes: [], parentIndex: 0 },
+  //   { model_id: 15, childIndexes: [], parentIndex: 0 } ]
+  
+  let parentIndex = helper.lookupArray.indexOf(2);
+  let indexOfSixteen = helper.lookupArray.indexOf(16);
+  let indexOfOne     = helper.lookupArray.indexOf(1);
+
+  expect(parentIndex).toBe(8)
+  && expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfSixteen,indexOfOne]);
 })
 
