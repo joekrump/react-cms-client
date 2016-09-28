@@ -16,7 +16,10 @@ export default class TreeHelper {
     this.removeFromChildIndexes = this.removeFromChildIndexes.bind(this);
     this.removeItem             = this.removeItem.bind(this);
     this.addItem                = this.addItem.bind(this);
+    this.appendItem             = this.appendItem.bind(this);
+    this.injectItem             = this.injectItem.bind(this);
     this.getIndexFromId         = this.getIndexFromId.bind(this);
+    this.getIdFromIndex         = this.getIdFromIndex.bind(this);
     
     // push the root item to the nodeArray
     // 
@@ -95,15 +98,27 @@ export default class TreeHelper {
     return itemsRemoved[0];
   }
 
-  addItem(item, index, nextIndex) {
+  appendItem(item){
+    this.nodeArray.push(item);
+    this.lookupArray.push(item.model_id);
+  }
+  injectItem(index, item) {
     this.nodeArray.splice(index, 0, item);
     this.lookupArray.splice(index, 0, item.model_id);
+  }
+
+  addItem(item, index, nextIndex) {
     // add the item into its parent's childIndexes array.
     // if the nextIndex is -1 it indicates that the item
     // is the last child of its parent.
-    if(nextIndex === -1){
+    if(nextIndex === -1 && item.parentIndex === 0){
+      this.appendItem(item);
+      this.nodeArray[item.parentIndex].childIndexes.push(index);
+    } else if(nextIndex === -1) {
+      this.injectItem(index, item);
       this.nodeArray[item.parentIndex].childIndexes.push(index);
     } else {
+      this.injectItem(index, item);
       // otherwise splice the item into the array at the index where the
       // nextIndex sibling previously was.
       let childIndexes = this.nodeArray[item.parentIndex].childIndexes;
@@ -169,6 +184,10 @@ export default class TreeHelper {
   getIndexFromId(id) {
     return ((id === null) ? -1 :this.lookupArray.indexOf(id));
   }
+
+  getIdFromIndex(index) {
+    return this.nodeArray[index].model_id;
+  }
   /**
    * Updates the nodeArray
    * @param  {int} movedItemId Unique id of the item that is being moved.
@@ -176,11 +195,18 @@ export default class TreeHelper {
    * @param  {int} targetParentId  Unique id of the parent that moveItem will belong to.
    * @return undefined
    */
-  updateOrder(movedItemId, nextItemId, targetParentId = -1) {
+  updateOrder(movedItemId, nextItemId, targetParentId) {
+
     // find the item in the lookup
     let originalItemIndex = this.getIndexFromId(movedItemId);
     // find the index of the next item in the lookup if one is provided, otherwise assign default of -1
     let nextItemIndex = this.getIndexFromId(nextItemId);
+    // if no targetParentId was provided...
+    if(typeof(targetParentId) === 'undefined') {
+      // if item has no sibling, only assumption that can be made is that the target is the root.
+      // Otherwise, the parent is the parent of the sibling.
+      targetParentId = nextItemId === null ? -1 : this.getIdFromIndex(this.nodeArray[nextItemIndex].parentIndex);
+    }
     // Get the parent that the item is moving to.
     let parentItemIndex = this.getIndexFromId(targetParentId);
     // remove the item from the nodeArray

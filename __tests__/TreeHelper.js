@@ -38,7 +38,7 @@ test('lookupArray is correct length', () => {
 test('Move first item to last', () => {
   let helper = new TreeHelper(dummyTreeData);
 
-  helper.updateOrder(1, null);
+  helper.updateOrder(1, null); // move item with id of 1 to the end
   (
     expect(helper.lookupArray[helper.nodeArray.length - 1]).toBe(1) &&
     expect(helper.lookupArray[helper.nodeArray.length - 2]).toBe(16)
@@ -89,7 +89,7 @@ it('Should allow multiple items to be nested', () => {
   helper.updateOrder(5, 1); // nest 3 under 2 and above 1
 
   let parentIndex = helper.lookupArray.indexOf(2);
-  console.log('NODE ARRAY: ', helper.nodeArray);
+  // console.log('NODE ARRAY: ', helper.nodeArray);
   let indexOfThree = helper.lookupArray.indexOf(5);
   let indexOfOne = helper.lookupArray.indexOf(1);
 
@@ -102,7 +102,7 @@ it('Should allow multiple items to be nested with explicit parentId', () => {
   helper.updateOrder(5, 1, 2); // nest 3 under 2 and above 1
 
   let parentIndex = helper.lookupArray.indexOf(2);
-  console.log('NODE ARRAY: ', helper.nodeArray);
+  // console.log('NODE ARRAY: ', helper.nodeArray);
   let indexOfThree = helper.lookupArray.indexOf(5);
   let indexOfOne = helper.lookupArray.indexOf(1);
 
