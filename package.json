@@ -3,10 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "proxy": "http://localhost:3001/",
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(es6|js|json)$",
+    "moduleFileExtensions": ["js", "json", "es6"]
+  },
   "devDependencies": {
     "autoprefixer": "6.3.7",
     "babel-core": "6.10.4",
     "babel-eslint": "6.1.2",
+    "babel-jest": "^15.0.0",
     "babel-loader": "6.2.4",
     "babel-plugin-syntax-trailing-function-commas": "6.8.0",
     "babel-plugin-transform-class-properties": "6.10.2",
@@ -79,6 +85,6 @@
     "server": "node ./server_build/server.js",
     "build": "node ./scripts/build.js",
     "build-server": "node ./scripts/build-server.js",
-    "test": "jest"
+    "test": "jest --verbose"
   }
 }
