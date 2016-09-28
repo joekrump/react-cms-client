@@ -5,7 +5,7 @@ export default class TreeHelper {
     this.nodeArray              = []; 
     // will contain only item_ids of items stored in nodeArray for quick lookup.
     this.lookupArray            = []; 
-    this.insertIntoNodeArray    = this._insertIntoNodeArray.bind(this);
+    this.addNewTreeNode         = this.addNewTreeNode.bind(this);
     this.walk                   = this._walk.bind(this);
     this.updateOrder            = this.updateOrder.bind(this);
     this.contains               = this._contains.bind(this);
@@ -48,7 +48,7 @@ export default class TreeHelper {
    */
   _walk(treeNodes, parentIndex, depth) { 
     treeNodes.forEach((treeNode, i) => {
-      this.insertIntoNodeArray(treeNode, parentIndex, depth);
+      this.addNewTreeNode(treeNode, parentIndex, depth);
       if(treeNode.children && (treeNode.children.length > 0)) {
         this.walk(treeNode.children, (parentIndex + (i + 1)), (depth + 1));
       }
@@ -62,7 +62,7 @@ export default class TreeHelper {
    * @param  {int} parentIndex    - The index for the parent that treeNode is a child of.
    * @return {int}                - The in nodeArray that the item was inserted at.
    */
-  _insertIntoNodeArray(treeNode, parentIndex, parentDepth){
+  addNewTreeNode(treeNode, parentIndex, parentDepth){
     let nodeArrayItem = {};
     let nodeItemIndex = 0;
 
