@@ -71,4 +71,11 @@ const dummyTreeData = [
   }
 ]
 
-const helper = new TreeHelper();
+const helper = new TreeHelper(dummyTreeData);
+
+test('nodeArray is correct length', () => {
+  // Note: an artificial root node is added in, therefore the
+  // length should be one more than the number of items provided.
+  expect(helper.nodeArray.length).toBe(17)
+})
+
