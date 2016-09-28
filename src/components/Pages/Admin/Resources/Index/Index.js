@@ -26,11 +26,14 @@ class Index extends React.Component {
   handleDrop(el, target, source, sibling){
     try {
       console.log('DROPPED!')
-      // console.log('Element Index: ', el.dataset.index)
-      // console.log('Sibling Index: ', sibling.dataset.index);
+      console.log('Element: ', el)
+      console.log('Sibling: ', sibling);
+      console.log('target: ', target);
+      console.log('source: ', source);
       // previous index, new index, placement
       // console.log('before: ', this.state.TreeHelper.nodeArray);
       this.state.TreeHelper.update(parseInt(el.id, 10), parseInt(sibling.id, 10))
+      this.props.updateTree(this.state.TreeHelper.nodeArray);
       // console.log('after: ', this.state.TreeHelper.nodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
