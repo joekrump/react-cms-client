@@ -234,7 +234,7 @@ export default class TreeHelper {
   }
 
   /**
-   * Updates the nodeArray
+   * Updates the position of an item that is being moved.
    * @param  {int} movedItemId Unique id of the item that is being moved.
    * @param  {int or null} nextItemId  Unique id of the item that below where the item was moved to.
    * @param  {int} targetParentId  Unique id of the parent that moveItem will belong to.
