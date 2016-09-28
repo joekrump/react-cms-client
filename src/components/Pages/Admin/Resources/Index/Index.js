@@ -99,13 +99,13 @@ class Index extends React.Component {
   componentDidMount() {
     let resourcenamePlural = this.props.params.resourceNamePlural.toLowerCase()
     this.setState({
-      resourceNmaePlural: resourcenamePlural
+      resourcenamePlural: resourcenamePlural
     })
     this.setItems(resourcenamePlural);
   }
   componentWillUnmount() {
     this.state.dragulaDrake.destroy();
-    this.state.dragulaDrake.setState({
+    this.setState({
       dragulaDrake: null
     })
   }
@@ -120,9 +120,11 @@ class Index extends React.Component {
     //
     let client = new APIClient(this.context.store);
     console.log(this.props.nodeArray);
-    client.post(this.state.resourcenamePlural + '/update-index', true, {
+    // this.props.nodeArray.splice(0, 1); // remove the first node as this isn't needed on the server.
+
+    client.put(this.state.resourcenamePlural + '/update-index', true, {
       data: {
-        nodeArray: this.props.nodeArray 
+        nodeArray: this.props.nodeArray
       }})
       .then((res) => {
         if (res.statusCode !== 200) {
