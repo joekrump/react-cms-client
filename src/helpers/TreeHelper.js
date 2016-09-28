@@ -126,10 +126,13 @@ export default class TreeHelper {
     if(siblingNodeId !== null) {
       let indexOfSiblingNode = this.lookupArray.indexOf(siblingNodeId);
       indexToMoveTo = indexOfSiblingNode;
+      // if the siblinngParentIndex is not the default value of 0, then do not change it
+      // as it has been explicitly set.
       if(siblingParentIndex === 0){
         siblingParentIndex = this.nodeArray[indexOfSiblingNode].parentIndex;
       }
-      // Add the item to the siblings parent
+      // Get the index reference to the sibling in the parent's childNodeIndexes array.
+      // 
       siblingChildIndex = this.nodeArray[siblingParentIndex].childNodeIndexes.indexOf(indexOfSiblingNode)
     } else if(targetParentId) {
       // if theere is an explicit targetParent but there is no sibling then set the index to the index of the
@@ -140,32 +143,31 @@ export default class TreeHelper {
     // Remove the item from its previous location in the nodeArray and lookupArray.
     //
     let itemRemoved = this.removeItem(indexOfMovedItem);
+    
+    // Change the parentIndex of the item being moved to the index of the parent item that 
+    // it will be nested under.
+    itemRemoved.parentIndex = siblingParentIndex;
 
-    console.log('After nodeArray: ', this.nodeArray)
-    console.log('After lookupArray ', this.lookupArray)
-    
-    // update the parentIndex for the item
-    itemsRemoved[0].parentIndex = siblingParentIndex;
-    
-    console.log('Adding Back In')
+    // if the indexToMoveTo value is the default value of -1 then the requested move is to
+    // move the item to the end of the list.
     if(indexToMoveTo === -1){
       // can use length because the array is currently 1 shorter than it should be
       // because the item was removed from its previous index.
       indexToMoveTo = this.nodeArray.length; 
 
-      this.nodeArray.push(itemsRemoved[0])
-      this.lookupArray.push(itemsRemoved[0].model_id)
+      this.nodeArray.push(itemRemoved)
+      this.lookupArray.push(itemRemoved.model_id)
     } else {
       this.updateParentIndexes((indexToMoveTo - 1), true);
-      this.nodeArray.splice(indexToMoveTo, 0, itemsRemoved[0]);
-      this.lookupArray.splice(indexToMoveTo, 0, itemsRemoved[0].model_id);
+      this.nodeArray.splice(indexToMoveTo, 0, itemRemoved);
+      this.lookupArray.splice(indexToMoveTo, 0, itemRemoved.model_id);
       newSiblingIndex = indexToMoveTo + 1;
     }
 
     // if the node that was moved had children, then update their parentIndex to the indexToMoveTo.
     // 
-    if(itemsRemoved[0].childNodeIndexes.length > 0) {
-      itemsRemoved[0].childNodeIndexes.forEach((index) => {
+    if(itemRemoved.childNodeIndexes.length > 0) {
+      itemRemoved.childNodeIndexes.forEach((index) => {
         console.log('previous parentIndex: ', this.nodeArray[index].parentIndex)
         this.nodeArray[index].parentIndex = indexToMoveTo;
         console.log('new parentIndex: ', this.nodeArray[index].parentIndex)
