@@ -215,13 +215,24 @@ export default class TreeHelper {
     return arrayofItems;
   }
 
+  /**
+   * Get the index that an item is located based on its item_id
+   * @param  {int} id - The item_id of the item to get the index of.
+   * @return {int}    - The index of the item.
+   */
   getIndexFromId(id) {
     return ((id === null) ? -1 :this.lookupArray.indexOf(id));
   }
 
+  /**
+   * Get the item_id of an item that is found at a specific index.
+   * @param  {int} index - The index of the item that item_id is being retrieved for.
+   * @return {int}       - The item_id of the item at the index.
+   */
   getIdFromIndex(index) {
     return this.nodeArray[index].item_id;
   }
+
   /**
    * Updates the nodeArray
    * @param  {int} movedItemId Unique id of the item that is being moved.
@@ -292,7 +303,6 @@ export default class TreeHelper {
       nextItemIndex += removedData.ids.length;
     }
     this.addItem(removedData, newItemIndex, nextItemIndex);
-
   }
 
   // http://ejohn.org/blog/comparing-document-position/
