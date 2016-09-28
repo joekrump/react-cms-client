@@ -12,6 +12,7 @@ export default class TreeHelper {
     this.walk                = this._walk.bind(this);
     this.updateOrder         = this._updateOrder.bind(this);
     this.contains            = this._contains.bind(this);
+    this.updateParentIndexes = this.updateParentIndexes.bind(this);
     
     this.nodeArray.push({model_id: -1, childNodeIndexes: []}); // push the root value
     this.lookupArray.push(-1); // push the root value
@@ -34,7 +35,7 @@ export default class TreeHelper {
   _walk(treeNodes, parentIndex) { 
     treeNodes.forEach((treeNode, i) => {
       this.insertIntoNodeArray(treeNode, parentIndex);
-      if(treeNode.children.length > 0) {
+      if(treeNode.children && (treeNode.children.length > 0)) {
         this.walk(treeNode.children, (parentIndex + (i + 1)));
       }
     });
@@ -63,6 +64,17 @@ export default class TreeHelper {
     return nodeItemIndex;
   }
 
+  updateParentIndexes(startingIndex, increase){
+    for(let i = 0; i < this.lookupArray.length; i++){
+      if(this.nodeArray[i].parentIndex > startingIndex){
+        if(increase) {
+          this.nodeArray[i].parentIndex++
+        } else {
+          this.nodeArray[i].parentIndex--
+        }
+      }
+    }
+  }
   /**
    * Updates the nodeArray
    * @param  {int} nodeToUpdateId Unique id of the item that is being moved.
@@ -87,11 +99,13 @@ export default class TreeHelper {
     let siblingParentIndex = (targetParentId ? this.lookupArray.indexOf(targetParentId) : 0);
     console.log('siblingParentIndex: ', siblingParentIndex)
     let siblingChildIndex;
+    let newSiblingIndex;
 
     // splice out the item reference
     console.log('REMOVING item from childNodeIndexes')
     console.log('Previous childNodeIndexes: ', this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes)
     this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.splice(childArrayIndex, 1) // splice out the item
+    this.updateParentIndexes(indexOfUpdateNode, false);
     console.log('After childNodeIndexes: ', this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes)
 
     if(siblingNodeId !== null) {
@@ -135,8 +149,10 @@ export default class TreeHelper {
       this.nodeArray.push(itemsRemoved[0])
       this.lookupArray.push(itemsRemoved[0].model_id)
     } else {
+      this.updateParentIndexes((indexToMoveTo - 1), true);
       this.nodeArray.splice(indexToMoveTo, 0, itemsRemoved[0]);
       this.lookupArray.splice(indexToMoveTo, 0, itemsRemoved[0].model_id);
+      newSiblingIndex = indexToMoveTo + 1;
     }
 
     // if the node that was moved had children, then update their parentIndex to the indexToMoveTo.
