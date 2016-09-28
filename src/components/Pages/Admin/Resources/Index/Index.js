@@ -30,9 +30,18 @@ class Index extends React.Component {
       console.log('Sibling: ', sibling);
       console.log('target: ', target);
       console.log('source: ', source);
+      let siblingId = sibling ? parseInt(sibling.id) : null;
+      // // if there is a source then this item is being nested.
+      // console.log(source.dataset.parentmodelid);
+      if(source.dataset.parentmodelid) {
+        this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
+      } else {
+        // otherwise this is a matter of updating the order of items.
+        this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId)
+      }
       // previous index, new index, placement
       // console.log('before: ', this.state.TreeHelper.nodeArray);
-      this.state.TreeHelper.update(parseInt(el.id, 10), parseInt(sibling.id, 10))
+      
       this.props.updateTree(this.state.TreeHelper.nodeArray);
       // console.log('after: ', this.state.TreeHelper.nodeArray);
     } catch (e) {

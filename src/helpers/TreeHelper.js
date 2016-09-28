@@ -10,7 +10,7 @@ export default class TreeHelper {
     // bind this to functions
     this.insertIntoNodeArray = this._insertIntoNodeArray.bind(this);
     this.walk                = this._walk.bind(this);
-    this.update              = this._update.bind(this);
+    this.updateOrder         = this._updateOrder.bind(this);
     
     this.nodeArray.push({model_id: -1, childNodeIndexes: []}); // push the root value
     this.lookupArray.push(-1); // push the root value
@@ -68,7 +68,8 @@ export default class TreeHelper {
    * @param  {int or null} siblingNodeId  Unique id of the item that below where the other item was moved to.
    * @return undefined
    */
-  _update(nodeToUpdateId, siblingNodeId) {
+  _updateOrder(nodeToUpdateId, siblingNodeId, targetParentId) {
+    console.log('targetParentId: ', targetParentId)
     // find the entry in nodeArray based on the id provided
     console.log('nodeToUpdateId: ', nodeToUpdateId)
     console.log('siblingNodeId: ', siblingNodeId)
@@ -77,10 +78,13 @@ export default class TreeHelper {
     console.log('indexOfUpdateNode: ', indexOfUpdateNode)
     let nodeToUpdate = this.nodeArray[indexOfUpdateNode];
     console.log('nodeToUpdate: ', nodeToUpdate)
-    let childArrayIndex = this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.indexOf(indexOfUpdateNode);
+
+    let childArrayIndex = this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.indexOf(indexOfUpdateNode); 
+
     console.log('childArrayIndex: ', childArrayIndex)
     let indexToMoveTo = -1;
-    let siblingParentIndex = 0;
+    let siblingParentIndex = (targetParentId ? this.lookupArray.indexOf(targetParentId) : 0);
+    console.log('siblingParentIndex: ', siblingParentIndex)
     let siblingChildIndex;
 
     // splice out the item reference
@@ -92,10 +96,19 @@ export default class TreeHelper {
     if(siblingNodeId !== null) {
       let indexOfSiblingNode = this.lookupArray.indexOf(siblingNodeId);
       indexToMoveTo = indexOfSiblingNode;
-      siblingParentIndex = this.nodeArray[indexOfSiblingNode].parentIndex;
+      if(siblingParentIndex === 0){
+        siblingParentIndex = this.nodeArray[indexOfSiblingNode].parentIndex;
+      }
       // Add the item to the siblings parent
       siblingChildIndex = this.nodeArray[siblingParentIndex].childNodeIndexes.indexOf(indexOfSiblingNode)
+    } else if(targetParentId) {
+      // if theere is an explicit targetParent but there is no sibling then set the index to the index of the
+      // explicit parent's index, plus the number of children the parent has + 1 (so it goes after all other children)
+      indexToMoveTo = siblingParentIndex + this.nodeArray[siblingParentIndex].childNodeIndexes.length + 1;
     }
+
+    console.log('SIBLING PARENT INDEX: ', siblingParentIndex)
+    console.log('INDEX TO MOVE TO: ', indexToMoveTo)
     
     console.log('Removing from nodeArray')
     console.log('Previous nodeArray: ', this.nodeArray)
@@ -144,10 +157,9 @@ export default class TreeHelper {
       this.nodeArray[siblingParentIndex].childNodeIndexes.splice((siblingChildIndex + 1), 0, indexToMoveTo)
       console.log('after: ', this.nodeArray[siblingParentIndex].childNodeIndexes)
     } else {
-      // if the item does not have a sibling it must be the direct child of the root
-      // so get the root (at index 0) and push to the end of its childNodeIndexes
-      this.nodeArray[0].childNodeIndexes.push(indexToMoveTo);
-      console.log('after: ', this.nodeArray[0].childNodeIndexes)
+      // otherwise push to the end of the childNodeIndex array for the parent.
+      this.nodeArray[siblingParentIndex].childNodeIndexes.push(indexToMoveTo);
+      console.log('after: ', this.nodeArray[siblingParentIndex].childNodeIndexes)
     }
 
   }
