@@ -19,30 +19,36 @@ const dummyTreeData = [
   { "id": 16, "children": [] }
 ]
 
-const helper = new TreeHelper(dummyTreeData);
+
 
 test('nodeArray is correct length', () => {
+  let helper = new TreeHelper(dummyTreeData);
   // Note: an artificial root node is added in, therefore the
   // length should be one more than the number of items provided.
   expect(helper.nodeArray.length).toBe(17)
 })
 
 test('lookupArray is correct length', () => {
+  let helper = new TreeHelper(dummyTreeData);
   // Note: an artificial root node is added in, therefore the
   // length should be one more than the number of items provided.
   expect(helper.lookupArray.length).toBe(17)
 })
 
-test('Move first item into last position', () => {
-  helper.updateOrder(1, null)
+test('Move first item to last', () => {
+  let helper = new TreeHelper(dummyTreeData);
+
+  helper.updateOrder(1, null);
   (
     expect(helper.lookupArray[helper.nodeArray.length - 1]).toBe(1) &&
     expect(helper.lookupArray[helper.nodeArray.length - 2]).toBe(16)
   )
 })
 
-test('Move last item back to first', () => {
+test('Move last item to first', () => {
+  let helper = new TreeHelper(dummyTreeData);
+
   helper.updateOrder((helper.nodeArray.length - 1), 1);
-  expect(helper.lookupArray[1]).toBe(1)
+  expect(helper.lookupArray[1]).toBe(16)
 })
 
