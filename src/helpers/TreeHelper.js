@@ -2,7 +2,7 @@ export default class TreeHelper {
   constructor(nestedArray) {
 
     this.nodeArray = []; // An array to hold objects representing nodes in a tree.
-    this.lookupArray = []; // will contain only model_ids of items stored in nodeArray for quick lookup.
+    this.lookupArray = []; // will contain only item_ids of items stored in nodeArray for quick lookup.
 
     // bind 'this' to functions
     this.insertIntoNodeArray    = this._insertIntoNodeArray.bind(this);
@@ -25,8 +25,8 @@ export default class TreeHelper {
     
     // push the root item to the nodeArray
     // 
-    this.nodeArray.push({model_id: -1, childIndexes: []});
-    // push the root item model_id value. Use -1 as it is not a possible natural 
+    this.nodeArray.push({item_id: -1, childIndexes: []});
+    // push the root item item_id value. Use -1 as it is not a possible natural 
     // id that a model instance could have as their ids are all positive.
     // 
     this.lookupArray.push(-1); 
@@ -65,7 +65,7 @@ export default class TreeHelper {
     let nodeArrayItem = {};
     let nodeItemIndex = 0;
 
-    nodeArrayItem.model_id = treeNode.id;
+    nodeArrayItem.item_id = treeNode.id;
     nodeArrayItem.childIndexes = [];
     nodeArrayItem.depth = parentDepth + 1;
     // if this object has a parent then assign 
@@ -119,7 +119,7 @@ export default class TreeHelper {
   appendItem(itemsArray){
     for(let i = 0; i < itemsArray.length; i++) {
       this.nodeArray.push(itemsArray[i]);
-      this.lookupArray.push(itemsArray[i].model_id);
+      this.lookupArray.push(itemsArray[i].item_id);
     }
   }
   injectItem(index, removedData) {
@@ -220,7 +220,7 @@ export default class TreeHelper {
   }
 
   getIdFromIndex(index) {
-    return this.nodeArray[index].model_id;
+    return this.nodeArray[index].item_id;
   }
   /**
    * Updates the nodeArray
