@@ -38,8 +38,10 @@ test('Moves first item to last', () => {
 
   helper.updateOrder(1, null); // move item with id of 1 to the end
   (
-    expect(helper.lookupArray[helper.nodeArray.length - 1]).toBe(1) &&
-    expect(helper.lookupArray[helper.nodeArray.length - 2]).toBe(16)
+    expect(
+      helper.lookupArray[helper.nodeArray.length - 1], 
+      helper.lookupArray[helper.nodeArray.length - 2]
+    ).toBe(1,16)
   )
 })
 
@@ -63,9 +65,11 @@ it('Updates parentIndex', () => {
   let newIndex = helper.lookupArray.indexOf(1);
   let indexOfParent = helper.lookupArray.indexOf(2);
 
-  expect(helper.nodeArray[newIndex].parentIndex).toBe(indexOfParent)
-  && expect(helper.nodeArray[indexOfParent].childIndexes[0]).toBe(newIndex)
-  && expect(helper.nodeArray[indexOfParent].childIndexes.length).toBe(1)
+  expect(
+    helper.nodeArray[newIndex].parentIndex,
+    helper.nodeArray[indexOfParent].childIndexes[0],
+    helper.nodeArray[indexOfParent].childIndexes.length
+  ).toBe(indexOfParent, newIndex, 1)
 })
 
 it('Keeps correct reference to parent', () => {
@@ -155,8 +159,7 @@ it('Allows parent item to move with children', () => {
   let indexOfSixteen = helper.lookupArray.indexOf(16);
   let indexOfOne     = helper.lookupArray.indexOf(1);
 
-  expect(parentIndex).toBe(8)
-  && expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfSixteen,indexOfOne]);
+  expect(parentIndex, helper.nodeArray[parentIndex].childIndexes).toEqual(8,[indexOfSixteen,indexOfOne]);
 })
 
 it('Can nest multiple depths in sequence', () => {
@@ -168,7 +171,7 @@ it('Can nest multiple depths in sequence', () => {
   let indexOfSixteen = helper.lookupArray.indexOf(16);
   let indexOfFour = helper.lookupArray.indexOf(4);
 
-  expect([(indexOfSixteen + 1), helper.nodeArray[indexOfSixteen].childIndexes]).toEqual([indexOfFour, [indexOfFour]])
+  expect((indexOfSixteen + 1), helper.nodeArray[indexOfSixteen].childIndexes).toEqual(indexOfFour, [indexOfFour])
 })
 
 it('Can nest parent and children under new parent', () => {
