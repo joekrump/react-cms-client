@@ -1,10 +1,10 @@
 export default class TreeHelper {
   constructor(nestedArray) {
 
-    this.nodeArray = []; // An array to hold objects representing nodes in a tree.
-    this.lookupArray = []; // will contain only item_ids of items stored in nodeArray for quick lookup.
-
-    // bind 'this' to functions
+    // An array to hold objects representing nodes in a tree.
+    this.nodeArray              = []; 
+    // will contain only item_ids of items stored in nodeArray for quick lookup.
+    this.lookupArray            = []; 
     this.insertIntoNodeArray    = this._insertIntoNodeArray.bind(this);
     this.walk                   = this._walk.bind(this);
     this.updateOrder            = this.updateOrder.bind(this);
@@ -38,11 +38,12 @@ export default class TreeHelper {
   }
 
   /**
-   * Create an array of nodes in the order that they appear.
+   * Create a 2D array representation of a tree structure.
    * @param  {Array<Object>} treeNodes  - an array of nodes from the tree object used 
    *                                      to create this instance.
    * @param  {int} parentIndex          - The index of the entry in the nodeArray
    *                                      that corresponds to where this nodes parent is.
+   * @param  {int} depth                - The tree depth to insert at.                                     
    * @return undefined
    */
   _walk(treeNodes, parentIndex, depth) { 
@@ -57,9 +58,9 @@ export default class TreeHelper {
   /**
    * Insert a minimal representation of a tree node into 
    * a 2D array.
-   * @param  {[type]} treeNode    [description]
-   * @param  {[type]} parentIndex [description]
-   * @return {[type]}             [description]
+   * @param  {object} treeNode    - The object to insert into nodeArray
+   * @param  {int} parentIndex    - The index for the parent that treeNode is a child of.
+   * @return {int}                - The in nodeArray that the item was inserted at.
    */
   _insertIntoNodeArray(treeNode, parentIndex, parentDepth){
     let nodeArrayItem = {};
@@ -80,7 +81,7 @@ export default class TreeHelper {
 
     nodeItemIndex = this.nodeArray.length - 1;
 
-    // Either initialize childNodeIndexs or push to existing array.
+    // push this item's parent childIndexes array.
     this.nodeArray[parentIndex].childIndexes.push(nodeItemIndex);
     
     return nodeItemIndex;
@@ -120,7 +121,7 @@ export default class TreeHelper {
     this.nodeArray.push(...removedData.items);
     this.lookupArray.push(...removedData.ids);
   }
-  
+
   injectItem(index, removedData) {
     this.nodeArray.splice(index, 0, ...removedData.items);
     this.lookupArray.splice(index, 0, ...removedData.ids);
@@ -293,7 +294,6 @@ export default class TreeHelper {
     this.addItem(removedData, newItemIndex, nextItemIndex);
 
   }
-
 
   // http://ejohn.org/blog/comparing-document-position/
   _contains(a, b){
