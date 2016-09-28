@@ -82,24 +82,26 @@ export default class TreeHelper {
    * @return undefined
    */
   _updateOrder(nodeToUpdateId, siblingNodeId, targetParentId) {
-    console.log('targetParentId: ', targetParentId)
-    // find the entry in nodeArray based on the id provided
-    console.log('nodeToUpdateId: ', nodeToUpdateId)
-    console.log('siblingNodeId: ', siblingNodeId)
 
+    // find the index for the node to be moved by using the lookupArray
+    //
     let indexOfUpdateNode = this.lookupArray.indexOf(nodeToUpdateId);
-    console.log('indexOfUpdateNode: ', indexOfUpdateNode)
+    // get the actual item that will be moved in the nodeArray
+    // 
     let nodeToUpdate = this.nodeArray[indexOfUpdateNode];
-    console.log('nodeToUpdate: ', nodeToUpdate)
-
+    // Get the index at which the item is referenced in its parent's childNodeIndexes array.
+    // 
     let childArrayIndex = this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.indexOf(indexOfUpdateNode); 
-
-    console.log('childArrayIndex: ', childArrayIndex)
+    // By default set indexToMoveTo to -1 (an index that it could never naturally be set to.)
+    //
     let indexToMoveTo = -1;
+    // If an explicit targetParentId was passed as a param then set the parentIndex for the item that will be
+    // move to the the index at which that parentId is found, otherwise set it to a default of 0.
+    //
     let siblingParentIndex = (targetParentId ? this.lookupArray.indexOf(targetParentId) : 0);
-    console.log('siblingParentIndex: ', siblingParentIndex)
-    let siblingChildIndex;
-    let newSiblingIndex;
+    // Instantiate some variables to be used later.
+    // 
+    let siblingChildIndex, newSiblingIndex;
 
     // splice out the item reference
     console.log('REMOVING item from childNodeIndexes')
