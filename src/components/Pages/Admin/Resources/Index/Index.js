@@ -106,6 +106,9 @@ class Index extends React.Component {
   componentWillReceiveProps(nextProps){
     // TODO: update how this works by tying into redux
     if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
+      this.setState({
+        resourcenamePlural: nextProps.params.resourceNamePlural
+      })
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
