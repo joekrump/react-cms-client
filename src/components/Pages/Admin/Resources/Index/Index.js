@@ -11,6 +11,7 @@ import Dragula from 'react-dragula';
 import ListItems from './ListItems';
 import TreeHelper from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
+import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -22,14 +23,13 @@ class Index extends React.Component {
       editMode: false,
       TreeHelper: {},
       changesToSave: false,
-      client: (new APIClient(this.context.store))
+      resourcenamePlural: ''
     }
   }
   handleDrop(el, target, source, sibling){
     try {
       let siblingId = sibling ? parseInt(sibling.id) : null;
-      // // if there is a source then this item is being nested.
-      // console.log(source.dataset.parentmodelid);
+      // if there is a source then this item is being nested.
       if(source.dataset.parentmodelid) {
         this.state.TreeHelper.updateOrder(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       } else {
@@ -51,8 +51,9 @@ class Index extends React.Component {
 
   setItems(resourceNamePlural){
     this.setState({loading: true})
+    let client = new APIClient(this.context.store);
 
-    this.state.client.get(resourceNamePlural).then((res) => {
+    client.get(resourceNamePlural).then((res) => {
       this.setState({loading: false})
 
       if(res.statusCode !== 200) {
@@ -96,7 +97,11 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    this.setItems(this.props.params.resourceNamePlural.toLowerCase());
+    let resourcenamePlural = this.props.params.resourceNamePlural.toLowerCase()
+    this.setState({
+      resourceNmaePlural: resourcenamePlural
+    })
+    this.setItems(resourcenamePlural);
   }
   componentWillUnmount() {
     this.state.dragulaDrake.destroy();
@@ -112,7 +117,24 @@ class Index extends React.Component {
   }
   saveChanges() {
     // save and then update state to show that no more changes to save.
+    //
+    let client = new APIClient(this.context.store);
     console.log(this.props.nodeArray);
+    client.post(this.state.resourcenamePlural + '/update-index', true, {
+      data: {
+        nodeArray: this.props.nodeArray 
+      }})
+      .then((res) => {
+        if (res.statusCode !== 200) {
+          this.props.updateSnackbar(true, 'Error', res.data, 'error');
+        } else {
+          this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
+        }
+      })
+      .catch((err) => {
+        // Something unexpected happened
+        this.props.updateSnackbar(true, 'Error', err, 'error');
+      })
     this.setState({
       changesToSave: false
     })
@@ -156,7 +178,13 @@ class Index extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    nodeArray: state.tree.indexTree.nodeArray
+    nodeArray: state.tree.indexTree.nodeArray,
+    snackbar: {
+      show: state.notifications.snackbar.show,
+      header: state.notifications.snackbar.header,
+      content: state.notifications.snackbar.content,
+      notificationType: state.notifications.snackbar.notificationType
+    }
   }
 }
 
@@ -166,6 +194,15 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'UPDATE_TREE',
         nodeArray
+      })
+    },
+    updateSnackbar: (show, header, content, notificationType) => {
+      dispatch ({
+        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        show,
+        header,
+        content,
+        notificationType
       })
     }
   };
