@@ -66,9 +66,11 @@ export default class TreeHelper {
     let nodeArrayItem = {};
     let nodeItemIndex = 0;
 
+    treeNode.depth = parentDepth + 1;
     nodeArrayItem.item_id = treeNode.id;
+    nodeArrayItem.node = treeNode;
     nodeArrayItem.childIndexes = [];
-    nodeArrayItem.depth = parentDepth + 1;
+    nodeArrayItem.depth = treeNode.depth;
     // if this object has a parent then assign 
     if (parentIndex) {
       nodeArrayItem.parentIndex = parentIndex;
