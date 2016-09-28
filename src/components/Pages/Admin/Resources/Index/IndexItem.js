@@ -11,8 +11,8 @@ let style = {
 }
 
 let smallIconStyle = {
-  width: '24px',
-  height: '24px'
+  margin: 0,
+  padding: '12px'
 }
 
 class IndexItem extends React.Component{

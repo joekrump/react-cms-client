@@ -130,7 +130,7 @@ class Index extends React.Component {
         if (res.statusCode !== 200) {
           this.props.updateSnackbar(true, 'Error', res.data, 'error');
         } else {
-          this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
+          this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
         }
       })
       .catch((err) => {
@@ -173,6 +173,12 @@ class Index extends React.Component {
           </List>
         { this.props.children }
         </div>
+        <NotificationSnackbar 
+          open={this.props.snackbar.show} 
+          header={this.props.snackbar.header}
+          content={this.props.snackbar.content}
+          type={this.props.snackbar.notificationType}
+        />
       </AdminLayout>
     );
   }
