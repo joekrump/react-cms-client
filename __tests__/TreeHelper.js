@@ -35,7 +35,7 @@ test('lookupArray is correct length', () => {
   expect(helper.lookupArray.length).toBe(17)
 })
 
-test('Move first item to last', () => {
+test('Moves first item to last', () => {
   let helper = new TreeHelper(dummyTreeData);
 
   helper.updateOrder(1, null); // move item with id of 1 to the end
@@ -45,21 +45,21 @@ test('Move first item to last', () => {
   )
 })
 
-test('Move last item to first', () => {
+test('Moves last item to first', () => {
   let helper = new TreeHelper(dummyTreeData);
 
   helper.updateOrder((helper.nodeArray.length - 1), 1);
   expect(helper.lookupArray[1]).toBe(16)
 })
 
-test('Move first to last and then last to first', () => {
+test('Moves first to last and then last to first', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null);
   helper.updateOrder(1, 2);
   expect(helper.lookupArray[1]).toBe(1)
 })
 
-it('Should have updated parentIndex', () => {
+it('Updates parentIndex', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   let newIndex = helper.lookupArray.indexOf(1);
@@ -70,7 +70,7 @@ it('Should have updated parentIndex', () => {
   && expect(helper.nodeArray[indexOfParent].childIndexes.length).toBe(1)
 })
 
-it('Should keep correct reference to parent', () => {
+it('Keeps correct reference to parent', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   
@@ -83,7 +83,7 @@ it('Should keep correct reference to parent', () => {
   expect(helper.nodeArray[newIndex].parentIndex).toBe(newParentIndex);
 })
 
-it('Should allow multiple items to be nested', () => {
+it('Allows multiple items to be nested', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   helper.updateOrder(5, 1); // nest 3 under 2 and above 1
@@ -96,7 +96,7 @@ it('Should allow multiple items to be nested', () => {
   expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfThree,indexOfOne]);
 })
 
-it('Should allow multiple items to be nested with explicit parentId', () => {
+it('Allows multiple items to be nested with explicit parentId', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   helper.updateOrder(5, 1, 2); // nest 3 under 2 and above 1
