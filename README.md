@@ -118,11 +118,11 @@ Donation Page Content (implemented with Stripe)
 
 - [ ] Frontend Route permissions using User roles.
 - [x] Inline Editor with image manipulation functionality.
-- [ ] Form Validation using Redux
-- [ ] Allow Page nesting in Index
+- [x] Form Validation using Redux
+- [x] Allow Page nesting in Index
 - [ ] Add Searching and Reordering of resources
 - [ ] Add Media / File Management
 - [ ] Webworkers for Caching data
-- [ ] Add Tests using Jest
+- [x] Add Tests using Jest
 - [x] Page Template Loading
  
