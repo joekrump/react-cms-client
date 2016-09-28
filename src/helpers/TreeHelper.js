@@ -106,7 +106,7 @@ export default class TreeHelper {
       }
     }
   }
-  
+
   /**
    * Updates the nodeArray
    * @param  {int} movedItemId Unique id of the item that is being moved.
@@ -133,7 +133,7 @@ export default class TreeHelper {
     let siblingParentIndex = (targetParentId ? this.lookupArray.indexOf(targetParentId) : 0);
     // Instantiate some variables to be used later.
     // 
-    let siblingChildIndex, newSiblingIndex;
+    let siblingChildIndex;
 
     // Remove the index reference for the item being moved from its initial parent's childNodeIndexes
     // array.
@@ -189,10 +189,9 @@ export default class TreeHelper {
       this.nodeArray.push(itemRemoved)
       this.lookupArray.push(itemRemoved.model_id)
     } else {
-      this.updateParentIndexes((indexToMoveTo - 1), true);
       this.nodeArray.splice(indexToMoveTo, 0, itemRemoved);
       this.lookupArray.splice(indexToMoveTo, 0, itemRemoved.model_id);
-      newSiblingIndex = indexToMoveTo + 1;
+      this.updateParentIndexes((indexToMoveTo), true);
     }
 
     // if the item that was moved had items nested under it then update their parentIndex to the
