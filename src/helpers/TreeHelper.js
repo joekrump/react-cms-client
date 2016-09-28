@@ -169,41 +169,41 @@ export default class TreeHelper {
    *                               startingIndex should be increased or decreased.
    * @return undefined
    */
-  decrementParentIndexes(startingIndex, amt){
+  decrementParentIndexes(startingIndex, amt, arrayToIterateOver = this.nodeArray){
     // start from index 1 because the root at index 0 does not have a parent.
-    for(let i = 1; i < this.lookupArray.length; i++){
-      if(this.nodeArray[i].parentIndex > startingIndex){
-        this.nodeArray[i].parentIndex -= amt;
+    for(let i = 1; i < arrayToIterateOver.length; i++){
+      if(arrayToIterateOver[i].parentIndex > startingIndex){
+        arrayToIterateOver[i].parentIndex -= amt;
       }
     }
   }
 
-  decrementChildIndexes(startingIndex, amt){
-    for(let i = 0; i < this.lookupArray.length; i++){
-      if(this.nodeArray[i].childIndexes.length > 0){
-        for(let j = 0; j < this.nodeArray[i].childIndexes.length; j++){
-          if(this.nodeArray[i].childIndexes[j] > startingIndex){
-            this.nodeArray[i].childIndexes[j] -= amt;
+  decrementChildIndexes(startingIndex, amt, arrayToIterateOver = this.nodeArray){
+    for(let i = 0; i < arrayToIterateOver.length; i++){
+      if(arrayToIterateOver[i].childIndexes.length > 0){
+        for(let j = 0; j < arrayToIterateOver[i].childIndexes.length; j++){
+          if(arrayToIterateOver[i].childIndexes[j] > startingIndex){
+            arrayToIterateOver[i].childIndexes[j] -= amt;
           }
         }
       }
     }
   }
 
-  incrementParentIndexes(startingIndex, amt) {
-    for(let i = 1; i < this.lookupArray.length; i++){
-      if(this.nodeArray[i].parentIndex >= startingIndex){
-        this.nodeArray[i].parentIndex += amt;
+  incrementParentIndexes(startingIndex, amt, arrayToIterateOver = this.nodeArray) {
+    for(let i = 1; i < arrayToIterateOver.length; i++){
+      if(arrayToIterateOver[i].parentIndex >= startingIndex){
+        arrayToIterateOver[i].parentIndex += amt;
       }
     }
   }
 
-  incrementChildIndexes(startingIndex, amt) {
-    for(let i = 0; i < this.lookupArray.length; i++){
-      if(this.nodeArray[i].childIndexes.length > 0){
-        for(let j = 0; j < this.nodeArray[i].childIndexes.length; j++){
-          if(this.nodeArray[i].childIndexes[j] >= startingIndex){
-            this.nodeArray[i].childIndexes[j] += amt;
+  incrementChildIndexes(startingIndex, amt, arrayToIterateOver = this.nodeArray) {
+    for(let i = 0; i < arrayToIterateOver.length; i++){
+      if(arrayToIterateOver[i].childIndexes.length > 0){
+        for(let j = 0; j < arrayToIterateOver[i].childIndexes.length; j++){
+          if(arrayToIterateOver[i].childIndexes[j] >= startingIndex){
+            arrayToIterateOver[i].childIndexes[j] += amt;
           }
         }
       }

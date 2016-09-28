@@ -107,7 +107,7 @@ it('Allows multiple items to be nested with explicit parentId', () => {
   expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfThree,indexOfOne]);
 })
 
-fit('Allows parent item to move with children', () => {
+it('Allows parent item to move with children', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   helper.updateOrder(16, 1); // nest 16 under 2 and above 1
