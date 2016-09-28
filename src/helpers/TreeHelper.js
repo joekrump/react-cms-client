@@ -20,6 +20,8 @@ export default class TreeHelper {
     this.injectItem             = this.injectItem.bind(this);
     this.getIndexFromId         = this.getIndexFromId.bind(this);
     this.getIdFromIndex         = this.getIdFromIndex.bind(this);
+    this.getNumToRemove         = this.getNumToRemove.bind(this);
+    this.addChildToParent       = this.addChildToParent.bind(this);
     
     // push the root item to the nodeArray
     // 
@@ -90,40 +92,67 @@ export default class TreeHelper {
    * @return {Object}    - A minimal representation of the the item that was removed
    *                       from the nodeArray.
    */
-  removeItem(index) {
+  removeItem(index, item) {
     this.removeFromChildIndexes(index);
+    // get the number of items to remove. so that parents and children are all move together.
+    let numToRemove = this.getNumToRemove(item);
 
-    let itemsRemoved = this.nodeArray.splice(index, 1);
-    this.lookupArray.splice(index, 1);
-    return itemsRemoved[0];
+    let itemsRemoved = this.nodeArray.splice(index, numToRemove);
+    let idsRemoved = this.lookupArray.splice(index, numToRemove);
+    return {items: itemsRemoved, ids: idsRemoved};
   }
 
-  appendItem(item){
-    this.nodeArray.push(item);
-    this.lookupArray.push(item.model_id);
-  }
-  injectItem(index, item) {
-    this.nodeArray.splice(index, 0, item);
-    this.lookupArray.splice(index, 0, item.model_id);
+  getNumToRemove(item) {
+    let numToRemove = 1;
+    // if the item does not have any childIndexes, return early.
+    if(item.childIndexes.length == 0) {
+      return numToRemove;
+    }
+
+    item.childIndexes.forEach((childIndex) => {
+      numToRemove += this.getNumToRemove(this.nodeArray[childIndex]);
+    })
+    return numToRemove;
   }
 
-  addItem(item, index, nextIndex) {
+  appendItem(itemsArray){
+    for(let i = 0; i < itemsArray.length; i++) {
+      this.nodeArray.push(itemsArray[i]);
+      this.lookupArray.push(itemsArray[i].model_id);
+    }
+  }
+  injectItem(index, removedData) {
+    this.nodeArray.splice(index, 0, ...removedData.items);
+    this.lookupArray.splice(index, 0, ...removedData.ids);
+  }
+
+  addItem(removedData, index, nextIndex) {
+    let moveItemRoot = removedData.items[0];
     // add the item into its parent's childIndexes array.
     // if the nextIndex is -1 it indicates that the item
     // is the last child of its parent.
-    if(nextIndex === -1 && item.parentIndex === 0){
-      this.appendItem(item);
-      this.nodeArray[item.parentIndex].childIndexes.push(index);
+    if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
+      this.appendItem(removedData.items);
     } else if(nextIndex === -1) {
-      this.injectItem(index, item);
-      this.nodeArray[item.parentIndex].childIndexes.push(index);
+      this.injectItem(index, removedData);
     } else {
-      this.injectItem(index, item);
+      this.injectItem(index, removedData);
+    }
+
+    this.addChildToParent(moveItemRoot, index, nextIndex);
+  }
+
+  addChildToParent(moveItemRoot, index, nextIndex){
+    if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
+      this.nodeArray[moveItemRoot.parentIndex].childIndexes.push(index);
+    } else if(nextIndex === -1) {
+      this.nodeArray[moveItemRoot.parentIndex].childIndexes.push(index);
+    } else {
       // otherwise splice the item into the array at the index where the
       // nextIndex sibling previously was.
-      let childIndexes = this.nodeArray[item.parentIndex].childIndexes;
+      let childIndexes = this.nodeArray[moveItemRoot.parentIndex].childIndexes;
       let siblingIndex = childIndexes.indexOf(nextIndex);
-      this.nodeArray[item.parentIndex].childIndexes.splice(siblingIndex, 0, index);
+      this.nodeArray[moveItemRoot.parentIndex].childIndexes.splice(siblingIndex, 0, index);
     }
   }
 
@@ -140,41 +169,41 @@ export default class TreeHelper {
    *                               startingIndex should be increased or decreased.
    * @return undefined
    */
-  decrementParentIndexes(startingIndex){
+  decrementParentIndexes(startingIndex, amt){
     // start from index 1 because the root at index 0 does not have a parent.
     for(let i = 1; i < this.lookupArray.length; i++){
       if(this.nodeArray[i].parentIndex > startingIndex){
-        this.nodeArray[i].parentIndex--
+        this.nodeArray[i].parentIndex -= amt;
       }
     }
   }
 
-  decrementChildIndexes(startingIndex){
+  decrementChildIndexes(startingIndex, amt){
     for(let i = 0; i < this.lookupArray.length; i++){
       if(this.nodeArray[i].childIndexes.length > 0){
         for(let j = 0; j < this.nodeArray[i].childIndexes.length; j++){
           if(this.nodeArray[i].childIndexes[j] > startingIndex){
-            this.nodeArray[i].childIndexes[j]--
+            this.nodeArray[i].childIndexes[j] -= amt;
           }
         }
       }
     }
   }
 
-  incrementParentIndexes(startingIndex) {
+  incrementParentIndexes(startingIndex, amt) {
     for(let i = 1; i < this.lookupArray.length; i++){
       if(this.nodeArray[i].parentIndex >= startingIndex){
-        this.nodeArray[i].parentIndex++;
+        this.nodeArray[i].parentIndex += amt;
       }
     }
   }
 
-  incrementChildIndexes(startingIndex) {
+  incrementChildIndexes(startingIndex, amt) {
     for(let i = 0; i < this.lookupArray.length; i++){
       if(this.nodeArray[i].childIndexes.length > 0){
         for(let j = 0; j < this.nodeArray[i].childIndexes.length; j++){
           if(this.nodeArray[i].childIndexes[j] >= startingIndex){
-            this.nodeArray[i].childIndexes[j]++
+            this.nodeArray[i].childIndexes[j] += amt;
           }
         }
       }
@@ -199,6 +228,7 @@ export default class TreeHelper {
 
     // find the item in the lookup
     let originalItemIndex = this.getIndexFromId(movedItemId);
+    let originalMovedItem = this.nodeArray[originalItemIndex];
     // find the index of the next item in the lookup if one is provided, otherwise assign default of -1
     let nextItemIndex = this.getIndexFromId(nextItemId);
     // if no targetParentId was provided...
@@ -210,11 +240,12 @@ export default class TreeHelper {
     // Get the parent that the item is moving to.
     let parentItemIndex = this.getIndexFromId(targetParentId);
     // remove the item from the nodeArray
-    let itemMoved = this.removeItem(originalItemIndex);
+    let removedData = this.removeItem(originalItemIndex, originalMovedItem);
     let newItemIndex;
+    let startingIndex = originalItemIndex + (removedData.ids.length - 1);
     // update the childIndexes references and parentIndex references
-    this.decrementParentIndexes(originalItemIndex);
-    this.decrementChildIndexes(originalItemIndex);
+    this.decrementParentIndexes(startingIndex, removedData.ids.length);
+    this.decrementChildIndexes(startingIndex, removedData.ids.length);
     //
     if(parentItemIndex > originalItemIndex) {
       parentItemIndex--;
@@ -223,9 +254,9 @@ export default class TreeHelper {
     if(nextItemIndex > originalItemIndex) {
       nextItemIndex--;
     }
-    // The item that was moved, will always have a higher index than its parent, 
+    // update the first item that was removed. It is the parent of any other items that were updated.
     // therefore it is safe to update its parentIndex to the current value of parentItemIndex.
-    itemMoved.parentIndex = parentItemIndex;
+    removedData.items[0].parentIndex = parentItemIndex;
     // if the moved item has an item after it, then insert the item at the next item index
     // 
     if(nextItemIndex !== -1){
@@ -235,17 +266,19 @@ export default class TreeHelper {
       newItemIndex = parentItemIndex + 1;
     }
     // items that have indexes great than or equal to the index that the item
-    // is being moved to, will be pushed up by 1, therefore update all reference
+    // is being moved to, will be pushed up by the amount equal to the number
+    // of items that were removed, therefore update all reference
     // indexes that are >= the newItemIndex
-    this.incrementParentIndexes(newItemIndex);
-    this.incrementChildIndexes(newItemIndex);
+    this.incrementParentIndexes(newItemIndex, removedData.ids.length);
+    this.incrementChildIndexes(newItemIndex, removedData.ids.length);
     // if the item being moved has a sibling then make sure
     // that the index reference to it is alos incremented in order
     // to reflect the changes after increment emthods have run.
     if(nextItemIndex !== -1){
       nextItemIndex++;
     }
-    this.addItem(itemMoved, newItemIndex, nextItemIndex);
+    this.addItem(removedData, newItemIndex, nextItemIndex);
+
   }
 
 
