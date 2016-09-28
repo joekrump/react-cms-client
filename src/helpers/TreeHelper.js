@@ -116,12 +116,11 @@ export default class TreeHelper {
     return numToRemove;
   }
 
-  appendItem(itemsArray){
-    for(let i = 0; i < itemsArray.length; i++) {
-      this.nodeArray.push(itemsArray[i]);
-      this.lookupArray.push(itemsArray[i].item_id);
-    }
+  appendItem(removedData){
+    this.nodeArray.push(...removedData.items);
+    this.lookupArray.push(...removedData.ids);
   }
+  
   injectItem(index, removedData) {
     this.nodeArray.splice(index, 0, ...removedData.items);
     this.lookupArray.splice(index, 0, ...removedData.ids);
@@ -133,7 +132,7 @@ export default class TreeHelper {
     // if the nextIndex is -1 it indicates that the item
     // is the last child of its parent.
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
-      this.appendItem(removedData.items);
+      this.appendItem(removedData);
     } else if(nextIndex === -1) {
       this.injectItem(index, removedData);
     } else {
