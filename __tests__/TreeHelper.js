@@ -173,7 +173,17 @@ it('Can nest multiple depths in sequence', () => {
 })
 
 it('Can nest parent and children under new parent', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateOrder(4, null, 2); // 4 nests under 2
+  helper.updateOrder(7, 4); // nest 7 under 2 and above 4
 
+  helper.updateOrder(5, null, 16); // 5 nests under 16
+  helper.updateOrder(3, 5); // nest 3 under 16 and above 5
+
+  helper.updateOrder(2, 5, 16) // move tree with root of model_id 2 in between 3 and 5
+  let indexOfSixteen = helper.lookupArray.indexOf(16);
+
+  expect(helper.lookupArray.splice(indexOfSixteen + 1, 5)).toEqual([3, 2, 7, 4, 5]);
 })
 
 it('Can move multi-depth array', () => {
