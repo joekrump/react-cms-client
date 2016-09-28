@@ -33,11 +33,11 @@ class Index extends React.Component {
         this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
       
-      this.props.updateTree(this.state.TreeHelper.nodeArray);
+      this.props.updateTree(this.state.TreeHelper.richNodeArray);
       this.setState({
         changesToSave: true
       })
-      console.log('after: ', this.state.TreeHelper.nodeArray);
+      // console.log('after: ', this.state.TreeHelper.richNodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
