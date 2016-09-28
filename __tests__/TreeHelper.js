@@ -174,7 +174,7 @@ it('Can nest multiple depths in sequence', () => {
   expect((indexOfSixteen + 1), helper.nodeArray[indexOfSixteen].childIndexes).toEqual(indexOfFour, [indexOfFour])
 })
 
-it('Can nest parent and children under new parent', () => {
+it('Can move multi-depth array', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(4, null, 2); // 4 nests under 2
   helper.updateOrder(7, 4); // nest 7 under 2 and above 4
@@ -186,10 +186,6 @@ it('Can nest parent and children under new parent', () => {
   let indexOfSixteen = helper.lookupArray.indexOf(16);
 
   expect(helper.lookupArray.splice(indexOfSixteen + 1, 5)).toEqual([3, 2, 7, 4, 5]);
-})
-
-it('Can move multi-depth array', () => {
-  
 })
 
 it('Cannot nest more than a depth of 3', () => {
