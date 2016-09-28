@@ -7,7 +7,7 @@ export default class TreeHelper {
     this.lookupArray            = []; 
     this.addNewTreeNode         = this.addNewTreeNode.bind(this);
     this.walk                   = this._walk.bind(this);
-    this.updateOrder            = this.updateOrder.bind(this);
+    this.updateTree             = this.updateTree.bind(this);
     this.contains               = this._contains.bind(this);
     this.decrementParentIndexes = this.decrementParentIndexes.bind(this);
     this.decrementChildIndexes  = this.decrementChildIndexes.bind(this);
@@ -240,7 +240,7 @@ export default class TreeHelper {
    * @param  {int} targetParentId  Unique id of the parent that moveItem will belong to.
    * @return undefined
    */
-  updateOrder(movedItemId, nextItemId, targetParentId) {
+  updateTree(movedItemId, nextItemId, targetParentId) {
 
     // find the item in the lookup
     let originalItemIndex = this.getIndexFromId(movedItemId);
