@@ -19,11 +19,11 @@ const dummyTreeData = [
   { "id": 16, "children": [] }
 ];
 
-test('nodeArray is correct length', () => {
+it('richNodeArray is correct length', () => {
   let helper = new TreeHelper(dummyTreeData);
   // Note: an artificial root node is added in, therefore the
   // length should be one more than the number of items provided.
-  expect(helper.nodeArray.length).toBe(17)
+  expect(helper.richNodeArray.length).toBe(17)
 })
 
 test('lookupArray is correct length', () => {
@@ -39,8 +39,8 @@ test('Moves first item to last', () => {
   helper.updateTree(1, null); // move item with id of 1 to the end
   (
     expect(
-      helper.lookupArray[helper.nodeArray.length - 1], 
-      helper.lookupArray[helper.nodeArray.length - 2]
+      helper.lookupArray[helper.richNodeArray.length - 1], 
+      helper.lookupArray[helper.richNodeArray.length - 2]
     ).toBe(1,16)
   )
 })
@@ -48,7 +48,7 @@ test('Moves first item to last', () => {
 test('Moves last item to first', () => {
   let helper = new TreeHelper(dummyTreeData);
 
-  helper.updateTree((helper.nodeArray.length - 1), 1);
+  helper.updateTree((helper.richNodeArray.length - 1), 1);
   expect(helper.lookupArray[1]).toBe(16)
 })
 
@@ -66,9 +66,9 @@ it('Updates parentIndex', () => {
   let indexOfParent = helper.lookupArray.indexOf(2);
 
   expect(
-    helper.nodeArray[newIndex].parentIndex,
-    helper.nodeArray[indexOfParent].childIndexes[0],
-    helper.nodeArray[indexOfParent].childIndexes.length
+    helper.richNodeArray[newIndex].parentIndex,
+    helper.richNodeArray[indexOfParent].childIndexes[0],
+    helper.richNodeArray[indexOfParent].childIndexes.length
   ).toBe(indexOfParent, newIndex, 1)
 })
 
@@ -82,7 +82,7 @@ it('Keeps correct reference to parent', () => {
   let newIndex = helper.lookupArray.indexOf(1);
   let newParentIndex = helper.lookupArray.indexOf(2);
 
-  expect(helper.nodeArray[newIndex].parentIndex).toBe(newParentIndex);
+  expect(helper.richNodeArray[newIndex].parentIndex).toBe(newParentIndex);
 })
 
 it('Allows multiple items to be nested', () => {
@@ -94,7 +94,7 @@ it('Allows multiple items to be nested', () => {
   let indexOfFive = helper.lookupArray.indexOf(5);
   let indexOfOne  = helper.lookupArray.indexOf(1);
 
-  expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfFive,indexOfOne]);
+  expect(helper.richNodeArray[parentIndex].childIndexes).toEqual([indexOfFive,indexOfOne]);
 })
 
 it('Allows multiple items to be nested with explicit parentId', () => {
@@ -106,7 +106,7 @@ it('Allows multiple items to be nested with explicit parentId', () => {
   let indexOfFive = helper.lookupArray.indexOf(5);
   let indexOfOne  = helper.lookupArray.indexOf(1);
 
-  expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfFive,indexOfOne]);
+  expect(helper.richNodeArray[parentIndex].childIndexes).toEqual([indexOfFive,indexOfOne]);
 })
 
 it('Allows parent item to move with children', () => {
@@ -114,7 +114,7 @@ it('Allows parent item to move with children', () => {
   helper.updateTree(1, null, 2); // 1 nests under 2
   helper.updateTree(16, 1); // nest 16 under 2 and above 1
   
-  // helper.nodeArray should look like this: 
+  // helper.richNodeArray should look like this: 
   // [ { model_id: -1, childIndexes: [ 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ] },
   // { model_id: 2, childIndexes: [ 2, 3 ], parentIndex: 0 },
   // { model_id: 16, childIndexes: [], parentIndex: 1 },
@@ -136,7 +136,7 @@ it('Allows parent item to move with children', () => {
   // now move 2 (and its children) in front of 10
   helper.updateTree(2, 10);
 
-  // helper.nodeArray should look like this: 
+  // helper.richNodeArray should look like this: 
   // [ { model_id: -1, childIndexes: [ 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17 ] },
   //   { model_id: 3, childIndexes: [], parentIndex: 0 },
   //   { model_id: 4, childIndexes: [], parentIndex: 0 },
@@ -159,7 +159,7 @@ it('Allows parent item to move with children', () => {
   let indexOfSixteen = helper.lookupArray.indexOf(16);
   let indexOfOne     = helper.lookupArray.indexOf(1);
 
-  expect(parentIndex, helper.nodeArray[parentIndex].childIndexes).toEqual(8,[indexOfSixteen,indexOfOne]);
+  expect(parentIndex, helper.richNodeArray[parentIndex].childIndexes).toEqual(8,[indexOfSixteen,indexOfOne]);
 })
 
 it('Can nest multiple depths in sequence', () => {
@@ -171,7 +171,7 @@ it('Can nest multiple depths in sequence', () => {
   let indexOfSixteen = helper.lookupArray.indexOf(16);
   let indexOfFour = helper.lookupArray.indexOf(4);
 
-  expect((indexOfSixteen + 1), helper.nodeArray[indexOfSixteen].childIndexes).toEqual(indexOfFour, [indexOfFour])
+  expect((indexOfSixteen + 1), helper.richNodeArray[indexOfSixteen].childIndexes).toEqual(indexOfFour, [indexOfFour])
 })
 
 it('Can move multi-depth array', () => {
