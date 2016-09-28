@@ -33,7 +33,7 @@ export default class TreeHelper {
 
     if(nestedArray && nestedArray.length > 0) {
       // build a flat array that represents the order that the nodes display in.
-      this.walk(nestedArray, 0);
+      this.walk(nestedArray, 0, -1);
     }
   }
 
@@ -45,11 +45,11 @@ export default class TreeHelper {
    *                                      that corresponds to where this nodes parent is.
    * @return undefined
    */
-  _walk(treeNodes, parentIndex) { 
+  _walk(treeNodes, parentIndex, depth) { 
     treeNodes.forEach((treeNode, i) => {
-      this.insertIntoNodeArray(treeNode, parentIndex);
+      this.insertIntoNodeArray(treeNode, parentIndex, depth);
       if(treeNode.children && (treeNode.children.length > 0)) {
-        this.walk(treeNode.children, (parentIndex + (i + 1)));
+        this.walk(treeNode.children, (parentIndex + (i + 1)), (depth + 1));
       }
     });
   }
@@ -61,12 +61,13 @@ export default class TreeHelper {
    * @param  {[type]} parentIndex [description]
    * @return {[type]}             [description]
    */
-  _insertIntoNodeArray(treeNode, parentIndex){
+  _insertIntoNodeArray(treeNode, parentIndex, parentDepth){
     let nodeArrayItem = {};
     let nodeItemIndex = 0;
 
     nodeArrayItem.model_id = treeNode.id;
     nodeArrayItem.childIndexes = [];
+    nodeArrayItem.depth = parentDepth + 1;
     // if this object has a parent then assign 
     if (parentIndex) {
       nodeArrayItem.parentIndex = parentIndex;
