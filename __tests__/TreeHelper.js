@@ -58,3 +58,16 @@ test('Move first to last and then last to first', () => {
   helper.updateOrder(1, 2);
   expect(helper.lookupArray[1]).toBe(1)
 })
+
+it('Should have updated parentIndex', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateOrder(1, null, 2); // 1 nests under 2
+  let newIndex = helper.lookupArray.indexOf(1);
+  let indexOfParent = helper.lookupArray.indexOf(2);
+
+  expect(helper.nodeArray[newIndex].parentIndex).toBe(2)
+  && expect(helper.nodeArray[indexOfParent].childNodeIndexes[0]).toBe(newIndex)
+  && expect(helper.nodeArray[indexOfParent].childNodeIndexes.length).toBe(1)
+
+})
+
