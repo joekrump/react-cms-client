@@ -64,14 +64,10 @@ it('Should have updated parentIndex', () => {
   helper.updateOrder(1, null, 2); // 1 nests under 2
   let newIndex = helper.lookupArray.indexOf(1);
   let indexOfParent = helper.lookupArray.indexOf(2);
-
-  console.log(indexOfParent);
-  console.log(helper.nodeArray[newIndex]);
   console.log(helper.nodeArray);
-  
-  expect(helper.nodeArray[newIndex].parentIndex).toBe(2)
-  && expect(helper.nodeArray[indexOfParent].childNodeIndexes[0]).toBe(newIndex)
-  && expect(helper.nodeArray[indexOfParent].childNodeIndexes.length).toBe(1)
+  expect(helper.nodeArray[newIndex].parentIndex).toBe(indexOfParent)
+  && expect(helper.nodeArray[indexOfParent].childIndexes[0]).toBe(newIndex)
+  && expect(helper.nodeArray[indexOfParent].childIndexes.length).toBe(1)
 
 })
 
@@ -82,10 +78,22 @@ it('Should keep correct reference to parent', () => {
   helper.updateOrder(4, 2); // move 4 above 2
   // check to see if the parentIndex of item with id 1 is correctly updated.
   //
-
   let newIndex = helper.lookupArray.indexOf(1);
   let newParentIndex = helper.lookupArray.indexOf(2);
 
   expect(helper.nodeArray[newIndex].parentIndex).toBe(newParentIndex);
+})
+
+it('Should allow multiple items to be nested', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateOrder(1, null, 2); // 1 nests under 2
+  helper.updateOrder(3, 1, 2); // nest 3 under 2 and above 1
+
+  let parentIndex = helper.lookupArray.indexOf(2);
+  // console.log('NODE ARRAY: ', helper.nodeArray);
+  let indexOfThree = helper.lookupArray.indexOf(3);
+  let indexOfOne = helper.lookupArray.indexOf(1);
+
+  expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfThree,indexOfOne]);
 })
 
