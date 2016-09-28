@@ -17,9 +17,7 @@ const dummyTreeData = [
   { "id": 14, "children": [] },
   { "id": 15, "children": [] },
   { "id": 16, "children": [] }
-]
-
-
+];
 
 test('nodeArray is correct length', () => {
   let helper = new TreeHelper(dummyTreeData);
@@ -161,3 +159,20 @@ it('Allows parent item to move with children', () => {
   && expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfSixteen,indexOfOne]);
 })
 
+it('Can nest multiple depths in sequence', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateOrder(1, null, 2); // 1 nests under 2
+  helper.updateOrder(16, 1); // nest 16 under 2 and above 1
+})
+
+it('Can nest parent and children under new parent', () => {
+
+})
+
+it('Can move multi-depth array', () => {
+  
+})
+
+it('Cannot nest more than a depth of 3', () => {
+  
+})
