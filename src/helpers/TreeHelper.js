@@ -103,13 +103,20 @@ export default class TreeHelper {
     // 
     let siblingChildIndex, newSiblingIndex;
 
-    // splice out the item reference
-    console.log('REMOVING item from childNodeIndexes')
-    console.log('Previous childNodeIndexes: ', this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes)
-    this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.splice(childArrayIndex, 1) // splice out the item
+    // Remove the item to be moved from its current position in the nodeArray and lookupArray
+    // 
+    this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.splice(childArrayIndex, 1);
+    // Now that the item has been removed, every item that had a higher index, is now at an index
+    // that is one less than what it was before. Update all children that had parentIndexes
+    // that were higher than the index of the item that was removed so that they correctly reference
+    // the new indexes where their parents are now located.
+    // 
     this.updateParentIndexes(indexOfUpdateNode, false);
-    console.log('After childNodeIndexes: ', this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes)
 
+    // If the siblingNodeId param was null, this indicates that the item is being moved to the end of 
+    // the array of child nodes for the parent that it is being moved under. Therefore, behavior will
+    // be slightly different than default behavior in this case.
+    // 
     if(siblingNodeId !== null) {
       let indexOfSiblingNode = this.lookupArray.indexOf(siblingNodeId);
       indexToMoveTo = indexOfSiblingNode;
