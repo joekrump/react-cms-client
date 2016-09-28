@@ -16,7 +16,6 @@ const dummyTreeData = [
   { "id": 13, "children": [] },
   { "id": 14, "children": [] },
   { "id": 15, "children": [] },
-  { "id": 45, "children": [] },
   { "id": 16, "children": [] }
 ]
 
@@ -26,5 +25,16 @@ test('nodeArray is correct length', () => {
   // Note: an artificial root node is added in, therefore the
   // length should be one more than the number of items provided.
   expect(helper.nodeArray.length).toBe(17)
+})
+
+test('lookupArray is correct length', () => {
+  // Note: an artificial root node is added in, therefore the
+  // length should be one more than the number of items provided.
+  expect(helper.lookupArray.length).toBe(17)
+})
+
+test('Move first item into last position', () => {
+  helper.updateOrder(1, null)
+  expect(helper.lookupArray[helper.nodeArray.length - 1]).toBe(1)
 })
 
