@@ -108,11 +108,12 @@ export default class TreeHelper {
       // nextIndex sibling previously was.
       let childIndexes = this.nodeArray[item.parentIndex].childIndexes;
       let siblingIndex = childIndexes.indexOf(nextIndex);
-      childIndexes.splice(nextIndex, 0, index);
+      this.nodeArray[item.parentIndex].childIndexes.splice(siblingIndex, 0, index);
     }
   }
 
   removeFromChildIndexes(index){
+    let item = this.nodeArray[index];
     this.nodeArray[item.parentIndex].childIndexes.splice(index, 1)
   }
 
@@ -183,7 +184,7 @@ export default class TreeHelper {
     // Get the parent that the item is moving to.
     let parentItemIndex = this.getIndexFromId(targetParentId);
     // remove the item from the nodeArray
-    let itemMoved = removeItem(originalItemIndex);
+    let itemMoved = this.removeItem(originalItemIndex);
     let newItemIndex;
     // update the childIndexes references and parentIndex references
     this.decrementParentIndexes(originalItemIndex);
@@ -210,8 +211,8 @@ export default class TreeHelper {
     // items that have indexes great than or equal to the index that the item
     // is being moved to, will be pushed up by 1, therefore update all reference
     // indexes that are >= the newItemIndex
-    incrementParentIndexes(newItemIndex);
-    incrementChildIndexes(newItemIndex);
+    this.incrementParentIndexes(newItemIndex);
+    this.incrementChildIndexes(newItemIndex);
     // if the item being moved has a sibling then make sure
     // that the index reference to it is alos incremented in order
     // to reflect the changes after increment emthods have run.
