@@ -13,6 +13,7 @@ export default class TreeHelper {
     this.updateOrder         = this._updateOrder.bind(this);
     this.contains            = this._contains.bind(this);
     this.updateParentIndexes = this.updateParentIndexes.bind(this);
+    this.removeItem          = this.removeItem.bind(this);
     
     this.nodeArray.push({model_id: -1, childNodeIndexes: []}); // push the root value
     this.lookupArray.push(-1); // push the root value
@@ -63,7 +64,11 @@ export default class TreeHelper {
     
     return nodeItemIndex;
   }
-
+  removeItem(indexToRemoveFrom) {
+    let itemsRemoved = this.nodeArray.splice(indexToRemoveFrom, 1);
+    this.lookupArray.splice(indexToRemoveFrom, 1);
+    return itemsRemoved[0];
+  }
   updateParentIndexes(startingIndex, increase){
     for(let i = 0; i < this.lookupArray.length; i++){
       if(this.nodeArray[i].parentIndex > startingIndex){
@@ -77,21 +82,21 @@ export default class TreeHelper {
   }
   /**
    * Updates the nodeArray
-   * @param  {int} nodeToUpdateId Unique id of the item that is being moved.
+   * @param  {int} movedItemId Unique id of the item that is being moved.
    * @param  {int or null} siblingNodeId  Unique id of the item that below where the other item was moved to.
    * @return undefined
    */
-  _updateOrder(nodeToUpdateId, siblingNodeId, targetParentId) {
+  _updateOrder(movedItemId, siblingNodeId, targetParentId) {
 
     // find the index for the node to be moved by using the lookupArray
     //
-    let indexOfUpdateNode = this.lookupArray.indexOf(nodeToUpdateId);
+    let indexOfMovedItem = this.lookupArray.indexOf(movedItemId);
     // get the actual item that will be moved in the nodeArray
     // 
-    let nodeToUpdate = this.nodeArray[indexOfUpdateNode];
+    let nodeToUpdate = this.nodeArray[indexOfMovedItem];
     // Get the index at which the item is referenced in its parent's childNodeIndexes array.
     // 
-    let childArrayIndex = this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.indexOf(indexOfUpdateNode); 
+    let childArrayIndex = this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.indexOf(indexOfMovedItem); 
     // By default set indexToMoveTo to -1 (an index that it could never naturally be set to.)
     //
     let indexToMoveTo = -1;
@@ -103,7 +108,8 @@ export default class TreeHelper {
     // 
     let siblingChildIndex, newSiblingIndex;
 
-    // Remove the item to be moved from its current position in the nodeArray and lookupArray
+    // Remove the index reference for the item being moved from its initial parent's childNodeIndexes
+    // array.
     // 
     this.nodeArray[nodeToUpdate.parentIndex].childNodeIndexes.splice(childArrayIndex, 1);
     // Now that the item has been removed, every item that had a higher index, is now at an index
@@ -111,7 +117,7 @@ export default class TreeHelper {
     // that were higher than the index of the item that was removed so that they correctly reference
     // the new indexes where their parents are now located.
     // 
-    this.updateParentIndexes(indexOfUpdateNode, false);
+    this.updateParentIndexes(indexOfMovedItem, false);
 
     // If the siblingNodeId param was null, this indicates that the item is being moved to the end of 
     // the array of child nodes for the parent that it is being moved under. Therefore, behavior will
@@ -131,17 +137,9 @@ export default class TreeHelper {
       indexToMoveTo = siblingParentIndex + this.nodeArray[siblingParentIndex].childNodeIndexes.length + 1;
     }
 
-    console.log('SIBLING PARENT INDEX: ', siblingParentIndex)
-    console.log('INDEX TO MOVE TO: ', indexToMoveTo)
-    
-    console.log('Removing from nodeArray')
-    console.log('Previous nodeArray: ', this.nodeArray)
-    console.log('Previous lookupArray ', this.lookupArray)
-    // Remove the item from its previous index
+    // Remove the item from its previous location in the nodeArray and lookupArray.
     //
-    let itemsRemoved = this.nodeArray.splice(indexOfUpdateNode, 1);
-    // keep the lookup array in the same state as the nodeArray
-    this.lookupArray.splice(indexOfUpdateNode, 1);
+    let itemRemoved = this.removeItem(indexOfMovedItem);
 
     console.log('After nodeArray: ', this.nodeArray)
     console.log('After lookupArray ', this.lookupArray)
