@@ -11,6 +11,7 @@ export default class TreeHelper {
     this.insertIntoNodeArray = this._insertIntoNodeArray.bind(this);
     this.walk                = this._walk.bind(this);
     this.updateOrder         = this._updateOrder.bind(this);
+    this.contains            = this._contains.bind(this);
     
     this.nodeArray.push({model_id: -1, childNodeIndexes: []}); // push the root value
     this.lookupArray.push(-1); // push the root value
@@ -162,5 +163,12 @@ export default class TreeHelper {
       console.log('after: ', this.nodeArray[siblingParentIndex].childNodeIndexes)
     }
 
+  }
+
+  // http://ejohn.org/blog/comparing-document-position/
+  _contains(a, b){
+    return a.contains ?
+      a != b && a.contains(b) :
+      !!(a.compareDocumentPosition(b) & 16);
   }
 }

@@ -20,16 +20,13 @@ class Index extends React.Component {
       loading: true,
       dragulaDrake: null,
       editMode: false,
-      TreeHelper: {}
+      TreeHelper: {},
+      changesToSave: false,
+      client: (new APIClient(this.context.store))
     }
   }
   handleDrop(el, target, source, sibling){
     try {
-      console.log('DROPPED!')
-      console.log('Element: ', el)
-      console.log('Sibling: ', sibling);
-      console.log('target: ', target);
-      console.log('source: ', source);
       let siblingId = sibling ? parseInt(sibling.id) : null;
       // // if there is a source then this item is being nested.
       // console.log(source.dataset.parentmodelid);
@@ -43,19 +40,19 @@ class Index extends React.Component {
       // console.log('before: ', this.state.TreeHelper.nodeArray);
       
       this.props.updateTree(this.state.TreeHelper.nodeArray);
+      this.setState({
+        changesToSave: true
+      })
       // console.log('after: ', this.state.TreeHelper.nodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
   }
-  handleOver(el, container, source){
-    // Nesting
-  }
+
   setItems(resourceNamePlural){
     this.setState({loading: true})
-    let client = new APIClient(this.context.store);
 
-    client.get(resourceNamePlural).then((res) => {
+    this.state.client.get(resourceNamePlural).then((res) => {
       this.setState({loading: false})
 
       if(res.statusCode !== 200) {
@@ -64,23 +61,30 @@ class Index extends React.Component {
 
       } else {
         // Set items so that new elements are in the DOM before Dragula is initialized.
-        this.setState({items: res.body.data}) 
+        this.setState({
+          items: res.body.data,
+          TreeHelper: (new TreeHelper(res.body.data))
+        }) 
 
         client.updateToken(res.header.authorization)
+
         if(typeof document !== 'undefined'){
           let drake = Dragula({
             containers: [].slice.apply(document.querySelectorAll('.nested')),
             moves: (el, source, handle, sibling) => {
               return handle.classList.contains('drag-handle')
+            },
+            accepts: (el, target, source, sibling) => {
+              // prevent dragged containers from trying to drop inside itself
+              return !this.state.TreeHelper.contains(el, target);
             }
           });
           drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
-          drake.on('over', (el, container, source) => this.handleOver(el, container, source));
 
           this.setState({
-            dragulaDrake: drake,
-            TreeHelper: (new TreeHelper(res.body.data))
+            dragulaDrake: drake
           });
+
           this.props.updateTree(this.state.TreeHelper.nodeArray);
         }
       }
@@ -106,8 +110,19 @@ class Index extends React.Component {
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
+  saveChanges() {
+    // save and then update state to show that no more changes to save.
+    console.log(this.props.nodeArray);
+    this.setState({
+      changesToSave: false
+    })
+  }
   toggleEditMode(event) {
     event.preventDefault();
+    if(this.state.editMode && this.state.changesToSave) {
+      // save changes
+      this.saveChanges();
+    }
     this.setState({
       editMode: !this.state.editMode
     })
