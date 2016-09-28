@@ -35,6 +35,14 @@ test('lookupArray is correct length', () => {
 
 test('Move first item into last position', () => {
   helper.updateOrder(1, null)
-  expect(helper.lookupArray[helper.nodeArray.length - 1]).toBe(1)
+  (
+    expect(helper.lookupArray[helper.nodeArray.length - 1]).toBe(1) &&
+    expect(helper.lookupArray[helper.nodeArray.length - 2]).toBe(16)
+  )
+})
+
+test('Move last item back to first', () => {
+  helper.updateOrder((helper.nodeArray.length - 1), 1);
+  expect(helper.lookupArray[1]).toBe(1)
 })
 
