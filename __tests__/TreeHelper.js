@@ -163,6 +163,13 @@ it('Can nest multiple depths in sequence', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   helper.updateOrder(16, 1); // nest 16 under 2 and above 1
+  // nest 4 under 16
+  helper.updateOrder(4, null, 16);
+  let indexOfSixteen = helper.lookupArray.indexOf(16);
+  let indexOfFour = helper.lookupArray.indexOf(4);
+
+  expect(indexOfSixteen + 1).toBe(indexOfFour)
+  && expect(helper.nodeArray[indexOfSixteen].childIndexes).toBe([indexOfFour])
 })
 
 it('Can nest parent and children under new parent', () => {
