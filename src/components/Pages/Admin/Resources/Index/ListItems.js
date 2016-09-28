@@ -13,8 +13,10 @@ const ListItems = (props) => {
               childItems={item.children}
               depth={0}
               root={true}
-              extraData={{...item}}
+              unmovable={item.unmovable}
+              denyNested={item.denyNested}
               editMode={props.editMode}
+              extraData={{...item}}
             />)
   })
 

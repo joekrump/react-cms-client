@@ -50,10 +50,17 @@ class IndexItem extends React.Component{
         childItems={child.children}
         depth={this.props.depth + 1}
         extraData={{...child}}
+        unmovable={child.unmovable}
+        denyNested={child.denyNested}
         editMode={this.props.editMode}
       />
     ))
     return (<div className="nested leaf" data-parentModelId={this.props.modelId}>{nestedItems}</div>);
+  }
+  renderDragHandle() {
+    return (this.props.editMode && !this.props.unmovable) ? 
+      <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> 
+      : null
   }
   render(){
     if(this.state.visible) {
@@ -75,9 +82,9 @@ class IndexItem extends React.Component{
     return(
       <div id={this.props.modelId} className="index-item f-no-select">
         <ListItem
-          className={"list-item" + (this.props.depth ? ' depth-' +  this.props.depth : '')}
+          className="list-item"
           disabled
-          leftIcon={this.props.editMode ? <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> : null}
+          leftIcon={this.renderDragHandle()}
           rightIconButton={
             <IndexItemActions 
               resourceType={this.props.resourceType} 
@@ -90,7 +97,7 @@ class IndexItem extends React.Component{
           primaryText={this.getText()}
           style={{...style}}
         /> 
-        { this.props.childItems ? this.renderNestedItems() : null}
+        { (this.props.childItems && !this.props.denyNested) ? this.renderNestedItems() : null}
       </div>
     );
   }
