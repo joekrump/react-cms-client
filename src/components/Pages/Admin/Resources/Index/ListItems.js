@@ -20,11 +20,11 @@ class ListItems extends React.Component {
 
     let items = this.props.items.map((item, i) => {
 
-      if(i > 0) {
-        index = this.calcIndex(this.props.items[i-1], (index + 1));
-      } else {
-        index = i;
-      }
+      // if(i > 0) {
+      //   index = this.calcIndex(this.props.items[i-1], (index + 1));
+      // } else {
+      //   index = i;
+      // }
 
       return( <IndexItem 
                 key={`${this.props.resourceType}-${item.id}`}
@@ -41,7 +41,7 @@ class ListItems extends React.Component {
                 editMode={this.props.editMode}
               />)
     })
-    return (<div className="nested" data-depth={0} data-index={0}>{items}</div>)
+    return (<div className="nested" data-parentModelId={-1}>{items}</div>)
   }
 }
 

@@ -53,7 +53,7 @@ class IndexItem extends React.Component{
         editMode={this.props.editMode}
       />
     ))
-    return (<div className="nested leaf">{nestedItems}</div>);
+    return (<div className="nested leaf" data-parentModelId={this.props.modelId}>{nestedItems}</div>);
   }
   render(){
     if(this.state.visible) {
