@@ -168,8 +168,7 @@ it('Can nest multiple depths in sequence', () => {
   let indexOfSixteen = helper.lookupArray.indexOf(16);
   let indexOfFour = helper.lookupArray.indexOf(4);
 
-  expect(indexOfSixteen + 1).toBe(indexOfFour)
-  && expect(helper.nodeArray[indexOfSixteen].childIndexes).toBe([indexOfFour])
+  expect(([indexOfSixteen + 1), helper.nodeArray[indexOfSixteen].childIndexes]).toEqual([indexOfFour, [indexOfFour]])
 })
 
 it('Can nest parent and children under new parent', () => {
