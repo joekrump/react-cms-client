@@ -119,8 +119,6 @@ class Index extends React.Component {
     // save and then update state to show that no more changes to save.
     //
     let client = new APIClient(this.context.store);
-    console.log(this.props.nodeArray);
-    // this.props.nodeArray.splice(0, 1); // remove the first node as this isn't needed on the server.
 
     client.put(this.state.resourcenamePlural + '/update-index', true, {
       data: {
@@ -153,7 +151,6 @@ class Index extends React.Component {
   }
   render() {
     let content = null;
-    // console.log(this.state.TreeHelper.nodeArray)
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
