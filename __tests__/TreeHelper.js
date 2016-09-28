@@ -65,9 +65,27 @@ it('Should have updated parentIndex', () => {
   let newIndex = helper.lookupArray.indexOf(1);
   let indexOfParent = helper.lookupArray.indexOf(2);
 
+  console.log(indexOfParent);
+  console.log(helper.nodeArray[newIndex]);
+  console.log(helper.nodeArray);
+  
   expect(helper.nodeArray[newIndex].parentIndex).toBe(2)
   && expect(helper.nodeArray[indexOfParent].childNodeIndexes[0]).toBe(newIndex)
   && expect(helper.nodeArray[indexOfParent].childNodeIndexes.length).toBe(1)
 
+})
+
+it('Should keep correct reference to parent', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateOrder(1, null, 2); // 1 nests under 2
+  
+  helper.updateOrder(4, 2); // move 4 above 2
+  // check to see if the parentIndex of item with id 1 is correctly updated.
+  //
+
+  let newIndex = helper.lookupArray.indexOf(1);
+  let newParentIndex = helper.lookupArray.indexOf(2);
+
+  expect(helper.nodeArray[newIndex].parentIndex).toBe(newParentIndex);
 })
 

@@ -96,15 +96,18 @@ export default class TreeHelper {
    * @return undefined
    */
   updateParentIndexes(startingIndex, increase){
-    for(let i = 0; i < this.lookupArray.length; i++){
+    // console.log('startingIndex ', startingIndex);
+    // console.log('startingIndex ', startingIndex);
+    for(let i = 1; i < this.lookupArray.length; i++){
       if(this.nodeArray[i].parentIndex > startingIndex){
         if(increase) {
-          this.nodeArray[i].parentIndex++
+          // this.nodeArray[i].parentIndex++
         } else {
-          this.nodeArray[i].parentIndex--
+          // this.nodeArray[i].parentIndex--
         }
       }
     }
+    // console.log(this.nodeArray)
   }
 
   /**
@@ -144,7 +147,7 @@ export default class TreeHelper {
     // that were higher than the index of the item that was removed so that they correctly reference
     // the new indexes where their parents are now located.
     // 
-    this.updateParentIndexes(indexOfMovedItem, false);
+    // this.updateParentIndexes(indexOfMovedItem, false);
 
     // If the siblingNodeId param was null, this indicates that the item is being moved to the end of 
     // the array of child nodes for the parent that it is being moved under. Therefore, behavior will
@@ -191,7 +194,7 @@ export default class TreeHelper {
     } else {
       this.nodeArray.splice(indexToMoveTo, 0, itemRemoved);
       this.lookupArray.splice(indexToMoveTo, 0, itemRemoved.model_id);
-      this.updateParentIndexes((indexToMoveTo), true);
+      // this.updateParentIndexes((indexToMoveTo - 1), true);
     }
 
     // if the item that was moved had items nested under it then update their parentIndex to the
