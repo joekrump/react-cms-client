@@ -176,7 +176,7 @@ export default class TreeHelper {
    * @param  {int} targetParentId  Unique id of the parent that moveItem will belong to.
    * @return undefined
    */
-  updateOrder(movedItemId, nextItemId, targetParentId) {
+  updateOrder(movedItemId, nextItemId, targetParentId = -1) {
     // find the item in the lookup
     let originalItemIndex = this.getIndexFromId(movedItemId);
     // find the index of the next item in the lookup if one is provided, otherwise assign default of -1

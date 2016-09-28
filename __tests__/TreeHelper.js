@@ -96,7 +96,7 @@ it('Should allow multiple items to be nested', () => {
   expect(helper.nodeArray[parentIndex].childIndexes).toEqual([indexOfThree,indexOfOne]);
 })
 
-fit('Should allow multiple items to be nested with explicit parentId', () => {
+it('Should allow multiple items to be nested with explicit parentId', () => {
   let helper = new TreeHelper(dummyTreeData);
   helper.updateOrder(1, null, 2); // 1 nests under 2
   helper.updateOrder(5, 1, 2); // nest 3 under 2 and above 1
