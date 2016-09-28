@@ -21,7 +21,12 @@ class Page extends React.Component {
   }
 
   componentDidMount(){
-    this.loadPageContent(this.props.location.pathname);
+    console.log(this.props.location.pathname)
+    if(this.props.location.pathname === '/') {
+      this.loadPageContent('/home');
+    } else {
+      this.loadPageContent(this.props.location.pathname);
+    }
   }
 
   loadPageContent(pathname) {
