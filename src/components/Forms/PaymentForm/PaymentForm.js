@@ -81,7 +81,7 @@ class PaymentForm extends React.Component {
     Stripe.createToken(e.target, function(status, response) {
       if (response.error) {
         // this.props.updatePaymentError(response.error.message)
-        this.props.updatePaymentNotification(true, redA700, 'Error', response.error.message);
+        this.props.updateSnackbar(true, 'Error', response.error.message, 'error');
       }
       else {
         this.props.updateStripeToken(response.id);
@@ -98,20 +98,22 @@ class PaymentForm extends React.Component {
         ...self.state.formFields
       }})
       .then((res) => {
-        if (res.statusCode !== 200) {
-          self.props.updatePaymentError(res);
-          self.props.updatePaymentNotification(true, redA700, 'Error', res);
+        if (res.statusCode === 422) {
+          self.props.updateSnackbar(true, 'Error', res.message, 'error');
+        } else if (res.statusCode !== 200) {
+          
+          self.props.updateSnackbar(true, 'Error', 'Could Not Process Payment', 'error');
         } else {
-          self.props.updatePaymentError(null);
-          self.props.updatePaymentNotification(true, greenA700, 'Success', 'Payment Processed');
+          // self.props.updatePaymentError(null);
+          self.props.updateSnackbar(true, 'Success', 'Payment Processed', 'success');
           self.props.updateFormCompleteStatus(true);
           setTimeout(self.resetForm, 3000);
         }
       })
       .catch((err) => {
         // Something unexpected happened
-        self.props.updatePaymentError(err);
-        self.props.updatePaymentNotification(true, redA700, 'Error', err);
+        // self.props.updatePaymentError(err);
+        self.props.updateSnackbar(true, 'Error', 'Something Unexpected Happened', 'error');
       })
   }
   render() {
@@ -204,18 +206,13 @@ const mapDispatchToProps = (dispatch) => {
         formName: formName
       })
     },
-    updatePaymentNotification: (
-      snackbarOpen,
-      snackbarColor,
-      snackbarHeaderText,
-      snackbarMessage ) => {
-      
+    updateSnackbar: (show, header, content, notificationType) => {
       dispatch ({
-        type: 'UPDATE_PAYMENT_NOTIFICATION',
-        snackbarOpen,
-        snackbarColor,
-        snackbarHeaderText,
-        snackbarMessage
+        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        show,
+        header,
+        content,
+        notificationType
       })
     },
     resetForm: () => {

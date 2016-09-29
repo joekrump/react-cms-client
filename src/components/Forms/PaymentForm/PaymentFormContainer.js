@@ -6,7 +6,8 @@ import PaymentThankYou from './ThankYou';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './PaymentForm.scss';
 import Paper from 'material-ui/Paper';
-import Snackbar from 'material-ui/Snackbar';
+import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
+
 
 class PaymentFormContainer extends React.Component {
   constructor(props) {
@@ -43,19 +44,11 @@ class PaymentFormContainer extends React.Component {
     return(
       <Paper zDepth={2} className="form-container">
         {content}
-        <Snackbar
-          open={this.props.snackbarOpen}
-          message={
-            (<div style={{color: this.props.snackbarColor}}>
-              <h2 style={{margin: '0'}}>{this.props.snackbarHeaderText}</h2>
-              {this.props.snackbarMessage}
-            </div>)}
-          autoHideDuration={4000}
-          bodyStyle={{backgroundColor: grey100, height: 'auto'}}
-          style={{
-            transform: this.props.snackbarOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, 200px, 0)'
-          }}
-          onRequestClose={() => this.props.toggleSnackBar(false)}
+        <NotificationSnackbar 
+          open={this.props.snackbar.show} 
+          header={this.props.snackbar.header}
+          content={this.props.snackbar.content}
+          type={this.props.snackbar.notificationType}
         />
       </Paper>
     );
@@ -66,10 +59,12 @@ const mapStateToProps = (state) => {
   return {
     paymentComplete: state.forms.paymentForm.completed,
     isFormValid: !state.forms.loginForm.error,
-    snackbarOpen: state.payments.snackbarOpen,
-    snackbarColor: state.payments.snackbarColor,
-    snackbarHeaderText: state.payments.snackbarHeaderText,
-    snackbarMessage: state.payments.snackbarMessage
+    snackbar: {
+      show: state.notifications.snackbar.show,
+      header: state.notifications.snackbar.header,
+      content: state.notifications.snackbar.content,
+      notificationType: state.notifications.snackbar.notificationType
+    }
   }
 }
 
