@@ -173,11 +173,12 @@ class PageEdit extends React.Component {
 
   /**
    * Initialize state values for a new Page.
-   * @param {[type]} res [description]
+   * @param {object} res - server response object.
    */
   setNewPageData(res) {
     this.setState({
-      templates: res.body.data,
+      templates: res.body.data, // data should contain a list of templates
+      template_id: res.body.data[0].id,
       editor: this.makeEditor()
     })
   }
