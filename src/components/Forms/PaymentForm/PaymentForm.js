@@ -106,6 +106,12 @@ class PaymentForm extends React.Component {
         if (res.statusCode === 422) {
           self.props.updateSnackbar(true, 'Error', res.body.message, 'error');
           // TODO: dispatch form errors.
+          Object.keys(res.body.errors).forEach((fieldName) => {
+            console.log(fieldName);
+            this.props.inputError(res.body.errors[fieldName],
+                                  fieldName,
+                                  formName);
+          });
         } else if (res.statusCode !== 200) {
           
           self.props.updateSnackbar(true, 'Error', 'Could Not Process Payment', 'error');
@@ -219,6 +225,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'FORM_RESET',
         formName: formName
+      })
+    },
+    inputError: (errors, fieldName, formName) => {
+      dispatch({
+        type: 'FORM_INPUT_ERROR',
+        errors,
+        fieldName,
+        formName
       })
     }
   };
