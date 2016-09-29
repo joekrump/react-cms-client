@@ -8,19 +8,6 @@ let buttonStyles = {
   margin: '10px 16px'
 };
 
-let makeEditButton = (mode, hasChanges) => {
-  let button = null;
-
-  if(mode === 'EDIT_INDEX' && hasChanges) {
-    button = <RaisedButton label="Save Changes" primary={true} style={buttonStyles}/>
-  } else if (mode === 'EDIT_INDEX') {
-    button = <RaisedButton label="Cancel" primary={true} style={buttonStyles}/>
-  } else {
-    button = <RaisedButton label="Edit" primary={true} style={buttonStyles}/>
-  }
-  return button;
-}
-
 class IndexToolbar extends React.Component {
 
   constructor(props) {
@@ -30,7 +17,27 @@ class IndexToolbar extends React.Component {
     };
   }
 
-  saveChanges() {
+  makeEditButton(mode, hasChanges) {
+    let button = null;
+
+    if(mode === 'EDIT_INDEX' && hasChanges) {
+      button = <RaisedButton label="Save Changes" primary={true} 
+                             style={buttonStyles} 
+                             onTouchTap={(event) => this.saveChanges(event) }/>
+    } else if (mode === 'EDIT_INDEX') {
+      button = <RaisedButton label="Cancel" primary={true} 
+                             style={buttonStyles} 
+                             onTouchTap={(event) => this.cancelEdit(event) }/>
+    } else {
+      button = <RaisedButton label="Edit" primary={true} 
+                             style={buttonStyles} 
+                             onTouchTap={(event) => this.enableEdit(event) }/>
+    }
+    return button;
+  }
+
+  saveChanges(event) {
+    event.preventDefault();
     // save and then update state to show that no more changes to save.
     //
     let client = new APIClient(this.context.store);
@@ -50,13 +57,16 @@ class IndexToolbar extends React.Component {
         // Something unexpected happened
         this.props.updateSnackbar(true, 'Error', err, 'error');
       })
+    this.props.updateIndexHasChanges(false);
   }
 
-  cancelEdit() {
+  cancelEdit(event) {
+    event.preventDefault();
     this.props.updateMode('PASSIVE');
   }
 
-  enableEdit() {
+  enableEdit(event) {
+    event.preventDefault();
     this.props.updateMode('EDIT_INDEX');
   }
 
@@ -64,7 +74,7 @@ class IndexToolbar extends React.Component {
     return (
       <Toolbar style={{backgroundColor: this.context.muiTheme.palette.canvasColor, padding: 0}}>
         <ToolbarGroup>
-          {makeEditButton(this.props.adminMode, this.props.hasChanges)}
+          {this.makeEditButton(this.props.adminMode, this.props.hasChanges)}
         </ToolbarGroup>
       </Toolbar>
     );
