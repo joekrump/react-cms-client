@@ -6,7 +6,7 @@ import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-mo
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 
 export default class IndexToolbar extends React.Component {
 
@@ -17,39 +17,17 @@ export default class IndexToolbar extends React.Component {
     };
   }
 
-  handleChange = (event, index, value) => this.setState({value});
-
   render() {
     return (
-      <Toolbar>
-        <ToolbarGroup firstChild={true}>
-          <DropDownMenu value={this.state.value} onChange={this.handleChange}>
-            <MenuItem value={1} primaryText="All Broadcasts" />
-            <MenuItem value={2} primaryText="All Voice" />
-            <MenuItem value={3} primaryText="All Text" />
-            <MenuItem value={4} primaryText="Complete Voice" />
-            <MenuItem value={5} primaryText="Complete Text" />
-            <MenuItem value={6} primaryText="Active Voice" />
-            <MenuItem value={7} primaryText="Active Text" />
-          </DropDownMenu>
-        </ToolbarGroup>
+      <Toolbar style={{backgroundColor: this.context.muiTheme.palette.canvasColor, padding: 0}}>
         <ToolbarGroup>
-          <ToolbarTitle text="Options" />
-          <FontIcon className="muidocs-icon-custom-sort" />
-          <ToolbarSeparator />
-          <RaisedButton label="Create Broadcast" primary={true} />
-          <IconMenu
-            iconButtonElement={
-              <IconButton touch={true}>
-                <NavigationExpandMoreIcon />
-              </IconButton>
-            }
-          >
-            <MenuItem primaryText="Download" />
-            <MenuItem primaryText="More Info" />
-          </IconMenu>
+          <RaisedButton label="Edit" primary={true} style={{margin: '10px 16px'}}/>
         </ToolbarGroup>
       </Toolbar>
     );
   }
 }
+
+IndexToolbar.contextTypes = {
+  muiTheme: React.PropTypes.object.isRequired
+};

@@ -11,6 +11,7 @@ import ListItems from './ListItems';
 import TreeHelper from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
+import IndexToolbar from './IndexToolbar';
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -160,6 +161,7 @@ class Index extends React.Component {
       <AdminLayout>
         <div className={"admin-index" + (this.state.editMode ? ' index-edit' : '')}>
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
+          <IndexToolbar />
           <button onClick={(event) => this.toggleEditMode(event)}>Adjust Nesting</button>
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="item-list">

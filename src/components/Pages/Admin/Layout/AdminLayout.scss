@@ -7,26 +7,25 @@ body {
 }
 .admin-container{
   padding-top: 63px;
-  width: 80%;
   margin: 0 auto;
   text-align: inherit;
   height: calc(100% - 63px);
 }
 
 @media (max-width: 900px){
-  .admin-container {
+  .admin-container, .admin-container .item-list {
     width: 80%;
-      margin: 0 auto;
+    margin: 0 auto;
   }
 }
 @media (max-width: 500px){
-  .admin-container {
+  .admin-container, .admin-container .item-list {
     width: 96%;
     min-width: 300px;
   }
 }
 @media (min-width: 901px) {
-  .admin-container {
+  .admin-container, .admin-container .item-list {
     width: 980px;
   }
 }
