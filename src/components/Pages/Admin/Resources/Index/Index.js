@@ -149,6 +149,8 @@ class Index extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     nodeArray: state.tree.indexTree.nodeArray,
+    resourceNamePlural: state.admin.resource.name.plural,
+    hasChanges: state.admin.index.hasChanges,
     snackbar: {
       show: state.notifications.snackbar.show,
       header: state.notifications.snackbar.header,
@@ -164,6 +166,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'UPDATE_TREE',
         nodeArray
+      })
+    },
+    updateResourceName: (pluralName) => {
+      dispatch({
+        type: 'UPDATE_CURRENT_RESOURCE_NAME',
+        pluralName
       })
     }
   };

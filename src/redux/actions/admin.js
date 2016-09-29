@@ -20,3 +20,14 @@ export function updateIndexHasChanges(hasChanges){
     hasChanges
   }
 }
+
+/**
+ * @param  {string} status [description]
+ * @return {[type]}        [description]
+ */
+export function updateCurrentResourceName(pluralName){
+  return {
+    type: 'UPDATE_CURRENT_RESOURCE_NAME',
+    pluralName
+  }
+}
