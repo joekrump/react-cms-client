@@ -113,40 +113,7 @@ class Index extends React.Component {
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
-  saveChanges() {
-    // save and then update state to show that no more changes to save.
-    //
-    let client = new APIClient(this.context.store);
 
-    client.put(this.state.resourcenamePlural + '/update-index', true, {
-      data: {
-        nodeArray: this.props.nodeArray
-      }})
-      .then((res) => {
-        if (res.statusCode !== 200) {
-          this.props.updateSnackbar(true, 'Error', res.data, 'error');
-        } else {
-          this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
-        }
-      })
-      .catch((err) => {
-        // Something unexpected happened
-        this.props.updateSnackbar(true, 'Error', err, 'error');
-      })
-    this.setState({
-      changesToSave: false
-    })
-  }
-  toggleEditMode(event) {
-    event.preventDefault();
-    if(this.state.editMode && this.state.changesToSave) {
-      // save changes
-      this.saveChanges();
-    }
-    this.setState({
-      editMode: !this.state.editMode
-    })
-  }
   render() {
     let content = null;
 
@@ -161,8 +128,7 @@ class Index extends React.Component {
       <AdminLayout>
         <div className={"admin-index" + (this.state.editMode ? ' index-edit' : '')}>
           <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-          <IndexToolbar />
-          <button onClick={(event) => this.toggleEditMode(event)}>Adjust Nesting</button>
+          <IndexToolbar hasChanges={this.state.changesToSave} resourceNamePlural={this.state.resourceNamePlural} />
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="item-list">
             {content}
@@ -198,15 +164,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'UPDATE_TREE',
         nodeArray
-      })
-    },
-    updateSnackbar: (show, header, content, notificationType) => {
-      dispatch ({
-        type: 'NOTIFICATION_SNACKBAR_UPDATE',
-        show,
-        header,
-        content,
-        notificationType
       })
     }
   };
