@@ -21,8 +21,7 @@ class Index extends React.Component {
       loading: true,
       dragulaDrake: null,
       editMode: false,
-      TreeHelper: {},
-      changesToSave: false
+      TreeHelper: {}
     }
   }
   handleDrop(el, target, source, sibling){
@@ -34,9 +33,7 @@ class Index extends React.Component {
       }
       
       this.props.updateTree(this.state.TreeHelper.richNodeArray);
-      this.setState({
-        changesToSave: true
-      })
+      this.props.updateIndexHasChanges(true)
       // console.log('after: ', this.state.TreeHelper.richNodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
@@ -122,7 +119,7 @@ class Index extends React.Component {
       <AdminLayout>
         <div className={"admin-index" + (this.state.editMode ? ' index-edit' : '')}>
           <h1>{capitalize(this.props.resourceNamePlural)}</h1>
-          <IndexToolbar hasChanges={this.state.changesToSave} />
+          <IndexToolbar />
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="item-list">
             {content}
@@ -166,6 +163,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: 'UPDATE_CURRENT_RESOURCE_NAME',
         pluralName
+      })
+    },
+    updateIndexHasChanges: (hasChanges) => {
+      dispatch({
+        type: 'UPDATE_INDEX_HAS_CHANGES',
+        hasChanges
       })
     }
   };

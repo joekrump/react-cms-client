@@ -78,6 +78,8 @@ IndexToolbar.contextTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    resourceNamePlural: state.admin.resource.name.plural,
+    hasChanges: state.admin.index.hasChanges,
     indexNodeArray: state.tree.indexTree.nodeArray,
     adminMode: state.admin.mode
   }
@@ -98,6 +100,12 @@ const mapDispatchToProps = (dispatch) => {
         header,
         content,
         notificationType
+      })
+    },  
+    updateIndexHasChanges: (hasChanges) => {
+      dispatch ({
+        type: 'UPDATE_INDEX_HAS_CHANGES',
+        hasChanges
       })
     }
   };
