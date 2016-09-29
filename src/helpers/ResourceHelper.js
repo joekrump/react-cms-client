@@ -13,6 +13,12 @@ export function pluralizeName(wordToPluralize){
         return 'users'
       case 'book': 
         return 'books'
+      case 'permission': 
+        return 'permissions'
+      case 'role': 
+        return 'roles',
+      case 'page': 
+        return 'pages'
       default: {
         if(wordToPluralize[wordToPluralize.length - 1] === 'y'){
           return wordToPluralize.slice(0, -1) + 'ies'
