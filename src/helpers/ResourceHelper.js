@@ -10,15 +10,15 @@ export function pluralizeName(wordToPluralize){
     wordToPluralize = wordToPluralize.toLowerCase();
     switch(wordToPluralize){
       case 'user': 
-        return 'users'
+        return 'users';
       case 'book': 
-        return 'books'
+        return 'books';
       case 'permission': 
-        return 'permissions'
+        return 'permissions';
       case 'role': 
-        return 'roles',
+        return 'roles';
       case 'page': 
-        return 'pages'
+        return 'pages';
       default: {
         if(wordToPluralize[wordToPluralize.length - 1] === 'y'){
           return wordToPluralize.slice(0, -1) + 'ies'
