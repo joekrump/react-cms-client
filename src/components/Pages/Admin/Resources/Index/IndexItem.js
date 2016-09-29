@@ -38,6 +38,10 @@ class IndexItem extends React.Component{
     if(this.props.depth > 2) {
       return null;
     }
+    if(this.props.denyNested && this.props.unmovable) {
+      return <div className="fake-nested"></div>
+    }
+
     let nestedItems = this.props.childItems.map((child, i) => (
       <IndexItem 
         key={`${this.props.resourceType}-${child.id}`}
@@ -80,7 +84,7 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div id={this.props.modelId} className="index-item f-no-select">
+      <div id={this.props.modelId} className={"index-item f-no-select" + (this.props.unmovable ? ' unmovable' : '')}>
         <ListItem
           className="list-item"
           disabled
@@ -97,7 +101,7 @@ class IndexItem extends React.Component{
           primaryText={this.getText()}
           style={{...style}}
         /> 
-        { (this.props.childItems && !this.props.denyNested) ? this.renderNestedItems() : null}
+        { this.props.childItems ? this.renderNestedItems() : null }
       </div>
     );
   }

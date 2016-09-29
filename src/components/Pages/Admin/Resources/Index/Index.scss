@@ -11,9 +11,17 @@
   transition: padding .2s ease-in-out;
 }
 
-.index-edit .nested {
-  &.leaf {
+.index-edit {
+  .unmovable {
+    opacity: 0.5;
+  }
+  .fake-nested {
     padding: 15px 0 0 0;
+  }
+  .nested {
+    &.leaf {
+      padding: 15px 0 0 0;
+    }
   }
 }
 .gu-mirror {
