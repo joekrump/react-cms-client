@@ -28,6 +28,6 @@ export function updateIndexHasChanges(hasChanges){
 export function updateCurrentResourceName(pluralName){
   return {
     type: 'UPDATE_CURRENT_RESOURCE_NAME',
-    pluralName
+    pluralName: pluralName.toLowerCase()
   }
 }

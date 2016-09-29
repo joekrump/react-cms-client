@@ -22,8 +22,7 @@ class Index extends React.Component {
       dragulaDrake: null,
       editMode: false,
       TreeHelper: {},
-      changesToSave: false,
-      resourcenamePlural: ''
+      changesToSave: false
     }
   }
   handleDrop(el, target, source, sibling){
@@ -92,11 +91,9 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    let resourcenamePlural = this.props.params.resourceNamePlural.toLowerCase()
-    this.setState({
-      resourcenamePlural: resourcenamePlural
-    })
-    this.setItems(resourcenamePlural);
+    let resourceNamePlural = this.props.params.resourceNamePlural.toLowerCase();
+    this.props.updateResourceName(resourceNamePlural);
+    this.setItems(resourceNamePlural);
   }
   componentWillUnmount() {
     this.state.dragulaDrake.destroy();
@@ -105,11 +102,8 @@ class Index extends React.Component {
     })
   }
   componentWillReceiveProps(nextProps){
-    // TODO: update how this works by tying into redux
     if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
-      this.setState({
-        resourcenamePlural: nextProps.params.resourceNamePlural
-      })
+      this.props.updateResourceName(nextProps.params.resourceNamePlural);
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
@@ -119,16 +113,16 @@ class Index extends React.Component {
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
-        content = (<ListItems items={this.state.items} resourceType={this.props.params.resourceNamePlural} editMode={this.state.editMode} />)
+        content = (<ListItems items={this.state.items} resourceType={this.props.resourceNamePlural} editMode={this.state.editMode} />)
       } else {
-        content = (<div className="empty"><h3>No {this.props.params.resourceNamePlural} yet</h3></div>);
+        content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
       }
     }
     return (
       <AdminLayout>
         <div className={"admin-index" + (this.state.editMode ? ' index-edit' : '')}>
-          <h1>{capitalize(this.props.params.resourceNamePlural)}</h1>
-          <IndexToolbar hasChanges={this.state.changesToSave} resourceNamePlural={this.state.resourceNamePlural} />
+          <h1>{capitalize(this.props.resourceNamePlural)}</h1>
+          <IndexToolbar hasChanges={this.state.changesToSave} />
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="item-list">
             {content}
