@@ -29,7 +29,7 @@ const adminReducer = (state = initialState, action) => {
         },
         resource: state.resource
       }
-    case 'UPDATE_CURRENT_RESOURCE':
+    case 'UPDATE_CURRENT_RESOURCE_NAME':
       return {
         mode: state.mode,
         index: state.index,
