@@ -98,22 +98,22 @@ class PaymentForm extends React.Component {
         ...self.state.formFields
       }})
       .then((res) => {
+        // self.props.updatePaymentError(null);
+        self.props.updateSnackbar(true, 'Success', 'Payment Processed', 'success');
+        self.props.updateFormCompleteStatus(true);
+        setTimeout(self.resetForm, 3000);
+      }, (res) => {
         if (res.statusCode === 422) {
-          self.props.updateSnackbar(true, 'Error', res.message, 'error');
+          self.props.updateSnackbar(true, 'Error', res.body.message, 'error');
+          // TODO: dispatch form errors.
         } else if (res.statusCode !== 200) {
           
           self.props.updateSnackbar(true, 'Error', 'Could Not Process Payment', 'error');
         } else {
-          // self.props.updatePaymentError(null);
-          self.props.updateSnackbar(true, 'Success', 'Payment Processed', 'success');
-          self.props.updateFormCompleteStatus(true);
-          setTimeout(self.resetForm, 3000);
-        }
-      })
-      .catch((err) => {
-        // Something unexpected happened
-        // self.props.updatePaymentError(err);
-        self.props.updateSnackbar(true, 'Error', 'Something Unexpected Happened', 'error');
+          self.props.updateSnackbar(true, 'Error', 'Something Unexpected Happened', 'error');
+        } 
+      }).catch((err) => {
+       console.log(err);
       })
   }
   render() {
