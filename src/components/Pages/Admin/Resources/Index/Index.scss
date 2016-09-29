@@ -31,7 +31,8 @@
       margin-left: -30px;
       height: calc(100% - 74px);
       max-height: calc(100% - 74px);
-      overflow-y: scroll;
+      min-height: 500px;
+      overflow-y: auto;
       position: relative;
       display: block;
     }
