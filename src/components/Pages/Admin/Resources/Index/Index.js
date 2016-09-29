@@ -20,7 +20,6 @@ class Index extends React.Component {
       items: [],
       loading: true,
       dragulaDrake: null,
-      editMode: false,
       TreeHelper: {}
     }
   }
@@ -110,14 +109,14 @@ class Index extends React.Component {
 
     if(!this.state.loading){
       if(this.state.items.length > 0) {
-        content = (<ListItems items={this.state.items} resourceType={this.props.resourceNamePlural} editMode={this.state.editMode} />)
+        content = (<ListItems items={this.state.items} resourceType={this.props.resourceNamePlural} editMode={this.props.adminMode === 'EDIT_INDEX'} />)
       } else {
         content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
       }
     }
     return (
       <AdminLayout>
-        <div className={"admin-index" + (this.state.editMode ? ' index-edit' : '')}>
+        <div className={"admin-index" + (this.props.adminMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
           <h1>{capitalize(this.props.resourceNamePlural)}</h1>
           <IndexToolbar />
           {this.state.loading ? (<CircularProgress />) : null}
@@ -142,6 +141,8 @@ const mapStateToProps = (state, ownProps) => {
     nodeArray: state.tree.indexTree.nodeArray,
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.index.hasChanges,
+    hasChanges: state.admin.index.hasChanges,
+    adminMode: state.admin.mode,
     snackbar: {
       show: state.notifications.snackbar.show,
       header: state.notifications.snackbar.header,
