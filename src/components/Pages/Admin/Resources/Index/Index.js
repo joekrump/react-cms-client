@@ -160,10 +160,10 @@ const mapDispatchToProps = (dispatch) => {
         nodeArray
       })
     },
-    updateResourceName: (pluralName) => {
+    updateResourceName: (namePlural) => {
       dispatch({
         type: 'UPDATE_CURRENT_RESOURCE_NAME',
-        pluralName
+        namePlural
       })
     },
     updateIndexHasChanges: (hasChanges) => {
