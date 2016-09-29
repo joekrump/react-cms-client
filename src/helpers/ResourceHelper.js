@@ -30,17 +30,22 @@ export function pluralizeName(wordToPluralize){
   }
 }
 
-
 export function singularizeName(wordToSingularize){
   if(wordToSingularize === undefined || wordToSingularize.length === 0) {
     return ''
   } else {
     wordToSingularize = wordToSingularize.toLowerCase();
     switch(wordToSingularize){
-      case 'users': 
-        return 'user'
-      case 'books': 
-        return 'book'
+      case 'users':
+        return 'user' 
+      case 'books':
+        return 'permission';
+      case 'permissions':
+        return 'book';
+      case 'roles':
+        return 'role';
+      case 'pages':
+        return 'page';
       default: {
         var lastThreeChars = wordToSingularize.slice(-3).toLowerCase();
 
