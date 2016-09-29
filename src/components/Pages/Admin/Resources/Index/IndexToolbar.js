@@ -41,8 +41,7 @@ class IndexToolbar extends React.Component {
   }
 
   saveChanges(event) {
-    event.preventDefault();
-    event.preventDefault();
+
     if(this.state.buttonDisabled) {
       return;
     }
@@ -65,18 +64,16 @@ class IndexToolbar extends React.Component {
         } else {
           this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
         }
-        event.target.setAttribute('disabled', false)
         this.props.updateIndexHasChanges(false);
       })
       .catch((err) => {
         // Something unexpected happened
         this.props.updateSnackbar(true, 'Error', err, 'error');
-        event.target.setAttribute('disabled', false)
       })
   }
 
   cancelEdit(event) {
-    event.preventDefault();
+    
     if(this.state.buttonDisabled) {
       return;
     }
@@ -88,7 +85,7 @@ class IndexToolbar extends React.Component {
   }
 
   enableEdit(event) {
-    event.preventDefault();
+
     if(this.state.buttonDisabled) {
       return;
     }
