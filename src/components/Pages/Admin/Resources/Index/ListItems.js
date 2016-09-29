@@ -20,7 +20,7 @@ const ListItems = (props) => {
             />)
   })
 
-  return (<div className="nested" data-parentModelId={-1}>{items}</div>)
+  return (<div className="root nested" data-parentModelId={-1}>{items}</div>)
 }
 
 export default ListItems;

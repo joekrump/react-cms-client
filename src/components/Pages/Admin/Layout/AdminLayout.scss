@@ -1,5 +1,5 @@
 body {
-  background-color: #363636;
+  background-color: rgba(0,0,0,0.3);
   background-image: url('/images/admin_bg.jpg');
   background-blend-mode: overlay;
   background-attachment: fixed;
@@ -10,6 +10,7 @@ body {
   width: 80%;
   margin: 0 auto;
   text-align: inherit;
+  height: calc(100% - 63px);
 }
 
 @media (max-width: 900px){

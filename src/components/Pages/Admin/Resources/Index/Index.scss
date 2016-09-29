@@ -22,6 +22,17 @@
 .admin-index {
   .item-list {
     margin-left: -30px;
+    height: calc(100% - 200px);
+    max-height: calc(100% - 200px);
+    padding: 0 !important;
+    position: absolute;
+    .root {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      height: calc(100% - 60px);
+      max-height: calc(100% - 60px);
+      overflow-y: scroll;
+    }
   }
   .empty {
     margin-left: 30px;
@@ -40,7 +51,6 @@
     }
     .nested {
       border: none;
-      // padding: 0;
     }
   }
 }
