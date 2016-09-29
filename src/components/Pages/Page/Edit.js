@@ -176,11 +176,14 @@ class PageEdit extends React.Component {
    * @param {object} res - server response object.
    */
   setNewPageData(res) {
+    let editor = this.makeEditor();
     this.setState({
       templates: res.body.data, // data should contain a list of templates
       template_id: res.body.data[0].id,
-      editor: this.makeEditor()
+      editor: editor
     })
+    // set the template_id within the context of the editor
+    editor.updateTemplateId(res.body.data[0].id);
   }
 
   /**
