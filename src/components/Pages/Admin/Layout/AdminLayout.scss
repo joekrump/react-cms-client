@@ -1,8 +1,9 @@
 body {
   background-color: #363636;
-  background-image: url('/images/background.jpeg');
+  background-image: url('/images/admin_bg.jpg');
   background-blend-mode: overlay;
   background-attachment: fixed;
+  background-size: cover;
 }
 .admin-container{
   padding-top: 63px;
