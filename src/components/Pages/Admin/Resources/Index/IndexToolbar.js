@@ -13,24 +13,28 @@ class IndexToolbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 3
+      value: 3,
+      buttonDisabled: false
     };
   }
 
-  makeEditButton(mode, hasChanges) {
+  makeEditButton(mode, hasChanges, disable) {
     let button = null;
 
     if(mode === 'EDIT_INDEX' && hasChanges) {
       button = <RaisedButton label="Save Changes" primary={true} 
-                             style={buttonStyles} 
+                             style={buttonStyles}
+                             disabled={disable} 
                              onTouchTap={(event) => this.saveChanges(event) }/>
     } else if (mode === 'EDIT_INDEX') {
       button = <RaisedButton label="Cancel" primary={true} 
-                             style={buttonStyles} 
+                             style={buttonStyles}
+                             disabled={disable} 
                              onTouchTap={(event) => this.cancelEdit(event) }/>
     } else {
       button = <RaisedButton label="Edit" primary={true} 
-                             style={buttonStyles} 
+                             style={buttonStyles}
+                             disabled={disable} 
                              onTouchTap={(event) => this.enableEdit(event) }/>
     }
     return button;
@@ -38,6 +42,15 @@ class IndexToolbar extends React.Component {
 
   saveChanges(event) {
     event.preventDefault();
+    event.preventDefault();
+    if(this.state.buttonDisabled) {
+      return;
+    }
+    this.setState({buttonDisabled: true})
+    setTimeout(() => {
+      this.setState({buttonDisabled: false})
+    }, 500)
+
     // save and then update state to show that no more changes to save.
     //
     let client = new APIClient(this.context.store);
@@ -52,21 +65,37 @@ class IndexToolbar extends React.Component {
         } else {
           this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
         }
+        event.target.setAttribute('disabled', false)
+        this.props.updateIndexHasChanges(false);
       })
       .catch((err) => {
         // Something unexpected happened
         this.props.updateSnackbar(true, 'Error', err, 'error');
+        event.target.setAttribute('disabled', false)
       })
-    this.props.updateIndexHasChanges(false);
   }
 
   cancelEdit(event) {
     event.preventDefault();
+    if(this.state.buttonDisabled) {
+      return;
+    }
+    this.setState({buttonDisabled: true})
+    setTimeout(() => {
+      this.setState({buttonDisabled: false})
+    }, 500)
     this.props.updateMode('PASSIVE');
   }
 
   enableEdit(event) {
     event.preventDefault();
+    if(this.state.buttonDisabled) {
+      return;
+    }
+    this.setState({buttonDisabled: true})
+    setTimeout(() => {
+      this.setState({buttonDisabled: false})
+    }, 500)
     this.props.updateMode('EDIT_INDEX');
   }
 
@@ -74,7 +103,7 @@ class IndexToolbar extends React.Component {
     return (
       <Toolbar style={{backgroundColor: this.context.muiTheme.palette.canvasColor, padding: 0}}>
         <ToolbarGroup>
-          {this.makeEditButton(this.props.adminMode, this.props.hasChanges)}
+          {this.makeEditButton(this.props.adminMode, this.props.hasChanges, this.state.buttonDisabled)}
         </ToolbarGroup>
       </Toolbar>
     );
