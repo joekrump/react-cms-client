@@ -17,7 +17,7 @@ class ResourceForm extends React.Component {
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     let client = new APIClient(this.context.store)
     this.setState({client});
 

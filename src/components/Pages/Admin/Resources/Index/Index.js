@@ -86,7 +86,7 @@ class Index extends React.Component {
     })
   }
 
-  componentDidMount() {
+  componentWillMount() {
     let resourceNamePlural = this.props.params.resourceNamePlural.toLowerCase();
     this.props.updateResourceName(resourceNamePlural);
     this.setItems(resourceNamePlural);
