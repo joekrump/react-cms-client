@@ -22,7 +22,6 @@ const ListItems = (props) => {
   })
 
   return (<div className="root nested" data-parentModelId={-1}>
-    <span className="spacer"></span>
     {items}
   </div>)
 }
