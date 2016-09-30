@@ -1,5 +1,3 @@
-import TreeHelper from '../../helpers/TreeHelper'
-
 const initialState = {
   indexTree: {
     nodeArray: []
