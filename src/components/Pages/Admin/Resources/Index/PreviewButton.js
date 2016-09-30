@@ -14,21 +14,18 @@ const styles = {
   }
 }
 
-const PreviewButton = (props) => {
-
-  return (
-    <IconButton style={styles.buttonStyles} tooltip="View" 
-      tooltipPosition='top-center' 
-      containerElement={
-        <Link to={{
-          pathname: props.path,
-        }} />
-      }
-    >
-      <PreviewIcon style={styles.smallIcon} />
-    </IconButton>
-  )
-}
+const PreviewButton = (props) => (
+  <IconButton style={styles.buttonStyles} tooltip="View" 
+    tooltipPosition='top-center' 
+    containerElement={
+      <Link to={{
+        pathname: props.path,
+      }} />
+    }
+  >
+    <PreviewIcon style={styles.smallIcon} />
+  </IconButton>
+)
 
 
 export default PreviewButton;
