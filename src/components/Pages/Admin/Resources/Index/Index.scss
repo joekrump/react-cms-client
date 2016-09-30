@@ -32,17 +32,25 @@
   .item-list {
     height: calc(100% - 300px);
     max-height: calc(100% - 300px);
-    padding-top: 30px !important;
+    padding-top: 0 !important;
     margin-top: 30px;
     padding-bottom: 0 !important;
     position: absolute;
+    min-height: 500px;
     overflow-y: auto;
+    .spacer {
+      height: 30px;
+      display: block;
+      background-color: rgba(0, 0, 0, 0.7);
+      width: 100%;
+      margin: 0;
+      padding: 0;      
+    }
     .root {
       position: relative;
       margin-left: -30px;
       height: calc(100% - 74px);
       max-height: calc(100% - 74px);
-      min-height: 500px;
       display: block;
     }
   }
@@ -77,13 +85,13 @@
   .action-button-container  {
     position: absolute;
     top: 0;
-    right: 4px;
+    right: 16px;
     opacity: 0;
   }
 }
 
 .list-item:hover > .inner-text {
-  padding-right: 96px;
+  padding-right: 106px;
 }
 
 .list-item:hover > .action-button-container {
