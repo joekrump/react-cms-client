@@ -39,9 +39,9 @@ export function singularizeName(wordToSingularize){
       case 'users':
         return 'user' 
       case 'books':
-        return 'permission';
-      case 'permissions':
         return 'book';
+      case 'permissions':
+        return 'permission';
       case 'roles':
         return 'role';
       case 'pages':
