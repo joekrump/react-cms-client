@@ -14,6 +14,7 @@ class Editor {
     this.template_id = parseInt(template_id, 10);
     this.slug = '';
     this.dirty_data = false;
+    this.keypressSave = false; // used to help determine what the save context was.
     // new or edit
     // 
     this.editContext = editContext;
@@ -106,6 +107,7 @@ class Editor {
     let handled = false;
     if (event.keyCode !== undefined) {
       if(event.keyCode === sKeyCode) {
+        this.keypressSave = true;
         // save() already checks to see if there is dirty data before it issues a request to the server
         // so no need to check it again here.
         this.editor.save(true);
@@ -133,6 +135,16 @@ class Editor {
     this.editContext = null;
     this.getPageName = null;
   }
+
+  dispatchNotification(show, header, content, notificationType) {
+    this.store.dispatch({
+      type: 'NOTIFICATION_SNACKBAR_UPDATE',
+      show,
+      header,
+      content,
+      notificationType
+    })
+  }
   
   handleEditStart(event) {
     // Call save every 30 seconds
@@ -146,8 +158,16 @@ class Editor {
     clearInterval(this.editor.autoSaveTimer);
   }
   handleSave(event, submitURL) {
+    if(this.editor.busy()) {
+      this.dispatchNotification(true, 'Warning', 'Editor already saving, please wait', 'warning')
+      return;
+    }
+    // while the editor is saving, set busy to true.
+    this.editor.busy(true);
+    
     if(!submitURL) {
       // IF no URL to save to is provided then return early
+      this.editor.busy(false);
       return;
     }
     
@@ -161,17 +181,15 @@ class Editor {
     let payload = null;
     
     if (numRegions === 0 && !this.dirty_data) {
-        return;
+
+      this.editor.busy(false);
+      return;
     } else if(this.editContext === 'new' && !regions.name) {
-      // A name for a page is required for it to be save.
-      // TODO: issue an error of some sort here.
-      this.store.dispatch({
-        type: 'NOTIFICATION_SNACKBAR_UPDATE',
-        show: true,
-        header: 'Error',
-        content: 'Page requires a name before it may save',
-        notificationType: 'warning'
-      })
+      if(this.keypressSave) {
+        this.dispatchNotification(true, 'Error', 'Page Cannot be saved without a Title', 'error');
+        this.keypressSave = false; // handled keypress.
+      }
+      this.editor.busy(false);
       return;
     } else {
       let regionValue;
@@ -201,17 +219,18 @@ class Editor {
     // Set the editors state to busy while we save our changes
     // 
     try {
-      this.editor.busy(true);
+
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
       let client = new APIClient(this.store);
 
       client[httpMethod](submitURL, true, {data: payload})
       .then((res) => {
-        if (res.statusCode !== 200) {
-          this.editor.busy(false);
-          new ContentTools.FlashUI('no');
+        if (res.statusCode === 422) {
+          this.dispatchNotification(true, 'Error', res.data.errors, 'error');
+        } else if(res.statusCode !== 200) {
+          console.warn(res);
+          this.dispatchNotification(true, 'Error', res.data.errors, 'error');
         } else {
-          this.editor.busy(false);
           if(this.editContext !== 'edit') {
             this.editContext = 'edit';
             this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
@@ -221,12 +240,12 @@ class Editor {
           }
           this.dirty_data = false;
         }
+        this.editor.busy(false); // set the editor to not busy once handling of server response has been completed.
       }).catch((res) => {
         this.editor.busy(false);
         console.warn(res);
-        
         if(res && res.statusText) {
-          // this.props.updateSnackbar(true, 'Error', res.statusText, 'error')
+          this.dispatchNotification(true, 'Error', res, 'error');
         }
         new ContentTools.FlashUI('no');
       })
