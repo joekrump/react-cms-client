@@ -17,6 +17,7 @@ const ListItems = (props) => {
               denyNested={item.denyNested}
               editMode={props.editMode}
               extraData={{...item}}
+              previewPath={item.previewPath}
             />)
   })
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
+import PreviewButton from './PreviewButton'
 
 const IndexItemActions = (props) => {
   return (
@@ -10,6 +11,7 @@ const IndexItemActions = (props) => {
       {props.deletable ? 
         <DeleteButton resourceType={props.resourceType} modelId={props.modelId} showItemCallback={props.deleteCallback}/>
         : null }
+      {props.previewPath ? <PreviewButton path={props.previewPath} /> : null}
     </div>
   );
 }

@@ -57,6 +57,7 @@ class IndexItem extends React.Component{
         unmovable={child.unmovable}
         denyNested={child.denyNested}
         editMode={this.props.editMode}
+        previewPath={child.previewPath}
       />
     ))
     return (<div className="nested leaf" data-parentModelId={this.props.modelId}>{nestedItems}</div>);
@@ -96,6 +97,7 @@ class IndexItem extends React.Component{
               deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
               queryProps={{...queryProps}}
               deletable={this.props.deletable}
+              previewPath={this.props.previewPath}
             />
           }
           primaryText={this.getText()}
