@@ -6,7 +6,11 @@
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(es6|js|json)$",
-    "moduleFileExtensions": ["js", "json", "es6"]
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
   },
   "devDependencies": {
     "autoprefixer": "6.3.7",
@@ -77,8 +81,7 @@
     "redux-saga": "^0.11.0",
     "superagent": "^2.1.0",
     "superagent-intercept": "^0.1.1",
-    "validator": "^5.7.0",
-    "velocity-react": "^1.1.5"
+    "validator": "^5.7.0"
   },
   "scripts": {
     "start": "node ./scripts/start.js",
