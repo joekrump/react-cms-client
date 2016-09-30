@@ -32,15 +32,13 @@
   .item-list {
     height: calc(100% - 300px);
     max-height: calc(100% - 300px);
-    padding-top: 0 !important;
-    padding-right: 15px !important;
+    padding-top: 30px !important;
+    margin-top: 30px;
     padding-bottom: 0 !important;
     position: absolute;
+    overflow-y: auto;
     .root {
       position: relative;
-      overflow-y: auto;
-      margin-top: 30px;
-      margin-bottom: 30px;
       margin-left: -30px;
       height: calc(100% - 74px);
       max-height: calc(100% - 74px);
