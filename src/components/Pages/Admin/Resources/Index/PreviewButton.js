@@ -1,5 +1,4 @@
 import React from 'react'
-
 import PreviewIcon from 'material-ui/svg-icons/action/launch'
 import IconButton from 'material-ui/IconButton';
 import { Link } from 'react-router'
@@ -10,7 +9,7 @@ const styles = {
     height: 24
   },
   buttonStyles: {
-    paddingRight: 4,
+    padding: '12px 8px 12px 8px'
   }
 }
 

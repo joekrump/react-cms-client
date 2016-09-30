@@ -10,9 +10,10 @@ const styles = {
     height: 24
   },
   buttonStyles: {
-    paddingRight: 4,
+    padding: '12px 8px 12px 8px'
   }
 }
+
 
 const EditButton = (props) => {
 
