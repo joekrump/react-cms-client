@@ -6,7 +6,7 @@ import { capitalize } from '../../../../../helpers/StringHelper'
 import APIClient from '../../../../../http/requests';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.scss';
-import Dragula from 'react-dragula';
+import dragula from 'react-dragula';
 import ListItems from './ListItems';
 import TreeHelper from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
@@ -25,7 +25,7 @@ class Index extends React.Component {
   }
   handleDrop(el, target, source, sibling){
     try {
-      let siblingId = sibling ? parseInt(sibling.id) : null;
+      let siblingId = sibling ? parseInt(sibling.id, 10) : null;
 
       if(source.dataset.parentmodelid) {
         this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
@@ -51,7 +51,7 @@ class Index extends React.Component {
         console.log('Bad Response: ', res)
 
       } else {
-        // Set items so that new elements are in the DOM before Dragula is initialized.
+        // Set items so that new elements are in the DOM before dragula is initialized.
         this.setState({
           items: res.body.data,
           TreeHelper: (new TreeHelper(res.body.data))
@@ -60,7 +60,7 @@ class Index extends React.Component {
         client.updateToken(res.header.authorization)
 
         if(typeof document !== 'undefined'){
-          let drake = Dragula({
+          let drake = dragula({
             containers: [].slice.apply(document.querySelectorAll('.nested')),
             moves: (el, source, handle, sibling) => {
               return handle.classList.contains('drag-handle')
@@ -141,7 +141,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     nodeArray: state.tree.indexTree.nodeArray,
     resourceNamePlural: state.admin.resource.name.plural,
-    hasChanges: state.admin.index.hasChanges,
     hasChanges: state.admin.index.hasChanges,
     adminMode: state.admin.mode,
     snackbar: {
