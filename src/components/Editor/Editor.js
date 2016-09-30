@@ -165,6 +165,13 @@ class Editor {
     } else if(this.editContext === 'new' && !regions.name) {
       // A name for a page is required for it to be save.
       // TODO: issue an error of some sort here.
+      this.store.dispatch({
+        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        show: true,
+        header: 'Error',
+        content: 'Page requires a name before it may save',
+        notificationType: 'warning'
+      })
       return;
     } else {
       let regionValue;

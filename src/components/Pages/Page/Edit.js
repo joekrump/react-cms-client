@@ -19,6 +19,7 @@ import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import {slugify} from '../../../helpers/StringHelper';
+import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
 
 class PageEdit extends React.Component {
 
@@ -345,6 +346,12 @@ class PageEdit extends React.Component {
           />
         </FloatingPageMenu>
         {this.state.template}
+        <NotificationSnackbar 
+          open={this.props.snackbar.show} 
+          header={this.props.snackbar.header}
+          content={this.props.snackbar.content}
+          type={this.props.snackbar.notificationType}
+        />
       </div>
     )
   }
