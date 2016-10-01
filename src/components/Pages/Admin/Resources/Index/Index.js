@@ -17,13 +17,14 @@ class Index extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      items: [],
       loading: true,
       dragulaDrake: null,
       TreeHelper: {}
     }
   }
+
   handleDrop(el, target, source, sibling){
+    
     try {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
 
@@ -47,15 +48,17 @@ class Index extends React.Component {
       this.setState({loading: false})
 
       if(res.statusCode !== 200) {
-        this.setState({items: []}) // Reset Items
+        this.props.updateTree([]) // Reset Items
         console.log('Bad Response: ', res)
 
       } else {
         // Set items so that new elements are in the DOM before dragula is initialized.
+        let treeHelper = new TreeHelper(res.body.data)
         this.setState({
-          items: res.body.data,
-          TreeHelper: (new TreeHelper(res.body.data))
+          TreeHelper: treeHelper
         }) 
+
+        this.props.updateTree(treeHelper.richNodeArray);
 
         client.updateToken(res.header.authorization)
 
@@ -75,14 +78,12 @@ class Index extends React.Component {
           this.setState({
             dragulaDrake: drake
           });
-
-          this.props.updateTree(this.state.TreeHelper.nodeArray);
         }
       }
     }).catch((res) => {
       this.setState({loading: false})
       console.warn('Error: ', res)
-      this.setState({items: []}) // Reset Items
+      this.props.updateTree([]) // Reset Items
     })
   }
 
@@ -103,13 +104,21 @@ class Index extends React.Component {
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
-
+  getRootChildren() {
+    return this.props.nodeArray.filter((item) => {
+             return item.depth === 0;
+           });
+  }
   render() {
     let content = null;
 
     if(!this.state.loading){
-      if(this.state.items.length > 0) {
-        content = (<ListItems items={this.state.items} resourceType={this.props.resourceNamePlural} editMode={this.props.adminMode === 'EDIT_INDEX'} />)
+      if(this.props.nodeArray.length > 0) {
+        content = (
+          <ListItems items={this.getRootChildren()} 
+                     resourceType={this.props.resourceNamePlural} 
+                     editMode={this.props.adminMode === 'EDIT_INDEX'} 
+                     />)
       } else {
         content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
       }

@@ -30,7 +30,7 @@ class IndexItem extends React.Component{
   
   getText(){
     return(
-      <div className="inner-text" style={{color: muiTheme.palette.textColor}}><strong>{this.props.primary}</strong>{this.props.secondary ? (<span> -&nbsp;{this.props.secondary}</span>) : null}</div>
+      <div className="inner-text" style={{color: muiTheme.palette.textColor}}><strong className="item-primary">{this.props.primary}</strong>{this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) : null}</div>
     )
   }
 
@@ -60,7 +60,8 @@ class IndexItem extends React.Component{
         previewPath={child.previewPath}
       />
     ))
-    return (<div className="nested leaf" data-parentModelId={this.props.modelId}>{nestedItems}</div>);
+    return (<div className="nested leaf" 
+      data-parentModelId={this.props.modelId}>{nestedItems}</div>);
   }
   renderDragHandle() {
     return (this.props.editMode && !this.props.unmovable) ? 
@@ -85,7 +86,7 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div id={this.props.modelId} className={"index-item f-no-select" + (this.props.unmovable ? ' unmovable' : '')}>
+      <div id={this.props.modelId} className={"index-item f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
         <ListItem
           className="list-item"
           disabled
