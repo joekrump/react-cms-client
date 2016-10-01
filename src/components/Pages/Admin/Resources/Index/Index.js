@@ -24,17 +24,15 @@ class Index extends React.Component {
   }
 
   handleDrop(el, target, source, sibling){
-    
     try {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
 
       if(source.dataset.parentmodelid) {
         this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      
+
       this.props.updateTree(this.state.TreeHelper.richNodeArray);
       this.props.updateIndexHasChanges(true)
-      // console.log('after: ', this.state.TreeHelper.richNodeArray);
     } catch (e) {
       console.warn('ERROR: ', e)
     } 

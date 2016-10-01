@@ -147,17 +147,28 @@ export default class TreeHelper {
   }
 
   addChildToParent(moveItemRoot, index, nextIndex){
+    let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
+
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
-      this.richNodeArray[moveItemRoot.parentIndex].childIndexes.push(index);
+      parentNode.childIndexes.push(index);
     } else if(nextIndex === -1) {
-      this.richNodeArray[moveItemRoot.parentIndex].childIndexes.push(index);
+      parentNode.childIndexes.push(index);
     } else {
       // otherwise splice the item into the array at the index where the
       // nextIndex sibling previously was.
-      let childIndexes = this.richNodeArray[moveItemRoot.parentIndex].childIndexes;
+      let childIndexes = parentNode.childIndexes;
       let siblingIndex = childIndexes.indexOf(nextIndex);
-      this.richNodeArray[moveItemRoot.parentIndex].childIndexes.splice(siblingIndex, 0, index);
+      parentNode.childIndexes.splice(siblingIndex, 0, index);
     }
+    // update secondary text
+    if(this.richNodeArray[index].node.secondary) {
+      let parentSecondary = parentNode.node.secondary ? 
+        parentNode.node.secondary : '';
+
+      this.richNodeArray[index].node.secondary = `${parentSecondary}${this.richNodeArray[index].node.secondary}`
+    }
+    // update depth to be one more than that of its parent
+    this.richNodeArray[index].depth = parentNode.depth + 1;
   }
 
   removeFromChildIndexes(index){
