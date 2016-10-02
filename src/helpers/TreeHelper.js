@@ -24,7 +24,8 @@ export default class TreeHelper {
     this.addChildToParent       = this.addChildToParent.bind(this);
     this.increaseChildDepth     = this.increaseChildDepth.bind(this);
     this.updateSecondaryText    = this.updateSecondaryText.bind(this);
-    
+    this.removeFromTreeByItemId = this.removeFromTreeByItemId.bind(this);
+
     // push the root item to the richNodeArray
     // 
     this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
@@ -37,6 +38,19 @@ export default class TreeHelper {
       // build a flat array that represents the order that the nodes display in.
       this.walk(nestedArray, 0, -1);
     }
+  }
+
+  removeFromTreeByItemId(item_id) {
+    // TODO:
+    // 
+    // Find the instance of the node that has a item_id that matches the one provided.
+    // 
+    // remove it from the tree
+    // 
+    // remove references to it from its parent
+    // 
+    // remove from children[] of its parentItem.node
+    // 
   }
 
   /**
