@@ -51,6 +51,11 @@ export default class TreeHelper {
     // 
     // remove from children[] of its parentItem.node
     // 
+    // If the node had children, then their new parent should be the parent node of the removed item
+    // (update thier parentIndex)
+    // 
+    // Splice in the child items to the index in childIndexes that their former (now deleted) parent was located
+    // at.
   }
 
   /**
@@ -195,6 +200,7 @@ export default class TreeHelper {
       })
     }
   }
+
   addChildToParent(moveItemRoot, index, nextIndex){
 
     let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
@@ -220,7 +226,6 @@ export default class TreeHelper {
       parentNode.childIndexes.splice(siblingIndex, 0, index);
       // parentNode.node.children.splice(siblingIndex, 0, moveItemRoot.node);
     }
-
   }
 
   /**
