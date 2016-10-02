@@ -25,7 +25,7 @@ export default class TreeHelper {
     
     // push the root item to the richNodeArray
     // 
-    this.richNodeArray.push({item_id: -1, node: {children: []}, childIndexes: []});
+    this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
     // push the root item item_id value. Use -1 as it is not a possible natural 
     // id that a model instance could have as their ids are all positive.
     // 
@@ -160,8 +160,9 @@ export default class TreeHelper {
   }
 
   addChildToParent(moveItemRoot, index, nextIndex){
-    let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
 
+    let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
+    console.log(moveItemRoot);
     // update secondary text
     if(moveItemRoot.node.children && moveItemRoot.node.secondary) {
       let parentSecondary = parentNode.node.secondary ? 
@@ -171,6 +172,7 @@ export default class TreeHelper {
       moveItemRoot.node.secondary = `${parentSecondary}${originalPath}`
     }
     // update depth to be one more than that of its parent
+    console.log(parentNode);
     moveItemRoot.depth = parentNode.depth + 1;
 
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
@@ -281,12 +283,13 @@ export default class TreeHelper {
       // Otherwise, the parent is the parent of the sibling.
       targetParentId = nextItemId === null ? -1 : this.getIdFromIndex(this.richNodeArray[nextItemIndex].parentIndex);
     }
-    // Get the parent that the item is moving to.
-    let parentItemIndex = this.getIndexFromId(targetParentId);
+
     // remove the item from the richNodeArray
     let removedData = this.removeItem(originalItemIndex, originalMovedItem);
     let newItemIndex;
     let startingIndex = originalItemIndex + (removedData.ids.length - 1);
+    // Get the parent that the item is moving to.
+    let parentItemIndex = this.getIndexFromId(targetParentId);
     // update the childIndexes references and parentIndex references
     this.decrementParentIndexes(startingIndex, removedData.ids.length);
     this.decrementChildIndexes(startingIndex, removedData.ids.length);
@@ -294,10 +297,6 @@ export default class TreeHelper {
     // Adjust indexes of items in the array of items being moved.
     removedData.richItems = this.decrementParentIndexes(startingIndex, removedData.ids.length, removedData.richItems);
     removedData.richItems = this.decrementChildIndexes(startingIndex, removedData.ids.length, removedData.richItems);
-    //
-    if(parentItemIndex > originalItemIndex) {
-      parentItemIndex -= removedData.ids.length;
-    }
 
     if(nextItemIndex > originalItemIndex) {
       nextItemIndex -= removedData.ids.length;
