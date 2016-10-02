@@ -22,6 +22,8 @@ export default class TreeHelper {
     this.getIdFromIndex         = this.getIdFromIndex.bind(this);
     this.getNumToRemove         = this.getNumToRemove.bind(this);
     this.addChildToParent       = this.addChildToParent.bind(this);
+    this.increaseChildDepth     = this.increaseChildDepth.bind(this);
+    this.updateSecondaryText    = this.updateSecondaryText.bind(this);
     
     // push the root item to the richNodeArray
     // 
@@ -159,21 +161,36 @@ export default class TreeHelper {
     this.addChildToParent(moveItemRoot, index, nextIndex);
   }
 
+  increaseChildDepth(moveItemRoot, parentNode) {
+    // update depth to be one more than that of its parent
+    moveItemRoot.depth = parentNode.depth + 1;
+  }
+  updateSecondaryText(moveItemRoot, parentNode) {
+    let parentSecondary = parentNode.node.secondary ? 
+      parentNode.node.secondary : '';
+    let slashIndex = moveItemRoot.node.secondary.lastIndexOf('/');
+    let originalPath = moveItemRoot.node.secondary.substr(slashIndex);
+    moveItemRoot.node.secondary = `${parentSecondary}${originalPath}`
+
+    this.increaseChildDepth(moveItemRoot, parentNode);
+
+    if(moveItemRoot.childIndexes.length > 0) {
+      moveItemRoot.childIndexes.forEach((childIndex) => {
+        this.updateSecondaryText(this.richNodeArray[childIndex], moveItemRoot);
+        this.increaseChildDepth(this.richNodeArray[childIndex], moveItemRoot);
+      })
+    }
+  }
   addChildToParent(moveItemRoot, index, nextIndex){
 
     let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
-    console.log(moveItemRoot);
-    // update secondary text
+    
     if(moveItemRoot.node.children && moveItemRoot.node.secondary) {
-      let parentSecondary = parentNode.node.secondary ? 
-        parentNode.node.secondary : '';
-      let slashIndex = moveItemRoot.node.secondary.lastIndexOf('/');
-      let originalPath = moveItemRoot.node.secondary.substr(slashIndex);
-      moveItemRoot.node.secondary = `${parentSecondary}${originalPath}`
+      // update secondary text
+      this.updateSecondaryText(moveItemRoot, parentNode);
+    } else {
+      this.increaseChildDepth(moveItemRoot, parentNode);
     }
-    // update depth to be one more than that of its parent
-    console.log(parentNode);
-    moveItemRoot.depth = parentNode.depth + 1;
 
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
       parentNode.childIndexes.push(index);
