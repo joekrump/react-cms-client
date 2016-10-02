@@ -28,9 +28,10 @@ class Index extends React.Component {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
 
       if(source.dataset.parentmodelid) {
+        // (document).removeChild(el);
         this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-
+      console.log('update');
       this.props.updateTree(this.state.TreeHelper.richNodeArray);
       this.props.updateIndexHasChanges(true)
     } catch (e) {
@@ -103,23 +104,18 @@ class Index extends React.Component {
     }
   }
   getRootChildren() {
-    return this.props.nodeArray.filter((item) => {
-             return item.depth === 0;
-           });
+    console.log(this.props.nodeArray[0].node.children)
+    return this.props.nodeArray.length > 0 ? this.props.nodeArray[0].node.children : [];
   }
   render() {
-    let content = null;
+    let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
-    if(!this.state.loading){
-      if(this.props.nodeArray.length > 0) {
-        content = (
-          <ListItems items={this.getRootChildren()} 
-                     resourceType={this.props.resourceNamePlural} 
-                     editMode={this.props.adminMode === 'EDIT_INDEX'} 
-                     />)
-      } else {
-        content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
-      }
+    if(!this.state.loading && this.props.nodeArray.length > 0){
+      content = (
+        <ListItems items={this.getRootChildren()} 
+                   resourceType={this.props.resourceNamePlural} 
+                   editMode={this.props.adminMode === 'EDIT_INDEX'} 
+                   />)
     }
     return (
       <AdminLayout>

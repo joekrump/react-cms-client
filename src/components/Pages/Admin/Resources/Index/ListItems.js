@@ -4,20 +4,20 @@ import IndexItem from './IndexItem'
 const ListItems = (props) => {
   let items = props.items.map((item, i) => {
     return( <IndexItem 
-              key={`${props.resourceType}-${item.node.id}`}
-              modelId={item.node.id}
-              primary={item.node.primary}
-              secondary={item.node.secondary}
+              key={`${props.resourceType}-${item.id}`}
+              modelId={item.id}
+              primary={item.primary}
+              secondary={item.secondary}
               resourceType={props.resourceType}
-              deletable={item.node.deletable}
-              childItems={item.node.children}
+              deletable={item.deletable}
+              childItems={item.children}
               depth={item.depth}
               root={true}
-              unmovable={item.node.unmovable}
-              denyNested={item.node.denyNested}
+              unmovable={item.unmovable}
+              denyNested={item.denyNested}
               editMode={props.editMode}
-              extraData={{...item.node}}
-              previewPath={item.node.previewPath}
+              extraData={{...item}}
+              previewPath={item.previewPath}
             />)
   })
 

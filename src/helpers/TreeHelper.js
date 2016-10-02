@@ -13,7 +13,7 @@ export default class TreeHelper {
     this.decrementChildIndexes  = this.decrementChildIndexes.bind(this);
     this.incrementParentIndexes = this.incrementParentIndexes.bind(this);
     this.incrementChildIndexes  = this.incrementChildIndexes.bind(this);
-    this.removeFromChildIndexes = this.removeFromChildIndexes.bind(this);
+    this.removeFromParent       = this.removeFromParent.bind(this);
     this.removeItem             = this.removeItem.bind(this);
     this.addItem                = this.addItem.bind(this);
     this.appendItem             = this.appendItem.bind(this);
@@ -25,7 +25,7 @@ export default class TreeHelper {
     
     // push the root item to the richNodeArray
     // 
-    this.richNodeArray.push({item_id: -1, childIndexes: []});
+    this.richNodeArray.push({item_id: -1, node: {children: []}, childIndexes: []});
     // push the root item item_id value. Use -1 as it is not a possible natural 
     // id that a model instance could have as their ids are all positive.
     // 
@@ -86,6 +86,10 @@ export default class TreeHelper {
 
     // push this item's parent childIndexes array.
     this.richNodeArray[parentIndex].childIndexes.push(nodeItemIndex);
+    // push children for artificial root if necessary.
+    if(parentDepth == -1) {
+      this.richNodeArray[parentIndex].node.children.push(treeNode);
+    }
 
     return nodeItemIndex;
   }
@@ -98,13 +102,22 @@ export default class TreeHelper {
    *                       from the richNodeArray.
    */
   removeItem(index, item) {
-    this.removeFromChildIndexes(index);
+    this.removeFromParent(index);
+
     // get the number of items to remove. so that parents and children are all move together.
     let numToRemove = this.getNumToRemove(item);
 
     let richItems  = this.richNodeArray.splice(index, numToRemove);
     let idsRemoved = this.lookupArray.splice(index, numToRemove);
     return {richItems: richItems, ids: idsRemoved};
+  }
+
+  removeFromParent(index) {
+    let item = this.richNodeArray[index];
+    let parentNode = this.richNodeArray[item.parentIndex];
+    let childPosition = parentNode.childIndexes.indexOf(index);
+
+    parentNode.childIndexes.splice(index, 1);
   }
 
   getNumToRemove(item) {
@@ -149,31 +162,32 @@ export default class TreeHelper {
   addChildToParent(moveItemRoot, index, nextIndex){
     let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
 
+    // update secondary text
+    if(moveItemRoot.node.children && moveItemRoot.node.secondary) {
+      let parentSecondary = parentNode.node.secondary ? 
+        parentNode.node.secondary : '';
+      let slashIndex = moveItemRoot.node.secondary.lastIndexOf('/');
+      let originalPath = moveItemRoot.node.secondary.substr(slashIndex);
+      moveItemRoot.node.secondary = `${parentSecondary}${originalPath}`
+    }
+    // update depth to be one more than that of its parent
+    moveItemRoot.depth = parentNode.depth + 1;
+
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
       parentNode.childIndexes.push(index);
+      // parentNode.node.children.push(moveItemRoot.node);
     } else if(nextIndex === -1) {
       parentNode.childIndexes.push(index);
+      // parentNode.node.children.push(moveItemRoot.node);
     } else {
       // otherwise splice the item into the array at the index where the
       // nextIndex sibling previously was.
       let childIndexes = parentNode.childIndexes;
       let siblingIndex = childIndexes.indexOf(nextIndex);
       parentNode.childIndexes.splice(siblingIndex, 0, index);
+      // parentNode.node.children.splice(siblingIndex, 0, moveItemRoot.node);
     }
-    // update secondary text
-    if(this.richNodeArray[index].node.secondary) {
-      let parentSecondary = parentNode.node.secondary ? 
-        parentNode.node.secondary : '';
 
-      this.richNodeArray[index].node.secondary = `${parentSecondary}${this.richNodeArray[index].node.secondary}`
-    }
-    // update depth to be one more than that of its parent
-    this.richNodeArray[index].depth = parentNode.depth + 1;
-  }
-
-  removeFromChildIndexes(index){
-    let item = this.richNodeArray[index];
-    this.richNodeArray[item.parentIndex].childIndexes.splice(index, 1)
   }
 
   /**
