@@ -1,14 +1,14 @@
 import { takeLatest } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import TreeHelper from '../../../helpers';
+import TreeModifier from '../../../helpers/TreeModifier';
 
 const getTree = (state) => state.tree.indexTree.nodeArray
   
 
 function removeFromTree(item_id){
   let tree = yield select(getTree)
-  let helper = new TreeHelper(tree, true);
+  let helper = new TreeModifier(tree);
   helper.removeFromTreeByItemId(item_id);
   return helper.richNodeArray;
 }
