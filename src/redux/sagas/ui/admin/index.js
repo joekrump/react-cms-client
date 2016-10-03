@@ -3,8 +3,13 @@ import { call, put } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import TreeHelper from '../../../helpers';
 
-function removeFromTree(){
+const getTree = (state) => state.tree.indexTree.nodeArray
+  
 
+function removeFromTree(item_id){
+  let tree = yield select(getTree)
+  let helper = new TreeHelper(tree, true);
+  helper.removeFromTreeByItemId(item_id);
 }
 
 /**
@@ -15,12 +20,10 @@ function removeFromTree(){
 function* updateTree(action) {
   try {
     // Clear session data
-    yield call(clearSessionStorage);
-    yield put({
-
-    });
+    let nodeArray = yield call(removeFromTree, action.item_id);
+    yield put({action: "UPDATE_TREE", nodeArray });
   } catch (e) {
-     yield console.log('exception in logoutSaga, redirect after logout', e)
+     yield console.log('exception in ui/admin/index saga', e)
   }
 }
 
