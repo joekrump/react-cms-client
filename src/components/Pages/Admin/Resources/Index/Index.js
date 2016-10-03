@@ -124,7 +124,7 @@ class Index extends React.Component {
           <IndexToolbar />
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="item-list">
-            {this.state.loading ? null : <span className="spacer"></span>}
+            {this.state.loading || !(this.props.nodeArray.length > 0) ? null : <span className="spacer"></span>}
             {content}
           </List>
         { this.props.children }
