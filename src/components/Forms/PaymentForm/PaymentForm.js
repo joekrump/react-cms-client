@@ -10,7 +10,6 @@ import VerifiedUserIcon from 'material-ui/svg-icons/action/verified-user';
 
 // mui components
 import {List, ListItem} from 'material-ui/List';
-import { redA700, greenA700 } from 'material-ui/styles/colors';
 import CircularProgress from 'material-ui/CircularProgress';
 import StripeFields from './StripeFields';
 import { Form, TextInput, SubmitButton } from '../../Form/index';

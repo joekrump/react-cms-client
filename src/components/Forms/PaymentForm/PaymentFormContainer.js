@@ -1,6 +1,6 @@
 import React from 'react';
 import { PaymentForm } from './PaymentForm';
-import { redA700, grey100 } from 'material-ui/styles/colors';
+import { redA700 } from 'material-ui/styles/colors';
 import { connect } from 'react-redux';
 import PaymentThankYou from './ThankYou';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';

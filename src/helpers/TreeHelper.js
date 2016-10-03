@@ -96,7 +96,7 @@ export default class TreeHelper {
     // push this item's parent childIndexes array.
     this.richNodeArray[parentIndex].childIndexes.push(nodeItemIndex);
     // push children for artificial root if necessary.
-    if(parentDepth == -1) {
+    if(parentDepth === -1) {
       this.richNodeArray[parentIndex].node.children.push(treeNode);
     }
 
@@ -126,13 +126,13 @@ export default class TreeHelper {
     let parentNode = this.richNodeArray[item.parentIndex];
     let childPosition = parentNode.childIndexes.indexOf(index);
 
-    parentNode.childIndexes.splice(index, 1);
+    parentNode.childIndexes.splice(childPosition, 1);
   }
 
   getNumToRemove(item) {
     let numToRemove = 1;
     // if the item does not have any childIndexes, return early.
-    if(item.childIndexes.length == 0) {
+    if(item.childIndexes.length === 0) {
       return numToRemove;
     }
 
@@ -359,7 +359,7 @@ export default class TreeHelper {
   // http://ejohn.org/blog/comparing-document-position/
   _contains(a, b){
     return a.contains ?
-      a != b && a.contains(b) :
+      (a !== b) && a.contains(b) :
       !!(a.compareDocumentPosition(b) & 16);
   }
 }
