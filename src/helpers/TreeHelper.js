@@ -1,5 +1,5 @@
 export default class TreeHelper {
-  constructor(nestedArray) {
+  constructor(nestedArray, existingTree) {
 
     // An array to hold objects representing nodes in a tree.
     this.richNodeArray          = [];
@@ -26,17 +26,24 @@ export default class TreeHelper {
     this.updateSecondaryText    = this.updateSecondaryText.bind(this);
     this.removeFromTreeByItemId = this.removeFromTreeByItemId.bind(this);
 
-    // push the root item to the richNodeArray
-    // 
-    this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
-    // push the root item item_id value. Use -1 as it is not a possible natural 
-    // id that a model instance could have as their ids are all positive.
-    // 
-    this.lookupArray.push(-1); 
+    if(existingTree) {
+      this.richNodeArray = nestedArray;
+      nestedArray.forEach((node) => {
+        this.lookupArray.push(node.item_id);
+      })
+    } else {
+      // push the root item to the richNodeArray
+      // 
+      this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
+      // push the root item item_id value. Use -1 as it is not a possible natural 
+      // id that a model instance could have as their ids are all positive.
+      // 
+      this.lookupArray.push(-1); 
 
-    if(nestedArray && nestedArray.length > 0) {
-      // build a flat array that represents the order that the nodes display in.
-      this.walk(nestedArray, 0, -1);
+      if(nestedArray && nestedArray.length > 0) {
+        // build a flat array that represents the order that the nodes display in.
+        this.walk(nestedArray, 0, -1);
+      }
     }
   }
 
