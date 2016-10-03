@@ -24,60 +24,19 @@ export default class TreeHelper {
     this.addChildToParent       = this.addChildToParent.bind(this);
     this.increaseChildDepth     = this.increaseChildDepth.bind(this);
     this.updateSecondaryText    = this.updateSecondaryText.bind(this);
-    this.removeFromTreeByItemId = this.removeFromTreeByItemId.bind(this);
 
-    if(existingTree) {
-      this.richNodeArray = nestedArray;
-      nestedArray.forEach((node) => {
-        this.lookupArray.push(node.item_id);
-      })
-    } else {
-      // push the root item to the richNodeArray
-      // 
-      this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
-      // push the root item item_id value. Use -1 as it is not a possible natural 
-      // id that a model instance could have as their ids are all positive.
-      // 
-      this.lookupArray.push(-1); 
+    // push the root item to the richNodeArray
+    // 
+    this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
+    // push the root item item_id value. Use -1 as it is not a possible natural 
+    // id that a model instance could have as their ids are all positive.
+    // 
+    this.lookupArray.push(-1); 
 
-      if(nestedArray && nestedArray.length > 0) {
-        // build a flat array that represents the order that the nodes display in.
-        this.walk(nestedArray, 0, -1);
-      }
+    if(nestedArray && nestedArray.length > 0) {
+      // build a flat array that represents the order that the nodes display in.
+      this.walk(nestedArray, 0, -1);
     }
-  }
-
-  removeFromTreeByItemId(item_id) {
-    // TODO:
-    // 
-    // Find the instance of the node that has a item_id that matches the one provided.
-    // 
-    let nodeIndex = this.getIndexFromId(item_id);
-    let siblingIndex = -1;
-    // remove it from the tree
-    // 
-    let item = this.richNodeArray[nodeIndex];
-    let parentNode = this.richNodeArray[item.parentIndex]
-    let childIndex = parentNode.childIndexes.indexOf(nodeIndex);
-
-    // if not the last child then it has a sibling
-    if(childIndex !== (parentNode.childIndexes.length - 1)) {
-      siblingIndex = this.richNodeArray[parentNode.childIndexes[childIndex + 1]]
-    }
-
-    let removedData = this.removeItem(nodeIndex, item);
-    // Remove the node that has been removed.
-    removedData.richItems = removedData.richItems.slice(1);
-    removedData.ids       = removedData.ids.slice(1);
-    // if the node that has been removed had children, then there should be some children
-    // ids left in removedData.ids
-    if(removedData.ids.length > 0) {
-      this.addChildToParent();
-    }
-    // remove references to it from its parent
-    // 
-
-    parentNode.childIndexes.splice(childIndex, 1, ...item.childIndexes);
   }
 
   /**
@@ -154,12 +113,12 @@ export default class TreeHelper {
     let startingIndex = index + (idsRemoved.length - 1);
 
     // update the childIndexes references and parentIndex references
-    this.decrementParentIndexes(startingIndex, removedData.ids.length);
-    this.decrementChildIndexes(startingIndex, removedData.ids.length);
+    this.decrementParentIndexes(startingIndex, idsRemoved.length);
+    this.decrementChildIndexes(startingIndex, idsRemoved.length);
 
     // Adjust indexes of items in the array of items being moved.
-    richItems = this.decrementParentIndexes(startingIndex, removedData.ids.length, richItems);
-    richItems = this.decrementChildIndexes(startingIndex, removedData.ids.length, richItems);
+    richItems = this.decrementParentIndexes(startingIndex, idsRemoved.length, richItems);
+    richItems = this.decrementChildIndexes(startingIndex, idsRemoved.length, richItems);
 
     return {richItems: richItems, ids: idsRemoved};
   }

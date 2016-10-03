@@ -2,6 +2,7 @@ import React from 'react'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import IconButton from 'material-ui/IconButton';
 import APIClient from '../../../../../http/requests'
+import { connect } from 'react-redux';
 
 const styles = {
   smallIcon: {
@@ -50,7 +51,7 @@ class DeleteButton extends React.Component {
     e.preventDefault();
 
     this.props.showItemCallback(false); // Hide The IndexItem
-    
+    this.props.deleteItemClicked(this.props.modelId);
     this.requestServerDelete(this.props.showItemCallback);
   }
 
@@ -67,4 +68,15 @@ DeleteButton.contextTypes = {
   store: React.PropTypes.object.isRequired
 }
 
-export default DeleteButton;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteItemClicked: (item_id) => {
+      dispatch ({
+        type: 'U_INDEX_ITEM_DELETED',
+        item_id
+      })
+    },  
+  }
+}
+
+export default connect(null, mapDispatchToProps)(DeleteButton);
