@@ -22,7 +22,7 @@ export default class TreeHelper {
     this.getIdFromIndex         = this.getIdFromIndex.bind(this);
     this.getNumToRemove         = this.getNumToRemove.bind(this);
     this.addChildToParent       = this.addChildToParent.bind(this);
-    this.increaseChildDepth     = this.increaseChildDepth.bind(this);
+    this.setChildDepth     = this.setChildDepth.bind(this);
     this.updateSecondaryText    = this.updateSecondaryText.bind(this);
 
     // push the root item to the richNodeArray
@@ -170,7 +170,7 @@ export default class TreeHelper {
     this.addChildToParent(moveItemRoot, index, nextIndex);
   }
 
-  increaseChildDepth(moveItemRoot, parentNode) {
+  setChildDepth(moveItemRoot, parentNode) {
     // update depth to be one more than that of its parent
     moveItemRoot.depth = parentNode.depth + 1;
   }
@@ -181,12 +181,12 @@ export default class TreeHelper {
     let originalPath = moveItemRoot.node.secondary.substr(slashIndex);
     moveItemRoot.node.secondary = `${parentSecondary}${originalPath}`
 
-    this.increaseChildDepth(moveItemRoot, parentNode);
+    this.setChildDepth(moveItemRoot, parentNode);
 
     if(moveItemRoot.childIndexes.length > 0) {
       moveItemRoot.childIndexes.forEach((childIndex) => {
         this.updateSecondaryText(this.richNodeArray[childIndex], moveItemRoot);
-        this.increaseChildDepth(this.richNodeArray[childIndex], moveItemRoot);
+        this.setChildDepth(this.richNodeArray[childIndex], moveItemRoot);
       })
     }
   }
@@ -199,7 +199,7 @@ export default class TreeHelper {
       // update secondary text
       this.updateSecondaryText(moveItemRoot, parentNode);
     } else {
-      this.increaseChildDepth(moveItemRoot, parentNode);
+      this.setChildDepth(moveItemRoot, parentNode);
     }
 
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
