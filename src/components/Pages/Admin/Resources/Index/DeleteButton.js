@@ -34,7 +34,7 @@ class DeleteButton extends React.Component {
         showItemCallback(true); // Set visibility to true
       } else {
         this.state.client.updateToken(res.header.authorization);
-        // TODO: remove item from store.
+        this.props.deleteItemClicked(this.props.modelId);
       }
     })
     .catch((res) => {
@@ -51,7 +51,6 @@ class DeleteButton extends React.Component {
     e.preventDefault();
 
     this.props.showItemCallback(false); // Hide The IndexItem
-    this.props.deleteItemClicked(this.props.modelId);
     this.requestServerDelete(this.props.showItemCallback);
   }
 

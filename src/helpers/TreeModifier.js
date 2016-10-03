@@ -29,15 +29,17 @@ export default class TreeModifier {
     // remove it from the tree
     // 
     let item = this.richNodeArray[nodeIndex];
-    let parentNode = this.richNodeArray[item.parentIndex]
+
 
     // if not the last child then it has a sibling
     //
     let itemData = this.removeSingleItem(nodeIndex, item);
+    let parentNode = this.richNodeArray[itemData.item.parentIndex]
 
     itemData.item.childIndexes.forEach((index) => {
-      this.addChildToParent(this.richNodeArray[index], index, nodeIndex);
+      this.addChildToParent(this.richNodeArray[index], index, nodeIndex, parentNode, itemData.item.parentIndex);
     })
+
     let childIndex = parentNode.childIndexes.indexOf(nodeIndex);
     parentNode.childIndexes.splice(childIndex, 1); // remove the item from its parent's list of children.
   }
@@ -89,10 +91,9 @@ export default class TreeModifier {
     }
   }
 
-  addChildToParent(moveItemRoot, index, nextIndex){
+  addChildToParent(moveItemRoot, index, nextIndex, parentNode, parentIndex){
+    moveItemRoot.parentIndex = parentIndex;
 
-    let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
-    
     if(moveItemRoot.node.children && moveItemRoot.node.secondary) {
       // update secondary text
       this.updateSecondaryText(moveItemRoot, parentNode);
@@ -102,17 +103,14 @@ export default class TreeModifier {
 
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
       parentNode.childIndexes.push(index);
-      // parentNode.node.children.push(moveItemRoot.node);
     } else if(nextIndex === -1) {
       parentNode.childIndexes.push(index);
-      // parentNode.node.children.push(moveItemRoot.node);
     } else {
       // otherwise splice the item into the array at the index where the
       // nextIndex sibling previously was.
       let childIndexes = parentNode.childIndexes;
       let siblingIndex = childIndexes.indexOf(nextIndex);
       parentNode.childIndexes.splice(siblingIndex, 0, index);
-      // parentNode.node.children.splice(siblingIndex, 0, moveItemRoot.node);
     }
   }
 
