@@ -1,6 +1,5 @@
 import { takeLatest } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
 
 const getForm = (state, formName) => state.forms[formName]
 

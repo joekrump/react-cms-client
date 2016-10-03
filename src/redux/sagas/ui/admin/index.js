@@ -1,13 +1,15 @@
 import { takeLatest } from 'redux-saga'
-import { call, put } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
-import TreeModifier from '../../../helpers/TreeModifier';
+import { call, put, select } from 'redux-saga/effects'
+import TreeModifier from '../../../../helpers/TreeModifier';
 
 const getTree = (state) => state.tree.indexTree.nodeArray
   
-
-function removeFromTree(item_id){
+function* removeFromTree(item_id){
   let tree = yield select(getTree)
+  return yield call(removeItem, tree, item_id)
+}
+
+function removeItem(tree, item_id) {
   let helper = new TreeModifier(tree);
   helper.removeFromTreeByItemId(item_id);
   return helper.richNodeArray;
@@ -22,13 +24,13 @@ function* updateTree(action) {
   try {
     // Clear session data
     let nodeArray = yield call(removeFromTree, action.item_id);
-    yield put({action: "UPDATE_TREE", nodeArray });
+    yield put({type: "UPDATE_TREE", nodeArray });
   } catch (e) {
      yield console.log('exception in ui/admin/index saga', e)
   }
 }
 
-export default function* deleteItem() {
+function* deleteItem() {
   yield * takeLatest("U_INDEX_ITEM_DELETED", updateTree)
 }
 
