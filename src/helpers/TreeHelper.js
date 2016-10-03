@@ -25,17 +25,24 @@ export default class TreeHelper {
     this.setChildDepth     = this.setChildDepth.bind(this);
     this.updateSecondaryText    = this.updateSecondaryText.bind(this);
 
-    // push the root item to the richNodeArray
-    // 
-    this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
-    // push the root item item_id value. Use -1 as it is not a possible natural 
-    // id that a model instance could have as their ids are all positive.
-    // 
-    this.lookupArray.push(-1); 
+    if(existingTree) {
+      this.richNodeArray = nestedArray;
+      nestedArray.forEach((node) => {
+        this.lookupArray.push(node.item_id);
+      })
+    } else {
+      // push the root item to the richNodeArray
+      // 
+      this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
+      // push the root item item_id value. Use -1 as it is not a possible natural 
+      // id that a model instance could have as their ids are all positive.
+      // 
+      this.lookupArray.push(-1); 
 
-    if(nestedArray && nestedArray.length > 0) {
-      // build a flat array that represents the order that the nodes display in.
-      this.walk(nestedArray, 0, -1);
+      if(nestedArray && nestedArray.length > 0) {
+        // build a flat array that represents the order that the nodes display in.
+        this.walk(nestedArray, 0, -1);
+      }
     }
   }
 
@@ -108,18 +115,9 @@ export default class TreeHelper {
 
     // get the number of items to remove. so that parents and children are all move together.
     let numToRemove = this.getNumToRemove(item);
+
     let richItems  = this.richNodeArray.splice(index, numToRemove);
     let idsRemoved = this.lookupArray.splice(index, numToRemove);
-    let startingIndex = index + (idsRemoved.length - 1);
-
-    // update the childIndexes references and parentIndex references
-    this.decrementParentIndexes(startingIndex, idsRemoved.length);
-    this.decrementChildIndexes(startingIndex, idsRemoved.length);
-
-    // Adjust indexes of items in the array of items being moved.
-    richItems = this.decrementParentIndexes(startingIndex, idsRemoved.length, richItems);
-    richItems = this.decrementChildIndexes(startingIndex, idsRemoved.length, richItems);
-
     return {richItems: richItems, ids: idsRemoved};
   }
 
@@ -303,7 +301,6 @@ export default class TreeHelper {
     let originalMovedItem = this.richNodeArray[originalItemIndex];
     // find the index of the next item in the lookup if one is provided, otherwise assign default of -1
     let nextItemIndex = this.getIndexFromId(nextItemId);
-    let newItemIndex;
     // if no targetParentId was provided...
     if(typeof(targetParentId) === 'undefined') {
       // if item has no sibling, only assumption that can be made is that the target is the root.
@@ -311,11 +308,19 @@ export default class TreeHelper {
       targetParentId = nextItemId === null ? -1 : this.getIdFromIndex(this.richNodeArray[nextItemIndex].parentIndex);
     }
 
-    // Get the parent that the item is moving to.
-    let parentItemIndex = this.getIndexFromId(targetParentId);
-
     // remove the item from the richNodeArray
     let removedData = this.removeItem(originalItemIndex, originalMovedItem);
+    let newItemIndex;
+    let startingIndex = originalItemIndex + (removedData.ids.length - 1);
+    // Get the parent that the item is moving to.
+    let parentItemIndex = this.getIndexFromId(targetParentId);
+    // update the childIndexes references and parentIndex references
+    this.decrementParentIndexes(startingIndex, removedData.ids.length);
+    this.decrementChildIndexes(startingIndex, removedData.ids.length);
+
+    // Adjust indexes of items in the array of items being moved.
+    removedData.richItems = this.decrementParentIndexes(startingIndex, removedData.ids.length, removedData.richItems);
+    removedData.richItems = this.decrementChildIndexes(startingIndex, removedData.ids.length, removedData.richItems);
 
     if(nextItemIndex > originalItemIndex) {
       nextItemIndex -= removedData.ids.length;
