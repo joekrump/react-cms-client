@@ -10,6 +10,7 @@ function removeFromTree(item_id){
   let tree = yield select(getTree)
   let helper = new TreeHelper(tree, true);
   helper.removeFromTreeByItemId(item_id);
+  return helper.richNodeArray;
 }
 
 /**
