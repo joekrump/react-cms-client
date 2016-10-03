@@ -31,3 +31,10 @@ export function updateCurrentResourceName(pluralName){
     pluralName: pluralName.toLowerCase()
   }
 }
+
+export function uIndexItemDeleted(item_id) {
+  return {
+    type: 'U_INDEX_ITEM_DELETED',
+    item_id
+  } 
+}

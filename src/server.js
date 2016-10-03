@@ -14,7 +14,7 @@ import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 import createSagaMiddleware from 'redux-saga'
-import rootSaga from './redux/sagas'
+import rootSaga from './redux/sagas/root'
 import reducers from './redux/reducers'
 import path from 'path';
 

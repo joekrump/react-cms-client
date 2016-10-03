@@ -17,7 +17,7 @@ import StyleContextProvider from './components/StyleContextProvider'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import * as reducers from './redux/reducers'
 import createSagaMiddleware from 'redux-saga'
-import rootSaga from './redux/sagas'
+import rootSaga from './redux/sagas/root'
 
 injectTapEventPlugin();
 
