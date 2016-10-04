@@ -13,6 +13,7 @@ import s from './SpeedDial.scss'
 
 const actions = [
   {icon: <AddPageIcon />, route: '/admin/pages/new', tooltipText: 'Create a new Page'},
+  {icon: <AddPageIcon />, route: '/admin/cards/new', tooltipText: 'Create a new Card'},
   {icon: <UserIcon />, route: '/admin/users/new', tooltipText: 'Create a new User'},
   {icon: <BookIcon />, route: '/admin/books/new', tooltipText: 'Create a new Book'},
   {icon: <RoleIcon />, route: '/admin/roles/new', tooltipText: 'Create a new User Role'},

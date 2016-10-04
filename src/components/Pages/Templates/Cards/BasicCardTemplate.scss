@@ -1,0 +1,12 @@
+.card {
+  &.basic {
+    padding-bottom: 10px;
+    background-color: rgba(0,0,0,0.8);
+    .front {
+      background-color: blue;
+    }
+    .back {
+      background-color: green;
+    }
+  }
+}

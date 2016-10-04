@@ -6,37 +6,29 @@ import ContentTools from 'ContentTools';
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
-// Available templates
-import HomePageTemplate from '../Templates/HomePageTemplate'
-import ContactPageTemplate from '../Templates/ContactPageTemplate'
-import BasicPageTemplate from '../Templates/BasicPageTemplate'
-import LoginPageTemplate from '../Templates/LoginPageTemplate'
-import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 
-import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
+import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
+import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
+
 import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
 import TemplateDropDown from '../Templates/TemplateDropDown'
-import {slugify} from '../../../helpers/StringHelper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
 
-class PageEdit extends React.Component {
+class CardEdit extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      content: null,
+      front_content: null,
+      back_content: null,
+      primary: null,
       editor: null,
       editContext: this.props.editContext,
       full_path: '/',
       name: null,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
-      showPageTitle: true,
-      slug: props.slug ? props.slug : '',
-      slugManuallySet: props.slug ? true : false,
-      submitDisabled: false,
       template: null,
       templates: [],
       template_id: props.template_id
@@ -84,18 +76,12 @@ class PageEdit extends React.Component {
     if(this.props.editContext === 'edit'){
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
       client.get(this.state.resourceURL).then((res) => {
-         this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
+         this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingCardData(res))
       }).catch((res) => {
         console.log('Error: ', res)
       })
     } else {
-      // The context otherwise will be 'new' in this case get a list of templates and make the Editor.
-      //
-      client.get('page-templates').then((res) => {
-        this.handleSuccessfulDataFetch(client, res, (res) => this.setNewPageData(res))
-      }).catch((res) => {
-        console.log('Error: ', res)
-      })
+      this.setNewCardData([1, 2])
     }
   }
 
@@ -108,22 +94,12 @@ class PageEdit extends React.Component {
    */
   handleSaveSuccess(url, res, passive){
     let newState = {
-      content: res.body.data.content,
-      name: res.body.data.name,
-      slugManuallySet: this.state.slug !== ''
+      front_content: res.body.data.front_content,
+      back_content: res.body.data.back_content
     };
-
-    // If the server has had to modify the state for some reason then show the updated state.
-    //
-    if(res.body.data.slug !== this.state.slug) {
-      newState.slug = res.body.data.slug;
-    }
 
     this.setState(newState);
 
-    if(url) {
-      // this.context.store.dispatch(replace('/admin/' + url + '/edit'))
-    }
     if (!passive) {
       new ContentTools.FlashUI('ok');
     }
@@ -138,7 +114,7 @@ class PageEdit extends React.Component {
    */
   handleSuccessfulDataFetch(client, res, updateStateCallback) {
     if (res.statusCode !== 200) {
-      console.log('Could not get data for Page ', res);
+      console.log('Could not get data for Card ', res);
     } else {
       if(res.header && res.header.authorization) {
         client.updateToken(res.header.authorization);
@@ -151,15 +127,13 @@ class PageEdit extends React.Component {
    * Set state values for the Page being edited based on the response for the API server.
    * @param {object} res - The response from the server
    */
-  setPreExistingPageData(res) {
+  setPreExistingCardData(res) {
     this.setState({
-      content: res.body.data.content,
-      full_path: res.body.data.full_path,
-      name: res.body.data.name,
-      templates: res.body.data.templates,
-      slug: res.body.data.slug,
+      front_content: res.body.data.front_content,
+      back_content: res.body.data.back_content,
+      primary: res.body.data.primary,
+      templates: [1, 2],
       editor: this.makeEditor(),
-      slugManuallySet: res.body.data.slug ? true : false
     });
 
     if(!this.state.template_id) {
@@ -176,85 +150,37 @@ class PageEdit extends React.Component {
    * Initialize state values for a new Page.
    * @param {object} res - server response object.
    */
-  setNewPageData(res) {
+  setNewCardData(data) {
     let editor = this.makeEditor();
     this.setState({
-      templates: res.body.data, // data should contain a list of templates
-      template_id: res.body.data[0].id,
+      templates: data, // data should contain a list of templates
+      template_id: data[0],
       editor: editor
     })
     // set the template_id within the context of the editor
-    editor.updateTemplateId(res.body.data[0].id);
+    editor.updateTemplateId(data[0]);
   }
 
-  /**
-   * Handler for when the Page name value changes.
-   * @param  {event} event - the event that was fired
-   * @return undefined
-   */
-  handleNameChanged(event){
-    // If this is not a new page, or if there is already a slug return early.
-    // 
-    if(this.state.editContext !== 'new' || this.state.slugManuallySet) {
-      return;
-    }
-    // otherwise, update the slug based on what the name currently is.
-    // 
-    this.updateSlug(slugify((event.target).textContent));
-  }
-
-  /**
-   * Determine which page template component to render and return that component.
-   * @param  {integer} template_id - The id corresponding to the template to render
-   * @return {React.Component}     - The page template to render.
-   */
   getTemplateComponent(template_id){
     let template = null;
 
     switch(template_id) {
       case 1: {
-        template = (<BasicPageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />)
+        template = (<BasicCardTemplate 
+          front_content={this.state.front_content} 
+          back_content={this.state.back_content} />)
         break;
       }
       case 2: {
-        template = (<ContactPageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />)
-        break;
-      }
-      case 3: {
-        template = (<HomePageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      case 4: {
-        template = (<LoginPageTemplate 
-          name={this.state.name} 
-          content={this.state.content} 
-          disabled={true}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      case 5: {
-        template = (<PaymentPageTemplate 
-          name={this.state.name} 
-          content={this.state.content} 
-          submitDisabled={true}
-          editMode={true}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
+        template = (<LatinCardTemplate 
+          front_content={this.state.front_content} 
+          back_content={this.state.back_content} />)
         break;
       }
       default: {
-        template = (<BasicPageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />)
+        template = (<BasicCardTemplate 
+          front_content={this.state.front_content} 
+          back_content={this.state.back_content} />)
         break;
       }
     }
@@ -268,7 +194,7 @@ class PageEdit extends React.Component {
    */
   makeEditor(){
     return new Editor(
-      () => (this.state.name), 
+      () => (this.state.primary), 
       this.props.submitUrl, 
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
@@ -288,57 +214,15 @@ class PageEdit extends React.Component {
     this.state.editor.updateTemplateId(template_id);
   }
 
-  /**
-   * Handler for when the value of the slug TextField changes.
-   * @param  {Event} event - The event that was fired
-   * @return undefined
-   */
-  handleSlugChange(event) {
-    this.setState({slugManuallySet: true})
-    this.updateSlug(slugify(event.target.value));
-  }
-
-  updateSlug(slug) {
-    this.setState({
-      slug: slug
-    })
-    this.state.editor.updateSlug(slug);
-  }
-
-  handleToggleShowTitle(event) {
-    this.setState({
-      showTitle: !this.state.showTitle
-    })
-  }
-
   render() {
     return (
-      <div className="page-edit">
+      <div className="card-edit">
         <FloatingPageMenu>
           <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
             defaultTemplateId={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
-          />
-          {/* Do not display the slug text field if this is the homepage (page with full_path of "/") */}
-          {this.state.editContext === 'edit' && this.state.full_path === '/' ?
-            null :
-            <TextField
-              type='text'
-              hintText='example-slug'
-              floatingLabelText='Page Slug'
-              onChange={(e) => this.handleSlugChange(e)}
-              value={this.state.slug}
-              style={{marginLeft: 24}}
-            /> 
-          }
-          <Toggle
-            label="Show Page Title?"
-            labelPosition="right"
-            onToggle={(event) => this.handleToggleShowTitle(event)}
-            defaultToggled={this.state.showPageTitle}
-            style={{marginLeft: 24, marginTop: 5}}
           />
         </FloatingPageMenu>
         {this.state.template}
@@ -379,11 +263,11 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-PageEdit.contextTypes = {
+CardEdit.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
 export default withStyles(s)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(PageEdit))
+)(CardEdit))
