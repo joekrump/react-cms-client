@@ -7,30 +7,39 @@ import AdminLayout from '../Layout/AdminLayout'
 import PageEdit from '../../Page/Edit';
 import CardEdit from '../../Card/Edit';
 import EditPageLayout from '../Layout/EditPageLayout'
+import EditCardLayout from '../Layout/EditCardLayout'
 import BackButton from '../../../Nav/BackButton'
 import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
 
-function getEditComponent(nameSingular) {
+function getEditComponent(nameSingular, editContext, resourceNamePlural, resourceId) {
   const name = nameSingular.toLowerCase();
   if(name === 'page') {
     return (
-      <PageEdit 
-        submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
-        resourceType={nameSingular}
-        resourceId={resourceId}
-        resourceNamePlural={resourceNamePlural}
-        editContext={editContext}
-      />
+      <EditPageLayout>
+        <div className="admin-edit">
+          <PageEdit 
+            submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
+            resourceType={nameSingular}
+            resourceId={resourceId}
+            resourceNamePlural={resourceNamePlural}
+            editContext={editContext}
+          />
+        </div>
+      </EditPageLayout>
     )
   } else if (name === 'card') {
     return (
-      <CardEdit 
-        submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
-        resourceType={nameSingular}
-        resourceId={resourceId}
-        resourceNamePlural={resourceNamePlural}
-        editContext={editContext}
-      />
+      <EditCardLayout>
+        <div className="admin-edit">
+          <CardEdit 
+            submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
+            resourceType={nameSingular}
+            resourceId={resourceId}
+            resourceNamePlural={resourceNamePlural}
+            editContext={editContext}
+          />
+        </div>
+      </EditCardLayout>
     )
   } else {
     console.warn('COULD NOT DETERMINE EDIT COMPONENT')
@@ -42,13 +51,7 @@ export function getEditorContent(editContext, resourceNamePlural, resourceId){
   const nameSingular = singularizeName(resourceNamePlural);
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
-    return (
-      <EditPageLayout>
-        <div className="admin-edit">
-          { getEditComponent(nameSingular) }
-        </div>
-      </EditPageLayout>
-    )
+    return (getEditComponent(nameSingular, editContext, resourceNamePlural, resourceId))
   } else {
     return (
       <AdminLayout>
