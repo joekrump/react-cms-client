@@ -30,8 +30,8 @@ class CardEdit extends React.Component {
       name: null,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
       template: null,
-      templates: [],
-      template_id: props.template_id
+      templates: [{id:1, display_name:'Basic Card'}, {id:2, display_name:'Latin Card'}],
+      template_id: props.template_id ? props.template_id : 1
     }
   }
 
@@ -81,7 +81,7 @@ class CardEdit extends React.Component {
         console.log('Error: ', res)
       })
     } else {
-      this.setNewCardData([1, 2])
+      this.setNewCardData([{id:1, display_name:'Basic Card'}, {id:2, display_name:'Latin Card'}])
     }
   }
 
@@ -132,7 +132,6 @@ class CardEdit extends React.Component {
       front_content: res.body.data.front_content,
       back_content: res.body.data.back_content,
       primary: res.body.data.primary,
-      templates: [1, 2],
       editor: this.makeEditor(),
     });
 
@@ -153,12 +152,10 @@ class CardEdit extends React.Component {
   setNewCardData(data) {
     let editor = this.makeEditor();
     this.setState({
-      templates: data, // data should contain a list of templates
-      template_id: data[0],
       editor: editor
     })
     // set the template_id within the context of the editor
-    editor.updateTemplateId(data[0]);
+    editor.updateTemplateId(this.state.template_id);
   }
 
   getTemplateComponent(template_id){

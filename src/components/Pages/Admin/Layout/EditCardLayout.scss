@@ -20,13 +20,21 @@
     float: left;
     margin-right: 15px;
   }
+  .front {
+    height: 300px;
+  }
+  
+  .back {
+    height: 300px;
+  }
+
   
   &:after {
     content: '';
     display: block;
     clear: both;
   }
-  .page-container{
+  .card-container{
     width: 80%;
     margin: 0 auto;
     text-align: inherit;
