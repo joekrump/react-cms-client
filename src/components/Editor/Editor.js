@@ -151,7 +151,9 @@ class Editor {
     let autoSave = () => {
       this.editor.save(true);
     };
-    this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
+    if(this.editContext !== 'new') {
+      this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
+    }
   }
   handleEditStop(event) {
     // Stop the autosave
@@ -177,14 +179,16 @@ class Editor {
     // Check to see if there are any changes to save
     // 
     let regions = event.detail().regions;
+    console.log(this.editor.domRegions());
+    console.log(this.editor.regions());
     let numRegions = Object.keys(regions).length;
-    let payload = null;
+    let payload = {};
     
     if (numRegions === 0 && !this.dirty_data) {
 
       this.editor.busy(false);
       return;
-    } else if(this.editContext === 'new' && !regions.name) {
+    } else if(this.editContext === 'new' && (this.resourceNamePlural === 'pages') && !regions.name) {
       if(this.keypressSave) {
         this.dispatchNotification(true, 'Error', 'Page Cannot be saved without a Title', 'error');
         this.keypressSave = false; // handled keypress.
@@ -193,7 +197,6 @@ class Editor {
       return;
     } else {
       let regionValue;
-      payload = {};
       (Object.keys(regions)).forEach((key) => {
         if(key === 'name') {
           regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "")
@@ -203,11 +206,9 @@ class Editor {
         payload[key] = regionValue;
       })
     }
+    console.log(payload);
 
     if(this.dirty_data || (this.editContext === 'new')) {
-      if(payload == null) {
-        payload = {}
-      }
       payload.template_id = this.template_id;
       // if there is dirty data and there is a slug, then send the slug in the payload.
       // TODO: refactor this. As slug shouldn't be sent with every request.

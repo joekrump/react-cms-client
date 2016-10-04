@@ -131,6 +131,7 @@ class CardEdit extends React.Component {
     this.setState({
       front_content: res.body.data.front_content,
       back_content: res.body.data.back_content,
+      template_id: res.body.data.template_id,
       primary: res.body.data.primary,
       editor: this.makeEditor(),
     });
