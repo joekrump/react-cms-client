@@ -2,6 +2,12 @@
   padding-top: 56px;
   width: 100%;
   height: calc(100% - 56px);
+  &.logged-in {
+    height: calc(100% - 112px);
+    .page {
+      margin-top: 56px;
+    }
+  }
 }
 
 .page {
