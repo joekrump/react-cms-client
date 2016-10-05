@@ -20,10 +20,11 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.props.children);
     return (
       <div id="app">
         {this.props.loggedIn ? <AdminNav /> : <TopNav />}
-        {this.props.children.length ? this.props.children : <Page location={this.props.location} />}
+        {this.props.loggedIn ? this.props.children : <Page location={this.props.location} />}
       </div>
     )
   }
