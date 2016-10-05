@@ -116,16 +116,11 @@ class Index extends React.Component {
     } else if (nextProps.hasChanges !== this.props.hasChanges) {
       return true;
     } else {
-      // console.log('nextProps ', nextProps)
-      // console.log('nextState ', nextState)
-      // console.log('props ', this.props)
-      // console.log('state ', this.state)
       return false;
     }
   }
 
   getRootChildren() {
-    console.log(this.props.nodeArray[0].node.children)
     return this.props.nodeArray.length > 0 ? this.props.nodeArray[0].node.children : [];
   }
   render() {
