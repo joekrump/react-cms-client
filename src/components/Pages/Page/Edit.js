@@ -124,9 +124,7 @@ class PageEdit extends React.Component {
     if(url) {
       // this.context.store.dispatch(replace('/admin/' + url + '/edit'))
     }
-    if (!passive) {
-      new ContentTools.FlashUI('ok');
-    }
+    this.props.updateSnackbar(true, 'Success', 'Page Saved!', 'success');
   }
   
   /**
