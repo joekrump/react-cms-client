@@ -14,12 +14,11 @@ class Page extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      statusCode: 200,
       page: null
     }
   }
 
-  componentDidMount(){
+  componentWillMount() {
     this.loadPageContent();
   }
 
@@ -29,12 +28,12 @@ class Page extends React.Component {
     client.get('data/pages/by-path', false, {params: {
       fullpath: this.props.pathname
     }}).then((res) => {
-       this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
+      console.log('success');
+      this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
     }, (res) => {
       if(res.statusCode && res.statusCode !== 200) {
-        if(this.state.statusCode) {
-          this.setState({statusCode: res.statusCode})
-        }
+        console.log('failure')
+        this.props.updatePageStatusCode(res.statusCode);
       }
     }).catch((res) => {
       console.log('Error: ', res)
@@ -47,21 +46,21 @@ class Page extends React.Component {
         res.body.data.template_id, 
         res.body.data.content, 
         res.body.data.name
-      ),
-      statusCode: 200
+      )
     })
   }
 
   handleSuccessfulDataFetch(client, res, updateStateCallback) {
-    if (res.statusCode !== 200) {
-      this.setState({statusCode: res.statusCode})
-    } else {
+    this.props.updatePageStatusCode(res.statusCode);
+    if (res.statusCode === 200) {
       updateStateCallback(res);
     }
   }
 
   componentWillReceiveProps(nextProps){
-    this.loadPageContent();
+    if(this.props.pathname !== nextProps.pathname) {
+      this.loadPageContent();
+    }
   }
 
   getRenderedPage(template_id, content, name){
@@ -100,7 +99,7 @@ class Page extends React.Component {
   }
 
   render() {
-    if(this.state.statusCode !== 200) {
+    if(this.props.statusCode !== 200) {
       return (<PageNotFound />)
     }
     return (
@@ -115,10 +114,21 @@ Page.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updatePageStatusCode: (statusCode) => {
+      dispatch ({
+        type: 'UPDATE_PAGE_STATUS_CODE',
+        statusCode
+      })
+    }
+  }
+}
 const mapStateToProps = (state, ownProps) => {
   return {
-    pathname: state.routing.locationBeforeTransitions.pathname
+    pathname: state.routing.locationBeforeTransitions.pathname,
+    statusCode: state.page.statusCode
   }
 }
 
-export default connect(mapStateToProps)(Page)
+export default connect(mapStateToProps, mapDispatchToProps)(Page)

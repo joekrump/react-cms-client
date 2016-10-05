@@ -21,13 +21,13 @@ const AdminIndexRoutes = (store) => {
         path: ':resourceId',
         indexRoute: { 
           component: Show,
-          onEnter: (nextState) => onAdminEnterHandler(partialNextState, store) 
+          onEnter: (nextState) => onAdminEnterHandler(nextState, store) 
         },
         childRoutes: [
           { 
             path: 'edit', 
             component: Edit,
-            onEnter: (partialNextState) => onAdminEnterHandler(partialNextState, store) 
+            onEnter: (nextState) => onAdminEnterHandler(nextState, store) 
           }
         ]
       }
