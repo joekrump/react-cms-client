@@ -28,11 +28,9 @@ class Page extends React.Component {
     client.get('data/pages/by-path', false, {params: {
       fullpath: this.props.pathname
     }}).then((res) => {
-      console.log('success');
       this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
     }, (res) => {
       if(res.statusCode && res.statusCode !== 200) {
-        console.log('failure')
         this.props.updatePageStatusCode(res.statusCode);
       }
     }).catch((res) => {
