@@ -118,8 +118,6 @@ class AdminNav extends React.Component {
   }
 }
 
-
-
 AdminNav.contextTypes = {
   router: React.PropTypes.object.isRequired,
   muiTheme: React.PropTypes.object.isRequired,

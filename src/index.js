@@ -13,7 +13,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import muiTheme from './muiTheme';
 import StyleContextProvider from './components/StyleContextProvider'
 
-
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import * as reducers from './redux/reducers'
 import createSagaMiddleware from 'redux-saga'

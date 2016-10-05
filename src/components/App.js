@@ -2,6 +2,7 @@ import React from 'react';
 import auth from '../auth';
 import { connect } from 'react-redux';
 import AdminNav from './Nav/AdminNav';
+import TopNav from './Nav/SiteTopNav';
 
 class App extends React.Component {
 
@@ -11,9 +12,6 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // Do something when the app first mounts
-  }
   componentWillMount() {
     auth.onChange = () => this.updateAuth(this.props.loggedIn)
     if((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken){
@@ -24,7 +22,7 @@ class App extends React.Component {
   render() {
     return (
       <div id="app">
-        {this.props.loggedIn ? <AdminNav /> : null}
+        {this.props.loggedIn ? <AdminNav /> : <TopNav />}
         {this.props.children}
       </div>
     )

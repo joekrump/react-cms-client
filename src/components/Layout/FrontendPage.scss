@@ -6,6 +6,8 @@
 
 .page {
   min-height: calc(100% - 10px);
+}
+.page, .top-nav {
   .align-right {
     float: right;
     margin-left: 15px;
@@ -20,7 +22,7 @@
     display: block;
     clear: both;
   }
-  .page-container{
+  .page-container {
     width: 80%;
     margin: 0 auto;
     text-align: inherit;
@@ -29,7 +31,7 @@
 }
 
 @media (max-width: 900px){
-  .page {
+  .page, .top-nav {
     .page-container {
       width: 80%;
         margin: 0 auto;
@@ -37,7 +39,7 @@
   }
 }
 @media (max-width: 500px){
-  .page {
+  .page, .top-nav {
     .page-container {
       width: 96%;
     }
@@ -45,7 +47,7 @@
   }
 }
 @media (min-width: 1000px) {
-  .page {
+  .page, .top-nav {
     .page-container {
       width: 980px;
     }
