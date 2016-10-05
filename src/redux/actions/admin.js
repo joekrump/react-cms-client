@@ -34,8 +34,14 @@ export function updateCurrentResourceName(pluralName){
 
 export function updateEditorData(newData) {
   return {
-    type: 'UPDATE_EDITOR_DATE',
+    type: 'UPDATE_EDITOR_DATA',
     newData
+  }
+}
+
+export function deleteEditorData() {
+  return {
+    type: 'DELETE_EDITOR_DATA'
   }
 }
 

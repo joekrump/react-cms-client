@@ -1,4 +1,5 @@
 import {singularizeName} from '../../helpers/ResourceHelper';
+import merge from 'lodash.merge';
 
 const initialState = {
   mode: 'PASSIVE', // possible modes: EDIT_INDEX, PASSIVE, EDIT_CONTENT
@@ -10,6 +11,9 @@ const initialState = {
       plural: '',
       singular: ''
     }
+  },
+  editorData: {
+
   }
 };
 
@@ -28,6 +32,24 @@ const adminReducer = (state = initialState, action) => {
           hasChanges: action.hasChanges
         },
         resource: state.resource
+      }
+    case 'UPDATE_EDITOR_DATA':
+      return {
+        mode: state.mode,
+        index: {
+          hasChanges: state.hasChanges
+        },
+        resource: state.resource,
+        editorData: merge({}, newData, state.editorData)
+      }
+    case 'DELETE_EDITOR_DATA':
+      return {
+        mode: state.mode,
+        index: {
+          hasChanges: state.hasChanges
+        },
+        resource: state.resource,
+        editorData: {}
       }
     case 'UPDATE_CURRENT_RESOURCE_NAME':
       return {
