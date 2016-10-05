@@ -151,20 +151,18 @@ class PageEdit extends React.Component {
    * @param {object} res - The response from the server
    */
   setPreExistingPageData(res) {
-    this.setState({
-      content: res.body.data.content,
-      full_path: res.body.data.full_path,
+    this.props.updateEditorData({
       name: res.body.data.name,
+      content: res.body.data.content
+    })
+
+    this.setState({
+      full_path: res.body.data.full_path,
       templates: res.body.data.templates,
       slug: res.body.data.slug,
       editor: this.makeEditor(),
       slugManuallySet: res.body.data.slug ? true : false
     });
-
-    this.props.updateEditorData({
-      name: res.body.data.name,
-      content: res.body.data.content
-    })
 
     if(!this.state.template_id) {
       this.setState({
@@ -218,37 +216,37 @@ class PageEdit extends React.Component {
     switch(template_id) {
       case 1: {
         template = (<BasicPageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
+          name={this.props.name} 
+          content={this.props.content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 2: {
         template = (<ContactPageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
+          name={this.props.name} 
+          content={this.props.content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 3: {
         template = (<HomePageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
+          name={this.props.name} 
+          content={this.props.content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       case 4: {
         template = (<LoginPageTemplate 
-          name={this.state.name} 
-          content={this.state.content} 
+          name={this.props.name} 
+          content={this.props.content} 
           disabled={true}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       case 5: {
         template = (<PaymentPageTemplate 
-          name={this.state.name} 
-          content={this.state.content} 
+          name={this.props.name} 
+          content={this.props.content} 
           submitDisabled={true}
           editMode={true}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
@@ -256,8 +254,8 @@ class PageEdit extends React.Component {
       }
       default: {
         template = (<BasicPageTemplate 
-          name={this.state.name} 
-          content={this.state.content}
+          name={this.props.name} 
+          content={this.props.content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
@@ -272,7 +270,7 @@ class PageEdit extends React.Component {
    */
   makeEditor(){
     return new Editor(
-      () => (this.state.name), 
+      () => (this.props.name), 
       this.props.submitUrl, 
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
@@ -365,7 +363,9 @@ const mapStateToProps = (state, ownProps) => {
       header: state.notifications.snackbar.header,
       content: state.notifications.snackbar.content,
       notificationType: state.notifications.snackbar.notificationType
-    }
+    },
+    name: state.admin.editorData.name,
+    content: state.admin.editorData.content
   }
 }
 

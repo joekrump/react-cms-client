@@ -23,7 +23,8 @@ const adminReducer = (state = initialState, action) => {
       return {
         mode: action.mode,
         index: state.index,
-        resource: state.resource
+        resource: state.resource,
+        editorData: state.editorData
       }
     case 'UPDATE_INDEX_HAS_CHANGES':
       return {
@@ -31,7 +32,8 @@ const adminReducer = (state = initialState, action) => {
         index: {
           hasChanges: action.hasChanges
         },
-        resource: state.resource
+        resource: state.resource,
+        editorData: state.editorData
       }
     case 'UPDATE_ADMIN_EDITOR_DATA':
       return {
@@ -60,7 +62,8 @@ const adminReducer = (state = initialState, action) => {
             plural: action.namePlural,
             singular: singularizeName(action.namePlural)
           }
-        } 
+        },
+        editorData: state.editorData
       }
     default:
       return state;
