@@ -19,14 +19,14 @@ class Page extends React.Component {
   }
 
   componentWillMount() {
-    this.loadPageContent();
+    this.loadPageContent(this.props.pathname);
   }
 
-  loadPageContent() {
+  loadPageContent(pathname) {
     const client = new APIClient(this.context.store);
 
     client.get('data/pages/by-path', false, {params: {
-      fullpath: this.props.pathname
+      fullpath: pathname
     }}).then((res) => {
       this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
     }, (res) => {
@@ -57,7 +57,7 @@ class Page extends React.Component {
 
   componentWillReceiveProps(nextProps){
     if(this.props.pathname !== nextProps.pathname) {
-      this.loadPageContent();
+      this.loadPageContent(nextProps.pathname);
     }
   }
 
