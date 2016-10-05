@@ -148,12 +148,12 @@ class Editor {
   
   handleEditStart(event) {
     // Call save every 30 seconds
-    let autoSave = () => {
-      this.editor.save(true);
-    };
-    if(this.editContext !== 'new') {
-      this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
-    }
+    // let autoSave = () => {
+    //   this.editor.save(true);
+    // };
+    // if(this.editContext !== 'new') {
+    //   this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
+    // }
   }
   handleEditStop(event) {
     // Stop the autosave
