@@ -152,6 +152,7 @@ const mapStateToProps = (state, ownProps) => {
     isValid:  state.forms[ownProps.formName].valid,
     formFields: state.forms[ownProps.formName].fields,
     token: state.auth.token,
+    resourceNamePlural: state.admin.resource.name.plural,
     snackbar: {
       show: state.notifications.snackbar.show,
       header: state.notifications.snackbar.header,

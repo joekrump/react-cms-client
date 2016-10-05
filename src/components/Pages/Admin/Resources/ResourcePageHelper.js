@@ -11,31 +11,30 @@ import EditCardLayout from '../Layout/EditCardLayout'
 import BackButton from '../../../Nav/BackButton'
 import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
 
-function getEditComponent(nameSingular, editContext, resourceNamePlural, resourceId) {
-  const name = nameSingular.toLowerCase();
-  if(name === 'page') {
+function getEditComponent(editContext, nameSingular, namePlural, resourceId) {
+  if(nameSingular === 'page') {
     return (
       <EditPageLayout>
         <div className="admin-edit">
           <PageEdit 
-            submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
+            submitUrl={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
             resourceType={nameSingular}
             resourceId={resourceId}
-            resourceNamePlural={resourceNamePlural}
+            resourceNamePlural={namePlural}
             editContext={editContext}
           />
         </div>
       </EditPageLayout>
     )
-  } else if (name === 'card') {
+  } else if (nameSingular === 'card') {
     return (
       <EditCardLayout>
         <div className="admin-edit">
           <CardEdit 
-            submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
+            submitUrl={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
             resourceType={nameSingular}
             resourceId={resourceId}
-            resourceNamePlural={resourceNamePlural}
+            resourceNamePlural={namePlural}
             editContext={editContext}
           />
         </div>
@@ -47,26 +46,24 @@ function getEditComponent(nameSingular, editContext, resourceNamePlural, resourc
   }
 }
 
-export function getEditorContent(editContext, resourceNamePlural, resourceId){
-  const nameSingular = singularizeName(resourceNamePlural);
+export function getEditorContent(editContext, nameSingular, namePlural, resourceId){
 
   if(AppConfig.resourcesWithEditor.indexOf(nameSingular) !== -1){
-    return (getEditComponent(nameSingular, editContext, resourceNamePlural, resourceId))
+    return (getEditComponent(editContext, nameSingular, namePlural, resourceId))
   } else {
     return (
       <AdminLayout>
         <div className="admin-edit">
           <FloatingPageMenu>
-            <BackButton label={resourceNamePlural} link={'/admin/' + resourceNamePlural.toLowerCase()} />
+            <BackButton label={namePlural} link={'/admin/' + namePlural} />
           </FloatingPageMenu>
           <h1>{editContext === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
 
           <ResourceForm 
             formName={nameSingular + 'Form'} 
-            submitUrl={editContext === 'new' ? resourceNamePlural : (resourceNamePlural + '/' + resourceId)}
+            submitUrl={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
             resourceId={resourceId}
             resourceType={nameSingular}
-            resourceNamePlural={resourceNamePlural}
             editContext={editContext}
           />
         </div>
