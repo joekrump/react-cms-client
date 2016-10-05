@@ -42,7 +42,7 @@ const adminReducer = (state = initialState, action) => {
           hasChanges: state.hasChanges
         },
         resource: state.resource,
-        editorData: merge({}, action.newData, state.editorData)
+        editorData: merge({}, state.editorData, action.newData)
       }
     case 'DELETE_ADMIN_EDITOR_DATA':
       return {

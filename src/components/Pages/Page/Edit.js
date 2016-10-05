@@ -55,7 +55,7 @@ class PageEdit extends React.Component {
       this.context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
     }
     this.setState({
-      template: this.getTemplateComponent(this.props.template_id)
+      template: this.getTemplateComponent(this.props.template_id, this.props.name, this.props.content)
     })
   }
 
@@ -68,9 +68,13 @@ class PageEdit extends React.Component {
         nextState.editor.editor.start()
       }
     }
-    if(this.state.template_id !== nextState.template_id){
+    if((this.state.template_id !== nextState.template_id)
+      || (this.props.name !== nextProps.name)
+      || (this.props.content !== nextProps.content)
+    ){
+      console.log(nextProps);
       this.setState({
-        template: this.getTemplateComponent(nextState.template_id)
+        template: this.getTemplateComponent(nextState.template_id, nextProps.name, nextProps.content)
       })
     }
   }
@@ -97,6 +101,14 @@ class PageEdit extends React.Component {
       }).catch((res) => {
         console.log('Error: ', res)
       })
+    }
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.template_id !== this.state.template_id) {
+      if(this.state.editor) {
+        this.state.editor.editor.syncRegions();
+      }
     }
   }
 
@@ -170,7 +182,7 @@ class PageEdit extends React.Component {
       })
     }
     this.setState({
-      template: this.getTemplateComponent(this.state.template_id)
+      template: this.getTemplateComponent(this.state.template_id, this.props.name, this.props.content)
     })
   }
 
@@ -210,43 +222,43 @@ class PageEdit extends React.Component {
    * @param  {integer} template_id - The id corresponding to the template to render
    * @return {React.Component}     - The page template to render.
    */
-  getTemplateComponent(template_id){
+  getTemplateComponent(template_id, name, content){
     let template = null;
 
     switch(template_id) {
       case 1: {
         template = (<BasicPageTemplate 
-          name={this.props.name} 
-          content={this.props.content}
+          name={name} 
+          content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 2: {
         template = (<ContactPageTemplate 
-          name={this.props.name} 
-          content={this.props.content}
+          name={name} 
+          content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 3: {
         template = (<HomePageTemplate 
-          name={this.props.name} 
-          content={this.props.content}
+          name={name} 
+          content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       case 4: {
         template = (<LoginPageTemplate 
-          name={this.props.name} 
-          content={this.props.content} 
+          name={name} 
+          content={content} 
           disabled={true}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       case 5: {
         template = (<PaymentPageTemplate 
-          name={this.props.name} 
-          content={this.props.content} 
+          name={name} 
+          content={content} 
           submitDisabled={true}
           editMode={true}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
@@ -254,8 +266,8 @@ class PageEdit extends React.Component {
       }
       default: {
         template = (<BasicPageTemplate 
-          name={this.props.name} 
-          content={this.props.content}
+          name={name} 
+          content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
@@ -286,8 +298,28 @@ class PageEdit extends React.Component {
    * @return undefined
    */
   handleTemplateChange(template_id) {
-    this.setState({template_id})
-    this.state.editor.updateTemplateId(template_id);
+    if(this.state.template_id === template_id){
+      return;
+    }
+
+    this.updateData();
+    this.updateTemplate(template_id);
+  }
+
+  updateTemplate(template_id) {
+    this.setState({
+      template_id: template_id
+    })
+  }
+
+  updateData() {
+    if(this.state.editor.editor.history) {
+      let snapshot = this.state.editor.editor.history.snapshot();
+      this.props.updateEditorData({
+        name: snapshot.regions.name.replace(/<\/?[^>]+(>|$)/g, ""),
+        content: snapshot.regions.content
+      })
+    }
   }
 
   /**
