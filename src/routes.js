@@ -35,11 +35,7 @@ const getRoutes = (store) => {
         ]
       },
       // PageRoutes,
-      { path: ':slug', component: Page},
-      { path: ':slug/:slug2', component: Page},
-      { path: ':slug/:slug2/:slug3', component: Page},
-      { path: ':slug/:slug2/:slug3/:slug4', component: Page},
-      { path: '*', component: PageNotFound }
+      { path: '*', component: Page }
     ]
   }
   return routes;
