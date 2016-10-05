@@ -87,8 +87,7 @@ class Index extends React.Component {
   }
 
   componentWillMount() {
-    let resourceNamePlural = this.props.params.resourceNamePlural.toLowerCase();
-    this.setItems(resourceNamePlural);
+    this.setItems(this.props.resourceNamePlural);
   }
   componentWillUnmount() {
     this.state.dragulaDrake.destroy();
@@ -97,13 +96,13 @@ class Index extends React.Component {
     })
   }
   componentWillReceiveProps(nextProps){
-    if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
-      this.setItems(nextProps.params.resourceNamePlural);
+    if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
+      this.setItems(nextProps.resourceNamePlural);
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
+    if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
       return true;
     } else if (nextProps.nodeArray.length !== this.props.nodeArray.length) {
       return true;
