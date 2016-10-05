@@ -6,7 +6,7 @@ import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPasswor
 import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
 import auth from './auth';
-import { replace } from 'react-router-redux'
+import { replace, push } from 'react-router-redux'
 import APIClient from './http/requests'
 import AdminRoutes from './routes/admin/routes'
 
@@ -50,7 +50,7 @@ export default getRoutes;
  */
 function requireAuth(store) {
   if (!auth.loggedIn()) {
-    store.dispatch(replace('/login'))
+    store.dispatch(push('/login'))
   }
 }
 
@@ -75,12 +75,12 @@ function allowSignupAccess(nextState, replace, store) {
 function allowLoginAccess(nextState, replace, store) {
 
   if(auth.loggedIn()) {
-    store.dispatch(replace('/admin'))
+    store.dispatch(push('/admin'))
   } else {
     getUserCount(store).then((count) => {
       if(count === 0) {
         console.log('replace')
-        store.dispatch(replace('/signup'));
+        store.dispatch(push('/signup'));
       }
     }).catch((error) => {
       console.log('Error: ', error)
