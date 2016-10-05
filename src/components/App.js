@@ -3,7 +3,7 @@ import auth from '../auth';
 import { connect } from 'react-redux';
 import AdminNav from './Nav/AdminNav';
 import TopNav from './Nav/SiteTopNav';
-
+import Page from './Pages/Page/Page'
 class App extends React.Component {
 
   updateAuth(loggedIn) {
@@ -23,7 +23,7 @@ class App extends React.Component {
     return (
       <div id="app">
         {this.props.loggedIn ? <AdminNav /> : <TopNav />}
-        {this.props.children}
+        {this.props.children.length ? this.props.children : <Page location={this.props.location} />}
       </div>
     )
   }

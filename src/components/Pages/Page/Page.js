@@ -21,7 +21,6 @@ class Page extends React.Component {
   }
 
   componentDidMount(){
-    console.log(this.props.location.pathname)
     if(this.props.location.pathname === '/') {
       this.loadPageContent('/home');
     } else {
@@ -112,7 +111,7 @@ class Page extends React.Component {
       return (<PageNotFound />)
     }
     return (
-      <FrontendPage slug={this.props.params.slug}>
+      <FrontendPage>
         {this.state.page}
       </FrontendPage>
     );
