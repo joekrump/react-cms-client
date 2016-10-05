@@ -33,16 +33,16 @@ const adminReducer = (state = initialState, action) => {
         },
         resource: state.resource
       }
-    case 'UPDATE_EDITOR_DATA':
+    case 'UPDATE_ADMIN_EDITOR_DATA':
       return {
         mode: state.mode,
         index: {
           hasChanges: state.hasChanges
         },
         resource: state.resource,
-        editorData: merge({}, newData, state.editorData)
+        editorData: merge({}, action.newData, state.editorData)
       }
-    case 'DELETE_EDITOR_DATA':
+    case 'DELETE_ADMIN_EDITOR_DATA':
       return {
         mode: state.mode,
         index: {

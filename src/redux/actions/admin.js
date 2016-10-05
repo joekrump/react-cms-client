@@ -1,7 +1,5 @@
 /**
- * [updateMode description]
  * @param  {string} mode [description]
- * @return {[type]}      [description]
  */
 export function updateMode(mode){
   return {
@@ -11,8 +9,7 @@ export function updateMode(mode){
 }
 
 /**
- * @param  {boolean} status [description]
- * @return {[type]}        [description]
+ * @param  {boolean} hasChanges - value that helps determine context.
  */
 export function updateIndexHasChanges(hasChanges){
   return {
@@ -22,8 +19,7 @@ export function updateIndexHasChanges(hasChanges){
 }
 
 /**
- * @param  {string} status [description]
- * @return {[type]}        [description]
+ * @param  {string} pluralName [description]
  */
 export function updateCurrentResourceName(pluralName){
   return {
@@ -34,14 +30,14 @@ export function updateCurrentResourceName(pluralName){
 
 export function updateEditorData(newData) {
   return {
-    type: 'UPDATE_EDITOR_DATA',
+    type: 'UPDATE_ADMIN_EDITOR_DATA',
     newData
   }
 }
 
 export function deleteEditorData() {
   return {
-    type: 'DELETE_EDITOR_DATA'
+    type: 'DELETE_ADMIN_EDITOR_DATA'
   }
 }
 

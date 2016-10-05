@@ -45,6 +45,7 @@ class PageEdit extends React.Component {
 
   componentWillUnmount() {
     if(this.state.editor){
+      this.props.deleteEditorData();
       this.state.editor.destroyEditor();
     }
   }
@@ -159,6 +160,11 @@ class PageEdit extends React.Component {
       editor: this.makeEditor(),
       slugManuallySet: res.body.data.slug ? true : false
     });
+
+    this.props.updateEditorData({
+      name: res.body.data.name,
+      content: res.body.data.content
+    })
 
     if(!this.state.template_id) {
       this.setState({
@@ -372,6 +378,17 @@ const mapDispatchToProps = (dispatch) => {
         header,
         content,
         notificationType
+      })
+    },
+    updateEditorData: (newData) => {
+      dispatch({
+        type: 'UPDATE_ADMIN_EDITOR_DATA',
+        newData
+      })
+    },
+    deleteEditorData: () => {
+      dispatch({
+        type: 'DELETE_ADMIN_EDITOR_DATA'
       })
     }
   }

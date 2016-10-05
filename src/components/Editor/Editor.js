@@ -1,6 +1,7 @@
 import APIClient from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
+import { connect } from 'react-redux';
 
 const sKeyCode = 83;
 
@@ -27,12 +28,17 @@ class Editor {
 
     // eslint-disable-next-line
     ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 2000;
+    // eslint-disable-next-line
+    ContentEdit.RESIZE_CORNER_SIZE = 50;
 
     // Capture image resize events and update the Cloudinary URL
     // eslint-disable-next-line
-    ContentEdit.Root.get().bind('taint', function (element) {
+    ContentEdit.Root.get().bind('taint', (element) => {
       var args, filename, transforms, url;
-
+      // return early if there is no actual change that has been made.
+      if(!this.editor.history) {
+        return;
+      }
       // Check the element tainted is an image
       if (element.type() !== 'Image') {
         return;
@@ -66,13 +72,13 @@ class Editor {
     this.editor = ContentTools.EditorApp.get();
     this.editor.init('*[data-editable]', 'data-name');
 
-    this.editor.addEventListener('saved', (event) => {this.handleSave(event, this.submitURL)});
-    this.editor.addEventListener('start', this.handleEditStart.bind(this));
-    this.editor.addEventListener('stop', this.handleEditStop.bind(this));
-
+    this.editor.addEventListener('saved', (event) => this.handleSave(event, this.submitURL));
+    this.editor.addEventListener('start', (event) => this.handleEditStart(event));
+    // this.editor.addEventListener('stop', this.handleEditStop.bind(this));
     if(typeof window !== 'undefined') {
       window.addEventListener('keydown', (event) => this.handleKeyDown(event));
     }
+
   }
 
   getEditor(){
@@ -157,9 +163,10 @@ class Editor {
   }
   handleEditStop(event) {
     // Stop the autosave
-    clearInterval(this.editor.autoSaveTimer);
+    // clearInterval(this.editor.autoSaveTimer);
   }
   handleSave(event, submitURL) {
+
     if(this.editor.busy()) {
       this.dispatchNotification(true, 'Warning', 'Editor already saving, please wait', 'warning')
       return;
@@ -179,8 +186,8 @@ class Editor {
     // Check to see if there are any changes to save
     // 
     let regions = event.detail().regions;
-    console.log(this.editor.domRegions());
-    console.log(this.editor.regions());
+    // console.log(this.editor.domRegions());
+    // console.log(this.editor.regions());
     let numRegions = Object.keys(regions).length;
     let payload = {};
     
@@ -206,7 +213,7 @@ class Editor {
         payload[key] = regionValue;
       })
     }
-    console.log(payload);
+    // console.log(payload);
 
     if(this.dirty_data || (this.editContext === 'new')) {
       payload.template_id = this.template_id;
