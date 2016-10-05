@@ -61,7 +61,7 @@ export function getEditorContent(editContext, nameSingular, namePlural, resource
 
           <ResourceForm 
             formName={nameSingular + 'Form'} 
-            submitUrl={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
+            resourceURL={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
             resourceId={resourceId}
             resourceType={nameSingular}
             editContext={editContext}

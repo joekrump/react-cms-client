@@ -13,9 +13,6 @@ const listItemStyle = {
 class ResourceForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      existingData: {}
-    }
   }
 
   componentWillMount(){
@@ -27,12 +24,11 @@ class ResourceForm extends React.Component {
       // therefore, the form itself can be set to valid initially.
       // this.props.resetValid(true, this.props.formName);
 
-      client.get(this.props.resourceNamePlural + '/' + this.props.resourceId)
+      client.get(this.props.resourceURL)
       .then((res) => {
         if (res.statusCode !== 200) {
           console.log('Bad response: ', res);
         } else {
-          // this.setState({existingData: res.body.data})
           client.updateToken(res.header.authorization);
           this.props.loadFormWithData(res.body.data, this.props.formName, true);
         }
@@ -65,7 +61,7 @@ class ResourceForm extends React.Component {
     try {
       let httpMethod = this.props.editContext === 'edit' ? 'put' : 'post';
 
-      this.state.client[httpMethod](this.props.submitUrl, true, {data: formInputValues})
+      this.state.client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
       .then((res) => {
         if (res.statusCode !== 200) {
           this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
@@ -200,7 +196,6 @@ const mapDispatchToProps = (dispatch) => {
 ResourceForm.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
-
 
 export default connect(
   mapStateToProps,
