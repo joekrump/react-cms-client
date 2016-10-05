@@ -22,7 +22,7 @@
   .align-left {
     float: left;
     margin-right: 15px;
-    ~ ul {
+    ~ ul, ~ ol {
       position: relative;
       left: 30px;
     }
