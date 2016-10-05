@@ -29,7 +29,7 @@ const getRoutes = (store) => {
       { 
         path: 'admin',
         indexRoute: { component: Dashboard },
-        onEnter: (nextState) => requireAuth(nextState, store),
+        onEnter: () => requireAuth(store),
         childRoutes: [
           { path: 'settings', component: UserSettings },
           adminRoutes
@@ -62,6 +62,7 @@ export {onAdminEnterHandler};
  * @return undefined
  */
 function requireAuth(store) {
+  console.log(store);
   if (!auth.loggedIn()) {
     store.dispatch(push('/login'))
   }
