@@ -88,7 +88,6 @@ class Index extends React.Component {
 
   componentWillMount() {
     let resourceNamePlural = this.props.params.resourceNamePlural.toLowerCase();
-    this.props.updateResourceName(resourceNamePlural);
     this.setItems(resourceNamePlural);
   }
   componentWillUnmount() {
@@ -99,7 +98,6 @@ class Index extends React.Component {
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
-      this.props.updateResourceName(nextProps.params.resourceNamePlural);
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
@@ -177,12 +175,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'UPDATE_TREE',
         nodeArray
-      })
-    },
-    updateResourceName: (namePlural) => {
-      dispatch({
-        type: 'UPDATE_CURRENT_RESOURCE_NAME',
-        namePlural
       })
     },
     updateIndexHasChanges: (hasChanges) => {

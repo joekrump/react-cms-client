@@ -21,10 +21,10 @@ class Page extends React.Component {
   }
 
   componentDidMount(){
-    if(this.props.location.pathname === '/') {
+    if(this.props.pathname === '/') {
       this.loadPageContent('/home');
     } else {
-      this.loadPageContent(this.props.location.pathname);
+      this.loadPageContent(this.props.pathname);
     }
   }
 
@@ -37,10 +37,11 @@ class Page extends React.Component {
        this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
     }, (res) => {
       if(res.statusCode && res.statusCode !== 200) {
-        this.setState({statusCode: res.statusCode})
+        if(this.state.statusCode) {
+          this.setState({statusCode: res.statusCode})
+        }
       }
     }).catch((res) => {
-      
       console.log('Error: ', res)
     })
   }

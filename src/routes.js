@@ -16,22 +16,23 @@ import AdminRoutes from './routes/admin/routes'
  * @return {object}       - the routes for the app
  */
 const getRoutes = (store) => {
-
+  let adminRoutes = AdminRoutes(store);
+  console.log(adminRoutes);
   let routes = {
     path: '/',
     component: App,
     indexRoute: { component: Page },
     childRoutes: [
-      { path: 'login', component: Page, onEnter: (nextState, replace) => allowLoginAccess(nextState, replace, store) },
-      { path: 'signup', component: SignUp, onEnter: (nextState, replace) => allowSignupAccess(nextState, replace, store) },
+      { path: 'login', component: Page, onEnter: () => allowLoginAccess(store) },
+      { path: 'signup', component: SignUp, onEnter: () => allowSignupAccess(store) },
       { path: 'forgot-password', component: ForgotPassword },
       { 
         path: 'admin',
         indexRoute: { component: Dashboard },
-        onEnter: () => requireAuth(store),
+        onEnter: (nextState) => requireAuth(nextState, store),
         childRoutes: [
           { path: 'settings', component: UserSettings },
-          AdminRoutes
+          adminRoutes
         ]
       },
       // PageRoutes,
@@ -42,6 +43,18 @@ const getRoutes = (store) => {
 }
 
 export default getRoutes;
+
+
+const onAdminEnterHandler = (nextState, store) => {
+  requireAuth(store);
+  let resourceNamePlural = nextState.params.resourceNamePlural;
+  // only update if it needs to be done.
+  if(store.getState().admin.resource.name.plural !== resourceNamePlural) {
+    setResourceNamePlural(resourceNamePlural, store);
+  }
+}
+
+export {onAdminEnterHandler};
 
 /**
  * Redirects user to /login if they try to access a route that should only be 
@@ -54,11 +67,17 @@ function requireAuth(store) {
   }
 }
 
+function setResourceNamePlural(namePlural, store) {
+  store.dispatch({
+    type: 'UPDATE_CURRENT_RESOURCE_NAME',
+    namePlural
+  })
+}
 /**
  * Allow user to access SignUp page, or redirect.
  * @return undefined
  */
-function allowSignupAccess(nextState, replace, store) {
+function allowSignupAccess(store) {
   getUserCount(store).then((count) => {
     if(count > 0) {
       store.dispatch(replace('/login'));
@@ -72,15 +91,15 @@ function allowSignupAccess(nextState, replace, store) {
  * Check to see if /login should be accessible.
  * @return undefined
  */
-function allowLoginAccess(nextState, replace, store) {
+function allowLoginAccess(store) {
 
   if(auth.loggedIn()) {
-    store.dispatch(push('/admin'))
+    store.dispatch(replace('/admin'))
   } else {
     getUserCount(store).then((count) => {
       if(count === 0) {
         console.log('replace')
-        store.dispatch(push('/signup'));
+        store.dispatch(replace('/signup'));
       }
     }).catch((error) => {
       console.log('Error: ', error)
