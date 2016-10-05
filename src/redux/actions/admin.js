@@ -32,6 +32,13 @@ export function updateCurrentResourceName(pluralName){
   }
 }
 
+export function updateEditorData(newData) {
+  return {
+    type: 'UPDATE_EDITOR_DATE',
+    newData
+  }
+}
+
 export function uIndexItemDeleted(item_id) {
   return {
     type: 'U_INDEX_ITEM_DELETED',
