@@ -103,6 +103,27 @@ class Index extends React.Component {
       this.setItems(nextProps.params.resourceNamePlural);
     }
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.params.resourceNamePlural !== this.props.params.resourceNamePlural) {
+      return true;
+    } else if (nextProps.nodeArray.length !== this.props.nodeArray.length) {
+      return true;
+    } else if (nextState.loading !== this.state.loading) {
+      return true;
+    } else if (nextProps.adminMode !== this.props.adminMode) {
+      return true;
+    } else if (nextProps.hasChanges !== this.props.hasChanges) {
+      return true;
+    } else {
+      // console.log('nextProps ', nextProps)
+      // console.log('nextState ', nextState)
+      // console.log('props ', this.props)
+      // console.log('state ', this.state)
+      return false;
+    }
+  }
+
   getRootChildren() {
     console.log(this.props.nodeArray[0].node.children)
     return this.props.nodeArray.length > 0 ? this.props.nodeArray[0].node.children : [];
