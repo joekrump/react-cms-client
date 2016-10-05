@@ -22,6 +22,10 @@
   .align-left {
     float: left;
     margin-right: 15px;
+    ~ ul {
+      position: relative;
+      left: 30px;
+    }
   }
   
   &:after {

@@ -12,6 +12,7 @@
 
 .page {
   min-height: calc(100% - 10px);
+  overflow: auto;
 }
 .page, .top-nav {
   .align-right {
@@ -21,6 +22,10 @@
   .align-left {
     float: left;
     margin-right: 15px;
+    ~ ul {
+      position: relative;
+      left: 30px;
+    }
   }
   
   &:after {

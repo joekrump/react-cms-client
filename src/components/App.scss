@@ -29,6 +29,14 @@ a:hover {
   color: rgb(255, 202, 0);
 }
 
+.clearfix:after { 
+  content: "";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 #base, #context, #app {
   height: 100%;
   min-width: 360px;
