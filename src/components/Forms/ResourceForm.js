@@ -11,9 +11,6 @@ const listItemStyle = {
 };
 
 class ResourceForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentWillMount(){
     let client = new APIClient(this.context.store)
