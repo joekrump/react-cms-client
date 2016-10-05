@@ -14,25 +14,20 @@ class Page extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pathname: props.location.pathname,
       statusCode: 200,
       page: null
     }
   }
 
   componentDidMount(){
-    if(this.props.pathname === '/') {
-      this.loadPageContent('/home');
-    } else {
-      this.loadPageContent(this.props.pathname);
-    }
+    this.loadPageContent();
   }
 
-  loadPageContent(pathname) {
+  loadPageContent() {
     const client = new APIClient(this.context.store);
 
     client.get('data/pages/by-path', false, {params: {
-      fullpath: pathname
+      fullpath: this.props.pathname
     }}).then((res) => {
        this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
     }, (res) => {
@@ -66,10 +61,7 @@ class Page extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    this.setState({
-      pathname: nextProps.location.pathname
-    });
-    this.loadPageContent(nextProps.location.pathname);
+    this.loadPageContent();
   }
 
   getRenderedPage(template_id, content, name){
@@ -79,11 +71,11 @@ class Page extends React.Component {
 
     switch(template_id) {
       case 1: {
-        page = (<BasicPageTemplate name={name} content={content} pathname={this.state.pathname}/>)
+        page = (<BasicPageTemplate name={name} content={content} pathname={this.props.pathname}/>)
         break;
       }
       case 2: {
-        page = (<ContactPageTemplate name={name} content={content} pathname={this.state.pathname}/>)
+        page = (<ContactPageTemplate name={name} content={content} pathname={this.props.pathname}/>)
         break;
       }
       case 3: {
@@ -91,15 +83,15 @@ class Page extends React.Component {
         break;
       }
       case 4: {
-        page = (<LoginPageTemplate name={name} content={content} pathname={this.state.pathname} location={this.props.location}/>);
+        page = (<LoginPageTemplate name={name} content={content} pathname={this.props.pathname} location={this.props.location}/>);
         break;
       }
       case 5: {
-        page = (<PaymentPageTemplate name={name} content={content} pathname={this.state.pathname} />);
+        page = (<PaymentPageTemplate name={name} content={content} pathname={this.props.pathname} />);
         break;
       }
       default: {
-        page = (<BasicPageTemplate name={name} content={content} pathname={this.state.pathname}/>)
+        page = (<BasicPageTemplate name={name} content={content} pathname={this.props.pathname}/>)
         break;
       }
     }
