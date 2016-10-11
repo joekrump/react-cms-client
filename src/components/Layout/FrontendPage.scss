@@ -10,6 +10,19 @@
   }
 }
 
+.edit-page-container {
+  padding-top: 56px;
+  width: 100%;
+  height: calc(100% - 112px);
+  .admin-edit {
+    height: 100%;
+    .page-edit {
+      height: 100%;
+      margin-top: 56px;
+    }
+  }
+}
+
 .page {
   min-height: calc(100% - 10px);
   overflow: auto;
