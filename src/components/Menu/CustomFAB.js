@@ -46,8 +46,8 @@ class CustomFAB extends React.Component {
           className="tooltip"
           show={this.state.hoveredTooltip}
           label={this.props.tooltipText}
-          horizontalPosition="left"
-          verticalPosition="top"
+          horizontalPosition={this.props.ttHorizonal ? this.props.ttHorizontal : "left"}
+          verticalPosition={this.props.ttHorizonal ? this.props.ttVertical : "top"}
           touch={true}
           style={this.getToolTipStyles()}
         />

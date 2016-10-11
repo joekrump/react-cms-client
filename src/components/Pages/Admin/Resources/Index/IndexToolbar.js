@@ -1,11 +1,17 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import { connect } from 'react-redux';
 import APIClient from '../../../../../http/requests';
+import DoneIcon from 'material-ui/svg-icons/action/done';
+import AddIcon from 'material-ui/svg-icons/content/add';
+import EditIcon from 'material-ui/svg-icons/content/create';
+import {Link} from 'react-router';
+import {greenA700} from 'material-ui/styles/colors'
 
 let buttonStyles = {
-  margin: '10px 16px'
+  width: 56,
+  height: 56
 };
 
 class IndexToolbar extends React.Component {
@@ -22,20 +28,30 @@ class IndexToolbar extends React.Component {
     let button = null;
 
     if(mode === 'EDIT_INDEX' && hasChanges) {
-      button = <RaisedButton label="Save Changes" primary={true} 
-                             style={buttonStyles}
-                             disabled={disable} 
-                             onTouchTap={(event) => this.saveChanges(event) }/>
+      button =  <IconButton tooltip="Save Changes"
+                            tooltipPosition="top-center"
+                            iconStyle={{color: greenA700}}
+                            style={buttonStyles} 
+                            disabled={disable} 
+                            onTouchTap={(event) => this.saveChanges(event) }>
+                  <DoneIcon />
+                </IconButton>
     } else if (mode === 'EDIT_INDEX') {
-      button = <RaisedButton label="Cancel" primary={true} 
-                             style={buttonStyles}
-                             disabled={disable} 
-                             onTouchTap={(event) => this.cancelEdit(event) }/>
+      button =  <IconButton tooltip="Done"
+                            tooltipPosition="top-center"
+                            style={buttonStyles} 
+                            disabled={disable} 
+                            onTouchTap={(event) => this.cancelEdit(event) }>
+                  <DoneIcon />
+                </IconButton>
     } else {
-      button = <RaisedButton label="Edit" primary={true} 
-                             style={buttonStyles}
-                             disabled={disable} 
-                             onTouchTap={(event) => this.enableEdit(event) }/>
+      button =  <IconButton tooltip="Edit"
+                            tooltipPosition="top-center"
+                            style={buttonStyles} 
+                            disabled={disable} 
+                            onTouchTap={(event) => this.enableEdit(event) }>
+                  <EditIcon />
+                </IconButton>
     }
     return button;
   }
@@ -101,6 +117,15 @@ class IndexToolbar extends React.Component {
       <Toolbar style={{backgroundColor: this.context.muiTheme.palette.canvasColor, padding: 0}}>
         <ToolbarGroup>
           {this.makeEditButton(this.props.adminMode, this.props.hasChanges, this.state.buttonDisabled)}
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <Link to={'/admin/' + this.props.resourceNamePlural + '/new'}>
+            <IconButton tooltip="New"
+                        tooltipPosition="top-center"
+                        style={buttonStyles}>
+              <AddIcon />
+            </IconButton>
+          </Link>
         </ToolbarGroup>
       </Toolbar>
     );
