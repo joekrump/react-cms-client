@@ -12,14 +12,12 @@ const Settings = () => ({
         <AdminLayout>
           <div className="user-settings">
             <h1>User Settings</h1>
-
             <ResourceForm 
-              formName={'userForm'} 
-              submitUrl={'users/' + this.props.user.id}
+              formName='userForm'
+              resourceURL={'users/' + this.props.user.id}
               resourceId={this.props.user.id}
               resourceType='user'
-              resourceNamePlural='users'
-              context='edit'
+              editContext='edit'
             />
           </div>
         </AdminLayout>
