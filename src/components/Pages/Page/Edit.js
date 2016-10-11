@@ -44,10 +44,7 @@ class PageEdit extends React.Component {
   }
 
   componentWillUnmount() {
-    if(this.state.editor){
-      this.props.deleteEditorData();
-      this.state.editor.destroyEditor();
-    }
+    this.resetEditor();
   }
 
   componentWillMount() {
@@ -59,7 +56,17 @@ class PageEdit extends React.Component {
     })
   }
 
+  resetEditor() {
+    if(this.state.editor){
+      this.props.deleteEditorData();
+      this.state.editor.destroyEditor();
+    }
+  }
+
   componentWillUpdate(nextProps, nextState) {
+    // if(nextProps.pathname !== this.pathname) {
+    //   this.resetEditor();
+    // }
     // If there has been a change to the template_id then rerender the page with the
     // corresponding template.
     if(this.state.editor === null && nextState.editor !== null && this.state.editContext === 'new') {
@@ -396,6 +403,7 @@ const mapStateToProps = (state, ownProps) => {
       content: state.notifications.snackbar.content,
       notificationType: state.notifications.snackbar.notificationType
     },
+    pathname: state.routing.locationBeforeTransitions.pathname,
     name: state.admin.editorData.name,
     content: state.admin.editorData.content
   }

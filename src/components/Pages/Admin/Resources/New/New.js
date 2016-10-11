@@ -1,6 +1,14 @@
-import {getEditorContent} from '../ResourcePageHelper'
+import { getEditorContent } from '../ResourcePageHelper'
+import { connect } from 'react-redux';
 
-const New = ({ params: { resourceNamePlural }, location: { query } }) => (
-  getEditorContent('new', resourceNamePlural)
+const New = (props) => (
+  getEditorContent('new', props.resourceNameSingular, props.resourceNamePlural, props.params.resourceId)
 );
-export default New;
+
+const mapStateToProps = (state) => {
+  return {
+    resourceNamePlural: state.admin.resource.name.plural,
+    resourceNameSingular: state.admin.resource.name.singular
+  }
+}
+export default connect(mapStateToProps)(New);
