@@ -36,7 +36,9 @@ const TextInput = () => ({
     return errors;
   },
   validateInput(value, i){
-    return Validator[this.props.validationRules[i]](
+    let rule = this.props.validationRules[i];
+    
+    return Validator[rule](
       value, 
       this.getOptionsForRule([this.props.validationRules[i]])
     );

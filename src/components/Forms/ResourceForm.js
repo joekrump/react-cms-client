@@ -94,7 +94,7 @@ class ResourceForm extends React.Component {
   }
 
   getFieldValidationRules(fieldName){
-    return validations[this.props.formName][fieldName].rules[this.props.editContext] ? 
+    return validations[this.props.formName][fieldName].rules[this.props.editContext] !== undefined ? 
                 validations[this.props.formName][fieldName].rules[this.props.editContext] :
                 validations[this.props.formName][fieldName].rules
   }

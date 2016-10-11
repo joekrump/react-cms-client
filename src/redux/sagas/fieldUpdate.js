@@ -26,7 +26,7 @@ function checkFormIsValid(form) {
   let fieldNames = Object.keys(form.fields)
 
   for(let i = 0; i < fieldNames.length; i++){
-    if(form.fields[fieldNames[i]].errors.length > 0 || (form.fields[fieldNames[i]].value.length === 0)) {
+    if(form.fields[fieldNames[i]].errors.length > 0) {
       isValid = false;
       break;
     } else {
