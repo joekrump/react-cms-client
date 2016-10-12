@@ -125,7 +125,7 @@ class SwipableCard extends React.Component {
 
   render() {
     return(
-      <div className="card" ref="card" style={cardStyle}>
+      <div className="card card-swipable" ref="card" style={cardStyle}>
         {this.props.children}
       </div>
     )
