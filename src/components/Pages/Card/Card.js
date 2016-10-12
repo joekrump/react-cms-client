@@ -38,7 +38,12 @@ class Card extends React.Component {
   }
 
   onStart(evt) {
+    console.log(evt);
+
     if(!evt.target.classList.contains('card')) {
+      this.setState({
+        target: null
+      })
       return;
     }
 
