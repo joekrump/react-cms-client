@@ -30,11 +30,10 @@ class Card extends React.Component {
     this.flip = this.flip.bind(this);
   }
 
-  flip (evt) {
+  flip () {
     if (this._locked) {
       return;
     }
-    evt.preventDefault();
 
     this._locked = true;
 
@@ -107,10 +106,17 @@ class Card extends React.Component {
               SIDES.FRONT;
         };
   }
+  componentWillReceiveProps(nextProps) {
+    // if the Card has received a new prop value for side that
+    // is not the same as its current value, then flip to that side.
+    if(SIDES[nextProps.side] !== this._side) {
+      this.flip();
+    }
+  }
 
   componentDidMount () {
     this._locked = false;
-    this._side = SIDES.FRONT;
+    this._side = SIDES[this.props.side];
 
     this.refs.front.inert = false;
     this.refs.back.inert = true;
@@ -127,19 +133,19 @@ class Card extends React.Component {
   }
 
   render() {
+
     return(
       <div className="card" ref="card">
         <div className="umbra"    ref="umbra"></div>
         <div className="penumbra" ref="penumbra"></div>
         <div className="front"    ref="front" data-editable data-name="front_content" 
           data-ce-placeholder="Front Content..." 
-          dangerouslySetInnerHTML={{__html: this.props.front_content}} onClick={(evt) =>
-          this.flip(evt)} />
+          dangerouslySetInnerHTML={{__html: this.props.front_content}} 
+          onClick={this.props.editContext !== 'edit' ? (evt) => this.flip() : null} />
         <div className="back"     ref="back" data-editable data-name="back_content" 
           data-ce-placeholder="Back Content..." 
-          dangerouslySetInnerHTML={{__html: this.props.back_content}} onClick={(evt) =>
-          this.flip(evt)} />
-        
+          dangerouslySetInnerHTML={{__html: this.props.back_content}} 
+          onClick={this.props.editContext !== 'edit' ? (evt) => this.flip() : null} />
       </div>
     )
   }

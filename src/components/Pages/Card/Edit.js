@@ -14,6 +14,7 @@ import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 class CardEdit extends React.Component {
 
@@ -28,6 +29,7 @@ class CardEdit extends React.Component {
       editContext: this.props.editContext,
       full_path: '/',
       name: null,
+      side: 'FRONT',
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
       template: null,
       templates: [{id:1, display_name:'Basic Card'}, {id:2, display_name:'Latin Card'}],
@@ -212,6 +214,12 @@ class CardEdit extends React.Component {
     this.state.editor.updateTemplateId(template_id);
   }
 
+  onSideChange(evt, value) {
+    this.setState({
+      side: value
+    })
+  }
+
   render() {
     return (
       <div className="card-edit">
@@ -222,8 +230,21 @@ class CardEdit extends React.Component {
             defaultTemplateId={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
+          <RadioButtonGroup name="side" defaultSelected="FRONT" onChange={(evt, value) => this.onSideChange(evt, value)}>
+            <RadioButton
+              value="FRONT"
+              label="Show Front"
+              style={{marginBottom: 16}}
+            />
+            <RadioButton
+              value="BACK"
+              label="Show Back"
+            />
+          </RadioButtonGroup>
         </FloatingPageMenu>
         <Card
+          side={this.state.side}
+          editContext="edit"
           duration={800}
           front_content={this.state.front_content} 
           back_content={this.state.back_content}
