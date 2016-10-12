@@ -6,11 +6,10 @@ import ContentTools from 'ContentTools';
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
-import cardStyles from './Card.scss';
 
 import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
 import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
-
+import Card from './Card';
 import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
 import TemplateDropDown from '../Templates/TemplateDropDown'
@@ -224,7 +223,9 @@ class CardEdit extends React.Component {
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
         </FloatingPageMenu>
-        {this.state.template}
+        <Card>
+          {this.state.template}
+        </Card>
         <NotificationSnackbar 
           open={this.props.snackbar.show} 
           header={this.props.snackbar.header}
@@ -266,7 +267,7 @@ CardEdit.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
-export default withStyles(cardStyles)(withStyles(s)(connect(
+export default withStyles(s)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(CardEdit)))
+)(CardEdit))

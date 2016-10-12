@@ -37,7 +37,7 @@ const TextInput = () => ({
   },
   validateInput(value, i){
     let rule = this.props.validationRules[i];
-    
+
     return Validator[rule](
       value, 
       this.getOptionsForRule([this.props.validationRules[i]])

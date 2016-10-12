@@ -10,7 +10,17 @@
 }
  */
 .card {
-  /* min-height: calc(100% - 10px); */
+  color: #363636;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 3px 4px rgba(0,0,0,0.3);
+  margin: 20px 0;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 400px;
+
   .align-right {
     float: right;
     margin-left: 15px;
@@ -19,13 +29,13 @@
     float: left;
     margin-right: 15px;
   }
-  .front {
-    height: 300px;
-  }
-  
-  .back {
-    height: 300px;
-  }
+/*   .front {
+  height: 300px;
+}
+
+.back {
+  height: 300px;
+} */
   
   &:after {
     content: '';
