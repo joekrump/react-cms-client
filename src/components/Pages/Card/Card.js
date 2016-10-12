@@ -4,8 +4,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 const cardStyle = {
   transform: 'translateX(0px)',
-  willChange: 'transform'
+  willChange: 'transform',
+  opacity: 1
 }
+const minTravelPct = 0.35;
 
 class Card extends React.Component {
 
@@ -16,7 +18,9 @@ class Card extends React.Component {
       startX: 0,
       currentX: 0,
       screenX: 0,
-      isDragging: false
+      targetX: 0,
+      isDragging: false,
+      boundingClientRect: null
     }
     requestAnimationFrame((evt) => this.update(evt));
   }
@@ -46,11 +50,11 @@ class Card extends React.Component {
       return;
     }
 
-
-
     let startX = evt.pageX || evt.touches[0].pageX;
 
     this.setState({
+      // not getBCR is an expensive function to call, therefore call it once at start only.
+      boundingClientRect: evt.target.getBoundingClientRect(),
       isDragging: true,
       target: evt.target,
       startX: startX,
@@ -72,6 +76,22 @@ class Card extends React.Component {
     if(!this.state.target)
       return;
 
+
+    // set the currentX value so that the next time the card is touched, it won't
+    // appear to jump.
+    this.setState({
+      targetX: 0,
+      currentX: evt.pageX || this.state.currentX
+    });
+    
+    let screenX = this.state.currentX - this.state.startX;
+
+    if(Math.abs(screenX) > (this.state.boundingClientRect.width * minTravelPct)) {
+      this.setState({
+        targetX: (screenX > 0) ? this.state.boundingClientRect.width : -this.state.boundingClientRect.width
+      })
+    }
+
     this.setState({
       isDragging: false
     })
@@ -92,11 +112,14 @@ class Card extends React.Component {
     } else {
       // Ease back to starting point after letting go.
       this.setState({
-        screenX: this.state.screenX + ((0 - this.state.screenX) / 10)
+        screenX: this.state.screenX + ((this.state.targetX - this.state.screenX) / 10)
       });
     }
 
+    const opacity = 1 - (Math.abs(this.state.screenX) / this.state.boundingClientRect.width);
+
     cardStyle.transform = `translateX(${this.state.screenX}px)`;
+    cardStyle.opacity = opacity;
   }
 
   render() {
