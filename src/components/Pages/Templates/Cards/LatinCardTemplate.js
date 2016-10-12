@@ -6,10 +6,12 @@ const LatinCardTemplate = (props) => (
   <div className="latin">
     <div className="front" data-editable data-name="front_content" 
     data-ce-placeholder="Front Content..." 
-    dangerouslySetInnerHTML={{__html: props.front_content}} />
+    dangerouslySetInnerHTML={{__html: props.front_content}} 
+    tabindex="-1" />
     <div className="back" data-editable data-name="back_content" 
     data-ce-placeholder="Back Content..." 
-    dangerouslySetInnerHTML={{__html: props.back_content}} />
+    dangerouslySetInnerHTML={{__html: props.back_content}} 
+     tabindex="-1" />
   </div>
 )
 

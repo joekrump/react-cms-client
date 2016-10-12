@@ -9,18 +9,22 @@
   }
 }
  */
-.card {
-  color: #363636;
-  background: #fff;
-  border-radius: 3px;
-  box-shadow: 0 3px 4px rgba(0,0,0,0.3);
-  margin: 20px 0;
-  height: 200px;
+
+.card-edit {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  width: 400px;
+  justify-content: center;
+}
+.card {
+  width: 260px;
+  height: 380px;
+  position: relative;
+  perspective: 500px;
+  will-change: transform;
 
+  .flip-button {
+    z-index: 9999;
+  }
   .align-right {
     float: right;
     margin-left: 15px;
@@ -29,14 +33,57 @@
     float: left;
     margin-right: 15px;
   }
-/*   .front {
-  height: 300px;
-}
-
-.back {
-  height: 300px;
-} */
   
+  .front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .front {
+    background-color: green;
+  }
+  .back {
+    transform: rotateY(180deg);
+    background-color: blue;
+  }
+
+  .umbra,
+  .penumbra {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: visible;
+  }
+
+  .umbra {
+    width: 270px;
+    height: 390px;
+    top: -5px;
+    left: -5px;
+    background: url('/images/umbra.svg') center center no-repeat;
+    transform: translateY(2px);
+    opacity: 0.3;
+  }
+
+  .penumbra {
+    width: 330px;
+    height: 450px;
+    top: -35px;
+    left: -35px;
+    background: url('/images/penumbra.svg') center center no-repeat;
+    transform: translateY(2px);
+    opacity: 0;
+  }
+
   &:after {
     content: '';
     display: block;

@@ -223,7 +223,11 @@ class CardEdit extends React.Component {
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
         </FloatingPageMenu>
-        <Card>
+        <Card
+          duration={800}
+          front_content={this.state.front_content} 
+          back_content={this.state.back_content}
+        >
           {this.state.template}
         </Card>
         <NotificationSnackbar 
