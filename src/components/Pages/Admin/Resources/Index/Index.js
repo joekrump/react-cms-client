@@ -12,6 +12,7 @@ import TreeHelper from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 import IndexToolbar from './IndexToolbar';
+// import SwipeableCardContainer from './SwipeableCardContainer';
 
 class Index extends React.Component {
   constructor(props, context) {

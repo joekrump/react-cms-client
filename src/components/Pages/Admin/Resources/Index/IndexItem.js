@@ -86,7 +86,7 @@ class IndexItem extends React.Component{
     }
 
     return(
-      <div id={this.props.modelId} className={"index-item f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
+      <div id={this.props.modelId} className={"index-item card-swipe f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
         <ListItem
           className="list-item"
           disabled
