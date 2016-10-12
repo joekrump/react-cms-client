@@ -10,21 +10,18 @@
 }
  */
 
-.card-edit {
+.admin-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .card {
-  width: 260px;
-  height: 380px;
+  width: 400px;
+  height: 300px;
   position: relative;
   perspective: 500px;
   will-change: transform;
 
-  .flip-button {
-    z-index: 9999;
-  }
   .align-right {
     float: right;
     margin-left: 15px;
@@ -45,7 +42,7 @@
     border-radius: 3px;
     overflow: hidden;
   }
-  
+
   .front {
     background-color: green;
   }
@@ -65,8 +62,8 @@
   }
 
   .umbra {
-    width: 270px;
-    height: 390px;
+    width: 410px;
+    height: 310px;
     top: -5px;
     left: -5px;
     background: url('/images/umbra.svg') center center no-repeat;
@@ -75,8 +72,8 @@
   }
 
   .penumbra {
-    width: 330px;
-    height: 450px;
+    width: 470px;
+    height: 370px;
     top: -35px;
     left: -35px;
     background: url('/images/penumbra.svg') center center no-repeat;

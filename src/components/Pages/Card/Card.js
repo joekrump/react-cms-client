@@ -2,8 +2,6 @@ import React from 'react';
 import s from './Card.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-
-
 /**
  *
  * Copyright 2016 Google Inc. All rights reserved.
@@ -33,13 +31,10 @@ class Card extends React.Component {
   }
 
   flip (evt) {
-    console.log('flip!')
     if (this._locked) {
       return;
     }
     evt.preventDefault();
-
-    console.log(this);
 
     this._locked = true;
 
@@ -79,8 +74,6 @@ class Card extends React.Component {
       easing: 'ease-in-out',
       fill: 'forwards'
     };
-
-    console.log(this.refs);
 
     switch (this._side) {
       case SIDES.FRONT:
