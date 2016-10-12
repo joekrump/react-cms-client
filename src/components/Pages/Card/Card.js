@@ -22,9 +22,11 @@ class Card extends React.Component {
   }
 
   render() {
-    <div className="card">
-      {this.props.children}
-    </div>
+    return(
+      <div className="card">
+        {this.props.children}
+      </div>
+    )
   }
 }
 
