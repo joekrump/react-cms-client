@@ -21,6 +21,22 @@
   position: relative;
   perspective: 500px;
   will-change: transform;
+  
+  &.basic {
+    .front, .back {
+      border: 2px solid #e6e6e6;
+      background: #252429;
+    } 
+  }
+
+  &.latin {
+    .front {
+      background: #ae7959;
+    }
+    .back {
+      background: #0a0a0a;
+    }
+  }
 
   .align-right {
     float: right;
@@ -43,12 +59,8 @@
     overflow: hidden;
   }
 
-  .front {
-    background-color: green;
-  }
   .back {
     transform: rotateY(180deg);
-    background-color: blue;
   }
 
   .umbra,

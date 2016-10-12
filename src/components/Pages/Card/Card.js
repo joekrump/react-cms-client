@@ -135,7 +135,7 @@ class Card extends React.Component {
   render() {
 
     return(
-      <div className="card" ref="card">
+      <div className={`card ${this.props.cardClass}`} ref="card">
         <div className="umbra"    ref="umbra"></div>
         <div className="penumbra" ref="penumbra"></div>
         <div className="front"    ref="front" data-editable data-name="front_content" 

@@ -7,8 +7,8 @@ import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
 
-import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
-import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
+// import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
+// import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
 import Card from './Card';
 import BackButton from '../../Nav/BackButton'
 import FloatingPageMenu from '../../Menu/FloatingPageMenu'
@@ -116,7 +116,7 @@ class CardEdit extends React.Component {
    */
   handleSuccessfulDataFetch(client, res, updateStateCallback) {
     if (res.statusCode !== 200) {
-      console.log('Could not get data for Card ', res);
+      console.warn('Could not get data for Card ', res);
     } else {
       if(res.header && res.header.authorization) {
         client.updateToken(res.header.authorization);
@@ -166,21 +166,15 @@ class CardEdit extends React.Component {
 
     switch(template_id) {
       case 1: {
-        template = (<BasicCardTemplate 
-          front_content={this.state.front_content} 
-          back_content={this.state.back_content} />)
+        template = 'basic'
         break;
       }
       case 2: {
-        template = (<LatinCardTemplate 
-          front_content={this.state.front_content} 
-          back_content={this.state.back_content} />)
+        template = 'latin'
         break;
       }
       default: {
-        template = (<BasicCardTemplate 
-          front_content={this.state.front_content} 
-          back_content={this.state.back_content} />)
+        template = 'basic'
         break;
       }
     }
@@ -210,7 +204,13 @@ class CardEdit extends React.Component {
    * @return undefined
    */
   handleTemplateChange(template_id) {
-    this.setState({template_id})
+    let template = this.getTemplateComponent(template_id);
+    console.log(template_id);
+    console.log(template);
+    this.setState({
+      template_id,
+      template
+    })
     this.state.editor.updateTemplateId(template_id);
   }
 
@@ -230,11 +230,13 @@ class CardEdit extends React.Component {
             defaultTemplateId={this.state.template_id} 
             handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
           />
-          <RadioButtonGroup name="side" defaultSelected="FRONT" onChange={(evt, value) => this.onSideChange(evt, value)}>
+          <RadioButtonGroup 
+            style={{marginLeft: 24}}
+            name="side" defaultSelected="FRONT" onChange={(evt, value) => this.onSideChange(evt, value)}>
             <RadioButton
               value="FRONT"
               label="Show Front"
-              style={{marginBottom: 16}}
+              style={{marginTop: 16, marginBottom: 16}}
             />
             <RadioButton
               value="BACK"
@@ -243,13 +245,13 @@ class CardEdit extends React.Component {
           </RadioButtonGroup>
         </FloatingPageMenu>
         <Card
+          cardClass={this.state.template}
           side={this.state.side}
           editContext="edit"
           duration={800}
           front_content={this.state.front_content} 
           back_content={this.state.back_content}
         >
-          {this.state.template}
         </Card>
         <NotificationSnackbar 
           open={this.props.snackbar.show} 
