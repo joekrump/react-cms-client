@@ -1,0 +1,35 @@
+/* .admin-container {
+  padding-top: 56px;
+  height: calc(100% - 56px);
+  .admin-edit {
+    height: 100%;
+    .card-edit {
+      height: 100%;
+    }
+  }
+}
+ */
+.card {
+  /* min-height: calc(100% - 10px); */
+  .align-right {
+    float: right;
+    margin-left: 15px;
+  }
+  .align-left {
+    float: left;
+    margin-right: 15px;
+  }
+  .front {
+    height: 300px;
+  }
+  
+  .back {
+    height: 300px;
+  }
+  
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}

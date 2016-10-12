@@ -4,14 +4,12 @@ import s from './BasicCardTemplate.scss';
 
 const BasicCardTemplate = (props) => (
   <div className="card basic">
-    <div className="card-container">
-      <div className="front" data-editable data-name="front_content" 
-        data-ce-placeholder="Front Content..." 
-        dangerouslySetInnerHTML={{__html: props.front_content}} />
-      <div className="back" data-editable data-name="back_content" 
-        data-ce-placeholder="Back Content..." 
-        dangerouslySetInnerHTML={{__html: props.back_content}} />
-    </div>
+    <div className="front" data-editable data-name="front_content" 
+      data-ce-placeholder="Front Content..." 
+      dangerouslySetInnerHTML={{__html: props.front_content}} />
+    <div className="back" data-editable data-name="back_content" 
+      data-ce-placeholder="Back Content..." 
+      dangerouslySetInnerHTML={{__html: props.back_content}} />
   </div>
 )
 

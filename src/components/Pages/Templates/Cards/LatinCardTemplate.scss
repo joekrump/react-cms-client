@@ -1,7 +1,10 @@
 .card {
+  color: #363636;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 3px 4px rgba(0,0,0,0.3);
   &.latin {
     padding-bottom: 10px;
-    background-color: rgba(0,0,0,0.8);
     .front {
       border: 1px solid blue;
       padding: 15px;

@@ -7,7 +7,6 @@ import AdminLayout from '../Layout/AdminLayout'
 import PageEdit from '../../Page/Edit';
 import CardEdit from '../../Card/Edit';
 import EditPageLayout from '../Layout/EditPageLayout'
-import EditCardLayout from '../Layout/EditCardLayout'
 import BackButton from '../../../Nav/BackButton'
 import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
 
@@ -28,7 +27,7 @@ function getEditComponent(editContext, nameSingular, namePlural, resourceId) {
     )
   } else if (nameSingular === 'card') {
     return (
-      <EditCardLayout>
+      <AdminLayout>
         <div className="admin-edit">
           <CardEdit 
             submitUrl={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
@@ -38,7 +37,7 @@ function getEditComponent(editContext, nameSingular, namePlural, resourceId) {
             editContext={editContext}
           />
         </div>
-      </EditCardLayout>
+      </AdminLayout>
     )
   } else {
     console.warn('COULD NOT DETERMINE EDIT COMPONENT')

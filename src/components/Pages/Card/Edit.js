@@ -6,6 +6,7 @@ import ContentTools from 'ContentTools';
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
+import cardStyles from './Card.scss';
 
 import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
 import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
@@ -265,7 +266,7 @@ CardEdit.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
-export default withStyles(s)(connect(
+export default withStyles(cardStyles)(withStyles(s)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(CardEdit))
+)(CardEdit)))
