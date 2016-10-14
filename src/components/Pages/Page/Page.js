@@ -18,8 +18,14 @@ class Page extends React.Component {
     }
   }
 
+  isAdminPage() {
+    return (this.props.pathname.substring(1, 6).toLowerCase() === 'admin')
+  }
+
   componentWillMount() {
-    this.loadPageContent(this.props.pathname);
+    if(!this.isAdminPage()) {
+      this.loadPageContent(this.props.pathname);
+    }
   }
 
   loadPageContent(pathname) {
