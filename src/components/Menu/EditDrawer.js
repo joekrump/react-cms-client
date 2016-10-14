@@ -8,6 +8,10 @@ import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
+const appBarStyle = {
+  marginBottom: 7
+}
+
 class EditDrawer extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +30,7 @@ class EditDrawer extends React.Component {
         </FloatingActionButton>
         <Drawer width={304} openSecondary={true} open={this.state.open}>
           <AppBar title="Settings" 
+            style={appBarStyle}
             iconElementLeft={<IconButton onTouchTap={this.handleToggle}><NavigationClose /></IconButton>}
           />
           {this.props.children}
