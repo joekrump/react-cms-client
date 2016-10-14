@@ -355,7 +355,6 @@ class PageEdit extends React.Component {
     return (
       <div className="page-edit">
         <EditDrawer>
-          <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
             defaultTemplateId={this.state.template_id} 
