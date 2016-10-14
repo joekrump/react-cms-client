@@ -378,7 +378,7 @@ class PageEdit extends React.Component {
             labelPosition="right"
             onToggle={(event) => this.handleToggleShowTitle(event)}
             defaultToggled={this.state.showPageTitle}
-            style={{marginLeft: 24, marginTop: 5}}
+            style={{marginLeft: 24, marginTop: 5, width: 256}}
           />
         </FloatingPageMenu>
         {this.state.template}
