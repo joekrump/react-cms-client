@@ -3,12 +3,15 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './EditDrawer.scss';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
 class EditDrawer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {open: false};
+    this.state = {open: true};
   }
 
   handleToggle = () => this.setState({open: !this.state.open});
@@ -16,13 +19,15 @@ class EditDrawer extends React.Component {
   render() {
     return (
       <div>
-        <RaisedButton
+        <FloatingActionButton
           className="page-menu floating-menu"
-          label="Toggle Drawer"
           onTouchTap={this.handleToggle}
-        />
+        ><SettingsIcon />
+        </FloatingActionButton>
         <Drawer width={346} openSecondary={true} open={this.state.open}>
-          <AppBar title="AppBar" />
+          <AppBar title="Settings" 
+            iconElementLeft={<IconButton onTouchTap={this.handleToggle}><NavigationClose /></IconButton>}
+          />
           {this.props.children}
         </Drawer>
       </div>
