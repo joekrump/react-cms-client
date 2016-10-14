@@ -12,6 +12,7 @@ const initialState = {
       singular: ''
     }
   },
+  pageType: 'dashboard', // can be show, edit, new, settings or dashboard
   editorData: {}
 };
 
@@ -22,7 +23,8 @@ const adminReducer = (state = initialState, action) => {
         mode: action.mode,
         index: state.index,
         resource: state.resource,
-        editorData: state.editorData
+        editorData: state.editorData,
+        pageType: state.pageType
       }
     case 'UPDATE_INDEX_HAS_CHANGES':
       return {
@@ -31,7 +33,8 @@ const adminReducer = (state = initialState, action) => {
           hasChanges: action.hasChanges
         },
         resource: state.resource,
-        editorData: state.editorData
+        editorData: state.editorData,
+        pageType: state.pageType
       }
     case 'UPDATE_ADMIN_EDITOR_DATA':
       return {
@@ -40,7 +43,8 @@ const adminReducer = (state = initialState, action) => {
           hasChanges: state.hasChanges
         },
         resource: state.resource,
-        editorData: merge({}, state.editorData, action.newData)
+        editorData: merge({}, state.editorData, action.newData),
+        pageType: state.pageType
       }
     case 'DELETE_ADMIN_EDITOR_DATA':
       return {
@@ -49,7 +53,8 @@ const adminReducer = (state = initialState, action) => {
           hasChanges: state.hasChanges
         },
         resource: state.resource,
-        editorData: {}
+        editorData: {},
+        pageType: state.pageType
       }
     case 'UPDATE_CURRENT_RESOURCE_NAME':
       return {
@@ -61,7 +66,8 @@ const adminReducer = (state = initialState, action) => {
             singular: singularizeName(action.namePlural)
           }
         },
-        editorData: state.editorData
+        editorData: state.editorData,
+        pageType: action.pageType
       }
     default:
       return state;

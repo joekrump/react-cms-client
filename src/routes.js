@@ -17,7 +17,6 @@ import AdminRoutes from './routes/admin/routes'
  */
 const getRoutes = (store) => {
   let adminRoutes = AdminRoutes(store);
-  console.log(adminRoutes);
   let routes = {
     path: '/',
     component: App,
@@ -28,10 +27,12 @@ const getRoutes = (store) => {
       { path: 'forgot-password', component: ForgotPassword },
       { 
         path: 'admin',
-        indexRoute: { component: Dashboard },
-        onEnter: () => requireAuth(store),
+        indexRoute: { component: Dashboard, onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'dashboard') },
         childRoutes: [
-          { path: 'settings', component: UserSettings },
+          { path: 'settings', 
+            component: UserSettings,
+            onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'settings')
+          },
           adminRoutes
         ]
       },
@@ -45,12 +46,14 @@ const getRoutes = (store) => {
 export default getRoutes;
 
 
-const onAdminEnterHandler = (nextState, store) => {
+const onAdminEnterHandler = (nextState, store, pageType) => {
   requireAuth(store);
-  let resourceNamePlural = nextState.params.resourceNamePlural;
+  let resourceNamePlural = nextState.params.resourceNamePlural || '';
+  const storeState = store.getState();
   // only update if it needs to be done.
-  if(store.getState().admin.resource.name.plural !== resourceNamePlural) {
-    setResourceNamePlural(resourceNamePlural, store);
+  if((storeState.admin.resource.name.plural !== resourceNamePlural)
+    || (storeState.admin.pageType !== pageType)) {
+    setResourceNamePlural(resourceNamePlural, store, pageType);
   }
 }
 
@@ -62,16 +65,16 @@ export {onAdminEnterHandler};
  * @return undefined
  */
 function requireAuth(store) {
-  console.log(store);
   if (!auth.loggedIn()) {
     store.dispatch(push('/login'))
   }
 }
 
-function setResourceNamePlural(namePlural, store) {
+function setResourceNamePlural(namePlural, store, pageType) {
   store.dispatch({
     type: 'UPDATE_CURRENT_RESOURCE_NAME',
-    namePlural
+    namePlural,
+    pageType
   })
 }
 /**

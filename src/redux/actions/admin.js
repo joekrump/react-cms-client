@@ -21,10 +21,11 @@ export function updateIndexHasChanges(hasChanges){
 /**
  * @param  {string} pluralName [description]
  */
-export function updateCurrentResourceName(pluralName){
+export function updateCurrentResourceName(pluralName, pageType){
   return {
     type: 'UPDATE_CURRENT_RESOURCE_NAME',
-    pluralName: pluralName.toLowerCase()
+    pluralName: pluralName.toLowerCase(),
+    pageType
   }
 }
 

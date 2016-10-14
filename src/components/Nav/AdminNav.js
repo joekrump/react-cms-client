@@ -81,7 +81,7 @@ class AdminNav extends React.Component {
   }
 
   renderBackButton() {
-    return this.props.pluralName === '' ? null 
+    return (this.props.pluralName === '' || this.props.adminPageType === 'index') ? null 
       : <BackButton 
           label={this.props.pluralName} 
           link={'/admin/' + this.props.pluralName} />
@@ -147,7 +147,8 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
     token: state.auth.token,
     location: state.routing.locationBeforeTransitions,
-    pluralName: state.admin.resource.name.plural
+    pluralName: state.admin.resource.name.plural,
+    adminPageType: state.admin.pageType
   }
 }
 
