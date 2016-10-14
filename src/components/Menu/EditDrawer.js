@@ -24,7 +24,7 @@ class EditDrawer extends React.Component {
           onTouchTap={this.handleToggle}
         ><SettingsIcon />
         </FloatingActionButton>
-        <Drawer width={346} openSecondary={true} open={this.state.open}>
+        <Drawer width={304} openSecondary={true} open={this.state.open}>
           <AppBar title="Settings" 
             iconElementLeft={<IconButton onTouchTap={this.handleToggle}><NavigationClose /></IconButton>}
           />
