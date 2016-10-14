@@ -7,7 +7,6 @@ import AdminLayout from '../Layout/AdminLayout'
 import PageEdit from '../../Page/Edit';
 import CardEdit from '../../Card/Edit';
 import EditPageLayout from '../Layout/EditPageLayout'
-import BackButton from '../../../Nav/BackButton'
 
 function getEditComponent(editContext, nameSingular, namePlural, resourceId) {
   if(nameSingular === 'page') {
