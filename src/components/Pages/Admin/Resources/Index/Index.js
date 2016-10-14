@@ -31,7 +31,6 @@ class Index extends React.Component {
         // (document).removeChild(el);
         this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      console.log('update');
       this.props.updateTree(this.state.TreeHelper.richNodeArray);
       this.props.updateIndexHasChanges(true)
     } catch (e) {
@@ -133,8 +132,7 @@ class Index extends React.Component {
     return (
       <AdminLayout>
         <div className={"admin-index" + (this.props.adminMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
-          <h1>{capitalize(this.props.resourceNamePlural)}</h1>
-          <IndexToolbar />
+          <IndexToolbar resourceName={capitalize(this.props.resourceNamePlural)}/>
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="item-list">
             {this.state.loading || !(this.props.nodeArray.length > 0) ? null : <span className="spacer"></span>}

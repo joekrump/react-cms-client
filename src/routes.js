@@ -3,12 +3,31 @@ import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
 import SignUp from './components/Pages/Auth/SignUp/SignUp';
 import UserSettings from './components/Pages/Admin/User/Settings/Settings';
 import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPassword';
-import PageNotFound from './components/Pages/Errors/404/404';
 import App from './components/App';
 import auth from './auth';
 import { replace, push } from 'react-router-redux'
 import APIClient from './http/requests'
-import AdminRoutes from './routes/admin/routes'
+import getAdminRoutes from './routes/admin/routes'
+
+/**
+ * onEnter callback method for admin routesq
+ * @param  {object} nextState [description]
+ * @param  {object} store     redux store
+ * @param  {string} pageType  admin page type that user is on. ex. 'index', 'edit', 'new', 'dashboard', 'settings'
+ * @return undefined
+ */
+const onAdminEnterHandler = (nextState, store, pageType) => {
+  requireAuth(store);
+  let resourceNamePlural = nextState.params.resourceNamePlural || '';
+  const storeState = store.getState();
+  // only update if it needs to be done.
+  if((storeState.admin.resource.name.plural !== resourceNamePlural)
+    || (storeState.admin.pageType !== pageType)) {
+    setResourceNamePlural(resourceNamePlural, store, pageType);
+  }
+}
+
+export {onAdminEnterHandler};
 
 /**
  * Returns the routes in the app
@@ -16,7 +35,7 @@ import AdminRoutes from './routes/admin/routes'
  * @return {object}       - the routes for the app
  */
 const getRoutes = (store) => {
-  let adminRoutes = AdminRoutes(store);
+  let adminRoutes = getAdminRoutes(store);
   let routes = {
     path: '/',
     component: App,
@@ -44,20 +63,6 @@ const getRoutes = (store) => {
 }
 
 export default getRoutes;
-
-
-const onAdminEnterHandler = (nextState, store, pageType) => {
-  requireAuth(store);
-  let resourceNamePlural = nextState.params.resourceNamePlural || '';
-  const storeState = store.getState();
-  // only update if it needs to be done.
-  if((storeState.admin.resource.name.plural !== resourceNamePlural)
-    || (storeState.admin.pageType !== pageType)) {
-    setResourceNamePlural(resourceNamePlural, store, pageType);
-  }
-}
-
-export {onAdminEnterHandler};
 
 /**
  * Redirects user to /login if they try to access a route that should only be 

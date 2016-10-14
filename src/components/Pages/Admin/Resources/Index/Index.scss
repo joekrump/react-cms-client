@@ -12,6 +12,13 @@
 }
 
 .admin-index {
+  .index-title {
+    font-size: 1.8rem;
+    line-height: 56px;
+    margin: 0;
+    margin-left: 15px;
+  }
+
   .item-list {
     height: calc(100% - 300px);
     max-height: calc(100% - 300px);

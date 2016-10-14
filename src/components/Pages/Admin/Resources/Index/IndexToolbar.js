@@ -114,11 +114,16 @@ class IndexToolbar extends React.Component {
 
   render() {
     return (
-      <Toolbar style={{backgroundColor: this.context.muiTheme.palette.canvasColor, padding: 0}}>
+      <Toolbar style={{
+        backgroundColor: this.context.muiTheme.palette.canvasColor, 
+        padding: 0,
+        marginTop: 30
+      }}>
         <ToolbarGroup>
-          {this.makeEditButton(this.props.adminMode, this.props.hasChanges, this.state.buttonDisabled)}
+          <h1 className="index-title">{this.props.resourceName}</h1>
         </ToolbarGroup>
         <ToolbarGroup>
+          {this.makeEditButton(this.props.adminMode, this.props.hasChanges, this.state.buttonDisabled)}
           <Link to={'/admin/' + this.props.resourceNamePlural + '/new'}>
             <IconButton tooltip="New"
                         tooltipPosition="top-center"

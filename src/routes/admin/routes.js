@@ -4,7 +4,7 @@ import Edit from '../../components/Pages/Admin/Resources/Edit/Edit';
 import New from '../../components/Pages/Admin/Resources/New/New';
 import { onAdminEnterHandler } from '../../routes'
 
-const AdminIndexRoutes = (store) => {
+const getAdminRoutes = (store) => {
   let routes = {
     path: ':resourceNamePlural',
     indexRoute: { 
@@ -37,4 +37,4 @@ const AdminIndexRoutes = (store) => {
   return routes;
 }
 
-export default AdminIndexRoutes;
+export default getAdminRoutes;

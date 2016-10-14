@@ -2,7 +2,6 @@ import React from 'react';
 import ResourceForm from '../../../Forms/ResourceForm';
 import AppConfig from '../../../../../app_config/app';
 import { capitalize } from '../../../../helpers/StringHelper'
-import { singularizeName } from '../../../../helpers/ResourceHelper'
 import AdminLayout from '../Layout/AdminLayout'
 import PageEdit from '../../Page/Edit';
 import CardEdit from '../../Card/Edit';

@@ -1,7 +1,6 @@
 import APIClient from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
-import { connect } from 'react-redux';
 
 const sKeyCode = 83;
 
