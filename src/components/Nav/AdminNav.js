@@ -13,6 +13,7 @@ import Gravatar from './Gravatar';
 import auth from '../../auth';
 import { connect } from 'react-redux';
 import ListItem from 'material-ui/List/ListItem';
+import BackButton from './BackButton';
 
 class AdminNav extends React.Component {
 
@@ -79,15 +80,24 @@ class AdminNav extends React.Component {
     }, this.context.store);
   }
 
+  renderBackButton() {
+    return this.props.pluralName === '' ? null 
+      : <BackButton 
+          label={this.props.pluralName} 
+          link={'/admin/' + this.props.pluralName} />
+  }
+
   render() {
 
     var iconElementRight = null;
     if(this.props.loggedIn) {
       iconElementRight = (
         <IconMenu
-          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+          style={{marginTop: -4}}
+          iconButtonElement={<IconButton
+            style={{width: 56, height: 56}}><MoreVertIcon /></IconButton>}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
-          anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+          anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
         >
           <MenuItem primaryText="Settings" containerElement={<Link to="/admin/settings"/>} />
           <MenuItem primaryText="Log Out" onTouchTap={(event) => this.handleLogout(event)} />
@@ -105,9 +115,16 @@ class AdminNav extends React.Component {
           {this.getLeftMenuItems()}
         </Drawer>
         <header>
-          {/*TODO: put site title in a NODE config file of some-sort. */}
+          {/*TODO: put site title in a NODE config file of some-sort. 
+            or in a setting that is accessible for an admin user.
+          */}
           <AppBar 
-            title='React CMS' 
+            title={(
+              <div className="title-wrapper">
+                <h1 className="admin-title">React CMS</h1>
+                {this.renderBackButton()}
+              </div>
+            )} 
             onLeftIconButtonTouchTap={() => this.handleToggleMenu()} 
             style={{position: 'fixed'}}
             iconElementRight={iconElementRight}
@@ -129,7 +146,8 @@ const mapStateToProps = (state) => {
     loggedIn: state.auth.logged_in,
     user: state.auth.user,
     token: state.auth.token,
-    location: state.routing.locationBeforeTransitions
+    location: state.routing.locationBeforeTransitions,
+    pluralName: state.admin.resource.name.plural
   }
 }
 

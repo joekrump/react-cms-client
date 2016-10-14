@@ -9,25 +9,25 @@ const AdminIndexRoutes = (store) => {
     path: ':resourceNamePlural',
     indexRoute: { 
       component: AdminIndex,
-      onEnter: (nextState) => onAdminEnterHandler(nextState, store)
+      onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'index')
     },
     childRoutes: [
       { 
         path: 'new', 
         component: New, 
-        onEnter: (nextState) => onAdminEnterHandler(nextState, store) 
+        onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'new') 
       },
       { 
         path: ':resourceId',
         indexRoute: { 
           component: Show,
-          onEnter: (nextState) => onAdminEnterHandler(nextState, store) 
+          onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'show') 
         },
         childRoutes: [
           { 
             path: 'edit', 
             component: Edit,
-            onEnter: (nextState) => onAdminEnterHandler(nextState, store) 
+            onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'edit') 
           }
         ]
       }

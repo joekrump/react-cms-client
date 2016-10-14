@@ -12,9 +12,7 @@ const initialState = {
       singular: ''
     }
   },
-  editorData: {
-
-  }
+  editorData: {}
 };
 
 const adminReducer = (state = initialState, action) => {
