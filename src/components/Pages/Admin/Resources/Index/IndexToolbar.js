@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import APIClient from '../../../../../http/requests';
 import DoneIcon from 'material-ui/svg-icons/action/done';
 import AddIcon from 'material-ui/svg-icons/content/add';
-import EditIcon from 'material-ui/svg-icons/content/create';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import {Link} from 'react-router';
 import {greenA700} from 'material-ui/styles/colors'
 
@@ -50,7 +50,7 @@ class IndexToolbar extends React.Component {
                             style={buttonStyles} 
                             disabled={disable} 
                             onTouchTap={(event) => this.enableEdit(event) }>
-                  <EditIcon />
+                  <SettingsIcon />
                 </IconButton>
     }
     return button;
