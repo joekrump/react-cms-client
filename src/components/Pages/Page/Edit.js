@@ -14,7 +14,6 @@ import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
-import BackButton from '../../Nav/BackButton'
 import EditDrawer from '../../Menu/EditDrawer'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import {slugify} from '../../../helpers/StringHelper';

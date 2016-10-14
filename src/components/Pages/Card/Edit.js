@@ -10,7 +10,6 @@ import s from '../../Editor/styles/content-tools.scss';
 // import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
 // import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
 import Card from './Card';
-import BackButton from '../../Nav/BackButton'
 import EditDrawer from '../../Menu/EditDrawer'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
