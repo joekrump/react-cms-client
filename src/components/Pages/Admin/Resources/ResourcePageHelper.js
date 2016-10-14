@@ -8,7 +8,6 @@ import PageEdit from '../../Page/Edit';
 import CardEdit from '../../Card/Edit';
 import EditPageLayout from '../Layout/EditPageLayout'
 import BackButton from '../../../Nav/BackButton'
-import FloatingPageMenu from '../../../Menu/FloatingPageMenu';
 
 function getEditComponent(editContext, nameSingular, namePlural, resourceId) {
   if(nameSingular === 'page') {
@@ -53,9 +52,6 @@ export function getEditorContent(editContext, nameSingular, namePlural, resource
     return (
       <AdminLayout>
         <div className="admin-edit">
-          <FloatingPageMenu>
-            <BackButton label={namePlural} link={'/admin/' + namePlural} />
-          </FloatingPageMenu>
           <h1>{editContext === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
 
           <ResourceForm 

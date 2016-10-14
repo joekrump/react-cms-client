@@ -11,7 +11,7 @@ import s from '../../Editor/styles/content-tools.scss';
 // import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
 import Card from './Card';
 import BackButton from '../../Nav/BackButton'
-import FloatingPageMenu from '../../Menu/FloatingPageMenu'
+import EditDrawer from '../../Menu/EditDrawer'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
@@ -223,7 +223,7 @@ class CardEdit extends React.Component {
   render() {
     return (
       <div className="card-edit">
-        <FloatingPageMenu>
+        <EditDrawer>
           <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
@@ -243,7 +243,7 @@ class CardEdit extends React.Component {
               label="Show Back"
             />
           </RadioButtonGroup>
-        </FloatingPageMenu>
+        </EditDrawer>
         <Card
           cardClass={this.state.template}
           side={this.state.side}

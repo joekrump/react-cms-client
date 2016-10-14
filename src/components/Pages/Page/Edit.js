@@ -15,7 +15,7 @@ import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import BackButton from '../../Nav/BackButton'
-import FloatingPageMenu from '../../Menu/FloatingPageMenu'
+import EditDrawer from '../../Menu/EditDrawer'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import {slugify} from '../../../helpers/StringHelper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
@@ -354,7 +354,7 @@ class PageEdit extends React.Component {
   render() {
     return (
       <div className="page-edit">
-        <FloatingPageMenu>
+        <EditDrawer>
           <BackButton label={this.props.resourceNamePlural} link={'/admin/' + this.props.resourceNamePlural.toLowerCase()} />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
@@ -380,7 +380,7 @@ class PageEdit extends React.Component {
             defaultToggled={this.state.showPageTitle}
             style={{marginLeft: 24, marginTop: 5, width: 256}}
           />
-        </FloatingPageMenu>
+        </EditDrawer>
         {this.state.template}
         <NotificationSnackbar 
           open={this.props.snackbar.show} 
