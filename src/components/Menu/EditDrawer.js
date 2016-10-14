@@ -7,10 +7,15 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import { indigo900 } from 'material-ui/styles/colors';
 
 const appBarStyle = {
   marginBottom: 7
 }
+
+// const drawerStyle = {
+//   backgroundColor: indigo900
+// }
 
 class EditDrawer extends React.Component {
   constructor(props) {
@@ -18,17 +23,21 @@ class EditDrawer extends React.Component {
     this.state = {open: true};
   }
 
+  renderToggleButton() {
+    return this.state.open ? null : (<FloatingActionButton
+          className="page-menu floating-menu"
+          onTouchTap={this.handleToggle}
+        ><SettingsIcon />
+        </FloatingActionButton>)
+  }
+
   handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
     return (
       <div>
-        <FloatingActionButton
-          className="page-menu floating-menu"
-          onTouchTap={this.handleToggle}
-        ><SettingsIcon />
-        </FloatingActionButton>
-        <Drawer width={304} openSecondary={true} open={this.state.open}>
+        {this.renderToggleButton()}
+        <Drawer width={304} openSecondary={true} open={this.state.open} onRequestChange={() => this.handleToggle()}>
           <AppBar title="Settings" 
             style={appBarStyle}
             iconElementLeft={<IconButton onTouchTap={this.handleToggle}><NavigationClose /></IconButton>}
