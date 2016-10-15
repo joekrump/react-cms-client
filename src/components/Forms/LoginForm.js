@@ -37,7 +37,7 @@ class LoginForm extends React.Component{
         redirectPath = '/admin'
       }
       
-      this.props.loginUser(authData.user, authData.token, redirectPath);
+      this.props.loginUser(authData.user, authData.token, loggedIn, redirectPath);
       
     }, this.context.store)
   }
@@ -81,11 +81,12 @@ class LoginForm extends React.Component{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user, token, redirectPath) => {
+    loginUser: (user, token, loggedIn, redirectPath) => {
       dispatch ({
         type: 'USER_LOGGED_IN',
         user,
         token,
+        loggedIn,
         redirectPath
       })
     },

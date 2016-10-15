@@ -5,12 +5,13 @@ export function update_token(newToken) {
   };
 }
 
-export function login_user(user, token, redirectPath) {
+export function login_user(user, token, loggedIn, redirectPath) {
   return {
     type: 'USER_LOGGED_IN',
     user,
     token,
-    redirectPath
+    redirectPath,
+    loggedIn
   };
 }
 

@@ -40,10 +40,11 @@ class AdminNav extends React.Component {
 
   handleLogout(e){
     e.preventDefault();
-    console.log('logout');
     auth.logout(() => {
       // dispatch an action if the server has successfully logged out the user.
       this.props.logoutUser('/login');
+    }, () => {
+      this.props.loginUser(auth.getUser(), auth.getToken(), true)
     }, this.context.store);
   }
 
@@ -79,7 +80,7 @@ class AdminNav extends React.Component {
           docked={false} 
           onRequestChange={() => this.handleToggleMenu()}
         >
-          <AdminMenu currentUser={this.props.user} routesOptions={AppConfig.adminRouteLinks} />
+          <AdminMenu currentUser={this.props.user} routeOptions={AppConfig.adminRouteLinks} />
         </Drawer>
         <header>
           {/*TODO: put site title in a NODE config file of some-sort. 
@@ -123,6 +124,15 @@ const mapDispatchToProps = (dispatch) => {
     logoutUser: (redirectPath) => {
       dispatch ({
         type: 'USER_LOGGED_OUT',
+        redirectPath
+      })
+    },
+    loginUser: (user, token, loggedIn, redirectPath) => {
+      dispatch ({
+        type: 'USER_LOGGED_IN',
+        user,
+        token,
+        loggedIn,
         redirectPath
       })
     }

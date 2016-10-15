@@ -2,106 +2,92 @@ import APIClient from './http/requests'
 
 
 module.exports = {
-  login(email, pass, handleLoggedInCallback, store) {
 
+  login(email, pass, handleLoggedInCallback, store) {
+    console.log('login')
     // If there is a laravelAccessToken just log in
     if ((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
-      this.handleLoggedIn(handleLoggedInCallback, {
-        authenticated: true, 
-        user: sessionStorage.laravelUser, 
-        token: sessionStorage.laravelAccessToken
-      });
-      if(handleLoggedInCallback) {
-        handleLoggedInCallback();
-      }
-      return
+      this.handleLoggedIn(handleLoggedInCallback, this.parsedUser(), sessionStorage.laravelAccessToken, true);
+    } else {
+      makeLoginRequest(email, pass, (res) => loginRequestCB(res, handleLoggedIn, handleLoggedInCallback), store)
     }
-
-    makeLoginRequest(email, pass, (res) => {
-      if (res.authenticated) {
-        this.handleLoggedIn(handleLoggedInCallback, res, true);
-      } else {
-        this.handleLoggedIn(handleLoggedInCallback, res); // no second param as it defaults to false
-      }
-    }, store)
   },
   getUser() {
     if(typeof sessionStorage !== 'undefined') {
-      return sessionStorage.laravelUser ? JSON.parse(sessionStorage.laravelUser) : null;
+      return sessionStorage.laravelUser ? this.parsedUser() : null;
     } else {
       return null;
     }
   },
-  getToken() {
-    if(typeof sessionStorage !== 'undefined') {
-      return sessionStorage.laravelAccessToken
-    } else {
-      return null;
-    }
+  parsedUser() {
+    console.log('parsed user: ', JSON.parse(sessionStorage.laravelUser));
+    return JSON.parse(sessionStorage.laravelUser);
+  },
+  logout(logoutCallback, logoutFailedCB, store) {
+    logoutFromServer(logoutCallback, logoutFailedCB, this, store);
   },
 
-  logout(logoutCallback, store) {
+  getToken: getToken,
+  loggedIn: loggedIn,
+  handleLoggedIn: handleLoggedIn
+}
 
-    this.onChange(false)
-
-    logoutFromServer(logoutCallback, this, store);
-  },
-
-  loggedIn() {
-    if(typeof sessionStorage !== 'undefined'){
-      return !!sessionStorage.laravelAccessToken && !((sessionStorage.laravelAccessToken === null) || (sessionStorage.laravelAccessToken === undefined))
-    } else {
-      return false;
-    }
-  },
-  /**
-   * When the status of a user changes (logged in or not) perform some additional logic
-   * @param  {Boolean} isLoggedIn - whether the current client is logge in or not. Default: false
-   * @return {undefined}
-   */
-  onChange(isLoggedIn) {},
-
-  /**
-   * handle the logging in of a user.
-   * @param  {function}  handleLoggedInCallback Callback function passed in that handles the logging in logic
-   * @param  {Boolean} isLoggedIn             Whether the user is logged in or not. Defaults to false
-   * @return {undefined}                      
-   */
-  handleLoggedIn(handleLoggedInCallback, data, isLoggedIn = false){
-    // If there is a callback method for handling login then
-    // run it with the loggedIn value set to true
-    //
-    this.onChange(isLoggedIn)
-
-    if (handleLoggedInCallback) {
-      handleLoggedInCallback(data, isLoggedIn)
-    }
-    
-    return;
+function loggedIn() {
+  if(typeof sessionStorage !== 'undefined'){
+    return !!sessionStorage.laravelAccessToken && !((sessionStorage.laravelAccessToken === null) || (sessionStorage.laravelAccessToken === undefined))
+  } else {
+    return false;
   }
 }
 
-function logoutFromServer(callback, component, store) {
+function getToken() {
+  if(typeof sessionStorage !== 'undefined') {
+    return sessionStorage.laravelAccessToken
+  } else {
+    return null;
+  }
+}
+
+function loginRequestCB(res, handleLoggedIn, cb) {
+  console.log('res: ', res);
+  if (res.authenticated) {
+    handleLoggedIn(cb, res, true);
+  } else {
+    console.log('FAILED TO LOG IN')
+    handleLoggedIn(cb, res); // no second param as it defaults to false
+  }
+}
+
+ /**
+ * handle the logging in of a user.
+ * @param  {function} onLoggedInCB - Callback function passed in that handles the logging in logic
+ * @param  {Boolean}  isLoggedIn   - Whether the user is logged in or not. Defaults to false
+ * @return {undefined}                      
+ */
+function handleLoggedIn(onLoggedInCB, user, token, isLoggedIn = false){
+  if (onLoggedInCB) {
+    onLoggedInCB(user, token, isLoggedIn)
+  }
+  return;
+}
+
+function logoutFromServer(onSuccessCB, onFailureCB, component, store) {
   let client = new APIClient(store);
 
   client.post('auth/logout').then((res) => {
-    if (res.statusCode !== 200) {
+    if (!((res.statusCode === 200) || (res.statusCode === 204))) {
       // if user didn't successfully logout then show that they are still logged in after optimistic change.
-      component.onChange(true) 
+      onFailureCB();
     } else {
       // if all goes well, and there is a callback, call it.
-      if (callback) {
-        callback()
-      } 
+      onSuccessCB()
     }
   }).catch((res) => {
     if(res.statusCode === 401) {
-      if (callback) {
-        callback()
-      } 
+      onSuccessCB()
     } else {
       // if user didn't successfully logout then show that they are still logged in after optimistic change.
-      component.onChange(true) 
+      onFailureCB();
     }
   })
 }
@@ -110,6 +96,7 @@ function makeLoginRequest(email, password, loginRequestCallback, store) {
   let client = new APIClient(store);
 
   client.post('auth/login', false, {data: { email, password }}).then((res) => {
+    console.log('res in client: ', res);
     if (res.statusCode !== 200) {
       handleLoginFailure(loginRequestCallback)
     } else {

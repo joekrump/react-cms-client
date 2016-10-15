@@ -6,21 +6,13 @@ import TopNav from './Nav/SiteTopNav';
 import Page from './Pages/Page/Page'
 class App extends React.Component {
 
-  updateAuth(loggedIn) {
-    if(!loggedIn && auth.getUser() && auth.getToken()) {
-      this.props.loginUser(auth.getUser(), (typeof sessionStorage !== 'undefined' ? sessionStorage.laravelAccessToken : null));      
-    }
-  }
-
   componentWillMount() {
-    auth.onChange = () => this.updateAuth(this.props.loggedIn)
     if((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken){
-      auth.login(null, null, null, this.context.store)
+      auth.login(null, null, this.props.loginUser, this.context.store)
     }
   }
 
   render() {
-    console.log(this.props.children);
     return (
       <div id="app">
         {this.props.loggedIn ? <AdminNav /> : <TopNav />}
@@ -42,11 +34,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user, token, redirectPath) => {
+    loginUser: (user, token, loggedIn, redirectPath) => {
       dispatch ({
         type: 'USER_LOGGED_IN',
         user,
         token,
+        loggedIn,
         redirectPath
       })
     }
