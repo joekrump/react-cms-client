@@ -5,15 +5,12 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from '../Menu/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import Divider from 'material-ui/Divider';
 import AppConfig from '../../../app_config/app';
 import { Link } from 'react-router';
-import LeftNavMenuItem from './LeftNavMenuItem';
-import Gravatar from './Gravatar';
 import auth from '../../auth';
 import { connect } from 'react-redux';
-import ListItem from 'material-ui/List/ListItem';
 import BackButton from './BackButton';
+import AdminMenu from '../Menu/AdminMenu';
 
 class AdminNav extends React.Component {
 
@@ -39,41 +36,6 @@ class AdminNav extends React.Component {
 
   closeMenu() {
     this.setState({menuOpen: false});
-  }
-
-  pageIsActive(url, indexOnly = false){
-    return this.context.router.isActive({pathname: url}, indexOnly)
-  }
-
-  getLeftMenuItems() {
-    let menuItems = [
-      (<ListItem
-        key="user-avatar"
-        disabled={true}
-        leftAvatar={
-          <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={this.props.user.email} diameter='50' />
-        }
-        primaryText={<Link to="/admin/settings">{this.props.user.name}</Link>}
-        style={{color: 'white', backgroundColor: this.context.muiTheme.palette.primary1Color}}
-      />)
-    ];
-
-    menuItems.push((<Divider key="avatar-divider" />));
-    menuItems.push((<LeftNavMenuItem 
-        key={'left-nav-link-dashboard'} 
-        linkText={AppConfig.adminRouteLinks.dashboard.linkText} 
-        url={AppConfig.adminRouteLinks.dashboard.url} 
-        isActive={this.pageIsActive(AppConfig.adminRouteLinks.dashboard.url, true)}/>));
-
-    this.props.user.menuList.forEach((menuItem, i) => {
-      menuItems.push(<LeftNavMenuItem 
-        key={'left-nav-link-' + i} 
-        linkText={AppConfig.adminRouteLinks[menuItem].linkText} 
-        url={AppConfig.adminRouteLinks[menuItem].url} 
-        isActive={this.pageIsActive(AppConfig.adminRouteLinks[menuItem].url, true)}/>)
-      return 1;
-    })
-    return menuItems
   }
 
   handleLogout(e){
@@ -117,7 +79,7 @@ class AdminNav extends React.Component {
           docked={false} 
           onRequestChange={() => this.handleToggleMenu()}
         >
-          {this.getLeftMenuItems()}
+          <AdminMenu currentUser={this.props.user} routesOptions={AppConfig.adminRouteLinks} />
         </Drawer>
         <header>
           {/*TODO: put site title in a NODE config file of some-sort. 
@@ -141,7 +103,6 @@ class AdminNav extends React.Component {
 }
 
 AdminNav.contextTypes = {
-  router: React.PropTypes.object.isRequired,
   muiTheme: React.PropTypes.object.isRequired,
   store: React.PropTypes.object.isRequired
 }
