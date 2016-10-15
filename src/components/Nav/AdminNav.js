@@ -59,13 +59,18 @@ class AdminNav extends React.Component {
     ];
 
     menuItems.push((<Divider key="avatar-divider" />));
+    menuItems.push((<LeftNavMenuItem 
+        key={'left-nav-link-dashboard'} 
+        linkText={AppConfig.adminRouteLinks.dashboard.linkText} 
+        url={AppConfig.adminRouteLinks.dashboard.url} 
+        isActive={this.pageIsActive(AppConfig.adminRouteLinks.dashboard.url, true)}/>));
 
-    AppConfig.adminRouteLinks.forEach((routeSettings, i) => {
+    this.props.user.menuList.forEach((menuItem, i) => {
       menuItems.push(<LeftNavMenuItem 
         key={'left-nav-link-' + i} 
-        linkText={routeSettings.linkText} 
-        url={routeSettings.url} 
-        isActive={this.pageIsActive(routeSettings.url, true)}/>)
+        linkText={AppConfig.adminRouteLinks[menuItem].linkText} 
+        url={AppConfig.adminRouteLinks[menuItem].url} 
+        isActive={this.pageIsActive(AppConfig.adminRouteLinks[menuItem].url, true)}/>)
       return 1;
     })
     return menuItems
