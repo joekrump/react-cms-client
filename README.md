@@ -116,7 +116,7 @@ Donation Page Content (implemented with Stripe)
 
 ### WIP
 
-- [ ] Frontend Route permissions using User roles.
+- [x] Role based permissions
 - [x] Inline Editor with image manipulation functionality.
 - [x] Form Validation using Redux
 - [x] Allow Page nesting in Index
