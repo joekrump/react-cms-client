@@ -23,7 +23,7 @@ class ActiveUsersWidget extends React.Component {
         // Couldn't get the active users for some reason. Likely something wrong with the API server.
       } else {
         client.updateToken(res.header.authorization);
-        this.setState({data: res.body.activeUsers})
+        this.setState({data: res.body.data})
       }
     }).catch((res) => {
       console.log("error", res);
