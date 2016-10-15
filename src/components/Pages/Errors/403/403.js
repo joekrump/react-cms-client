@@ -7,7 +7,7 @@ import FrontendPage from '../../../Layout/FrontendPage';
 // Top level styling
 import s from '../ErrorPage.scss'
 
-const Forbidden = (props, state) => {
+const Forbidden = () => {
 
   return( 
     <FrontendPage>
