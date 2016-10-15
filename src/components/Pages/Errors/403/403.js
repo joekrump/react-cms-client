@@ -7,15 +7,15 @@ import FrontendPage from '../../../Layout/FrontendPage';
 // Top level styling
 import s from '../ErrorPage.scss'
 
-const PageNotFound = (props, state) => {
+const Forbidden = (props, state) => {
 
   return( 
     <FrontendPage>
-      <div className="page error-page not-found">
+      <div className="page error-page not-allowed">
         <div className="page-container">
-          <div className="title">404 - Page Not Found</div>
+          <div className="title">403 - Access Denied</div>
           <div className="content">
-            Well, that was quite an Adventure! Time to head back home now...
+            It appears you're trying to access a page that you don't have permission to. If this seems to be an error, contact your site administrator in order to obtain permission.
           </div>
           <RaisedButton 
             containerElement={<Link to='/' />}
@@ -29,6 +29,6 @@ const PageNotFound = (props, state) => {
   );
 };
 
-export default withStyles(s)(PageNotFound);
+export default withStyles(s)(Forbidden);
 
 
