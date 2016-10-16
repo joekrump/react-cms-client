@@ -28,7 +28,6 @@ class Index extends React.Component {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
 
       if(source.dataset.parentmodelid) {
-        // (document).removeChild(el);
         this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
       this.props.updateTree(this.state.TreeHelper.richNodeArray);
@@ -111,8 +110,10 @@ class Index extends React.Component {
       return true;
     } else if (nextProps.hasChanges !== this.props.hasChanges) {
       return true;
+    } else if (nextProps.showSnackbar !== this.props.showSnackbar){
+      return true;
     } else {
-      return false;
+      return false
     }
   }
 
@@ -129,6 +130,7 @@ class Index extends React.Component {
                    editMode={this.props.adminMode === 'EDIT_INDEX'} 
                    />)
     }
+    console.log(this.props.showSnackbar);
     return (
       <AdminLayout>
         <div className={"admin-index" + (this.props.adminMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
@@ -140,12 +142,7 @@ class Index extends React.Component {
           </List>
         { this.props.children }
         </div>
-        <NotificationSnackbar 
-          open={this.props.snackbar.show} 
-          header={this.props.snackbar.header}
-          content={this.props.snackbar.content}
-          type={this.props.snackbar.notificationType}
-        />
+        <NotificationSnackbar />
       </AdminLayout>
     );
   }
@@ -157,12 +154,7 @@ const mapStateToProps = (state, ownProps) => {
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.index.hasChanges,
     adminMode: state.admin.mode,
-    snackbar: {
-      show: state.notifications.snackbar.show,
-      header: state.notifications.snackbar.header,
-      content: state.notifications.snackbar.content,
-      notificationType: state.notifications.snackbar.notificationType
-    }
+    showSnackbar: state.notifications.snackbar.show
   }
 }
 

@@ -10,7 +10,7 @@ const NotificationSnackbar = () => ({
   render() {
     let color = greenA700;
 
-    switch (this.props.type) {
+    switch (this.props.notificationType) {
       case 'info':
         color = blueA700;
         break;
@@ -21,11 +21,12 @@ const NotificationSnackbar = () => ({
         color = yellowA700;
         break;
       default:
+        break;
     }
 
     return (
       <Snackbar
-        open={this.props.open}
+        open={this.props.show}
         message={
           (<div style={{color: color}}>
             <h2 style={{margin: '0'}}>{this.props.header}</h2>
@@ -34,13 +35,21 @@ const NotificationSnackbar = () => ({
         autoHideDuration={4000}
         bodyStyle={{height: 'auto', border: `1px solid ${color}`, borderBottom: 'none'}}
         style={{
-          transform: this.props.open ? 'translate3d(0, 0, 0)' : 'translate3d(0, 200px, 0)'
+          transform: this.props.show ? 'translate3d(0, 0, 0)' : 'translate3d(0, 200px, 0)'
         }}
         onRequestClose={this.handleSnackbarClose.bind(this)}
       />
     );
   }
 })
+const mapStateToProps = (state, ownProps) => {
+  return {
+    show: state.notifications.snackbar.show,
+    header: state.notifications.snackbar.header,
+    content: state.notifications.snackbar.content,
+    notificationType: state.notifications.snackbar.notificationType
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -53,6 +62,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(NotificationSnackbar)

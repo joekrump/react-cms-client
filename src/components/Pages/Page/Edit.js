@@ -380,12 +380,7 @@ class PageEdit extends React.Component {
           />
         </EditDrawer>
         {this.state.template}
-        <NotificationSnackbar 
-          open={this.props.snackbar.show} 
-          header={this.props.snackbar.header}
-          content={this.props.snackbar.content}
-          type={this.props.snackbar.notificationType}
-        />
+        <NotificationSnackbar />
       </div>
     )
   }
@@ -394,12 +389,6 @@ class PageEdit extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     token: state.auth.token,
-    snackbar: {
-      show: state.notifications.snackbar.show,
-      header: state.notifications.snackbar.header,
-      content: state.notifications.snackbar.content,
-      notificationType: state.notifications.snackbar.notificationType
-    },
     pathname: state.routing.locationBeforeTransitions.pathname,
     name: state.admin.editorData.name,
     content: state.admin.editorData.content
