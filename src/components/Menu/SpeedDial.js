@@ -25,6 +25,7 @@ function makeActionList(menuList, isAdmin, handleTouchTap, mouseOutAreaHeight) {
   let action;
 
   if(isAdmin) {
+    // if the current user is an admin, they should have access to all possible links.
     menuList = ['pages', 'cards', 'users', 'books', 'roles', 'permission'] ;
   }
 

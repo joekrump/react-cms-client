@@ -47,7 +47,7 @@ class ActiveUsersWidget extends React.Component {
       })
       usersSection = (
         <div className="widget">
-          <h2>{this.props.name}</h2>
+          <h2 className="widget-title">{this.props.name}</h2>
           {this.state.data.length === 0 ? (<CircularProgress />) :
             <List>
               {usersSection}

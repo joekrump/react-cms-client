@@ -5,7 +5,10 @@
 }
 
 .dashboard .widget-wrapper .widget {
-  padding: 0 20px 15px 20px;
+  padding: 15px 20px;
+  .widget-title {
+    margin: 0;
+  } 
 }
 
 @media (max-width: 900px){
