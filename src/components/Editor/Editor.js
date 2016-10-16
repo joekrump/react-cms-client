@@ -234,7 +234,7 @@ class Editor {
       let regionValue;
       (Object.keys(regions)).forEach((key) => {
         if(key === 'name') {
-          regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "")
+          regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "") // strip HTML tags
         } else {
           regionValue = regions[key]
         }
