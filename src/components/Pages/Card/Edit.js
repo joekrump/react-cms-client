@@ -202,8 +202,6 @@ class CardEdit extends React.Component {
    */
   handleTemplateChange(template_id) {
     let template = this.getTemplateComponent(template_id);
-    console.log(template_id);
-    console.log(template);
     this.setState({
       template_id,
       template

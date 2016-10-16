@@ -129,12 +129,7 @@ class ResourceForm extends React.Component {
             <SubmitButton isFormValid={this.props.isValid} withIcon={true} label={this.props.editContext === 'edit' ? 'Update' : 'Create'}/>
           </ListItem>
         </List>
-        <NotificationSnackbar 
-          open={this.props.snackbar.show} 
-          header={this.props.snackbar.header}
-          content={this.props.snackbar.content}
-          type={this.props.snackbar.notificationType}
-        />
+        <NotificationSnackbar />
       </Form>
     )
   }
@@ -145,13 +140,7 @@ const mapStateToProps = (state, ownProps) => {
     isValid:  state.forms[ownProps.formName].valid,
     formFields: state.forms[ownProps.formName].fields,
     token: state.auth.token,
-    resourceNamePlural: state.admin.resource.name.plural,
-    snackbar: {
-      show: state.notifications.snackbar.show,
-      header: state.notifications.snackbar.header,
-      content: state.notifications.snackbar.content,
-      notificationType: state.notifications.snackbar.notificationType
-    }
+    resourceNamePlural: state.admin.resource.name.plural
   }
 }
 

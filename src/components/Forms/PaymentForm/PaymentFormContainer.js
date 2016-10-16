@@ -44,12 +44,7 @@ class PaymentFormContainer extends React.Component {
     return(
       <Paper zDepth={2} className="form-container">
         {content}
-        <NotificationSnackbar 
-          open={this.props.snackbar.show} 
-          header={this.props.snackbar.header}
-          content={this.props.snackbar.content}
-          type={this.props.snackbar.notificationType}
-        />
+        <NotificationSnackbar />
       </Paper>
     );
   }
@@ -58,13 +53,7 @@ class PaymentFormContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     paymentComplete: state.forms.paymentForm.completed,
-    isFormValid: !state.forms.loginForm.error,
-    snackbar: {
-      show: state.notifications.snackbar.show,
-      header: state.notifications.snackbar.header,
-      content: state.notifications.snackbar.content,
-      notificationType: state.notifications.snackbar.notificationType
-    }
+    isFormValid: !state.forms.loginForm.error
   }
 }
 
