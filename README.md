@@ -121,7 +121,7 @@ Donation Page Content (implemented with Stripe)
 - [x] Form Validation using Redux
 - [x] Allow Page nesting in Index
 - [ ] Add Searching and Reordering of resources
-- [ ] Add Media / File Management
+- [ ] Media / File Management
 - [ ] Webworkers for Caching data
 - [x] Add Tests using Jest
 - [x] Page Template Loading
