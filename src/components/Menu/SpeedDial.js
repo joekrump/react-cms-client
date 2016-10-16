@@ -21,8 +21,35 @@ const actions = {
   permission: {icon: <PermissionIcon />, route: '/admin/permissions/new', tooltipText: 'Create a new Role Permission'}
 }
 
-function makeActionList(menuList) {
-  return menuList.map((permission) => (actions[permission]));
+function makeActionList(menuList, isAdmin, handleTouchTap, mouseOutAreaHeight) {
+  let action;
+
+  if(isAdmin) {
+    menuList = ['pages', 'cards', 'users', 'books', 'roles', 'permission'] ;
+  }
+
+  const menuLength = menuList.length;
+
+  const actionButtons = menuList.map((permission, index) => {
+    mouseOutAreaHeight += 58;
+    action = actions[permission]
+    return (
+      <CustomFAB 
+        key={`speedial-item-${index}`}
+        delay={(30 * (menuLength - index))}
+        iconStyle={{fill: "white"}} 
+        mini={true} 
+        onTouchTap={(e) => handleTouchTap(e, action.route)} 
+        secondary={true}
+        tooltipText={action.tooltipText}
+        icon={action.icon}
+      />
+    )
+  })
+  return {
+    buttons: actionButtons,
+    mouseOutAreaHeight
+  }
 }
 
 class SpeedDial extends React.Component {
@@ -70,34 +97,17 @@ class SpeedDial extends React.Component {
 
   render() {
     let mouseOutAreaHeight = 80;
-    let actionItems = makeActionList(this.props.menuList);
-    const actionButtons = actionItems.map((action, index) => {
-      mouseOutAreaHeight += 58;
-      
-      return (
-        <CustomFAB 
-          key={`speedial-item-${index}`}
-          delay={(30 * index)}
-          iconStyle={{fill: "white"}} 
-          mini={true} 
-          onTouchTap={(e) => this.handleActionClick(e, action.route)} 
-          secondary={true}
-          tooltipText={action.tooltipText}
-          icon={action.icon}
-        />
-      )
-    })
-
+    let actionList = makeActionList(this.props.menuList, this.props.isAdmin, this.handleActionClick, mouseOutAreaHeight);
     return (
       <div className={(this.state.open ? "opened" : "closed")}>
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>
         <div className="container">
-          <div className="dial-control-area" style={{height: (this.state.open ? mouseOutAreaHeight + 'px' : 0)}}
+          <div className="dial-control-area" style={{height: (this.state.open ? actionList.mouseOutAreaHeight + 'px' : 0)}}
             onMouseLeave={this.handleCloseSpeedDial}
             onMouseEnter={this.handleOpenSpeedDial}
           >
             <div className="actions">
-              {actionButtons}
+              {actionList.buttons}
             </div>
             <CustomFAB
               className="fab" 
@@ -116,7 +126,8 @@ class SpeedDial extends React.Component {
 
 const mapStateToProps = (state) => ({
   height: 2000,
-  menuList: state.auth.user.menuList
+  menuList: state.auth.user.menuList,
+  isAdmin: state.auth.user.isAdmin
 })
 
 export default withStyles(s)(connect(mapStateToProps)(SpeedDial));
