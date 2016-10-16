@@ -137,7 +137,7 @@ class Index extends React.Component {
           {this.state.loading ? (<CircularProgress />) : null}
           <List className="item-list">
             {this.state.loading || !(this.props.nodeArray.length > 0) ? null : <span className="spacer"></span>}
-            {content}
+            {this.state.loading ? null : content}
           </List>
         { this.props.children }
         </div>
