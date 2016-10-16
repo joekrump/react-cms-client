@@ -12,14 +12,18 @@ import { push } from 'react-router-redux'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SpeedDial.scss'
 
-const actions = [
-  {icon: <AddPageIcon />, route: '/admin/pages/new', tooltipText: 'Create a new Page'},
-  {icon: <AddNoteIcon />, route: '/admin/cards/new', tooltipText: 'Create a new Card'},
-  {icon: <UserIcon />, route: '/admin/users/new', tooltipText: 'Create a new User'},
-  {icon: <BookIcon />, route: '/admin/books/new', tooltipText: 'Create a new Book'},
-  {icon: <RoleIcon />, route: '/admin/roles/new', tooltipText: 'Create a new User Role'},
-  {icon: <PermissionIcon />, route: '/admin/permissions/new', tooltipText: 'Create a new Role Permission'}
-]
+const actions = {
+  pages: {icon: <AddPageIcon />, route: '/admin/pages/new', tooltipText: 'Create a new Page'},
+  cards: {icon: <AddNoteIcon />, route: '/admin/cards/new', tooltipText: 'Create a new Card'},
+  users: {icon: <UserIcon />, route: '/admin/users/new', tooltipText: 'Create a new User'},
+  books: {icon: <BookIcon />, route: '/admin/books/new', tooltipText: 'Create a new Book'},
+  roles: {icon: <RoleIcon />, route: '/admin/roles/new', tooltipText: 'Create a new User Role'},
+  permission: {icon: <PermissionIcon />, route: '/admin/permissions/new', tooltipText: 'Create a new Role Permission'}
+}
+
+function makeActionList(menuList) {
+  return menuList.map((permission) => (actions[permission]));
+}
 
 class SpeedDial extends React.Component {
   static propTypes = {
@@ -66,18 +70,14 @@ class SpeedDial extends React.Component {
 
   render() {
     let mouseOutAreaHeight = 80;
-
-    const actionButtons = actions.map((action, index) => {
-
-      const id = action.id || action.route.substr(1).replace(/\//g, '_')
-      
+    let actionItems = makeActionList(this.props.menuList);
+    const actionButtons = actionItems.map((action, index) => {
       mouseOutAreaHeight += 58;
-
-      const delay = (30 * (this.state.open ? (actions.length - index) : index))
+      
       return (
         <CustomFAB 
-          key={id}
-          delay={delay}
+          key={`speedial-item-${index}`}
+          delay={(30 * index)}
           iconStyle={{fill: "white"}} 
           mini={true} 
           onTouchTap={(e) => this.handleActionClick(e, action.route)} 
@@ -116,6 +116,7 @@ class SpeedDial extends React.Component {
 
 const mapStateToProps = (state) => ({
   height: 2000,
+  menuList: state.auth.user.menuList
 })
 
 export default withStyles(s)(connect(mapStateToProps)(SpeedDial));
