@@ -34,9 +34,10 @@ class ActiveUsersWidget extends React.Component {
     var usersSection = null;
 
     if(this.state.data && (this.state.data.length > 0)) {
-      usersSection = this.state.data.map((user) => {
+      usersSection = this.state.data.map((user, i) => {
         return (
-          <ListItem key={user.id}
+          <ListItem 
+            key={`user-${i}`}
             primaryText={user.name}
             leftAvatar={<Gravatar email={user.email} diameter='50' style={{left: '0'}} />}
             rightIcon={ <LensIcon color={lightGreenA400} style={{height: '16px', padding: '4px 4px'}}/>}

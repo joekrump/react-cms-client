@@ -164,7 +164,7 @@ class Editor {
     // Stop the autosave
     // clearInterval(this.editor.autoSaveTimer);
   }
-  onSaveSuccess(res) {
+  onSaveSuccess(res, passive) {
     if (res.statusCode === 422) {
       this.dispatchNotification(true, 'Error', res.data.errors, 'error');
     } else if(res.statusCode !== 200) {
@@ -181,7 +181,7 @@ class Editor {
     }
     this.editor.busy(false); // set the editor to not busy once handling of server response has been completed. 
   }
-  onSaveFailure(res) {
+  onSaveFailure(res, passive) {
     this.editor.busy(false);
 
     if(res.statusCode === 422){
@@ -251,9 +251,9 @@ class Editor {
       let client = new APIClient(this.store);
 
       client[httpMethod](submitURL, true, {data: payload}).then(
-        (res) => this.onSaveSuccess(res), 
-        (res) => this.onSaveFailure(res)
-      ).catch((res) => this.onSaveFailure(res))
+        (res) => this.onSaveSuccess(res, passive), 
+        (res) => this.onSaveFailure(res, passive)
+      ).catch((res) => this.onSaveFailure(res, passive))
     } catch (e) {
       this.onSaveFailure(e)
     }
