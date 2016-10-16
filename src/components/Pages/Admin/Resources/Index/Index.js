@@ -130,7 +130,6 @@ class Index extends React.Component {
                    editMode={this.props.adminMode === 'EDIT_INDEX'} 
                    />)
     }
-    console.log(this.props.showSnackbar);
     return (
       <AdminLayout>
         <div className={"admin-index" + (this.props.adminMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
