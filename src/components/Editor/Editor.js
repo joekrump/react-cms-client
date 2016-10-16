@@ -223,13 +223,6 @@ class Editor {
 
       this.editor.busy(false);
       return;
-    } else if(this.editContext === 'new' && (this.resourceNamePlural === 'pages') && !regions.name) {
-      if(this.keypressSave) {
-        this.dispatchNotification(true, 'Error', 'Page Cannot be saved without a Title', 'error');
-        this.keypressSave = false; // handled keypress.
-      }
-      this.editor.busy(false);
-      return;
     } else {
       let regionValue;
       (Object.keys(regions)).forEach((key) => {
