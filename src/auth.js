@@ -4,7 +4,6 @@ import APIClient from './http/requests'
 module.exports = {
 
   login(email, pass, handleLoggedInCallback, store) {
-    console.log('login')
     // If there is a laravelAccessToken just log in
     if ((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
       this.handleLoggedIn(handleLoggedInCallback, this.parsedUser(), sessionStorage.laravelAccessToken, true);
@@ -20,7 +19,6 @@ module.exports = {
     }
   },
   parsedUser() {
-    console.log('parsed user: ', JSON.parse(sessionStorage.laravelUser));
     return JSON.parse(sessionStorage.laravelUser);
   },
   logout(logoutCallback, logoutFailedCB, store) {
@@ -49,11 +47,9 @@ function getToken() {
 }
 
 function loginRequestCB(res, handleLoggedIn, cb) {
-  console.log('res: ', res);
   if (res.authenticated) {
     handleLoggedIn(cb, res, true);
   } else {
-    console.log('FAILED TO LOG IN')
     handleLoggedIn(cb, res); // no second param as it defaults to false
   }
 }
@@ -96,7 +92,6 @@ function makeLoginRequest(email, password, loginRequestCallback, store) {
   let client = new APIClient(store);
 
   client.post('auth/login', false, {data: { email, password }}).then((res) => {
-    console.log('res in client: ', res);
     if (res.statusCode !== 200) {
       handleLoginFailure(loginRequestCallback)
     } else {
