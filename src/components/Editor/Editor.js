@@ -164,6 +164,35 @@ class Editor {
     // Stop the autosave
     // clearInterval(this.editor.autoSaveTimer);
   }
+  onSaveSuccess(res) {
+    if (res.statusCode === 422) {
+      this.dispatchNotification(true, 'Error', res.data.errors, 'error');
+    } else if(res.statusCode !== 200) {
+      this.dispatchNotification(true, 'Error', res.data.errors, 'error');
+    } else {
+      if(this.editContext !== 'edit') {
+        this.editContext = 'edit';
+        this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
+        this.handleSaveSuccess(this.submitURL, res, passive)
+      } else {
+        this.handleSaveSuccess(null, res, passive)
+      }
+      this.dirty_data = false;
+    }
+    this.editor.busy(false); // set the editor to not busy once handling of server response has been completed. 
+  }
+  onSaveFailure(res) {
+    this.editor.busy(false);
+
+    if(res.statusCode === 422){
+      let firstFieldKey = Object.keys(res.body.errors).pop();
+      let firstError = res.body.errors[firstFieldKey][0]; // get the first error for the first field with an error
+      this.dispatchNotification(true, 'Error', firstError, 'error');
+    } else {
+      console.warn('EXCEPTION: ', res)
+      this.dispatchNotification(true, 'Error', 'Something unexpected happened. Please report this as a bug.', 'error');
+    }
+  }
   handleSave(event, submitURL) {
 
     if(this.editor.busy()) {
@@ -212,7 +241,6 @@ class Editor {
         payload[key] = regionValue;
       })
     }
-    // console.log(payload);
 
     if(this.dirty_data || (this.editContext === 'new')) {
       payload.template_id = this.template_id;
@@ -226,40 +254,15 @@ class Editor {
     // Set the editors state to busy while we save our changes
     // 
     try {
-
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
       let client = new APIClient(this.store);
 
-      client[httpMethod](submitURL, true, {data: payload})
-      .then((res) => {
-        if (res.statusCode === 422) {
-          this.dispatchNotification(true, 'Error', res.data.errors, 'error');
-        } else if(res.statusCode !== 200) {
-          console.warn(res);
-          this.dispatchNotification(true, 'Error', res.data.errors, 'error');
-        } else {
-          if(this.editContext !== 'edit') {
-            this.editContext = 'edit';
-            this.submitURL = this.resourceNamePlural + '/' + res.body.data.id;
-            this.handleSaveSuccess(this.submitURL, res, passive)
-          } else {
-            this.handleSaveSuccess(null, res, passive)
-          }
-          this.dirty_data = false;
-        }
-        this.editor.busy(false); // set the editor to not busy once handling of server response has been completed.
-      }).catch((res) => {
-        this.editor.busy(false);
-        console.warn(res);
-        if(res && res.statusText) {
-          this.dispatchNotification(true, 'Error', res, 'error');
-        }
-        new ContentTools.FlashUI('no');
-      })
+      client[httpMethod](submitURL, true, {data: payload}).then(
+        (res) => this.onSaveSuccess(res), 
+        (res) => this.onSaveFailure(res)
+      ).catch((res) => this.onSaveFailure(res))
     } catch (e) {
-      this.editor.busy(false);
-      console.log('Exception: ', e)
-      new ContentTools.FlashUI('no');
+      this.onSaveFailure(e)
     }
   }
 }
