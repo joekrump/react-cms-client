@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { replace } from 'react-router-redux'
-import ContentTools from 'ContentTools';
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
