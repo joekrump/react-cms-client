@@ -101,9 +101,7 @@ class CardEdit extends React.Component {
 
     this.setState(newState);
 
-    if (!passive) {
-      new ContentTools.FlashUI('ok');
-    }
+    this.props.updateSnackbar(true, 'Success', 'Note Saved!', 'success');
   }
   
   /**
@@ -251,12 +249,7 @@ class CardEdit extends React.Component {
           back_content={this.state.back_content}
         >
         </Card>
-        <NotificationSnackbar 
-          open={this.props.snackbar.show} 
-          header={this.props.snackbar.header}
-          content={this.props.snackbar.content}
-          type={this.props.snackbar.notificationType}
-        />
+        <NotificationSnackbar />
       </div>
     )
   }
@@ -264,13 +257,7 @@ class CardEdit extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    token: state.auth.token,
-    snackbar: {
-      show: state.notifications.snackbar.show,
-      header: state.notifications.snackbar.header,
-      content: state.notifications.snackbar.content,
-      notificationType: state.notifications.snackbar.notificationType
-    }
+    token: state.auth.token
   }
 }
 
