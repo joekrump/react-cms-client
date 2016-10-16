@@ -80,7 +80,7 @@ $ npm start
 ```
 
 ## Screenshots of Current State of the App (09/01/2016)
-
+**Update: (Oct. 16, 2016) New screenshots and short video demo coming soon**
 ### Default Edit Page
 
 ![updateuser](https://cloud.githubusercontent.com/assets/3317231/18188929/f211ae94-706a-11e6-96e6-965cbd448d59.JPG)
