@@ -13,7 +13,7 @@ const listItemStyle = {
 class ResourceForm extends React.Component {
 
   componentWillMount(){
-    let client = new APIClient(this.context.store)
+    let client = new APIClient(this.props.dispatch)
     this.setState({client});
 
     if(this.props.editContext === 'edit'){
@@ -175,13 +175,10 @@ const mapDispatchToProps = (dispatch) => {
         formName,
         valid
       })
-    }
+    },
+    dispatch
   };
 }
-
-ResourceForm.contextTypes = {
-  store: React.PropTypes.object.isRequired
-};
 
 export default connect(
   mapStateToProps,
