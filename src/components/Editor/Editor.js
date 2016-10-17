@@ -6,11 +6,11 @@ const sKeyCode = 83;
 
 class Editor {
 
-  constructor(getPageName, submitURL, handleSaveSuccess, editContext, resourceNamePlural, store, template_id) {
+  constructor(getPageName, submitURL, handleSaveSuccess, editContext, resourceNamePlural, dispatch, template_id) {
     this.submitURL = submitURL;
     this.handleSaveSuccess = handleSaveSuccess;
     this.resourceNamePlural = resourceNamePlural;
-    this.store = store;
+    this.dispatch = dispatch;
     this.template_id = parseInt(template_id, 10);
     this.slug = '';
     this.dirty_data = false;
@@ -142,7 +142,7 @@ class Editor {
   }
 
   dispatchNotification(show, header, content, notificationType) {
-    this.store.dispatch({
+    this.dispatch({
       type: 'NOTIFICATION_SNACKBAR_UPDATE',
       show,
       header,
@@ -248,7 +248,7 @@ class Editor {
     // 
     try {
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
-      let client = new APIClient(this.store);
+      let client = new APIClient(this.dispatch);
 
       client[httpMethod](submitURL, true, {data: payload}).then(
         (res) => this.onSaveSuccess(res, passive), 

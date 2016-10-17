@@ -189,7 +189,7 @@ class CardEdit extends React.Component {
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
       this.props.resourceNamePlural, 
-      this.context.store,
+      this.props.dispatch,
       this.state.template_id
     )
   }
@@ -252,12 +252,6 @@ class CardEdit extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    token: state.auth.token
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
     updateSnackbar: (show, header, content, notificationType) => {
@@ -268,7 +262,8 @@ const mapDispatchToProps = (dispatch) => {
         content,
         notificationType
       })
-    }
+    },
+    dispatch
   }
 }
 
@@ -277,6 +272,6 @@ CardEdit.contextTypes = {
 };
 
 export default withStyles(s)(connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(CardEdit))
