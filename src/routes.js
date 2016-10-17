@@ -21,12 +21,14 @@ const onAdminEnterHandler = (nextState, store, pageType) => {
     redirectNoneAdmin(store);
   } else {
     let resourceNamePlural = nextState.params.resourceNamePlural || '';
+    let resourceId =  nextState.params.resourceId || null;
+
     const storeState = store.getState();
     // only update if it needs to be done.
     if((storeState.admin.resource.name.plural !== resourceNamePlural) 
       || (storeState.admin.pageType !== pageType)
-      || (storeState.admin.resourceId !== nextState.params.resourceId)) {
-      updateAdminState(resourceNamePlural, store, pageType, nextState.params.resourceId);
+      || (storeState.admin.resourceId !== resourceId)) {
+      updateAdminState(resourceNamePlural, store, pageType, resourceId);
     }
   }
 }
