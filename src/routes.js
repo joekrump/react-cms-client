@@ -23,9 +23,10 @@ const onAdminEnterHandler = (nextState, store, pageType) => {
     let resourceNamePlural = nextState.params.resourceNamePlural || '';
     const storeState = store.getState();
     // only update if it needs to be done.
-    if((storeState.admin.resource.name.plural !== resourceNamePlural)
-      || (storeState.admin.pageType !== pageType)) {
-      setResourceNamePlural(resourceNamePlural, store, pageType);
+    if((storeState.admin.resource.name.plural !== resourceNamePlural) 
+      || (storeState.admin.pageType !== pageType)
+      || (storeState.admin.resourceId !== nextState.params.resourceId)) {
+      updateAdminState(resourceNamePlural, store, pageType, nextState.params.resourceId);
     }
   }
 }
@@ -76,11 +77,12 @@ function redirectNoneAdmin(store) {
   store.dispatch(push('/login'))
 }
 
-function setResourceNamePlural(namePlural, store, pageType) {
+function updateAdminState(namePlural, store, pageType, resourceId) {
   store.dispatch({
-    type: 'UPDATE_CURRENT_RESOURCE_NAME',
+    type: 'UPDATE_ADMIN_STATE',
     namePlural,
-    pageType
+    pageType,
+    resourceId
   })
 }
 /**
@@ -108,7 +110,6 @@ function allowLoginAccess(store) {
   } else {
     getUserCount(store).then((count) => {
       if(count === 0) {
-        console.log('replace')
         store.dispatch(replace('/signup'));
       }
     }).catch((error) => {
