@@ -1,6 +1,6 @@
 import { takeLatest } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { push, replace } from 'react-router-redux'
+import { replace } from 'react-router-redux'
 
 function setSessionStorage(token, user){
   if(typeof sessionStorage !== 'undefined'){
