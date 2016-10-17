@@ -62,10 +62,6 @@ class ActiveUsersWidget extends React.Component {
   }
 }
 
-ActiveUsersWidget.contextTypes = {
-  store: React.PropTypes.object
-}
-
 const mapStateToProps = ( state ) => {
   return {
     token: state.auth.token
