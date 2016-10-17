@@ -19,7 +19,7 @@ class APIClient {
 	 * @return undefined
 	 */
 	constructor(dispatch) {
-		this.updateToken = this._updateToken.bind(this);
+		this.updateToken = (token) => this._updateToken(token, dispatch);
 
 		methods.forEach((method) => {
 			this[method] = (path, authRequired = true, { params, data } = {}) => new Promise((resolve, reject) => {

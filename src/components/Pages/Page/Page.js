@@ -29,7 +29,7 @@ class Page extends React.Component {
   }
 
   loadPageContent(pathname) {
-    const client = new APIClient(this.context.store);
+    const client = new APIClient(this.props.dispatch);
 
     client.get('data/pages/by-path', false, {params: {
       fullpath: pathname
@@ -114,10 +114,6 @@ class Page extends React.Component {
   }
 }
 
-Page.contextTypes = {
-  store: React.PropTypes.object.isRequired
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     updatePageStatusCode: (statusCode) => {
@@ -125,7 +121,8 @@ const mapDispatchToProps = (dispatch) => {
         type: 'UPDATE_PAGE_STATUS_CODE',
         statusCode
       })
-    }
+    },
+    dispatch
   }
 }
 const mapStateToProps = (state, ownProps) => {

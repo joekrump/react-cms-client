@@ -3,7 +3,6 @@ import { List } from 'material-ui/List';
 import CircularProgress from 'material-ui/CircularProgress';
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
-import APIClient from '../../../../../http/requests';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.scss';
 import dragula from 'react-dragula';

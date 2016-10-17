@@ -28,7 +28,7 @@ const onAdminEnterHandler = (nextState, store, pageType) => {
     if((storeState.admin.resource.name.plural !== resourceNamePlural) 
       || (storeState.admin.pageType !== pageType)
       || (storeState.admin.resourceId !== resourceId)) {
-      updateAdminState(resourceNamePlural, store, pageType, resourceId);
+      updateAdminState(resourceNamePlural, store.dispatch, pageType, resourceId);
     }
   }
 }
@@ -47,8 +47,8 @@ const getRoutes = (store) => {
     component: App,
     indexRoute: { component: Page },
     childRoutes: [
-      { path: 'login', component: Page, onEnter: () => allowLoginAccess(store) },
-      { path: 'signup', component: SignUp, onEnter: () => allowSignupAccess(store) },
+      { path: 'login', component: Page, onEnter: () => allowLoginAccess(store.dispatch) },
+      { path: 'signup', component: SignUp, onEnter: () => allowSignupAccess(store.dispatch) },
       { path: 'forgot-password', component: ForgotPassword },
       { 
         path: 'admin',
@@ -79,8 +79,8 @@ function redirectNoneAdmin(store) {
   store.dispatch(push('/login'))
 }
 
-function updateAdminState(namePlural, store, pageType, resourceId) {
-  store.dispatch({
+function updateAdminState(namePlural, dispatch, pageType, resourceId) {
+  dispatch({
     type: 'UPDATE_ADMIN_STATE',
     namePlural,
     pageType,
@@ -91,10 +91,10 @@ function updateAdminState(namePlural, store, pageType, resourceId) {
  * Allow user to access SignUp page, or redirect.
  * @return undefined
  */
-function allowSignupAccess(store) {
-  getUserCount(store).then((count) => {
+function allowSignupAccess(dispatch) {
+  getUserCount(dispatch).then((count) => {
     if(count > 0) {
-      store.dispatch(replace('/login'));
+      dispatch(replace('/login'));
     }
   }).catch((error) => {
     console.warn('Error: ', error)
@@ -105,14 +105,14 @@ function allowSignupAccess(store) {
  * Check to see if /login should be accessible.
  * @return undefined
  */
-function allowLoginAccess(store) {
+function allowLoginAccess(dispatch) {
 
   if(auth.loggedIn()) {
-    store.dispatch(replace('/admin'))
+    dispatch(replace('/admin'))
   } else {
-    getUserCount(store).then((count) => {
+    getUserCount(dispatch).then((count) => {
       if(count === 0) {
-        store.dispatch(replace('/signup'));
+        dispatch(replace('/signup'));
       }
     }).catch((error) => {
       console.log('Error: ', error)
@@ -125,9 +125,9 @@ function allowLoginAccess(store) {
  * user count is completed.
  * @return Promise
  */
-function getUserCount(nextState, replace, store) {
+function getUserCount(nextState, replace, dispatch) {
   return new Promise((resolve, reject) => {
-    let client = new APIClient(store);
+    let client = new APIClient(dispatch);
     client.get('users/count', false)
     .then((res) => {
       if(res.statusCode !== 200) {

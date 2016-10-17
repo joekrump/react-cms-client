@@ -12,30 +12,21 @@ module.exports = {
    */
   login(email, pass, handleLoggedInCallback, dispatch) {
     let token = getToken();
+    let user = getUser();
 
-    if (token !== null) {
-      this.handleLoggedIn(handleLoggedInCallback, this.parsedUser(), token, true);
+    if (token !== null && user !== null) {
+      this.handleLoggedIn(handleLoggedInCallback, user, token, true);
     } else {
       makeLoginRequest(email, pass, (res) => loginRequestCB(res, this.handleLoggedIn, handleLoggedInCallback), dispatch)
     }
   },
-  getUser() {
-    if(typeof sessionStorage !== 'undefined') {
-      return sessionStorage.laravelUser ? this.parsedUser() : null;
-    } else {
-      return null;
-    }
-  },
-  parsedUser() {
-    return JSON.parse(sessionStorage.laravelUser);
-  },
   logout(logoutCallback, logoutFailedCB, dispatch) {
     logoutFromServer(logoutCallback, logoutFailedCB, this, dispatch);
   },
-
   getToken: getToken,
   loggedIn: loggedIn,
-  handleLoggedIn: handleLoggedIn
+  handleLoggedIn: handleLoggedIn,
+  getUser: getUser
 }
 
 function loggedIn() {
@@ -48,7 +39,15 @@ function loggedIn() {
 
 export function getToken() {
   if(typeof sessionStorage !== 'undefined') {
-    return sessionStorage.laravelAccessToken
+    return sessionStorage.laravelAccessToken || null
+  } else {
+    return null;
+  }
+}
+
+function getUser() {
+  if(typeof sessionStorage !== 'undefined') {
+    return sessionStorage.laravelUser ? JSON.parse(sessionStorage.laravelUser) : null;
   } else {
     return null;
   }
