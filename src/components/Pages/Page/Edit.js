@@ -47,7 +47,7 @@ class PageEdit extends React.Component {
 
   componentWillMount() {
     if(this.state.editContext === 'edit') {
-      this.context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
+      this.props.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
     }
     this.setState({
       template: this.getTemplateComponent(this.props.template_id, this.props.name, this.props.content)
@@ -89,7 +89,7 @@ class PageEdit extends React.Component {
       resourceURL: this.props.submitUrl
     });
 
-    let client = new APIClient(this.context.store)
+    let client = new APIClient(this.props.dispatch)
 
     if(this.props.editContext === 'edit'){
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
@@ -140,7 +140,7 @@ class PageEdit extends React.Component {
     this.setState(newState);
 
     if(url) {
-      // this.context.store.dispatch(replace('/admin/' + url + '/edit'))
+      // this.props.dispatch(replace('/admin/' + url + '/edit'))
     }
     this.props.updateSnackbar(true, 'Success', 'Page Saved!', 'success');
   }
@@ -292,7 +292,7 @@ class PageEdit extends React.Component {
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
       this.props.resourceNamePlural, 
-      this.context.store,
+      this.props.dispatch,
       this.state.template_id
     )
   }
@@ -416,13 +416,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: 'DELETE_ADMIN_EDITOR_DATA'
       })
-    }
+    },
+    dispatch
   }
 }
-
-PageEdit.contextTypes = {
-  store: React.PropTypes.object.isRequired
-};
 
 export default withStyles(s)(connect(
   mapStateToProps,
