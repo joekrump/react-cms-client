@@ -43,6 +43,13 @@ export function deleteEditorData() {
   }
 }
 
+export function updateLoadState(dataLoading) {
+  return {
+    type: 'UPDATE_ADMIN_LOAD_STATE',
+    dataLoading
+  }
+}
+
 export function uIndexItemDeleted(item_id) {
   return {
     type: 'U_INDEX_ITEM_DELETED',

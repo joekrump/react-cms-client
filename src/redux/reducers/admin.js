@@ -14,7 +14,8 @@ const initialState = {
   },
   pageType: 'dashboard', // can be show, edit, new, settings or dashboard
   resourceId: null,
-  editorData: {}
+  editorData: {},
+  dataLoading: false
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -26,7 +27,8 @@ const adminReducer = (state = initialState, action) => {
         resource: state.resource,
         editorData: state.editorData,
         pageType: state.pageType,
-        resourceId: state.resourceId
+        resourceId: state.resourceId,
+        dataLoading: state.dataLoading
       }
     case 'UPDATE_INDEX_HAS_CHANGES':
       return {
@@ -37,7 +39,8 @@ const adminReducer = (state = initialState, action) => {
         resource: state.resource,
         editorData: state.editorData,
         pageType: state.pageType,
-        resourceId: state.resourceId
+        resourceId: state.resourceId,
+        dataLoading: state.dataLoading
       }
     case 'UPDATE_ADMIN_EDITOR_DATA':
       return {
@@ -48,7 +51,8 @@ const adminReducer = (state = initialState, action) => {
         resource: state.resource,
         editorData: merge({}, state.editorData, action.newData),
         pageType: state.pageType,
-        resourceId: state.resourceId
+        resourceId: state.resourceId,
+        dataLoading: state.dataLoading
       }
     case 'DELETE_ADMIN_EDITOR_DATA':
       return {
@@ -58,7 +62,8 @@ const adminReducer = (state = initialState, action) => {
         },
         resource: state.resource,
         editorData: {},
-        pageType: state.pageType
+        pageType: state.pageType,
+        dataLoading: state.dataLoading
       }
     case 'UPDATE_ADMIN_STATE':
       return {
@@ -72,7 +77,18 @@ const adminReducer = (state = initialState, action) => {
         },
         editorData: state.editorData,
         pageType: action.pageType,
-        resourceId: action.resourceId
+        resourceId: action.resourceId,
+        dataLoading: state.dataLoading
+      }
+    case 'UPDATE_ADMIN_LOAD_STATE':
+      return {
+        mode: state.mode,
+        index: state.index,
+        resource: state.resource,
+        editorData: state.editorData,
+        pageType: state.pageType,
+        resourceId: state.resourceId,
+        dataLoading: action.dataLoading
       }
     default:
       return state;
