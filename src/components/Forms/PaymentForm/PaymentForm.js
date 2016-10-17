@@ -104,9 +104,8 @@ class PaymentForm extends React.Component {
       }, (res) => {
         if (res.statusCode === 422) {
           self.props.updateSnackbar(true, 'Error', res.body.message, 'error');
-          // TODO: dispatch form errors.
+
           Object.keys(res.body.errors).forEach((fieldName) => {
-            console.log(fieldName);
             this.props.inputError(res.body.errors[fieldName],
                                   fieldName,
                                   formName);
