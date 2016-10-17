@@ -9,7 +9,9 @@ import AccessDeniedPage from './Pages/Errors/401/401';
 class App extends React.Component {
 
   componentWillMount() {
-    if(!this.props.loggedIn){
+    let hasUserAndToken = auth.getToken() && auth.getUser();
+    
+    if(!this.props.loggedIn && hasUserAndToken){
       auth.login(null, null, this.props.loginUser, this.props.dispatch)
     }
   }

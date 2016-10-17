@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../auth';
 import { connect } from 'react-redux';
 import ForgotPasswordLink from '../Pages/Auth/ForgotPassword/ForgotPasswordLink';
+import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 
 class LoginForm extends React.Component{
   constructor(props) {
@@ -11,7 +12,6 @@ class LoginForm extends React.Component{
     this.state = {
       email: '',
       password: '',
-      error: false,
       loggedIn: auth.loggedIn(),
       disabled: props.disabled
     };
@@ -19,11 +19,11 @@ class LoginForm extends React.Component{
 
   loginCallback(authData, loggedIn) {
     if(!loggedIn)
-      return this.setState({error: true})
+      this.props.updateSnackbar(true, 'Error', 'Email and password combination not found', 'warning');
+      return
 
     const { location } = this.props
     let redirectPath;
-    this.setState({error: false});
     
     // If the user tried to access a specific admin route before logging in then redirect them there after login
     // otherwise default to /admin
@@ -75,9 +75,8 @@ class LoginForm extends React.Component{
             onChange={(event) => this.handleChange(event)}
           /><br />
           <RaisedButton label="Login" primary onTouchTap={(event) => this.handleSubmit(event)} type="submit" disabled={this.state.disabled} />
-          {this.state.error && (
-            <p>Bad login information</p>
-          )}
+        
+          <NotificationSnackbar />
         </form>
         <br/>
         <ForgotPasswordLink />
@@ -99,6 +98,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     redirectAfterLogin: (callback) => {
       dispatch(callback)
+    },
+    updateSnackbar: (show, header, content, notificationType) => {
+      dispatch ({
+        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        show,
+        header,
+        content,
+        notificationType
+      })
     },
     dispatch
   }
