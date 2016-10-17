@@ -9,7 +9,7 @@ class App extends React.Component {
 
   componentWillMount() {
     if((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken){
-      auth.login(null, null, this.props.loginUser, this.context.store)
+      auth.login(null, null, this.props.loginUser, null, this.props.dispatch)
     }
   }
 
@@ -19,10 +19,6 @@ class App extends React.Component {
       {this.props.loggedIn ? this.props.children : <Page location={this.props.location} />}
     </div>
   )
-}
-
-App.contextTypes = {
-  store: React.PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -38,7 +34,8 @@ const mapDispatchToProps = (dispatch) => ({
       loggedIn,
       redirectPath
     })
-  }
+  },
+  dispatch
 })
 
 export default connect(

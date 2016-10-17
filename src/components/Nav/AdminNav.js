@@ -39,7 +39,6 @@ class AdminNav extends React.Component {
   }
 
   handleLogout(e){
-    console.log('DISPATCH: ', this.props)
     e.preventDefault();
     auth.logout(() => {
       // dispatch an action if the server has successfully logged out the user.

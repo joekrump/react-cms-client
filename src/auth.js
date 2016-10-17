@@ -3,12 +3,12 @@ import APIClient from './http/requests'
 
 module.exports = {
 
-  login(email, pass, handleLoggedInCallback, store) {
+  login(email, pass, handleLoggedInCallback, token, dispatch) {
     // If there is a laravelAccessToken just log in
     if ((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
       this.handleLoggedIn(handleLoggedInCallback, this.parsedUser(), sessionStorage.laravelAccessToken, true);
     } else {
-      makeLoginRequest(email, pass, (res) => loginRequestCB(res, handleLoggedIn, handleLoggedInCallback), store)
+      makeLoginRequest(email, pass, (res) => loginRequestCB(res, handleLoggedIn, handleLoggedInCallback), token, dispatch)
     }
   },
   getUser() {
@@ -68,7 +68,7 @@ function handleLoggedIn(onLoggedInCB, user, token, isLoggedIn = false){
 }
 
 function logoutFromServer(onSuccessCB, onFailureCB, component, token, dispatch) {
-  let client = new APIClient(store);
+  let client = new APIClient(token, dispatch);
 
   client.post('auth/logout').then((res) => {
     if (!((res.statusCode === 200) || (res.statusCode === 204))) {
@@ -88,8 +88,8 @@ function logoutFromServer(onSuccessCB, onFailureCB, component, token, dispatch) 
   })
 }
 
-function makeLoginRequest(email, password, loginRequestCallback, store) {
-  let client = new APIClient(store);
+function makeLoginRequest(email, password, loginRequestCallback, token, dispatch) {
+  let client = new APIClient(token, dispatch);
 
   client.post('auth/login', false, {data: { email, password }}).then((res) => {
     if (res.statusCode !== 200) {
