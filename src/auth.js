@@ -3,6 +3,15 @@ import APIClient from './http/requests'
 
 module.exports = {
 
+  /**
+   * Method to log user into admin
+   * @param  {string} email                    - email address of the user that is trying to log in
+   * @param  {string} pass                     - the password for the user that is trying to log in
+   * @param  {fucntion} handleLoggedInCallback - function to call on user logged in
+   * @param  {string} token                    - JWT used for communication with the app
+   * @param  {function} dispatch               - redux dispatch method
+   * @return {undefined}                     
+   */
   login(email, pass, handleLoggedInCallback, token, dispatch) {
     // If there is a laravelAccessToken just log in
     if ((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {

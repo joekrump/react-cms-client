@@ -40,7 +40,13 @@ class LoginForm extends React.Component{
 
   handleSubmit(e){
     e.preventDefault()
-    auth.login(this.state.email, this.state.password, (authData, loggedIn) => this.loginCallback(authData, loggedIn), null, this.props.dispatch)
+    auth.login(
+      this.state.email, 
+      this.state.password, 
+      (authData, loggedIn) => this.loginCallback(authData, loggedIn), 
+      null, 
+      this.props.dispatch
+    )
   }
 
   handleChange(e){
