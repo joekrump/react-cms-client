@@ -4,25 +4,53 @@ import { connect } from 'react-redux';
 import AdminNav from './Nav/AdminNav';
 import TopNav from './Nav/SiteTopNav';
 import Page from './Pages/Page/Page';
+import AccessDeniedPage from './Pages/Errors/401/401';
 
 class App extends React.Component {
 
   componentWillMount() {
-    if((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken){
+    if(!this.props.loggedIn){
       auth.login(null, null, this.props.loginUser, this.props.dispatch)
     }
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.pageStatus !== this.props.pageStatus) {
+      return true;
+    } else if (nextProps.location !== this.props.location) {
+      return true;
+    } else if (nextProps.loggedIn !== this.props.loggedIn) { 
+      return true;
+    } else {
+      return false
+    }
+  }
+  renderContent() {
+    if(this.props.loggedIn) {
+      if(this.props.pageStatus === 401) {
+        return (<AccessDeniedPage />);
+      } else {
+        return this.props.children;
+      }
+    } else {
+      return (<Page location={this.props.location} />)
+    }
+  }
+  render = _ => {
+    console.log("logged in: ", this.props.loggedIn)
 
-  render = _ => (
-    <div id="app">
-      {this.props.loggedIn ? <AdminNav /> : <TopNav />}
-      {this.props.loggedIn ? this.props.children : <Page location={this.props.location} />}
-    </div>
-  )
+    return (
+      <div id="app">
+        {this.props.loggedIn ? <AdminNav /> : <TopNav />}
+        {this.renderContent()}
+      </div>
+    )
+  }
+    
 }
 
 const mapStateToProps = (state) => ({
-  loggedIn: state.auth.logged_in
+  loggedIn: state.auth.logged_in,
+  pageStatus: state.page.statusCode
 });
 
 const mapDispatchToProps = (dispatch) => ({

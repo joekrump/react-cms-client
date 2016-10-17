@@ -8,18 +8,18 @@ import FrontendPage from '../../../Layout/FrontendPage';
 import s from '../ErrorPage.scss'
 
 const Forbidden = () => {
-
+  console.log('FORBIDDEN PAGE RENDER')
   return( 
     <FrontendPage>
       <div className="page error-page not-allowed">
         <div className="page-container">
-          <div className="title">403 - Access Denied</div>
+          <div className="title">401 - Access Denied</div>
           <div className="content">
             It appears you're trying to access a page that you don't have permission to. If this seems to be an error, contact your site administrator in order to obtain permission.
           </div>
           <RaisedButton 
-            containerElement={<Link to='/' />}
-            label='Head back home'
+            containerElement={<Link to='/admin' />}
+            label='Head back to dashboard'
             primary={true} 
             icon={<ActionHome />}
           />

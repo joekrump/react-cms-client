@@ -8,7 +8,7 @@ import auth from './auth';
 import { replace, push } from 'react-router-redux'
 import APIClient from './http/requests'
 import getAdminRoutes from './routes/admin/routes'
-
+import AccessDeniedPage from './components/Pages/Errors/401/401';
 /**
  * onEnter callback method for admin routesq
  * @param  {object} nextState [description]
@@ -17,23 +17,32 @@ import getAdminRoutes from './routes/admin/routes'
  * @return undefined
  */
 const onAdminEnterHandler = (nextState, store, pageType) => {
+  let resourceNamePlural = nextState.params.resourceNamePlural || '';
+  let resourceId =  nextState.params.resourceId || null;
+
   if(!auth.loggedIn()) {
     redirectNoneAdmin(store);
+  } else if(resourceNamePlural && (auth.getUser().menuList.indexOf(resourceNamePlural) === -1)) {
+    store.dispatch({type: 'UPDATE_PAGE_STATUS_CODE', statusCode: 401})
+    store.dispatch(push('/admin/401'));
+    
   } else {
-    let resourceNamePlural = nextState.params.resourceNamePlural || '';
-    let resourceId =  nextState.params.resourceId || null;
-
     const storeState = store.getState();
     // only update if it needs to be done.
     if((storeState.admin.resource.name.plural !== resourceNamePlural) 
       || (storeState.admin.pageType !== pageType)
       || (storeState.admin.resourceId !== resourceId)) {
+      setPageStatusOk(store.dispatch);
       updateAdminState(resourceNamePlural, store.dispatch, pageType, resourceId);
     }
   }
 }
 
 export {onAdminEnterHandler};
+
+function setPageStatusOk(dispatch) {
+  dispatch({type: 'UPDATE_PAGE_STATUS_CODE', statusCode: 200})
+}
 
 /**
  * Returns the routes in the app
@@ -45,7 +54,10 @@ const getRoutes = (store) => {
   let routes = {
     path: '/',
     component: App,
-    indexRoute: { component: Page },
+    indexRoute: { 
+      component: Page,
+      onEnter: () => setPageStatusOk(store.dispatch)
+    },
     childRoutes: [
       { path: 'login', component: Page, onEnter: () => allowLoginAccess(store.dispatch) },
       { path: 'signup', component: SignUp, onEnter: () => allowSignupAccess(store.dispatch) },
@@ -58,11 +70,16 @@ const getRoutes = (store) => {
             component: UserSettings,
             onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'settings')
           },
+          { path: '401', component: AccessDeniedPage },
           adminRoutes
         ]
       },
       // PageRoutes,
-      { path: '*', component: Page }
+      { 
+        path: '*', 
+        component: Page, 
+        onEnter: () => setPageStatusOk(store.dispatch) 
+      }
     ]
   }
   return routes;
