@@ -17,13 +17,16 @@ import getAdminRoutes from './routes/admin/routes'
  * @return undefined
  */
 const onAdminEnterHandler = (nextState, store, pageType) => {
-  requireAuth(store);
-  let resourceNamePlural = nextState.params.resourceNamePlural || '';
-  const storeState = store.getState();
-  // only update if it needs to be done.
-  if((storeState.admin.resource.name.plural !== resourceNamePlural)
-    || (storeState.admin.pageType !== pageType)) {
-    setResourceNamePlural(resourceNamePlural, store, pageType);
+  if(!auth.loggedIn()) {
+    redirectNoneAdmin(store);
+  } else {
+    let resourceNamePlural = nextState.params.resourceNamePlural || '';
+    const storeState = store.getState();
+    // only update if it needs to be done.
+    if((storeState.admin.resource.name.plural !== resourceNamePlural)
+      || (storeState.admin.pageType !== pageType)) {
+      setResourceNamePlural(resourceNamePlural, store, pageType);
+    }
   }
 }
 
@@ -69,10 +72,8 @@ export default getRoutes;
  * accessible to a user who is authenticated (logged in)
  * @return undefined
  */
-function requireAuth(store) {
-  if (!auth.loggedIn()) {
-    store.dispatch(push('/login'))
-  }
+function redirectNoneAdmin(store) {
+  store.dispatch(push('/login'))
 }
 
 function setResourceNamePlural(namePlural, store, pageType) {
