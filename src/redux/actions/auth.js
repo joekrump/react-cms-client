@@ -10,8 +10,8 @@ export function login_user(user, token, loggedIn, redirectPath) {
     type: 'USER_LOGGED_IN',
     user,
     token,
-    redirectPath,
-    loggedIn
+    loggedIn,
+    redirectPath
   };
 }
 

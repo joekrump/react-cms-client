@@ -32,6 +32,8 @@ class LoginForm extends React.Component{
       // otherwise default to /admin
       // 
       if(location.state && location.state.nextPathname) {
+        // TODO, check if this value is correct
+        console.log(location.state)
         redirectPath = location.state.nextPathname
       } else {
         redirectPath = '/admin'
