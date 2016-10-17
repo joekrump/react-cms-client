@@ -16,11 +16,7 @@ import IndexToolbar from './IndexToolbar';
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
-    this.state = {
-      loading: true,
-      dragulaDrake: null,
-      TreeHelper: {}
-    }
+    this.treeHelper = new TreeHelper(props.nodeArray, true)
   }
 
   handleDrop(el, target, source, sibling){
@@ -28,83 +24,44 @@ class Index extends React.Component {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
 
       if(source.dataset.parentmodelid) {
-        this.state.TreeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
+        this.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      this.props.updateTree(this.state.TreeHelper.richNodeArray);
+      this.props.updateTree(this.treeHelper.richNodeArray);
       this.props.updateIndexHasChanges(true)
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
   }
 
-  setItems(resourceNamePlural){
-    this.setState({loading: true})
-    let client = new APIClient(this.context.store);
-
-    client.get(resourceNamePlural).then((res) => {
-      this.setState({loading: false})
-
-      if(res.statusCode !== 200) {
-        this.props.updateTree([]) // Reset Items
-        console.log('Bad Response: ', res)
-
-      } else {
-        // Set items so that new elements are in the DOM before dragula is initialized.
-        let treeHelper = new TreeHelper(res.body.data)
-        this.setState({
-          TreeHelper: treeHelper
-        }) 
-
-        this.props.updateTree(treeHelper.richNodeArray);
-
-        client.updateToken(res.header.authorization)
-
-        if(typeof document !== 'undefined'){
-          let drake = dragula({
-            containers: [].slice.apply(document.querySelectorAll('.nested')),
-            moves: (el, source, handle, sibling) => {
-              return handle.classList.contains('drag-handle')
-            },
-            accepts: (el, target, source, sibling) => {
-              // prevent dragged containers from trying to drop inside itself
-              return !this.state.TreeHelper.contains(el, target);
-            }
-          });
-          drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
-
-          this.setState({
-            dragulaDrake: drake
-          });
-        }
-      }
-    }).catch((res) => {
-      this.setState({loading: false})
-      console.warn('Error: ', res)
-      this.props.updateTree([]) // Reset Items
-    })
-  }
-
   componentWillMount() {
-    this.setItems(this.props.resourceNamePlural);
-  }
-  componentWillUnmount() {
-    this.state.dragulaDrake.destroy();
-    this.setState({
-      dragulaDrake: null
-    })
-  }
-  componentWillReceiveProps(nextProps){
-    if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
-      this.setItems(nextProps.resourceNamePlural);
+    // this.setItems(this.props.resourceNamePlural);
+    if(typeof document !== 'undefined'){
+      let drake = dragula({
+        containers: [].slice.apply(document.querySelectorAll('.nested')),
+        moves: (el, source, handle, sibling) => {
+          return handle.classList.contains('drag-handle')
+        },
+        accepts: (el, target, source, sibling) => {
+          // prevent dragged containers from trying to drop inside itself
+          return this.treeHelper.contains(el, target);
+        }
+      });
+      drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
     }
   }
+
+  // componentWillReceiveProps(nextProps){
+  //   if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
+  //     this.setItems(nextProps.resourceNamePlural);
+  //   }
+  // }
 
   shouldComponentUpdate(nextProps, nextState) {
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
       return true;
     } else if (nextProps.nodeArray.length !== this.props.nodeArray.length) {
       return true;
-    } else if (nextState.loading !== this.state.loading) {
+    } else if (nextProps.dataLoading !== this.props.dataLoading) {
       return true;
     } else if (nextProps.adminMode !== this.props.adminMode) {
       return true;
@@ -123,7 +80,7 @@ class Index extends React.Component {
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
-    if(!this.state.loading && this.props.nodeArray.length > 0){
+    if(!this.props.dataLoading && this.props.nodeArray.length > 0){
       content = (
         <ListItems items={this.getRootChildren()} 
                    resourceType={this.props.resourceNamePlural} 
@@ -134,10 +91,10 @@ class Index extends React.Component {
       <AdminLayout>
         <div className={"admin-index" + (this.props.adminMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
           <IndexToolbar resourceName={capitalize(this.props.resourceNamePlural)}/>
-          {this.state.loading ? (<CircularProgress />) : null}
+          {this.props.dataLoading ? (<CircularProgress />) : null}
           <List className="item-list">
-            {this.state.loading || !(this.props.nodeArray.length > 0) ? null : <span className="spacer"></span>}
-            {this.state.loading ? null : content}
+            {this.props.dataLoading || !(this.props.nodeArray.length > 0) ? null : <span className="spacer"></span>}
+            {this.props.dataLoading ? null : content}
           </List>
         { this.props.children }
         </div>
@@ -153,18 +110,13 @@ const mapStateToProps = (state, ownProps) => {
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.index.hasChanges,
     adminMode: state.admin.mode,
-    showSnackbar: state.notifications.snackbar.show
+    showSnackbar: state.notifications.snackbar.show,
+    dataLoading: state.admin.dataLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateTree: (nodeArray) => {
-      dispatch ({
-        type: 'UPDATE_TREE',
-        nodeArray
-      })
-    },
     updateIndexHasChanges: (hasChanges) => {
       dispatch({
         type: 'UPDATE_INDEX_HAS_CHANGES',

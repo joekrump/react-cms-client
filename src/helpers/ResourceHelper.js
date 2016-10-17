@@ -58,3 +58,39 @@ export function singularizeName(wordToSingularize){
     }
   }
 }
+
+function setIndexItems(resourceNamePlural, store){
+
+  let client = new APIClient(store);
+
+  client.get(resourceNamePlural).then((res) => {
+
+    if(res.statusCode !== 200) {
+      updateResourceTree([], store) // Reset Items
+      console.log('Bad Response: ', res)
+
+    } else {
+      // create a tree structure from the array of data returned.
+      let treeHelper = new TreeHelper(res.body.data)
+
+      updateResourceTree(treeHelper.richNodeArray, store);
+
+      client.updateToken(res.header.authorization)
+    }
+  }).catch((res) => {
+    updateResourceTree([], store) // Reset Items
+  })
+}
+
+/**
+ * Dispatch a redux UPDATE_TREE actoin
+ * @param  {Array} nodeArray - the tree like data to set.
+ * @param  {Object} store    - the redux store
+ * @return {undefined}
+ */
+function updateResourceTree(nodeArray, store) {
+  store.dispatch ({
+    type: 'UPDATE_TREE',
+    nodeArray
+  })
+}
