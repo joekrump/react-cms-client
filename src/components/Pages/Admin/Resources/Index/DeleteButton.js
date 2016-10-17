@@ -11,8 +11,7 @@ const styles = {
   },
   buttonStyles: {
     width: 36,
-    height: 36,
-    // padding: '12px 8px 12px 8px'
+    height: 36
   }
 }
 
