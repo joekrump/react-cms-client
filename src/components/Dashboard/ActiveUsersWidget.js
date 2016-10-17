@@ -17,7 +17,7 @@ class ActiveUsersWidget extends React.Component {
     }
   }
   componentDidMount(){
-    let client = new APIClient(this.context.store);
+    let client = new APIClient(this.props.token, this.props.dispatch);
     client.get('users/active').then((res) => {
       if(res.statusCode !== 200) {
         // Couldn't get the active users for some reason. Likely something wrong with the API server.
