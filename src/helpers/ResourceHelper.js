@@ -1,50 +1,24 @@
 import APIClient from '../http/requests';
 import TreeHelper from './TreeHelper';
 
-
-function setIndexItems(resourceNamePlural, put){
-  // put app in data loading state.
-  put(updateDataLoadingState(true));
+export function getIndexItems(resourceNamePlural, put){
   
   let client = new APIClient(put);
+  let nodeArray = []
 
-  client.get(resourceNamePlural).then((res) => {
-
-    if(res.statusCode !== 200) {
-      put(updateDataLoadingState(false));
-      put(updateResourceTree([])) // Reset Items
-    } else {
+  nodeArray = client.get(resourceNamePlural).then((res) => {
+    if(res.statusCode === 200) {
       // create a tree structure from the array of data returned.
       let treeHelper = new TreeHelper(res.body.data)
-      put(updateDataLoadingState(false));
-      put(updateResourceTree(treeHelper.richNodeArray));
-
+      nodeArray = treeHelper.richNodeArray;
       client.updateToken(res.header.authorization)
     }
+    return nodeArray;
   }).catch((res) => {
-    put(updateDataLoadingState(false));
-    put(updateResourceTree([])) // Reset Items
-  })
-}
+    return [];
+  });
 
-/**
- * Dispatch a redux UPDATE_TREE action
- * @param  {Array} nodeArray - the tree like data to set.
- * @param  {function} dispatch
- * @return {undefined}
- */
-function updateResourceTree(nodeArray) {
-  return {
-    type: 'UPDATE_TREE',
-    nodeArray
-  }
-}
-
-function updateDataLoadingState(dataLoading) {
-  return {
-    type: 'UPDATE_ADMIN_LOAD_STATE',
-    dataLoading
-  }
+  return nodeArray;
 }
 
 /**

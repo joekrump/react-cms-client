@@ -7,11 +7,11 @@ import adminSaga      from './admin';
 
 export default function* rootSaga(){
   yield [
+    loginSaga(),
     adminSaga(),
     adminIndexSaga(),
     formFieldSaga(),
     logoutSaga(),
-    loginSaga(),
     tokenSaga()
   ]
 }
