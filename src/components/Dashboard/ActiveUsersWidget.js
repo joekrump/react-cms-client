@@ -17,7 +17,7 @@ class ActiveUsersWidget extends React.Component {
     }
   }
   componentDidMount(){
-    let client = new APIClient(this.props.token, this.props.dispatch);
+    let client = new APIClient(this.props.dispatch);
     client.get('users/active').then((res) => {
       if(res.statusCode !== 200) {
         // Couldn't get the active users for some reason. Likely something wrong with the API server.
@@ -62,12 +62,6 @@ class ActiveUsersWidget extends React.Component {
   }
 }
 
-const mapStateToProps = ( state ) => {
-  return {
-    token: state.auth.token
-  }
-}
-
 export default withStyles(s)(
-  connect(mapStateToProps)(ActiveUsersWidget)
+  connect()(ActiveUsersWidget) // call connect so that we have access to dispatch in props.
 );
