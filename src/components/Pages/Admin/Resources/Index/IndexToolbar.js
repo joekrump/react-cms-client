@@ -68,7 +68,7 @@ class IndexToolbar extends React.Component {
 
     // save and then update state to show that no more changes to save.
     //
-    let client = new APIClient(this.context.store);
+    let client = new APIClient(this.props.dispatch);
 
     client.put(this.props.resourceNamePlural + '/update-index', true, {
       data: {
@@ -138,8 +138,7 @@ class IndexToolbar extends React.Component {
 }
 
 IndexToolbar.contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
-  store: React.PropTypes.object.isRequired
+  muiTheme: React.PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -173,7 +172,8 @@ const mapDispatchToProps = (dispatch) => {
         type: 'UPDATE_INDEX_HAS_CHANGES',
         hasChanges
       })
-    }
+    },
+    dispatch
   };
 }
 
