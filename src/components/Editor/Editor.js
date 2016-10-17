@@ -26,7 +26,7 @@ class Editor {
     ContentTools.DEFAULT_VIDEO_HEIGHT = 500;
 
     // eslint-disable-next-line
-    ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 2000;
+    ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 980;
     // eslint-disable-next-line
     ContentEdit.RESIZE_CORNER_SIZE = 50;
 

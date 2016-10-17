@@ -76,9 +76,6 @@ export const parseCloudinaryURL = (url) => {
   return [filename, transforms];
 }
 
-const maxWidth = 2000;
-const maxHeight = maxWidth;
-
 export class ImageUploader {
 
   constructor(dialog) {
@@ -88,6 +85,9 @@ export class ImageUploader {
     this.xhrProgress = null;
     this.dialog = dialog;
 
+
+
+    
     // Set up the event handlers
     this.dialog.addEventListener('imageuploader.cancelupload', this.handleUploadCancel);
 
@@ -123,7 +123,7 @@ export class ImageUploader {
           this.image = {
             angle: 0,
             height: parseInt(response.height, 10),
-            maxWidth: parseInt(response.width, 10),
+            // maxWidth: parseInt(response.width, 10),
             width: parseInt(response.width, 10)
           };
 
@@ -172,6 +172,17 @@ export class ImageUploader {
     this.dialog.addEventListener('imageuploader.save', this.handleImageSave);
   }
 
+  setMaxWidthAndHeight = () => {
+    this.image.maxWidth = 2000;
+    let editorFocusElements = document.getElementsByClassName('ce-element--focused');
+    let focusedElement = editorFocusElements.length > 0 ? editorFocusElements[0] : null;
+    if(focusedElement !== null) {
+      this.image.maxWidth = focusedElement.offsetWidth;
+    }
+
+    this.image.maxHeight = this.image.maxWidth;
+  }
+
 
   resetXHR = () => {
     // Clear the request
@@ -207,6 +218,9 @@ export class ImageUploader {
     // Build a list of transforms
     transforms = [];
     
+    this.setMaxWidthAndHeight();
+
+
     // Angle
     if (this.image.angle !== 0) {
       transforms.push({a: this.image.angle});
@@ -227,15 +241,15 @@ export class ImageUploader {
         // Update the image size based on the crop
         this.image.width = cropTransform.w;
         this.image.height = cropTransform.h;
-        this.image.maxWidth = cropTransform.w;
+        // this.image.maxWidth = cropTransform.w;
       }
 
     // Resize (the image is inserted in the page at a default size)
-    if (this.image.width > maxWidth || this.image.height > maxHeight) {
-      transforms.push({c: 'fit', w: maxWidth, h: maxHeight});
+    if (this.image.width > this.image.maxWidth || this.image.height > this.image.maxHeight) {
+      transforms.push({c: 'fit', w: this.image.maxWidth, h: this.image.maxHeight});
 
         // Update the size of the image in-line with the resize
-        ratio = Math.min(maxWidth / this.image.width, maxHeight / this.image.height);
+        ratio = Math.min(this.image.maxWidth / this.image.width, this.image.maxHeight / this.image.height);
         this.image.width *= ratio;
         this.image.height *= ratio;
       }
@@ -254,6 +268,8 @@ export class ImageUploader {
     // Handle a request by the user to rotate the image
     var height, transforms, width;
     
+    this.setMaxWidthAndHeight();
+
     // Update the angle of the image
     this.image.angle += angle;
 
@@ -269,10 +285,10 @@ export class ImageUploader {
     height = this.image.height;
     this.image.width = height;
     this.image.height = width;
-    this.image.maxWidth = width;
+    // this.image.maxWidth = width;
     
     // Build the transform to rotate the image
-    transforms = [{c: 'fit', h: maxWidth, w: maxHeight}];
+    transforms = [{c: 'fit', h: this.image.maxWidth, w: this.image.maxHeight}];
     if (this.image.angle > 0) {
       transforms.unshift({a: this.image.angle});
     }

@@ -28,7 +28,8 @@
 }
 
 .page {
-  min-height: calc(100% - 10px);
+  min-height: calc(100% - 35px);
+  padding-bottom: 35px;
   overflow: auto;
 }
 .page, .top-nav {
