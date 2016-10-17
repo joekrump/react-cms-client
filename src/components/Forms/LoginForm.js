@@ -24,21 +24,19 @@ class LoginForm extends React.Component{
         return this.setState({error: true})
 
       const { location } = this.props
-      var redirectPath;
-
+      let redirectPath;
       this.setState({error: false});
       
       // If the user tried to access a specific admin route before logging in then redirect them there after login
       // otherwise default to /admin
-      // 
-      if(location.state && location.state.nextPathname) {
-        // TODO, check if this value is correct
-        console.log(location.state)
-        redirectPath = location.state.nextPathname
+      if(location && (location.pathname.toLowerCase() === '/login')) {
+        redirectPath = '/admin'
+      } else if(location && location.pathname) {
+        redirectPath = location.pathname
       } else {
         redirectPath = '/admin'
       }
-      
+
       this.props.loginUser(authData.user, authData.token, loggedIn, redirectPath);
       
     }, this.context.store)

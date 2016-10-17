@@ -8,7 +8,6 @@ function setSessionStorage(token, user){
       sessionStorage.laravelAccessToken = token;
     }
     if(user) {
-
       sessionStorage.laravelUser = JSON.stringify(user);
     }
   }
