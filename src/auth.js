@@ -7,16 +7,16 @@ module.exports = {
    * @param  {string} email                    - email address of the user that is trying to log in
    * @param  {string} pass                     - the password for the user that is trying to log in
    * @param  {fucntion} handleLoggedInCallback - function to call on user logged in
-   * @param  {string} token                    - JWT used for communication with the app
    * @param  {function} dispatch               - redux dispatch method
    * @return {undefined}                     
    */
-  login(email, pass, handleLoggedInCallback, token, dispatch) {
-    // If there is a laravelAccessToken just log in
-    if ((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken && sessionStorage.laravelUser) {
-      this.handleLoggedIn(handleLoggedInCallback, this.parsedUser(), sessionStorage.laravelAccessToken, true);
+  login(email, pass, handleLoggedInCallback, dispatch) {
+    let token = getToken();
+
+    if (token !== null) {
+      this.handleLoggedIn(handleLoggedInCallback, this.parsedUser(), token, true);
     } else {
-      makeLoginRequest(email, pass, (res) => loginRequestCB(res, handleLoggedIn, handleLoggedInCallback), token, dispatch)
+      makeLoginRequest(email, pass, (res) => loginRequestCB(res, this.handleLoggedIn, handleLoggedInCallback), dispatch)
     }
   },
   getUser() {
@@ -30,7 +30,7 @@ module.exports = {
     return JSON.parse(sessionStorage.laravelUser);
   },
   logout(logoutCallback, logoutFailedCB, dispatch) {
-    logoutFromServer(logoutCallback, logoutFailedCB, this, getToken(), dispatch);
+    logoutFromServer(logoutCallback, logoutFailedCB, this, dispatch);
   },
 
   getToken: getToken,
@@ -75,8 +75,8 @@ function handleLoggedIn(onLoggedInCB, user, token, isLoggedIn = false){
   return;
 }
 
-function logoutFromServer(onSuccessCB, onFailureCB, component, token, dispatch) {
-  let client = new APIClient(token, dispatch);
+function logoutFromServer(onSuccessCB, onFailureCB, component, dispatch) {
+  let client = new APIClient(dispatch);
 
   client.post('auth/logout').then((res) => {
     if (!((res.statusCode === 200) || (res.statusCode === 204))) {
@@ -96,8 +96,8 @@ function logoutFromServer(onSuccessCB, onFailureCB, component, token, dispatch) 
   })
 }
 
-function makeLoginRequest(email, password, loginRequestCallback, token, dispatch) {
-  let client = new APIClient(token, dispatch);
+function makeLoginRequest(email, password, loginRequestCallback, dispatch) {
+  let client = new APIClient(dispatch);
 
   client.post('auth/login', false, {data: { email, password }}).then((res) => {
     if (res.statusCode !== 200) {

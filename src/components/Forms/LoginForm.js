@@ -43,8 +43,7 @@ class LoginForm extends React.Component{
     auth.login(
       this.state.email, 
       this.state.password, 
-      (authData, loggedIn) => this.loginCallback(authData, loggedIn), 
-      null, 
+      (authData, loggedIn) => this.loginCallback(authData, loggedIn),
       this.props.dispatch
     )
   }

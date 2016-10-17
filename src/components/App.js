@@ -9,7 +9,7 @@ class App extends React.Component {
 
   componentWillMount() {
     if((typeof sessionStorage !== 'undefined') && sessionStorage.laravelAccessToken){
-      auth.login(null, null, this.props.loginUser, null, this.props.dispatch)
+      auth.login(null, null, this.props.loginUser, this.props.dispatch)
     }
   }
 
