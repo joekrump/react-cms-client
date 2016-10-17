@@ -21,8 +21,8 @@ module.exports = {
   parsedUser() {
     return JSON.parse(sessionStorage.laravelUser);
   },
-  logout(logoutCallback, logoutFailedCB, store) {
-    logoutFromServer(logoutCallback, logoutFailedCB, this, store);
+  logout(logoutCallback, logoutFailedCB, dispatch) {
+    logoutFromServer(logoutCallback, logoutFailedCB, this, getToken(), dispatch);
   },
 
   getToken: getToken,
@@ -67,7 +67,7 @@ function handleLoggedIn(onLoggedInCB, user, token, isLoggedIn = false){
   return;
 }
 
-function logoutFromServer(onSuccessCB, onFailureCB, component, store) {
+function logoutFromServer(onSuccessCB, onFailureCB, component, token, dispatch) {
   let client = new APIClient(store);
 
   client.post('auth/logout').then((res) => {

@@ -39,13 +39,14 @@ class AdminNav extends React.Component {
   }
 
   handleLogout(e){
+    console.log('DISPATCH: ', this.props)
     e.preventDefault();
     auth.logout(() => {
       // dispatch an action if the server has successfully logged out the user.
       this.props.logoutUser('/login');
     }, () => {
       this.props.loginUser(auth.getUser(), auth.getToken(), true)
-    }, this.context.store);
+    }, this.props.dispatch);
   }
 
   renderBackButton() {
@@ -135,7 +136,8 @@ const mapDispatchToProps = (dispatch) => {
         loggedIn,
         redirectPath
       })
-    }
+    },
+    dispatch
   };
 }
 

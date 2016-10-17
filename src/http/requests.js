@@ -13,11 +13,11 @@ class APIClient {
 	/**
 	 * Constructor for this class. Generates RESTful HTTP methods. (see 'methods' variable above.)
 	 * Note: The methods built correspond to the methods available in the superagent library.
-	 * @param  {Object} store The Redux 'liftedStore' for the app. Used to access token from store and to make dispatch requests.
+	 * @param  {string} token - JWT
+	 * @param  {function} dispatch - redux dispatch method
 	 * @return undefined
 	 */
-	constructor(store) {
-		this.store = store;
+	constructor(token, dispatch) {
 		this.updateToken = this._updateToken.bind(this);
 
 		methods.forEach((method) => {
@@ -32,7 +32,7 @@ class APIClient {
 
 			  if(authRequired) {
 			  	// Get statetree and get auth.token from that.
-			    request.set('Authorization', 'Bearer ' + this.store.getState().auth.token)
+			    request.set('Authorization', 'Bearer ' + token)
 			  }
 
 			  // request.use(AuthIntercept);
@@ -51,8 +51,8 @@ class APIClient {
 	 * @param  {string} token - token value to update
 	 * @return {[type]}       [description]
 	 */
-	_updateToken(token){
-		this.store.dispatch({
+	_updateToken(token, dispatch){
+		dispatch({
 			type: 'TOKEN_UPDATED',
 			token: token.split(" ")[1] // remove 'Bearer' from Authorization header and get just token
 		})

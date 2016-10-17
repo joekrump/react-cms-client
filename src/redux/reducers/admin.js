@@ -1,4 +1,4 @@
-import {singularizeName} from '../../helpers/ResourceHelper';
+import { singularizeName } from '../../helpers/ResourceHelper';
 import merge from 'lodash.merge';
 
 const initialState = {

@@ -1,3 +1,5 @@
+import APIClient from '../http/requests';
+import TreeHelper from './TreeHelper';
 /**
  * A helper with methods related to resources
  */
@@ -59,16 +61,17 @@ export function singularizeName(wordToSingularize){
   }
 }
 
-function setIndexItems(resourceNamePlural, store){
-
+export function setIndexItems(resourceNamePlural, store){
+  // put app in data loading state.
+  updateDataLoadingState(true, store);
+  
   let client = new APIClient(store);
 
   client.get(resourceNamePlural).then((res) => {
 
     if(res.statusCode !== 200) {
+      updateDataLoadingState(false, store);
       updateResourceTree([], store) // Reset Items
-      console.log('Bad Response: ', res)
-
     } else {
       // create a tree structure from the array of data returned.
       let treeHelper = new TreeHelper(res.body.data)
@@ -78,6 +81,7 @@ function setIndexItems(resourceNamePlural, store){
       client.updateToken(res.header.authorization)
     }
   }).catch((res) => {
+    updateDataLoadingState(false, store);
     updateResourceTree([], store) // Reset Items
   })
 }
@@ -92,5 +96,12 @@ function updateResourceTree(nodeArray, store) {
   store.dispatch ({
     type: 'UPDATE_TREE',
     nodeArray
+  })
+}
+
+function updateDataLoadingState(dataLoading, store) {
+  store.dispatch({
+    type: 'UPDATE_ADMIN_LOAD_STATE',
+    dataLoading
   })
 }
