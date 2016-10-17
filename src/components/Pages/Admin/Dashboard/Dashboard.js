@@ -4,6 +4,7 @@ import ActiveUsersWidget from '../../../Dashboard/ActiveUsersWidget'
 import FlexContainer from '../../../Layout/FlexContainer'
 import APIClient from '../../../../http/requests'
 import AdminLayout from '../Layout/AdminLayout'
+import { connect } from 'react-redux';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount(){
-    let client = new APIClient(this.context.store);
+    let client = new APIClient(this.props.dispatch);
     client.get('dashboard').then((res) => {
       if(res.statusCode !== 200) {
       } else {
@@ -71,8 +72,4 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.contextTypes = {
-  store: React.PropTypes.object.isRequired
-};
-
-export default Dashboard;
+export default connect()(Dashboard);
