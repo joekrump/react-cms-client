@@ -17,30 +17,32 @@ class LoginForm extends React.Component{
     };
   }
 
+  loginCallback(authData, loggedIn) {
+    if(!loggedIn)
+      return this.setState({error: true})
+
+    const { location } = this.props
+    let redirectPath;
+    this.setState({error: false});
+    
+    // If the user tried to access a specific admin route before logging in then redirect them there after login
+    // otherwise default to /admin
+    if(location && (location.pathname.toLowerCase() === '/login')) {
+      redirectPath = '/admin'
+    } else if(location && location.pathname) {
+      redirectPath = location.pathname
+    } else {
+      redirectPath = '/admin'
+    }
+
+    this.props.loginUser(authData.user, authData.token, loggedIn, redirectPath);
+  }
+
   handleSubmit(e){
     e.preventDefault()
-    auth.login(this.state.email, this.state.password, (authData, loggedIn) => {
-      if(!loggedIn)
-        return this.setState({error: true})
-
-      const { location } = this.props
-      let redirectPath;
-      this.setState({error: false});
-      
-      // If the user tried to access a specific admin route before logging in then redirect them there after login
-      // otherwise default to /admin
-      if(location && (location.pathname.toLowerCase() === '/login')) {
-        redirectPath = '/admin'
-      } else if(location && location.pathname) {
-        redirectPath = location.pathname
-      } else {
-        redirectPath = '/admin'
-      }
-
-      this.props.loginUser(authData.user, authData.token, loggedIn, redirectPath);
-      
-    }, this.context.store)
+    auth.login(this.state.email, this.state.password, (authData, loggedIn) => this.loginCallback(authData, loggedIn), null, this.props.dispatch)
   }
+
   handleChange(e){
     let oldState = this.state;
     oldState[e.target.name] = e.target.value;
@@ -92,12 +94,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     redirectAfterLogin: (callback) => {
       dispatch(callback)
-    }
+    },
+    dispatch
   }
-}
-
-LoginForm.contextTypes = {
-  store: React.PropTypes.object
 }
 
 const LoginRedux = connect(
