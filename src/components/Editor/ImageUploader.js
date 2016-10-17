@@ -165,7 +165,7 @@ export class ImageUploader {
     this.dialog.addEventListener('imageuploader.rotateccw',  () => { 
       this.rotate(-90); 
     });
-    this.dialog.addEventListener('imageUploader.rotatecw', () => { 
+    this.dialog.addEventListener('imageuploader.rotatecw', () => { 
       this.rotate(90); 
     });
 
