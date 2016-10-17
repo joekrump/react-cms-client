@@ -74,7 +74,7 @@ class LoginForm extends React.Component{
             ref="loginPassword"
             onChange={(event) => this.handleChange(event)}
           /><br />
-          <RaisedButton label="Login" primary onTouchTap={(event) => this.handleSubmit(event)} type="submit" disabled={this.state.disabled} />
+          <RaisedButton label="Login" primary type="submit" disabled={this.state.disabled} />
         
           <NotificationSnackbar />
         </form>
