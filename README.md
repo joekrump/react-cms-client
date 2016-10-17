@@ -80,7 +80,7 @@ $ npm start
 ```
 
 ## Screenshots of Current State of the App (09/01/2016)
-
+**Update: (Oct. 16, 2016) New screenshots and short video demo coming soon**
 ### Default Edit Page
 
 ![updateuser](https://cloud.githubusercontent.com/assets/3317231/18188929/f211ae94-706a-11e6-96e6-965cbd448d59.JPG)
@@ -114,6 +114,10 @@ Donation Page Content (implemented with Stripe)
 
 ![donationpagecontent](https://cloud.githubusercontent.com/assets/3317231/18188998/994dd7dc-706b-11e6-9f77-fc4e8bed10fa.JPG)
 
+### API Server
+
+Currently I have an API server built using Laravel 5.2 which this client app interacts with. The API server is currently in a private repository, and I have plans to make it public by the end of November 2016. There are also plans to migrate the current server code over to Sails, so that both the client and the server will be written in JS. If you have any questions regarding server specifics, please give me a shout by email or on LinkedIn.
+
 ### WIP
 
 - [x] Role based permissions
@@ -121,7 +125,7 @@ Donation Page Content (implemented with Stripe)
 - [x] Form Validation using Redux
 - [x] Allow Page nesting in Index
 - [ ] Add Searching and Reordering of resources
-- [ ] Add Media / File Management
+- [ ] Media / File Management
 - [ ] Webworkers for Caching data
 - [x] Add Tests using Jest
 - [x] Page Template Loading
