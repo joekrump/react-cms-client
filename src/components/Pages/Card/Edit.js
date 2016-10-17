@@ -43,7 +43,7 @@ class CardEdit extends React.Component {
 
   componentWillMount() {
     if(this.state.editContext === 'edit') {
-      this.context.store.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
+      this.props.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
     }
     this.setState({
       template: this.getTemplateComponent(this.props.template_id)
@@ -71,7 +71,7 @@ class CardEdit extends React.Component {
       resourceURL: this.props.submitUrl
     });
 
-    let client = new APIClient(this.context.store)
+    let client = new APIClient(this.props.dispatch)
 
     if(this.props.editContext === 'edit'){
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
@@ -266,10 +266,6 @@ const mapDispatchToProps = (dispatch) => {
     dispatch
   }
 }
-
-CardEdit.contextTypes = {
-  store: React.PropTypes.object.isRequired
-};
 
 export default withStyles(s)(connect(
   null,
