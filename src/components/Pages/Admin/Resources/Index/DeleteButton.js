@@ -19,7 +19,7 @@ const styles = {
 class DeleteButton extends React.Component {
 
   componentDidMount() {
-    let client = new APIClient(this.context.store);
+    let client = new APIClient(this.props.dispatch);
     this.setState({
       client
     })
@@ -63,10 +63,6 @@ class DeleteButton extends React.Component {
   }
 }
 
-DeleteButton.contextTypes = {
-  store: React.PropTypes.object.isRequired
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteItemClicked: (item_id) => {
@@ -74,7 +70,8 @@ const mapDispatchToProps = (dispatch) => {
         type: 'U_INDEX_ITEM_DELETED',
         item_id
       })
-    },  
+    },
+    dispatch  
   }
 }
 
