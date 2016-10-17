@@ -64,7 +64,7 @@ class PaymentForm extends React.Component {
     }
   }
   componentDidMount() {
-    let client = new APIClient(this.context.store);
+    let client = new APIClient(this.props.dispatch);
     this.setState({client});
   }
   resetForm(){
@@ -185,10 +185,6 @@ class PaymentForm extends React.Component {
   }
 }
 
-PaymentForm.contextTypes = {
-  store: React.PropTypes.object.isRequired
-}
-
 const mapStateToProps = (state) => {
   return {
     isFormValid: state.forms.paymentForm.valid,
@@ -233,7 +229,8 @@ const mapDispatchToProps = (dispatch) => {
         fieldName,
         formName
       })
-    }
+    },
+    dispatch
   };
 }
 
