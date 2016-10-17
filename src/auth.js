@@ -46,7 +46,7 @@ function loggedIn() {
   }
 }
 
-function getToken() {
+export function getToken() {
   if(typeof sessionStorage !== 'undefined') {
     return sessionStorage.laravelAccessToken
   } else {

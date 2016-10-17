@@ -1,5 +1,6 @@
 import superagent from 'superagent';
 import AppConfig from '../../app_config/app';
+import { getToken } from '../auth';
 // import AuthIntercept from './AuthIntercept'
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
@@ -17,7 +18,7 @@ class APIClient {
 	 * @param  {function} dispatch - redux dispatch method
 	 * @return undefined
 	 */
-	constructor(token, dispatch) {
+	constructor(dispatch) {
 		this.updateToken = this._updateToken.bind(this);
 
 		methods.forEach((method) => {
@@ -32,7 +33,7 @@ class APIClient {
 
 			  if(authRequired) {
 			  	// Get statetree and get auth.token from that.
-			    request.set('Authorization', 'Bearer ' + token)
+			    request.set('Authorization', 'Bearer ' + getToken())
 			  }
 
 			  // request.use(AuthIntercept);
