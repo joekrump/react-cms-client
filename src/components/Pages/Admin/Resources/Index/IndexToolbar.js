@@ -154,7 +154,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateMode: (mode) => {
       dispatch ({
-        type: 'UPDATE_MODE',
+        type: 'UPDATE_RESOURCE_MODE',
         mode
       })
     },

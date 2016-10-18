@@ -1,5 +1,6 @@
 import { singularizeName } from '../../helpers/ResourceHelper';
 import merge from 'lodash.merge';
+import assign from 'lodash.assign';
 import resources from '../store/initial_states/admin/resources';
 
 const initialState = {
@@ -16,12 +17,16 @@ const initialState = {
   resourceId: null,
   editorData: {},
   dataLoading: false,
-  resources: resources
+  resources
 };
 
 const adminReducer = (state = initialState, action) => {
+
   switch (action.type) {
     case 'UPDATE_RESOURCE_MODE':
+      let resourceUpdate = {}
+      resourceUpdate[state.resource.name.plural] = assign({}, state.resources[state.resource.name.plural], {mode: action.mode})
+
       return {
         index: state.index,
         resource: state.resource,
@@ -29,7 +34,7 @@ const adminReducer = (state = initialState, action) => {
         pageType: state.pageType,
         resourceId: state.resourceId,
         dataLoading: state.dataLoading,
-        resources: merge({}, state.resources, {state.resource.name.plural: {mode: action.mode}})
+        resources: assign({}, state.resources, resourceUpdate)
       }
     case 'UPDATE_INDEX_HAS_CHANGES':
       return {
