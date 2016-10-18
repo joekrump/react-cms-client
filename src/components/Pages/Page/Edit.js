@@ -324,6 +324,7 @@ class PageEdit extends React.Component {
     this.setState({
       template_id: template_id
     })
+    this.state.editor.updateTemplateId(template_id);
   }
 
   updateData() {

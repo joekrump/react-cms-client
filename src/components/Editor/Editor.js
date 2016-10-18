@@ -116,7 +116,6 @@ class Editor {
         this.keypressSave = true;
         // save() already checks to see if there is dirty data before it issues a request to the server
         // so no need to check it again here.
-        console.log('editor save')
         this.editor.save(true);
         handled = true;
       }
@@ -220,9 +219,8 @@ class Editor {
     // console.log(this.editor.regions());
     let numRegions = Object.keys(regions).length;
     let payload = {};
-    
-    if (numRegions === 0 && !this.dirty_data) {
 
+    if (numRegions === 0 && !this.dirty_data) {
       this.editor.busy(false);
       return;
     } else {
