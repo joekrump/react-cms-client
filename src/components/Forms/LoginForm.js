@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput} from '../Form/index';
+import { SubmitButton, TextInput } from '../Form/index';
 import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../auth';
 import { connect } from 'react-redux';
@@ -74,7 +74,7 @@ class LoginForm extends React.Component{
             validationRules={this.getFieldValidationRules('password')}
             autoFocus={false}
           />
-          <RaisedButton className="submit-btn" label="Login" primary type="submit" disabled={this.state.disabled} />
+          <SubmitButton isFormValid={this.props.isValid} withIcon={false} label="Login" />
           <NotificationSnackbar />
         </form>
         <br/>
@@ -113,6 +113,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
   formFields: state.forms.loginForm.fields,
+  isValid:  state.forms.loginForm.valid
 })
 
 export default connect(

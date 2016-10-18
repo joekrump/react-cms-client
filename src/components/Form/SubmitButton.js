@@ -5,6 +5,7 @@ import SendIcon from 'material-ui/svg-icons/content/send';
 
 const SubmitButton = (props) => (
   <RaisedButton
+    className="submit-btn"
     primary
     disabled={!props.isFormValid}
     label={props.label ? props.label : 'Submit'}
