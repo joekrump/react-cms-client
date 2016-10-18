@@ -1,8 +1,8 @@
 import { singularizeName } from '../../helpers/ResourceHelper';
 import merge from 'lodash.merge';
+import resources from '../store/initial_states/admin/resources';
 
 const initialState = {
-  mode: 'PASSIVE', // possible modes: EDIT_INDEX, PASSIVE, EDIT_CONTENT
   index: {
     hasChanges: false
   },
@@ -15,24 +15,24 @@ const initialState = {
   pageType: 'dashboard', // can be show, edit, new, settings or dashboard
   resourceId: null,
   editorData: {},
-  dataLoading: false
+  dataLoading: false,
+  resources: resources
 };
 
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'UPDATE_MODE':
+    case 'UPDATE_RESOURCE_MODE':
       return {
-        mode: action.mode,
         index: state.index,
         resource: state.resource,
         editorData: state.editorData,
         pageType: state.pageType,
         resourceId: state.resourceId,
-        dataLoading: state.dataLoading
+        dataLoading: state.dataLoading,
+        resources: merge({}, state.resources, {state.resource.name.plural: {mode: action.mode}})
       }
     case 'UPDATE_INDEX_HAS_CHANGES':
       return {
-        mode: state.mode,
         index: {
           hasChanges: action.hasChanges
         },
@@ -40,11 +40,11 @@ const adminReducer = (state = initialState, action) => {
         editorData: state.editorData,
         pageType: state.pageType,
         resourceId: state.resourceId,
-        dataLoading: state.dataLoading
+        dataLoading: state.dataLoading,
+        resources: state.resources
       }
     case 'UPDATE_ADMIN_EDITOR_DATA':
       return {
-        mode: state.mode,
         index: {
           hasChanges: state.hasChanges
         },
@@ -52,22 +52,22 @@ const adminReducer = (state = initialState, action) => {
         editorData: merge({}, state.editorData, action.newData),
         pageType: state.pageType,
         resourceId: state.resourceId,
-        dataLoading: state.dataLoading
+        dataLoading: state.dataLoading,
+        resources: state.resources
       }
     case 'DELETE_ADMIN_EDITOR_DATA':
       return {
-        mode: state.mode,
         index: {
           hasChanges: state.hasChanges
         },
         resource: state.resource,
         editorData: {},
         pageType: state.pageType,
-        dataLoading: state.dataLoading
+        dataLoading: state.dataLoading,
+        resources: state.resources
       }
     case 'UPDATE_ADMIN_STATE':
       return {
-        mode: state.mode,
         index: state.index,
         resource: {
           name: {
@@ -78,17 +78,18 @@ const adminReducer = (state = initialState, action) => {
         editorData: state.editorData,
         pageType: action.pageType,
         resourceId: action.resourceId,
-        dataLoading: state.dataLoading
+        dataLoading: state.dataLoading,
+        resources: state.resources
       }
     case 'UPDATE_ADMIN_LOAD_STATE':
       return {
-        mode: state.mode,
         index: state.index,
         resource: state.resource,
         editorData: state.editorData,
         pageType: state.pageType,
         resourceId: state.resourceId,
-        dataLoading: action.dataLoading
+        dataLoading: action.dataLoading,
+        resources: state.resources
       }
     default:
       return state;
