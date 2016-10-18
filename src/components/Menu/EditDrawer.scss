@@ -4,4 +4,7 @@
     top: 82px;
     right: 15px;
   }
+  &.floating-menu-button {
+    z-index: 101; /* 1 higher than the top-nav z-index */
+  }
 }

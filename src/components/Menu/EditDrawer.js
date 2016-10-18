@@ -22,7 +22,7 @@ class EditDrawer extends React.Component {
     return this.state.open ? null 
       : (
           <FloatingActionButton
-            className="page-menu floating-menu"
+            className="page-menu floating-menu floating-menu-button"
             onTouchTap={this.handleToggle}>
             <SettingsIcon />
           </FloatingActionButton>
