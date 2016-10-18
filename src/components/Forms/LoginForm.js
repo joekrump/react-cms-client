@@ -39,7 +39,6 @@ class LoginForm extends React.Component{
 
   handleSubmit(e){
     e.preventDefault()
-    console.log(this.props.formFields);
     auth.login(
       this.props.formFields.email.value, 
       this.props.formFields.password.value, 
