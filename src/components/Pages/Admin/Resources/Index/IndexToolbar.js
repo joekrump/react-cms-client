@@ -8,11 +8,18 @@ import AddIcon from 'material-ui/svg-icons/content/add';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import {Link} from 'react-router';
 import {greenA700} from 'material-ui/styles/colors'
+import assign from 'lodash.assign';
 
-let buttonStyles = {
-  width: 56,
-  height: 56
+const settingButtonStyles = {
+  width: 36,
+  height: 36,
+  border: 20,
+  marginTop: 10,
+  marginBottom: 10,
+  padding: 2
 };
+
+const rightButtonStyles = assign({}, settingButtonStyles, {marginRight: 7});
 
 class IndexToolbar extends React.Component {
 
@@ -31,7 +38,7 @@ class IndexToolbar extends React.Component {
       button =  <IconButton tooltip="Save Changes"
                             tooltipPosition="top-center"
                             iconStyle={{color: greenA700}}
-                            style={buttonStyles} 
+                            style={settingButtonStyles} 
                             disabled={disable} 
                             onTouchTap={(event) => this.saveChanges(event) }>
                   <DoneIcon />
@@ -39,7 +46,7 @@ class IndexToolbar extends React.Component {
     } else if (mode === 'EDIT_INDEX') {
       button =  <IconButton tooltip="Done"
                             tooltipPosition="top-center"
-                            style={buttonStyles} 
+                            style={settingButtonStyles} 
                             disabled={disable} 
                             onTouchTap={(event) => this.cancelEdit(event) }>
                   <DoneIcon />
@@ -47,7 +54,7 @@ class IndexToolbar extends React.Component {
     } else {
       button =  <IconButton tooltip="Edit"
                             tooltipPosition="top-center"
-                            style={buttonStyles} 
+                            style={settingButtonStyles} 
                             disabled={disable} 
                             onTouchTap={(event) => this.enableEdit(event) }>
                   <SettingsIcon />
@@ -123,11 +130,11 @@ class IndexToolbar extends React.Component {
           <h1 className="index-title">{this.props.resourceName}</h1>
         </ToolbarGroup>
         <ToolbarGroup>
-          {this.makeEditButton(this.props.adminMode, this.props.hasChanges, this.state.buttonDisabled)}
+          {this.makeEditButton(this.props.adminResourceMode, this.props.hasChanges, this.state.buttonDisabled)}
           <Link to={'/admin/' + this.props.resourceNamePlural + '/new'}>
             <IconButton tooltip="New"
                         tooltipPosition="top-center"
-                        style={buttonStyles}>
+                        style={rightButtonStyles}>
               <AddIcon />
             </IconButton>
           </Link>
@@ -146,7 +153,7 @@ const mapStateToProps = (state, ownProps) => {
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.index.hasChanges,
     indexNodeArray: state.tree.indexTree.nodeArray,
-    adminMode: state.admin.mode
+    adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode
   }
 }
 
@@ -176,8 +183,6 @@ const mapDispatchToProps = (dispatch) => {
     dispatch
   };
 }
-
-
 
 export default connect(
   mapStateToProps,

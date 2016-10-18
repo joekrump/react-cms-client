@@ -58,7 +58,7 @@ class Index extends React.Component {
   componentWillReceiveProps(nextProps){
     if((nextProps.nodeArray.length !== this.props.nodeArray.length) 
       || (nextProps.resourceNamePlural !== this.props.resourceNamePlural)
-      || (nextProps.adminMode !== this.props.adminMode)) {
+      || (nextProps.adminResourceMode !== this.props.adminResourceMode)) {
       let treeHelper = new TreeHelper(nextProps.nodeArray, true)
       this.setState({treeHelper})
       this.initializeDnD(treeHelper);
@@ -72,7 +72,7 @@ class Index extends React.Component {
       return true;
     } else if (nextProps.dataLoading !== this.props.dataLoading) {
       return true;
-    } else if (nextProps.adminMode !== this.props.adminMode) {
+    } else if (nextProps.adminResourceMode !== this.props.adminResourceMode) {
       return true;
     } else if (nextProps.hasChanges !== this.props.hasChanges) {
       return true;
@@ -93,12 +93,12 @@ class Index extends React.Component {
       content = (
         <ListItems items={this.getRootChildren()} 
                    resourceType={this.props.resourceNamePlural} 
-                   editMode={this.props.adminMode === 'EDIT_INDEX'} 
+                   editMode={this.props.adminResourceMode === 'EDIT_INDEX'} 
                    />)
     }
     return (
       <AdminLayout>
-        <div className={"admin-index" + (this.props.adminMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
+        <div className={"admin-index" + (this.props.adminResourceMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
           <IndexToolbar resourceName={capitalize(this.props.resourceNamePlural)}/>
           {this.props.dataLoading ? (<CircularProgress />) : null}
           <List className="item-list">
@@ -118,7 +118,7 @@ const mapStateToProps = (state, ownProps) => {
     nodeArray: state.tree.indexTree.nodeArray,
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.index.hasChanges,
-    adminMode: state.admin.mode,
+    adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,
     showSnackbar: state.notifications.snackbar.show,
     dataLoading: state.admin.dataLoading
   }
