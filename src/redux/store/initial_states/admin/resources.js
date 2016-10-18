@@ -1,6 +1,6 @@
 // possible modes: EDIT_INDEX, PASSIVE, EDIT_CONTENT, 'NEW'
 
-export const resourceModes = {
+export const resources = {
   'books': {mode: 'PASSIVE'},  
   'users': {mode: 'PASSIVE'},
   'pages': {mode: 'PASSIVE'},
