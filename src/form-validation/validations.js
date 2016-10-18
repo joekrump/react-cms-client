@@ -59,6 +59,20 @@ module.exports = {
       rules: ['isRequired']
     }
   },
+  signupForm: {
+    name: {
+      rules: ['isRequired']
+    },
+    email: {
+      rules: ['isRequired', 'isEmail']
+    },
+    password: {
+      rules: {
+        new: ['isRequired'],
+        edit: []
+      }
+    }
+  },
   userForm: {
     name: {
       rules: ['isRequired']

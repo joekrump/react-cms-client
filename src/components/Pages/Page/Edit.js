@@ -11,6 +11,7 @@ import ContactPageTemplate from '../Templates/ContactPageTemplate'
 import BasicPageTemplate from '../Templates/BasicPageTemplate'
 import LoginPageTemplate from '../Templates/LoginPageTemplate'
 import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
+import SignupPageTemplate from '../Templates/SignupPageTemplate'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
@@ -262,6 +263,15 @@ class PageEdit extends React.Component {
       }
       case 5: {
         template = (<PaymentPageTemplate 
+          name={name} 
+          content={content} 
+          submitDisabled={true}
+          editMode={true}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />);
+        break;
+      }
+      case 6: {
+        template = (<SignupPageTemplate
           name={name} 
           content={content} 
           submitDisabled={true}

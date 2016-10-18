@@ -8,7 +8,7 @@ class SignupForm extends React.Component {
         formName="signupForm" 
         resourceURL="auth/signup"
         resourceId={null}
-        editContext={editContext}
+        editContext="new"
       />
     )
   }
