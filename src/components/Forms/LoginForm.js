@@ -11,8 +11,6 @@ class LoginForm extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
       loggedIn: auth.loggedIn(),
       disabled: props.disabled
     };
@@ -41,19 +39,18 @@ class LoginForm extends React.Component{
 
   handleSubmit(e){
     e.preventDefault()
+    console.log(this.props.formFields);
     auth.login(
-      this.state.email, 
-      this.state.password, 
+      this.props.formFields.email.value, 
+      this.props.formFields.password.value, 
       (authData, loggedIn) => this.loginCallback(authData, loggedIn),
       this.props.dispatch
     )
   }
 
   getFieldValidationRules(fieldName){
-    return validations['loginForm'][fieldName].rules
+    return validations.loginForm[fieldName].rules
   }
-
-
 
   render() {
     return (
@@ -78,7 +75,6 @@ class LoginForm extends React.Component{
             autoFocus={false}
           />
           <RaisedButton className="submit-btn" label="Login" primary type="submit" disabled={this.state.disabled} />
-        
           <NotificationSnackbar />
         </form>
         <br/>
@@ -115,9 +111,11 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const LoginRedux = connect(
-  null,
+const mapStateToProps = (state) => ({
+  formFields: state.forms.loginForm.fields,
+})
+
+export default connect(
+  mapStateToProps,
   mapDispatchToProps
 )(LoginForm)
-
-export default LoginRedux;
