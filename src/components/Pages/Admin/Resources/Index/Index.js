@@ -15,7 +15,8 @@ import IndexToolbar from './IndexToolbar';
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
-    this.treeHelper = new TreeHelper(props.nodeArray, true)
+    console.log(props);
+    this.initializeDnD = this.initializeDnD.bind(this);
   }
 
   handleDrop(el, target, source, sibling){
@@ -23,17 +24,24 @@ class Index extends React.Component {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
 
       if(source.dataset.parentmodelid) {
-        this.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
+        this.state.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      this.props.updateTree(this.treeHelper.richNodeArray);
+      this.props.updateTree(this.state.treeHelper.richNodeArray);
       this.props.updateIndexHasChanges(true)
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
   }
 
-  componentWillMount() {
-    // this.setItems(this.props.resourceNamePlural);
+  componentDidMount() {
+    console.log(this.props.nodeArray);
+    let treeHelper = new TreeHelper(this.props.nodeArray, true)
+    this.setState({treeHelper})
+    this.initializeDnD(treeHelper);
+  }
+
+  initializeDnD(treeHelper) {
+
     if(typeof document !== 'undefined'){
       let drake = dragula({
         containers: [].slice.apply(document.querySelectorAll('.nested')),
@@ -41,19 +49,28 @@ class Index extends React.Component {
           return handle.classList.contains('drag-handle')
         },
         accepts: (el, target, source, sibling) => {
+          console.log('el', el)
+          console.log('target', target)
+          // console.log('source', source)
+          // console.log('sibling', sibling)
           // prevent dragged containers from trying to drop inside itself
-          return this.treeHelper.contains(el, target);
+          return treeHelper.contains(el, target);
         }
       });
       drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
     }
   }
 
-  // componentWillReceiveProps(nextProps){
-  //   if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
-  //     this.setItems(nextProps.resourceNamePlural);
-  //   }
-  // }
+  componentWillReceiveProps(nextProps){
+    if((nextProps.nodeArray.length !== this.props.nodeArray.length) 
+      || (nextProps.resourceNamePlural !== this.props.resourceNamePlural)
+      || (nextProps.adminMode !== this.props.adminMode)) {
+      let treeHelper = new TreeHelper(nextProps.nodeArray, true)
+      console.log('treeHelper 2: ', treeHelper);
+      this.setState({treeHelper})
+      this.initializeDnD(treeHelper);
+    }
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
@@ -124,11 +141,6 @@ const mapDispatchToProps = (dispatch) => {
     }
   };
 }
-
-Index.contextTypes = {
-  store: React.PropTypes.object.isRequired
-};
-
 
 export default connect(
   mapStateToProps,

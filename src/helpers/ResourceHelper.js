@@ -10,6 +10,7 @@ export function getIndexItems(resourceNamePlural, put){
     if(res.statusCode === 200) {
       // create a tree structure from the array of data returned.
       let treeHelper = new TreeHelper(res.body.data)
+      console.log('treeHelper 1', treeHelper)
       nodeArray = treeHelper.richNodeArray;
       client.updateToken(res.header.authorization)
     }

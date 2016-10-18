@@ -357,9 +357,11 @@ export default class TreeHelper {
   }
 
   // http://ejohn.org/blog/comparing-document-position/
-  _contains(a, b){
-    return a.contains ?
-      (a !== b) && a.contains(b) :
-      !!(a.compareDocumentPosition(b) & 16);
+  _contains(a, b){   
+    if(a.contains) {
+      return (a !== b) && (!a.contains(b))
+    } else {
+      return !!(a.compareDocumentPosition(b) & 16);
+    } 
   }
 }
