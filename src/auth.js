@@ -122,5 +122,5 @@ function handleLoginFailure(loginRequestCallback) {
     authenticated: false, 
     token: null, 
     user: null 
-  })
+  }, false)
 }
