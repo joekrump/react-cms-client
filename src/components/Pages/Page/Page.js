@@ -8,7 +8,7 @@ import SignupPageTemplate from '../Templates/SignupPageTemplate'
 import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class Page extends React.Component {
   
