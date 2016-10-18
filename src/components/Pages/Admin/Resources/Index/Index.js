@@ -34,7 +34,6 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.nodeArray);
     let treeHelper = new TreeHelper(this.props.nodeArray, true)
     this.setState({treeHelper})
     this.initializeDnD(treeHelper);
@@ -49,10 +48,6 @@ class Index extends React.Component {
           return handle.classList.contains('drag-handle')
         },
         accepts: (el, target, source, sibling) => {
-          console.log('el', el)
-          console.log('target', target)
-          // console.log('source', source)
-          // console.log('sibling', sibling)
           // prevent dragged containers from trying to drop inside itself
           return treeHelper.contains(el, target);
         }
@@ -66,7 +61,6 @@ class Index extends React.Component {
       || (nextProps.resourceNamePlural !== this.props.resourceNamePlural)
       || (nextProps.adminMode !== this.props.adminMode)) {
       let treeHelper = new TreeHelper(nextProps.nodeArray, true)
-      console.log('treeHelper 2: ', treeHelper);
       this.setState({treeHelper})
       this.initializeDnD(treeHelper);
     }
