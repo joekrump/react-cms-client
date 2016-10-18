@@ -1,10 +1,11 @@
 import React from 'react';
-import TextField from 'material-ui/TextField';
+import {TextInput} from '../Form/index';
 import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../auth';
 import { connect } from 'react-redux';
 import ForgotPasswordLink from '../Pages/Auth/ForgotPassword/ForgotPasswordLink';
 import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
+import validations from '../../form-validation/validations'
 
 class LoginForm extends React.Component{
   constructor(props) {
@@ -35,7 +36,6 @@ class LoginForm extends React.Component{
     } else {
       redirectPath = '/admin'
     }
-
     this.props.loginUser(authData.user, authData.token, loggedIn, redirectPath);
   }
 
@@ -49,33 +49,35 @@ class LoginForm extends React.Component{
     )
   }
 
-  handleChange(e){
-    let oldState = this.state;
-    oldState[e.target.name] = e.target.value;
-    this.setState(oldState)
+  getFieldValidationRules(fieldName){
+    return validations['loginForm'][fieldName].rules
   }
+
+
+
   render() {
     return (
       <div className="login-form-container" onSubmit={(event) => this.handleSubmit(event)}>
         <form className="login-form">
-          <TextField
-            hintText="Email"
-            floatingLabelText="Email"
+          <TextInput 
             type="text"
+            placeholder="Email"
+            label="Email"
+            formName="loginForm"
             name="email"
-            ref="loginEmail"
-            onChange={(event) => this.handleChange(event)}
-            autoFocus
-          /><br />
-          <TextField
-            hintText="Password"
-            floatingLabelText="Password"
+            validationRules={this.getFieldValidationRules('email')} 
+            autoFocus={true}
+          />
+          <TextInput 
             type="password"
+            placeholder="Password"
+            label="Password"
+            formName="loginForm"
             name="password"
-            ref="loginPassword"
-            onChange={(event) => this.handleChange(event)}
-          /><br />
-          <RaisedButton label="Login" primary type="submit" disabled={this.state.disabled} />
+            validationRules={this.getFieldValidationRules('password')}
+            autoFocus={false}
+          />
+          <RaisedButton className="submit-btn" label="Login" primary type="submit" disabled={this.state.disabled} />
         
           <NotificationSnackbar />
         </form>

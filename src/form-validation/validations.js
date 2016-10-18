@@ -17,7 +17,7 @@ module.exports = {
   },
   loginForm: {
     email: {
-      rules: ['isRequired']
+      rules: ['isRequired', 'isEmail']
     },
     password: {
       rules: ['isRequired']

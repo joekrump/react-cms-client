@@ -5,6 +5,10 @@ import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
 import Validator from '../../form-validation/Validator'
 
+const style = {
+  display: 'block'
+}
+
 const TextInput = () => ({
   updateValue(value) {
     // Handle the input change and dispatch redux method to update field value as well as errors
@@ -63,8 +67,9 @@ const TextInput = () => ({
   render(){
     let errors = this.getErrors();
     return (
-      <div>
+      <div className="text-field">
         <TextField
+          style={style}
           type={this.props.type ? this.props.type : 'text'}
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
