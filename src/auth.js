@@ -114,7 +114,7 @@ function handleLoginSuccess(loginRequestCallback, res) {
     authenticated: true, 
     token: res.body.token,
     user: res.body.user
-  })
+  }, true)
 }
 
 function handleLoginFailure(loginRequestCallback) {

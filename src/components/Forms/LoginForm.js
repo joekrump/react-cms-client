@@ -18,9 +18,10 @@ class LoginForm extends React.Component{
   }
 
   loginCallback(authData, loggedIn) {
-    if(!loggedIn)
+    if(!loggedIn){
       this.props.updateSnackbar(true, 'Error', 'Email and password combination not found', 'warning');
       return
+    }
 
     const { location } = this.props
     let redirectPath;
