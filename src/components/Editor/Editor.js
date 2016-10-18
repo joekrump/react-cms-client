@@ -104,8 +104,9 @@ class Editor {
     // If the control key is not down in the editor then return early.
     if(!this.editor.ctrlDown()) {
       return;
+    } else {
+      this.handleKeyboardSave(event);
     }
-    this.handleKeyboardSave(event);
   }
 
   handleKeyboardSave(event) {
@@ -115,6 +116,7 @@ class Editor {
         this.keypressSave = true;
         // save() already checks to see if there is dirty data before it issues a request to the server
         // so no need to check it again here.
+        console.log('editor save')
         this.editor.save(true);
         handled = true;
       }
@@ -247,6 +249,8 @@ class Editor {
     // Set the editors state to busy while we save our changes
     // 
     try {
+      console.log('save');
+      console.log(this.dispatch)
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
       let client = new APIClient(this.dispatch);
 

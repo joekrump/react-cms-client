@@ -78,7 +78,6 @@ class PageEdit extends React.Component {
       || (this.props.name !== nextProps.name)
       || (this.props.content !== nextProps.content)
     ){
-      console.log(nextProps);
       this.setState({
         template: this.getTemplateComponent(nextState.template_id, nextProps.name, nextProps.content)
       })

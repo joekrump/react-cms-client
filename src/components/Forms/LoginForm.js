@@ -1,6 +1,5 @@
 import React from 'react';
 import { SubmitButton, TextInput } from '../Form/index';
-import RaisedButton from 'material-ui/RaisedButton';
 import auth from '../../auth';
 import { connect } from 'react-redux';
 import ForgotPasswordLink from '../Pages/Auth/ForgotPassword/ForgotPasswordLink';
