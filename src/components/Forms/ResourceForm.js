@@ -53,8 +53,8 @@ class ResourceForm extends React.Component {
 
     Object.keys(this.props.formFields).forEach((key) => {
       formInputValues[key] = this.props.formFields[key].value;
-      return;
     })
+    
     try {
       let httpMethod = this.props.editContext === 'edit' ? 'put' : 'post';
 
