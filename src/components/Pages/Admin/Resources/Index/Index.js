@@ -15,7 +15,6 @@ import IndexToolbar from './IndexToolbar';
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
-    console.log(props);
     this.initializeDnD = this.initializeDnD.bind(this);
   }
 
@@ -131,6 +130,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: 'UPDATE_INDEX_HAS_CHANGES',
         hasChanges
+      })
+    },
+    updateTree: (nodeArray) => {
+      dispatch({
+        type: 'UPDATE_TREE',
+        nodeArray
       })
     }
   };
