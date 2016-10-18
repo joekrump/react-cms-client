@@ -8,7 +8,6 @@ import FrontendPage from '../../../Layout/FrontendPage';
 import s from '../ErrorPage.scss'
 
 const Forbidden = () => {
-  console.log('FORBIDDEN PAGE RENDER')
   return( 
     <FrontendPage>
       <div className="page error-page not-allowed">
