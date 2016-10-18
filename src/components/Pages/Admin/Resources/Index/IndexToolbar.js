@@ -13,13 +13,11 @@ import assign from 'lodash.assign';
 const settingButtonStyles = {
   width: 36,
   height: 36,
-  border: 20,
-  marginTop: 10,
-  marginBottom: 10,
-  padding: 2
+  marginTop: 5,
+  marginBottom: 5
 };
 
-const rightButtonStyles = assign({}, settingButtonStyles, {marginRight: 7});
+const rightButtonStyles = assign({}, settingButtonStyles, {marginRight: 12});
 
 class IndexToolbar extends React.Component {
 
