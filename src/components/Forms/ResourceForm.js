@@ -99,6 +99,14 @@ class ResourceForm extends React.Component {
                 validations[this.props.formName][fieldName].rules
   }
 
+  makeSubmitButtonText() {
+    if(this.props.buttonText) {
+      return this.props.buttonText;
+    } else {
+      return this.props.editContext === 'edit' ? 'Update' : 'Create'
+    }
+  }
+
   render() {
     let field;
     let i = 0;
@@ -126,7 +134,7 @@ class ResourceForm extends React.Component {
         <List>
           { formFieldComponents }
           <ListItem disabled={true} disableKeyboardFocus={true}>
-            <SubmitButton isFormValid={this.props.isValid} withIcon={true} label={this.props.editContext === 'edit' ? 'Update' : 'Create'}/>
+            <SubmitButton isFormValid={this.props.isValid} withIcon={true} label={this.makeSubmitButtonText()} />
           </ListItem>
         </List>
         <NotificationSnackbar />
