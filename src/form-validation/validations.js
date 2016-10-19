@@ -48,6 +48,11 @@ module.exports = {
       rules: ['isRequired']
     }
   },
+  passwordResetForm: {
+    email: {
+      rules: ['isRequired', 'isEmail']
+    }
+  },
   roleForm: {
     name: {
       rules: ['isRequired']

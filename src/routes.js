@@ -82,9 +82,9 @@ const getRoutes = (store) => {
       { 
         path: '*', 
         component: Page, 
-        onEnter: () => {
+        onEnter: (nextState) => {
           setPageStatusOk(store.dispatch);
-          allowSignupAccess(store.dispatch);
+          allowSignupAccess(store.dispatch, nextState);
         }
       }
     ]
@@ -115,14 +115,20 @@ function updateAdminState(namePlural, dispatch, pageType, resourceId) {
  * Allow user to access SignUp page, or redirect.
  * @return undefined
  */
-function allowSignupAccess(dispatch) {
-  getUserCount(dispatch).then((count) => {
-    if(count > 0) {
-      dispatch(replace('/login'));
+function allowSignupAccess(dispatch, nextState) {
+  if(nextState.param && nextState.param.splat) {
+    let splat = nextState.param.splat.toLowerCase();
+    // if the page being visited is the signup page, then run a check
+    if((splat === 'signup') || (splat === 'signup/')) {
+      getUserCount(dispatch).then((count) => {
+        if(count > 0) {
+          dispatch(replace('/login'));
+        }
+      }).catch((error) => {
+        console.warn('Error: ', error)
+      })
     }
-  }).catch((error) => {
-    console.warn('Error: ', error)
-  })
+  }
 }
 
 /**
