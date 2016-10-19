@@ -13,6 +13,7 @@ import LoginTemplate from '../Templates/Pages/LoginTemplate'
 import PaymentTemplate from '../Templates/Pages/PaymentTemplate'
 import SignupTemplate from '../Templates/Pages/SignupTemplate'
 import ForgotPasswordTemplate from '../Templates/Pages/ForgotPasswordTemplate'
+import ResetPasswordTemplate from '../Templates/Pages/ResetPasswordTemplate'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
@@ -281,6 +282,15 @@ class PageEdit extends React.Component {
       }
       case 7: {
         template = (<ForgotPasswordTemplate
+          name={name} 
+          content={content} 
+          submitDisabled={true}
+          editMode={true}
+          handleNameChanged={(e) => this.handleNameChanged(e)} />);
+        break;
+      }
+      case 8: {
+        template = (<ResetPasswordTemplate
           name={name} 
           content={content} 
           submitDisabled={true}
