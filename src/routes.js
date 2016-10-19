@@ -20,7 +20,7 @@ const onAdminEnterHandler = (nextState, store, pageType) => {
   let resourceNamePlural = nextState.params.resourceNamePlural || '';
   let resourceId =  nextState.params.resourceId || null;
   let currentUser = auth.getUser();
-  console.log('resourceNamePlural: ', resourceNamePlural);
+
   if(!auth.loggedIn()) {
     redirectNoneAdmin(store);
   } else if(!currentUser.isAdmin && ((resourceNamePlural !== '') && (currentUser.menuList.indexOf(resourceNamePlural) === -1))) {
@@ -29,6 +29,12 @@ const onAdminEnterHandler = (nextState, store, pageType) => {
     
   } else {
     const storeState = store.getState();
+    // If the admin context has changed make hasChanges as false
+    store.dispatch({
+      type: 'UPDATE_INDEX_HAS_CHANGES', 
+      hasChanges: false, 
+      resourceNamePlural: storeState.admin.resource.name.plural
+    });
     // only update if it needs to be done.
     if((storeState.admin.resource.name.plural !== resourceNamePlural) 
       || (storeState.admin.pageType !== pageType)
