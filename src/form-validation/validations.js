@@ -53,6 +53,11 @@ module.exports = {
       rules: ['isRequired', 'isEmail']
     }
   },
+  resetPasswordForm: {
+    password: {
+      rules: ['isRequired']
+    }
+  },
   roleForm: {
     name: {
       rules: ['isRequired']
