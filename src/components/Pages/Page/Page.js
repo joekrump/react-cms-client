@@ -1,11 +1,13 @@
 import React from 'react';
-import HomePageTemplate from '../Templates/Pages/HomePageTemplate'
-import ContactPageTemplate from '../Templates/Pages/ContactPageTemplate'
-import BasicPageTemplate from '../Templates/Pages/BasicPageTemplate'
-import LoginPageTemplate from '../Templates/Pages/LoginPageTemplate'
-import PaymentPageTemplate from '../Templates/Pages/PaymentPageTemplate'
-import SignupPageTemplate from '../Templates/Pages/SignupPageTemplate'
-import ForgotPasswordPageTemplate from '../Templates/Pages/ForgotPasswordPageTemplate'
+
+import HomeTemplate from '../Templates/Pages/HomeTemplate'
+import ContactTemplate from '../Templates/Pages/ContactTemplate'
+import BasicTemplate from '../Templates/Pages/BasicTemplate'
+import LoginTemplate from '../Templates/Pages/LoginTemplate'
+import PaymentTemplate from '../Templates/Pages/PaymentTemplate'
+import SignupTemplate from '../Templates/Pages/SignupTemplate'
+import ForgotPasswordTemplate from '../Templates/Pages/ForgotPasswordTemplate'
+
 import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';
@@ -76,35 +78,35 @@ class Page extends React.Component {
 
     switch(template_id) {
       case 1: {
-        page = (<BasicPageTemplate name={name} content={content} pathname={this.props.pathname}/>)
+        page = (<BasicTemplate name={name} content={content} pathname={this.props.pathname}/>)
         break;
       }
       case 2: {
-        page = (<ContactPageTemplate name={name} content={content} pathname={this.props.pathname}/>)
+        page = (<ContactTemplate name={name} content={content} pathname={this.props.pathname}/>)
         break;
       }
       case 3: {
-        page = (<HomePageTemplate name={name} content={content} />);
+        page = (<HomeTemplate name={name} content={content} />);
         break;
       }
       case 4: {
-        page = (<LoginPageTemplate name={name} content={content} pathname={this.props.pathname} location={this.props.location}/>);
+        page = (<LoginTemplate name={name} content={content} pathname={this.props.pathname} location={this.props.location}/>);
         break;
       }
       case 5: {
-        page = (<PaymentPageTemplate name={name} content={content} pathname={this.props.pathname} />);
+        page = (<PaymentTemplate name={name} content={content} pathname={this.props.pathname} />);
         break;
       }
       case 6: {
-        page = (<SignupPageTemplate name={name} content={content} pathname={this.props.pathname} />);
+        page = (<SignupTemplate name={name} content={content} pathname={this.props.pathname} />);
         break;
       }
       case 7: {
-        page = (<ForgotPasswordPageTemplate name={name} content={content} pathname={this.props.pathname} />);
+        page = (<ForgotPasswordTemplate name={name} content={content} pathname={this.props.pathname} />);
         break;
       }
       default: {
-        page = (<BasicPageTemplate name={name} content={content} pathname={this.props.pathname}/>)
+        page = (<BasicTemplate name={name} content={content} pathname={this.props.pathname}/>)
         break;
       }
     }

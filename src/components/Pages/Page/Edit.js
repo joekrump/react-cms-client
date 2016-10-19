@@ -6,13 +6,13 @@ import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
 // Available templates
-import HomePageTemplate from '../Templates/Pages/HomePageTemplate'
-import ContactPageTemplate from '../Templates/Pages/ContactPageTemplate'
-import BasicPageTemplate from '../Templates/Pages/BasicPageTemplate'
-import LoginPageTemplate from '../Templates/Pages/LoginPageTemplate'
-import PaymentPageTemplate from '../Templates/Pages/PaymentPageTemplate'
-import SignupPageTemplate from '../Templates/Pages/SignupPageTemplate'
-import ForgotPasswordPageTemplate from '../Templates/Pages/ForgotPasswordPageTemplate'
+import HomeTemplate from '../Templates/Pages/HomeTemplate'
+import ContactTemplate from '../Templates/Pages/ContactTemplate'
+import BasicTemplate from '../Templates/Pages/BasicTemplate'
+import LoginTemplate from '../Templates/Pages/LoginTemplate'
+import PaymentTemplate from '../Templates/Pages/PaymentTemplate'
+import SignupTemplate from '../Templates/Pages/SignupTemplate'
+import ForgotPasswordTemplate from '../Templates/Pages/ForgotPasswordTemplate'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
@@ -233,28 +233,28 @@ class PageEdit extends React.Component {
 
     switch(template_id) {
       case 1: {
-        template = (<BasicPageTemplate 
+        template = (<BasicTemplate 
           name={name} 
           content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 2: {
-        template = (<ContactPageTemplate 
+        template = (<ContactTemplate 
           name={name} 
           content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
       case 3: {
-        template = (<HomePageTemplate 
+        template = (<HomeTemplate 
           name={name} 
           content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />);
         break;
       }
       case 4: {
-        template = (<LoginPageTemplate 
+        template = (<LoginTemplate 
           name={name} 
           content={content} 
           disabled={true}
@@ -262,7 +262,7 @@ class PageEdit extends React.Component {
         break;
       }
       case 5: {
-        template = (<PaymentPageTemplate 
+        template = (<PaymentTemplate 
           name={name} 
           content={content} 
           submitDisabled={true}
@@ -271,7 +271,7 @@ class PageEdit extends React.Component {
         break;
       }
       case 6: {
-        template = (<SignupPageTemplate
+        template = (<SignupTemplate
           name={name} 
           content={content} 
           submitDisabled={true}
@@ -280,7 +280,7 @@ class PageEdit extends React.Component {
         break;
       }
       case 7: {
-        template = (<ForgotPasswordPageTemplate
+        template = (<ForgotPasswordTemplate
           name={name} 
           content={content} 
           submitDisabled={true}
@@ -289,7 +289,7 @@ class PageEdit extends React.Component {
         break;
       }
       default: {
-        template = (<BasicPageTemplate 
+        template = (<BasicTemplate 
           name={name} 
           content={content}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
