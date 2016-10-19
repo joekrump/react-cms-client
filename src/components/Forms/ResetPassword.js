@@ -4,7 +4,12 @@ import { connect } from 'react-redux'
 
 class ResetPassword extends React.Component {
   loginNewUser(user, token){
-    this.props.loginUser(user, token, '/admin');
+    // this.props.loginUser(user, token, '/admin');
+    // TODO:
+    // 
+    // run some process that will log the user into the system
+    // resetting the password will log the user in on the server 
+    // and should return a token and the logged in user's data.
   }
 
   render() {
