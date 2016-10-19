@@ -26,7 +26,7 @@ class Index extends React.Component {
         this.state.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
       this.props.updateTree(this.state.treeHelper.richNodeArray);
-      this.props.updateIndexHasChanges(true)
+      this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
@@ -117,7 +117,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     nodeArray: state.tree.indexTree.nodeArray,
     resourceNamePlural: state.admin.resource.name.plural,
-    hasChanges: state.admin.index.hasChanges,
+    hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
     adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,
     showSnackbar: state.notifications.snackbar.show,
     dataLoading: state.admin.dataLoading
@@ -126,10 +126,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateIndexHasChanges: (hasChanges) => {
+    updateIndexHasChanges: (hasChanges, resourceNamePlural) => {
       dispatch({
         type: 'UPDATE_INDEX_HAS_CHANGES',
-        hasChanges
+        hasChanges,
+        resourceNamePlural
       })
     },
     updateTree: (nodeArray) => {

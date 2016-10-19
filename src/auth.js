@@ -29,7 +29,7 @@ module.exports = {
   getUser: getUser
 }
 
-function loggedIn() {
+export function loggedIn() {
   if(typeof sessionStorage !== 'undefined'){
     return !!sessionStorage.laravelAccessToken && !((sessionStorage.laravelAccessToken === null) || (sessionStorage.laravelAccessToken === undefined))
   } else {

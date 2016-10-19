@@ -20,10 +20,10 @@ const onAdminEnterHandler = (nextState, store, pageType) => {
   let resourceNamePlural = nextState.params.resourceNamePlural || '';
   let resourceId =  nextState.params.resourceId || null;
   let currentUser = auth.getUser();
-
+  console.log('resourceNamePlural: ', resourceNamePlural);
   if(!auth.loggedIn()) {
     redirectNoneAdmin(store);
-  } else if(!currentUser.isAdmin && (resourceNamePlural && (currentUser.menuList.indexOf(resourceNamePlural) === -1))) {
+  } else if(!currentUser.isAdmin && ((resourceNamePlural !== '') && (currentUser.menuList.indexOf(resourceNamePlural) === -1))) {
     store.dispatch({type: 'UPDATE_PAGE_STATUS_CODE', statusCode: 401})
     store.dispatch(push('/admin/401'));
     

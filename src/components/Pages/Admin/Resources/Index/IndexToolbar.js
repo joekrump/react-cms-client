@@ -85,7 +85,7 @@ class IndexToolbar extends React.Component {
         } else {
           this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
         }
-        this.props.updateIndexHasChanges(false);
+        this.props.updateIndexHasChanges(false, this.props.resourceNamePlural);
       })
       .catch((err) => {
         // Something unexpected happened
@@ -149,7 +149,7 @@ IndexToolbar.contextTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     resourceNamePlural: state.admin.resource.name.plural,
-    hasChanges: state.admin.index.hasChanges,
+    hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
     indexNodeArray: state.tree.indexTree.nodeArray,
     adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode
   }
@@ -172,10 +172,11 @@ const mapDispatchToProps = (dispatch) => {
         notificationType
       })
     },  
-    updateIndexHasChanges: (hasChanges) => {
+    updateIndexHasChanges: (hasChanges, resourceNamePlural) => {
       dispatch ({
         type: 'UPDATE_INDEX_HAS_CHANGES',
-        hasChanges
+        hasChanges,
+        resourceNamePlural
       })
     },
     dispatch
