@@ -41,6 +41,7 @@ class Index extends React.Component {
   initializeDnD(treeHelper) {
 
     if(typeof document !== 'undefined'){
+      console.log(document.querySelectorAll('.nested'))
       let drake = dragula({
         containers: [].slice.apply(document.querySelectorAll('.nested')),
         moves: (el, source, handle, sibling) => {
@@ -59,9 +60,16 @@ class Index extends React.Component {
     if((nextProps.nodeArray.length !== this.props.nodeArray.length) 
       || (nextProps.resourceNamePlural !== this.props.resourceNamePlural)
       || (nextProps.adminResourceMode !== this.props.adminResourceMode)) {
-      let treeHelper = new TreeHelper(nextProps.nodeArray, true)
-      this.setState({treeHelper})
-      this.initializeDnD(treeHelper);
+      
+      if(nextProps.nodeArray.length > 0) {
+        let treeHelper = new TreeHelper(nextProps.nodeArray, true)
+        this.setState({treeHelper})
+      }
+    }
+  }
+  componentDidUpdate() {
+    if(this.props.nodeArray.length > 0) {
+      this.initializeDnD(this.state.treeHelper);
     }
   }
 
