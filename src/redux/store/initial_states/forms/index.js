@@ -6,3 +6,4 @@ export {roleForm} from './roleForm';
 export {userForm} from './userForm';
 export {signupForm} from './signupForm';
 export {forgotPasswordForm} from './forgotPasswordForm';
+export {resetPasswordForm} from './resetPasswordForm';

@@ -13,6 +13,7 @@ class ResetPassword extends React.Component {
   }
 
   render() {
+    console.log('Params:', this.props.params)
     return (
       <ResourceForm 
         formName="resetPasswordForm" 
@@ -27,7 +28,6 @@ class ResetPassword extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  console.log('Params:', this.props.params)
   return {
     loginUser: (user, token, redirectPath) => {
       dispatch ({
