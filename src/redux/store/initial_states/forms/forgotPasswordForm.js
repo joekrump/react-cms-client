@@ -1,4 +1,4 @@
-export const passwordResetForm = {
+export const forgotPasswordForm = {
   valid: false,
   fields: {
     email: {

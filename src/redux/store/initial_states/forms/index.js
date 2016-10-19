@@ -5,4 +5,4 @@ export {permissionForm} from './permissionForm';
 export {roleForm} from './roleForm';
 export {userForm} from './userForm';
 export {signupForm} from './signupForm';
-export {passwordResetForm} from './passwordResetForm';
+export {forgotPasswordForm} from './forgotPasswordForm';

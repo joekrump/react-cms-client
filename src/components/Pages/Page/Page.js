@@ -5,7 +5,7 @@ import BasicPageTemplate from '../Templates/BasicPageTemplate'
 import LoginPageTemplate from '../Templates/LoginPageTemplate'
 import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 import SignupPageTemplate from '../Templates/SignupPageTemplate'
-import ForgotPasswordTemplate from '../Templates/ForgotPasswordPageTemplate'
+import ForgotPasswordPageTemplate from '../Templates/ForgotPasswordPageTemplate'
 import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';

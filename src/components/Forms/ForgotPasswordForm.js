@@ -1,12 +1,12 @@
 import React from 'react';
 import ResourceForm from './ResourceForm';
 
-class PasswordReset extends React.Component {
+class ForgotPassword extends React.Component {
   render() {
     return (
       <ResourceForm 
-        formName="passwordResetForm" 
-        resourceURL="auth/password-reset"
+        formName="forgotPasswordForm" 
+        resourceURL="auth/forgot-password"
         resourceId={null}
         editContext="new"
         buttonText="Send Reset Link"
@@ -15,4 +15,4 @@ class PasswordReset extends React.Component {
   }
 }
 
-export default PasswordReset;
+export default ForgotPassword;
