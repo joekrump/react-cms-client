@@ -5,7 +5,7 @@ export const resetPasswordForm = {
       value: '', 
       errors: [], 
       inputType: 'password',
-      label: 'Password',
+      label: 'New Password',
       placeholder: '*********'
     }
   }
