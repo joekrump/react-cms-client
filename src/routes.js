@@ -11,7 +11,7 @@ import AccessDeniedPage from './components/Pages/Errors/401/401';
 
 /**
  * onEnter callback method for admin routesq
- * @param  {object} nextState [description]
+ * @param  {object} nextState - the updates to state
  * @param  {object} store     redux store
  * @param  {string} pageType  admin page type that user is on. ex. 'index', 'edit', 'new', 'dashboard', 'settings'
  * @return undefined
@@ -84,7 +84,10 @@ const getRoutes = (store) => {
       { 
         path: '*', 
         component: Page, 
-        onEnter: () => setPageStatusOk(store.dispatch) 
+        onEnter: () => {
+          setPageStatusOk(store.dispatch);
+          allowSignupAccess(store.dispatch);
+        }
       }
     ]
   }
