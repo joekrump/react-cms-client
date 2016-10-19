@@ -12,7 +12,7 @@ import BasicPageTemplate from '../Templates/BasicPageTemplate'
 import LoginPageTemplate from '../Templates/LoginPageTemplate'
 import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 import SignupPageTemplate from '../Templates/SignupPageTemplate'
-import PasswordResetPageTemplate from '../Templates/PasswordResetPageTemplate'
+import ForgotPasswordPageTemplate from '../Templates/ForgotPasswordPageTemplate'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
@@ -280,7 +280,7 @@ class PageEdit extends React.Component {
         break;
       }
       case 7: {
-        template = (<PasswordResetPageTemplate
+        template = (<ForgotPasswordPageTemplate
           name={name} 
           content={content} 
           submitDisabled={true}

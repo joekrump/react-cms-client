@@ -5,7 +5,7 @@ import BasicPageTemplate from '../Templates/BasicPageTemplate'
 import LoginPageTemplate from '../Templates/LoginPageTemplate'
 import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
 import SignupPageTemplate from '../Templates/SignupPageTemplate'
-import PasswordResetPageTemplate from '../Templates/PasswordResetPageTemplate'
+import ForgotPasswordTemplate from '../Templates/ForgotPasswordPageTemplate'
 import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';
@@ -100,7 +100,7 @@ class Page extends React.Component {
         break;
       }
       case 7: {
-        page = (<PasswordResetPageTemplate name={name} content={content} pathname={this.props.pathname} />);
+        page = (<ForgotPasswordPageTemplate name={name} content={content} pathname={this.props.pathname} />);
         break;
       }
       default: {
