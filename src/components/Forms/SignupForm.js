@@ -15,6 +15,7 @@ class SignupForm extends React.Component {
         resourceId={null}
         editContext="new"
         loginCallback={this.loginNewUser.bind(this)}
+        buttonText="Sign Up"
       />
     )
   }

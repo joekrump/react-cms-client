@@ -9,6 +9,7 @@ class PasswordReset extends React.Component {
         resourceURL="auth/password-reset"
         resourceId={null}
         editContext="new"
+        buttonText="Send Reset Link"
       />
     )
   }
