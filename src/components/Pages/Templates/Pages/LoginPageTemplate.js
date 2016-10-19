@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm  from '../../Forms/LoginForm';
+import LoginForm  from '../../../Forms/LoginForm';
 
 const LoginPageTemplate = (props) => (
   <div className="page login">

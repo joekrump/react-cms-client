@@ -6,13 +6,13 @@ import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
 // Available templates
-import HomePageTemplate from '../Templates/HomePageTemplate'
-import ContactPageTemplate from '../Templates/ContactPageTemplate'
-import BasicPageTemplate from '../Templates/BasicPageTemplate'
-import LoginPageTemplate from '../Templates/LoginPageTemplate'
-import PaymentPageTemplate from '../Templates/PaymentPageTemplate'
-import SignupPageTemplate from '../Templates/SignupPageTemplate'
-import ForgotPasswordPageTemplate from '../Templates/ForgotPasswordPageTemplate'
+import HomePageTemplate from '../Templates/Pages/HomePageTemplate'
+import ContactPageTemplate from '../Templates/Pages/ContactPageTemplate'
+import BasicPageTemplate from '../Templates/Pages/BasicPageTemplate'
+import LoginPageTemplate from '../Templates/Pages/LoginPageTemplate'
+import PaymentPageTemplate from '../Templates/Pages/PaymentPageTemplate'
+import SignupPageTemplate from '../Templates/Pages/SignupPageTemplate'
+import ForgotPasswordPageTemplate from '../Templates/Pages/ForgotPasswordPageTemplate'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';

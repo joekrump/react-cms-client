@@ -1,16 +1,16 @@
 import React from 'react';
-import ForgotPasswordForm  from '../../Forms/ForgotPasswordForm';
+import PaymentFormContainer from '../../../Forms/PaymentForm/PaymentFormContainer';
 
-const PasswordResetPageTemplate = (props) => (
-  <div className="page login">
+const PaymentPageTemplate = (props) => (
+  <div className="page payment">
     <div className="page-container">
       <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
         <h1 data-ce-placeholder="Page Title">{props.name ? props.name : ''}</h1>
       </div>
       <div data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: props.content}} />
-      <ForgotPasswordForm location={props.disabled ? undefined : props.location} disabled={props.disabled} />
+      <PaymentFormContainer submitDisabled={props.submitDisabled} editMode={props.editMode} />
     </div>
   </div>
 )
 
-export default PasswordResetPageTemplate;
+export default PaymentPageTemplate;
