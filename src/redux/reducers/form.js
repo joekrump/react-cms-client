@@ -6,7 +6,8 @@ import { bookForm,
          permissionForm,
          roleForm,
          signupForm,
-         userForm } from '../store/initial_states/forms/index'
+         userForm,
+         passwordResetForm } from '../store/initial_states/forms/index'
 
 
 // define initial state of forms
@@ -18,7 +19,8 @@ const initialState = {
   permissionForm,
   roleForm,
   signupForm,
-  userForm
+  userForm,
+  passwordResetForm
 };
 
 const formReducer = (state = initialState, action) => {

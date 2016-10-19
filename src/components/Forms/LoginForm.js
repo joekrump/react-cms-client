@@ -2,7 +2,6 @@ import React from 'react';
 import { SubmitButton, TextInput } from '../Form/index';
 import auth from '../../auth';
 import { connect } from 'react-redux';
-import ForgotPasswordLink from '../Pages/Auth/ForgotPassword/ForgotPasswordLink';
 import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 import validations from '../../form-validation/validations'
 
@@ -75,8 +74,6 @@ class LoginForm extends React.Component{
           <SubmitButton isFormValid={this.props.isValid} withIcon={false} label="Login" />
           <NotificationSnackbar />
         </form>
-        <br/>
-        <ForgotPasswordLink />
       </div>
     );
   }

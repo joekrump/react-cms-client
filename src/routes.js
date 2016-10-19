@@ -1,7 +1,6 @@
 import Page from './components/Pages/Page/Page';
 import Dashboard from './components/Pages/Admin/Dashboard/Dashboard';
 import UserSettings from './components/Pages/Admin/User/Settings/Settings';
-import ForgotPassword from './components/Pages/Auth/ForgotPassword/ForgotPassword';
 import App from './components/App';
 import auth from './auth';
 import { replace, push } from 'react-router-redux'
@@ -67,7 +66,6 @@ const getRoutes = (store) => {
     },
     childRoutes: [
       { path: 'login', component: Page, onEnter: () => allowLoginAccess(store.dispatch) },
-      { path: 'forgot-password', component: ForgotPassword },
       { 
         path: 'admin',
         indexRoute: { component: Dashboard, onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'dashboard') },
