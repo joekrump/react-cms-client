@@ -98,7 +98,7 @@ function logoutFromServer(onSuccessCB, onFailureCB, component, dispatch) {
 function makeLoginRequest(email, password, loginRequestCallback, dispatch) {
   let client = new APIClient(dispatch);
 
-  client.post('auth/login', false, {data: { email, password }}).then((res) => {
+  client.post('login', false, {data: { email, password }}).then((res) => {
     if (res.statusCode !== 200) {
       handleLoginFailure(loginRequestCallback)
     } else {
