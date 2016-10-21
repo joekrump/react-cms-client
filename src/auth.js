@@ -77,17 +77,17 @@ function handleLoggedIn(onLoggedInCB, user, token, isLoggedIn = false){
 function logoutFromServer(onSuccessCB, onFailureCB, component, dispatch) {
   let client = new APIClient(dispatch);
 
-  client.post('auth/logout').then((res) => {
+  client.post('logout').then((res) => {
     if (!((res.statusCode === 200) || (res.statusCode === 204))) {
       // if user didn't successfully logout then show that they are still logged in after optimistic change.
       onFailureCB();
     } else {
       // if all goes well, and there is a callback, call it.
-      onSuccessCB()
+      onSuccessCB();
     }
   }).catch((res) => {
     if(res.statusCode === 401) {
-      onSuccessCB()
+      onSuccessCB();
     } else {
       // if user didn't successfully logout then show that they are still logged in after optimistic change.
       onFailureCB();
