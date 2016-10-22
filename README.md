@@ -69,7 +69,7 @@ module.exports = app_config;
 
 ## Cloudinary Setup
 
-To set up Cloudinary so that image uploading works in the content editor, follow the guide at [here](http://getcontenttools.com/tutorials/image-uploads-with-cloudinary) to set and get the CLOUDINARY_PRESET_NAME, CLOUDINARY_RETRIEVE_URL and CLOUDINARY_UPLOAD_URL values
+To set up Cloudinary so that image uploading works in the content editor, follow the guide [here](http://getcontenttools.com/tutorials/image-uploads-with-cloudinary) to set and get the CLOUDINARY_PRESET_NAME, CLOUDINARY_RETRIEVE_URL and CLOUDINARY_UPLOAD_URL values.
 
 **NOTE** This app currently requires [Stripe](https://stripe.com/) for payments to be set up.
 
