@@ -32,16 +32,20 @@ $ mkdir app_config
 const app_config = {
   baseUrl: 'THE PATH OF THE CLIENT: ex. http://localhost:3000', // Note: If you are unsure what this is, try running `npm start` to see.
   apiBaseUrl: 'THE PATH TO YOUR API SERVER (followed by a trailing slash "/"): ex. http://localhost:8000/api/',
-  adminRouteLinks: [
-    { linkText: 'Dashboard', url: '/admin' },
-    // Add more that you would like here ex. { linkText: 'Users', url: '/admin/users' } or { linkText: 'Books', url: '/admin/books' }
-  ],
+  adminRouteLinks: {
+    dashboard: { linkText: 'Dashboard', url: '/admin' },
+    pages: { linkText: 'Pages', url: '/admin/pages' },
+    cards: { linkText: 'Cards', url: '/admin/cards' },
+    roles: { linkText: 'Roles', url: '/admin/roles' },
+    books: { linkText: 'Books', url: '/admin/books' },
+    users: { linkText: 'Users', url: '/admin/users' },
+    permission: { linkText: 'Permissions', url: '/admin/permissions' },
+  },
   publicRouteLinks: [
     { linkText: 'Log In', url: '/login' },
     { linkText: 'Home', url: '/' },
     { linkText: 'About', url: '/about' },
-    { linkText: 'Make a donation', url: '/donate' },
-    // Add more here (BUT UNLIKE THE ADMIN ROUTES, MAKE SURE YOU ADD TO routes.js as well)
+    { linkText: 'Make a donation', url: '/donate' }
   ],
   validResources: [
     'users',
