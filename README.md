@@ -48,10 +48,12 @@ const app_config = {
     'books',
     'permissions',
     'roles',
-    'pages'
+    'pages',
+    'cards'
   ],
   resourcesWithEditor: [ // Specify resources that you would like to use the inline editor for rather than a form.
-    'page'
+    'page',
+    'card'
   ],
   CLOUDINARY_PRESET_NAME: 'PRESET NAME',
   CLOUDINARY_RETRIEVE_URL: 'ex. https://res.cloudinary.com/mycloud/image/upload',
