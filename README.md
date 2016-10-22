@@ -64,13 +64,14 @@ const app_config = {
   CLOUDINARY_UPLOAD_URL: 'ex. https://api.cloudinary.com/v1_1/mycloud/image/upload'
 };
 
+module.exports = app_config;
+```
+
 ## Cloudinary Setup
 
 To set up Cloudinary so that image uploading works in the content editor, follow the guide at [here](http://getcontenttools.com/tutorials/image-uploads-with-cloudinary) to set and get the CLOUDINARY_PRESET_NAME, CLOUDINARY_RETRIEVE_URL and CLOUDINARY_UPLOAD_URL values
 
-
-module.exports = app_config;
-```
+**NOTE** This app currently requires [Stripe](https://stripe.com/) for payments to be set up.
 
 - `stripe.js`:
 ```javascript
@@ -80,12 +81,8 @@ var stripe_config = {
   }
 };
 
-
-
 module.exports = stripe_config; 
 ```
-
-**NOTE** This app currently requires [Stripe](https://stripe.com/) for payments to be set up.
 
 4. Start Client App
 ```bash
