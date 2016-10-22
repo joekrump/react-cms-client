@@ -95,6 +95,10 @@ class SpeedDial extends React.Component {
   }
 
   render() {
+    if(this.props.menuList.length === 0) {
+      return null;
+    }
+    
     let mouseOutAreaHeight = 80;
     let actionList = this.makeActionList(this.props.menuList, mouseOutAreaHeight);
     return (
