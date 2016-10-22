@@ -26,7 +26,11 @@ $ npm install
 $ mkdir app_config
 ```
 
-3. Create two config files: `app.js` and `stripe.js` with the following content:
+3. Cloudinary Setup
+
+To set up Cloudinary so that image uploading works in the content editor, follow the guide [here](http://getcontenttools.com/tutorials/image-uploads-with-cloudinary) to set and get the CLOUDINARY_PRESET_NAME, CLOUDINARY_RETRIEVE_URL and CLOUDINARY_UPLOAD_URL values.
+
+4. Create two config files: `app.js` and `stripe.js` with the following content:
 - `app.js`:
 ```javascript
 const app_config = {
@@ -67,10 +71,6 @@ const app_config = {
 module.exports = app_config;
 ```
 
-## Cloudinary Setup
-
-To set up Cloudinary so that image uploading works in the content editor, follow the guide [here](http://getcontenttools.com/tutorials/image-uploads-with-cloudinary) to set and get the CLOUDINARY_PRESET_NAME, CLOUDINARY_RETRIEVE_URL and CLOUDINARY_UPLOAD_URL values.
-
 **NOTE** This app currently requires [Stripe](https://stripe.com/) for payments to be set up.
 
 - `stripe.js`:
@@ -84,7 +84,8 @@ var stripe_config = {
 module.exports = stripe_config; 
 ```
 
-4. Start Client App
+5. Start Client App
+
 ```bash
 $ npm start
 ```
@@ -131,7 +132,7 @@ Currently I have an API server built using Laravel 5.2 which this client app int
 ### WIP
 
 - [x] Role based permissions
-- [x] Inline Editor with image manipulation functionality.
+- [x] Inline Editor with image upload and manipulation functionality.
 - [x] Form Validation using Redux
 - [x] Allow Page nesting in Index
 - [ ] Add Searching and Reordering of resources
