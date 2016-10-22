@@ -16,21 +16,22 @@ CRUD admin interface is setup to be generic.
 
 ## Setup Instructions
 
-1. Install node modules by running: 
+### Install node modules
 ```bash
 $ npm install
 ```
 
-2. Create app_config directory in the project root:
+### Create app_config directory
 ```bash
 $ mkdir app_config
 ```
 
-3. Cloudinary Setup
+### Cloudinary Setup
 
 To set up Cloudinary so that image uploading works in the content editor, follow the guide [here](http://getcontenttools.com/tutorials/image-uploads-with-cloudinary) to set and get the CLOUDINARY_PRESET_NAME, CLOUDINARY_RETRIEVE_URL and CLOUDINARY_UPLOAD_URL values.
 
-4. Create two config files: `app.js` and `stripe.js` with the following content:
+### Create config files: `app.js` and `stripe.js`
+
 - `app.js`:
 ```javascript
 const app_config = {
@@ -84,7 +85,7 @@ var stripe_config = {
 module.exports = stripe_config; 
 ```
 
-5. Start Client App
+### Start Client App
 
 ```bash
 $ npm start
