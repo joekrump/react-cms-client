@@ -3,7 +3,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
-import Validator from '../../form-validation/Validator'
+import Validator from '../../form-validation/validator'
 
 const style = {
   display: 'block'

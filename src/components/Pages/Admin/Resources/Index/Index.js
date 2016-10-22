@@ -4,7 +4,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './index.scss';
+import s from './Index.scss';
 import dragula from 'react-dragula';
 import ListItems from './ListItems';
 import TreeHelper from '../../../../../helpers/TreeHelper';

@@ -54,9 +54,14 @@ const app_config = {
     'page'
   ],
   CLOUDINARY_PRESET_NAME: 'PRESET NAME',
-  CLOUDINARY_RETRIEVE_URL: 'RETREIVE PATH FOR CLOUDINARY',
-  CLOUDINARY_UPLOAD_URL: 'UPLOAD PATH FOR CLOUDINARY'
+  CLOUDINARY_RETRIEVE_URL: 'ex. https://res.cloudinary.com/mycloud/image/upload',
+  CLOUDINARY_UPLOAD_URL: 'ex. https://api.cloudinary.com/v1_1/mycloud/image/upload'
 };
+
+## Cloudinary Setup
+
+To set up Cloudinary so that image uploading works in the content editor, follow the guide at [here](http://getcontenttools.com/tutorials/image-uploads-with-cloudinary) to set and get the CLOUDINARY_PRESET_NAME, CLOUDINARY_RETRIEVE_URL and CLOUDINARY_UPLOAD_URL values
+
 
 module.exports = app_config;
 ```
@@ -68,6 +73,8 @@ var stripe_config = {
     pk: 'YOUR STRIPE TEST PUBLIC KEY'
   }
 };
+
+
 
 module.exports = stripe_config; 
 ```
