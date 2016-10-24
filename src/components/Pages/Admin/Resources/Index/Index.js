@@ -154,7 +154,6 @@ const mapStateToProps = (state, ownProps) => {
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
     adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,
-    adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,
     showSnackbar: state.notifications.snackbar.show,
     adminPageType: state.admin.pageType
   }
