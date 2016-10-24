@@ -178,6 +178,11 @@ export default class TreeHelper {
     let slashIndex = moveItemRoot.node.secondary.lastIndexOf('/');
     let originalPath = moveItemRoot.node.secondary.substr(slashIndex);
     moveItemRoot.node.secondary = `${parentSecondary}${originalPath}`
+    
+    if(moveItemRoot.node.previewPath) {
+      moveItemRoot.node.previewPath = moveItemRoot.node.secondary;
+    }
+    
     this.setChildDepth(moveItemRoot, parentNode);
 
     if(moveItemRoot.childIndexes.length > 0) {
