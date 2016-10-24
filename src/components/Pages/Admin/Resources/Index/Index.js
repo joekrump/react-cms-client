@@ -15,33 +15,46 @@ import IndexToolbar from './IndexToolbar';
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
+    this.state = {drake: null, lengthChange: false}
     this.initializeDnD = this.initializeDnD.bind(this);
   }
 
   handleDrop(el, target, source, sibling){
     try {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
+      console.log('target parent model id', target.dataset.parentmodelid)
+      // console.log('source parent model id', source.dataset.parentmodelid)
 
       if(source.dataset.parentmodelid) {
         this.state.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
       this.props.updateTree(this.state.treeHelper.richNodeArray);
-      this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
+      // if there weren't already changes to save, then indicate that there now are.
+      // if(!this.props.hasChanges) {
+        this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
+      // }
+      
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
   }
 
   componentDidMount() {
-    let treeHelper = new TreeHelper(this.props.nodeArray, true)
-    this.setState({treeHelper})
-    this.initializeDnD(treeHelper);
+    if(this.props.adminResourceMode === 'EDIT_INDEX') {
+      this.initializeDnD(); 
+    }
   }
 
-  initializeDnD(treeHelper) {
+  initializeDnD() {
+    console.log('initializeDnD')
 
     if(typeof document !== 'undefined'){
-      console.log(document.querySelectorAll('.nested'))
+      let treeHelper = new TreeHelper(this.props.nodeArray, true)
+
+      if(this.state.drake) {
+        this.state.drake.destroy();
+      }
+      // console.log(document.querySelectorAll('.nested'))
       let drake = dragula({
         containers: [].slice.apply(document.querySelectorAll('.nested')),
         moves: (el, source, handle, sibling) => {
@@ -53,23 +66,23 @@ class Index extends React.Component {
         }
       });
       drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
+      
+      this.setState({drake, treeHelper, lengthChange: false});
     }
   }
 
+  componentWillUnmount() {
+    this.state.drake.destroy();
+  }
+
   componentWillReceiveProps(nextProps){
-    if((nextProps.nodeArray.length !== this.props.nodeArray.length) 
-      || (nextProps.resourceNamePlural !== this.props.resourceNamePlural)
-      || (nextProps.adminResourceMode !== this.props.adminResourceMode)) {
-      
-      if(nextProps.nodeArray.length > 0) {
-        let treeHelper = new TreeHelper(nextProps.nodeArray, true)
-        this.setState({treeHelper})
-      }
+    if(nextProps.nodeArray.length !== this.props.nodeArray.length) {
+      this.setState({lengthChange: true});
     }
   }
   componentDidUpdate() {
-    if(this.props.nodeArray.length > 0) {
-      this.initializeDnD(this.state.treeHelper);
+    if(this.state.lengthChange && (this.props.adminResourceMode === 'EDIT_INDEX')) {
+      this.initializeDnD();
     }
   }
 
@@ -82,7 +95,7 @@ class Index extends React.Component {
       return true;
     } else if (nextProps.adminResourceMode !== this.props.adminResourceMode) {
       return true;
-    } else if (nextProps.hasChanges !== this.props.hasChanges) {
+    } else if (nextProps.hasChanges || (nextProps.hasChanges !== this.props.hasChanges)) {
       return true;
     } else if (nextProps.showSnackbar !== this.props.showSnackbar){
       return true;
