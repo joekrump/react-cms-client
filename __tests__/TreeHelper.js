@@ -23,7 +23,7 @@ it('richNodeArray is correct length', () => {
   let helper = new TreeHelper(dummyTreeData);
   // Note: an artificial root node is added in, therefore the
   // length should be one more than the number of items provided.
-  expect(helper.richNodeArray.length).toBe(17)
+  expect(helper.richNodeArray.length).toEqual(17)
 })
 
 test('lookupArray is correct length', () => {
@@ -115,45 +115,45 @@ it('Allows parent item to move with children', () => {
   helper.updateTree(16, 1); // nest 16 under 2 and above 1
   
   // helper.richNodeArray should look like this: 
-  // [ { model_id: -1, childIndexes: [ 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ] },
-  // { model_id: 2, childIndexes: [ 2, 3 ], parentIndex: 0 },
-  // { model_id: 16, childIndexes: [], parentIndex: 1 },
-  // { model_id: 1, childIndexes: [], parentIndex: 1 },
-  // { model_id: 3, childIndexes: [], parentIndex: 0 },
-  // { model_id: 4, childIndexes: [], parentIndex: 0 },
-  // { model_id: 5, childIndexes: [], parentIndex: 0 },
-  // { model_id: 6, childIndexes: [], parentIndex: 0 },
-  // { model_id: 7, childIndexes: [], parentIndex: 0 },
-  // { model_id: 8, childIndexes: [], parentIndex: 0 },
-  // { model_id: 9, childIndexes: [], parentIndex: 0 },
-  // { model_id: 10, childIndexes: [], parentIndex: 0 },
-  // { model_id: 11, childIndexes: [], parentIndex: 0 },
-  // { model_id: 12, childIndexes: [], parentIndex: 0 },
-  // { model_id: 13, childIndexes: [], parentIndex: 0 },
-  // { model_id: 14, childIndexes: [], parentIndex: 0 },
-  // { model_id: 15, childIndexes: [], parentIndex: 0 } ]
+  // [ { item_id: -1, childIndexes: [ 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ] },
+  // { item_id: 2, childIndexes: [ 2, 3 ], parentIndex: 0 },
+  // { item_id: 16, childIndexes: [], parentIndex: 1 },
+  // { item_id: 1, childIndexes: [], parentIndex: 1 },
+  // { item_id: 3, childIndexes: [], parentIndex: 0 },
+  // { item_id: 4, childIndexes: [], parentIndex: 0 },
+  // { item_id: 5, childIndexes: [], parentIndex: 0 },
+  // { item_id: 6, childIndexes: [], parentIndex: 0 },
+  // { item_id: 7, childIndexes: [], parentIndex: 0 },
+  // { item_id: 8, childIndexes: [], parentIndex: 0 },
+  // { item_id: 9, childIndexes: [], parentIndex: 0 },
+  // { item_id: 10, childIndexes: [], parentIndex: 0 },
+  // { item_id: 11, childIndexes: [], parentIndex: 0 },
+  // { item_id: 12, childIndexes: [], parentIndex: 0 },
+  // { item_id: 13, childIndexes: [], parentIndex: 0 },
+  // { item_id: 14, childIndexes: [], parentIndex: 0 },
+  // { item_id: 15, childIndexes: [], parentIndex: 0 } ]
   
   // now move 2 (and its children) in front of 10
   helper.updateTree(2, 10);
 
   // helper.richNodeArray should look like this: 
-  // [ { model_id: -1, childIndexes: [ 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17 ] },
-  //   { model_id: 3, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 4, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 5, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 6, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 7, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 8, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 9, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 2, childIndexes: [ 9, 10 ], parentIndex: 0 },
-  //   { model_id: 16, childIndexes: [], parentIndex: 8 },
-  //   { model_id: 1, childIndexes: [], parentIndex: 8 },
-  //   { model_id: 10, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 11, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 12, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 13, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 14, childIndexes: [], parentIndex: 0 },
-  //   { model_id: 15, childIndexes: [], parentIndex: 0 } ]
+  // [ { item_id: -1, childIndexes: [ 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17 ] },
+  //   { item_id: 3, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 4, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 5, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 6, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 7, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 8, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 9, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 2, childIndexes: [ 9, 10 ], parentIndex: 0 },
+  //   { item_id: 16, childIndexes: [], parentIndex: 8 },
+  //   { item_id: 1, childIndexes: [], parentIndex: 8 },
+  //   { item_id: 10, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 11, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 12, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 13, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 14, childIndexes: [], parentIndex: 0 },
+  //   { item_id: 15, childIndexes: [], parentIndex: 0 } ]
   
   let parentIndex = helper.lookupArray.indexOf(2);
   let indexOfSixteen = helper.lookupArray.indexOf(16);
@@ -182,12 +182,32 @@ it('Can move multi-depth array', () => {
   helper.updateTree(5, null, 16); // 5 nests under 16
   helper.updateTree(3, 5); // nest 3 under 16 and above 5
 
-  helper.updateTree(2, 5, 16) // move tree with root of model_id 2 in between 3 and 5
+  helper.updateTree(2, 5, 16) // move tree with root of item_id 2 in between 3 and 5
   let indexOfSixteen = helper.lookupArray.indexOf(16);
 
   expect(helper.lookupArray.splice(indexOfSixteen + 1, 5)).toEqual([3, 2, 7, 4, 5]);
 })
 
-it('Cannot nest more than a depth of 3', () => {
-  
+it('Child can switch parents', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateTree(4, null, 2); // 4 nests under 2
+  helper.updateTree(7, 4); // nest 7 under 2 and above 4
+  helper.updateTree(4, null, 12) // now nest 4 under 12
+  let indexOfTwelve = helper.lookupArray.indexOf(12);
+  let indexOfFour = helper.lookupArray.indexOf(4);
+
+  expect(indexOfFour, helper.richNodeArray[indexOfTwelve].childIndexes).toEqual(12, [indexOfFour])
 })
+
+it('Has linear order remain after child removal', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateTree(4, null, 2); // 4 nests under 2
+  helper.updateTree(7, 4); // nest 7 under 2 and above 4
+  helper.updateTree(4, null, 12) // now nest 4 under 12
+  let indexOfTwelve = helper.lookupArray.indexOf(12);
+  expect(helper.lookupArray).toEqual([-1, 1, 2, 7, 3, 5, 6, 8, 9, 10, 11, 12, 4, 13, 14, 15, 16])
+})
+
+// it('Cannot nest more than a depth of 3', () => {
+  
+// })
