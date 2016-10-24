@@ -15,7 +15,7 @@ import IndexToolbar from './IndexToolbar';
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
-    this.state = {drake: null, lengthChange: false}
+    this.state = {drake: null, renderNeeded: false, itemMoved: false}
     this.initializeDnD = this.initializeDnD.bind(this);
   }
 
@@ -33,7 +33,7 @@ class Index extends React.Component {
       // if(!this.props.hasChanges) {
         this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
       // }
-      
+      this.setState({itemMoved: true})
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
@@ -46,62 +46,76 @@ class Index extends React.Component {
   }
 
   initializeDnD() {
-    console.log('initializeDnD')
+    // Don't initialize DND until the elements are in the DOM.
+    // 
+    if(document.querySelectorAll('.nested').length > 0) {
+      console.log("DND Initialized");
+      if(typeof document !== 'undefined'){
+        let treeHelper = new TreeHelper(this.props.nodeArray, true)
 
-    if(typeof document !== 'undefined'){
-      let treeHelper = new TreeHelper(this.props.nodeArray, true)
-
-      if(this.state.drake) {
-        this.state.drake.destroy();
-      }
-      // console.log(document.querySelectorAll('.nested'))
-      let drake = dragula({
-        containers: [].slice.apply(document.querySelectorAll('.nested')),
-        moves: (el, source, handle, sibling) => {
-          return handle.classList.contains('drag-handle')
-        },
-        accepts: (el, target, source, sibling) => {
-          // prevent dragged containers from trying to drop inside itself
-          return treeHelper.contains(el, target);
+        if(this.state.drake) {
+          this.state.drake.destroy();
         }
-      });
-      drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
-      
-      this.setState({drake, treeHelper, lengthChange: false});
+        // console.log(document.querySelectorAll('.nested'))
+        let drake = dragula({
+          containers: [].slice.apply(document.querySelectorAll('.nested')),
+          moves: (el, source, handle, sibling) => {
+            return handle.classList.contains('drag-handle')
+          },
+          accepts: (el, target, source, sibling) => {
+            // prevent dragged containers from trying to drop inside itself
+            return treeHelper.contains(el, target);
+          }
+        });
+        drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
+        
+        this.setState({drake, treeHelper, renderNeeded: false});
+      }
     }
   }
 
   componentWillUnmount() {
-    this.state.drake.destroy();
+    if(this.state.drake !== null) {
+      this.state.drake.destroy();
+    }
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.nodeArray.length !== this.props.nodeArray.length) {
-      this.setState({lengthChange: true});
+    if(nextProps.nodeArray.length !== this.props.nodeArray.length
+      || nextProps.adminPageType !== this.props.adminPageType) {
+      this.setState({renderNeeded: true});
     }
   }
   componentDidUpdate() {
-    if(this.state.lengthChange && (this.props.adminResourceMode === 'EDIT_INDEX')) {
+    if(this.state.itemMoved) {
+      this.setState({itemMoved: false})
+    }
+
+    if(this.state.renderNeeded && (this.props.adminResourceMode === 'EDIT_INDEX')) {
       this.initializeDnD();
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    let shouldUpdate = false;
+
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
-      return true;
+      shouldUpdate = true;
     } else if (nextProps.nodeArray.length !== this.props.nodeArray.length) {
-      return true;
+      shouldUpdate = true;
     } else if (nextProps.dataLoading !== this.props.dataLoading) {
-      return true;
+      shouldUpdate = true;
     } else if (nextProps.adminResourceMode !== this.props.adminResourceMode) {
-      return true;
+      shouldUpdate = true;
     } else if (nextProps.hasChanges || (nextProps.hasChanges !== this.props.hasChanges)) {
-      return true;
+      shouldUpdate = true;
     } else if (nextProps.showSnackbar !== this.props.showSnackbar){
-      return true;
-    } else {
-      return false
+      shouldUpdate = true;
+    } else if (nextState.itemsMoved) {
+      shouldUpdate = true;
     }
+
+    return shouldUpdate;
   }
 
   getRootChildren() {
@@ -140,8 +154,9 @@ const mapStateToProps = (state, ownProps) => {
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
     adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,
+    adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,
     showSnackbar: state.notifications.snackbar.show,
-    dataLoading: state.admin.dataLoading
+    adminPageType: state.admin.pageType
   }
 }
 
