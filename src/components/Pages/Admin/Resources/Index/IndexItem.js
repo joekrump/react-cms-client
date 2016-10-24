@@ -34,6 +34,16 @@ class IndexItem extends React.Component{
     )
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    let shouldUpdate = false;
+    if(nextProps.secondary !== this.props.secondary) {
+      shouldUpdate = true;
+    } else if (nextProps.editMode !== this.props.editMode) {
+      shouldUpdate = true;
+    }
+    return shouldUpdate;
+  }
+
   renderNestedItems() {
     // if(this.props.depth > 2) {
     //   return null;
