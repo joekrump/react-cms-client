@@ -178,28 +178,20 @@ export default class TreeHelper {
     let slashIndex = moveItemRoot.node.secondary.lastIndexOf('/');
     let originalPath = moveItemRoot.node.secondary.substr(slashIndex);
     moveItemRoot.node.secondary = `${parentSecondary}${originalPath}`
-
     this.setChildDepth(moveItemRoot, parentNode);
 
     if(moveItemRoot.childIndexes.length > 0) {
       moveItemRoot.childIndexes.forEach((childIndex) => {
         this.updateSecondaryText(this.richNodeArray[childIndex], moveItemRoot);
-        this.setChildDepth(this.richNodeArray[childIndex], moveItemRoot);
       })
     }
+    return;
   }
 
   addChildToParent(moveItemRoot, index, nextIndex){
 
     let parentNode = this.richNodeArray[moveItemRoot.parentIndex];
     
-    if(moveItemRoot.node.children && moveItemRoot.node.secondary) {
-      // update secondary text
-      this.updateSecondaryText(moveItemRoot, parentNode);
-    } else {
-      this.setChildDepth(moveItemRoot, parentNode);
-    }
-
     if(nextIndex === -1 && moveItemRoot.parentIndex === 0){
       parentNode.childIndexes.push(index);
       // parentNode.node.children.push(moveItemRoot.node);
@@ -213,6 +205,13 @@ export default class TreeHelper {
       let siblingIndex = childIndexes.indexOf(nextIndex);
       parentNode.childIndexes.splice(siblingIndex, 0, index);
       // parentNode.node.children.splice(siblingIndex, 0, moveItemRoot.node);
+    }
+
+    if(moveItemRoot.node.children && moveItemRoot.node.secondary) {
+      // update secondary text
+      this.updateSecondaryText(moveItemRoot, parentNode);
+    } else {
+      this.setChildDepth(moveItemRoot, parentNode);
     }
   }
 
