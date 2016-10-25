@@ -5,6 +5,7 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
+import { connect } from 'react-redux';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
@@ -22,6 +23,7 @@ class IndexItem extends React.Component{
       visible: true,
       hoverClass: ''
     }
+    this.renderNestedItems = this.renderNestedItems.bind(this);
   }
 
   showItem(visible = false) {
@@ -52,22 +54,22 @@ class IndexItem extends React.Component{
       return <div className="fake-nested"></div>
     }
 
-    let nestedItems = this.props.childItems.map((child, i) => (
+    let nestedItems = this.props.childIndexes.map((childIndex, i) => (
       <IndexItem 
-        key={`${this.props.resourceType}-${child.id}`}
-        modelId={child.id}
-        index={this.props.index + (i + 1)}
-        primary={child.primary}
-        secondary={child.secondary}
+        key={`${this.props.resourceType}-${i}`}
+        modelId={this.props.nodeArray[childIndex].node.item_id}
+        primary={this.props.nodeArray[childIndex].node.primary}
+        secondary={this.props.nodeArray[childIndex].node.secondary}
         resourceType={this.props.resourceType}
-        deletable={child.deletable}
-        childItems={child.children}
+        deletable={this.props.nodeArray[childIndex].node.deletable}
+        childIndexes={this.props.nodeArray[childIndex].childIndexes}
         depth={this.props.depth + 1}
-        extraData={{...child}}
-        unmovable={child.unmovable}
-        denyNested={child.denyNested}
+        extraData={{...this.props.nodeArray[childIndex].node}}
+        unmovable={this.props.nodeArray[childIndex].node.unmovable}
+        denyNested={this.props.nodeArray[childIndex].node.denyNested}
         editMode={this.props.editMode}
-        previewPath={child.previewPath}
+        previewPath={this.props.nodeArray[childIndex].node.previewPath}
+        nodeArray={this.props.nodeArray}
       />
     ))
     return (<div className="nested leaf" 
@@ -94,7 +96,7 @@ class IndexItem extends React.Component{
     if(this.props.extraData) {  
       delete queryProps.primary;
     }
-
+    console.log(this.props.childIndexes);
     return(
       <div id={this.props.modelId} className={"index-item card-swipe f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
         <ListItem
@@ -114,10 +116,20 @@ class IndexItem extends React.Component{
           primaryText={this.getText()}
           style={{...style}}
         /> 
-        { this.props.childItems ? this.renderNestedItems() : null }
+        { this.props.childIndexes ? this.renderNestedItems() : null }
       </div>
     );
   }
 }
 
-export default IndexItem;
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    nodeArray: state.tree.indexTree.nodeArray
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(IndexItem)

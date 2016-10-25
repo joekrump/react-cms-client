@@ -12,6 +12,9 @@ import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 import IndexToolbar from './IndexToolbar';
 
+import isEqual from 'lodash.isequal';
+import differenceWith from 'lodash.differencewith';
+
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
@@ -115,20 +118,23 @@ class Index extends React.Component {
       shouldUpdate = true;
     } else if (nextState.itemsMoved) {
       shouldUpdate = true;
+    } else if (differenceWith(nextProps.minimalArray, this.props.minimalArray, isEqual).length > 0) {
+      console.log('movementChange');
+      shouldUpdate = true;
     }
 
     return shouldUpdate;
   }
 
-  getRootChildren() {
-    return this.props.nodeArray.length > 0 ? this.props.nodeArray[0].node.children : [];
+  getRootChildIndexes() {
+    return this.props.nodeArray.length > 0 ? this.props.nodeArray[0].childIndexes : [];
   }
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
     if(!this.props.dataLoading && this.props.nodeArray.length > 0){
       content = (
-        <ListItems items={this.getRootChildren()} 
+        <ListItems childIndexes={this.getRootChildIndexes()} 
                    resourceType={this.props.resourceNamePlural} 
                    editMode={this.props.adminResourceMode === 'EDIT_INDEX'} 
                    />)
@@ -153,6 +159,7 @@ class Index extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     nodeArray: state.tree.indexTree.nodeArray,
+    minimalArray: state.tree.indexTree.minimalArray,
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
     adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,

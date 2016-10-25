@@ -1,23 +1,24 @@
-import React from 'react'
-import IndexItem from './IndexItem'
+import React from 'react';
+import IndexItem from './IndexItem';
+import { connect } from 'react-redux';
 
 const ListItems = (props) => {
-  let items = props.items.map((item, i) => {
+  let items = props.childIndexes.map((childIndex, i) => {
     return( <IndexItem 
-              key={`${props.resourceType}-${item.id}`}
-              modelId={item.id}
-              primary={item.primary}
-              secondary={item.secondary}
+              key={`${props.resourceType}-${i}`}
+              modelId={props.nodeArray[childIndex].node.item_id}
+              primary={props.nodeArray[childIndex].node.primary}
+              secondary={props.nodeArray[childIndex].node.secondary}
               resourceType={props.resourceType}
-              deletable={item.deletable}
-              childItems={item.children}
-              depth={item.depth}
+              deletable={props.nodeArray[childIndex].node.deletable}
+              childIndexes={props.nodeArray[childIndex].childIndexes}
+              depth={props.nodeArray[childIndex].depth}
               root={true}
-              unmovable={item.unmovable}
-              denyNested={item.denyNested}
+              unmovable={props.nodeArray[childIndex].node.unmovable}
+              denyNested={props.nodeArray[childIndex].node.denyNested}
               editMode={props.editMode}
-              extraData={{...item}}
-              previewPath={item.previewPath}
+              extraData={{...props.nodeArray[childIndex].node}}
+              previewPath={props.nodeArray[childIndex].node.previewPath}
             />)
   })
 
@@ -26,4 +27,13 @@ const ListItems = (props) => {
   </div>)
 }
 
-export default ListItems;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    nodeArray: state.tree.indexTree.nodeArray
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(ListItems)

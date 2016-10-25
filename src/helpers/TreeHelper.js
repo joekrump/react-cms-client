@@ -1,3 +1,4 @@
+
 export default class TreeHelper {
   constructor(nestedArray, preformatted) {
 
