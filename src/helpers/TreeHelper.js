@@ -2,13 +2,17 @@
 export default class TreeHelper {
   constructor(treeData, preformatted) {
 
-    this.addTreeToLookup         = this.addTreeToLookup.bind(this);
+    this.setChildIds = this.setChildIds.bind(this);
+    this.buildLookupStructures = this.buildLookupStructures.bind(this);
 
+    const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
     // create an artificial root node.
-    this.tree = {id: -1, children: treeData};
+    this.tree = rootNode;
+    this.flatNodes = [rootNode]
     // create a lookup array that holds the ids of items in the tree in order to find their index quickly.
     this.lookupArray = [-1];
-    this.addTreeToLookup(treeData);
+
+    this.buildLookupStructures(treeData);
     
     // this.walk                   = this._walk.bind(this);
     // this.updateTree             = this.updateTree.bind(this);
@@ -29,111 +33,25 @@ export default class TreeHelper {
     // this.setChildDepth         = this.setChildDepth.bind(this);
     // this.updateSecondaryText    = this.updateSecondaryText.bind(this);
     // this.minimalArray           = this.minimalArray.bind(this);
-
-    // if(preformatted) {
-    //   this.richNodeArray = nestedArray;
-      
-    // } else {
-    //   // push the root item to the richNodeArray
-    //   // 
-    //   this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
-    //   // push the root item item_id value. Use -1 as it is not a possible natural 
-    //   // id that a model instance could have as their ids are all positive.
-    //   // 
-    //   this.lookupArray.push(-1); 
-
-    //   if(nestedArray && nestedArray.length > 0) {
-    //     // build a flat array that represents the order that the nodes display in.
-    //     this.walk(nestedArray, 0, -1);
-    //   }
-    // }
   }
 
-  addTreeToLookup(treeData) => {
+  /**
+   * Build an array that contains the model ids of the nodes in the tree.
+   * @param  {Array} treeData - A nested array of nodes. 
+   * @return undefined
+   */
+  buildLookupStructures(treeData) {
     treeData.forEach((node) => {
       this.lookupArray.push(node.id);
-      if(node.children.length > 0) {
-        this.addTreeToLookup(node.children);
+      this.flatNodes.push(node);
+      if(node.children && (node.children.length > 0)) {
+        this.buildLookupArray(node.children);
       }
     })
   }
 
-  /**
-   * Insert a minimal representation of a tree node into 
-   * a 2D array.
-   * @param  {object} treeNode    - The object to insert into richNodeArray
-   * @param  {int} parentIndex    - The index for the parent that treeNode is a child of.
-   * @return {int}                - The in richNodeArray that the item was inserted at.
-   */
-  addNewTreeNode(treeNode, parentIndex, parentDepth){
-    let nodeArrayItem = {};
-    let nodeItemIndex = 0;
-
-    treeNode.depth = parentDepth + 1;
-    nodeArrayItem.item_id = treeNode.id;
-    nodeArrayItem.childIndexes = [];
-    nodeArrayItem.depth = treeNode.depth;
-    // if this object has a parent then assign 
-    if (parentIndex) {
-      nodeArrayItem.parentIndex = parentIndex;
-    } else {
-      nodeArrayItem.parentIndex = 0;
-    }
-
-    nodeArrayItem.node = treeNode;
-    // push this node to the large array of all nodes.
-    this.richNodeArray.push(nodeArrayItem);
-    this.lookupArray.push(treeNode.id);
-
-    nodeItemIndex = this.richNodeArray.length - 1;
-
-    // push this item's parent childIndexes array.
-    this.richNodeArray[parentIndex].childIndexes.push(nodeItemIndex);
-    // push children for artificial root if necessary.
-    if(parentDepth === -1) {
-      this.richNodeArray[parentIndex].node.children.push(treeNode);
-    }
-
-    return nodeItemIndex;
-  }
-
-  /**
-   * Slice an item from both the lookupArray and richNodeArray at a specific 
-   * index.
-   * @param  {int} index - The index at which the item is to be removed.
-   * @return {Object}    - A minimal representation of the the item that was removed
-   *                       from the richNodeArray.
-   */
-  removeItem(index, item) {
-    this.removeFromParent(index);
-
-    // get the number of items to remove. so that parents and children are all move together.
-    let numToRemove = this.getNumToRemove(item);
-
-    let richItems  = this.richNodeArray.splice(index, numToRemove);
-    let idsRemoved = this.lookupArray.splice(index, numToRemove);
-    return {richItems: richItems, ids: idsRemoved};
-  }
-
-  removeFromParent(index) {
-    let item = this.richNodeArray[index];
-    let parentNode = this.richNodeArray[item.parentIndex];
-    let childPosition = parentNode.childIndexes.indexOf(index);
-
-    parentNode.childIndexes.splice(childPosition, 1);
-  }
-
-  getNumToRemove(item) {
-    let numToRemove = 1;
-    // if the item does not have any childIndexes, return early.
-    if(item.childIndexes.length === 0) {
-      return numToRemove;
-    }
-
-    item.childIndexes.forEach((childIndex) => {
-      numToRemove += this.getNumToRemove(this.richNodeArray[childIndex]);
-    })
-    return numToRemove;
+  setChildIds(children) {
+    return children.map((child) => (child.id));
   }
 
   appendItem(removedData){
@@ -141,7 +59,7 @@ export default class TreeHelper {
     this.lookupArray.push(...removedData.ids);
   }
 
-  injectItem(index, removedData) {
+  add(index, removedData) {
     this.richNodeArray.splice(index, 0, ...removedData.richItems);
     this.lookupArray.splice(index, 0, ...removedData.ids);
   }
@@ -160,6 +78,22 @@ export default class TreeHelper {
     }
 
     this.addChildToParent(moveItemRoot, index, nextIndex);
+  }
+
+  getParentNode(parentId) {
+    let parentNodeIndex = this.lookupArray.indexOf(parentId);
+    return this.flatNodes[parentNodeIndex]
+  }
+  moveItem(parentId, sibling = null) {
+    if(!parentId) {
+      parentId = -1;
+    }
+    let parentNode = this.getParentNode(parentId);
+    
+
+    let childIndexes = parentNode.childIndexes;
+    let siblingIndex = childIndexes.indexOf(nextIndex);
+    parentNode.childIndexes.splice(siblingIndex, 0, index);
   }
 
   setChildDepth(moveItemRoot, parentNode) {
@@ -200,9 +134,7 @@ export default class TreeHelper {
     } else {
       // otherwise splice the item into the array at the index where the
       // nextIndex sibling previously was.
-      let childIndexes = parentNode.childIndexes;
-      let siblingIndex = childIndexes.indexOf(nextIndex);
-      parentNode.childIndexes.splice(siblingIndex, 0, index);
+      
       // parentNode.node.children.splice(siblingIndex, 0, moveItemRoot.node);
     }
 
