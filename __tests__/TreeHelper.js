@@ -209,6 +209,10 @@ it('Has linear order remain after child removal', () => {
   expect(helper.lookupArray).toEqual([-1, 1, 2, 7, 3, 5, 6, 8, 9, 10, 11, 12, 4, 13, 14, 15, 16])
 })
 
-// it('Cannot nest more than a depth of 3', () => {
-  
-// })
+fit('If inserting an item after child of a sibling works as expected.', () => {
+  let helper = new TreeHelper(dummyTreeData);
+  helper.updateTree(2, null, 1); // 4 nests under 2
+  helper.updateTree(3, null, 2); // nest 7 under 2 and above 4
+  helper.updateTree(4, null, 1) // now nest 4 under 12
+  expect(helper.lookupArray.slice(1, 5)).toEqual([1, 2, 3, 4])
+})

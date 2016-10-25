@@ -315,13 +315,13 @@ export default class TreeHelper {
       // Otherwise, the parent is the parent of the sibling.
       targetParentId = nextItemId === null ? -1 : this.getIdFromIndex(this.richNodeArray[nextItemIndex].parentIndex);
     }
+    // Get the parent that the item is moving to.
+    let parentItemIndex = this.getIndexFromId(targetParentId);
 
     // remove the item from the richNodeArray
     let removedData = this.removeItem(originalItemIndex, originalMovedItem);
     let newItemIndex;
     let startingIndex = originalItemIndex + (removedData.ids.length - 1);
-    // Get the parent that the item is moving to.
-    let parentItemIndex = this.getIndexFromId(targetParentId);
     // update the childIndexes references and parentIndex references
     this.decrementParentIndexes(startingIndex, removedData.ids.length);
     this.decrementChildIndexes(startingIndex, removedData.ids.length);
