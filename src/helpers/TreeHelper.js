@@ -1,69 +1,61 @@
 
 export default class TreeHelper {
-  constructor(nestedArray, preformatted) {
+  constructor(treeData, preformatted) {
 
-    this.richNodeArray          = [];
-    this.lookupArray            = []; 
-    this.addNewTreeNode         = this.addNewTreeNode.bind(this);
-    this.walk                   = this._walk.bind(this);
-    this.updateTree             = this.updateTree.bind(this);
-    this.contains               = this._contains.bind(this);
-    this.decrementIndexes       = this.decrementIndexes.bind(this);
-    this.decrementChildIndexes  = this.decrementChildIndexes.bind(this);
-    this.incrementIndexes       = this.incrementIndexes.bind(this);
-    this.incrementChildIndexes  = this.incrementChildIndexes.bind(this);
-    this.removeFromParent       = this.removeFromParent.bind(this);
-    this.removeItem             = this.removeItem.bind(this);
-    this.addItem                = this.addItem.bind(this);
-    this.appendItem             = this.appendItem.bind(this);
-    this.injectItem             = this.injectItem.bind(this);
-    this.getIndexFromId         = this.getIndexFromId.bind(this);
-    this.getIdFromIndex         = this.getIdFromIndex.bind(this);
-    this.getNumToRemove         = this.getNumToRemove.bind(this);
-    this.addChildToParent       = this.addChildToParent.bind(this);
-    this.setChildDepth         = this.setChildDepth.bind(this);
-    this.updateSecondaryText    = this.updateSecondaryText.bind(this);
-    this.minimalArray           = this.minimalArray.bind(this);
+    this.addTreeToLookup         = this.addTreeToLookup.bind(this);
 
-    if(preformatted) {
-      this.richNodeArray = nestedArray;
-      nestedArray.forEach((node) => {
-        this.lookupArray.push(node.item_id);
-      })
-    } else {
-      // push the root item to the richNodeArray
-      // 
-      this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
-      // push the root item item_id value. Use -1 as it is not a possible natural 
-      // id that a model instance could have as their ids are all positive.
-      // 
-      this.lookupArray.push(-1); 
+    // create an artificial root node.
+    this.tree = {id: -1, children: treeData};
+    // create a lookup array that holds the ids of items in the tree in order to find their index quickly.
+    this.lookupArray = [-1];
+    this.addTreeToLookup(treeData);
+    
+    // this.walk                   = this._walk.bind(this);
+    // this.updateTree             = this.updateTree.bind(this);
+    // this.contains               = this._contains.bind(this);
+    // this.decrementIndexes       = this.decrementIndexes.bind(this);
+    // this.decrementChildIndexes  = this.decrementChildIndexes.bind(this);
+    // this.incrementIndexes       = this.incrementIndexes.bind(this);
+    // this.incrementChildIndexes  = this.incrementChildIndexes.bind(this);
+    // this.removeFromParent       = this.removeFromParent.bind(this);
+    // this.removeItem             = this.removeItem.bind(this);
+    // this.addItem                = this.addItem.bind(this);
+    // this.appendItem             = this.appendItem.bind(this);
+    // this.injectItem             = this.injectItem.bind(this);
+    // this.getIndexFromId         = this.getIndexFromId.bind(this);
+    // this.getIdFromIndex         = this.getIdFromIndex.bind(this);
+    // this.getNumToRemove         = this.getNumToRemove.bind(this);
+    // this.addChildToParent       = this.addChildToParent.bind(this);
+    // this.setChildDepth         = this.setChildDepth.bind(this);
+    // this.updateSecondaryText    = this.updateSecondaryText.bind(this);
+    // this.minimalArray           = this.minimalArray.bind(this);
 
-      if(nestedArray && nestedArray.length > 0) {
-        // build a flat array that represents the order that the nodes display in.
-        this.walk(nestedArray, 0, -1);
-      }
-    }
+    // if(preformatted) {
+    //   this.richNodeArray = nestedArray;
+      
+    // } else {
+    //   // push the root item to the richNodeArray
+    //   // 
+    //   this.richNodeArray.push({item_id: -1, depth: -1, node: {children: []}, childIndexes: []});
+    //   // push the root item item_id value. Use -1 as it is not a possible natural 
+    //   // id that a model instance could have as their ids are all positive.
+    //   // 
+    //   this.lookupArray.push(-1); 
+
+    //   if(nestedArray && nestedArray.length > 0) {
+    //     // build a flat array that represents the order that the nodes display in.
+    //     this.walk(nestedArray, 0, -1);
+    //   }
+    // }
   }
 
-  /**
-   * Create a 2D array representation of a tree structure.
-   * @param  {Array<Object>} treeNodes  - an array of nodes from the tree object used 
-   *                                      to create this instance.
-   * @param  {int} parentIndex          - The index of the entry in the richNodeArray
-   *                                      that corresponds to where this nodes parent is.
-   * @param  {int} depth                - The tree depth to insert at.                                     
-   * @return undefined
-   */
-  _walk(treeNodes, parentIndex, depth) { 
-    let nodeItemIndex;
-
-    treeNodes.forEach((treeNode, i) => {
-      nodeItemIndex = this.addNewTreeNode(treeNode, parentIndex, depth);
-      if(treeNode.children && (treeNode.children.length > 0)) {
-        this.walk(treeNode.children, nodeItemIndex, (depth + 1));
+  addTreeToLookup(treeData) => {
+    treeData.forEach((node) => {
+      this.lookupArray.push(node.id);
+      if(node.children.length > 0) {
+        this.addTreeToLookup(node.children);
       }
-    });
+    })
   }
 
   /**
