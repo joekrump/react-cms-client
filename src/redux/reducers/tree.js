@@ -2,18 +2,21 @@ import TreeHelper from '../../helpers/TreeHelper';
 
 const initialState = {
   indexTree: {
-    nodeArray: [],
-    minimalArray: []
+    flatNodes: [],
+    minimalArray: [],
+    lookupArray: []
   }
 };
 
 const treeReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_TREE':
+      let helper = new TreeHelper(action.flatNodes);
       return {
         indexTree: {
-          nodeArray: action.nodeArray,
-          minimalArray: (new TreeHelper(action.nodeArray, true)).minimalArray()
+          flatNodes: action.flatNodes,
+          minimalArray: helper.minimalArray(),
+          lookupArray: helper.lookupArray
         }
       }
     default:

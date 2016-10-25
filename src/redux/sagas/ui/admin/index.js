@@ -2,7 +2,7 @@ import { takeLatest } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import TreeModifier from '../../../../helpers/TreeModifier';
 
-const getTree = (state) => state.tree.indexTree.nodeArray
+const getTree = (state) => state.tree.indexTree.flatNodes
   
 function* removeFromTree(item_id){
   let tree = yield select(getTree)
@@ -12,7 +12,7 @@ function* removeFromTree(item_id){
 function removeItem(tree, item_id) {
   let helper = new TreeModifier(tree);
   helper.removeFromTreeByItemId(item_id);
-  return helper.richNodeArray;
+  return helper.flatNodes;
 }
 
 /**
@@ -23,8 +23,8 @@ function removeItem(tree, item_id) {
 function* updateTree(action) {
   try {
     // Clear session data
-    let nodeArray = yield call(removeFromTree, action.item_id);
-    yield put({type: "UPDATE_TREE", nodeArray });
+    let flatNodes = yield call(removeFromTree, action.item_id);
+    yield put({type: "UPDATE_TREE", flatNodes });
   } catch (e) {
      yield console.log('exception in ui/admin/index saga', e)
   }

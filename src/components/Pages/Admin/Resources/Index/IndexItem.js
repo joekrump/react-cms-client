@@ -112,7 +112,7 @@ class IndexItem extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    lookupArray: state.tree.indexTree.lookupArray
+    lookupArray: state.tree.indexTree.lookupArray,
     node: state.tree.indexTree.flatNodes[state.tree.indexTree.lookupArray.indexOf(ownProps.modelId)]
   }
 }

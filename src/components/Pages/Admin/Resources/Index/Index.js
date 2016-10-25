@@ -44,7 +44,6 @@ class Index extends React.Component {
   componentDidMount() {
     if(this.props.adminResourceMode === 'EDIT_INDEX') {
       this.initializeDnD(); 
-      console.log(this.props.nodeArray);
     }
   }
 
@@ -54,7 +53,7 @@ class Index extends React.Component {
     if(document.querySelectorAll('.nested').length > 0) {
       console.log("DND Initialized");
       if(typeof document !== 'undefined'){
-        let treeHelper = new TreeHelper(this.props.nodeArray, true)
+        let treeHelper = new TreeHelper(this.props.flatNodes, true)
 
         if(this.state.drake) {
           this.state.drake.destroy();
@@ -84,7 +83,7 @@ class Index extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.nodeArray.length !== this.props.nodeArray.length
+    if(nextProps.flatNodes.length !== this.props.flatNodes.length
       || nextProps.adminPageType !== this.props.adminPageType) {
 
       this.setState({renderNeeded: true});
@@ -96,7 +95,6 @@ class Index extends React.Component {
     }
 
     if(this.state.renderNeeded && (this.props.adminResourceMode === 'EDIT_INDEX')) {
-      console.log(JSON.stringify(this.props.nodeArray));
       this.initializeDnD();
     }
   }
@@ -106,7 +104,7 @@ class Index extends React.Component {
 
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
       shouldUpdate = true;
-    } else if (nextProps.nodeArray.length !== this.props.nodeArray.length) {
+    } else if (nextProps.flatNodes.length !== this.props.flatNodes.length) {
       shouldUpdate = true;
     } else if (nextProps.dataLoading !== this.props.dataLoading) {
       shouldUpdate = true;
@@ -126,18 +124,20 @@ class Index extends React.Component {
     return shouldUpdate;
   }
 
-  getRootChildIndexes() {
-    return this.props.nodeArray.length > 0 ? this.props.nodeArray[0].childIndexes : [];
+  getRootChildIds() {
+    return this.props.flatNodes.length > 0 ? this.props.flatNodes[0].child_ids : [];
   }
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
-    if(!this.props.dataLoading && this.props.nodeArray.length > 0){
+    if(!this.props.dataLoading && this.props.flatNodes.length > 0){
       content = (
-        <ListItems childIndexes={this.getRootChildIndexes()} 
-                   resourceType={this.props.resourceNamePlural} 
-                   editMode={this.props.adminResourceMode === 'EDIT_INDEX'} 
-                   />)
+        <ListItems 
+          childIds={this.getRootChildIds()} 
+          resourceType={this.props.resourceNamePlural} 
+          editMode={this.props.adminResourceMode === 'EDIT_INDEX'} 
+        />
+      )
     }
     return (
       <AdminLayout>
@@ -145,7 +145,7 @@ class Index extends React.Component {
           <IndexToolbar resourceName={capitalize(this.props.resourceNamePlural)}/>
           {this.props.dataLoading ? (<CircularProgress />) : null}
           <List className="item-list">
-            {this.props.dataLoading || !(this.props.nodeArray.length > 0) ? null : <span className="spacer"></span>}
+            {this.props.dataLoading || !(this.props.flatNodes.length > 0) ? null : <span className="spacer"></span>}
             {this.props.dataLoading ? null : content}
           </List>
         { this.props.children }
@@ -158,7 +158,7 @@ class Index extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    nodeArray: state.tree.indexTree.nodeArray,
+    flatNodes: state.tree.indexTree.flatNodes,
     minimalArray: state.tree.indexTree.minimalArray,
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
@@ -177,10 +177,10 @@ const mapDispatchToProps = (dispatch) => {
         resourceNamePlural
       })
     },
-    updateTree: (nodeArray) => {
+    updateTree: (flatNodes) => {
       dispatch({
         type: 'UPDATE_TREE',
-        nodeArray
+        flatNodes
       })
     }
   };

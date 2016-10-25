@@ -7,8 +7,8 @@ function* setResourceData(action) {
     yield put({type: 'UPDATE_ADMIN_LOAD_STATE', dataLoading: true});
     // set the resource data in the redux store.
     if(action.pageType === 'index') {
-      const nodeArray = yield call(getIndexItems, action.namePlural, put);
-      yield put({type: 'UPDATE_TREE', nodeArray})
+      const flatNodes = yield call(getIndexItems, action.namePlural, put);
+      yield put({type: 'UPDATE_TREE', flatNodes})
       yield put({type: 'UPDATE_ADMIN_LOAD_STATE', dataLoading: false});
     }
   } catch (e) {
