@@ -2,14 +2,20 @@
 export default class TreeHelper {
   constructor(treeData, preformatted) {
 
-    this.setChildIds = this.setChildIds.bind(this);
     this.buildLookupStructures = this.buildLookupStructures.bind(this);
-    this.getParentNode = this.getParentNode.bind(this);
+    this.setChildIds = this.setChildIds.bind(this);
+    this.getNodeFromId = this.getNodeFromId.bind(this);
     this.moveNode = this.moveNode.bind(this);
+    this.moveNode = this.moveNode.bind(this);
+    this.addNodeToNewLocation = this.addNodeToNewLocation.bind(this);
+    this.addToParentNodeChildren = this.addToParentNodeChildren.bind(this);
+    this.removeNodeFromPreviousLocation = this.removeNodeFromPreviousLocation.bind(this);
+    this.updateSecondaryText = this.updateSecondaryText.bind(this);
+    this.updateTree = this.updateTree.bind(this);
+    this.minimalArray = this.minimalArray.bind(this);
 
     const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
-    // create an artificial root node.
-    this.tree = rootNode;
+
     this.flatNodes = [rootNode]
     // create a lookup array that holds the ids of items in the tree in order to find their index quickly.
     this.lookupArray = [-1];
@@ -47,7 +53,7 @@ export default class TreeHelper {
     // remove the association of the node from its previous parent.
     this.removeNodeFromPreviousLocation(nodeBeingMoved);
 
-    addNodeToNewLocation(parentId, nodeBeingMoved, siblingNodeId);
+    this.addNodeToNewLocation(parentId, nodeBeingMoved, siblingNodeId);
   }
 
   addNodeToNewLocation(parentId, nodeBeingMoved, siblingNodeId) {
