@@ -1,9 +1,7 @@
 export default class TreeHelper {
-  constructor(nestedArray, existingTree) {
+  constructor(nestedArray, preformatted) {
 
-    // An array to hold objects representing nodes in a tree.
     this.richNodeArray          = [];
-    // will contain only item_ids of items stored in richNodeArray for quick lookup.
     this.lookupArray            = []; 
     this.addNewTreeNode         = this.addNewTreeNode.bind(this);
     this.walk                   = this._walk.bind(this);
@@ -26,11 +24,10 @@ export default class TreeHelper {
     this.updateSecondaryText    = this.updateSecondaryText.bind(this);
     this.minimalArray           = this.minimalArray.bind(this);
 
-    if(existingTree) {
+    if(preformatted) {
       this.richNodeArray = nestedArray;
       nestedArray.forEach((node) => {
         this.lookupArray.push(node.item_id);
-        console.log('LOOKUP LOADING')
       })
     } else {
       // push the root item to the richNodeArray
