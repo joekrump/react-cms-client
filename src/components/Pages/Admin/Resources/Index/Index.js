@@ -124,8 +124,8 @@ class Index extends React.Component {
     return shouldUpdate;
   }
 
-  getRootChildIds() {
-    return this.props.flatNodes.length > 0 ? this.props.flatNodes[0].child_ids : [];
+  getRootChildNodes() {
+    return this.props.flatNodes.length > 0 ? this.props.flatNodes[0].children : [];
   }
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
@@ -133,7 +133,7 @@ class Index extends React.Component {
     if(!this.props.dataLoading && this.props.flatNodes.length > 0){
       content = (
         <ListItems 
-          childIds={this.getRootChildIds()} 
+          childNodes={this.getRootChildNodes()} 
           resourceType={this.props.resourceNamePlural} 
         />
       )

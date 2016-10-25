@@ -5,8 +5,7 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
-import { connect } from 'react-redux';
-import find from 'lodash.find';
+import isEqual from 'lodash.isequal';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
@@ -47,6 +46,8 @@ class IndexItem extends React.Component{
       shouldUpdate = true;
     } else if (nextProps.isEditing !== this.props.isEditing) {
       shouldUpdate = true;
+    } else if ((nextProps.node) && !isEqual(this.props.node.child_ids, nextProps.node.child_ids)) {
+      shouldUpdate = true;
     }
     return shouldUpdate;
   }
@@ -59,15 +60,16 @@ class IndexItem extends React.Component{
       return <div className="fake-nested"></div>
     }
 
-    let nestedItems = this.props.node.child_ids.map((childId, i) => (
-      <IndexItem 
-        key={`${this.props.resourceType}-${childId}`}
-        modelId={childId}
+    let nestedItems = this.props.node.children.map((childNode, i) => {
+      return (<IndexItem 
+        key={`${this.props.resourceType}-${childNode.id}`}
+        modelId={childNode.id}
         resourceType={this.props.resourceType}
-      />
-    ))
-    return (<div className="nested leaf" 
-      data-parentModelId={this.props.node.id}>{nestedItems}</div>);
+        isEditing={this.props.isEditing}
+        node={childNode}
+      />)
+    })
+    return (<div className="nested leaf" data-parentModelId={this.props.node.id}>{nestedItems}</div>);
   }
   renderDragHandle() {
     return (this.props.isEditing && !this.props.node.unmovable) ? 
@@ -89,7 +91,7 @@ class IndexItem extends React.Component{
       style.height = 0;
       style.padding = 0;
     }
-
+    // console.log(this.props.modelId)
     return(
       <div id={this.props.node.id} className={"index-item card-swipe f-no-select" + (this.props.node.unmovable ? ' unmovable' : '')} >
         <ListItem
@@ -114,15 +116,4 @@ class IndexItem extends React.Component{
   }
 }
 
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    node: find(state.tree.indexTree.flatNodes, (node) => (node.id === ownProps.modelId)),
-    isEditing: (state.admin.resources[state.admin.resource.name.plural].mode === 'EDIT_INDEX')
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  null
-)(IndexItem)
+export default IndexItem

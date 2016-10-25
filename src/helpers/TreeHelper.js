@@ -5,12 +5,10 @@ export default class TreeHelper {
 
     this.addNodes = this.addNodes.bind(this);
     this.setChildIds = this.setChildIds.bind(this);
-    this.getNodeFromId = this.getNodeFromId.bind(this);
     this.moveNode = this.moveNode.bind(this);
     this.moveNode = this.moveNode.bind(this);
     this.addNodeToNewLocation = this.addNodeToNewLocation.bind(this);
     this.addToParentNodeChildren = this.addToParentNodeChildren.bind(this);
-    this.removeNodeFromPreviousLocation = this.removeNodeFromPreviousLocation.bind(this);
     this.updateSecondaryText = this.updateSecondaryText.bind(this);
     this.updateTree = this.updateTree.bind(this);
     this.contains = this._contains;
@@ -40,23 +38,11 @@ export default class TreeHelper {
     return children.map((child) => (child.id));
   }
 
-  getNodeFromId(nodeId) {
-    if(nodeId === null) {
-      nodeId = -1;
-    }
-    console.log(nodeId);
-    return find(this.flatNodes, (node) => {
-      // console.log(node);
-      // console.log(nodeId)
-      return node.id === nodeId
-    });
-  }
-
   moveNode(nodeBeingMovedId, siblingNodeId, parentId) {
-    let nodeBeingMoved = this.getNodeFromId(nodeBeingMovedId);
+    let nodeBeingMoved = getNodeFromId(nodeBeingMovedId, this.flatNodes);
     
     // remove the association of the node from its previous parent.
-    this.removeNodeFromPreviousLocation(nodeBeingMoved);
+    removeNodeFromPreviousLocation(nodeBeingMoved, this.flatNodes);
 
     this.addNodeToNewLocation(parentId, nodeBeingMoved, siblingNodeId);
   }
@@ -65,8 +51,8 @@ export default class TreeHelper {
     if((parentId === null) || (parentId === undefined)) {
       parentId = -1;
     }
-    console.log('addNodeToNewLocation')
-    let parentNode = this.getNodeFromId(parentId);
+
+    let parentNode = getNodeFromId(parentId, this.flatNodes);
     // associate the node with its new parent.
     this.addToParentNodeChildren(parentNode, nodeBeingMoved, siblingNodeId);
   }
@@ -86,15 +72,6 @@ export default class TreeHelper {
     if(nodeBeingMoved.previewPath) {
       this.updateSecondaryText(parentNode, nodeBeingMoved);
     }
-  }
-
-  removeNodeFromPreviousLocation(nodeBeingMoved) {
-    let parentNode = this.getNodeFromId(nodeBeingMoved.parent_id);
-    let childIndex = parentNode.child_ids.indexOf(nodeBeingMoved.id);
-    
-    nodeBeingMoved.parent_id = null;
-    parentNode.child_ids.splice(childIndex, 1);
-    parentNode.children.splice(childIndex, 1);
   }
 
   updateSecondaryText(parentNode, nodeBeingMoved) {
@@ -136,6 +113,25 @@ export default class TreeHelper {
   }
 }
 
+function removeNodeFromPreviousLocation(nodeBeingMoved, arrayToRemoveFrom) {
+  let parentNode = getNodeFromId(nodeBeingMoved.parent_id, arrayToRemoveFrom);
+  let childIndex = parentNode.child_ids.indexOf(nodeBeingMoved.id);
+  
+  nodeBeingMoved.parent_id = null;
+  parentNode.child_ids.splice(childIndex, 1);
+  parentNode.children.splice(childIndex, 1);
+}
+
+
+function getNodeFromId(nodeId, nodeArray) {
+  if(nodeId === null) {
+    nodeId = -1;
+  }
+
+  return find(nodeArray, (node) => {
+    return node.id === nodeId
+  });
+}
 
 export function makeMinimalArray(flatNodes) {
   let minimalArray = [];
@@ -148,4 +144,9 @@ export function makeMinimalArray(flatNodes) {
     minimalArray.push({id: node.id, parent_id: node.parent_id});
   })
   return minimalArray;
+}
+
+export function deleteNode(flatNodes, nodeToRemoveId) {
+  let nodeToRemove = getNodeFromId(nodeToRemoveId);
+  removeNodeFromPreviousLocation(nodeToRemove, flatNodes)
 }

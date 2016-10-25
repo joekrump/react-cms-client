@@ -10,7 +10,7 @@ function* removeFromTree(item_id){
 }
 
 function removeItem(flatNodes, item_id) {
-  updatedFlatNodes = deleteNode(flatNodes, item_id);
+  let updatedFlatNodes = deleteNode(flatNodes, item_id);
   return updatedFlatNodes;
 }
 
