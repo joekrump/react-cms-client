@@ -12,7 +12,7 @@ function* setResourceData(action) {
       yield put({type: 'UPDATE_ADMIN_LOAD_STATE', dataLoading: false});
     }
   } catch (e) {
-     yield console.log('exception in updateResourceData: ', e)
+     yield console.log('exception in setResourceData: ', e)
   }
 }
 

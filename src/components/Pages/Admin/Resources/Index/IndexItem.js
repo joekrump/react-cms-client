@@ -6,6 +6,7 @@ import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
 import { connect } from 'react-redux';
+import find from 'lodash.find';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
@@ -112,8 +113,7 @@ class IndexItem extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    lookupArray: state.tree.indexTree.lookupArray,
-    node: state.tree.indexTree.flatNodes[state.tree.indexTree.lookupArray.indexOf(ownProps.modelId)]
+    node: find(state.tree.indexTree.flatNodes, (node) => (node.id == ownProps.modelId))
   }
 }
 

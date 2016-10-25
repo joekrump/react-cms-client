@@ -1,6 +1,7 @@
+import find from 'lodash.find';
 
 export default class TreeHelper {
-  constructor(treeData, preformatted) {
+  constructor(treeData) {
 
     this.buildLookupStructures = this.buildLookupStructures.bind(this);
     this.setChildIds = this.setChildIds.bind(this);
@@ -17,9 +18,10 @@ export default class TreeHelper {
     const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
 
     this.flatNodes = [rootNode]
-    this.lookupArray = [-1];
 
     this.buildLookupStructures(treeData);
+
+    this.flatNodes = this.flatNodes.map((node) => (node.id));
   }
 
   /**
@@ -29,10 +31,10 @@ export default class TreeHelper {
    */
   buildLookupStructures(treeData) {
     treeData.forEach((node) => {
-      this.lookupArray.push(node.id);
+      // this.flatNodes.push(node.id);
       this.flatNodes.push(node);
       if(node.children && (node.children.length > 0)) {
-        this.buildLookupArray(node.children);
+        this.buildLookupStructures(node.children);
       }
     })
   }
@@ -42,8 +44,7 @@ export default class TreeHelper {
   }
 
   getNodeFromId(parentId) {
-    let parentNodeIndex = this.lookupArray.indexOf(parentId);
-    return this.flatNodes[parentNodeIndex]
+    return find(this.flatNodes, (node) => (node.id == parentId));
   }
 
   moveNode(nodeBeingMovedId, siblingNodeId, parentId) {
