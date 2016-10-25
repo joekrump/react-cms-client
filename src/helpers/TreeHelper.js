@@ -14,7 +14,7 @@ export default class TreeHelper {
     this.updateSecondaryText = this.updateSecondaryText.bind(this);
     this.updateTree = this.updateTree.bind(this);
     this.contains = this._contains;
-    
+
     const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
 
     this.flatNodes = [rootNode]
@@ -40,8 +40,13 @@ export default class TreeHelper {
     return children.map((child) => (child.id));
   }
 
-  getNodeFromId(parentId) {
-    return find(this.flatNodes, (node) => (node.id === parentId));
+  getNodeFromId(nodeId) {
+    console.log(nodeId);
+    return find(this.flatNodes, (node) => {
+      // console.log(node);
+      // console.log(nodeId)
+      return node.id === nodeId
+    });
   }
 
   moveNode(nodeBeingMovedId, siblingNodeId, parentId) {
@@ -54,7 +59,7 @@ export default class TreeHelper {
   }
 
   addNodeToNewLocation(parentId, nodeBeingMoved, siblingNodeId) {
-    if(!parentId) {
+    if((parentId === null) || (parentId === undefined)) {
       parentId = -1;
     }
     
