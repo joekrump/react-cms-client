@@ -30,15 +30,19 @@ class IndexItem extends React.Component{
     this.setState({visible});
   }
   
-  getText(){
+  getItemText(){
     return(
-      <div className="inner-text" style={{color: muiTheme.palette.textColor}}><strong className="item-primary">{this.props.primary}</strong>{this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) : null}</div>
+      <div className="inner-text" style={{color: muiTheme.palette.textColor}}>
+        <strong className="item-primary">{this.props.node.primary}</strong>
+        {this.props.node.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.node.secondary}</span></span>) 
+        : null}
+      </div>
     )
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     let shouldUpdate = false;
-    if(nextProps.secondary !== this.props.secondary) {
+    if(nextProps.node.secondary !== this.props.node.secondary) {
       shouldUpdate = true;
     } else if (nextProps.editMode !== this.props.editMode) {
       shouldUpdate = true;
@@ -50,30 +54,20 @@ class IndexItem extends React.Component{
     // if(this.props.depth > 2) {
     //   return null;
     // }
-    if(this.props.denyNested && this.props.unmovable) {
+    if(this.props.node.denyNested && this.props.node.unmovable) {
       return <div className="fake-nested"></div>
     }
 
-    let nestedItems = this.props.childIndexes.map((childIndex, i) => (
+    let nestedItems = this.props.node.child_ids.map((childIndex, i) => (
       <IndexItem 
-        key={`${this.props.resourceType}-${i}`}
-        modelId={this.props.nodeArray[childIndex].node.item_id}
-        primary={this.props.nodeArray[childIndex].node.primary}
-        secondary={this.props.nodeArray[childIndex].node.secondary}
+        key={`${this.props.resourceType}-${childIndex}`}
+        modelId={childIndex}
         resourceType={this.props.resourceType}
-        deletable={this.props.nodeArray[childIndex].node.deletable}
-        childIndexes={this.props.nodeArray[childIndex].childIndexes}
-        depth={this.props.depth + 1}
-        extraData={{...this.props.nodeArray[childIndex].node}}
-        unmovable={this.props.nodeArray[childIndex].node.unmovable}
-        denyNested={this.props.nodeArray[childIndex].node.denyNested}
         editMode={this.props.editMode}
-        previewPath={this.props.nodeArray[childIndex].node.previewPath}
-        nodeArray={this.props.nodeArray}
       />
     ))
     return (<div className="nested leaf" 
-      data-parentModelId={this.props.modelId}>{nestedItems}</div>);
+      data-parentModelId={this.props.node.id}>{nestedItems}</div>);
   }
   renderDragHandle() {
     return (this.props.editMode && !this.props.unmovable) ? 
@@ -91,14 +85,8 @@ class IndexItem extends React.Component{
       style.padding = 0;
     }
 
-    let queryProps = this.props.extraData
-
-    if(this.props.extraData) {  
-      delete queryProps.primary;
-    }
-    console.log(this.props.childIndexes);
     return(
-      <div id={this.props.modelId} className={"index-item card-swipe f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
+      <div id={this.props.node.id} className={"index-item card-swipe f-no-select" + (this.props.node.unmovable ? ' unmovable' : '')} >
         <ListItem
           className="list-item"
           disabled
@@ -106,17 +94,16 @@ class IndexItem extends React.Component{
           rightIconButton={
             <IndexItemActions 
               resourceType={this.props.resourceType} 
-              modelId={this.props.modelId} 
-              deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
-              queryProps={{...queryProps}}
-              deletable={this.props.deletable}
-              previewPath={this.props.previewPath}
+              modelId={this.props.node.id} 
+              deleteCallback={ this.props.node.deletable ? () => this.showItem() : undefined} 
+              deletable={this.props.node.deletable}
+              previewPath={this.props.node.previewPath}
             />
           }
-          primaryText={this.getText()}
+          primaryText={this.getItemText()}
           style={{...style}}
         /> 
-        { this.props.childIndexes ? this.renderNestedItems() : null }
+        { this.props.node.child_ids ? this.renderNestedItems() : null }
       </div>
     );
   }
@@ -125,7 +112,8 @@ class IndexItem extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    nodeArray: state.tree.indexTree.nodeArray
+    lookupArray: state.tree.indexTree.lookupArray
+    node: state.tree.indexTree.flatNodes[state.tree.indexTree.lookupArray.indexOf(ownProps.modelId)]
   }
 }
 

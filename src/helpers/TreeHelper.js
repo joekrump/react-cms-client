@@ -17,7 +17,6 @@ export default class TreeHelper {
     const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
 
     this.flatNodes = [rootNode]
-    // create a lookup array that holds the ids of items in the tree in order to find their index quickly.
     this.lookupArray = [-1];
 
     this.buildLookupStructures(treeData);
