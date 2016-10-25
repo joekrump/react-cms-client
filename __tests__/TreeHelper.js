@@ -1,24 +1,98 @@
 import TreeHelper from '../src/helpers/TreeHelper';
 
 const dummyTreeData = [
-  { "id": 1, "children": [] },
-  { "id": 2, "children": [] },
-  { "id": 3, "children": [] },
-  { "id": 4, "children": [] },
-  { "id": 5, "children": [] },
-  { "id": 6, "children": [] },
-  { "id": 7, "children": [] },
-  { "id": 8, "children": [] },
-  { "id": 9, "children": [] },
-  { "id": 10, "children": [] },
-  { "id": 11, "children": [] },
-  { "id": 12, "children": [] },
-  { "id": 13, "children": [] },
-  { "id": 14, "children": [] },
-  { "id": 15, "children": [] },
-  { "id": 16, "children": [] }
-];
-
+  {
+    "id": 1,
+    "parent_id": null,
+    "deletable": 1,
+    "previewPath": "/A",
+    "depth": 0,
+    "draft": 0,
+    "primary": "A",
+    "secondary": "/A",
+    "children": [
+      {
+        "id": 2,
+        "parent_id": 1,
+        "deletable": 1,
+        "previewPath": "/A/B",
+        "depth": 0,
+        "draft": 0,
+        "primary": "B",
+        "secondary": "/A/B",
+        "children": [],
+        "child_ids": [],
+        "unmovable": false,
+        "denyNested": false
+      },
+      {
+        "id": 3,
+        "parent_id": 1,
+        "deletable": 1,
+        "previewPath": "/A/C",
+        "depth": 0,
+        "draft": 0,
+        "primary": "C",
+        "secondary": "/A/C",
+        "children": [
+          {
+            "id": 4,
+            "parent_id": 3,
+            "deletable": 1,
+            "previewPath": "/A/C/D",
+            "depth": 0,
+            "draft": 0,
+            "primary": "D",
+            "secondary": "/A/C/D",
+            "children": [],
+            "child_ids": [],
+            "unmovable": false,
+            "denyNested": false
+          }
+        ],
+        "child_ids": [
+          4
+        ],
+        "unmovable": false,
+        "denyNested": false
+      }
+    ],
+    "child_ids": [
+      2,
+      3
+    ],
+    "unmovable": false,
+    "denyNested": false
+  },
+  {
+    "id": 5,
+    "parent_id": null,
+    "deletable": 0,
+    "previewPath": "/E",
+    "depth": 0,
+    "draft": 0,
+    "primary": "E",
+    "secondary": "/E",
+    "children": [],
+    "child_ids": [],
+    "unmovable": true,
+    "denyNested": true
+  },
+  {
+    "id": 6,
+    "parent_id": null,
+    "deletable": 0,
+    "previewPath": "/F",
+    "depth": 0,
+    "draft": 0,
+    "primary": "F",
+    "secondary": "/F",
+    "children": [],
+    "child_ids": [],
+    "unmovable": false,
+    "denyNested": false
+  }
+]
 
 it('richNodeArray is correct length', () => {
   let helper = new TreeHelper(dummyTreeData);

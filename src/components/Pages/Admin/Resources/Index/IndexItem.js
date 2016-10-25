@@ -53,9 +53,7 @@ class IndexItem extends React.Component{
   }
 
   renderNestedItems() {
-    // if(this.props.depth > 2) {
-    //   return null;
-    // }
+
     if(this.props.node.denyNested && this.props.node.unmovable) {
       return <div className="fake-nested"></div>
     }
