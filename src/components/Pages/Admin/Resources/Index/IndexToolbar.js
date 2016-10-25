@@ -75,6 +75,8 @@ class IndexToolbar extends React.Component {
     //
     let client = new APIClient(this.props.dispatch);
 
+    console.log(JSON.stringify(this.props.indexNodeArray));
+
     client.put(this.props.resourceNamePlural + '/update-index', true, {
       data: {
         nodeArray: this.props.indexNodeArray

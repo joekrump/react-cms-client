@@ -24,11 +24,13 @@ export default class TreeHelper {
     this.addChildToParent       = this.addChildToParent.bind(this);
     this.setChildDepth     = this.setChildDepth.bind(this);
     this.updateSecondaryText    = this.updateSecondaryText.bind(this);
+    this.minimalArray           = this.minimalArray.bind(this);
 
     if(existingTree) {
       this.richNodeArray = nestedArray;
       nestedArray.forEach((node) => {
         this.lookupArray.push(node.item_id);
+        console.log('LOOKUP LOADING')
       })
     } else {
       // push the root item to the richNodeArray
@@ -56,10 +58,12 @@ export default class TreeHelper {
    * @return undefined
    */
   _walk(treeNodes, parentIndex, depth) { 
+    let nodeItemIndex;
+
     treeNodes.forEach((treeNode, i) => {
-      this.addNewTreeNode(treeNode, parentIndex, depth);
+      nodeItemIndex = this.addNewTreeNode(treeNode, parentIndex, depth);
       if(treeNode.children && (treeNode.children.length > 0)) {
-        this.walk(treeNode.children, (parentIndex + (i + 1)), (depth + 1));
+        this.walk(treeNode.children, nodeItemIndex, (depth + 1));
       }
     });
   }
@@ -358,6 +362,22 @@ export default class TreeHelper {
       nextItemIndex += removedData.ids.length;
     }
     this.addItem(removedData, newItemIndex, nextItemIndex);
+  }
+
+  minimalArray() {
+    let numItems = this.lookupArray.length;
+    let minimalArray = [];
+    let item = {};
+
+    for(let i = 1; i < numItems; i++) {
+      item = this.richNodeArray[i];
+      minimalArray.push({
+        item_id: item.item_id, 
+        parent_id: this.richNodeArray[item.parentIndex].item_id
+      });
+    }
+
+    return minimalArray;
   }
 
   // http://ejohn.org/blog/comparing-document-position/

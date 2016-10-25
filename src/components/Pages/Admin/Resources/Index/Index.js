@@ -30,10 +30,9 @@ class Index extends React.Component {
       }
       this.props.updateTree(this.state.treeHelper.richNodeArray);
       // if there weren't already changes to save, then indicate that there now are.
-      // if(!this.props.hasChanges) {
-        this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
-      // }
+      this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
       this.setState({itemMoved: true})
+
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
@@ -42,6 +41,7 @@ class Index extends React.Component {
   componentDidMount() {
     if(this.props.adminResourceMode === 'EDIT_INDEX') {
       this.initializeDnD(); 
+      console.log(this.props.nodeArray);
     }
   }
 
@@ -83,6 +83,7 @@ class Index extends React.Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.nodeArray.length !== this.props.nodeArray.length
       || nextProps.adminPageType !== this.props.adminPageType) {
+
       this.setState({renderNeeded: true});
     }
   }
@@ -92,6 +93,7 @@ class Index extends React.Component {
     }
 
     if(this.state.renderNeeded && (this.props.adminResourceMode === 'EDIT_INDEX')) {
+      console.log(JSON.stringify(this.props.nodeArray));
       this.initializeDnD();
     }
   }

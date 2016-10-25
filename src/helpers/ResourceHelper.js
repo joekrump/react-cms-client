@@ -16,7 +16,7 @@ export function getIndexItems(resourceNamePlural, put){
     }
     return nodeArray;
   }).catch((res) => {
-    return [];
+    return nodeArray;
   });
 
   return nodeArray;

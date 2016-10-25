@@ -19,6 +19,7 @@ const dummyTreeData = [
   { "id": 16, "children": [] }
 ];
 
+
 it('richNodeArray is correct length', () => {
   let helper = new TreeHelper(dummyTreeData);
   // Note: an artificial root node is added in, therefore the
