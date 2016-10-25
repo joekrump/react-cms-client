@@ -1,18 +1,17 @@
 import { takeLatest } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
-import TreeModifier from '../../../../helpers/TreeModifier';
+import { deleteNode } from '../../../../helpers/TreeHelper';
 
 const getTree = (state) => state.tree.indexTree.flatNodes
   
 function* removeFromTree(item_id){
-  let tree = yield select(getTree)
-  return yield call(removeItem, tree, item_id)
+  let flatNodes = yield select(getTree)
+  return yield call(removeItem, flatNodes, item_id)
 }
 
-function removeItem(tree, item_id) {
-  let helper = new TreeModifier(tree);
-  helper.removeFromTreeByItemId(item_id);
-  return helper.flatNodes;
+function removeItem(flatNodes, item_id) {
+  updatedFlatNodes = deleteNode(flatNodes, item_id);
+  return updatedFlatNodes;
 }
 
 /**

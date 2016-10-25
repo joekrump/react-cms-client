@@ -31,7 +31,7 @@ class Index extends React.Component {
       if(source.dataset.parentmodelid) {
         this.state.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      this.props.updateTree(this.state.treeHelper.richNodeArray);
+      this.props.updateTree(this.state.treeHelper.flatNodes);
       // if there weren't already changes to save, then indicate that there now are.
       this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
       this.setState({itemMoved: true})

@@ -41,6 +41,9 @@ export default class TreeHelper {
   }
 
   getNodeFromId(nodeId) {
+    if(nodeId === null) {
+      nodeId = -1;
+    }
     console.log(nodeId);
     return find(this.flatNodes, (node) => {
       // console.log(node);
@@ -62,7 +65,7 @@ export default class TreeHelper {
     if((parentId === null) || (parentId === undefined)) {
       parentId = -1;
     }
-    
+    console.log('addNodeToNewLocation')
     let parentNode = this.getNodeFromId(parentId);
     // associate the node with its new parent.
     this.addToParentNodeChildren(parentNode, nodeBeingMoved, siblingNodeId);
@@ -136,6 +139,11 @@ export default class TreeHelper {
 
 export function makeMinimalArray(flatNodes) {
   let minimalArray = [];
+  
+  if(!flatNodes) {
+    return minimalArray;
+  }
+
   flatNodes.forEach((node) => {
     minimalArray.push({id: node.id, parent_id: node.parent_id});
   })
