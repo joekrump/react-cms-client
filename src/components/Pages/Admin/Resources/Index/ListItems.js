@@ -18,10 +18,4 @@ const ListItems = (props) => {
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    lookupArray: state.tree.indexTree.lookupArray,
-  }
-}
-
 export default ListItems
