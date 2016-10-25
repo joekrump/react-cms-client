@@ -135,7 +135,6 @@ class Index extends React.Component {
         <ListItems 
           childIds={this.getRootChildIds()} 
           resourceType={this.props.resourceNamePlural} 
-          editMode={this.props.adminResourceMode === 'EDIT_INDEX'} 
         />
       )
     }

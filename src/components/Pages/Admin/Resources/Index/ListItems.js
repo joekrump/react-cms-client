@@ -7,7 +7,6 @@ const ListItems = (props) => {
       key={`${props.resourceType}-${childId}`}
       modelId={childId}
       resourceType={props.resourceType}
-      editMode={props.editMode}
     />
   ))
 

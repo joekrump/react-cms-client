@@ -3,7 +3,7 @@ import find from 'lodash.find';
 export default class TreeHelper {
   constructor(treeData) {
 
-    this.buildLookupStructures = this.buildLookupStructures.bind(this);
+    this.addNodes = this.addNodes.bind(this);
     this.setChildIds = this.setChildIds.bind(this);
     this.getNodeFromId = this.getNodeFromId.bind(this);
     this.moveNode = this.moveNode.bind(this);
@@ -13,15 +13,13 @@ export default class TreeHelper {
     this.removeNodeFromPreviousLocation = this.removeNodeFromPreviousLocation.bind(this);
     this.updateSecondaryText = this.updateSecondaryText.bind(this);
     this.updateTree = this.updateTree.bind(this);
-    this.minimalArray = this.minimalArray.bind(this);
-
+    this.contains = this._contains;
+    
     const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
 
     this.flatNodes = [rootNode]
 
-    this.buildLookupStructures(treeData);
-
-    this.flatNodes = this.flatNodes.map((node) => (node.id));
+    this.addNodes(treeData);
   }
 
   /**
@@ -29,12 +27,11 @@ export default class TreeHelper {
    * @param  {Array} treeData - A nested array of nodes. 
    * @return undefined
    */
-  buildLookupStructures(treeData) {
+  addNodes(treeData) {
     treeData.forEach((node) => {
-      // this.flatNodes.push(node.id);
       this.flatNodes.push(node);
       if(node.children && (node.children.length > 0)) {
-        this.buildLookupStructures(node.children);
+        this.addNodes(node.children);
       }
     })
   }
@@ -44,7 +41,7 @@ export default class TreeHelper {
   }
 
   getNodeFromId(parentId) {
-    return find(this.flatNodes, (node) => (node.id == parentId));
+    return find(this.flatNodes, (node) => (node.id === parentId));
   }
 
   moveNode(nodeBeingMovedId, siblingNodeId, parentId) {
@@ -121,10 +118,6 @@ export default class TreeHelper {
     this.moveNode(movedItemId, nextItemId, targetParentId);
   }
 
-  minimalArray() {
-    return this.flatNodes.map((node) => ({id: node.id, parent_id: node.parent_id}))
-  }
-
   // http://ejohn.org/blog/comparing-document-position/
   _contains(a, b){   
     if(a.contains) {
@@ -133,4 +126,13 @@ export default class TreeHelper {
       return !!(a.compareDocumentPosition(b) & 16);
     } 
   }
+}
+
+
+export function makeMinimalArray(flatNodes) {
+  let minimalArray = [];
+  flatNodes.forEach((node) => {
+    minimalArray.push({id: node.id, parent_id: node.parent_id});
+  })
+  return minimalArray;
 }

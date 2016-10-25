@@ -43,9 +43,9 @@ class IndexItem extends React.Component{
 
   shouldComponentUpdate(nextProps, nextState) {
     let shouldUpdate = false;
-    if(nextProps.node.secondary !== this.props.node.secondary) {
+    if((nextProps.node) && (nextProps.node.secondary !== this.props.node.secondary)) {
       shouldUpdate = true;
-    } else if (nextProps.editMode !== this.props.editMode) {
+    } else if (nextProps.isEditing !== this.props.isEditing) {
       shouldUpdate = true;
     }
     return shouldUpdate;
@@ -64,22 +64,26 @@ class IndexItem extends React.Component{
         key={`${this.props.resourceType}-${childId}`}
         modelId={childId}
         resourceType={this.props.resourceType}
-        editMode={this.props.editMode}
       />
     ))
     return (<div className="nested leaf" 
       data-parentModelId={this.props.node.id}>{nestedItems}</div>);
   }
   renderDragHandle() {
-    return (this.props.editMode && !this.props.unmovable) ? 
+    return (this.props.isEditing && !this.props.node.unmovable) ? 
       <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> 
       : null
   }
   render(){
+
+    if(this.props.node === undefined) {
+      return null;
+    }
+
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
-      style.padding = '16px 16px 16px ' + (this.props.editMode ? '56px' : '16px')
+      style.padding = '16px 16px 16px ' + (this.props.isEditing ? '56px' : '16px')
     } else {
       style.opacity = 0;
       style.height = 0;
@@ -113,7 +117,8 @@ class IndexItem extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    node: find(state.tree.indexTree.flatNodes, (node) => (node.id == ownProps.modelId))
+    node: find(state.tree.indexTree.flatNodes, (node) => (node.id === ownProps.modelId)),
+    isEditing: (state.admin.resources[state.admin.resource.name.plural].mode === 'EDIT_INDEX')
   }
 }
 
