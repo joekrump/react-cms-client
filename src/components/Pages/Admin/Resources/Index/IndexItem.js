@@ -58,10 +58,10 @@ class IndexItem extends React.Component{
       return <div className="fake-nested"></div>
     }
 
-    let nestedItems = this.props.node.child_ids.map((childIndex, i) => (
+    let nestedItems = this.props.node.child_ids.map((childId, i) => (
       <IndexItem 
-        key={`${this.props.resourceType}-${childIndex}`}
-        modelId={childIndex}
+        key={`${this.props.resourceType}-${childId}`}
+        modelId={childId}
         resourceType={this.props.resourceType}
         editMode={this.props.editMode}
       />
