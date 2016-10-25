@@ -213,12 +213,16 @@ export default class TreeHelper {
       // parentNode.node.children.splice(siblingIndex, 0, moveItemRoot.node);
     }
 
-    if(moveItemRoot.node.children && moveItemRoot.node.secondary) {
+    if(moveItemRoot.node.secondary) {
+      console.log('********** update secondary')
       // update secondary text
       this.updateSecondaryText(moveItemRoot, parentNode);
     } else {
+      console.log('***************** SET DEPTH')
       this.setChildDepth(moveItemRoot, parentNode);
     }
+
+    this.richNodeArray[moveItemRoot.parentIndex] = parentNode;
   }
 
   /**
@@ -339,10 +343,7 @@ export default class TreeHelper {
       // otherwise, add in right after the parent
       newItemIndex = parentItemIndex + 1;
     }
-    // items that have indexes great than or equal to the index that the item
-    // is being moved to, will be pushed up by the amount equal to the number
-    // of items that were removed, therefore update all reference
-    // indexes that are >= the newItemIndex
+
     this.incrementIndexes(newItemIndex, removedData.ids.length);
 
     let moveAmt = (newItemIndex - originalItemIndex)
