@@ -70,8 +70,8 @@ export default class TreeHelper {
 
     if(siblingNodeId) {
       let previousIndex = parentNode.child_ids.indexOf(siblingNodeId);
-      parentNode.child_ids.splice(previousIndex, 0, nodeBeingMovedId);
       parentNode.children.splice(previousIndex, 0, nodeBeingMoved);
+      parentNode.child_ids.splice(previousIndex, 0, nodeBeingMoved.id);
     } else {
       parentNode.children.push(nodeBeingMoved);
       parentNode.child_ids.push(nodeBeingMoved.id);
@@ -86,7 +86,7 @@ export default class TreeHelper {
     let parentNode = this.getNodeFromId(nodeBeingMoved.parent_id);
     let childIndex = parentNode.child_ids.indexOf(nodeBeingMoved.id);
     
-    nodeBeingRemoved.parent_id = null;
+    nodeBeingMoved.parent_id = null;
     parentNode.child_ids.splice(childIndex, 1);
     parentNode.children.splice(childIndex, 1);
   }
