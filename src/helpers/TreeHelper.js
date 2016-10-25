@@ -239,8 +239,7 @@ export default class TreeHelper {
         arrayofItems[i].parentIndex -= amt;
       }
     }
-    arrayofItems = this.decrementChildIndexes(startingIndex, amt, arrayofItems);
-    return arrayofItems;
+    return this.decrementChildIndexes(startingIndex, amt, arrayofItems);
   }
 
   decrementChildIndexes(startingIndex, amt, arrayofItems = this.richNodeArray){
@@ -262,7 +261,7 @@ export default class TreeHelper {
         arrayofItems[i].parentIndex += amt;
       }
     }
-    return arrayofItems;
+    return this.incrementChildIndexes(startingIndex, amt, arrayofItems);
   }
 
   incrementChildIndexes(startingIndex, amt, arrayofItems = this.richNodeArray) {
@@ -348,12 +347,10 @@ export default class TreeHelper {
     // of items that were removed, therefore update all reference
     // indexes that are >= the newItemIndex
     this.incrementParentIndexes(newItemIndex, removedData.ids.length);
-    this.incrementChildIndexes(newItemIndex, removedData.ids.length);
 
     let moveAmt = (newItemIndex - originalItemIndex)
 
     removedData.richItems = this.incrementParentIndexes(originalItemIndex, moveAmt, removedData.richItems);
-    removedData.richItems = this.incrementChildIndexes(originalItemIndex, moveAmt, removedData.richItems);
     // if the item being moved has a sibling then make sure
     // that the index reference to it is alos incremented in order
     // to reflect the changes after increment emthods have run.
