@@ -43,12 +43,10 @@ class IndexItem extends React.Component{
     let shouldUpdate = false;
 
     if (nextProps.isEditing !== this.props.isEditing) {
-      console.log('editing context changed')
       shouldUpdate = true;
     } else if (nextProps.secondary !== this.props.secondary) {
       shouldUpdate = true;
     }
-    console.log('SHOULD INDEX ITEM UPDATE: ', shouldUpdate);
     return shouldUpdate;
   }
 
@@ -88,7 +86,7 @@ class IndexItem extends React.Component{
       style.height = 0;
       style.padding = 0;
     }
-    // console.log(this.props.modelId)
+    // (this.props.modelId)
     return(
       <div id={this.props.id} className={"index-item card-swipe f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
         <ListItem

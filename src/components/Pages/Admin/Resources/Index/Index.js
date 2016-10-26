@@ -50,7 +50,6 @@ class Index extends React.Component {
     // 
     if((typeof document !== 'undefined') && (document.querySelectorAll('.nested').length > 0)) {
 
-      // console.log(document.querySelectorAll('.nested'))
       let drake = dragula({
         containers: [].slice.apply(document.querySelectorAll('.nested')),
         moves: (el, source, handle, sibling) => {
@@ -93,29 +92,22 @@ class Index extends React.Component {
     let shouldUpdate = false;
 
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
-      console.log('new resource');
       shouldUpdate = true;
     } else if (nextProps.flatNodes.length !== this.props.flatNodes.length) {
-      console.log('node length change');
       shouldUpdate = true;
     } else if (nextProps.dataLoading !== this.props.dataLoading) {
-      console.log('data load change');
       shouldUpdate = true;
     } else if (nextProps.adminResourceMode !== this.props.adminResourceMode) {
-      console.log('admin resource mode change');
       shouldUpdate = true;
     } else if (nextProps.hasChanges || (nextProps.hasChanges !== this.props.hasChanges)) {
-      console.log('has changes change');
       shouldUpdate = true;
     } else if (nextProps.showSnackbar !== this.props.showSnackbar){
-      console.log('snackbar show change');
       shouldUpdate = true;
     } 
     // else if (!isEqual(nextProps.minimalArray, this.props.minimalArray)) {
     //   console.log('minimalArray differs');
     //   shouldUpdate = true;
     // }
-    console.log('shouldUpdate', shouldUpdate);
     return shouldUpdate;
   }
 
