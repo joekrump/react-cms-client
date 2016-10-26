@@ -4,7 +4,7 @@ export default class TreeHelper {
   constructor(treeData, preformatted) {
 
     this.addNodes = this.addNodes.bind(this);
-    this.setChildIds = this.setChildIds.bind(this);
+    this.getChildNodeIds = this.getChildNodeIds.bind(this);
     this.moveNode = this.moveNode.bind(this);
     this.addNodeToNewLocation = this.addNodeToNewLocation.bind(this);
     this.addToParentNodeChildren = this.addToParentNodeChildren.bind(this);
@@ -13,7 +13,7 @@ export default class TreeHelper {
     if(preformatted) {
       this.flatNodes = treeData;
     } else {
-      const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
+      const rootNode = {id: -1, children: treeData, child_ids: this.getChildNodeIds(treeData)};
 
       this.flatNodes = [rootNode]
       this.addNodes(treeData);
@@ -35,7 +35,7 @@ export default class TreeHelper {
     })
   }
 
-  setChildIds(children) {
+  getChildNodeIds(children) {
     return children.map((child) => (child.id));
   }
 
