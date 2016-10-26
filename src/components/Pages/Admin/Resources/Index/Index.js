@@ -25,8 +25,6 @@ class Index extends React.Component {
   handleDrop(el, target, source, sibling){
     try {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
-      console.log('target parent model id', target.dataset.parentmodelid)
-      // console.log('source parent model id', source.dataset.parentmodelid)
 
       if(source.dataset.parentmodelid) {
         this.state.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
@@ -87,14 +85,13 @@ class Index extends React.Component {
 
       this.setState({renderNeeded: true});
     }
+    if(nextProps.adminResourceMode === 'EDIT_INDEX') {
+      this.initializeDnD();
+    }
   }
   componentDidUpdate() {
     if(this.state.itemMoved) {
       this.setState({itemMoved: false})
-    }
-
-    if(this.state.renderNeeded && (this.props.adminResourceMode === 'EDIT_INDEX')) {
-      this.initializeDnD();
     }
   }
 

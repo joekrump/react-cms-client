@@ -30,6 +30,7 @@ export default class TreeHelper {
    */
   addNodes(treeData) {
     treeData.forEach((node) => {
+      node.parent_id = node.parent_id === null ? -1 : node.parent_id;
       this.flatNodes.push(node);
       if(node.children && (node.children.length > 0)) {
         this.addNodes(node.children);
