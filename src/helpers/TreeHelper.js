@@ -136,16 +136,19 @@ export function getNodeFromId(nodeId, nodeArray) {
   });
 }
 
-export function makeMinimalArray(flatNodes) {
-  let minimalArray = [];
+export function makeMinimalArray(arrayOfNodes, minimalArray = []) {
   
-  if(!flatNodes) {
+  if(!arrayOfNodes) {
     return minimalArray;
   }
 
-  flatNodes.forEach((node) => {
+  arrayOfNodes.forEach((node, i) => {
     minimalArray.push({id: node.id, parent_id: node.parent_id});
-  })
+    if(node.children && (node.children.length > 0)) {
+      minimalArray = makeMinimalArray(node.children, minimalArray);
+    }
+  });
+
   return minimalArray;
 }
 

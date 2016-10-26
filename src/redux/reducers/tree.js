@@ -13,7 +13,7 @@ const treeReducer = (state = initialState, action) => {
       return {
         indexTree: {
           flatNodes: action.flatNodes,
-          minimalArray: makeMinimalArray(action.flatNodes)
+          minimalArray: makeMinimalArray(action.flatNodes[0].children)
         }
       }
     default:
