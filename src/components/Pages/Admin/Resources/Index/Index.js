@@ -66,7 +66,6 @@ class Index extends React.Component {
       }
       
       this.setState({drake, renderNeeded: false});
-
     }
   }
 
@@ -111,10 +110,11 @@ class Index extends React.Component {
     } else if (nextProps.showSnackbar !== this.props.showSnackbar){
       console.log('snackbar show change');
       shouldUpdate = true;
-    } else if (differenceWith(nextProps.minimalArray, this.props.minimalArray, isEqual).length > 0) {
-      console.log('minimalArray differs');
-      shouldUpdate = true;
-    }
+    } 
+    // else if (!isEqual(nextProps.minimalArray, this.props.minimalArray)) {
+    //   console.log('minimalArray differs');
+    //   shouldUpdate = true;
+    // }
     console.log('shouldUpdate', shouldUpdate);
     return shouldUpdate;
   }
@@ -129,7 +129,7 @@ class Index extends React.Component {
       content = (
         <ListItems 
           childNodes={this.getRootChildNodes()} 
-          resourceType={this.props.resourceNamePlural} 
+          resourceType={this.props.resourceNamePlural}
         />
       )
     }

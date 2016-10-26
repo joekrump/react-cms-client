@@ -2,22 +2,25 @@ import React from 'react';
 import IndexItem from './IndexItem';
 import { connect } from 'react-redux';
 
-const ListItems = (props) => {
-  let items = props.childNodes.map((childNode) => (
-    <IndexItem 
-      key={`${props.resourceType}-${childNode.id}`}
-      modelId={childNode.id}
-      resourceType={props.resourceType}
-      node={childNode}
-      isEditing={props.isEditing}
-    />
-  ))
+class ListItems extends React.Component {
 
-  return (
-    <div className="root nested" data-parentModelId={-1}>
-      {items}
-    </div>
-  );
+  render() {
+    let items = this.props.childNodes.map((childNode) => (
+      <IndexItem 
+        key={`${this.props.resourceType}-${childNode.id}`}
+        modelId={childNode.id}
+        resourceType={this.props.resourceType}
+        isEditing={this.props.isEditing}
+        {...childNode}
+      />
+    ))
+
+    return (
+      <div className="root nested" data-parentModelId={-1}>
+        {items}
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {

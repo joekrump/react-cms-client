@@ -22,7 +22,7 @@ class IndexItem extends React.Component{
       visible: true,
       hoverClass: ''
     }
-    this.renderNestedItems = this.renderNestedItems.bind(this);
+    this.renderChildren = this.renderChildren.bind(this);
   }
 
   showItem(visible = false) {
@@ -32,8 +32,8 @@ class IndexItem extends React.Component{
   getItemText(){
     return(
       <div className="inner-text" style={{color: muiTheme.palette.textColor}}>
-        <strong className="item-primary">{this.props.node.primary}</strong>
-        {this.props.node.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.node.secondary}</span></span>) 
+        <strong className="item-primary">{this.props.primary}</strong>
+        {this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
         : null}
       </div>
     )
@@ -41,40 +41,42 @@ class IndexItem extends React.Component{
 
   shouldComponentUpdate(nextProps, nextState) {
     let shouldUpdate = false;
-    if((nextProps.node) && (nextProps.node.secondary !== this.props.node.secondary)) {
+
+    if (nextProps.isEditing !== this.props.isEditing) {
+      console.log('editing context changed')
       shouldUpdate = true;
-    } else if (nextProps.isEditing !== this.props.isEditing) {
+    } else if (nextProps.secondary !== this.props.secondary) {
       shouldUpdate = true;
     }
+    console.log('SHOULD INDEX ITEM UPDATE: ', shouldUpdate);
     return shouldUpdate;
   }
 
-  renderNestedItems() {
-
-    if(this.props.node.denyNested && this.props.node.unmovable) {
+  renderChildren() {
+    if(this.props.denyNested && this.props.unmovable) {
       return <div className="fake-nested"></div>
     }
 
-    let nestedItems = this.props.node.children.map((childNode, i) => {
+    let nestedItems = this.props.children.map((childNode, i) => {
       return (<IndexItem 
         key={`${this.props.resourceType}-${childNode.id}`}
         modelId={childNode.id}
         resourceType={this.props.resourceType}
         isEditing={this.props.isEditing}
-        node={childNode}
+        {...childNode}
       />)
     })
-    return (<div className="nested leaf" data-parentModelId={this.props.node.id}>{nestedItems}</div>);
+    return (<div className="nested leaf" data-parentModelId={this.props.modelId}>{nestedItems}</div>);
   }
   renderDragHandle() {
-    return (this.props.isEditing && !this.props.node.unmovable) ? 
+    return (this.props.isEditing && !this.props.unmovable) ? 
       <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> 
       : null
   }
   render(){
 
-    if(this.props.node === undefined) {
-      return null;
+    if(!this.props.modelId) {
+      return null
     }
 
     if(this.state.visible) {
@@ -88,7 +90,7 @@ class IndexItem extends React.Component{
     }
     // console.log(this.props.modelId)
     return(
-      <div id={this.props.node.id} className={"index-item card-swipe f-no-select" + (this.props.node.unmovable ? ' unmovable' : '')} >
+      <div id={this.props.id} className={"index-item card-swipe f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
         <ListItem
           className="list-item"
           disabled
@@ -96,19 +98,19 @@ class IndexItem extends React.Component{
           rightIconButton={
             <IndexItemActions 
               resourceType={this.props.resourceType} 
-              modelId={this.props.node.id} 
-              deleteCallback={ this.props.node.deletable ? () => this.showItem() : undefined} 
-              deletable={this.props.node.deletable}
-              previewPath={this.props.node.previewPath}
+              modelId={this.props.modelId} 
+              deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
+              deletable={this.props.deletable}
+              previewPath={this.props.previewPath}
             />
           }
           primaryText={this.getItemText()}
           style={{...style}}
         /> 
-        { this.props.node.child_ids ? this.renderNestedItems() : null }
+        { this.props.child_ids ? this.renderChildren() : null }
       </div>
     );
   }
 }
 
-export default IndexItem
+export default IndexItem;
