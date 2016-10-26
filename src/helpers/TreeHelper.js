@@ -1,7 +1,7 @@
 import find from 'lodash.find';
 
 export default class TreeHelper {
-  constructor(treeData) {
+  constructor(treeData, preformatted) {
 
     this.addNodes = this.addNodes.bind(this);
     this.setChildIds = this.setChildIds.bind(this);
@@ -13,11 +13,14 @@ export default class TreeHelper {
     this.updateTree = this.updateTree.bind(this);
     this.contains = this._contains;
 
-    const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
+    if(preformatted) {
+      this.flatNodes = treeData;
+    } else {
+      const rootNode = {id: -1, children: treeData, child_ids: this.setChildIds(treeData)};
 
-    this.flatNodes = [rootNode]
-
-    this.addNodes(treeData);
+      this.flatNodes = [rootNode]
+      this.addNodes(treeData);
+    }
   }
 
   /**

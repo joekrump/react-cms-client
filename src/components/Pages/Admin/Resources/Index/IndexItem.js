@@ -5,7 +5,6 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
-import isEqual from 'lodash.isequal';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
@@ -45,8 +44,6 @@ class IndexItem extends React.Component{
     if((nextProps.node) && (nextProps.node.secondary !== this.props.node.secondary)) {
       shouldUpdate = true;
     } else if (nextProps.isEditing !== this.props.isEditing) {
-      shouldUpdate = true;
-    } else if ((nextProps.node) && !isEqual(this.props.node.child_ids, nextProps.node.child_ids)) {
       shouldUpdate = true;
     }
     return shouldUpdate;

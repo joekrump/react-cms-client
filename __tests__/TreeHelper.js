@@ -119,18 +119,18 @@ test('Moves first to last and then last to first', () => {
   expect(helper.flatNodes[0].child_ids).toEqual([1, 5, 6]) // same as starting state.
 })
 
-// it('Updates parentIndex', () => {
-//   let helper = new TreeHelper(dummyTreeData);
-//   helper.updateTree(1, null, 2); // 1 nests under 2
-//   let newIndex = helper.lookupArray.indexOf(1);
-//   let indexOfParent = helper.lookupArray.indexOf(2);
+it('Allows a single item to be nested under a parent', () => {
+  helper.updateTree(6, null, 5); // nest F under E
+  let nestedNode = getNodeFromId(6, helper.flatNodes);
+  let parentNode = getNodeFromId(5, helper.flatNodes);
 
-//   expect(
-//     helper.richNodeArray[newIndex].parentIndex,
-//     helper.richNodeArray[indexOfParent].childIndexes[0],
-//     helper.richNodeArray[indexOfParent].childIndexes.length
-//   ).toBe(indexOfParent, newIndex, 1)
-// })
+  expect(
+    [parentNode.child_ids, 
+    nestedNode.parent_id, 
+    helper.flatNodes[0].child_ids, 
+    helper.flatNodes[0].children.length]
+  ).toEqual([[6], 5, [1, 5], 2])
+})
 
 // it('Keeps correct reference to parent', () => {
 //   let helper = new TreeHelper(dummyTreeData);
