@@ -6,12 +6,9 @@ export default class TreeHelper {
     this.addNodes = this.addNodes.bind(this);
     this.setChildIds = this.setChildIds.bind(this);
     this.moveNode = this.moveNode.bind(this);
-    this.moveNode = this.moveNode.bind(this);
     this.addNodeToNewLocation = this.addNodeToNewLocation.bind(this);
     this.addToParentNodeChildren = this.addToParentNodeChildren.bind(this);
     this.updateSecondaryText = this.updateSecondaryText.bind(this);
-    this.updateTree = this.updateTree.bind(this);
-    this.contains = this._contains;
 
     if(preformatted) {
       this.flatNodes = treeData;
@@ -95,26 +92,6 @@ export default class TreeHelper {
     }
     return;
   }
-
-  /**
-   * Updates the position of an item that is being moved.
-   * @param  {int} movedItemId Unique id of the item that is being moved.
-   * @param  {int or null} nextItemId  Unique id of the item that below where the item was moved to.
-   * @param  {int} targetParentId  Unique id of the parent that moveItem will belong to.
-   * @return undefined
-   */
-  updateTree(movedItemId, nextItemId, targetParentId) {
-    this.moveNode(movedItemId, nextItemId, targetParentId);
-  }
-
-  // http://ejohn.org/blog/comparing-document-position/
-  _contains(a, b){   
-    if(a.contains) {
-      return (a !== b) && (!a.contains(b))
-    } else {
-      return !!(a.compareDocumentPosition(b) & 16);
-    } 
-  }
 }
 
 function removeNodeFromPreviousLocation(nodeBeingMoved, arrayToRemoveFrom) {
@@ -126,6 +103,14 @@ function removeNodeFromPreviousLocation(nodeBeingMoved, arrayToRemoveFrom) {
   parentNode.children.splice(childIndex, 1);
 }
 
+// http://ejohn.org/blog/comparing-document-position/
+export function _contains(a, b){   
+  if(a.contains) {
+    return (a !== b) && (!a.contains(b))
+  } else {
+    return !!(a.compareDocumentPosition(b) & 16);
+  } 
+}
 
 export function getNodeFromId(nodeId, nodeArray) {
   if(nodeId === null) {

@@ -7,7 +7,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.scss';
 import dragula from 'react-dragula';
 import ListItems from './ListItems';
-import TreeHelper from '../../../../../helpers/TreeHelper';
+import { _contains } from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 import IndexToolbar from './IndexToolbar';
@@ -25,11 +25,12 @@ class Index extends React.Component {
   handleDrop(el, target, source, sibling){
     try {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
-
+      let treeHelper = new TreeHelper(this.props.flatNodes, true);
       if(source.dataset.parentmodelid) {
-        this.state.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
+        treeHelper.moveNode(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      this.props.updateTree(this.state.treeHelper.flatNodes);
+
+      this.props.updateTreeData(treeHelper.flatNodes);
       // if there weren't already changes to save, then indicate that there now are.
       this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
       this.setState({itemMoved: true})
@@ -48,28 +49,25 @@ class Index extends React.Component {
   initializeDnD() {
     // Don't initialize DND until the elements are in the DOM.
     // 
-    if(document.querySelectorAll('.nested').length > 0) {
-      if(typeof document !== 'undefined'){
-        let treeHelper = new TreeHelper(this.props.flatNodes, true)
+    if((typeof document !== 'undefined') && (document.querySelectorAll('.nested').length > 0)) {
 
-        if(this.state.drake) {
-          this.state.drake.destroy();
+      // console.log(document.querySelectorAll('.nested'))
+      let drake = dragula({
+        containers: [].slice.apply(document.querySelectorAll('.nested')),
+        moves: (el, source, handle, sibling) => {
+          return handle.classList.contains('drag-handle')
+        },
+        accepts: (el, target, source, sibling) => {
+          // prevent dragged containers from trying to drop inside itself
+          return _contains(el, target);
         }
-        // console.log(document.querySelectorAll('.nested'))
-        let drake = dragula({
-          containers: [].slice.apply(document.querySelectorAll('.nested')),
-          moves: (el, source, handle, sibling) => {
-            return handle.classList.contains('drag-handle')
-          },
-          accepts: (el, target, source, sibling) => {
-            // prevent dragged containers from trying to drop inside itself
-            return treeHelper.contains(el, target);
-          }
-        });
+      });
+      if(this.state.drake === null) {
         drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
-        
-        this.setState({drake, treeHelper, renderNeeded: false});
       }
+      
+      this.setState({drake, renderNeeded: false});
+
     }
   }
 
@@ -172,7 +170,7 @@ const mapDispatchToProps = (dispatch) => {
         resourceNamePlural
       })
     },
-    updateTree: (flatNodes) => {
+    updateTreeData: (flatNodes) => {
       dispatch({
         type: 'UPDATE_TREE',
         flatNodes
