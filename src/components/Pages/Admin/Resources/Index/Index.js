@@ -7,7 +7,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './index.scss';
 import dragula from 'react-dragula';
 import ListItems from './ListItems';
-import { _contains } from '../../../../../helpers/TreeHelper';
+import TreeHelper, { _contains } from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 import IndexToolbar from './IndexToolbar';

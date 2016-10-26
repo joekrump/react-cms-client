@@ -41,8 +41,7 @@ export default class TreeHelper {
 
   moveNode(nodeBeingMovedId, siblingNodeId, parentId) {
     let nodeBeingMoved = getNodeFromId(nodeBeingMovedId, this.flatNodes);
-    
-    // remove the association of the node from its previous parent.
+    console.log(parentId)
     removeNodeFromPreviousLocation(nodeBeingMoved, this.flatNodes);
 
     this.addNodeToNewLocation(parentId, nodeBeingMoved, siblingNodeId);
@@ -59,7 +58,9 @@ export default class TreeHelper {
   }
 
   addToParentNodeChildren(parentNode, nodeBeingMoved, siblingNodeId) {
-    nodeBeingMoved.parent_id = parentNode.id;
+    if(nodeBeingMoved.parent_id !== undefined) {
+      nodeBeingMoved.parent_id = parentNode.id;
+    }
 
     if(siblingNodeId) {
       let previousIndex = parentNode.child_ids.indexOf(siblingNodeId);
@@ -71,6 +72,7 @@ export default class TreeHelper {
     }
 
     if(nodeBeingMoved.previewPath) {
+      console.log('update secondary text')
       this.updateSecondaryText(parentNode, nodeBeingMoved);
     }
   }
@@ -95,10 +97,18 @@ export default class TreeHelper {
 }
 
 function removeNodeFromPreviousLocation(nodeBeingMoved, arrayToRemoveFrom) {
-  let parentNode = getNodeFromId(nodeBeingMoved.parent_id, arrayToRemoveFrom);
+  let parentNode;
+
+  if(nodeBeingMoved.parent_id === undefined) {
+    // if the node being moved doesn't have a parent_id property then this is a flat
+    // array and therefore the only item with children is the root which is at index 0.
+    parentNode = arrayToRemoveFrom[0];  
+  } else {
+    parentNode = getNodeFromId(nodeBeingMoved.parent_id, arrayToRemoveFrom);
+  }
+  
   let childIndex = parentNode.child_ids.indexOf(nodeBeingMoved.id);
   
-  nodeBeingMoved.parent_id = null;
   parentNode.child_ids.splice(childIndex, 1);
   parentNode.children.splice(childIndex, 1);
 }
