@@ -41,7 +41,7 @@ export default class TreeHelper {
 
   moveNode(nodeBeingMovedId, siblingNodeId, parentId) {
     let nodeBeingMoved = getNodeFromId(nodeBeingMovedId, this.flatNodes);
-    console.log(parentId)
+
     removeNodeFromPreviousLocation(nodeBeingMoved, this.flatNodes);
 
     this.addNodeToNewLocation(parentId, nodeBeingMoved, siblingNodeId);

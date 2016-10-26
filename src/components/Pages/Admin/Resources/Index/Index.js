@@ -18,7 +18,7 @@ import differenceWith from 'lodash.differencewith';
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
-    this.state = {drake: null, renderNeeded: false, itemMoved: false}
+    this.state = {drake: null, renderNeeded: false}
     this.initializeDnD = this.initializeDnD.bind(this);
   }
 
@@ -33,7 +33,6 @@ class Index extends React.Component {
       this.props.updateTreeData(treeHelper.flatNodes);
       // if there weren't already changes to save, then indicate that there now are.
       this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
-      this.setState({itemMoved: true})
 
     } catch (e) {
       console.warn('ERROR: ', e)
@@ -88,33 +87,35 @@ class Index extends React.Component {
     }
   }
   componentDidUpdate() {
-    if(this.state.itemMoved) {
-      this.setState({itemMoved: false})
-    }
+    // do something on update
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     let shouldUpdate = false;
 
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
+      console.log('new resource');
       shouldUpdate = true;
     } else if (nextProps.flatNodes.length !== this.props.flatNodes.length) {
+      console.log('node length change');
       shouldUpdate = true;
     } else if (nextProps.dataLoading !== this.props.dataLoading) {
+      console.log('data load change');
       shouldUpdate = true;
     } else if (nextProps.adminResourceMode !== this.props.adminResourceMode) {
+      console.log('admin resource mode change');
       shouldUpdate = true;
     } else if (nextProps.hasChanges || (nextProps.hasChanges !== this.props.hasChanges)) {
+      console.log('has changes change');
       shouldUpdate = true;
     } else if (nextProps.showSnackbar !== this.props.showSnackbar){
-      shouldUpdate = true;
-    } else if (nextState.itemsMoved) {
+      console.log('snackbar show change');
       shouldUpdate = true;
     } else if (differenceWith(nextProps.minimalArray, this.props.minimalArray, isEqual).length > 0) {
-      // console.log('movementChange');
+      console.log('minimalArray differs');
       shouldUpdate = true;
     }
-
+    console.log('shouldUpdate', shouldUpdate);
     return shouldUpdate;
   }
 
