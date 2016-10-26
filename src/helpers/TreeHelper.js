@@ -123,7 +123,7 @@ function removeNodeFromPreviousLocation(nodeBeingMoved, arrayToRemoveFrom) {
 }
 
 
-function getNodeFromId(nodeId, nodeArray) {
+export function getNodeFromId(nodeId, nodeArray) {
   if(nodeId === null) {
     nodeId = -1;
   }
