@@ -51,7 +51,6 @@ class Index extends React.Component {
     // Don't initialize DND until the elements are in the DOM.
     // 
     if(document.querySelectorAll('.nested').length > 0) {
-      console.log("DND Initialized");
       if(typeof document !== 'undefined'){
         let treeHelper = new TreeHelper(this.props.flatNodes, true)
 
@@ -117,7 +116,7 @@ class Index extends React.Component {
     } else if (nextState.itemsMoved) {
       shouldUpdate = true;
     } else if (differenceWith(nextProps.minimalArray, this.props.minimalArray, isEqual).length > 0) {
-      console.log('movementChange');
+      // console.log('movementChange');
       shouldUpdate = true;
     }
 
@@ -125,12 +124,12 @@ class Index extends React.Component {
   }
 
   getRootChildNodes() {
-    return this.props.flatNodes.length > 0 ? this.props.flatNodes[0].children : [];
+    return this.props.flatNodes.length > 1 ? this.props.flatNodes[0].children : [];
   }
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
-    if(!this.props.dataLoading && this.props.flatNodes.length > 0){
+    if(!this.props.dataLoading && this.props.flatNodes.length > 1){
       content = (
         <ListItems 
           childNodes={this.getRootChildNodes()} 
@@ -144,7 +143,7 @@ class Index extends React.Component {
           <IndexToolbar resourceName={capitalize(this.props.resourceNamePlural)}/>
           {this.props.dataLoading ? (<CircularProgress />) : null}
           <List className="item-list">
-            {this.props.dataLoading || !(this.props.flatNodes.length > 0) ? null : <span className="spacer"></span>}
+            {this.props.dataLoading || !(this.props.flatNodes.length > 1) ? null : <span className="spacer"></span>}
             {this.props.dataLoading ? null : content}
           </List>
         { this.props.children }
