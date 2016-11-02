@@ -15,11 +15,10 @@ class ResetPassword extends React.Component {
   }
 
   componentDidMount() {
-
+    this.props.updateForm(this.props.reset_token, this.props.reset_email);
   }
 
   render() {
-    console.log(this.state)
     return (
       <ResourceForm 
         formName="resetPasswordForm" 
