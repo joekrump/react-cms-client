@@ -56,7 +56,7 @@ class Edit extends React.Component {
                 resourceType='user'
                 editContext={this.state.editContext}
                 successCallback={() => {
-                  updateRoleShouldUpdate(true); 
+                  this.updateRoleShouldUpdate(true); 
                 }}
               />
             </div>
@@ -69,7 +69,7 @@ class Edit extends React.Component {
                 Permissions.
               </p>
               <RolesList userId={this.state.userId} 
-                assignRoleCallback={this.updateRoleShouldUpdate} updateRole={this.state.updateRole}
+                assignRoleCallback={(value) => this.updateRoleShouldUpdate(value)} updateRole={this.state.updateRole}
               />
             </div>
           </Tab>

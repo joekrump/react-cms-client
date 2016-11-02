@@ -63,7 +63,7 @@ class RolesList extends React.Component {
   }
 
   handleRoleChange(evt, selectedRoleId) {
-    this.setState({selectedRoleId: value})
+    this.setState({selectedRoleId: selectedRoleId})
   }
 
   render() {
@@ -76,11 +76,11 @@ class RolesList extends React.Component {
       />
     ))
     return (
-      <p>
-        <RadioButtonGroup name="role" onChange={this.handleRoleChange}>
+      <div className="tab-indented">
+        <RadioButtonGroup name="role" onChange={(evt, value) => this.handleRoleChange(evt, value)}>
           {roleRadioButtons}
         </RadioButtonGroup>
-      </p>
+      </div>
     )
   }
   
