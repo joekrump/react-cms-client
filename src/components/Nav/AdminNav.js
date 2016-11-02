@@ -18,7 +18,7 @@ class AdminNav extends React.Component {
     super(props);
 
     this.state = {
-      menuOpen: false
+      menuOpen: true
     }
   }
 
