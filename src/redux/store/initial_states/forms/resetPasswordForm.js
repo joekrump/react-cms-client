@@ -14,6 +14,20 @@ export const resetPasswordForm = {
       inputType: 'password',
       label: 'Confirm New Password',
       placeholder: '*********'
+    },
+    token: {
+      value: '', 
+      errors: [], 
+      inputType: 'hidden',
+      label: '',
+      placeholder: ''
+    },
+    email: {
+      value: '', 
+      errors: [], 
+      inputType: 'hidden',
+      label: '',
+      placeholder: ''
     }
   }
 }

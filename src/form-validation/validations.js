@@ -59,6 +59,12 @@ module.exports = {
     },
     password_confirmation: {
       rules: ['isRequired']
+    },
+    email: {
+      rules: ['isRequired']
+    },
+    token: {
+      rules: ['isRequired']
     }
   },
   roleForm: {
