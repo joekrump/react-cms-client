@@ -14,6 +14,34 @@ The dev environment for the app was created using [react-create-app](https://git
 
 CRUD admin interface is setup to be generic. 
 
+## Screenshots of Current State of the App (11/01/2016)
+
+### Edit Page with inline content editor:
+
+![screenshot 26](https://cloud.githubusercontent.com/assets/3317231/19921089/9515d7b0-a099-11e6-844c-2cea95409b1e.png)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Pages)
+
+### Admin interface
+
+Example Index Page
+
+![screenshot 15](https://cloud.githubusercontent.com/assets/3317231/19921266/60d87e2a-a09a-11e6-9de9-888450f749e3.png)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Admin-Interface)
+
+### Admin Login Page
+
+![Login Page](https://cloud.githubusercontent.com/assets/3317231/19920832/44d71468-a098-11e6-9a0a-7408c6bf37d7.PNG)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Authentication)
+
+### Form Validation
+
+![form-validation](https://cloud.githubusercontent.com/assets/3317231/19921003/19873f1c-a099-11e6-92a8-4ed1ce6ba7d3.PNG)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Form-Validation)
+
+### API Server
+
+Currently I have an API server built using Laravel 5.2 which this client app interacts with. The API server is currently in a private repository, and I have plans to make it public by the end of November 2016. There are also plans to migrate the current server code over to Sails, so that both the client and the server will be written in JS. If you have any questions regarding server specifics, please give me a shout by email or on LinkedIn.
+
 ## Setup Instructions
 
 ### Install node modules
@@ -90,34 +118,6 @@ module.exports = stripe_config;
 ```bash
 $ npm start
 ```
-
-## Screenshots of Current State of the App (11/01/2016)
-
-### Edit Page with inline content editor:
-
-![screenshot 26](https://cloud.githubusercontent.com/assets/3317231/19921089/9515d7b0-a099-11e6-844c-2cea95409b1e.png)
-[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Pages)
-
-### Admin interface
-
-Example Index Page
-
-![screenshot 15](https://cloud.githubusercontent.com/assets/3317231/19921266/60d87e2a-a09a-11e6-9de9-888450f749e3.png)
-[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Admin-Interface)
-
-### Admin Login Page
-
-![Login Page](https://cloud.githubusercontent.com/assets/3317231/19920832/44d71468-a098-11e6-9a0a-7408c6bf37d7.PNG)
-[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Authentication)
-
-### Form Validation
-
-![form-validation](https://cloud.githubusercontent.com/assets/3317231/19921003/19873f1c-a099-11e6-92a8-4ed1ce6ba7d3.PNG)
-[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Form-Validation)
-
-### API Server
-
-Currently I have an API server built using Laravel 5.2 which this client app interacts with. The API server is currently in a private repository, and I have plans to make it public by the end of November 2016. There are also plans to migrate the current server code over to Sails, so that both the client and the server will be written in JS. If you have any questions regarding server specifics, please give me a shout by email or on LinkedIn.
 
 ### WIP
 
