@@ -7,7 +7,6 @@ import { replace, push } from 'react-router-redux'
 import APIClient from './http/requests'
 import getAdminRoutes from './routes/admin/routes'
 import AccessDeniedPage from './components/Pages/Errors/401/401';
-import AdminIndex from './components/Pages/Admin/Resources/Index/Index';
 import EditUser from './components/Pages/Admin/User/Edit/Edit';
 
 /**
