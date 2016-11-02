@@ -4,14 +4,7 @@ import { connect } from 'react-redux'
 
 class ResetPassword extends React.Component {
   loginNewUser(user, token){
-    console.log('User: ', user);
-    console.log('Token: ', token)
-    // this.props.loginUser(user, token, '/admin');
-    // TODO:
-    // 
-    // run some process that will log the user into the system
-    // resetting the password will log the user in on the server 
-    // and should return a token and the logged in user's data.
+    this.props.loginUser(user, token, true, '/admin');
   }
 
   componentDidMount() {
@@ -25,7 +18,7 @@ class ResetPassword extends React.Component {
         resourceURL="reset"
         resourceId={null}
         editContext="new"
-        loginCallback={(user, token) => this.loginNewUser()}
+        successCallback={(user, token) => this.loginNewUser(user, token)}
         buttonText="Reset Password"
       />
     )

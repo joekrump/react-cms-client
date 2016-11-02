@@ -84,11 +84,11 @@ class ResourceForm extends React.Component {
       this.props.updateSnackbar(true, 'Success', `${this.props.resourceNameSingular} ${verb} Successfully`, 'success');
     }
 
-    if(this.props.loginCallback) {
-      this.props.loginCallback(res.body.user, res.body.token)
+    if(this.props.successCallback) {
+      this.props.successCallback(res.body.user, res.body.token)
     } else {
       if(this.props.editContext !== 'edit'){
-        setTimeout(() => this.resetForm(), 500);
+        this.resetForm();
       }
     }
   }
