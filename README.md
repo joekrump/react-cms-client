@@ -91,40 +91,29 @@ module.exports = stripe_config;
 $ npm start
 ```
 
-## Screenshots of Current State of the App (09/01/2016)
-**Update: (Oct. 16, 2016) New screenshots and short video demo coming soon**
-### Default Edit Page
-
-![updateuser](https://cloud.githubusercontent.com/assets/3317231/18188929/f211ae94-706a-11e6-96e6-965cbd448d59.JPG)
+## Screenshots of Current State of the App (11/01/2016)
 
 ### Edit Page with inline content editor:
 
-![image resize 2](https://cloud.githubusercontent.com/assets/3317231/18188875/83a42932-706a-11e6-9257-3da0cbdd4d2a.JPG)
-
+![screenshot 26](https://cloud.githubusercontent.com/assets/3317231/19921089/9515d7b0-a099-11e6-844c-2cea95409b1e.png)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Pages)
 
 ### Admin interface
 
 Example Index Page
 
-![userindex](https://cloud.githubusercontent.com/assets/3317231/18188874/83a15590-706a-11e6-8b94-2421abb8cd3c.JPG)
-
-Example Admin Page with open SpeedDial menu
-
-![roleindexwspeeddial](https://cloud.githubusercontent.com/assets/3317231/18188873/839b2a30-706a-11e6-9760-b2bf0ad29b07.JPG)
-
-Example Admin page with open Drawer
-
-![menuopen](https://cloud.githubusercontent.com/assets/3317231/18188872/8392df88-706a-11e6-84eb-7863e1293b1e.JPG)
+![screenshot 15](https://cloud.githubusercontent.com/assets/3317231/19921266/60d87e2a-a09a-11e6-9de9-888450f749e3.png)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Admin-Interface)
 
 ### Admin Login Page
 
-Login Page with Drawer showing frontent paths available
+![Login Page](https://cloud.githubusercontent.com/assets/3317231/19920832/44d71468-a098-11e6-9a0a-7408c6bf37d7.PNG)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Authentication)
 
-![login](https://cloud.githubusercontent.com/assets/3317231/18188871/837df6a4-706a-11e6-9008-df6bf144c9aa.JPG)
+### Form Validation
 
-Donation Page Content (implemented with Stripe)
-
-![donationpagecontent](https://cloud.githubusercontent.com/assets/3317231/18188998/994dd7dc-706b-11e6-9f77-fc4e8bed10fa.JPG)
+![form-validation](https://cloud.githubusercontent.com/assets/3317231/19921003/19873f1c-a099-11e6-92a8-4ed1ce6ba7d3.PNG)
+[View More Screenshots](https://github.com/joekrump/l-api-v2/wiki/Form-Validation)
 
 ### API Server
 
@@ -132,13 +121,14 @@ Currently I have an API server built using Laravel 5.2 which this client app int
 
 ### WIP
 
+- [ ] Add Searching and Reordering of resources
+- [ ] File Management System
+- [ ] Webworkers for Caching data
 - [x] Role based permissions
 - [x] Inline Editor with image upload and manipulation functionality.
 - [x] Form Validation using Redux
 - [x] Allow Page nesting in Index
-- [ ] Add Searching and Reordering of resources
-- [ ] Media / File Management
-- [ ] Webworkers for Caching data
+- [x] Image Uploading and editing
 - [x] Add Tests using Jest
 - [x] Page Template Loading
  
