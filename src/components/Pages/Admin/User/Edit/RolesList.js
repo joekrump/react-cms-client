@@ -14,14 +14,41 @@ class RolesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      roles: []
+      roles: [],
+      selectedRoleId: null
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if(!this.props.updateRole && nextProps.updateRole) {
+      this.assignRole();
+    }
+  }
+
+  assignRole() {
+    const client = new APIClient(this.props.dispatch);
+
+    client.post('assign-role', true, {data: {user_id: this.props.userId, role_id: this.state.selectedRoleId }})
+    .then((res) => {
+      if (res.statusCode >= 300) {
+        console.log('Bad response: ', res);
+      } else {
+        client.updateToken(res.header.authorization);
+        this.props.assignRoleCallback(false);
+      }
+    }, (res) => {
+      console.warn('Error getting resource data: ', res);
+    })
+    .catch((res) => {
+      console.warn('Error getting resource data: ', res);
+    })
+  }
+
   componentDidMount() {
     const client = new APIClient(this.props.dispatch);
 
     client.get('roles').then((res) => {
-      if (res.statusCode !== 200) {
+      if (res.statusCode >= 300) {
         console.log('Bad response: ', res);
       } else {
         client.updateToken(res.header.authorization);
@@ -35,6 +62,10 @@ class RolesList extends React.Component {
     })
   }
 
+  handleRoleChange(evt, selectedRoleId) {
+    this.setState({selectedRoleId: value})
+  }
+
   render() {
     let roleRadioButtons = this.state.roles.map((role) => (
       <RadioButton
@@ -46,7 +77,7 @@ class RolesList extends React.Component {
     ))
     return (
       <p>
-        <RadioButtonGroup name="role">
+        <RadioButtonGroup name="role" onChange={this.handleRoleChange}>
           {roleRadioButtons}
         </RadioButtonGroup>
       </p>
