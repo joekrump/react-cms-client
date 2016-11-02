@@ -21,7 +21,8 @@ class Edit extends React.Component {
     super(props);
     this.state = {
       currentTab: 'role',
-      editContext: props.params && props.params.roleId ? 'edit' : 'new'
+      editContext: props.params && props.params.roleId ? 'edit' : 'new',
+      submitPermissions: false
     };
   }
 
@@ -30,6 +31,10 @@ class Edit extends React.Component {
       currentTab: value,
     });
   };
+
+  updateSubmitPermissions() {
+    this.stateState({submitPermissions: false})
+  }
 
   renderInterface() {
     if(this.props.currentUser.isAdmin) {
@@ -47,6 +52,9 @@ class Edit extends React.Component {
                 resourceId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined}
                 resourceType='role'
                 editContext={this.state.editContext}
+                successCallback={() => {
+                  this.setState({submitPermissions: true});
+                }}
               />
             </div>
           </Tab>
@@ -54,7 +62,10 @@ class Edit extends React.Component {
             <div className="tab-content">
               <h2 style={styles.headline}>Permissions</h2>
               <PermissionsInstructions />
-              <PermissionsList roleId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined} />
+              <PermissionsList roleId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined} 
+                submitPermissions={this.state.submitPermissions}
+                updatePermissionsCallback={this.updateSubmitPermissions}
+              />
             </div>
           </Tab>
         </Tabs>

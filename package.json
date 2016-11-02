@@ -68,6 +68,7 @@
     "lodash.assign": "^4.1.0",
     "lodash.differencewith": "^4.5.0",
     "lodash.find": "^4.6.0",
+    "lodash.findindex": "^4.6.0",
     "lodash.isequal": "^4.4.0",
     "lodash.merge": "^4.5.1",
     "material-ui": "^0.15.3",
