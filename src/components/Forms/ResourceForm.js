@@ -114,7 +114,14 @@ class ResourceForm extends React.Component {
     let formFieldComponents = Object.keys(this.props.formFields).map((fieldName) => {
       field = this.props.formFields[fieldName];
       if(field.inputType === 'hidden') {
-        return (<input type="hidden" name={fieldName} value={this.props.formFields[fieldName].value} />);
+        return (
+          <input 
+            type="hidden" 
+            name={fieldName} 
+            value={this.props.formFields[fieldName].value} 
+            key={fieldName} 
+          />
+        );
       } else {
         return (
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
