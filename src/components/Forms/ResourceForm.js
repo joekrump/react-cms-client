@@ -113,20 +113,25 @@ class ResourceForm extends React.Component {
 
     let formFieldComponents = Object.keys(this.props.formFields).map((fieldName) => {
       field = this.props.formFields[fieldName];
-      return (
-        <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
-          <TextInput 
-            type={field.inputType} 
-            placeholder={field.placeholder} 
-            label={field.label} 
-            formName={this.props.formName} 
-            name={fieldName}
-            validationRules={this.getFieldValidationRules(fieldName)} 
-            autoFocus={i++ === 0} 
-            multiLine={field.inputType === 'textarea'}
-          />
-        </ListItem>
-      );
+      if(field.inputType === 'hidden') {
+        return (<input type="hidden" name={fieldName} value={this.props.formFields[fieldName].value} />);
+      } else {
+        return (
+          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
+            <TextInput 
+              type={field.inputType} 
+              placeholder={field.placeholder} 
+              label={field.label} 
+              formName={this.props.formName} 
+              name={fieldName}
+              validationRules={this.getFieldValidationRules(fieldName)} 
+              autoFocus={i++ === 0} 
+              multiLine={field.inputType === 'textarea'}
+            />
+          </ListItem>
+        );
+      }
+      
     });
 
     return (
