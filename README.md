@@ -1,4 +1,6 @@
-**l-api-v2** is a SPA frontend interface for an API using JWT for authentication and implements the following: 
+# L-API-V2 (a React CMS)
+
+**l-api-v2** is a CMS interface build with React which communicates with a headless CMS build using Laravel: 
 - [ReactJS](https://facebook.github.io/react/)
 - [React Router](https://github.com/reactjs/react-router)
 - [Redux](http://redux.js.org)
