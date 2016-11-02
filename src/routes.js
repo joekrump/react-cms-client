@@ -8,6 +8,7 @@ import APIClient from './http/requests'
 import getAdminRoutes from './routes/admin/routes'
 import AccessDeniedPage from './components/Pages/Errors/401/401';
 import EditUser from './components/Pages/Admin/User/Edit/Edit';
+import EditRole from './components/Pages/Admin/Role/Edit/Edit';
 
 /**
  * onEnter callback method for admin routesq
@@ -83,6 +84,15 @@ const getRoutes = (store) => {
           { 
             path: 'users/:userId/edit',
             component: EditUser,
+            onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'edit') 
+          },
+          { path: 'roles/new',
+            component: EditRole, 
+            onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'new') 
+          },
+          { 
+            path: 'roles/:roleId/edit',
+            component: EditRole,
             onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'edit') 
           },
           adminRoutes
