@@ -20,13 +20,28 @@ h1, h2 {
 }
 
 a {
-  color: rgb(255, 152, 0);
-  font-weight: 600;
+  color: #18FFFF; /* cyanA200 */
+  font-weight: 600; 
   text-decoration: none;
 }
 
 a:hover {
-  color: rgb(255, 202, 0);
+  color: #00E5FF; /* cyanA400 */
+}
+
+.link {
+  &.light {
+    color: #81D4FA; /* lightBlue200 */
+    &:hover {
+      color: #B3E5FC; /* lightBlue100 */
+    }
+  }
+  &.dark {
+    color: #3d5afe; /* indigoA200 */
+    &:hover {
+      color: #536DFE; /* indigoA400 */
+    }
+  }
 }
 
 .clearfix:after { 

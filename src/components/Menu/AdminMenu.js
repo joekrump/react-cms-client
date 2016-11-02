@@ -4,6 +4,8 @@ import Divider from 'material-ui/Divider';
 import LeftNavMenuItem from './LeftNavMenuItem';
 import Gravatar from './Gravatar';
 import ListItem from 'material-ui/List/ListItem';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './AdminMenu.scss';
 
 function pageIsActive(router, url, indexOnly = false) {
   return router.isActive({pathname: url}, indexOnly)
@@ -13,13 +15,13 @@ const AdminMenu = (props, context) => {
 
   let menuItems = [
     (<ListItem
+      className="drawer-header"
       key="user-avatar"
       disabled={true}
       leftAvatar={
         <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={props.currentUser.email} diameter='50' />
       }
-      primaryText={<Link to="/admin/settings">{props.currentUser.name}</Link>}
-      style={{color: 'white', backgroundColor: context.muiTheme.palette.primary1Color}}
+      primaryText={<Link to="/admin/settings" className="link dark header-text">{props.currentUser.name}</Link>}
     />)
   ];
 
@@ -67,4 +69,4 @@ AdminMenu.contextTypes = {
   muiTheme: React.PropTypes.object.isRequired,
 }
 
-export default AdminMenu;
+export default withStyles(s)(AdminMenu);
