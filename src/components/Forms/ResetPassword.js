@@ -13,11 +13,11 @@ class ResetPassword extends React.Component {
   }
 
   render() {
-    console.log('Params:', this.props.params)
+    console.log(this.state)
     return (
       <ResourceForm 
         formName="resetPasswordForm" 
-        resourceURL="auth/reset-password"
+        resourceURL="reset"
         resourceId={null}
         editContext="new"
         loginCallback={(user, token) => this.loginNewUser()}
@@ -40,6 +40,12 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null,
+const mapStateToProps = (state) => ({
+  reset_token: state.routing.locationBeforeTransitions.query._t,
+  reset_email: state.routing.locationBeforeTransitions.query.email
+})
+
+export default connect(
+  mapStateToProps,
   mapDispatchToProps
 )(ResetPassword)
