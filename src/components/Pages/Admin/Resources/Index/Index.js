@@ -12,9 +12,6 @@ import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 import IndexToolbar from './IndexToolbar';
 
-import isEqual from 'lodash.isequal';
-import differenceWith from 'lodash.differencewith';
-
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
