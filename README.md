@@ -1,6 +1,8 @@
 # L-API-V2 (a React CMS)
 
-**l-api-v2** is a CMS interface build with React which communicates with a headless CMS build using Laravel: 
+**l-api-v2** is a CMS interface build with React which communicates with a headless CMS built using Laravel.
+
+This project makes use of the following frameworks and technologies:
 - [ReactJS](https://facebook.github.io/react/)
 - [React Router](https://github.com/reactjs/react-router)
 - [Redux](http://redux.js.org)
