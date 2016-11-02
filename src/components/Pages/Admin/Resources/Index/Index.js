@@ -89,8 +89,6 @@ class Index extends React.Component {
       this.initializeDnD();
     }
   }
-  componentDidUpdate() {
-  }
 
   shouldComponentUpdate(nextProps, nextState) {
     let shouldUpdate = false;
