@@ -60,7 +60,7 @@ class ResourceForm extends React.Component {
 
       this.state.client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
       .then((res) => {
-        if (res.statusCode !== 200) {
+        if (res.statusCode > 299) {
           this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
           this.handleSuccess(res);
@@ -77,11 +77,12 @@ class ResourceForm extends React.Component {
     }
   }
   handleSuccess(res) {
-    
-    if(this.props.editContext === 'edit') {
-      this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
+
+    if(res.message) {
+      this.props.updateSnackbar(true, 'Success', res.message, 'success');
     } else {
-      this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
+      let verb = this.props.editContext === 'edit' ? 'Updated' : 'Added';
+      this.props.updateSnackbar(true, 'Success', `${this.props.resourceNameSingular} ${verb} Successfully`, 'success');
     }
 
     if(this.props.loginCallback) {
@@ -153,7 +154,8 @@ const mapStateToProps = (state, ownProps) => {
     isValid:  state.forms[ownProps.formName].valid,
     formFields: state.forms[ownProps.formName].fields,
     token: state.auth.token,
-    resourceNamePlural: state.admin.resource.name.plural
+    resourceNamePlural: state.admin.resource.name.plural,
+    resourceNameSingular: state.admin.resource.name.singular
   }
 }
 
