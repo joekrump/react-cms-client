@@ -99,7 +99,7 @@ class PermissionsList extends React.Component {
   setPermissions(permissions, role) {
     var modifiedPermissions = []
     
-    let permissionToggleSwitches = permissions.forEach((permission, i) => {
+    permissions.forEach((permission, i) => {
       permission.toggled = this.isPermissionToggled(permission, role);
       modifiedPermissions.push(permission);
     });
