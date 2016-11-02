@@ -3,7 +3,7 @@ import ResourceForm from '../../../../Forms/ResourceForm';
 import { connect } from 'react-redux'
 import AdminLayout from '../../Layout/AdminLayout'
 import {Tabs, Tab} from 'material-ui/Tabs';
-import RolesList from './RolesList';
+import PermissionsList from './PermissionsList';
 
 const styles = {
   headline: {
@@ -19,8 +19,8 @@ class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'user',
-      editContext: props.params && props.params.userId ? 'edit' : 'new'
+      currentTab: 'role',
+      editContext: props.params && props.params.roleId ? 'edit' : 'new'
     };
   }
 
@@ -37,26 +37,25 @@ class Edit extends React.Component {
           value={this.state.value}
           onChange={this.handleChange}
         >
-          <Tab label="User Details" value="user" >
+          <Tab label="Role Details" value="role" >
             <div>
               <h2 style={styles.headline}>User Details</h2>
               <ResourceForm 
-                formName='userForm'
-                resourceURL={this.state.editContext === 'edit' ? `users/${this.props.params.userId}` : 'users'}
-                resourceId={this.state.editContext === 'edit' ? this.props.params.userId : undefined}
-                resourceType='user'
+                formName='roleForm'
+                resourceURL={this.state.editContext === 'edit' ? `roles/${this.props.params.roleId}` : 'roles'}
+                resourceId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined}
+                resourceType='role'
                 editContext={this.state.editContext}
               />
             </div>
           </Tab>
-          <Tab label="Roles" value="roles">
+          <Tab label="Permissions" value="permissions">
             <div>
-              <h2 style={styles.headline}>Roles</h2>
+              <h2 style={styles.headline}>Permissions</h2>
               <p>
-                Select a Role for this user by choosing one below. Note that each Role grant a User specific
-                Permissions.
+                Select the Permissions that should be associated with this Role.
               </p>
-              <RolesList />
+              <PermissionsList />
             </div>
           </Tab>
         </Tabs>
@@ -64,12 +63,12 @@ class Edit extends React.Component {
     } else {
       return (
         <div>
-          <h2 style={styles.headline}>User Details</h2>
+          <h2 style={styles.headline}>Role Details</h2>
           <ResourceForm 
-            formName='userForm'
-            resourceURL={this.state.editContext === 'edit' ? `users/${this.props.params.userId}` : 'users'}
-            resourceId={this.state.editContext === 'edit' ? this.props.params.userId : undefined}
-            resourceType='user'
+            formName='roleForm'
+            resourceURL={this.state.editContext === 'edit' ? `roles/${this.props.params.roleId}` : 'roles'}
+            resourceId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined}
+            resourceType='role'
             editContext={this.state.editContext}
           />
         </div>
