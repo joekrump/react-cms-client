@@ -12,12 +12,12 @@ const styles = {
     paddingTop: 16,
     marginBottom: 12,
     fontWeight: 400,
-  },
+  }
 };
 
 class Edit extends React.Component {
   
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       currentTab: 'role',
@@ -38,8 +38,8 @@ class Edit extends React.Component {
           value={this.state.value}
           onChange={this.handleChange}
         >
-          <Tab label="Role Details" value="role" >
-            <div>
+          <Tab label="Role Details" value="role">
+            <div className="tab-content">
               <h2 style={styles.headline}>Role Details</h2>
               <ResourceForm 
                 formName='roleForm'
@@ -51,7 +51,7 @@ class Edit extends React.Component {
             </div>
           </Tab>
           <Tab label="Permissions" value="permissions">
-            <div>
+            <div className="tab-content">
               <h2 style={styles.headline}>Permissions</h2>
               <PermissionsInstructions />
               <PermissionsList />

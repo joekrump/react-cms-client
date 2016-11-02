@@ -5,14 +5,11 @@ import { indigoA400 } from 'material-ui/styles/colors';
 const style = {
   highlight: {
     color: indigoA400
-  },
-  description: {
-    fontSize: '1.0rem'
   }
 }
 
 const PermissionsInstructions = (props) => (
-  <p style={style.description}>
+  <p className="instructions">
     <span>Select the Permissions that should be associated with the </span>
     <strong style={style.highlight}>{props.roleName}</strong><span> Role.</span>
   </p>

@@ -45,9 +45,11 @@ class RolesList extends React.Component {
       />
     ))
     return (
-      <RadioButtonGroup name="role">
-        {roleRadioButtons}
-      </RadioButtonGroup>
+      <p>
+        <RadioButtonGroup name="role">
+          {roleRadioButtons}
+        </RadioButtonGroup>
+      </p>
     )
   }
   

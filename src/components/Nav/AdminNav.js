@@ -103,11 +103,6 @@ class AdminNav extends React.Component {
   }
 }
 
-AdminNav.contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
-  store: React.PropTypes.object.isRequired
-}
-
 const mapStateToProps = (state) => {
   return {
     loggedIn: state.auth.logged_in,

@@ -104,6 +104,17 @@ a:hover {
   text-align: left;
 }
 
+.tab-content {
+  background-color: rgba(0,0,0,0.7);
+  padding: 15px;
+  h2, p {
+    margin-left: 16px;
+  }
+  .instructions {
+    font-size: 1.0rem;
+  }
+}
+
 @media (max-width: 900px){
   .frontend-container {
     width: 80%;

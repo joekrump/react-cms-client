@@ -38,7 +38,7 @@ class Edit extends React.Component {
           onChange={this.handleChange}
         >
           <Tab label="User Details" value="user" >
-            <div>
+            <div className="tab-content">
               <h2 style={styles.headline}>User Details</h2>
               <ResourceForm 
                 formName='userForm'
@@ -50,9 +50,9 @@ class Edit extends React.Component {
             </div>
           </Tab>
           <Tab label="Roles" value="roles">
-            <div>
+            <div className="tab-content">
               <h2 style={styles.headline}>Roles</h2>
-              <p>
+              <p className="instructions">
                 Select a Role for this user by choosing one below. Note that each Role grant a User specific
                 Permissions.
               </p>

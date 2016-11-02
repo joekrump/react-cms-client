@@ -39,14 +39,15 @@ class PermissionsList extends React.Component {
     let permissionToggleSwitches = this.state.permissions.map((permission) => (
       <Toggle
         key={permission.id}
+        labelPosition="right"
         label={<span><strong>{permission.display_name}</strong>: <em>{permission.description}</em></span>}
         style={styles.switch}
       />
     ))
     return (
-      <div>
+      <p>
         {permissionToggleSwitches}
-      </div>
+      </p>
     )
   }
 }
