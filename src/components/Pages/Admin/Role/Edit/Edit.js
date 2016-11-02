@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import AdminLayout from '../../Layout/AdminLayout'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import PermissionsList from './PermissionsList';
+import PermissionsInstructions from './PermissionsInstructions';
 
 const styles = {
   headline: {
@@ -39,7 +40,7 @@ class Edit extends React.Component {
         >
           <Tab label="Role Details" value="role" >
             <div>
-              <h2 style={styles.headline}>User Details</h2>
+              <h2 style={styles.headline}>Role Details</h2>
               <ResourceForm 
                 formName='roleForm'
                 resourceURL={this.state.editContext === 'edit' ? `roles/${this.props.params.roleId}` : 'roles'}
@@ -52,9 +53,7 @@ class Edit extends React.Component {
           <Tab label="Permissions" value="permissions">
             <div>
               <h2 style={styles.headline}>Permissions</h2>
-              <p>
-                Select the Permissions that should be associated with this Role.
-              </p>
+              <PermissionsInstructions />
               <PermissionsList />
             </div>
           </Tab>
@@ -89,9 +88,9 @@ class Edit extends React.Component {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {currentUser: state.auth.user}
-}
+const mapStateToProps = (state) => ({
+  currentUser: state.auth.user
+})
 
 export default connect(
   mapStateToProps
