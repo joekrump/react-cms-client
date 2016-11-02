@@ -54,7 +54,7 @@ class Edit extends React.Component {
             <div className="tab-content">
               <h2 style={styles.headline}>Permissions</h2>
               <PermissionsInstructions />
-              <PermissionsList />
+              <PermissionsList roleId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined} />
             </div>
           </Tab>
         </Tabs>

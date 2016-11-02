@@ -14,7 +14,8 @@ class PermissionsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      permissions: []
+      permissions: [],
+      role: null
     }
   }
   componentDidMount() {
@@ -33,15 +34,32 @@ class PermissionsList extends React.Component {
     .catch((res) => {
       console.warn('Error getting resource data: ', res);
     })
+    if(this.props.roleId) {
+      client.get(`roles/${this.props.roleId}`).then((res) => {
+        if (res.statusCode !== 200) {
+          console.log('Bad response: ', res);
+        } else {
+          client.updateToken(res.header.authorization);
+          this.setState({role: res.body.data});
+        }
+      }, (res) => {
+        console.warn('Error getting resource data: ', res);
+      })
+      .catch((res) => {
+        console.warn('Error getting resource data: ', res);
+      })
+    }
   }
 
   render() {
+    console.log(this.state.role);
     let permissionToggleSwitches = this.state.permissions.map((permission) => (
       <Toggle
         key={permission.id}
         labelPosition="right"
         label={<span><strong>{permission.display_name}</strong>: <em>{permission.description}</em></span>}
         style={styles.switch}
+        defaultToggled={(this.state.role !== null) && (this.state.role.permissions)}
       />
     ))
     return (
