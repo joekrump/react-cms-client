@@ -6,7 +6,7 @@ class ForgotPassword extends React.Component {
     return (
       <ResourceForm 
         formName="forgotPasswordForm" 
-        resourceURL="auth/forgot-password"
+        resourceURL="recovery"
         resourceId={null}
         editContext="new"
         buttonText="Send Reset Link"

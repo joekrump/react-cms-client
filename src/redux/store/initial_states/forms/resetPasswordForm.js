@@ -7,6 +7,13 @@ export const resetPasswordForm = {
       inputType: 'password',
       label: 'New Password',
       placeholder: '*********'
+    },
+    password_confirmation: {
+      value: '', 
+      errors: [], 
+      inputType: 'password',
+      label: 'Confirm New Password',
+      placeholder: '*********'
     }
   }
 }

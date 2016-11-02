@@ -56,6 +56,9 @@ module.exports = {
   resetPasswordForm: {
     password: {
       rules: ['isRequired']
+    },
+    password_confirmation: {
+      rules: ['isRequired']
     }
   },
   roleForm: {
