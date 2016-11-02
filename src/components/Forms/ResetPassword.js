@@ -4,23 +4,21 @@ import { connect } from 'react-redux'
 
 class ResetPassword extends React.Component {
   loginNewUser(user, token){
-    // this.props.loginUser(user, token, '/admin');
-    // TODO:
-    // 
-    // run some process that will log the user into the system
-    // resetting the password will log the user in on the server 
-    // and should return a token and the logged in user's data.
+    this.props.loginUser(user, token, true, '/admin');
+  }
+
+  componentDidMount() {
+    this.props.updateForm(this.props.reset_token, this.props.reset_email);
   }
 
   render() {
-    console.log('Params:', this.props.params)
     return (
       <ResourceForm 
         formName="resetPasswordForm" 
-        resourceURL="auth/reset-password"
+        resourceURL="reset"
         resourceId={null}
         editContext="new"
-        loginCallback={(user, token) => this.loginNewUser()}
+        successCallback={(user, token) => this.loginNewUser(user, token)}
         buttonText="Reset Password"
       />
     )
@@ -36,10 +34,32 @@ const mapDispatchToProps = (dispatch) => {
         token,
         redirectPath
       })
+    },
+    updateForm: (reset_token, reset_email) => {
+      dispatch({
+        type: 'FORM_INPUT_CHANGE',
+        value: reset_token,
+        fieldName: 'token',
+        formName: 'resetPasswordForm',
+        errors: []
+      })
+      dispatch({
+        type: 'FORM_INPUT_CHANGE',
+        value: reset_email,
+        fieldName: 'email',
+        formName: 'resetPasswordForm',
+        errors: []
+      })
     }
   }
 }
 
-export default connect(null,
+const mapStateToProps = (state) => ({
+  reset_token: state.routing.locationBeforeTransitions.query._t,
+  reset_email: state.routing.locationBeforeTransitions.query.email
+})
+
+export default connect(
+  mapStateToProps,
   mapDispatchToProps
 )(ResetPassword)

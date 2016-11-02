@@ -1,6 +1,6 @@
-export function updateTree(nodeArray){
+export function updateTree(flatNodes){
   return {
     type: 'UPDATE_TREE',
-    nodeArray
+    flatNodes
   }
 }

@@ -1,6 +1,9 @@
+import { makeMinimalArray } from '../../helpers/TreeHelper';
+
 const initialState = {
   indexTree: {
-    nodeArray: []
+    flatNodes: [],
+    minimalArray: [],
   }
 };
 
@@ -9,7 +12,8 @@ const treeReducer = (state = initialState, action) => {
     case 'UPDATE_TREE':
       return {
         indexTree: {
-          nodeArray: action.nodeArray
+          flatNodes: action.flatNodes,
+          minimalArray: makeMinimalArray(action.flatNodes[0].children)
         }
       }
     default:

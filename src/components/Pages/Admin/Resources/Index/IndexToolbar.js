@@ -77,7 +77,7 @@ class IndexToolbar extends React.Component {
 
     client.put(this.props.resourceNamePlural + '/update-index', true, {
       data: {
-        nodeArray: this.props.indexNodeArray
+        minimalArray: this.props.minimalArray
       }})
       .then((res) => {
         if (res.statusCode !== 200) {
@@ -150,7 +150,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
-    indexNodeArray: state.tree.indexTree.nodeArray,
+    minimalArray: state.tree.indexTree.minimalArray,
     adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode
   }
 }

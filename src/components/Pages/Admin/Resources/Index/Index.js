@@ -7,33 +7,37 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Index.scss';
 import dragula from 'react-dragula';
 import ListItems from './ListItems';
-import TreeHelper from '../../../../../helpers/TreeHelper';
+import TreeHelper, { _contains } from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 import IndexToolbar from './IndexToolbar';
 
+import isEqual from 'lodash.isequal';
+import differenceWith from 'lodash.differencewith';
+
 class Index extends React.Component {
   constructor(props, context) {
     super(props);
-    this.state = {drake: null, renderNeeded: false, itemMoved: false}
+
+    this.state = {drake: null, renderNeeded: false}
+
     this.initializeDnD = this.initializeDnD.bind(this);
   }
 
   handleDrop(el, target, source, sibling){
     try {
       let siblingId = sibling ? parseInt(sibling.id, 10) : null;
-      console.log('target parent model id', target.dataset.parentmodelid)
-      // console.log('source parent model id', source.dataset.parentmodelid)
+
+      let treeHelper = new TreeHelper(this.props.flatNodes, true);
 
       if(source.dataset.parentmodelid) {
-        this.state.treeHelper.updateTree(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
+        treeHelper.moveNode(parseInt(el.id, 10), siblingId, parseInt(target.dataset.parentmodelid, 10))
       }
-      this.props.updateTree(this.state.treeHelper.richNodeArray);
+
+      this.props.updateTreeData(treeHelper.flatNodes);
       // if there weren't already changes to save, then indicate that there now are.
-      // if(!this.props.hasChanges) {
-        this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
-      // }
-      this.setState({itemMoved: true})
+      this.props.updateIndexHasChanges(true, this.props.resourceNamePlural)
+
     } catch (e) {
       console.warn('ERROR: ', e)
     } 
@@ -48,29 +52,23 @@ class Index extends React.Component {
   initializeDnD() {
     // Don't initialize DND until the elements are in the DOM.
     // 
-    if(document.querySelectorAll('.nested').length > 0) {
-      console.log("DND Initialized");
-      if(typeof document !== 'undefined'){
-        let treeHelper = new TreeHelper(this.props.nodeArray, true)
+    if((typeof document !== 'undefined') && (document.querySelectorAll('.nested').length > 0)) {
 
-        if(this.state.drake) {
-          this.state.drake.destroy();
+      let drake = dragula({
+        containers: [].slice.apply(document.querySelectorAll('.nested')),
+        moves: (el, source, handle, sibling) => {
+          return handle.classList.contains('drag-handle')
+        },
+        accepts: (el, target, source, sibling) => {
+          // prevent dragged containers from trying to drop inside itself
+          return _contains(el, target);
         }
-        // console.log(document.querySelectorAll('.nested'))
-        let drake = dragula({
-          containers: [].slice.apply(document.querySelectorAll('.nested')),
-          moves: (el, source, handle, sibling) => {
-            return handle.classList.contains('drag-handle')
-          },
-          accepts: (el, target, source, sibling) => {
-            // prevent dragged containers from trying to drop inside itself
-            return treeHelper.contains(el, target);
-          }
-        });
+      });
+      if(this.state.drake === null) {
         drake.on('drop', (el, target, source, sibling) => this.handleDrop(el, target, source, sibling));
-        
-        this.setState({drake, treeHelper, renderNeeded: false});
       }
+      
+      this.setState({drake, renderNeeded: false});
     }
   }
 
@@ -81,19 +79,17 @@ class Index extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.nodeArray.length !== this.props.nodeArray.length
+
+    if(nextProps.flatNodes.length !== this.props.flatNodes.length
       || nextProps.adminPageType !== this.props.adminPageType) {
+
       this.setState({renderNeeded: true});
+    }
+    if(nextProps.adminResourceMode === 'EDIT_INDEX') {
+      this.initializeDnD();
     }
   }
   componentDidUpdate() {
-    if(this.state.itemMoved) {
-      this.setState({itemMoved: false})
-    }
-
-    if(this.state.renderNeeded && (this.props.adminResourceMode === 'EDIT_INDEX')) {
-      this.initializeDnD();
-    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -101,7 +97,8 @@ class Index extends React.Component {
 
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
       shouldUpdate = true;
-    } else if (nextProps.nodeArray.length !== this.props.nodeArray.length) {
+
+    } else if (nextProps.flatNodes.length !== this.props.flatNodes.length) {
       shouldUpdate = true;
     } else if (nextProps.dataLoading !== this.props.dataLoading) {
       shouldUpdate = true;
@@ -111,25 +108,28 @@ class Index extends React.Component {
       shouldUpdate = true;
     } else if (nextProps.showSnackbar !== this.props.showSnackbar){
       shouldUpdate = true;
-    } else if (nextState.itemsMoved) {
-      shouldUpdate = true;
-    }
 
+    } 
+    // else if (!isEqual(nextProps.minimalArray, this.props.minimalArray)) {
+    //   console.log('minimalArray differs');
+    //   shouldUpdate = true;
+    // }
     return shouldUpdate;
   }
 
-  getRootChildren() {
-    return this.props.nodeArray.length > 0 ? this.props.nodeArray[0].node.children : [];
+  getRootChildNodes() {
+    return this.props.flatNodes.length > 1 ? this.props.flatNodes[0].children : [];
   }
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
-    if(!this.props.dataLoading && this.props.nodeArray.length > 0){
+    if(!this.props.dataLoading && this.props.flatNodes.length > 1){
       content = (
-        <ListItems items={this.getRootChildren()} 
-                   resourceType={this.props.resourceNamePlural} 
-                   editMode={this.props.adminResourceMode === 'EDIT_INDEX'} 
-                   />)
+        <ListItems 
+          childNodes={this.getRootChildNodes()} 
+          resourceType={this.props.resourceNamePlural}
+        />
+      )
     }
     return (
       <AdminLayout>
@@ -137,7 +137,7 @@ class Index extends React.Component {
           <IndexToolbar resourceName={capitalize(this.props.resourceNamePlural)}/>
           {this.props.dataLoading ? (<CircularProgress />) : null}
           <List className="item-list">
-            {this.props.dataLoading || !(this.props.nodeArray.length > 0) ? null : <span className="spacer"></span>}
+            {this.props.dataLoading || !(this.props.flatNodes.length > 1) ? null : <span className="spacer"></span>}
             {this.props.dataLoading ? null : content}
           </List>
         { this.props.children }
@@ -150,7 +150,8 @@ class Index extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    nodeArray: state.tree.indexTree.nodeArray,
+    flatNodes: state.tree.indexTree.flatNodes,
+    minimalArray: state.tree.indexTree.minimalArray,
     resourceNamePlural: state.admin.resource.name.plural,
     hasChanges: state.admin.resources[state.admin.resource.name.plural].hasChanges,
     adminResourceMode: state.admin.resources[state.admin.resource.name.plural].mode,
@@ -168,10 +169,10 @@ const mapDispatchToProps = (dispatch) => {
         resourceNamePlural
       })
     },
-    updateTree: (nodeArray) => {
+    updateTreeData: (flatNodes) => {
       dispatch({
         type: 'UPDATE_TREE',
-        nodeArray
+        flatNodes
       })
     }
   };

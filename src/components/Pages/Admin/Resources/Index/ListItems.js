@@ -1,29 +1,32 @@
-import React from 'react'
-import IndexItem from './IndexItem'
+import React from 'react';
+import IndexItem from './IndexItem';
+import { connect } from 'react-redux';
 
-const ListItems = (props) => {
-  let items = props.items.map((item, i) => {
-    return( <IndexItem 
-              key={`${props.resourceType}-${item.id}`}
-              modelId={item.id}
-              primary={item.primary}
-              secondary={item.secondary}
-              resourceType={props.resourceType}
-              deletable={item.deletable}
-              childItems={item.children}
-              depth={item.depth}
-              root={true}
-              unmovable={item.unmovable}
-              denyNested={item.denyNested}
-              editMode={props.editMode}
-              extraData={{...item}}
-              previewPath={item.previewPath}
-            />)
-  })
+class ListItems extends React.Component {
 
-  return (<div className="root nested" data-parentModelId={-1}>
-    {items}
-  </div>)
+  render() {
+    let items = this.props.childNodes.map((childNode) => (
+      <IndexItem 
+        key={`${this.props.resourceType}-${childNode.id}`}
+        modelId={childNode.id}
+        resourceType={this.props.resourceType}
+        isEditing={this.props.isEditing}
+        {...childNode}
+      />
+    ))
+
+    return (
+      <div className="root nested" data-parentModelId={-1}>
+        {items}
+      </div>
+    );
+  }
 }
 
-export default ListItems;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isEditing: (state.admin.resources[state.admin.resource.name.plural].mode === 'EDIT_INDEX')
+  }
+}
+
+export default connect(mapStateToProps, null)(ListItems)

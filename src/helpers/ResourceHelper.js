@@ -4,22 +4,20 @@ import TreeHelper from './TreeHelper';
 export function getIndexItems(resourceNamePlural, put){
   
   let client = new APIClient(put);
-  let nodeArray = []
-
-  nodeArray = client.get(resourceNamePlural).then((res) => {
+  
+  return client.get(resourceNamePlural).then((res) => {
+    let flatNodes = [];
     if(res.statusCode === 200) {
       // create a tree structure from the array of data returned.
       let treeHelper = new TreeHelper(res.body.data)
       
-      nodeArray = treeHelper.richNodeArray;
+      flatNodes = treeHelper.flatNodes;
       client.updateToken(res.header.authorization)
     }
-    return nodeArray;
+    return flatNodes;
   }).catch((res) => {
-    return [];
+    console.warn('ERROR', res);
   });
-
-  return nodeArray;
 }
 
 /**

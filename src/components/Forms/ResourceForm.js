@@ -60,7 +60,7 @@ class ResourceForm extends React.Component {
 
       this.state.client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
       .then((res) => {
-        if (res.statusCode !== 200) {
+        if (res.statusCode > 299) {
           this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
         } else {
           this.handleSuccess(res);
@@ -77,18 +77,18 @@ class ResourceForm extends React.Component {
     }
   }
   handleSuccess(res) {
-    
-    if(this.props.editContext === 'edit') {
-      this.props.updateSnackbar(true, 'Success', 'Update Successful', 'success');
+    if(res.body.message) {
+      this.props.updateSnackbar(true, 'Success', res.body.message, 'success');
     } else {
-      this.props.updateSnackbar(true, 'Success', 'Added Successfully', 'success');
+      let verb = this.props.editContext === 'edit' ? 'Updated' : 'Added';
+      this.props.updateSnackbar(true, 'Success', `${this.props.resourceNameSingular} ${verb} Successfully`, 'success');
     }
 
-    if(this.props.loginCallback) {
-      this.props.loginCallback(res.body.user, res.body.token)
+    if(this.props.successCallback) {
+      this.props.successCallback(res.body.user, res.body.token)
     } else {
       if(this.props.editContext !== 'edit'){
-        setTimeout(() => this.resetForm(), 500);
+        this.resetForm();
       }
     }
   }
@@ -113,20 +113,32 @@ class ResourceForm extends React.Component {
 
     let formFieldComponents = Object.keys(this.props.formFields).map((fieldName) => {
       field = this.props.formFields[fieldName];
-      return (
-        <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
-          <TextInput 
-            type={field.inputType} 
-            placeholder={field.placeholder} 
-            label={field.label} 
-            formName={this.props.formName} 
-            name={fieldName}
-            validationRules={this.getFieldValidationRules(fieldName)} 
-            autoFocus={i++ === 0} 
-            multiLine={field.inputType === 'textarea'}
+      if(field.inputType === 'hidden') {
+        return (
+          <input 
+            type="hidden" 
+            name={fieldName} 
+            value={this.props.formFields[fieldName].value} 
+            key={fieldName} 
           />
-        </ListItem>
-      );
+        );
+      } else {
+        return (
+          <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle} key={fieldName}>
+            <TextInput 
+              type={field.inputType} 
+              placeholder={field.placeholder} 
+              label={field.label} 
+              formName={this.props.formName} 
+              name={fieldName}
+              validationRules={this.getFieldValidationRules(fieldName)} 
+              autoFocus={i++ === 0} 
+              multiLine={field.inputType === 'textarea'}
+            />
+          </ListItem>
+        );
+      }
+      
     });
 
     return (
@@ -148,7 +160,8 @@ const mapStateToProps = (state, ownProps) => {
     isValid:  state.forms[ownProps.formName].valid,
     formFields: state.forms[ownProps.formName].fields,
     token: state.auth.token,
-    resourceNamePlural: state.admin.resource.name.plural
+    resourceNamePlural: state.admin.resource.name.plural,
+    resourceNameSingular: state.admin.resource.name.singular
   }
 }
 
