@@ -77,9 +77,8 @@ class ResourceForm extends React.Component {
     }
   }
   handleSuccess(res) {
-
-    if(res.message) {
-      this.props.updateSnackbar(true, 'Success', res.message, 'success');
+    if(res.body.message) {
+      this.props.updateSnackbar(true, 'Success', res.body.message, 'success');
     } else {
       let verb = this.props.editContext === 'edit' ? 'Updated' : 'Added';
       this.props.updateSnackbar(true, 'Success', `${this.props.resourceNameSingular} ${verb} Successfully`, 'success');
