@@ -13,27 +13,35 @@
     flex-wrap: wrap;
     justify-content: left;
     align-items: center;
-  }
-  
-  .site-title, .top-link {
-    display: flex;
-    align-items: flex-start;
-    padding: 0 0.5rem;
-  }
-  .site-title {
-    margin: 0;
-  }
-  .top-link {
-    color: #e6e6e6;
-    font-weight: 400;
-    max-width: 140px;
-    text-decoration: none;
-    color: #e6e6e6;
-    &:hover, &:focus {
-      color: #fff;
-      svg {
-        fill: green; 
+    .nav-links-container {
+      display: flex;
+      align-items: flex-start;
+      margin-left: 1.0rem;
+
+      .top-link {
+        color: #e6e6e6;
+        font-weight: 400;
+        max-width: 140px;
+        text-decoration: none;
+        color: #e6e6e6;
+        padding: 0 0.5rem;
+
+        &:hover, &:focus {
+          color: #fff;
+          svg {
+            fill: green; 
+          }
+        }
       }
+
+    }
+
+    .site-title, .top-link {
+      display: flex;
+      align-items: flex-start;
+    }
+    .site-title {
+      margin: 0;
     }
   }
 }

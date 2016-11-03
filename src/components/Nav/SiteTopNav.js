@@ -21,7 +21,9 @@ const TopNav = () => {
     <div className="top-nav">
       <div className="page-container">
         {AppConfig.siteTitle ? (<h1 className="site-title">{AppConfig.siteTitle}</h1>) : null}
-        {links}
+        <div className="nav-links-container">
+          {links}
+        </div>
       </div>
     </div>
   )
