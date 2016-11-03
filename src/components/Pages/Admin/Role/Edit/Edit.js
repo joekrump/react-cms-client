@@ -5,6 +5,7 @@ import AdminLayout from '../../Layout/AdminLayout'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import PermissionsList from './PermissionsList';
 import PermissionsInstructions from './PermissionsInstructions';
+import { capitalize } from '../../../../../helpers/StringHelper';
 
 const styles = {
   headline: {
@@ -46,41 +47,44 @@ class Edit extends React.Component {
   renderInterface() {
     if(this.props.currentUser.isAdmin) {
       return (
-        <Tabs
-          value={this.state.value}
-          onChange={this.handleChange}
-        >
-          <Tab label="Role Details" value="role">
-            <div className="tab-content">
-              <h2 style={styles.headline}>Role Details</h2>
-              <ResourceForm 
-                formName='roleForm'
-                resourceURL={this.state.editContext === 'edit' ? `roles/${this.state.resourceId}` : 'roles'}
-                resourceId={this.state.editContext === 'edit' ? this.state.resourceId : undefined}
-                resourceType='role'
-                editContext={this.state.editContext}
-                successCallback={() => {
-                  this.setState({submitPermissions: true});
-                }}
-              />
-            </div>
-          </Tab>
-          <Tab label="Permissions" value="permissions">
-            <div className="tab-content">
-              <h2 style={styles.headline}>Permissions</h2>
-              <PermissionsInstructions />
-              <PermissionsList resourceId={this.state.editContext === 'edit' ? this.state.resourceId : undefined} 
-                submitPermissions={this.state.submitPermissions}
-                updatePermissionsCallback={this.updateSubmitPermissions}
-              />
-            </div>
-          </Tab>
-        </Tabs>
+        <div>
+          <h1>{capitalize(this.state.editContext)} Role</h1>
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+          >
+            <Tab label="Role Details" value="role">
+              <div className="tab-content">
+                <h2 style={styles.headline}>Role Details</h2>
+                <ResourceForm 
+                  formName='roleForm'
+                  resourceURL={this.state.editContext === 'edit' ? `roles/${this.state.resourceId}` : 'roles'}
+                  resourceId={this.state.editContext === 'edit' ? this.state.resourceId : undefined}
+                  resourceType='role'
+                  editContext={this.state.editContext}
+                  successCallback={() => {
+                    this.setState({submitPermissions: true});
+                  }}
+                />
+              </div>
+            </Tab>
+            <Tab label="Permissions" value="permissions">
+              <div className="tab-content">
+                <h2 style={styles.headline}>Permissions</h2>
+                <PermissionsInstructions />
+                <PermissionsList resourceId={this.state.editContext === 'edit' ? this.state.resourceId : undefined} 
+                  submitPermissions={this.state.submitPermissions}
+                  updatePermissionsCallback={this.updateSubmitPermissions}
+                />
+              </div>
+            </Tab>
+          </Tabs>
+        </div>
       )
     } else {
       return (
         <div>
-          <h2 style={styles.headline}>Role Details</h2>
+          <h2 style={styles.headline}>{capitalize(this.state.editContext)} Role</h2>
           <ResourceForm 
             formName='roleForm'
             resourceURL={this.state.editContext === 'edit' ? `roles/${this.state.resourceId}` : 'roles'}
