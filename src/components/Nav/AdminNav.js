@@ -74,7 +74,7 @@ class AdminNav extends React.Component {
           docked={false} 
           onRequestChange={() => this.handleToggleMenu()}
         >
-          <AdminMenu currentUser={this.props.user} routeOptions={AppConfig.adminRouteLinks} />
+          <AdminMenu currentUser={this.props.user} routeOptions={AppConfig.routes.admin} />
         </Drawer>
         <header>
           <AppBar 
