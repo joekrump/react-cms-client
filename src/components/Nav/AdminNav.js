@@ -77,13 +77,10 @@ class AdminNav extends React.Component {
           <AdminMenu currentUser={this.props.user} routeOptions={AppConfig.adminRouteLinks} />
         </Drawer>
         <header>
-          {/*TODO: put site title in a NODE config file of some-sort. 
-            or in a setting that is accessible for an admin user.
-          */}
           <AppBar 
             title={(
               <div className="title-wrapper">
-                <h1 className="admin-title">{AppConfig.siteTitle ? AppConfig.siteTitle : 'React CMS'}</h1>
+                <h1 className="admin-title">{AppConfig.cmsTitle ? AppConfig.cmsTitle : 'React CMS'}</h1>
                 {this.renderBackButton()}
               </div>
             )} 

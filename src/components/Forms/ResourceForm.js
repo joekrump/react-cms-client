@@ -48,6 +48,7 @@ class ResourceForm extends React.Component {
     e.preventDefault();
     this.submitToServer();
   }
+  
   submitToServer(){
     var formInputValues = {};
 

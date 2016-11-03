@@ -4,12 +4,36 @@
   width: 100%;
   background-color: #212121;
   z-index: 100;
+  margin: 0;
+  padding: 0;
+  
+  .page-container {
+    padding-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+  }
+  
+  .site-title, .top-link {
+    display: flex;
+    align-items: flex-start;
+    padding: 0 0.5rem;
+  }
+  .site-title {
+    margin: 0;
+  }
   .top-link {
     color: #e6e6e6;
-    display: inline-block;
     font-weight: 400;
-    &:hover {
+    max-width: 140px;
+    text-decoration: none;
+    color: #e6e6e6;
+    &:hover, &:focus {
       color: #fff;
+      svg {
+        fill: green; 
+      }
     }
   }
 }

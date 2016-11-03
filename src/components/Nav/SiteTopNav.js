@@ -7,7 +7,7 @@ import s from './SiteTopNav.scss'
 let links = AppConfig.publicRouteLinks.map((link, i) => {
   return (
     <Link 
-      className="top-link align-left"
+      className="top-link"
       key={'top-link-' + i} 
       activeClassName="link-active"
       to={link.url}>
@@ -20,6 +20,7 @@ const TopNav = () => {
   return (
     <div className="top-nav">
       <div className="page-container">
+        {AppConfig.siteTitle ? (<h1 className="site-title">{AppConfig.siteTitle}</h1>) : null}
         {links}
       </div>
     </div>
