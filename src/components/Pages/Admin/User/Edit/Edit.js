@@ -20,7 +20,7 @@ class Edit extends React.Component {
     super(props);
     
     let editContext = props.params && props.params.resourceId ? 'edit' : 'new';
-    let resourceId = editContext === 'edit' ? props.params.resourceId : undefined;
+    let resourceId = editContext === 'edit' ? parseInt(props.params.resourceId, 10) : undefined;
     this.state = {
       currentTab: 'user',
       updateRole: false,

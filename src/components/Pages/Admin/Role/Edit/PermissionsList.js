@@ -57,8 +57,8 @@ class PermissionsList extends React.Component {
     const client = new APIClient(this.props.dispatch);
     var role = null;
 
-    if(this.props.roleId) {
-      client.get(`roles/${this.props.roleId}`).then((res) => {
+    if(this.props.resourceId) {
+      client.get(`roles/${this.props.resourceId}`).then((res) => {
         if (res.statusCode !== 200) {
           console.log('Bad response: ', res);
         } else {
