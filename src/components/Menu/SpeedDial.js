@@ -58,21 +58,23 @@ class SpeedDial extends React.Component {
     }
 
     const menuLength = menuList.length;
-
-    const actionButtons = menuList.map((permission, index) => {
-      mouseOutAreaHeight += 58;
-      return (
-        <CustomFAB 
-          key={`speedial-item-${index}`}
-          delay={(30 * (menuLength - index))}
-          iconStyle={{fill: "white"}} 
-          mini={true} 
-          onTouchTap={(e) => this.handleActionClick(e, actions[permission].route)} 
-          secondary={true}
-          tooltipText={actions[permission].tooltipText}
-          icon={actions[permission].icon}
-        />
-      )
+    let actionButtons = [];
+    menuList.forEach((permission, index) => {
+      if(actions[permission] !== undefined) {
+        mouseOutAreaHeight += 58;
+        actionButtons.push(
+          <CustomFAB 
+            key={`speedial-item-${index}`}
+            delay={(30 * (menuLength - index))}
+            iconStyle={{fill: "white"}} 
+            mini={true} 
+            onTouchTap={(e) => this.handleActionClick(e, actions[permission].route)} 
+            secondary={true}
+            tooltipText={actions[permission].tooltipText}
+            icon={actions[permission].icon}
+          />
+        )
+      }
     })
     return {
       buttons: actionButtons,
