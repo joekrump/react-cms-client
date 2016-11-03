@@ -19,9 +19,7 @@ class ResourceForm extends React.Component {
 
   initForm() {
     if(this.props.editContext === 'edit'){
-      if(this.props.existingData) {
-        this.props.loadFormWithData(this.props.existingData, this.props.formName, true);
-      } else {
+      if(!this.props.formLoaded) {
         this.fetchDataFromServer();
       }
     } else {
@@ -35,12 +33,8 @@ class ResourceForm extends React.Component {
     }
   }
 
-  fetchDataReject = (res) => {
-    console.warn('Error getting resource data: ', res);
-  }
-
   fetchDataFromServer() {
-    getResourceData(this.props.dispatch, this.props.resourceURL, this.fetchDataResolve, this.fetchDataReject);
+    getResourceData(this.props.dispatch, this.props.resourceURL, this.fetchDataResolve, this.handleRequestException);
   }
 
   resetForm(){
@@ -76,7 +70,7 @@ class ResourceForm extends React.Component {
 
     client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
     .then(this.submitResolve, this.submitReject)
-    .catch(handleRequestException)
+    .catch(this.handleRequestException)
   }
 
   handleRequestException = (exception) => {

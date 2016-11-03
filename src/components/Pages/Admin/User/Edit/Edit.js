@@ -5,6 +5,7 @@ import AdminLayout from '../../Layout/AdminLayout'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import RolesList from './RolesList';
 import { capitalize } from '../../../../../helpers/StringHelper';
+import { getResourceData } from '../../../../../helpers/ResourceHelper';
 
 const styles = {
   headline: {
@@ -20,16 +21,34 @@ class Edit extends React.Component {
   constructor(props) {
     super(props);
     
-    let editContext = props.params && props.params.resourceId ? 'edit' : 'new';
-    let resourceId = editContext === 'edit' ? parseInt(props.params.resourceId, 10) : undefined;
+    const editContext = props.params && props.params.resourceId ? 'edit' : 'new';
+    const resourceId = editContext === 'edit' ? parseInt(props.params.resourceId, 10) : undefined;
+    const resourceURL = editContext === 'edit' ? `users/${resourceId}` : 'users';
+
     this.state = {
       currentTab: 'user',
       updateRole: false,
       editContext,
-      resourceId
+      resourceId,
+      resourceURL,
+      roleId: null
     };
 
     props.updateAdminState('users', editContext, resourceId);
+    if(resourceId) {
+      getResourceData(props.dispatch, resourceURL, this.fetchDataResolve, this.handleRequestException);
+    }
+  }
+
+  fetchDataResolve = (res) => {
+    if (res.statusCode < 300) {
+      this.setState({roleId: res.body.data.role.id});
+      this.props.loadFormWithData(res.body.data, 'userForm', true);
+    }
+  }
+
+  handleRequestException = (res) => {
+    console.warn('Error: Could not fetch User data: ', res)
   }
 
   handleTabChange = (value) => {
@@ -60,6 +79,7 @@ class Edit extends React.Component {
                   resourceId={this.state.resourceId}
                   resourceType='user'
                   editContext={this.state.editContext}
+                  formLoaded={this.state.editContext === 'edit'}
                   successCallback={() => {
                     this.updateRoleShouldUpdate(true); 
                   }}
@@ -74,7 +94,9 @@ class Edit extends React.Component {
                   Permissions.
                 </p>
                 <RolesList resourceId={this.state.resourceId} 
-                  assignRoleCallback={(value) => this.updateRoleShouldUpdate(value)} updateRole={this.state.updateRole}
+                  assignRoleCallback={(value) => this.updateRoleShouldUpdate(value)} 
+                  updateRole={this.state.updateRole}
+                  roleId={this.state.roleId}
                 />
               </div>
             </Tab>
@@ -91,6 +113,7 @@ class Edit extends React.Component {
             resourceId={this.state.editContext === 'edit' ? this.props.params.resourceId : undefined}
             resourceType='user'
             editContext={this.state.editContext}
+            formLoaded={this.state.editContext === 'edit'}
           />
         </div>
       )
@@ -119,6 +142,14 @@ const mapDispatchToProps = (dispatch) => ({
       namePlural,
       pageType,
       resourceId
+    })
+  },
+  loadFormWithData: (fieldValues, formName, isValid) => {
+    dispatch({
+      type: 'FORM_LOAD',
+      fieldValues,
+      formName,
+      valid: isValid
     })
   },
   dispatch

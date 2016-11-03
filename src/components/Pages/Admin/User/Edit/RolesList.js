@@ -3,7 +3,6 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import APIClient from '../../../../../http/requests'
 import { connect } from 'react-redux';
 
-
 const styles = {
   radioButton: {
     marginBottom: 16,
@@ -15,13 +14,17 @@ class RolesList extends React.Component {
     super(props);
     this.state = {
       roles: [],
-      selectedRoleId: props.defaultRoleId || null
+      selectedRoleId: props.roleId
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if(!this.props.updateRole && nextProps.updateRole) {
       this.assignRole();
+    }
+    if(nextProps.roleId !== this.props.roleId) {
+      this.setState({selectedRoleId: nextProps.roleId})
     }
   }
 
@@ -80,7 +83,7 @@ class RolesList extends React.Component {
   render() {
     return (
       <div className="tab-indented">
-        <RadioButtonGroup name="role" defaultSelected={this.state.selectedRoleId} onChange={(evt, value) => this.handleRoleChange(evt, value)}>
+        <RadioButtonGroup name="role" defaultSelected={this.state.selectedRoleId} valueSelected={this.state.selectedRoleId} onChange={(evt, value) => this.handleRoleChange(evt, value)}>
           {this.renderRadioButtons()}
         </RadioButtonGroup>
       </div>
