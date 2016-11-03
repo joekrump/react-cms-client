@@ -7,10 +7,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './BackButton.scss'
 
 const BackButton = (props, context) => (
-
   <FlatButton
     className='back-btn'
-    // backgroundColor={cyan500}
     hoverColor={context.muiTheme.palette.primary2Color}
     containerElement={<Link to={props.link} />}
     label={props.label}
@@ -20,7 +18,7 @@ const BackButton = (props, context) => (
 )
 
 BackButton.contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired
+  muiTheme: React.PropTypes.object.isRequired
 }
 
 export default withStyles(s)(BackButton);

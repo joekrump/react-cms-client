@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SiteTopNav.scss'
 
-let links = AppConfig.publicRouteLinks.map((link, i) => (
+const links = AppConfig.publicRouteLinks.map((link, i) => (
   <Link 
     className="top-link"
     key={'top-link-' + i} 
@@ -12,7 +12,7 @@ let links = AppConfig.publicRouteLinks.map((link, i) => (
     to={link.url}>
     {link.linkText}
   </Link>
-)
+));
 
 const TopNav = () => (
   <div className="top-nav">
@@ -23,6 +23,6 @@ const TopNav = () => (
       </div>
     </div>
   </div>
-)
+);
 
 export default withStyles(s)(TopNav);
