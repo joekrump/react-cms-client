@@ -36,20 +36,12 @@ class Page extends React.Component {
   loadPageContent(pathname) {
     const client = new APIClient(this.props.dispatch);
 
-    client.get('page', false, {params: {
-      fullpath: pathname
-    }}).then((res) => {
-      this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
-    }, (res) => {
-      if(res.statusCode && res.statusCode !== 200) {
-        this.props.updatePageStatusCode(res.statusCode);
-      }
-    }).catch((res) => {
-      console.log('Error: ', res)
-    })
+    client.get('page', false, {params: {fullpath: pathname}}).then((res) => {
+      this.resolveDataFetch(res, this.setPreExistingPageData)
+    }, this.rejectDataFetch).catch(this.rejectDataFetch)
   }
 
-  setPreExistingPageData(res) {
+  setPreExistingPageData = (res) => {
     this.setState({
       page: this.getRenderedPage(
         res.body.data.template_id, 
@@ -59,7 +51,15 @@ class Page extends React.Component {
     })
   }
 
-  handleSuccessfulDataFetch(client, res, updateStateCallback) {
+  rejectDataFetch = (res) => {
+    if(res.statusCode && res.statusCode >= 300) {
+      this.props.updatePageStatusCode(res.statusCode);
+    } else {
+      console.warn('Error: ', res)
+    }
+  }
+
+  resolveDataFetch = (res, updateStateCallback) => {
     this.props.updatePageStatusCode(res.statusCode);
     if (res.statusCode === 200) {
       updateStateCallback(res);
