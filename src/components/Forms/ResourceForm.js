@@ -5,6 +5,8 @@ import { Form, TextInput, SubmitButton } from '../Form/index';
 import APIClient from '../../http/requests'
 import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 import validations from '../../form-validation/validations'
+import { getResourceData } from '../../helpers/ResourceHelper';
+
 
 const listItemStyle = {
   padding: "0 16px"
@@ -28,23 +30,18 @@ class ResourceForm extends React.Component {
     }
   }
 
-  fetchDataFromServer() {
-    const client = new APIClient(this.props.dispatch)
+  fetchDataResolve = (res) => {
+    if (res.statusCode < 300) {
+      this.props.loadFormWithData(res.body.data, this.props.formName, true);
+    }
+  }
 
-    client.get(this.props.resourceURL)
-    .then((res) => {
-      if (res.statusCode !== 200) {
-        console.log('Bad response: ', res);
-      } else {
-        client.updateToken(res.header.authorization);
-        this.props.loadFormWithData(res.body.data, this.props.formName, true);
-      }
-    }, (res) => {
-      console.warn('Error getting resource data: ', res);
-    })
-    .catch((res) => {
-      console.warn('Error getting resource data: ', res);
-    })
+  fetchDataReject = (res) => {
+    console.warn('Error getting resource data: ', res);
+  }
+
+  fetchDataFromServer() {
+    getResourceData(this.props.dispatch, this.props.resourceURL, this.fetchDataResolve, this.fetchDataReject);
   }
 
   resetForm(){

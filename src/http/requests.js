@@ -42,7 +42,16 @@ class APIClient {
 			    request.send(data);
 			  }
 
-			  request.end((err, res) => err ? reject(res || err) : resolve(res));
+			  request.end((err, res) => {
+			  	if(err) {
+			  		reject(res || err)
+			  	} else {
+			  		resolve(res)
+			  		if (res.header.authorization) {
+			  			this.updateToken(res.header.authorization);
+			  		}
+			  	}
+			  });
 			})
 		});
 	}

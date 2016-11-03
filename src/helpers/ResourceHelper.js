@@ -12,7 +12,6 @@ export function getIndexItems(resourceNamePlural, put){
       let treeHelper = new TreeHelper(res.body.data)
       
       flatNodes = treeHelper.flatNodes;
-      client.updateToken(res.header.authorization)
     }
     return flatNodes;
   }).catch((res) => {
