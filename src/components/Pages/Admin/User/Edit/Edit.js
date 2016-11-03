@@ -110,23 +110,19 @@ class Edit extends React.Component {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {currentUser: state.auth.user}
-}
+const mapStateToProps = (state) => ({currentUser: state.auth.user})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateAdminState: (namePlural, pageType, resourceId) => {
-      dispatch({
-        type: 'UPDATE_ADMIN_STATE',
-        namePlural,
-        pageType,
-        resourceId
-      })
-    },
-    dispatch
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  updateAdminState: (namePlural, pageType, resourceId) => {
+    dispatch({
+      type: 'UPDATE_ADMIN_STATE',
+      namePlural,
+      pageType,
+      resourceId
+    })
+  },
+  dispatch
+})
 
 export default connect(
   mapStateToProps, 

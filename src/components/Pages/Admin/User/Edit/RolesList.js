@@ -15,7 +15,7 @@ class RolesList extends React.Component {
     super(props);
     this.state = {
       roles: [],
-      selectedRoleId: null
+      selectedRoleId: props.defaultRoleId || null
     }
   }
 
@@ -66,8 +66,8 @@ class RolesList extends React.Component {
     this.setState({selectedRoleId: selectedRoleId})
   }
 
-  render() {
-    let roleRadioButtons = this.state.roles.map((role) => (
+  renderRadioButtons() {
+    return this.state.roles.map((role) => (
       <RadioButton
         key={role.id}
         value={role.id}
@@ -75,15 +75,17 @@ class RolesList extends React.Component {
         style={styles.radioButton}
       />
     ))
+  }
+
+  render() {
     return (
       <div className="tab-indented">
-        <RadioButtonGroup name="role" onChange={(evt, value) => this.handleRoleChange(evt, value)}>
-          {roleRadioButtons}
+        <RadioButtonGroup name="role" defaultSelected={this.state.selectedRoleId} onChange={(evt, value) => this.handleRoleChange(evt, value)}>
+          {this.renderRadioButtons()}
         </RadioButtonGroup>
       </div>
     )
   }
-  
 }
 
 export default connect()(RolesList);

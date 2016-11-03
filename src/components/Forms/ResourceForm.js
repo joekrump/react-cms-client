@@ -13,31 +13,38 @@ const listItemStyle = {
 class ResourceForm extends React.Component {
 
   componentWillMount(){
-    let client = new APIClient(this.props.dispatch)
-    this.setState({client});
+    this.initForm();
+  }
 
+  initForm() {
     if(this.props.editContext === 'edit'){
-      // If a form is loading with editContext of 'edit' the values being loaded into form fields should be valid
-      // therefore, the form itself can be set to valid initially.
-      // this.props.resetValid(true, this.props.formName);
-
-      client.get(this.props.resourceURL)
-      .then((res) => {
-        if (res.statusCode !== 200) {
-          console.log('Bad response: ', res);
-        } else {
-          client.updateToken(res.header.authorization);
-          this.props.loadFormWithData(res.body.data, this.props.formName, true);
-        }
-      }, (res) => {
-        console.warn('Error getting resource data: ', res);
-      })
-      .catch((res) => {
-        console.warn('Error getting resource data: ', res);
-      })
+      if(this.props.existingData) {
+        this.props.loadFormWithData(this.props.existingData, this.props.formName, true);
+      } else {
+        this.fetchDataFromServer();
+      }
     } else {
       this.resetForm();
     }
+  }
+
+  fetchDataFromServer() {
+    const client = new APIClient(this.props.dispatch)
+
+    client.get(this.props.resourceURL)
+    .then((res) => {
+      if (res.statusCode !== 200) {
+        console.log('Bad response: ', res);
+      } else {
+        client.updateToken(res.header.authorization);
+        this.props.loadFormWithData(res.body.data, this.props.formName, true);
+      }
+    }, (res) => {
+      console.warn('Error getting resource data: ', res);
+    })
+    .catch((res) => {
+      console.warn('Error getting resource data: ', res);
+    })
   }
 
   resetForm(){
@@ -50,6 +57,7 @@ class ResourceForm extends React.Component {
   }
   
   submitToServer(){
+    const client = new APIClient(this.props.dispatch)
     var formInputValues = {};
 
     Object.keys(this.props.formFields).forEach((key) => {
@@ -59,7 +67,7 @@ class ResourceForm extends React.Component {
     try {
       let httpMethod = this.props.editContext === 'edit' ? 'put' : 'post';
 
-      this.state.client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
+      client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
       .then((res) => {
         if (res.statusCode > 299) {
           this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
