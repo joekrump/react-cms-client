@@ -22,12 +22,6 @@ class AdminNav extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps){
-    // if(nextProps.location.pathname !== this.props.location.pathname){
-    //   this.closeMenu(); 
-    // }
-  }
-
   handleToggleMenu() {
     this.setState({
       menuOpen: !this.state.menuOpen
@@ -89,7 +83,7 @@ class AdminNav extends React.Component {
           <AppBar 
             title={(
               <div className="title-wrapper">
-                <h1 className="admin-title">React CMS</h1>
+                <h1 className="admin-title">{AppConfig.siteTitle ? AppConfig.siteTitle : 'React CMS'}</h1>
                 {this.renderBackButton()}
               </div>
             )} 
