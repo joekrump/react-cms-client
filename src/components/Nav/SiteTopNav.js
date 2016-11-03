@@ -4,13 +4,13 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SiteTopNav.scss'
 
-const links = AppConfig.publicRouteLinks.map((link, i) => (
+const links = AppConfig.routes.public.map((link, i) => (
   <Link 
     className="top-link"
     key={'top-link-' + i} 
     activeClassName="link-active"
     to={link.url}>
-    {link.linkText}
+    {link.routeTitle}
   </Link>
 ));
 
