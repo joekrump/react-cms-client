@@ -20,13 +20,15 @@ class Edit extends React.Component {
     super(props);
     
     let editContext = props.params && props.params.resourceId ? 'edit' : 'new';
-    
+    let resourceId = editContext === 'edit' ? props.params.resourceId : undefined;
     this.state = {
       currentTab: 'user',
-      editContext: editContext,
       updateRole: false,
-      resourceId: editContext === 'edit' ? props.params.resourceId : undefined 
+      editContext,
+      resourceId
     };
+
+    props.updateAdminState('users', editContext, resourceId);
   }
 
   handleTabChange = (value) => {
@@ -108,6 +110,21 @@ const mapStateToProps = (state) => {
   return {currentUser: state.auth.user}
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateAdminState: (namePlural, pageType, resourceId) => {
+      dispatch({
+        type: 'UPDATE_ADMIN_STATE',
+        namePlural,
+        pageType,
+        resourceId
+      })
+    },
+    dispatch
+  };
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps, 
+  mapDispatchToProps
 )(Edit);
