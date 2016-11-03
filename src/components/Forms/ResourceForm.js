@@ -7,7 +7,6 @@ import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 import validations from '../../form-validation/validations'
 import { getResourceData } from '../../helpers/ResourceHelper';
 
-
 const listItemStyle = {
   padding: "0 16px"
 };
@@ -53,6 +52,18 @@ class ResourceForm extends React.Component {
     this.submitToServer();
   }
   
+  submitResolve = (res) => {
+    if (res.statusCode > 299) {
+      this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
+    } else {
+      this.handleSuccess(res);
+    }
+  }
+
+  submitReject = (res) => {
+    this.props.updateSnackbar(true, 'Error', 'ERROR!', 'warning');
+  }
+
   submitToServer(){
     const client = new APIClient(this.props.dispatch)
     var formInputValues = {};
@@ -61,27 +72,18 @@ class ResourceForm extends React.Component {
       formInputValues[key] = this.props.formFields[key].value;
     })
     
-    try {
-      let httpMethod = this.props.editContext === 'edit' ? 'put' : 'post';
+    let httpMethod = this.props.editContext === 'edit' ? 'put' : 'post';
 
-      client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
-      .then((res) => {
-        if (res.statusCode > 299) {
-          this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
-        } else {
-          this.handleSuccess(res);
-        }
-      }, (res) => {
-        this.props.updateSnackbar(true, 'Error', 'ERROR!', 'warning');
-      })
-      .catch((res) => {
-        console.log(res);
-        this.props.updateSnackbar(true, 'Error', res.data, 'error');
-      })
-    } catch (e) {
-      console.log('Exception: ', e)
-    }
+    client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
+    .then(this.submitResolve, this.submitReject)
+    .catch(handleRequestException)
   }
+
+  handleRequestException = (exception) => {
+    console.warn('Exception: ', exception)
+    this.props.updateSnackbar(true, 'Error', exception, 'error');
+  }
+
   handleSuccess(res) {
     if(res.body.message) {
       this.props.updateSnackbar(true, 'Success', res.body.message, 'success');
