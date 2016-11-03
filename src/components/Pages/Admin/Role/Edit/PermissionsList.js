@@ -28,7 +28,7 @@ class PermissionsList extends React.Component {
     return toggledIds;
   }
 
-  updatePermissions() {
+  fetchPermissions() {
     const client = new APIClient(this.props.dispatch);
     
     client.post('attach-permissions', true, {data: {permissionIds: this.getToggledPermissions(), role_id: this.props.roleId}}).then((res) => {
@@ -36,7 +36,7 @@ class PermissionsList extends React.Component {
         console.log('Bad response: ', res);
       } else {
         client.updateToken(res.header.authorization);
-        this.props.updatePermissionsCallback();
+        this.props.fetchPermissionsCallback();
       }
     }, (res) => {
       console.warn('Error updating Permissions: ', res);
@@ -48,7 +48,7 @@ class PermissionsList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if(!this.props.submitPermissions && nextProps.submitPermissions) {
-      this.updatePermissions();
+      this.fetchPermissions();
     }
     if(nextProps.roleId !== this.props.roleId) {
       if(this.state.permissions.length === 0) {
