@@ -15,7 +15,6 @@ class PermissionsList extends React.Component {
     super(props);
     this.state = {
       permissions: [],
-      role: null
     }
   }
 
@@ -32,7 +31,7 @@ class PermissionsList extends React.Component {
   updatePermissions() {
     const client = new APIClient(this.props.dispatch);
     
-    client.post('attach-permissions', true, {data: {permissionIds: this.getToggledPermissions(), role_id: this.state.role.id}}).then((res) => {
+    client.post('attach-permissions', true, {data: {permissionIds: this.getToggledPermissions(), role_id: this.props.roleId}}).then((res) => {
       if (res.statusCode !== 200) {
         console.log('Bad response: ', res);
       } else {
@@ -51,34 +50,16 @@ class PermissionsList extends React.Component {
     if(!this.props.submitPermissions && nextProps.submitPermissions) {
       this.updatePermissions();
     }
-  }
-
-  componentDidMount() {
-    const client = new APIClient(this.props.dispatch);
-    var role = null;
-
-    if(this.props.resourceId) {
-      client.get(`roles/${this.props.resourceId}`).then((res) => {
-        if (res.statusCode !== 200) {
-          console.log('Bad response: ', res);
-        } else {
-          client.updateToken(res.header.authorization);
-          role = res.body.data;
-          this.setState({role});
-          this.getPermissions(role);
-        }
-      }, (res) => {
-        console.warn('Error getting resource data: ', res);
-      })
-      .catch((res) => {
-        console.warn('Error getting resource data: ', res);
-      })
-    } else {
-      this.getPermissions(role);
+    if(nextProps.roleId !== this.props.roleId) {
+      if(this.state.permissions.length === 0) {
+        this.getPermissions(nextProps.rolePermissions);
+      } else {
+        this.setPermissions(this.state.permissions, nextProps.rolePermissions);
+      }
     }
   }
 
-  getPermissions(role) {
+  getPermissions(rolePermissions) {
     const client = new APIClient(this.props.dispatch);
 
     client.get('permissions').then((res) => {
@@ -86,7 +67,7 @@ class PermissionsList extends React.Component {
         console.log('Bad response: ', res);
       } else {
         client.updateToken(res.header.authorization);
-        this.setPermissions(res.body.data, role);
+        this.setPermissions(res.body.data, rolePermissions);
       }
     }, (res) => {
       console.warn('Error getting resource data: ', res);
@@ -96,22 +77,22 @@ class PermissionsList extends React.Component {
     })
   }
 
-  setPermissions(permissions, role) {
+  setPermissions(permissions, rolePermissions) {
     var modifiedPermissions = []
     
     permissions.forEach((permission, i) => {
-      permission.toggled = this.isPermissionToggled(permission, role);
+      permission.toggled = this.isPermissionToggled(permission, rolePermissions);
       modifiedPermissions.push(permission);
     });
 
     this.setState({permissions: modifiedPermissions});
   }
 
-  isPermissionToggled(permission, role) {
+  isPermissionToggled(permission, rolePermissions) {
     if(permission.toggled) {
       return permission.toggled;
     }
-    return (role !== null) && (role.permissions.indexOf(permission.name) !== -1);
+    return rolePermissions.indexOf(permission.name) !== -1;
   }
 
   togglePermission(evt, permissionId) {
