@@ -36,7 +36,7 @@ class Page extends React.Component {
   loadPageContent(pathname) {
     const client = new APIClient(this.props.dispatch);
 
-    client.get('data/pages/by-path', false, {params: {
+    client.get('page', false, {params: {
       fullpath: pathname
     }}).then((res) => {
       this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
