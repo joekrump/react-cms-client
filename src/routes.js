@@ -82,7 +82,7 @@ const getRoutes = (store) => {
             onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'new') 
           },
           { 
-            path: 'users/:userId/edit',
+            path: 'users/:resourceId/edit',
             component: EditUser,
             onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'edit') 
           },
@@ -91,7 +91,7 @@ const getRoutes = (store) => {
             onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'new') 
           },
           { 
-            path: 'roles/:roleId/edit',
+            path: 'roles/:resourceId/edit',
             component: EditRole,
             onEnter: (nextState) => onAdminEnterHandler(nextState, store, 'edit') 
           },

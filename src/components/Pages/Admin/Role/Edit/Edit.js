@@ -21,7 +21,7 @@ class Edit extends React.Component {
     super(props);
     this.state = {
       currentTab: 'role',
-      editContext: props.params && props.params.roleId ? 'edit' : 'new',
+      editContext: props.params && props.params.resourceId ? 'edit' : 'new',
       submitPermissions: false
     };
   }
@@ -48,8 +48,8 @@ class Edit extends React.Component {
               <h2 style={styles.headline}>Role Details</h2>
               <ResourceForm 
                 formName='roleForm'
-                resourceURL={this.state.editContext === 'edit' ? `roles/${this.props.params.roleId}` : 'roles'}
-                resourceId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined}
+                resourceURL={this.state.editContext === 'edit' ? `roles/${this.props.params.resourceId}` : 'roles'}
+                resourceId={this.state.editContext === 'edit' ? this.props.params.resourceId : undefined}
                 resourceType='role'
                 editContext={this.state.editContext}
                 successCallback={() => {
@@ -62,7 +62,7 @@ class Edit extends React.Component {
             <div className="tab-content">
               <h2 style={styles.headline}>Permissions</h2>
               <PermissionsInstructions />
-              <PermissionsList roleId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined} 
+              <PermissionsList resourceId={this.state.editContext === 'edit' ? this.props.params.resourceId : undefined} 
                 submitPermissions={this.state.submitPermissions}
                 updatePermissionsCallback={this.updateSubmitPermissions}
               />
@@ -76,8 +76,8 @@ class Edit extends React.Component {
           <h2 style={styles.headline}>Role Details</h2>
           <ResourceForm 
             formName='roleForm'
-            resourceURL={this.state.editContext === 'edit' ? `roles/${this.props.params.roleId}` : 'roles'}
-            resourceId={this.state.editContext === 'edit' ? this.props.params.roleId : undefined}
+            resourceURL={this.state.editContext === 'edit' ? `roles/${this.props.params.resourceId}` : 'roles'}
+            resourceId={this.state.editContext === 'edit' ? this.props.params.resourceId : undefined}
             resourceType='role'
             editContext={this.state.editContext}
           />
