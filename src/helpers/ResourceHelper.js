@@ -20,6 +20,16 @@ export function getIndexItems(resourceNamePlural, put){
   });
 }
 
+export function getResourceData(dispatch, resourceURL, resolve, reject) {
+  const client = new APIClient(dispatch)
+
+  client.get(resourceURL)
+  .then((res) => resolve(res), (res) => reject(res))
+  .catch((res) => {
+    console.warn('Error getting resource data: ', res);
+  })
+}
+
 /**
  * A helper with methods related to resources
  */
