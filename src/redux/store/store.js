@@ -1,6 +1,4 @@
 // Dev tools
-import { createDevTools } from 'redux-devtools'
-import React from 'react'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 
 const StoreHelper = () => {
