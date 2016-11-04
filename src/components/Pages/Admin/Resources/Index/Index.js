@@ -5,12 +5,13 @@ import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Index.scss';
-import dragula from 'react-dragula';
 import ListItems from './ListItems';
 import TreeHelper, { _contains } from '../../../../../helpers/TreeHelper';
 import { connect } from 'react-redux';
 import NotificationSnackbar from '../../../../Notifications/Snackbar/Snackbar'
 import IndexToolbar from './IndexToolbar';
+
+var dragula;
 
 class Index extends React.Component {
   constructor(props, context) {
@@ -41,6 +42,7 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
+    dragula = require('react-dragula');
     if(this.props.adminResourceMode === 'EDIT_INDEX') {
       this.initializeDnD(); 
     }

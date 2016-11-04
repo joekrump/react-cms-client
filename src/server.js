@@ -43,7 +43,7 @@ app.get('*',(req, res) => {
 
   const memoryHistory = createMemoryHistory(req.path)
   const store = makeStore(sagaMiddleware, memoryHistory)
-  // syncHistoryWithStore(memoryHistory, store)
+  syncHistoryWithStore(memoryHistory, store)
   const routes = getRoutes(store);
 
   match({routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -79,11 +79,12 @@ function makeStore(sagaMiddleware, memoryHistory) {
 }
 
 function renderPage(renderProps, store){
+  console.log(store.getState());
   return ReactDOMServer.renderToStaticMarkup(
     <Provider store={store}>
       <MuiThemeProvider muiTheme={muiTheme}>
         <StyleContextProvider context={styleContext}>
-        <RouterContext {...renderProps}/>
+          <RouterContext {...renderProps}/>
         </StyleContextProvider>
       </MuiThemeProvider>
     </Provider>

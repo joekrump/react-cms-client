@@ -24,22 +24,26 @@ const StoreHelper = () => {
    * [description]
    * @param  {[type]} reducers   [description]
    * @param  {[type]} middleware [description]
+   * @param  {Object} existingState [description]
    * @param  {[type]} callback   [description]
    * @return {[type]}            [description]
    */
-  const setStore = (reducers, middleware, callback) => {
+  const setStore = (reducers, middleware, callback, existingState) => {
 
     const reducer = combineReducers({
       ...reducers
-    })
+    });
+
+    const composeArgs = [applyMiddleware(...middleware)];
+
+    if ((typeof window !== 'undefined') && window.devToolsExtension) {
+      composeArgs.push(window.devToolsExtension());
+    }
+
     store = createStore(
       reducer,
-      { routing: { locationBeforeTransitions: null },
-      auth: {logged_in: false} },
-      compose(
-        applyMiddleware(...middleware),
-        ((typeof window !== 'undefined') && window.devToolsExtension) ? window.devToolsExtension() : DevTools.instrument() 
-      )
+      existingState
+      compose(...composeArgs)
     );
     
     if(callback){
