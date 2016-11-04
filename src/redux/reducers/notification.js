@@ -1,11 +1,4 @@
-const initialState = {
-  snackbar: {
-    show: false,
-    header: null, 
-    content: null,
-    notificationType: 'success' // types are 'success', 'error', 'warning' and 'info'
-  }
-};
+import initialState from '../store/initial_states/notification';
 
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {

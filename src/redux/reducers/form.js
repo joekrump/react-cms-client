@@ -1,29 +1,6 @@
 import assign from 'lodash.assign';
 import merge from 'lodash.merge';
-import { bookForm,
-         loginForm,
-         paymentForm,
-         permissionForm,
-         roleForm,
-         signupForm,
-         userForm,
-         forgotPasswordForm,
-         resetPasswordForm } from '../store/initial_states/forms/index'
-
-
-// define initial state of forms
-//
-const initialState = { 
-  bookForm,
-  loginForm,
-  paymentForm,
-  permissionForm,
-  roleForm,
-  signupForm,
-  userForm,
-  forgotPasswordForm,
-  resetPasswordForm
-};
+import initialState from '../store/initial_states/forms/forms';
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {

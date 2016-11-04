@@ -1,17 +1,7 @@
 // Dev tools
 import { createDevTools } from 'redux-devtools'
-import LogMonitor from 'redux-devtools-log-monitor'
-import SliderMonitor from 'redux-slider-monitor';
-import DockMonitor from 'redux-devtools-dock-monitor'
 import React from 'react'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-
-const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q" changeMonitorKey='ctrl-m' defaultPosition='bottom'>
-    <LogMonitor theme="tomorrow" preserveScrollTop={true} />
-    <SliderMonitor />
-  </DockMonitor>
-)
 
 const StoreHelper = () => {
 

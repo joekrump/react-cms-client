@@ -1,8 +1,4 @@
-const initialState = {
-  user: null,
-  token: null,
-  logged_in: false
-};
+import initialState from '../store/initial_states/auth';
 
 const auth = (state = initialState, action) => {
   switch (action.type) {

@@ -1,11 +1,5 @@
 import { makeMinimalArray } from '../../helpers/TreeHelper';
-
-const initialState = {
-  indexTree: {
-    flatNodes: [],
-    minimalArray: [],
-  }
-};
+import initialState from '../store/initial_states/tree';
 
 const treeReducer = (state = initialState, action) => {
   switch (action.type) {

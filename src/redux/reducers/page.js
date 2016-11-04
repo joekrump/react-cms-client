@@ -1,6 +1,4 @@
-const initialState = {
-  statusCode: 200
-};
+import initialState from '../store/initial_states/page';
 
 const page = (state = initialState, action) => {
   switch (action.type) {
