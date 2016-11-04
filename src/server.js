@@ -17,6 +17,8 @@ import createSagaMiddleware from 'redux-saga'
 import rootSaga from './redux/sagas/root'
 import reducers from './redux/reducers'
 import path from 'path';
+import configureStore from '../common/store/configureStore'
+import initialStoreState from './redux/store/initial_states/index'
 
 // Configuring userAgent for Material-UI
 // 
@@ -43,7 +45,6 @@ app.get('*',(req, res) => {
 
   const memoryHistory = createMemoryHistory(req.path)
   const store = makeStore(sagaMiddleware, memoryHistory)
-  syncHistoryWithStore(memoryHistory, store)
   const routes = getRoutes(store);
 
   match({routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -75,6 +76,10 @@ function makeStore(sagaMiddleware, memoryHistory) {
   ], () => {
     // Run the saga
     sagaMiddleware.run(rootSaga)
+  },
+  {
+    ...memoryHistory,
+    ...initialStoreState
   });
 }
 
