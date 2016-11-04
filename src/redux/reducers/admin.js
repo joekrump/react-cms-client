@@ -1,21 +1,7 @@
 import { singularizeName } from '../../helpers/ResourceHelper';
 import merge from 'lodash.merge';
 import assign from 'lodash.assign';
-import resources from '../store/initial_states/admin/resources';
-
-const initialState = {
-  resource: {
-    name: {
-      plural: '',
-      singular: ''
-    }
-  },
-  pageType: 'dashboard', // can be show, edit, new, settings or dashboard
-  resourceId: null,
-  editorData: {},
-  dataLoading: false,
-  resources
-};
+import initialState from '../store/initial_states/admin/admin';
 
 const adminReducer = (state = initialState, action) => {
   let update = {}

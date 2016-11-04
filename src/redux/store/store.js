@@ -28,7 +28,7 @@ const StoreHelper = () => {
    * @param  {[type]} callback   [description]
    * @return {[type]}            [description]
    */
-  const setStore = (reducers, middleware, callback, existingState) => {
+  const setStore = (reducers, middleware, callback, existingState = {}) => {
 
     const reducer = combineReducers({
       ...reducers
@@ -42,7 +42,7 @@ const StoreHelper = () => {
 
     store = createStore(
       reducer,
-      existingState
+      existingState,
       compose(...composeArgs)
     );
     
