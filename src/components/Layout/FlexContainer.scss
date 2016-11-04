@@ -1,0 +1,7 @@
+.flex-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: 'space-around';
+}
+
+/* TODO: consider other arrangements for justify-content based on @media queries */
