@@ -79,97 +79,94 @@ export const parseCloudinaryURL = (url) => {
 export class ImageUploader {
 
   constructor(dialog) {
-    this.image = null;
-    this.xhr = null;
-    this.xhrComplete = null;
-    this.xhrProgress = null;
-    this.dialog = dialog;
+    if(typeof window !== 'undefined') {
+      this.image = null;
+      this.xhr = null;
+      this.xhrComplete = null;
+      this.xhrProgress = null;
+      this.dialog = dialog;
+      
+      // Set up the event handlers
+      this.dialog.addEventListener('imageuploader.cancelupload', this.handleUploadCancel);
+      this.dialog.addEventListener('imageuploader.clear', this.handleClearUploader);
+      this.dialog.addEventListener('imageuploader.fileready', (ev) => {
+        // Upload a file to Cloudinary
+        var formData;
+        var file = ev.detail().file;
 
-
-
-    
-    // Set up the event handlers
-    this.dialog.addEventListener('imageuploader.cancelupload', this.handleUploadCancel);
-
-    this.dialog.addEventListener('imageuploader.clear', this.handleClearUploader);
-
-    this.dialog.addEventListener('imageuploader.fileready', (ev) => {
-      // Upload a file to Cloudinary
-      var formData;
-      var file = ev.detail().file;
-
-      // Define functions to handle upload progress and completion
-      this.xhrProgress = (ev) => {
-        // Set the progress for the upload
-        this.dialog.progress((ev.loaded / ev.total) * 100);
-      }
-
-      this.xhrComplete = (ev) => {
-        var response;
-
-        // Check the request is complete
-        if (ev.target.readyState !== 4) {
-          return;
+        // Define functions to handle upload progress and completion
+        this.xhrProgress = (ev) => {
+          // Set the progress for the upload
+          this.dialog.progress((ev.loaded / ev.total) * 100);
         }
 
-        this.resetXHR();
+        this.xhrComplete = (ev) => {
+          var response;
 
-        // Handle the result of the upload
-        if (parseInt(ev.target.status, 10) === 200) {
-          // Unpack the response (from JSON)
-          response = JSON.parse(ev.target.responseText);
+          // Check the request is complete
+          if (ev.target.readyState !== 4) {
+            return;
+          }
 
-          // Store the image details
-          this.image = {
-            angle: 0,
-            height: parseInt(response.height, 10),
-            // maxWidth: parseInt(response.width, 10),
-            width: parseInt(response.width, 10)
-          };
+          this.resetXHR();
 
-          // Apply a draft size to the image for editing
-          this.image.filename = parseCloudinaryURL(response.url)[0];
-          this.image.url = buildCloudinaryURL(
-            this.image.filename,
-            [{c: 'fit', h: 600, w: 600}]
-          );
-          
-          // Populate the dialog
-          this.dialog.populate(this.image.url, [this.image.width, this.image.height]);
+          // Handle the result of the upload
+          if (parseInt(ev.target.status, 10) === 200) {
+            // Unpack the response (from JSON)
+            response = JSON.parse(ev.target.responseText);
 
-        } else {
-          // The request failed, notify the user
-          // eslint-disable-next-line
-          new ContentTools.FlashUI('no');
+            // Store the image details
+            this.image = {
+              angle: 0,
+              height: parseInt(response.height, 10),
+              // maxWidth: parseInt(response.width, 10),
+              width: parseInt(response.width, 10)
+            };
+
+            // Apply a draft size to the image for editing
+            this.image.filename = parseCloudinaryURL(response.url)[0];
+            this.image.url = buildCloudinaryURL(
+              this.image.filename,
+              [{c: 'fit', h: 600, w: 600}]
+            );
+            
+            // Populate the dialog
+            this.dialog.populate(this.image.url, [this.image.width, this.image.height]);
+
+          } else {
+            // The request failed, notify the user
+            // eslint-disable-next-line
+            new ContentTools.FlashUI('no');
+          }
         }
-      }
 
-      // Set the dialog state to uploading and reset the progress bar to 0
-      this.dialog.state('uploading');
-      this.dialog.progress(0);
+        // Set the dialog state to uploading and reset the progress bar to 0
+        this.dialog.state('uploading');
+        this.dialog.progress(0);
 
-      // Build the form data to post to the server
-      formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_PRESET_NAME);
+        // Build the form data to post to the server
+        formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_PRESET_NAME);
 
-      // Make the request
-      this.xhr = new XMLHttpRequest();
-      this.xhr.upload.addEventListener('progress', this.xhrProgress);
-      this.xhr.addEventListener('readystatechange', this.xhrComplete);
-      this.xhr.open('POST', CLOUDINARY_UPLOAD_URL, true);
-      this.xhr.send(formData);
-    });
+        // Make the request
+        this.xhr = new XMLHttpRequest();
+        this.xhr.upload.addEventListener('progress', this.xhrProgress);
+        this.xhr.addEventListener('readystatechange', this.xhrComplete);
+        this.xhr.open('POST', CLOUDINARY_UPLOAD_URL, true);
+        this.xhr.send(formData);
+      });
 
 
-    this.dialog.addEventListener('imageuploader.rotateccw',  () => { 
-      this.rotate(-90); 
-    });
-    this.dialog.addEventListener('imageuploader.rotatecw', () => { 
-      this.rotate(90); 
-    });
+      this.dialog.addEventListener('imageuploader.rotateccw',  () => { 
+        this.rotate(-90); 
+      });
+      this.dialog.addEventListener('imageuploader.rotatecw', () => { 
+        this.rotate(90); 
+      });
 
-    this.dialog.addEventListener('imageuploader.save', this.handleImageSave);
+      this.dialog.addEventListener('imageuploader.save', this.handleImageSave);
+    }
   }
 
   setMaxWidthAndHeight = () => {
@@ -198,10 +195,8 @@ export class ImageUploader {
   }
 
   handleUploadCancel = () => {
-    // Cancel the current upload
-
     // Stop the upload
-    if (this.xhr) {
+    if ((typeof window !== 'undefined') && this.xhr) {
       this.xhr.upload.removeEventListener('progress', this.xhrProgress);
       this.xhr.removeEventListener('readystatechange', this.xhrComplete);
       this.xhr.abort();

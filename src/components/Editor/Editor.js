@@ -7,75 +7,74 @@ const sKeyCode = 83;
 class Editor {
 
   constructor(getPageName, submitURL, handleSaveSuccess, editContext, resourceNamePlural, dispatch, template_id) {
-    this.submitURL = submitURL;
-    this.handleSaveSuccess = handleSaveSuccess;
-    this.resourceNamePlural = resourceNamePlural;
-    this.dispatch = dispatch;
-    this.template_id = parseInt(template_id, 10);
-    this.slug = '';
-    this.dirty_data = false;
-    this.keypressSave = false; // used to help determine what the save context was.
-    // new or edit
-    // 
-    this.editContext = editContext;
-    this.getPageName = getPageName;
-
-    ContentTools.IMAGE_UPLOADER = this.createImageUploader;
-    ContentTools.MIN_CROP = 30;
-    ContentTools.DEFAULT_VIDEO_WIDTH = 889;
-    ContentTools.DEFAULT_VIDEO_HEIGHT = 500;
-
-    // eslint-disable-next-line
-    ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 980;
-    // eslint-disable-next-line
-    ContentEdit.RESIZE_CORNER_SIZE = 50;
-
-    // Capture image resize events and update the Cloudinary URL
-    // eslint-disable-next-line
-    ContentEdit.Root.get().bind('taint', (element) => {
-      var args, filename, transforms, url;
-      // return early if there is no actual change that has been made.
-      if(!this.editor.history) {
-        return;
-      }
-      // Check the element tainted is an image
-      if (element.type() !== 'Image') {
-        return;
-      }
-
-      // Parse the existing URL
-      args = parseCloudinaryURL(element.attr('src'));
-      filename = args[0];
-      transforms = args[1];
-
-      // // If no filename is found then exit (not a Cloudinary image)
-      if (!filename) {
-        return;
-      }
-
-      // Remove any existing resize transform
-      if (transforms.length > 0 && transforms[transforms.length -1]['c'] === 'scale') {
-        transforms.pop();
-      }
-
-      // // Change the resize transform for the element
-      transforms.push({c: 'scale', w: element.size()[0], h: element.size()[1]});
-      url = buildCloudinaryURL(filename, transforms);
-      if (url !== element.attr('src')) {
-        element.attr('src', url);
-      }
-    });
-
-    // Initialise editor for the page.
-    // 
-    this.editor = ContentTools.EditorApp.get();
-    this.editor.init('*[data-editable]', 'data-name');
-
-    this.editor.addEventListener('saved', (event) => this.handleSave(event, this.submitURL));
-    this.editor.addEventListener('start', (event) => this.handleEditStart(event));
-    // this.editor.addEventListener('stop', this.handleEditStop.bind(this));
     if(typeof window !== 'undefined') {
+      this.submitURL = submitURL;
+      this.handleSaveSuccess = handleSaveSuccess;
+      this.resourceNamePlural = resourceNamePlural;
+      this.dispatch = dispatch;
+      this.template_id = parseInt(template_id, 10);
+      this.slug = '';
+      this.dirty_data = false;
+      this.keypressSave = false; // used to help determine what the save context was.
+      // new or edit
+      // 
+      this.editContext = editContext;
+      this.getPageName = getPageName;
+
+      ContentTools.IMAGE_UPLOADER = this.createImageUploader;
+      ContentTools.MIN_CROP = 30;
+      ContentTools.DEFAULT_VIDEO_WIDTH = 889;
+      ContentTools.DEFAULT_VIDEO_HEIGHT = 500;
+
+      // eslint-disable-next-line
+      ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 980;
+      // eslint-disable-next-line
+      ContentEdit.RESIZE_CORNER_SIZE = 50;
+
+      // Capture image resize events and update the Cloudinary URL
+      // eslint-disable-next-line
+      ContentEdit.Root.get().bind('taint', (element) => {
+        var args, filename, transforms, url;
+        // return early if there is no actual change that has been made.
+        if(!this.editor.history) {
+          return;
+        }
+        // Check the element tainted is an image
+        if (element.type() !== 'Image') {
+          return;
+        }
+
+        // Parse the existing URL
+        args = parseCloudinaryURL(element.attr('src'));
+        filename = args[0];
+        transforms = args[1];
+
+        // // If no filename is found then exit (not a Cloudinary image)
+        if (!filename) {
+          return;
+        }
+
+        // Remove any existing resize transform
+        if (transforms.length > 0 && transforms[transforms.length -1]['c'] === 'scale') {
+          transforms.pop();
+        }
+
+        // // Change the resize transform for the element
+        transforms.push({c: 'scale', w: element.size()[0], h: element.size()[1]});
+        url = buildCloudinaryURL(filename, transforms);
+        if (url !== element.attr('src')) {
+          element.attr('src', url);
+        }
+      });
+
+      // Initialise editor for the page.
+      // 
+      this.editor = ContentTools.EditorApp.get();
+      this.editor.init('*[data-editable]', 'data-name');
+
       window.addEventListener('keydown', (event) => this.handleKeyDown(event));
+      this.editor.addEventListener('saved', (event) => this.handleSave(event, this.submitURL));
+      this.editor.addEventListener('start', (event) => this.handleEditStart(event));
     }
 
   }
