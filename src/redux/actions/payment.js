@@ -4,19 +4,3 @@ export function updateStripeToken(stripeToken) {
     stripeToken
   };
 }
-
-export function updateNotification(snackbarOpen, snackbarColor, snackbarHeaderText, snackbarMessage){
-  return {
-    type: 'UPDATE_PAYMENT_NOTIFICATION',
-    snackbarOpen,
-    snackbarColor,
-    snackbarHeaderText,
-    snackbarMessage
-  }
-}
-export function updateNotification(snackbarOpen){
-  return {
-    type: 'TOGGLE_SNACKBAR',
-    snackbarOpen
-  }
-}
