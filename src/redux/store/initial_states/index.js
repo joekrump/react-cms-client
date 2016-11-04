@@ -1,17 +1,17 @@
-import adminState from '../store/initial_states/admin/admin';
-import authState from '../store/initial_states/auth';
-import formsState from '../store/initial_states/forms/forms';
-import notificationState from '../store/initial_states/notification';
-import pageState from '../store/initial_states/page';
-import paymentState from '../store/initial_states/payment';
-import treeState from '../store/initial_states/tree';
+import adminState from './admin/admin';
+import authState from './auth';
+import formsState from './forms/forms';
+import notificationState from './notification';
+import pageState from './page';
+import paymentState from './payment';
+import treeState from './tree';
 
 export default {
-  adminState,
-  authState,
-  formsState,
-  notificationState,
-  pageState,
-  paymentState,
-  treeState
+  admin: adminState,
+  auth: authState,
+  forms: formsState,
+  notification: notificationState,
+  page: pageState,
+  payment: paymentState,
+  tree: treeState
 }

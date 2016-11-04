@@ -22,7 +22,6 @@ injectTapEventPlugin();
 
 React.Perf = require('react-addons-perf');
 
-
 const styleContext = {
   insertCss: styles => styles._insertCss(),
 };
