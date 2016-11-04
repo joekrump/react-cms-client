@@ -1,5 +1,6 @@
 import React from 'react';
-import './FlexContainer.css';
+import s from './FlexContainer.scss'
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 const FlexContainer = (props) => (
   <div className="flex-container">
@@ -7,4 +8,4 @@ const FlexContainer = (props) => (
   </div>
 );
 
-export default FlexContainer;
+export default withStyles(s)(FlexContainer);
