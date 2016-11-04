@@ -84,7 +84,7 @@ function makeStore(sagaMiddleware, memoryHistory) {
 }
 
 function renderPage(renderProps, store){
-  console.log(store.getState());
+  // console.log(store.getState());
   return ReactDOMServer.renderToStaticMarkup(
     <Provider store={store}>
       <MuiThemeProvider muiTheme={muiTheme}>
