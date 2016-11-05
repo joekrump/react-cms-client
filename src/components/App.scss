@@ -1,34 +1,3 @@
-html {
-  height: 100%;
-}
-
-body {
-  background-color: #424242;
-  font-family: 'Lato', sans-serif;
-  margin: 0;
-  color: #fff;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  font-weight: 400;
-  height: 100%;
-  min-height: 100%;
-  min-width: 360px;
-}
-
-h1, h2 {
-  font-weight: 300;
-}
-
-a {
-  color: #3D5AFE; /* indigoA400 */
-  font-weight: 600; 
-  text-decoration: none;
-}
-
-a:hover {
-  color: #304FFE; /* indigoA700 */
-}
-
 .link {
   &.light {
     color: #81D4FA; /* lightBlue200 */
@@ -44,14 +13,6 @@ a:hover {
   }
 }
 
-.clearfix:after { 
-  content: "";
-  visibility: hidden;
-  display: block;
-  height: 0;
-  clear: both;
-}
-
 #base, #context, #app {
   height: 100%;
   min-width: 360px;
@@ -59,12 +20,6 @@ a:hover {
 
 .drawer-link.link-active {
   color: green;
-}
-
-// A container class for !admin pages.
-.frontend-container {
-  padding-top: 65px;
-  margin: 0 auto;
 }
 
 .title-wrapper {
@@ -112,22 +67,5 @@ a:hover {
   }
   .instructions {
     font-size: 1.0rem;
-  }
-}
-
-@media (max-width: 900px){
-  .frontend-container {
-    width: 80%;
-  }
-}
-@media (max-width: 500px){
-  .frontend-container {
-    width: 96%;
-    min-width: 300px;
-  }
-}
-@media (min-width: 901px) {
-  .frontend-container {
-    width: 980px;
   }
 }

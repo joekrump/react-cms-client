@@ -4,12 +4,69 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,600" rel="stylesheet" type="text/css">
+    <style>
+      html {
+        height: 100%;
+      }
+
+      body {
+        background-color: #424242;
+        font-family: 'Lato', sans-serif;
+        margin: 0;
+        color: #fff;
+        font-size: 1.2rem;
+        line-height: 1.5;
+        font-weight: 400;
+        height: 100%;
+        min-height: 100%;
+        min-width: 360px;
+      }
+
+      h1, h2 {
+        font-weight: 300;
+      }
+
+      a {
+        color: #3D5AFE; /* indigoA400 */
+        font-weight: 600; 
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #304FFE; /* indigoA700 */
+      }
+      .clearfix:after { 
+        content: "";
+        visibility: hidden;
+        display: block;
+        height: 0;
+        clear: both;
+      }
+      .frontend-container {
+        padding-top: 65px;
+        margin: 0 auto;
+      }
+      @media (max-width: 900px){
+        .frontend-container {
+          width: 80%;
+        }
+      }
+      @media (max-width: 500px){
+        .frontend-container {
+          width: 96%;
+          min-width: 300px;
+        }
+      }
+      @media (min-width: 901px) {
+        .frontend-container {
+          width: 980px;
+        }
+      }
+    </style>
     <title>React App</title>
   </head>
   <body>
-    <div id="base">
-      {{{ reactMarkup }}}
-    </div>
+    <div id="base"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
