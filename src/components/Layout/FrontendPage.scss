@@ -61,7 +61,7 @@
   .page, .top-nav {
     .page-container {
       width: 80%;
-        margin: 0 auto;
+      margin: 0 auto;
     }
   }
 }
@@ -69,8 +69,8 @@
   .page, .top-nav {
     .page-container {
       width: 96%;
+      padding: 15px;
     }
-    min-width: 400px;
   }
 }
 @media (min-width: 1000px) {
