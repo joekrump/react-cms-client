@@ -20,7 +20,7 @@ const MobileMenu = (props, context) => {
       key="user-avatar"
       disabled={true}
       leftAvatar={
-        <span className="logo light"></span>
+        <span style={{top: '12px'}} className="logo light"></span>
       }
       primaryText={<Link to="/" className="link dark header-text">{AppConfig.siteTitle}</Link>}
     />)

@@ -24,6 +24,7 @@ class TopNav extends React.Component {
         open={this.state.mobileNavVisible}
         docked={false} 
         onRequestChange={() => this.handleToggleMenu()}
+        containerStyle={{backgroundColor: 'black'}}
       >
         <MobileMenu />
       </Drawer>
