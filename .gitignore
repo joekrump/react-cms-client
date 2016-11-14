@@ -12,4 +12,7 @@ public/sitemap.xml
 # config files
 app_config
 
+build
+build_server
+
 .idea
