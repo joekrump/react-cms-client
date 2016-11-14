@@ -6,14 +6,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SiteTopNav.scss'
 import MobileMenu from '../Menu/MobileMenu'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 
-const breakpointWidth = 626;
-
-function pageIsActive(router, url, indexOnly = false) {
-  return router.isActive({pathname: url}, indexOnly)
-}
+const breakpointWidth = 850;
 
 class TopNav extends React.Component {
   
@@ -23,10 +18,6 @@ class TopNav extends React.Component {
       windowWidth: (typeof window !== 'undefined' ? window.innerWidth : null),
       mobileNavVisible: false
     };
-  }
-
-  renderMobileMenu() {
-
   }
 
   handleToggleMenu() {
