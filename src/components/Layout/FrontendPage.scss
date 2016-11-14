@@ -68,7 +68,8 @@
 @media (max-width: 500px){
   .page, .top-nav {
     .page-container {
-      width: 96%;
+      margin: 0;
+      width: inherit;
       padding: 15px;
     }
   }
