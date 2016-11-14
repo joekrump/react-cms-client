@@ -32,8 +32,6 @@ class PaymentForm extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.submitToServer = this.submitToServer.bind(this)
     
-    // Reset the form initially.
-    this.resetForm();
     // if the form is being displayed in edit mode, no nead to actually load Stripe into the page.
     // 
     if(props.editMode) {
@@ -64,6 +62,8 @@ class PaymentForm extends React.Component {
     }
   }
   componentDidMount() {
+    // Reset the form initially.
+    this.resetForm();
     let client = new APIClient(this.props.dispatch);
     this.setState({client});
   }

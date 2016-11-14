@@ -5,30 +5,24 @@ import Drawer from 'material-ui/Drawer';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SiteTopNav.scss'
 import MobileMenu from '../Menu/MobileMenu'
-const breakpointWidth = 626;
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
 
+const breakpointWidth = 626;
 
 class TopNav extends React.Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      windowWidth: null,
-      mobileNavVisible: true
+      windowWidth: (typeof window !== 'undefined' ? window.innerWidth : null),
+      mobileNavVisible: false
     };
   }
 
-  renderNavigation() {
-    return (
-      <Drawer 
-        open={this.state.mobileNavVisible}
-        docked={false} 
-        onRequestChange={() => this.handleToggleMenu()}
-        containerStyle={{backgroundColor: 'black'}}
-      >
-        <MobileMenu />
-      </Drawer>
-    );
+  renderMobileMenu() {
+
   }
 
   handleToggleMenu() {
@@ -40,9 +34,33 @@ class TopNav extends React.Component {
   }
 
   renderMobileNav() {
-    if(this.state.mobileNavVisible) {
-      return LINKS;
-    }
+    return (
+      <div>
+        <IconButton tooltip="Open Menu" onClick={(evt) => this.handleToggleMenu(evt)}>
+          <MenuIcon />
+        </IconButton>
+        <Drawer 
+          open={this.state.mobileNavVisible}
+          docked={false} 
+          onRequestChange={() => this.handleToggleMenu()}
+          containerStyle={{backgroundColor: 'black'}}
+        >
+          <MobileMenu />
+        </Drawer>
+      </div>
+    );
+  }
+
+  shouldRenderMobileNav() {
+    return this.state.windowWidth < breakpointWidth;
+  }
+
+  renderDefaultNav() {
+    return (
+      <div className="nav-links-container">
+        
+      </div>
+    );
   }
 
   handleResize() {
@@ -65,11 +83,10 @@ class TopNav extends React.Component {
     return (
       <div className="top-nav">
         <div className="page-container">
-          <span className="logo light"></span>
+          {this.shouldRenderMobileNav() ? this.renderMobileNav() : null}
+          {this.shouldRenderMobileNav() ? null : (<span className="logo light"></span>)}
           {AppConfig.siteTitle ? (<h1 className="site-title">{AppConfig.siteTitle}</h1>) : null}
-          <div className="nav-links-container">
-            {this.renderNavigation()}
-          </div>
+          {this.shouldRenderMobileNav() ? null : this.renderDefaultNav()}
         </div>
       </div>
     );
