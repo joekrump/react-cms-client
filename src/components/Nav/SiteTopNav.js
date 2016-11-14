@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Drawer from 'material-ui/Drawer';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SiteTopNav.scss'
-
+import MobileMenu from '../Menu/MobileMenu'
 const breakpointWidth = 626;
 
 
@@ -14,17 +14,20 @@ class TopNav extends React.Component {
     super(props);
     this.state = {
       windowWidth: null,
-      mobileNavVisible: false
+      mobileNavVisible: true
     };
   }
 
   renderNavigation() {
-    <Drawer 
-      open={this.state.menuOpen}
-      docked={false} 
-      onRequestChange={() => this.handleToggleMenu()}
-    >
-    </Drawer>
+    return (
+      <Drawer 
+        open={this.state.mobileNavVisible}
+        docked={false} 
+        onRequestChange={() => this.handleToggleMenu()}
+      >
+        <MobileMenu />
+      </Drawer>
+    );
   }
 
   handleToggleMenu() {

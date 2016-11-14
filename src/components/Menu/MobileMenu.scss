@@ -1,0 +1,19 @@
+.drawer-header {
+  .logo {
+    display: flex;
+    height: 2em;
+    width: 2em;
+    background-size: 2em 2em;
+    z-index: 101;
+    margin-right: 20px;
+    &.light {
+      background: url('/images/logo-white.svg') center center no-repeat;
+      background-size: 2em 2em;
+    }
+  }
+
+  .header-text {
+    font-size: 1.5em;
+    font-weight: 300;
+  }
+}
