@@ -45,7 +45,6 @@ const MobileMenu = (props, context) => {
 
 MobileMenu.contextTypes = {
   router: React.PropTypes.object.isRequired,
-  muiTheme: React.PropTypes.object.isRequired,
 }
 
 export default withStyles(s)(MobileMenu);

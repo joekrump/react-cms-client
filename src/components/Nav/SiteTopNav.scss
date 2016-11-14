@@ -1,3 +1,5 @@
+$purple: #304FFe;
+
 .top-nav {
   position: fixed;
   height: 56px;
@@ -43,6 +45,9 @@
           svg {
             fill: green; 
           }
+        }
+        &.active {
+          border-bottom: 2px solid $purple;
         }
       }
     }

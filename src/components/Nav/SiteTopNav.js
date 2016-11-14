@@ -11,6 +11,10 @@ import IconButton from 'material-ui/IconButton';
 
 const breakpointWidth = 626;
 
+function pageIsActive(router, url, indexOnly = false) {
+  return router.isActive({pathname: url}, indexOnly)
+}
+
 class TopNav extends React.Component {
   
   constructor(props) {
@@ -55,10 +59,22 @@ class TopNav extends React.Component {
     return this.state.windowWidth < breakpointWidth;
   }
 
+  buildDefaultLinks() {
+    return AppConfig.routes.public.map((link, i) => (
+            <Link 
+              key={'top-link' + i}
+              className="top-link" 
+              to={link.url} 
+              activeClassName="active"
+              onlyActiveOnIndex={link.url === '/'}>
+              {link.routeTitle}
+            </Link>)
+    );
+  }
   renderDefaultNav() {
     return (
       <div className="nav-links-container">
-        
+        {this.buildDefaultLinks()}
       </div>
     );
   }
@@ -91,6 +107,10 @@ class TopNav extends React.Component {
       </div>
     );
   }
+}
+
+TopNav.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 export default withStyles(s)(TopNav);
