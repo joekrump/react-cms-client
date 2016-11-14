@@ -25150,7 +25150,7 @@
 	  // apiBaseUrl: 'http://laravel-api:1337/api/v1/',
 	  // apiBaseUrl: 'http://localhost:8000/api/v1/',
 	  routes: {
-	    public: [
+	    'public': [
 	      { routeTitle: 'Home', url: '/' },
 	      { routeTitle: 'About', url: '/about' },
 	      { routeTitle: 'Donate', url: '/donate' },
