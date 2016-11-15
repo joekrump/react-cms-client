@@ -164,27 +164,27 @@
          * position each tool in the default toolbox (as opposed to
          * alphabetically).
          */
-        &--bold:before           { content: "\ea62"; }
+        &--bold:before           { content: "\E238"; }
         &--heading:before        { content: "H"    ; font-weight: bold; }
         &--subheading:before     { content: "H"    ; }
         &--paragraph:before      { content: "P"    ; }
         &--preformatted:before   { content: "\E244"; }
         &--italic:before         { content: "\E23F"; }
-        &--link:before           { content: "\e9cb"; }
-        &--align-left:before     { content: "\ea77"; }
-        &--align-center:before   { content: "\ea78"; }
-        &--align-right:before    { content: "\ea79"; }
-        &--unordered-list:before { content: "\e9ba"; }
-        &--ordered-list:before   { content: "\e9b9"; }
-        &--table:before          { content: "\ea71"; }
-        &--indent:before         { content: "\ea7b"; }
-        &--unindent:before       { content: "\ea7c"; }
-        &--line-break:before     { content: "\ea6e"; }
-        &--image:before          { content: "\e90d"; }
-        &--video:before          { content: "\ea98"; }
-        &--undo:before           { content: "\e965"; }
-        &--redo:before           { content: "\e966"; }
-        &--remove:before         { content: "\e9ac"; }
+        &--link:before           { content: "\E250"; }
+        &--align-left:before     { content: "\E236"; }
+        &--align-center:before   { content: "\E234"; }
+        &--align-right:before    { content: "\E237"; }
+        &--unordered-list:before { content: "\E241"; }
+        &--ordered-list:before   { content: "\E242"; }
+        &--table:before          { content: "\E228"; }
+        &--indent:before         { content: "\E23E"; }
+        &--unindent:before       { content: "\E23D"; }
+        &--line-break:before     { content: "\E25B"; }
+        &--image:before          { content: "\E251"; }
+        &--video:before          { content: "\E63A"; }
+        &--undo:before           { content: "\E166"; }
+        &--redo:before           { content: "\E15A"; }
+        &--remove:before         { content: "\E872"; }
         &--quote:before          { content: "\E244"; }
 
     } // .ct-tool
