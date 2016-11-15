@@ -100,6 +100,7 @@
         // We use the before puesdo element to display the tools associated icon
         &:before {
             line-height: $tool-size;
+            font-size: 20px;
         }
 
         /**
@@ -168,7 +169,7 @@
         &--subheading:before     { content: "H"    ; }
         &--paragraph:before      { content: "P"    ; }
         &--preformatted:before   { content: "\E244"; }
-        &--italic:before         { content: "\ea64"; }
+        &--italic:before         { content: "\E23F"; }
         &--link:before           { content: "\e9cb"; }
         &--align-left:before     { content: "\ea77"; }
         &--align-center:before   { content: "\ea78"; }
@@ -184,7 +185,7 @@
         &--undo:before           { content: "\e965"; }
         &--redo:before           { content: "\e966"; }
         &--remove:before         { content: "\e9ac"; }
-        &--quote:before         { content: "\e9ac"; }
+        &--quote:before          { content: "\E244"; }
 
     } // .ct-tool
 
