@@ -37,9 +37,7 @@ class App extends React.Component {
       return (<Page location={this.props.location} />)
     }
   }
-  render = _ => {
-    console.log("logged in: ", this.props.loggedIn)
-
+  render = () => {
     return (
       <div id="app">
         {this.props.loggedIn ? <AdminNav /> : <TopNav />}

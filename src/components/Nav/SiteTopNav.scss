@@ -17,7 +17,7 @@ $purple: #304FFe;
     z-index: 101;
     margin-right: 12px;
     &.light {
-      background: url('/images/logo-white.svg') center center no-repeat;
+      background: url('./logo-white.svg') center center no-repeat;
       background-size: 2em 2em;
     }
   }
