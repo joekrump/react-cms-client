@@ -190,3 +190,18 @@
     } // .ct-tool
 
 } // .ct-widget
+
+@media (max-width: 600px){ 
+    .ct-widget {
+        &.ct-toolbox {
+            width: 56px;
+            left: 0;
+            top: 56px;
+        }
+    }
+    .ct-toolbox {
+        &__grip {
+            display: none;
+        }
+    }
+}
