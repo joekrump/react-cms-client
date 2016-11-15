@@ -1,7 +1,13 @@
 .page {
   &.home {
-    background-color: #001277;
-    
+    background-color: rgba(0,0,0,0.5);
+    background-image: url('./home-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-blend-mode: hue;
+
     .big-box {
       border: 1px solid white;
       padding: 30px;
