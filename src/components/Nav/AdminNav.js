@@ -51,7 +51,8 @@ class AdminNav extends React.Component {
 
   render() {
 
-    var iconElementRight = null;
+    let iconElementRight = null;
+    
     if(this.props.loggedIn) {
       iconElementRight = (
         <IconMenu
