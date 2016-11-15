@@ -1,5 +1,5 @@
 import React from 'react'
-import Gravatar from '../Menu/Gravatar';
+import Gravatar from '../Menu/AdminMenu/Gravatar';
 import { List, ListItem } from 'material-ui/List';
 import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
