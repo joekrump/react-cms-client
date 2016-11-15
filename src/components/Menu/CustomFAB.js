@@ -27,8 +27,9 @@ class CustomFAB extends React.Component {
 
   render() {
 
+
     return (
-      <div className={this.props.className ? this.props.className : "action"}>
+      <div className={this.props.className ? this.props.className : "action"} style={this.props.actionStyle}>
         <div className="button" style={{transitionDelay: this.props.delay + 'ms'}}>
           <FloatingActionButton 
             onMouseEnter={()=>{this.setState({hoveredTooltip: true})}}

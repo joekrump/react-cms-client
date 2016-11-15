@@ -57,7 +57,6 @@ class SpeedDial extends React.Component {
       menuList = ['pages', 'cards', 'users', 'books', 'roles', 'permission'] ;
     }
 
-    const menuLength = menuList.length;
     let actionButtons = [];
     menuList.forEach((permission, index) => {
       if(actions[permission] !== undefined) {
@@ -65,12 +64,14 @@ class SpeedDial extends React.Component {
         actionButtons.push(
           <CustomFAB 
             key={`speedial-item-${index}`}
-            delay={(30 * (menuLength - index))}
+            delay={(30 * index)}
             iconStyle={{fill: "white"}} 
+            actionStyle={{bottom: mouseOutAreaHeight}}
             mini={true} 
             onTouchTap={(e) => this.handleActionClick(e, actions[permission].route)} 
             secondary={true}
             tooltipText={actions[permission].tooltipText}
+            toolTypeStyles={{marginTop: '-8px', marginBottom: '34px', top: '42px'}}
             icon={actions[permission].icon}
           />
         )
@@ -101,8 +102,7 @@ class SpeedDial extends React.Component {
       return null;
     }
     
-    let mouseOutAreaHeight = 80;
-    let actionList = this.makeActionList(this.props.menuList, mouseOutAreaHeight);
+    let actionList = this.makeActionList(this.props.menuList, 0);
     return (
       <div className={(this.state.open ? "opened" : "closed")}>
         <div className="cover" style={{height: this.state.open ? this.props.height + 'px' : 0}} onTouchTap={this.handleToggle}></div>

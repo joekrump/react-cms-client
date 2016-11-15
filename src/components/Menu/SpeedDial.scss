@@ -52,18 +52,26 @@ $actionSpacing: 8px;
   }
   .actions {
     position: absolute;
-    padding-bottom: 56px + $actionSpacing; // height of fab + action spacing.
-    bottom: 20px;
-    right: 20px;
+    bottom: 16px + $actionSpacing;
+    right: 0;
+    width: 100px;
+    height: 200px;
 
     .action {
-      flex-direction: row-reverse;
+      // flex-direction: row-reverse;
       display: flex;
       height: 42px;
       padding: $actionSpacing 0;
       text-align: center;
       visibility: hidden;
       z-index: 1113;
+      position: absolute;
+      right: 20px;
+
+      .tooltip {
+        position: absolute !important;
+        right: 60px !important;
+      }
       .button {
         background: none;
         border: 0px;
