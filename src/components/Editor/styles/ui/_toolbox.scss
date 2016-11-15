@@ -89,7 +89,8 @@
         margin-right: 4px;
         position: relative;
         text-align: center;
-        @include type-icons;
+        font-family: 'Material Icons';
+
         @include type-tooltip(
             $parent-width: $tool-size,
             $parent-height: $tool-size
@@ -166,7 +167,7 @@
         &--heading:before        { content: "H"    ; font-weight: bold; }
         &--subheading:before     { content: "H"    ; }
         &--paragraph:before      { content: "P"    ; }
-        &--preformatted:before   { content: "\ea80"; }
+        &--preformatted:before   { content: "\E244"; }
         &--italic:before         { content: "\ea64"; }
         &--link:before           { content: "\e9cb"; }
         &--align-left:before     { content: "\ea77"; }
@@ -183,6 +184,7 @@
         &--undo:before           { content: "\e965"; }
         &--redo:before           { content: "\e966"; }
         &--remove:before         { content: "\e9ac"; }
+        &--quote:before         { content: "\e9ac"; }
 
     } // .ct-tool
 
