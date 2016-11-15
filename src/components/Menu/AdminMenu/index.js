@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Divider from 'material-ui/Divider';
-import LeftNavMenuItem from './LeftNavMenuItem';
+import LeftNavMenuItem from '../LeftNavMenuItem';
 import Gravatar from './Gravatar';
 import ListItem from 'material-ui/List/ListItem';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
