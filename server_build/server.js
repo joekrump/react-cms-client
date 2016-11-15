@@ -40,7 +40,30 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
+/******/ ((function(modules) {
+	// Check all modules for deduplicated modules
+	for(var i in modules) {
+		if(Object.prototype.hasOwnProperty.call(modules, i)) {
+			switch(typeof modules[i]) {
+			case "function": break;
+			case "object":
+				// Module can be created from a template
+				modules[i] = (function(_m) {
+					var args = _m.slice(1), fn = modules[_m[0]];
+					return function (a,b,c) {
+						fn.apply(this, [a,b,c].concat(args));
+					};
+				}(modules[i]));
+				break;
+			default:
+				// Module is a copy of another module
+				modules[i] = modules[modules[i]];
+				break;
+			}
+		}
+	}
+	return modules;
+}([
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -94,47 +117,47 @@
 
 	var _2 = _interopRequireDefault(_);
 
-	var _store = __webpack_require__(361);
+	var _store = __webpack_require__(363);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _routes = __webpack_require__(363);
+	var _routes = __webpack_require__(365);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _MuiThemeProvider = __webpack_require__(680);
+	var _MuiThemeProvider = __webpack_require__(685);
 
 	var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
 
-	var _muiTheme = __webpack_require__(484);
+	var _muiTheme = __webpack_require__(487);
 
 	var _muiTheme2 = _interopRequireDefault(_muiTheme);
 
-	var _StyleContextProvider = __webpack_require__(681);
+	var _StyleContextProvider = __webpack_require__(686);
 
 	var _StyleContextProvider2 = _interopRequireDefault(_StyleContextProvider);
 
-	var _reactRouterRedux = __webpack_require__(454);
+	var _reactRouterRedux = __webpack_require__(456);
 
-	var _reduxSaga = __webpack_require__(684);
+	var _reduxSaga = __webpack_require__(689);
 
 	var _reduxSaga2 = _interopRequireDefault(_reduxSaga);
 
-	var _root = __webpack_require__(685);
+	var _root = __webpack_require__(690);
 
 	var _root2 = _interopRequireDefault(_root);
 
-	var _reducers = __webpack_require__(696);
+	var _reducers = __webpack_require__(701);
 
 	var reducers = _interopRequireWildcard(_reducers);
 
-	var _path = __webpack_require__(722);
+	var _path = __webpack_require__(727);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _index = __webpack_require__(723);
+	var _index = __webpack_require__(728);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -19891,7 +19914,7 @@
 
 	var _FrontendPage2 = _interopRequireDefault(_FrontendPage);
 
-	var _ErrorPage = __webpack_require__(359);
+	var _ErrorPage = __webpack_require__(361);
 
 	var _ErrorPage2 = _interopRequireDefault(_ErrorPage);
 
@@ -24573,7 +24596,7 @@
 
 	var _SiteTopNav2 = _interopRequireDefault(_SiteTopNav);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25105,15 +25128,15 @@
 
 	var _SiteTopNav2 = _interopRequireDefault(_SiteTopNav);
 
-	var _MobileMenu = __webpack_require__(321);
+	var _MobileMenu = __webpack_require__(322);
 
 	var _MobileMenu2 = _interopRequireDefault(_MobileMenu);
 
-	var _menu = __webpack_require__(357);
+	var _menu = __webpack_require__(359);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
@@ -26058,13 +26081,19 @@
 
 
 	// module
-	exports.push([module.id, ".top-nav {\n  position: fixed;\n  height: 56px;\n  width: 100%;\n  background-color: #212121;\n  z-index: 100;\n  margin: 0;\n  padding: 0; }\n  .top-nav .logo {\n    display: flex;\n    height: 2em;\n    width: 2em;\n    background-size: 2em 2em;\n    z-index: 101;\n    margin-right: 12px; }\n    .top-nav .logo.light {\n      background: url(\"/logo-white.svg\") center center no-repeat;\n      background-size: 2em 2em; }\n  .top-nav .page-container {\n    padding-top: 0;\n    display: flex;\n    flex-wrap: wrap;\n    justify-content: left;\n    align-items: center; }\n    .top-nav .page-container .nav-links-container {\n      display: flex;\n      align-items: flex-start;\n      margin-left: 1.0rem; }\n      .top-nav .page-container .nav-links-container .top-link {\n        color: #e6e6e6;\n        font-weight: 400;\n        max-width: 140px;\n        text-decoration: none;\n        color: #e6e6e6;\n        padding: 0 0.5rem; }\n        .top-nav .page-container .nav-links-container .top-link:hover, .top-nav .page-container .nav-links-container .top-link:focus {\n          color: #fff; }\n          .top-nav .page-container .nav-links-container .top-link:hover svg, .top-nav .page-container .nav-links-container .top-link:focus svg {\n            fill: green; }\n        .top-nav .page-container .nav-links-container .top-link.active {\n          border-bottom: 2px solid #304FFe; }\n    .top-nav .page-container .site-title, .top-nav .page-container .top-link {\n      display: flex;\n      align-items: flex-start; }\n    .top-nav .page-container .site-title {\n      margin: 0; }\n", ""]);
+	exports.push([module.id, ".top-nav {\n  position: fixed;\n  height: 56px;\n  width: 100%;\n  background-color: #212121;\n  z-index: 100;\n  margin: 0;\n  padding: 0; }\n  .top-nav .logo {\n    display: flex;\n    height: 2em;\n    width: 2em;\n    background-size: 2em 2em;\n    z-index: 101;\n    margin-right: 12px; }\n    .top-nav .logo.light {\n      background: url(" + __webpack_require__(321) + ") center center no-repeat;\n      background-size: 2em 2em; }\n  .top-nav .page-container {\n    padding-top: 0;\n    display: flex;\n    flex-wrap: wrap;\n    justify-content: left;\n    align-items: center; }\n    .top-nav .page-container .nav-links-container {\n      display: flex;\n      align-items: flex-start;\n      margin-left: 1.0rem; }\n      .top-nav .page-container .nav-links-container .top-link {\n        color: #e6e6e6;\n        font-weight: 400;\n        max-width: 140px;\n        text-decoration: none;\n        color: #e6e6e6;\n        padding: 0 0.5rem; }\n        .top-nav .page-container .nav-links-container .top-link:hover, .top-nav .page-container .nav-links-container .top-link:focus {\n          color: #fff; }\n          .top-nav .page-container .nav-links-container .top-link:hover svg, .top-nav .page-container .nav-links-container .top-link:focus svg {\n            fill: green; }\n        .top-nav .page-container .nav-links-container .top-link.active {\n          border-bottom: 2px solid #304FFe; }\n    .top-nav .page-container .site-title, .top-nav .page-container .top-link {\n      display: flex;\n      align-items: flex-start; }\n    .top-nav .page-container .site-title {\n      margin: 0; }\n", ""]);
 
 	// exports
 
 
 /***/ },
 /* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "3c69fc558d50697f1274339528cf0761.svg";
+
+/***/ },
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26079,15 +26108,15 @@
 
 	var _reactRouter = __webpack_require__(5);
 
-	var _Divider = __webpack_require__(322);
+	var _Divider = __webpack_require__(323);
 
 	var _Divider2 = _interopRequireDefault(_Divider);
 
-	var _LeftNavMenuItem = __webpack_require__(324);
+	var _LeftNavMenuItem = __webpack_require__(325);
 
 	var _LeftNavMenuItem2 = _interopRequireDefault(_LeftNavMenuItem);
 
-	var _ListItem = __webpack_require__(340);
+	var _ListItem = __webpack_require__(341);
 
 	var _ListItem2 = _interopRequireDefault(_ListItem);
 
@@ -26099,7 +26128,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _MobileMenu = __webpack_require__(355);
+	var _MobileMenu = __webpack_require__(356);
 
 	var _MobileMenu2 = _interopRequireDefault(_MobileMenu);
 
@@ -26152,7 +26181,7 @@
 	exports.default = (0, _withStyles2.default)(_MobileMenu2.default)(MobileMenu);
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26162,7 +26191,7 @@
 	});
 	exports.default = undefined;
 
-	var _Divider = __webpack_require__(323);
+	var _Divider = __webpack_require__(324);
 
 	var _Divider2 = _interopRequireDefault(_Divider);
 
@@ -26171,7 +26200,7 @@
 	exports.default = _Divider2.default;
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26249,7 +26278,7 @@
 	exports.default = Divider;
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26262,7 +26291,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _MenuItem = __webpack_require__(325);
+	var _MenuItem = __webpack_require__(326);
 
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
@@ -26282,7 +26311,7 @@
 	exports.default = LeftNavMenuItem;
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26292,7 +26321,7 @@
 	});
 	exports.default = undefined;
 
-	var _MenuItem = __webpack_require__(326);
+	var _MenuItem = __webpack_require__(327);
 
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
@@ -26301,7 +26330,7 @@
 	exports.default = _MenuItem2.default;
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26330,19 +26359,19 @@
 
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 
-	var _Popover = __webpack_require__(327);
+	var _Popover = __webpack_require__(328);
 
 	var _Popover2 = _interopRequireDefault(_Popover);
 
-	var _check = __webpack_require__(339);
+	var _check = __webpack_require__(340);
 
 	var _check2 = _interopRequireDefault(_check);
 
-	var _ListItem = __webpack_require__(340);
+	var _ListItem = __webpack_require__(341);
 
 	var _ListItem2 = _interopRequireDefault(_ListItem);
 
-	var _Menu = __webpack_require__(352);
+	var _Menu = __webpack_require__(353);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
@@ -26667,7 +26696,7 @@
 	exports.default = MenuItem;
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26692,7 +26721,7 @@
 
 	var _reactEventListener2 = _interopRequireDefault(_reactEventListener);
 
-	var _RenderToLayer = __webpack_require__(328);
+	var _RenderToLayer = __webpack_require__(329);
 
 	var _RenderToLayer2 = _interopRequireDefault(_RenderToLayer);
 
@@ -26704,11 +26733,11 @@
 
 	var _Paper2 = _interopRequireDefault(_Paper);
 
-	var _throttle = __webpack_require__(329);
+	var _throttle = __webpack_require__(330);
 
 	var _throttle2 = _interopRequireDefault(_throttle);
 
-	var _PopoverAnimationDefault = __webpack_require__(338);
+	var _PopoverAnimationDefault = __webpack_require__(339);
 
 	var _PopoverAnimationDefault2 = _interopRequireDefault(_PopoverAnimationDefault);
 
@@ -27107,7 +27136,7 @@
 	exports.default = Popover;
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27280,11 +27309,11 @@
 	exports.default = RenderToLayer;
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var debounce = __webpack_require__(330),
-	    isObject = __webpack_require__(331);
+	var debounce = __webpack_require__(331),
+	    isObject = __webpack_require__(332);
 
 	/** Error message constants. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -27355,12 +27384,12 @@
 
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(331),
-	    now = __webpack_require__(332),
-	    toNumber = __webpack_require__(335);
+	var isObject = __webpack_require__(332),
+	    now = __webpack_require__(333),
+	    toNumber = __webpack_require__(336);
 
 	/** Error message constants. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -27549,7 +27578,7 @@
 
 
 /***/ },
-/* 331 */
+/* 332 */
 /***/ function(module, exports) {
 
 	/**
@@ -27586,10 +27615,10 @@
 
 
 /***/ },
-/* 332 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(333);
+	var root = __webpack_require__(334);
 
 	/**
 	 * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -27615,10 +27644,10 @@
 
 
 /***/ },
-/* 333 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var freeGlobal = __webpack_require__(334);
+	var freeGlobal = __webpack_require__(335);
 
 	/** Detect free variable `self`. */
 	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -27630,7 +27659,7 @@
 
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports) {
 
 	/** Detect free variable `global` from Node.js. */
@@ -27640,11 +27669,11 @@
 
 
 /***/ },
-/* 335 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(331),
-	    isSymbol = __webpack_require__(336);
+	var isObject = __webpack_require__(332),
+	    isSymbol = __webpack_require__(337);
 
 	/** Used as references for various `Number` constants. */
 	var NAN = 0 / 0;
@@ -27712,10 +27741,10 @@
 
 
 /***/ },
-/* 336 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(337);
+	var isObjectLike = __webpack_require__(338);
 
 	/** `Object#toString` result references. */
 	var symbolTag = '[object Symbol]';
@@ -27756,7 +27785,7 @@
 
 
 /***/ },
-/* 337 */
+/* 338 */
 /***/ function(module, exports) {
 
 	/**
@@ -27791,7 +27820,7 @@
 
 
 /***/ },
-/* 338 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27953,7 +27982,7 @@
 	exports.default = PopoverDefaultAnimation;
 
 /***/ },
-/* 339 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27990,7 +28019,7 @@
 	exports.default = NavigationCheck;
 
 /***/ },
-/* 340 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28029,19 +28058,19 @@
 
 	var _EnhancedButton2 = _interopRequireDefault(_EnhancedButton);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
-	var _expandLess = __webpack_require__(346);
+	var _expandLess = __webpack_require__(347);
 
 	var _expandLess2 = _interopRequireDefault(_expandLess);
 
-	var _expandMore = __webpack_require__(347);
+	var _expandMore = __webpack_require__(348);
 
 	var _expandMore2 = _interopRequireDefault(_expandMore);
 
-	var _NestedList = __webpack_require__(348);
+	var _NestedList = __webpack_require__(349);
 
 	var _NestedList2 = _interopRequireDefault(_NestedList);
 
@@ -28670,7 +28699,7 @@
 	exports.default = ListItem;
 
 /***/ },
-/* 341 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28680,7 +28709,7 @@
 	});
 	exports.default = undefined;
 
-	var _IconButton = __webpack_require__(342);
+	var _IconButton = __webpack_require__(343);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
@@ -28689,7 +28718,7 @@
 	exports.default = _IconButton2.default;
 
 /***/ },
-/* 342 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28722,11 +28751,11 @@
 
 	var _EnhancedButton2 = _interopRequireDefault(_EnhancedButton);
 
-	var _FontIcon = __webpack_require__(343);
+	var _FontIcon = __webpack_require__(344);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
-	var _Tooltip = __webpack_require__(345);
+	var _Tooltip = __webpack_require__(346);
 
 	var _Tooltip2 = _interopRequireDefault(_Tooltip);
 
@@ -29000,7 +29029,7 @@
 	exports.default = IconButton;
 
 /***/ },
-/* 343 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29010,7 +29039,7 @@
 	});
 	exports.default = undefined;
 
-	var _FontIcon = __webpack_require__(344);
+	var _FontIcon = __webpack_require__(345);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
@@ -29019,7 +29048,7 @@
 	exports.default = _FontIcon2.default;
 
 /***/ },
-/* 344 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29165,7 +29194,7 @@
 	exports.default = FontIcon;
 
 /***/ },
-/* 345 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29380,7 +29409,7 @@
 	exports.default = Tooltip;
 
 /***/ },
-/* 346 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29417,7 +29446,7 @@
 	exports.default = NavigationExpandLess;
 
 /***/ },
-/* 347 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29454,7 +29483,7 @@
 	exports.default = NavigationExpandMore;
 
 /***/ },
-/* 348 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29473,7 +29502,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _List = __webpack_require__(349);
+	var _List = __webpack_require__(350);
 
 	var _List2 = _interopRequireDefault(_List);
 
@@ -29540,7 +29569,7 @@
 	exports.default = NestedList;
 
 /***/ },
-/* 349 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29565,7 +29594,7 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _Subheader = __webpack_require__(350);
+	var _Subheader = __webpack_require__(351);
 
 	var _Subheader2 = _interopRequireDefault(_Subheader);
 
@@ -29685,7 +29714,7 @@
 	exports.default = List;
 
 /***/ },
-/* 350 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29695,7 +29724,7 @@
 	});
 	exports.default = undefined;
 
-	var _Subheader = __webpack_require__(351);
+	var _Subheader = __webpack_require__(352);
 
 	var _Subheader2 = _interopRequireDefault(_Subheader);
 
@@ -29704,7 +29733,7 @@
 	exports.default = _Subheader2.default;
 
 /***/ },
-/* 351 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29789,7 +29818,7 @@
 	exports.default = Subheader;
 
 /***/ },
-/* 352 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29818,7 +29847,7 @@
 
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 
-	var _ClickAwayListener = __webpack_require__(353);
+	var _ClickAwayListener = __webpack_require__(354);
 
 	var _ClickAwayListener2 = _interopRequireDefault(_ClickAwayListener);
 
@@ -29838,7 +29867,7 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _List = __webpack_require__(349);
+	var _List = __webpack_require__(350);
 
 	var _List2 = _interopRequireDefault(_List);
 
@@ -29850,7 +29879,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _menuUtils = __webpack_require__(354);
+	var _menuUtils = __webpack_require__(355);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30513,7 +30542,7 @@
 	exports.default = Menu;
 
 /***/ },
-/* 353 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30632,7 +30661,7 @@
 	exports.default = ClickAwayListener;
 
 /***/ },
-/* 354 */
+/* 355 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30670,11 +30699,11 @@
 	}();
 
 /***/ },
-/* 355 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(356);
+	    var content = __webpack_require__(357);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -30687,7 +30716,7 @@
 	  
 
 /***/ },
-/* 356 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -30695,13 +30724,15 @@
 
 
 	// module
-	exports.push([module.id, ".drawer-header .logo {\n  display: flex;\n  height: 2em;\n  width: 2em;\n  background-size: 2em 2em;\n  z-index: 101;\n  margin-right: 20px; }\n  .drawer-header .logo.light {\n    background: url(\"/logo-white.svg\") center center no-repeat;\n    background-size: 2em 2em; }\n\n.drawer-header .header-text {\n  font-size: 1.5em;\n  font-weight: 300; }\n", ""]);
+	exports.push([module.id, ".drawer-header .logo {\n  display: flex;\n  height: 2em;\n  width: 2em;\n  background-size: 2em 2em;\n  z-index: 101;\n  margin-right: 20px; }\n  .drawer-header .logo.light {\n    background: url(" + __webpack_require__(358) + ") center center no-repeat;\n    background-size: 2em 2em; }\n\n.drawer-header .header-text {\n  font-size: 1.5em;\n  font-weight: 300; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 357 */
+/* 358 */
+321,
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30738,17 +30769,17 @@
 	exports.default = NavigationMenu;
 
 /***/ },
-/* 358 */
+/* 360 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-redux");
 
 /***/ },
-/* 359 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(360);
+	    var content = __webpack_require__(362);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -30761,7 +30792,7 @@
 	  
 
 /***/ },
-/* 360 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -30775,7 +30806,7 @@
 
 
 /***/ },
-/* 361 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30787,7 +30818,7 @@
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Dev tools
 
 
-	var _redux = __webpack_require__(362);
+	var _redux = __webpack_require__(364);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -30835,13 +30866,13 @@
 	exports.default = StoreHelper;
 
 /***/ },
-/* 362 */
+/* 364 */
 /***/ function(module, exports) {
 
 	module.exports = require("redux");
 
 /***/ },
-/* 363 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30851,45 +30882,45 @@
 	});
 	exports.onAdminEnterHandler = undefined;
 
-	var _Page = __webpack_require__(364);
+	var _Page = __webpack_require__(366);
 
 	var _Page2 = _interopRequireDefault(_Page);
 
-	var _Dashboard = __webpack_require__(428);
+	var _Dashboard = __webpack_require__(430);
 
 	var _Dashboard2 = _interopRequireDefault(_Dashboard);
 
-	var _Settings = __webpack_require__(460);
+	var _Settings = __webpack_require__(462);
 
 	var _Settings2 = _interopRequireDefault(_Settings);
 
-	var _App = __webpack_require__(461);
+	var _App = __webpack_require__(463);
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _auth = __webpack_require__(390);
+	var _auth = __webpack_require__(392);
 
 	var _auth2 = _interopRequireDefault(_auth);
 
-	var _reactRouterRedux = __webpack_require__(454);
+	var _reactRouterRedux = __webpack_require__(456);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _routes = __webpack_require__(477);
+	var _routes = __webpack_require__(480);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _ = __webpack_require__(476);
+	var _ = __webpack_require__(479);
 
 	var _2 = _interopRequireDefault(_);
 
-	var _Edit = __webpack_require__(669);
+	var _Edit = __webpack_require__(674);
 
 	var _Edit2 = _interopRequireDefault(_Edit);
 
-	var _Edit3 = __webpack_require__(676);
+	var _Edit3 = __webpack_require__(681);
 
 	var _Edit4 = _interopRequireDefault(_Edit3);
 
@@ -31080,7 +31111,7 @@
 	}
 
 /***/ },
-/* 364 */
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31095,35 +31126,35 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _HomeTemplate = __webpack_require__(365);
+	var _HomeTemplate = __webpack_require__(367);
 
 	var _HomeTemplate2 = _interopRequireDefault(_HomeTemplate);
 
-	var _ContactTemplate = __webpack_require__(368);
+	var _ContactTemplate = __webpack_require__(370);
 
 	var _ContactTemplate2 = _interopRequireDefault(_ContactTemplate);
 
-	var _BasicTemplate = __webpack_require__(371);
+	var _BasicTemplate = __webpack_require__(373);
 
 	var _BasicTemplate2 = _interopRequireDefault(_BasicTemplate);
 
-	var _LoginTemplate = __webpack_require__(374);
+	var _LoginTemplate = __webpack_require__(376);
 
 	var _LoginTemplate2 = _interopRequireDefault(_LoginTemplate);
 
-	var _PaymentTemplate = __webpack_require__(403);
+	var _PaymentTemplate = __webpack_require__(405);
 
 	var _PaymentTemplate2 = _interopRequireDefault(_PaymentTemplate);
 
-	var _SignupTemplate = __webpack_require__(418);
+	var _SignupTemplate = __webpack_require__(420);
 
 	var _SignupTemplate2 = _interopRequireDefault(_SignupTemplate);
 
-	var _ForgotPasswordTemplate = __webpack_require__(424);
+	var _ForgotPasswordTemplate = __webpack_require__(426);
 
 	var _ForgotPasswordTemplate2 = _interopRequireDefault(_ForgotPasswordTemplate);
 
-	var _ResetPasswordTemplate = __webpack_require__(426);
+	var _ResetPasswordTemplate = __webpack_require__(428);
 
 	var _ResetPasswordTemplate2 = _interopRequireDefault(_ResetPasswordTemplate);
 
@@ -31131,7 +31162,7 @@
 
 	var _2 = _interopRequireDefault(_);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
@@ -31139,7 +31170,7 @@
 
 	var _FrontendPage2 = _interopRequireDefault(_FrontendPage);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31311,7 +31342,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Page);
 
 /***/ },
-/* 365 */
+/* 367 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31328,7 +31359,7 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _HomePageTemplate = __webpack_require__(366);
+	var _HomePageTemplate = __webpack_require__(368);
 
 	var _HomePageTemplate2 = _interopRequireDefault(_HomePageTemplate);
 
@@ -31358,11 +31389,11 @@
 	exports.default = (0, _withStyles2.default)(_HomePageTemplate2.default)(HomePageTemplate);
 
 /***/ },
-/* 366 */
+/* 368 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(367);
+	    var content = __webpack_require__(369);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -31375,7 +31406,7 @@
 	  
 
 /***/ },
-/* 367 */
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -31389,7 +31420,7 @@
 
 
 /***/ },
-/* 368 */
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31406,7 +31437,7 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _ContactPageTemplate = __webpack_require__(369);
+	var _ContactPageTemplate = __webpack_require__(371);
 
 	var _ContactPageTemplate2 = _interopRequireDefault(_ContactPageTemplate);
 
@@ -31450,11 +31481,11 @@
 	exports.default = (0, _withStyles2.default)(_ContactPageTemplate2.default)(ContactPageTemplate);
 
 /***/ },
-/* 369 */
+/* 371 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(370);
+	    var content = __webpack_require__(372);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -31467,7 +31498,7 @@
 	  
 
 /***/ },
-/* 370 */
+/* 372 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -31481,7 +31512,7 @@
 
 
 /***/ },
-/* 371 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31498,7 +31529,7 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _BasicPageTemplate = __webpack_require__(372);
+	var _BasicPageTemplate = __webpack_require__(374);
 
 	var _BasicPageTemplate2 = _interopRequireDefault(_BasicPageTemplate);
 
@@ -31528,11 +31559,11 @@
 	exports.default = (0, _withStyles2.default)(_BasicPageTemplate2.default)(BasicPageTemplate);
 
 /***/ },
-/* 372 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(373);
+	    var content = __webpack_require__(375);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -31545,7 +31576,7 @@
 	  
 
 /***/ },
-/* 373 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -31559,7 +31590,7 @@
 
 
 /***/ },
-/* 374 */
+/* 376 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31572,7 +31603,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _LoginForm = __webpack_require__(375);
+	var _LoginForm = __webpack_require__(377);
 
 	var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
@@ -31603,7 +31634,7 @@
 	exports.default = LoginPageTemplate;
 
 /***/ },
-/* 375 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31618,19 +31649,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _index = __webpack_require__(376);
+	var _index = __webpack_require__(378);
 
-	var _auth = __webpack_require__(390);
+	var _auth = __webpack_require__(392);
 
 	var _auth2 = _interopRequireDefault(_auth);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _Snackbar = __webpack_require__(393);
+	var _Snackbar = __webpack_require__(395);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
-	var _validations = __webpack_require__(402);
+	var _validations = __webpack_require__(404);
 
 	var _validations2 = _interopRequireDefault(_validations);
 
@@ -31775,7 +31806,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginForm);
 
 /***/ },
-/* 376 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31784,7 +31815,7 @@
 	  value: true
 	});
 
-	var _Form = __webpack_require__(377);
+	var _Form = __webpack_require__(379);
 
 	Object.defineProperty(exports, 'Form', {
 	  enumerable: true,
@@ -31793,7 +31824,7 @@
 	  }
 	});
 
-	var _TextInput = __webpack_require__(378);
+	var _TextInput = __webpack_require__(380);
 
 	Object.defineProperty(exports, 'TextInput', {
 	  enumerable: true,
@@ -31802,7 +31833,7 @@
 	  }
 	});
 
-	var _SubmitButton = __webpack_require__(388);
+	var _SubmitButton = __webpack_require__(390);
 
 	Object.defineProperty(exports, 'SubmitButton', {
 	  enumerable: true,
@@ -31814,7 +31845,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 377 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31844,7 +31875,7 @@
 	exports.Form = Form;
 
 /***/ },
-/* 378 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31858,13 +31889,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TextField = __webpack_require__(379);
+	var _TextField = __webpack_require__(381);
 
 	var _TextField2 = _interopRequireDefault(_TextField);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _validator = __webpack_require__(385);
+	var _validator = __webpack_require__(387);
 
 	var _validator2 = _interopRequireDefault(_validator);
 
@@ -31983,7 +32014,7 @@
 	exports.TextInput = TextInputRedux;
 
 /***/ },
-/* 379 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31993,7 +32024,7 @@
 	});
 	exports.default = undefined;
 
-	var _TextField = __webpack_require__(380);
+	var _TextField = __webpack_require__(382);
 
 	var _TextField2 = _interopRequireDefault(_TextField);
 
@@ -32002,7 +32033,7 @@
 	exports.default = _TextField2.default;
 
 /***/ },
-/* 380 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32045,19 +32076,19 @@
 
 	var _deprecatedPropType2 = _interopRequireDefault(_deprecatedPropType);
 
-	var _EnhancedTextarea = __webpack_require__(381);
+	var _EnhancedTextarea = __webpack_require__(383);
 
 	var _EnhancedTextarea2 = _interopRequireDefault(_EnhancedTextarea);
 
-	var _TextFieldHint = __webpack_require__(382);
+	var _TextFieldHint = __webpack_require__(384);
 
 	var _TextFieldHint2 = _interopRequireDefault(_TextFieldHint);
 
-	var _TextFieldLabel = __webpack_require__(383);
+	var _TextFieldLabel = __webpack_require__(385);
 
 	var _TextFieldLabel2 = _interopRequireDefault(_TextFieldLabel);
 
-	var _TextFieldUnderline = __webpack_require__(384);
+	var _TextFieldUnderline = __webpack_require__(386);
 
 	var _TextFieldUnderline2 = _interopRequireDefault(_TextFieldUnderline);
 
@@ -32575,7 +32606,7 @@
 	exports.default = TextField;
 
 /***/ },
-/* 381 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32803,7 +32834,7 @@
 	exports.default = EnhancedTextarea;
 
 /***/ },
-/* 382 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32884,7 +32915,7 @@
 	exports.default = TextFieldHint;
 
 /***/ },
-/* 383 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33001,7 +33032,7 @@
 	exports.default = TextFieldLabel;
 
 /***/ },
-/* 384 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33137,7 +33168,7 @@
 	exports.default = TextFieldUnderline;
 
 /***/ },
-/* 385 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33146,9 +33177,9 @@
 	  value: true
 	});
 
-	var _validator = __webpack_require__(386);
+	var _validator = __webpack_require__(388);
 
-	var _ValidationHelper = __webpack_require__(387);
+	var _ValidationHelper = __webpack_require__(389);
 
 	// src/form-validation/Validator.js
 	var Validator = {
@@ -33200,13 +33231,13 @@
 	exports.default = Validator;
 
 /***/ },
-/* 386 */
+/* 388 */
 /***/ function(module, exports) {
 
 	module.exports = require("validator");
 
 /***/ },
-/* 387 */
+/* 389 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -33228,7 +33259,7 @@
 	}
 
 /***/ },
-/* 388 */
+/* 390 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33245,7 +33276,7 @@
 
 	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 
-	var _send = __webpack_require__(389);
+	var _send = __webpack_require__(391);
 
 	var _send2 = _interopRequireDefault(_send);
 
@@ -33268,7 +33299,7 @@
 	exports.default = SubmitButton;
 
 /***/ },
-/* 389 */
+/* 391 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33305,7 +33336,7 @@
 	exports.default = ContentSend;
 
 /***/ },
-/* 390 */
+/* 392 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33316,7 +33347,7 @@
 	exports.loggedIn = loggedIn;
 	exports.getToken = getToken;
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
@@ -33455,7 +33486,7 @@
 	}
 
 /***/ },
-/* 391 */
+/* 393 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33466,7 +33497,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _superagent = __webpack_require__(392);
+	var _superagent = __webpack_require__(394);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -33474,7 +33505,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _auth = __webpack_require__(390);
+	var _auth = __webpack_require__(392);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33584,13 +33615,13 @@
 	exports.default = APIClient;
 
 /***/ },
-/* 392 */
+/* 394 */
 /***/ function(module, exports) {
 
 	module.exports = require("superagent");
 
 /***/ },
-/* 393 */
+/* 395 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33603,13 +33634,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Snackbar = __webpack_require__(394);
+	var _Snackbar = __webpack_require__(396);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33679,7 +33710,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NotificationSnackbar);
 
 /***/ },
-/* 394 */
+/* 396 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33689,7 +33720,7 @@
 	});
 	exports.default = undefined;
 
-	var _Snackbar = __webpack_require__(395);
+	var _Snackbar = __webpack_require__(397);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
@@ -33698,7 +33729,7 @@
 	exports.default = _Snackbar2.default;
 
 /***/ },
-/* 395 */
+/* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33723,11 +33754,11 @@
 
 	var _transitions2 = _interopRequireDefault(_transitions);
 
-	var _ClickAwayListener = __webpack_require__(353);
+	var _ClickAwayListener = __webpack_require__(354);
 
 	var _ClickAwayListener2 = _interopRequireDefault(_ClickAwayListener);
 
-	var _SnackbarBody = __webpack_require__(396);
+	var _SnackbarBody = __webpack_require__(398);
 
 	var _SnackbarBody2 = _interopRequireDefault(_SnackbarBody);
 
@@ -33994,7 +34025,7 @@
 	exports.default = Snackbar;
 
 /***/ },
-/* 396 */
+/* 398 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34018,11 +34049,11 @@
 
 	var _transitions2 = _interopRequireDefault(_transitions);
 
-	var _withWidth = __webpack_require__(397);
+	var _withWidth = __webpack_require__(399);
 
 	var _withWidth2 = _interopRequireDefault(_withWidth);
 
-	var _FlatButton = __webpack_require__(398);
+	var _FlatButton = __webpack_require__(400);
 
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 
@@ -34156,7 +34187,7 @@
 	exports.default = (0, _withWidth2.default)()(SnackbarBody);
 
 /***/ },
-/* 397 */
+/* 399 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34281,7 +34312,7 @@
 	}
 
 /***/ },
-/* 398 */
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34291,7 +34322,7 @@
 	});
 	exports.default = undefined;
 
-	var _FlatButton = __webpack_require__(399);
+	var _FlatButton = __webpack_require__(401);
 
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 
@@ -34300,7 +34331,7 @@
 	exports.default = _FlatButton2.default;
 
 /***/ },
-/* 399 */
+/* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34333,7 +34364,7 @@
 
 	var _EnhancedButton2 = _interopRequireDefault(_EnhancedButton);
 
-	var _FlatButtonLabel = __webpack_require__(400);
+	var _FlatButtonLabel = __webpack_require__(402);
 
 	var _FlatButtonLabel2 = _interopRequireDefault(_FlatButtonLabel);
 
@@ -34617,7 +34648,7 @@
 	exports.default = FlatButton;
 
 /***/ },
-/* 400 */
+/* 402 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34698,7 +34729,7 @@
 	exports.default = FlatButtonLabel;
 
 /***/ },
-/* 401 */
+/* 403 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34993,7 +35024,7 @@
 	var lightWhite = exports.lightWhite = 'rgba(255, 255, 255, 0.54)';
 
 /***/ },
-/* 402 */
+/* 404 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35109,7 +35140,7 @@
 	};
 
 /***/ },
-/* 403 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35122,7 +35153,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _PaymentFormContainer = __webpack_require__(404);
+	var _PaymentFormContainer = __webpack_require__(406);
 
 	var _PaymentFormContainer2 = _interopRequireDefault(_PaymentFormContainer);
 
@@ -35153,7 +35184,7 @@
 	exports.default = PaymentPageTemplate;
 
 /***/ },
-/* 404 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35168,13 +35199,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _PaymentForm = __webpack_require__(405);
+	var _PaymentForm = __webpack_require__(407);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _ThankYou = __webpack_require__(415);
+	var _ThankYou = __webpack_require__(417);
 
 	var _ThankYou2 = _interopRequireDefault(_ThankYou);
 
@@ -35182,7 +35213,7 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _PaymentForm2 = __webpack_require__(416);
+	var _PaymentForm2 = __webpack_require__(418);
 
 	var _PaymentForm3 = _interopRequireDefault(_PaymentForm2);
 
@@ -35190,7 +35221,7 @@
 
 	var _Paper2 = _interopRequireDefault(_Paper);
 
-	var _Snackbar = __webpack_require__(393);
+	var _Snackbar = __webpack_require__(395);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
@@ -35282,7 +35313,7 @@
 	exports.default = (0, _withStyles2.default)(_PaymentForm3.default)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PaymentFormContainer));
 
 /***/ },
-/* 405 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35300,39 +35331,39 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _creditCard = __webpack_require__(406);
+	var _creditCard = __webpack_require__(408);
 
 	var _creditCard2 = _interopRequireDefault(_creditCard);
 
-	var _verifiedUser = __webpack_require__(407);
+	var _verifiedUser = __webpack_require__(409);
 
 	var _verifiedUser2 = _interopRequireDefault(_verifiedUser);
 
-	var _List = __webpack_require__(408);
+	var _List = __webpack_require__(410);
 
-	var _CircularProgress = __webpack_require__(410);
+	var _CircularProgress = __webpack_require__(412);
 
 	var _CircularProgress2 = _interopRequireDefault(_CircularProgress);
 
-	var _StripeFields = __webpack_require__(412);
+	var _StripeFields = __webpack_require__(414);
 
 	var _StripeFields2 = _interopRequireDefault(_StripeFields);
 
-	var _index = __webpack_require__(376);
+	var _index = __webpack_require__(378);
 
-	var _stripe = __webpack_require__(413);
+	var _stripe = __webpack_require__(415);
 
 	var _stripe2 = _interopRequireDefault(_stripe);
 
-	var _ScriptsHelper = __webpack_require__(414);
+	var _ScriptsHelper = __webpack_require__(416);
 
-	var _validations = __webpack_require__(402);
+	var _validations = __webpack_require__(404);
 
 	var _validations2 = _interopRequireDefault(_validations);
 
@@ -35625,7 +35656,7 @@
 	exports.PaymentForm = PaymentFormRedux;
 
 /***/ },
-/* 406 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35662,7 +35693,7 @@
 	exports.default = ActionCreditCard;
 
 /***/ },
-/* 407 */
+/* 409 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35699,7 +35730,7 @@
 	exports.default = ActionVerifiedUser;
 
 /***/ },
-/* 408 */
+/* 410 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35709,15 +35740,15 @@
 	});
 	exports.default = exports.MakeSelectable = exports.ListItem = exports.List = undefined;
 
-	var _List2 = __webpack_require__(349);
+	var _List2 = __webpack_require__(350);
 
 	var _List3 = _interopRequireDefault(_List2);
 
-	var _ListItem2 = __webpack_require__(340);
+	var _ListItem2 = __webpack_require__(341);
 
 	var _ListItem3 = _interopRequireDefault(_ListItem2);
 
-	var _MakeSelectable2 = __webpack_require__(409);
+	var _MakeSelectable2 = __webpack_require__(411);
 
 	var _MakeSelectable3 = _interopRequireDefault(_MakeSelectable2);
 
@@ -35729,7 +35760,7 @@
 	exports.default = _List3.default;
 
 /***/ },
-/* 409 */
+/* 411 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35901,7 +35932,7 @@
 	exports.default = MakeSelectable;
 
 /***/ },
-/* 410 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35911,7 +35942,7 @@
 	});
 	exports.default = undefined;
 
-	var _CircularProgress = __webpack_require__(411);
+	var _CircularProgress = __webpack_require__(413);
 
 	var _CircularProgress2 = _interopRequireDefault(_CircularProgress);
 
@@ -35920,7 +35951,7 @@
 	exports.default = _CircularProgress2.default;
 
 /***/ },
-/* 411 */
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36177,7 +36208,7 @@
 	exports.default = CircularProgress;
 
 /***/ },
-/* 412 */
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36190,7 +36221,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TextField = __webpack_require__(379);
+	var _TextField = __webpack_require__(381);
 
 	var _TextField2 = _interopRequireDefault(_TextField);
 
@@ -36201,7 +36232,7 @@
 	exports.default = StripeFields;
 
 /***/ },
-/* 413 */
+/* 415 */
 /***/ function(module, exports) {
 
 	var stripe_config = {
@@ -36213,7 +36244,7 @@
 	module.exports = stripe_config;
 
 /***/ },
-/* 414 */
+/* 416 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36295,7 +36326,7 @@
 	}
 
 /***/ },
-/* 415 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36332,11 +36363,11 @@
 	exports.default = ThankYou;
 
 /***/ },
-/* 416 */
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(417);
+	    var content = __webpack_require__(419);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -36349,7 +36380,7 @@
 	  
 
 /***/ },
-/* 417 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -36363,7 +36394,7 @@
 
 
 /***/ },
-/* 418 */
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36376,7 +36407,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SignupForm = __webpack_require__(419);
+	var _SignupForm = __webpack_require__(421);
 
 	var _SignupForm2 = _interopRequireDefault(_SignupForm);
 
@@ -36409,7 +36440,7 @@
 	exports.default = SignupPageTemplate;
 
 /***/ },
-/* 419 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36424,11 +36455,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResourceForm = __webpack_require__(420);
+	var _ResourceForm = __webpack_require__(422);
 
 	var _ResourceForm2 = _interopRequireDefault(_ResourceForm);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36485,7 +36516,7 @@
 	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(SignupForm);
 
 /***/ },
-/* 420 */
+/* 422 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36500,25 +36531,25 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _List = __webpack_require__(408);
+	var _List = __webpack_require__(410);
 
-	var _index = __webpack_require__(376);
+	var _index = __webpack_require__(378);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _Snackbar = __webpack_require__(393);
+	var _Snackbar = __webpack_require__(395);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
-	var _validations = __webpack_require__(402);
+	var _validations = __webpack_require__(404);
 
 	var _validations2 = _interopRequireDefault(_validations);
 
-	var _ResourceHelper = __webpack_require__(421);
+	var _ResourceHelper = __webpack_require__(423);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36753,7 +36784,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ResourceForm);
 
 /***/ },
-/* 421 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36766,11 +36797,11 @@
 	exports.pluralizeName = pluralizeName;
 	exports.singularizeName = singularizeName;
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _TreeHelper = __webpack_require__(422);
+	var _TreeHelper = __webpack_require__(424);
 
 	var _TreeHelper2 = _interopRequireDefault(_TreeHelper);
 
@@ -36869,7 +36900,7 @@
 	}
 
 /***/ },
-/* 422 */
+/* 424 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36885,7 +36916,7 @@
 	exports.makeMinimalArray = makeMinimalArray;
 	exports.deleteNode = deleteNode;
 
-	var _lodash = __webpack_require__(423);
+	var _lodash = __webpack_require__(425);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -37072,13 +37103,13 @@
 	}
 
 /***/ },
-/* 423 */
+/* 425 */
 /***/ function(module, exports) {
 
 	module.exports = require("lodash.find");
 
 /***/ },
-/* 424 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37091,7 +37122,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ForgotPasswordForm = __webpack_require__(425);
+	var _ForgotPasswordForm = __webpack_require__(427);
 
 	var _ForgotPasswordForm2 = _interopRequireDefault(_ForgotPasswordForm);
 
@@ -37122,7 +37153,7 @@
 	exports.default = PasswordResetPageTemplate;
 
 /***/ },
-/* 425 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37137,7 +37168,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResourceForm = __webpack_require__(420);
+	var _ResourceForm = __webpack_require__(422);
 
 	var _ResourceForm2 = _interopRequireDefault(_ResourceForm);
 
@@ -37179,7 +37210,7 @@
 	exports.default = ForgotPassword;
 
 /***/ },
-/* 426 */
+/* 428 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37192,7 +37223,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResetPassword = __webpack_require__(427);
+	var _ResetPassword = __webpack_require__(429);
 
 	var _ResetPassword2 = _interopRequireDefault(_ResetPassword);
 
@@ -37225,7 +37256,7 @@
 	exports.default = ResetPasswordTemplate;
 
 /***/ },
-/* 427 */
+/* 429 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37240,11 +37271,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResourceForm = __webpack_require__(420);
+	var _ResourceForm = __webpack_require__(422);
 
 	var _ResourceForm2 = _interopRequireDefault(_ResourceForm);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37333,7 +37364,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ResetPassword);
 
 /***/ },
-/* 428 */
+/* 430 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37348,27 +37379,27 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Widget = __webpack_require__(429);
+	var _Widget = __webpack_require__(431);
 
 	var _Widget2 = _interopRequireDefault(_Widget);
 
-	var _ActiveUsersWidget = __webpack_require__(430);
+	var _ActiveUsersWidget = __webpack_require__(432);
 
 	var _ActiveUsersWidget2 = _interopRequireDefault(_ActiveUsersWidget);
 
-	var _FlexContainer = __webpack_require__(438);
+	var _FlexContainer = __webpack_require__(440);
 
 	var _FlexContainer2 = _interopRequireDefault(_FlexContainer);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _AdminLayout = __webpack_require__(441);
+	var _AdminLayout = __webpack_require__(443);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37476,7 +37507,7 @@
 	exports.default = (0, _reactRedux.connect)()(Dashboard);
 
 /***/ },
-/* 429 */
+/* 431 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37513,7 +37544,7 @@
 	exports.default = Widget;
 
 /***/ },
-/* 430 */
+/* 432 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37528,23 +37559,23 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Gravatar = __webpack_require__(431);
+	var _Gravatar = __webpack_require__(433);
 
 	var _Gravatar2 = _interopRequireDefault(_Gravatar);
 
-	var _List = __webpack_require__(408);
+	var _List = __webpack_require__(410);
 
-	var _lens = __webpack_require__(435);
+	var _lens = __webpack_require__(437);
 
 	var _lens2 = _interopRequireDefault(_lens);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _CircularProgress = __webpack_require__(410);
+	var _CircularProgress = __webpack_require__(412);
 
 	var _CircularProgress2 = _interopRequireDefault(_CircularProgress);
 
@@ -37552,11 +37583,11 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _Widget = __webpack_require__(436);
+	var _Widget = __webpack_require__(438);
 
 	var _Widget2 = _interopRequireDefault(_Widget);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37643,7 +37674,7 @@
 	);
 
 /***/ },
-/* 431 */
+/* 433 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37656,11 +37687,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Avatar = __webpack_require__(432);
+	var _Avatar = __webpack_require__(434);
 
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 
-	var _gravatar = __webpack_require__(434);
+	var _gravatar = __webpack_require__(436);
 
 	var _gravatar2 = _interopRequireDefault(_gravatar);
 
@@ -37673,7 +37704,7 @@
 	exports.default = Gravatar;
 
 /***/ },
-/* 432 */
+/* 434 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37683,7 +37714,7 @@
 	});
 	exports.default = undefined;
 
-	var _Avatar = __webpack_require__(433);
+	var _Avatar = __webpack_require__(435);
 
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 
@@ -37692,7 +37723,7 @@
 	exports.default = _Avatar2.default;
 
 /***/ },
-/* 433 */
+/* 435 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37851,13 +37882,13 @@
 	exports.default = Avatar;
 
 /***/ },
-/* 434 */
+/* 436 */
 /***/ function(module, exports) {
 
 	module.exports = require("gravatar");
 
 /***/ },
-/* 435 */
+/* 437 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37894,11 +37925,11 @@
 	exports.default = ImageLens;
 
 /***/ },
-/* 436 */
+/* 438 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(437);
+	    var content = __webpack_require__(439);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -37911,7 +37942,7 @@
 	  
 
 /***/ },
-/* 437 */
+/* 439 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -37925,7 +37956,7 @@
 
 
 /***/ },
-/* 438 */
+/* 440 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37938,7 +37969,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _FlexContainer = __webpack_require__(439);
+	var _FlexContainer = __webpack_require__(441);
 
 	var _FlexContainer2 = _interopRequireDefault(_FlexContainer);
 
@@ -37959,11 +37990,11 @@
 	exports.default = (0, _withStyles2.default)(_FlexContainer2.default)(FlexContainer);
 
 /***/ },
-/* 439 */
+/* 441 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(440);
+	    var content = __webpack_require__(442);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -37976,7 +38007,7 @@
 	  
 
 /***/ },
-/* 440 */
+/* 442 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -37990,7 +38021,7 @@
 
 
 /***/ },
-/* 441 */
+/* 443 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38003,7 +38034,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SpeedDial = __webpack_require__(442);
+	var _SpeedDial = __webpack_require__(444);
 
 	var _SpeedDial2 = _interopRequireDefault(_SpeedDial);
 
@@ -38011,7 +38042,7 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _AdminLayout = __webpack_require__(457);
+	var _AdminLayout = __webpack_require__(459);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
@@ -38031,7 +38062,7 @@
 	exports.default = (0, _withStyles2.default)(_AdminLayout2.default)(AdminLayout);
 
 /***/ },
-/* 442 */
+/* 444 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38046,47 +38077,47 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _add = __webpack_require__(443);
+	var _add = __webpack_require__(445);
 
 	var _add2 = _interopRequireDefault(_add);
 
-	var _CustomFAB = __webpack_require__(444);
+	var _CustomFAB = __webpack_require__(446);
 
 	var _CustomFAB2 = _interopRequireDefault(_CustomFAB);
 
-	var _noteAdd = __webpack_require__(448);
+	var _noteAdd = __webpack_require__(450);
 
 	var _noteAdd2 = _interopRequireDefault(_noteAdd);
 
-	var _personAdd = __webpack_require__(449);
+	var _personAdd = __webpack_require__(451);
 
 	var _personAdd2 = _interopRequireDefault(_personAdd);
 
-	var _libraryBooks = __webpack_require__(450);
+	var _libraryBooks = __webpack_require__(452);
 
 	var _libraryBooks2 = _interopRequireDefault(_libraryBooks);
 
-	var _groupAdd = __webpack_require__(451);
+	var _groupAdd = __webpack_require__(453);
 
 	var _groupAdd2 = _interopRequireDefault(_groupAdd);
 
-	var _addToPhotos = __webpack_require__(452);
+	var _addToPhotos = __webpack_require__(454);
 
 	var _addToPhotos2 = _interopRequireDefault(_addToPhotos);
 
-	var _security = __webpack_require__(453);
+	var _security = __webpack_require__(455);
 
 	var _security2 = _interopRequireDefault(_security);
 
-	var _reactRouterRedux = __webpack_require__(454);
+	var _reactRouterRedux = __webpack_require__(456);
 
 	var _withStyles = __webpack_require__(205);
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _SpeedDial = __webpack_require__(455);
+	var _SpeedDial = __webpack_require__(457);
 
 	var _SpeedDial2 = _interopRequireDefault(_SpeedDial);
 
@@ -38151,21 +38182,22 @@
 	        menuList = ['pages', 'cards', 'users', 'books', 'roles', 'permission'];
 	      }
 
-	      var menuLength = menuList.length;
 	      var actionButtons = [];
 	      menuList.forEach(function (permission, index) {
 	        if (actions[permission] !== undefined) {
 	          mouseOutAreaHeight += 58;
 	          actionButtons.push(_react2.default.createElement(_CustomFAB2.default, {
 	            key: 'speedial-item-' + index,
-	            delay: 30 * (menuLength - index),
+	            delay: 30 * index,
 	            iconStyle: { fill: "white" },
+	            actionStyle: { bottom: mouseOutAreaHeight },
 	            mini: true,
 	            onTouchTap: function onTouchTap(e) {
 	              return _this2.handleActionClick(e, actions[permission].route);
 	            },
 	            secondary: true,
 	            tooltipText: actions[permission].tooltipText,
+	            toolTypeStyles: { marginTop: '-8px', marginBottom: '34px', top: '42px' },
 	            icon: actions[permission].icon
 	          }));
 	        }
@@ -38198,8 +38230,7 @@
 	        return null;
 	      }
 
-	      var mouseOutAreaHeight = 80;
-	      var actionList = this.makeActionList(this.props.menuList, mouseOutAreaHeight);
+	      var actionList = this.makeActionList(this.props.menuList, 0);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: this.state.open ? "opened" : "closed" },
@@ -38251,7 +38282,7 @@
 	exports.default = (0, _withStyles2.default)(_SpeedDial2.default)((0, _reactRedux.connect)(mapStateToProps)(SpeedDial));
 
 /***/ },
-/* 443 */
+/* 445 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38288,7 +38319,7 @@
 	exports.default = ContentAdd;
 
 /***/ },
-/* 444 */
+/* 446 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38303,15 +38334,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _FloatingActionButton = __webpack_require__(445);
+	var _FloatingActionButton = __webpack_require__(447);
 
 	var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
 
-	var _Tooltip = __webpack_require__(345);
+	var _Tooltip = __webpack_require__(346);
 
 	var _Tooltip2 = _interopRequireDefault(_Tooltip);
 
-	var _lodash = __webpack_require__(447);
+	var _lodash = __webpack_require__(449);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -38361,7 +38392,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: this.props.className ? this.props.className : "action" },
+	        { className: this.props.className ? this.props.className : "action", style: this.props.actionStyle },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'button', style: { transitionDelay: this.props.delay + 'ms' } },
@@ -38405,7 +38436,7 @@
 	exports.default = CustomFAB;
 
 /***/ },
-/* 445 */
+/* 447 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38415,7 +38446,7 @@
 	});
 	exports.default = undefined;
 
-	var _FloatingActionButton = __webpack_require__(446);
+	var _FloatingActionButton = __webpack_require__(448);
 
 	var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
 
@@ -38424,7 +38455,7 @@
 	exports.default = _FloatingActionButton2.default;
 
 /***/ },
-/* 446 */
+/* 448 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38455,7 +38486,7 @@
 
 	var _EnhancedButton2 = _interopRequireDefault(_EnhancedButton);
 
-	var _FontIcon = __webpack_require__(343);
+	var _FontIcon = __webpack_require__(344);
 
 	var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
@@ -38782,13 +38813,13 @@
 	exports.default = FloatingActionButton;
 
 /***/ },
-/* 447 */
+/* 449 */
 /***/ function(module, exports) {
 
 	module.exports = require("lodash.merge");
 
 /***/ },
-/* 448 */
+/* 450 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38825,7 +38856,7 @@
 	exports.default = ActionNoteAdd;
 
 /***/ },
-/* 449 */
+/* 451 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38862,7 +38893,7 @@
 	exports.default = SocialPersonAdd;
 
 /***/ },
-/* 450 */
+/* 452 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38899,7 +38930,7 @@
 	exports.default = AvLibraryBooks;
 
 /***/ },
-/* 451 */
+/* 453 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38936,7 +38967,7 @@
 	exports.default = SocialGroupAdd;
 
 /***/ },
-/* 452 */
+/* 454 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38973,7 +39004,7 @@
 	exports.default = ImageAddToPhotos;
 
 /***/ },
-/* 453 */
+/* 455 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39010,41 +39041,10 @@
 	exports.default = HardwareSecurity;
 
 /***/ },
-/* 454 */
+/* 456 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-router-redux");
-
-/***/ },
-/* 455 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	    var content = __webpack_require__(456);
-	    var insertCss = __webpack_require__(296);
-
-	    if (typeof content === 'string') {
-	      content = [[module.id, content, '']];
-	    }
-
-	    module.exports = content.locals || {};
-	    module.exports._getCss = function() { return content.toString(); };
-	    module.exports._insertCss = function(options) { return insertCss(content, options) };
-	  
-
-/***/ },
-/* 456 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(295)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".cover {\n  position: fixed;\n  width: 100%;\n  top: 0;\n  left: 0;\n  z-index: 1100;\n  /* just above title bar */\n  transition: opacity 0.2s ease-in-out;\n  opacity: 0;\n  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#5dc1b2+0,1fbcd2+100 */\n  /*background: #5dc1b2; /* Old browsers */\n  /*background: -moz-linear-gradient(-45deg, #5dc1b2 0%, #1fbcd2 100%); /* FF3.6-15 */\n  /*background: -webkit-linear-gradient(-45deg, #5dc1b2 0%, #1fbcd2 100%); /* Chrome10-25,Safari5.1-6 */\n  /*background: linear-gradient(135deg, #5dc1b2 0%, #1fbcd2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }\n\n.fab {\n  margin: 0px;\n  top: auto;\n  right: 20px;\n  bottom: 20px;\n  left: auto;\n  position: fixed;\n  flex-direction: row-reverse;\n  display: flex;\n  z-index: 1300; }\n  .fab .button {\n    background: none;\n    border: 0px;\n    width: 56px; }\n\n.container {\n  position: fixed;\n  bottom: 0;\n  right: 0;\n  width: 300px;\n  z-index: 1110; }\n  .container .dial-control-area {\n    width: 96px;\n    background-color: transparent;\n    position: absolute;\n    bottom: 0;\n    right: 0;\n    padding-right: 20px;\n    padding-bottom: 20px;\n    z-index: 1111;\n    display: flex; }\n  .container .actions {\n    position: absolute;\n    padding-bottom: 64px;\n    bottom: 20px;\n    right: 20px; }\n    .container .actions .action {\n      flex-direction: row-reverse;\n      display: flex;\n      height: 42px;\n      padding: 8px 0;\n      text-align: center;\n      visibility: hidden;\n      z-index: 1113; }\n      .container .actions .action .button {\n        background: none;\n        border: 0px;\n        text-align: center;\n        width: 56px;\n        height: 56px;\n        transition: all 120ms ease-in-out; }\n\n.closed .actions {\n  transition: top 0s linear 0.2s; }\n  .closed .actions .button {\n    transform: scale(0, 0); }\n\n.closed .cover {\n  opacity: 0;\n  transition: opacity 0.2s ease-in-out, height 0s linear 0.2s; }\n\n.opened .fab svg {\n  transform: rotate(135deg); }\n\n.opened .container .actions .action {\n  visibility: visible; }\n", ""]);
-
-	// exports
-
 
 /***/ },
 /* 457 */
@@ -39072,7 +39072,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background-color: black;\n  background-image: url(" + __webpack_require__(459) + ");\n  background-attachment: fixed;\n  background-size: cover;\n  background-position: center; }\n\n.admin-container {\n  padding-top: 63px;\n  margin: 0 auto;\n  text-align: inherit;\n  height: calc(100% - 63px); }\n\n@media (max-width: 900px) {\n  .admin-container, .admin-container .item-list {\n    width: 80%;\n    margin: 0 auto; } }\n\n@media (max-width: 500px) {\n  .admin-container, .admin-container .item-list {\n    width: 96%;\n    min-width: 300px; } }\n\n@media (min-width: 901px) {\n  .admin-container, .admin-container .item-list {\n    width: 980px; } }\n", ""]);
+	exports.push([module.id, ".cover {\n  position: fixed;\n  width: 100%;\n  top: 0;\n  left: 0;\n  z-index: 1100;\n  /* just above title bar */\n  transition: opacity 0.2s ease-in-out;\n  opacity: 0;\n  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#5dc1b2+0,1fbcd2+100 */\n  /*background: #5dc1b2; /* Old browsers */\n  /*background: -moz-linear-gradient(-45deg, #5dc1b2 0%, #1fbcd2 100%); /* FF3.6-15 */\n  /*background: -webkit-linear-gradient(-45deg, #5dc1b2 0%, #1fbcd2 100%); /* Chrome10-25,Safari5.1-6 */\n  /*background: linear-gradient(135deg, #5dc1b2 0%, #1fbcd2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }\n\n.fab {\n  margin: 0px;\n  top: auto;\n  right: 20px;\n  bottom: 20px;\n  left: auto;\n  position: fixed;\n  flex-direction: row-reverse;\n  display: flex;\n  z-index: 1300; }\n  .fab .button {\n    background: none;\n    border: 0px;\n    width: 56px; }\n\n.container {\n  position: fixed;\n  bottom: 0;\n  right: 0;\n  width: 300px;\n  z-index: 1110; }\n  .container .dial-control-area {\n    width: 96px;\n    background-color: transparent;\n    position: absolute;\n    bottom: 0;\n    right: 0;\n    padding-right: 20px;\n    padding-bottom: 20px;\n    z-index: 1111;\n    display: flex; }\n  .container .actions {\n    position: absolute;\n    bottom: 24px;\n    right: 0;\n    width: 100px;\n    height: 200px; }\n    .container .actions .action {\n      display: flex;\n      height: 42px;\n      padding: 8px 0;\n      text-align: center;\n      visibility: hidden;\n      z-index: 1113;\n      position: absolute;\n      right: 20px; }\n      .container .actions .action .tooltip {\n        position: absolute !important;\n        right: 60px !important; }\n      .container .actions .action .button {\n        background: none;\n        border: 0px;\n        text-align: center;\n        width: 56px;\n        height: 56px;\n        transition: all 120ms ease-in-out; }\n\n.closed .actions {\n  transition: top 0s linear 0.2s; }\n  .closed .actions .button {\n    transform: scale(0, 0); }\n\n.closed .cover {\n  opacity: 0;\n  transition: opacity 0.2s ease-in-out, height 0s linear 0.2s; }\n\n.opened .fab svg {\n  transform: rotate(135deg); }\n\n.opened .container .actions .action {\n  visibility: visible; }\n", ""]);
 
 	// exports
 
@@ -39081,10 +39081,41 @@
 /* 459 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "93797253d40c9c6f3a0f5d90c3f28305.jpg";
+	
+	    var content = __webpack_require__(460);
+	    var insertCss = __webpack_require__(296);
+
+	    if (typeof content === 'string') {
+	      content = [[module.id, content, '']];
+	    }
+
+	    module.exports = content.locals || {};
+	    module.exports._getCss = function() { return content.toString(); };
+	    module.exports._insertCss = function(options) { return insertCss(content, options) };
+	  
 
 /***/ },
 /* 460 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(295)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "body {\n  background-color: black;\n  background-image: url(" + __webpack_require__(461) + ");\n  background-attachment: fixed;\n  background-size: cover;\n  background-position: center; }\n\n.admin-container {\n  padding-top: 63px;\n  margin: 0 auto;\n  text-align: inherit;\n  height: calc(100% - 63px); }\n\n@media (max-width: 900px) {\n  .admin-container, .admin-container .item-list {\n    width: 80%;\n    margin: 0 auto; } }\n\n@media (max-width: 500px) {\n  .admin-container, .admin-container .item-list {\n    width: 96%;\n    min-width: 300px; } }\n\n@media (min-width: 901px) {\n  .admin-container, .admin-container .item-list {\n    width: 980px; } }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 461 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "93797253d40c9c6f3a0f5d90c3f28305.jpg";
+
+/***/ },
+/* 462 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39097,13 +39128,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResourceForm = __webpack_require__(420);
+	var _ResourceForm = __webpack_require__(422);
 
 	var _ResourceForm2 = _interopRequireDefault(_ResourceForm);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _AdminLayout = __webpack_require__(441);
+	var _AdminLayout = __webpack_require__(443);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
@@ -39149,7 +39180,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Settings);
 
 /***/ },
-/* 461 */
+/* 463 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39164,13 +39195,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _auth = __webpack_require__(390);
+	var _auth = __webpack_require__(392);
 
 	var _auth2 = _interopRequireDefault(_auth);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _AdminNav = __webpack_require__(462);
+	var _AdminNav = __webpack_require__(464);
 
 	var _AdminNav2 = _interopRequireDefault(_AdminNav);
 
@@ -39178,11 +39209,11 @@
 
 	var _SiteTopNav2 = _interopRequireDefault(_SiteTopNav);
 
-	var _Page = __webpack_require__(364);
+	var _Page = __webpack_require__(366);
 
 	var _Page2 = _interopRequireDefault(_Page);
 
-	var _ = __webpack_require__(476);
+	var _ = __webpack_require__(479);
 
 	var _2 = _interopRequireDefault(_);
 
@@ -39289,7 +39320,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
 
 /***/ },
-/* 462 */
+/* 464 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39304,7 +39335,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _AppBar = __webpack_require__(463);
+	var _AppBar = __webpack_require__(465);
 
 	var _AppBar2 = _interopRequireDefault(_AppBar);
 
@@ -39312,19 +39343,19 @@
 
 	var _Drawer2 = _interopRequireDefault(_Drawer);
 
-	var _IconMenu = __webpack_require__(465);
+	var _IconMenu = __webpack_require__(467);
 
 	var _IconMenu2 = _interopRequireDefault(_IconMenu);
 
-	var _MenuItem = __webpack_require__(467);
+	var _MenuItem = __webpack_require__(469);
 
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
-	var _moreVert = __webpack_require__(468);
+	var _moreVert = __webpack_require__(470);
 
 	var _moreVert2 = _interopRequireDefault(_moreVert);
 
@@ -39334,17 +39365,17 @@
 
 	var _reactRouter = __webpack_require__(5);
 
-	var _auth = __webpack_require__(390);
+	var _auth = __webpack_require__(392);
 
 	var _auth2 = _interopRequireDefault(_auth);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _BackButton = __webpack_require__(469);
+	var _BackButton = __webpack_require__(471);
 
 	var _BackButton2 = _interopRequireDefault(_BackButton);
 
-	var _AdminMenu = __webpack_require__(473);
+	var _AdminMenu = __webpack_require__(475);
 
 	var _AdminMenu2 = _interopRequireDefault(_AdminMenu);
 
@@ -39412,6 +39443,7 @@
 	      var _this3 = this;
 
 	      var iconElementRight = null;
+
 	      if (this.props.loggedIn) {
 	        iconElementRight = _react2.default.createElement(
 	          _IconMenu2.default,
@@ -39510,7 +39542,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AdminNav);
 
 /***/ },
-/* 463 */
+/* 465 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39520,7 +39552,7 @@
 	});
 	exports.default = undefined;
 
-	var _AppBar = __webpack_require__(464);
+	var _AppBar = __webpack_require__(466);
 
 	var _AppBar2 = _interopRequireDefault(_AppBar);
 
@@ -39529,7 +39561,7 @@
 	exports.default = _AppBar2.default;
 
 /***/ },
-/* 464 */
+/* 466 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39552,11 +39584,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
-	var _menu = __webpack_require__(357);
+	var _menu = __webpack_require__(359);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -39895,7 +39927,7 @@
 	exports.default = AppBar;
 
 /***/ },
-/* 465 */
+/* 467 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39905,11 +39937,11 @@
 	});
 	exports.default = exports.MenuItem = exports.IconMenu = undefined;
 
-	var _IconMenu2 = __webpack_require__(466);
+	var _IconMenu2 = __webpack_require__(468);
 
 	var _IconMenu3 = _interopRequireDefault(_IconMenu2);
 
-	var _MenuItem2 = __webpack_require__(326);
+	var _MenuItem2 = __webpack_require__(327);
 
 	var _MenuItem3 = _interopRequireDefault(_MenuItem2);
 
@@ -39920,7 +39952,7 @@
 	exports.default = _IconMenu3.default;
 
 /***/ },
-/* 466 */
+/* 468 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39953,11 +39985,11 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _Menu = __webpack_require__(352);
+	var _Menu = __webpack_require__(353);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _Popover = __webpack_require__(327);
+	var _Popover = __webpack_require__(328);
 
 	var _Popover2 = _interopRequireDefault(_Popover);
 
@@ -40312,7 +40344,7 @@
 	exports.default = IconMenu;
 
 /***/ },
-/* 467 */
+/* 469 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40327,11 +40359,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _lodash = __webpack_require__(447);
+	var _lodash = __webpack_require__(449);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _MenuItem = __webpack_require__(325);
+	var _MenuItem = __webpack_require__(326);
 
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
@@ -40347,7 +40379,7 @@
 	exports.default = MenuItem;
 
 /***/ },
-/* 468 */
+/* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40384,7 +40416,7 @@
 	exports.default = NavigationMoreVert;
 
 /***/ },
-/* 469 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40399,21 +40431,21 @@
 
 	var _reactRouter = __webpack_require__(5);
 
-	var _FlatButton = __webpack_require__(398);
+	var _FlatButton = __webpack_require__(400);
 
 	var _FlatButton2 = _interopRequireDefault(_FlatButton);
 
-	var _arrowBack = __webpack_require__(470);
+	var _arrowBack = __webpack_require__(472);
 
 	var _arrowBack2 = _interopRequireDefault(_arrowBack);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
 	var _withStyles = __webpack_require__(205);
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _BackButton = __webpack_require__(471);
+	var _BackButton = __webpack_require__(473);
 
 	var _BackButton2 = _interopRequireDefault(_BackButton);
 
@@ -40437,7 +40469,7 @@
 	exports.default = (0, _withStyles2.default)(_BackButton2.default)(BackButton);
 
 /***/ },
-/* 470 */
+/* 472 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40474,11 +40506,11 @@
 	exports.default = NavigationArrowBack;
 
 /***/ },
-/* 471 */
+/* 473 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(472);
+	    var content = __webpack_require__(474);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -40491,7 +40523,7 @@
 	  
 
 /***/ },
-/* 472 */
+/* 474 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -40505,7 +40537,7 @@
 
 
 /***/ },
-/* 473 */
+/* 475 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40520,19 +40552,19 @@
 
 	var _reactRouter = __webpack_require__(5);
 
-	var _Divider = __webpack_require__(322);
+	var _Divider = __webpack_require__(323);
 
 	var _Divider2 = _interopRequireDefault(_Divider);
 
-	var _LeftNavMenuItem = __webpack_require__(324);
+	var _LeftNavMenuItem = __webpack_require__(325);
 
 	var _LeftNavMenuItem2 = _interopRequireDefault(_LeftNavMenuItem);
 
-	var _Gravatar = __webpack_require__(431);
+	var _Gravatar = __webpack_require__(433);
 
 	var _Gravatar2 = _interopRequireDefault(_Gravatar);
 
-	var _ListItem = __webpack_require__(340);
+	var _ListItem = __webpack_require__(341);
 
 	var _ListItem2 = _interopRequireDefault(_ListItem);
 
@@ -40540,7 +40572,7 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _AdminMenu = __webpack_require__(474);
+	var _AdminMenu = __webpack_require__(476);
 
 	var _AdminMenu2 = _interopRequireDefault(_AdminMenu);
 
@@ -40615,11 +40647,11 @@
 	exports.default = (0, _withStyles2.default)(_AdminMenu2.default)(AdminMenu);
 
 /***/ },
-/* 474 */
+/* 476 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(475);
+	    var content = __webpack_require__(477);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -40632,7 +40664,7 @@
 	  
 
 /***/ },
-/* 475 */
+/* 477 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -40640,13 +40672,19 @@
 
 
 	// module
-	exports.push([module.id, ".drawer-header {\n  background-image: url(\"/images/admin_bg.jpg\");\n  background-size: cover;\n  background-position: 0% 20%; }\n  .drawer-header .header-text {\n    display: block;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden; }\n", ""]);
+	exports.push([module.id, ".drawer-header {\n  background-image: url(" + __webpack_require__(478) + ");\n  background-size: cover;\n  background-position: 0% 20%; }\n  .drawer-header .header-text {\n    display: block;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 476 */
+/* 478 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "7c48729a77689ab4d218d6ed77c501ef.jpg";
+
+/***/ },
+/* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40677,7 +40715,7 @@
 
 	var _FrontendPage2 = _interopRequireDefault(_FrontendPage);
 
-	var _ErrorPage = __webpack_require__(359);
+	var _ErrorPage = __webpack_require__(361);
 
 	var _ErrorPage2 = _interopRequireDefault(_ErrorPage);
 
@@ -40721,7 +40759,7 @@
 	exports.default = (0, _withStyles2.default)(_ErrorPage2.default)(Forbidden);
 
 /***/ },
-/* 477 */
+/* 480 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40730,23 +40768,23 @@
 	  value: true
 	});
 
-	var _Index = __webpack_require__(478);
+	var _Index = __webpack_require__(481);
 
 	var _Index2 = _interopRequireDefault(_Index);
 
-	var _Show = __webpack_require__(630);
+	var _Show = __webpack_require__(633);
 
 	var _Show2 = _interopRequireDefault(_Show);
 
-	var _Edit = __webpack_require__(631);
+	var _Edit = __webpack_require__(634);
 
 	var _Edit2 = _interopRequireDefault(_Edit);
 
-	var _New = __webpack_require__(668);
+	var _New = __webpack_require__(673);
 
 	var _New2 = _interopRequireDefault(_New);
 
-	var _routes = __webpack_require__(363);
+	var _routes = __webpack_require__(365);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40789,7 +40827,7 @@
 	exports.default = getAdminRoutes;
 
 /***/ },
-/* 478 */
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40804,41 +40842,41 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _List = __webpack_require__(408);
+	var _List = __webpack_require__(410);
 
-	var _CircularProgress = __webpack_require__(410);
+	var _CircularProgress = __webpack_require__(412);
 
 	var _CircularProgress2 = _interopRequireDefault(_CircularProgress);
 
-	var _AdminLayout = __webpack_require__(441);
+	var _AdminLayout = __webpack_require__(443);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
-	var _StringHelper = __webpack_require__(479);
+	var _StringHelper = __webpack_require__(482);
 
 	var _withStyles = __webpack_require__(205);
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _Index = __webpack_require__(480);
+	var _Index = __webpack_require__(483);
 
 	var _Index2 = _interopRequireDefault(_Index);
 
-	var _ListItems = __webpack_require__(482);
+	var _ListItems = __webpack_require__(485);
 
 	var _ListItems2 = _interopRequireDefault(_ListItems);
 
-	var _TreeHelper = __webpack_require__(422);
+	var _TreeHelper = __webpack_require__(424);
 
 	var _TreeHelper2 = _interopRequireDefault(_TreeHelper);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _Snackbar = __webpack_require__(393);
+	var _Snackbar = __webpack_require__(395);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
-	var _IndexToolbar = __webpack_require__(620);
+	var _IndexToolbar = __webpack_require__(623);
 
 	var _IndexToolbar2 = _interopRequireDefault(_IndexToolbar);
 
@@ -40894,7 +40932,7 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      dragula = __webpack_require__(629);
+	      dragula = __webpack_require__(632);
 	      if (this.props.adminResourceMode === 'EDIT_INDEX') {
 	        this.initializeDnD();
 	      }
@@ -41053,7 +41091,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)((0, _withStyles2.default)(_Index2.default)(Index));
 
 /***/ },
-/* 479 */
+/* 482 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -41079,11 +41117,11 @@
 	}
 
 /***/ },
-/* 480 */
+/* 483 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(481);
+	    var content = __webpack_require__(484);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -41096,7 +41134,7 @@
 	  
 
 /***/ },
-/* 481 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -41110,7 +41148,7 @@
 
 
 /***/ },
-/* 482 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41127,11 +41165,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _IndexItem = __webpack_require__(483);
+	var _IndexItem = __webpack_require__(486);
 
 	var _IndexItem2 = _interopRequireDefault(_IndexItem);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41184,7 +41222,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(ListItems);
 
 /***/ },
-/* 483 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41201,21 +41239,21 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
-	var _List = __webpack_require__(408);
+	var _List = __webpack_require__(410);
 
 	var _colorManipulator = __webpack_require__(185);
 
-	var _muiTheme = __webpack_require__(484);
+	var _muiTheme = __webpack_require__(487);
 
 	var _muiTheme2 = _interopRequireDefault(_muiTheme);
 
-	var _IndexItemActions = __webpack_require__(612);
+	var _IndexItemActions = __webpack_require__(615);
 
 	var _IndexItemActions2 = _interopRequireDefault(_IndexItemActions);
 
-	var _dragHandle = __webpack_require__(619);
+	var _dragHandle = __webpack_require__(622);
 
 	var _dragHandle2 = _interopRequireDefault(_dragHandle);
 
@@ -41376,7 +41414,7 @@
 	exports.default = IndexItem;
 
 /***/ },
-/* 484 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41385,15 +41423,15 @@
 	  value: true
 	});
 
-	var _getMuiTheme = __webpack_require__(485);
+	var _getMuiTheme = __webpack_require__(488);
 
 	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
 
-	var _darkBaseTheme = __webpack_require__(611);
+	var _darkBaseTheme = __webpack_require__(614);
 
 	var _darkBaseTheme2 = _interopRequireDefault(_darkBaseTheme);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
 	var _colorManipulator = __webpack_require__(185);
 
@@ -41433,7 +41471,7 @@
 	exports.default = muiTheme;
 
 /***/ },
-/* 485 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41443,41 +41481,41 @@
 	});
 	exports.default = getMuiTheme;
 
-	var _merge = __webpack_require__(486);
+	var _merge = __webpack_require__(489);
 
 	var _merge2 = _interopRequireDefault(_merge);
 
 	var _colorManipulator = __webpack_require__(185);
 
-	var _lightBaseTheme = __webpack_require__(602);
+	var _lightBaseTheme = __webpack_require__(605);
 
 	var _lightBaseTheme2 = _interopRequireDefault(_lightBaseTheme);
 
-	var _zIndex = __webpack_require__(604);
+	var _zIndex = __webpack_require__(607);
 
 	var _zIndex2 = _interopRequireDefault(_zIndex);
 
-	var _autoprefixer = __webpack_require__(605);
+	var _autoprefixer = __webpack_require__(608);
 
 	var _autoprefixer2 = _interopRequireDefault(_autoprefixer);
 
-	var _callOnce = __webpack_require__(607);
+	var _callOnce = __webpack_require__(610);
 
 	var _callOnce2 = _interopRequireDefault(_callOnce);
 
-	var _rtl = __webpack_require__(608);
+	var _rtl = __webpack_require__(611);
 
 	var _rtl2 = _interopRequireDefault(_rtl);
 
-	var _compose = __webpack_require__(609);
+	var _compose = __webpack_require__(612);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
-	var _typography = __webpack_require__(610);
+	var _typography = __webpack_require__(613);
 
 	var _typography2 = _interopRequireDefault(_typography);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41813,11 +41851,11 @@
 	}
 
 /***/ },
-/* 486 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseMerge = __webpack_require__(487),
-	    createAssigner = __webpack_require__(591);
+	var baseMerge = __webpack_require__(490),
+	    createAssigner = __webpack_require__(594);
 
 	/**
 	 * This method is like `_.assign` except that it recursively merges own and
@@ -41858,17 +41896,17 @@
 
 
 /***/ },
-/* 487 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Stack = __webpack_require__(488),
-	    arrayEach = __webpack_require__(525),
-	    assignMergeValue = __webpack_require__(526),
-	    baseKeysIn = __webpack_require__(528),
-	    baseMergeDeep = __webpack_require__(531),
-	    isArray = __webpack_require__(543),
-	    isObject = __webpack_require__(331),
-	    isTypedArray = __webpack_require__(585);
+	var Stack = __webpack_require__(491),
+	    arrayEach = __webpack_require__(528),
+	    assignMergeValue = __webpack_require__(529),
+	    baseKeysIn = __webpack_require__(531),
+	    baseMergeDeep = __webpack_require__(534),
+	    isArray = __webpack_require__(546),
+	    isObject = __webpack_require__(332),
+	    isTypedArray = __webpack_require__(588);
 
 	/**
 	 * The base implementation of `_.merge` without support for multiple sources.
@@ -41914,15 +41952,15 @@
 
 
 /***/ },
-/* 488 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ListCache = __webpack_require__(489),
-	    stackClear = __webpack_require__(497),
-	    stackDelete = __webpack_require__(498),
-	    stackGet = __webpack_require__(499),
-	    stackHas = __webpack_require__(500),
-	    stackSet = __webpack_require__(501);
+	var ListCache = __webpack_require__(492),
+	    stackClear = __webpack_require__(500),
+	    stackDelete = __webpack_require__(501),
+	    stackGet = __webpack_require__(502),
+	    stackHas = __webpack_require__(503),
+	    stackSet = __webpack_require__(504);
 
 	/**
 	 * Creates a stack cache object to store key-value pairs.
@@ -41947,14 +41985,14 @@
 
 
 /***/ },
-/* 489 */
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var listCacheClear = __webpack_require__(490),
-	    listCacheDelete = __webpack_require__(491),
-	    listCacheGet = __webpack_require__(494),
-	    listCacheHas = __webpack_require__(495),
-	    listCacheSet = __webpack_require__(496);
+	var listCacheClear = __webpack_require__(493),
+	    listCacheDelete = __webpack_require__(494),
+	    listCacheGet = __webpack_require__(497),
+	    listCacheHas = __webpack_require__(498),
+	    listCacheSet = __webpack_require__(499);
 
 	/**
 	 * Creates an list cache object.
@@ -41985,7 +42023,7 @@
 
 
 /***/ },
-/* 490 */
+/* 493 */
 /***/ function(module, exports) {
 
 	/**
@@ -42004,10 +42042,10 @@
 
 
 /***/ },
-/* 491 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(492);
+	var assocIndexOf = __webpack_require__(495);
 
 	/** Used for built-in method references. */
 	var arrayProto = Array.prototype;
@@ -42045,10 +42083,10 @@
 
 
 /***/ },
-/* 492 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var eq = __webpack_require__(493);
+	var eq = __webpack_require__(496);
 
 	/**
 	 * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -42072,7 +42110,7 @@
 
 
 /***/ },
-/* 493 */
+/* 496 */
 /***/ function(module, exports) {
 
 	/**
@@ -42115,10 +42153,10 @@
 
 
 /***/ },
-/* 494 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(492);
+	var assocIndexOf = __webpack_require__(495);
 
 	/**
 	 * Gets the list cache value for `key`.
@@ -42140,10 +42178,10 @@
 
 
 /***/ },
-/* 495 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(492);
+	var assocIndexOf = __webpack_require__(495);
 
 	/**
 	 * Checks if a list cache value for `key` exists.
@@ -42162,10 +42200,10 @@
 
 
 /***/ },
-/* 496 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(492);
+	var assocIndexOf = __webpack_require__(495);
 
 	/**
 	 * Sets the list cache `key` to `value`.
@@ -42194,10 +42232,10 @@
 
 
 /***/ },
-/* 497 */
+/* 500 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ListCache = __webpack_require__(489);
+	var ListCache = __webpack_require__(492);
 
 	/**
 	 * Removes all key-value entries from the stack.
@@ -42215,7 +42253,7 @@
 
 
 /***/ },
-/* 498 */
+/* 501 */
 /***/ function(module, exports) {
 
 	/**
@@ -42239,7 +42277,7 @@
 
 
 /***/ },
-/* 499 */
+/* 502 */
 /***/ function(module, exports) {
 
 	/**
@@ -42259,7 +42297,7 @@
 
 
 /***/ },
-/* 500 */
+/* 503 */
 /***/ function(module, exports) {
 
 	/**
@@ -42279,12 +42317,12 @@
 
 
 /***/ },
-/* 501 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ListCache = __webpack_require__(489),
-	    Map = __webpack_require__(502),
-	    MapCache = __webpack_require__(510);
+	var ListCache = __webpack_require__(492),
+	    Map = __webpack_require__(505),
+	    MapCache = __webpack_require__(513);
 
 	/** Used as the size to enable large array optimizations. */
 	var LARGE_ARRAY_SIZE = 200;
@@ -42319,11 +42357,11 @@
 
 
 /***/ },
-/* 502 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(503),
-	    root = __webpack_require__(333);
+	var getNative = __webpack_require__(506),
+	    root = __webpack_require__(334);
 
 	/* Built-in method references that are verified to be native. */
 	var Map = getNative(root, 'Map');
@@ -42332,11 +42370,11 @@
 
 
 /***/ },
-/* 503 */
+/* 506 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseIsNative = __webpack_require__(504),
-	    getValue = __webpack_require__(509);
+	var baseIsNative = __webpack_require__(507),
+	    getValue = __webpack_require__(512);
 
 	/**
 	 * Gets the native function at `key` of `object`.
@@ -42355,13 +42393,13 @@
 
 
 /***/ },
-/* 504 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(505),
-	    isMasked = __webpack_require__(506),
-	    isObject = __webpack_require__(331),
-	    toSource = __webpack_require__(508);
+	var isFunction = __webpack_require__(508),
+	    isMasked = __webpack_require__(509),
+	    isObject = __webpack_require__(332),
+	    toSource = __webpack_require__(511);
 
 	/**
 	 * Used to match `RegExp`
@@ -42408,10 +42446,10 @@
 
 
 /***/ },
-/* 505 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(331);
+	var isObject = __webpack_require__(332);
 
 	/** `Object#toString` result references. */
 	var funcTag = '[object Function]',
@@ -42455,10 +42493,10 @@
 
 
 /***/ },
-/* 506 */
+/* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var coreJsData = __webpack_require__(507);
+	var coreJsData = __webpack_require__(510);
 
 	/** Used to detect methods masquerading as native. */
 	var maskSrcKey = (function() {
@@ -42481,10 +42519,10 @@
 
 
 /***/ },
-/* 507 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(333);
+	var root = __webpack_require__(334);
 
 	/** Used to detect overreaching core-js shims. */
 	var coreJsData = root['__core-js_shared__'];
@@ -42493,7 +42531,7 @@
 
 
 /***/ },
-/* 508 */
+/* 511 */
 /***/ function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -42525,7 +42563,7 @@
 
 
 /***/ },
-/* 509 */
+/* 512 */
 /***/ function(module, exports) {
 
 	/**
@@ -42544,14 +42582,14 @@
 
 
 /***/ },
-/* 510 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapCacheClear = __webpack_require__(511),
-	    mapCacheDelete = __webpack_require__(519),
-	    mapCacheGet = __webpack_require__(522),
-	    mapCacheHas = __webpack_require__(523),
-	    mapCacheSet = __webpack_require__(524);
+	var mapCacheClear = __webpack_require__(514),
+	    mapCacheDelete = __webpack_require__(522),
+	    mapCacheGet = __webpack_require__(525),
+	    mapCacheHas = __webpack_require__(526),
+	    mapCacheSet = __webpack_require__(527);
 
 	/**
 	 * Creates a map cache object to store key-value pairs.
@@ -42582,12 +42620,12 @@
 
 
 /***/ },
-/* 511 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Hash = __webpack_require__(512),
-	    ListCache = __webpack_require__(489),
-	    Map = __webpack_require__(502);
+	var Hash = __webpack_require__(515),
+	    ListCache = __webpack_require__(492),
+	    Map = __webpack_require__(505);
 
 	/**
 	 * Removes all key-value entries from the map.
@@ -42609,14 +42647,14 @@
 
 
 /***/ },
-/* 512 */
+/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var hashClear = __webpack_require__(513),
-	    hashDelete = __webpack_require__(515),
-	    hashGet = __webpack_require__(516),
-	    hashHas = __webpack_require__(517),
-	    hashSet = __webpack_require__(518);
+	var hashClear = __webpack_require__(516),
+	    hashDelete = __webpack_require__(518),
+	    hashGet = __webpack_require__(519),
+	    hashHas = __webpack_require__(520),
+	    hashSet = __webpack_require__(521);
 
 	/**
 	 * Creates a hash object.
@@ -42647,10 +42685,10 @@
 
 
 /***/ },
-/* 513 */
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(514);
+	var nativeCreate = __webpack_require__(517);
 
 	/**
 	 * Removes all key-value entries from the hash.
@@ -42668,10 +42706,10 @@
 
 
 /***/ },
-/* 514 */
+/* 517 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(503);
+	var getNative = __webpack_require__(506);
 
 	/* Built-in method references that are verified to be native. */
 	var nativeCreate = getNative(Object, 'create');
@@ -42680,7 +42718,7 @@
 
 
 /***/ },
-/* 515 */
+/* 518 */
 /***/ function(module, exports) {
 
 	/**
@@ -42703,10 +42741,10 @@
 
 
 /***/ },
-/* 516 */
+/* 519 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(514);
+	var nativeCreate = __webpack_require__(517);
 
 	/** Used to stand-in for `undefined` hash values. */
 	var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -42739,10 +42777,10 @@
 
 
 /***/ },
-/* 517 */
+/* 520 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(514);
+	var nativeCreate = __webpack_require__(517);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -42768,10 +42806,10 @@
 
 
 /***/ },
-/* 518 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(514);
+	var nativeCreate = __webpack_require__(517);
 
 	/** Used to stand-in for `undefined` hash values. */
 	var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -42797,10 +42835,10 @@
 
 
 /***/ },
-/* 519 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(520);
+	var getMapData = __webpack_require__(523);
 
 	/**
 	 * Removes `key` and its value from the map.
@@ -42821,10 +42859,10 @@
 
 
 /***/ },
-/* 520 */
+/* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isKeyable = __webpack_require__(521);
+	var isKeyable = __webpack_require__(524);
 
 	/**
 	 * Gets the data for `map`.
@@ -42845,7 +42883,7 @@
 
 
 /***/ },
-/* 521 */
+/* 524 */
 /***/ function(module, exports) {
 
 	/**
@@ -42866,10 +42904,10 @@
 
 
 /***/ },
-/* 522 */
+/* 525 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(520);
+	var getMapData = __webpack_require__(523);
 
 	/**
 	 * Gets the map value for `key`.
@@ -42888,10 +42926,10 @@
 
 
 /***/ },
-/* 523 */
+/* 526 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(520);
+	var getMapData = __webpack_require__(523);
 
 	/**
 	 * Checks if a map value for `key` exists.
@@ -42910,10 +42948,10 @@
 
 
 /***/ },
-/* 524 */
+/* 527 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(520);
+	var getMapData = __webpack_require__(523);
 
 	/**
 	 * Sets the map `key` to `value`.
@@ -42938,7 +42976,7 @@
 
 
 /***/ },
-/* 525 */
+/* 528 */
 /***/ function(module, exports) {
 
 	/**
@@ -42966,11 +43004,11 @@
 
 
 /***/ },
-/* 526 */
+/* 529 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseAssignValue = __webpack_require__(527),
-	    eq = __webpack_require__(493);
+	var baseAssignValue = __webpack_require__(530),
+	    eq = __webpack_require__(496);
 
 	/**
 	 * This function is like `assignValue` except that it doesn't assign
@@ -42992,7 +43030,7 @@
 
 
 /***/ },
-/* 527 */
+/* 530 */
 /***/ function(module, exports) {
 
 	/** Built-in value references. */
@@ -43024,12 +43062,12 @@
 
 
 /***/ },
-/* 528 */
+/* 531 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(331),
-	    isPrototype = __webpack_require__(529),
-	    nativeKeysIn = __webpack_require__(530);
+	var isObject = __webpack_require__(332),
+	    isPrototype = __webpack_require__(532),
+	    nativeKeysIn = __webpack_require__(533);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -43063,7 +43101,7 @@
 
 
 /***/ },
-/* 529 */
+/* 532 */
 /***/ function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -43087,7 +43125,7 @@
 
 
 /***/ },
-/* 530 */
+/* 533 */
 /***/ function(module, exports) {
 
 	/**
@@ -43113,20 +43151,20 @@
 
 
 /***/ },
-/* 531 */
+/* 534 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assignMergeValue = __webpack_require__(526),
-	    baseClone = __webpack_require__(532),
-	    copyArray = __webpack_require__(550),
-	    isArguments = __webpack_require__(539),
-	    isArray = __webpack_require__(543),
-	    isArrayLikeObject = __webpack_require__(540),
-	    isFunction = __webpack_require__(505),
-	    isObject = __webpack_require__(331),
-	    isPlainObject = __webpack_require__(584),
-	    isTypedArray = __webpack_require__(585),
-	    toPlainObject = __webpack_require__(589);
+	var assignMergeValue = __webpack_require__(529),
+	    baseClone = __webpack_require__(535),
+	    copyArray = __webpack_require__(553),
+	    isArguments = __webpack_require__(542),
+	    isArray = __webpack_require__(546),
+	    isArrayLikeObject = __webpack_require__(543),
+	    isFunction = __webpack_require__(508),
+	    isObject = __webpack_require__(332),
+	    isPlainObject = __webpack_require__(587),
+	    isTypedArray = __webpack_require__(588),
+	    toPlainObject = __webpack_require__(592);
 
 	/**
 	 * A specialized version of `baseMerge` for arrays and objects which performs
@@ -43201,25 +43239,25 @@
 
 
 /***/ },
-/* 532 */
+/* 535 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Stack = __webpack_require__(488),
-	    arrayEach = __webpack_require__(525),
-	    assignValue = __webpack_require__(533),
-	    baseAssign = __webpack_require__(534),
-	    cloneBuffer = __webpack_require__(548),
-	    copyArray = __webpack_require__(550),
-	    copySymbols = __webpack_require__(551),
-	    getAllKeys = __webpack_require__(554),
-	    getTag = __webpack_require__(557),
-	    initCloneArray = __webpack_require__(563),
-	    initCloneByTag = __webpack_require__(564),
-	    initCloneObject = __webpack_require__(579),
-	    isArray = __webpack_require__(543),
-	    isBuffer = __webpack_require__(582),
-	    isObject = __webpack_require__(331),
-	    keys = __webpack_require__(536);
+	var Stack = __webpack_require__(491),
+	    arrayEach = __webpack_require__(528),
+	    assignValue = __webpack_require__(536),
+	    baseAssign = __webpack_require__(537),
+	    cloneBuffer = __webpack_require__(551),
+	    copyArray = __webpack_require__(553),
+	    copySymbols = __webpack_require__(554),
+	    getAllKeys = __webpack_require__(557),
+	    getTag = __webpack_require__(560),
+	    initCloneArray = __webpack_require__(566),
+	    initCloneByTag = __webpack_require__(567),
+	    initCloneObject = __webpack_require__(582),
+	    isArray = __webpack_require__(546),
+	    isBuffer = __webpack_require__(585),
+	    isObject = __webpack_require__(332),
+	    keys = __webpack_require__(539);
 
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]',
@@ -43342,11 +43380,11 @@
 
 
 /***/ },
-/* 533 */
+/* 536 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseAssignValue = __webpack_require__(527),
-	    eq = __webpack_require__(493);
+	var baseAssignValue = __webpack_require__(530),
+	    eq = __webpack_require__(496);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -43376,11 +43414,11 @@
 
 
 /***/ },
-/* 534 */
+/* 537 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var copyObject = __webpack_require__(535),
-	    keys = __webpack_require__(536);
+	var copyObject = __webpack_require__(538),
+	    keys = __webpack_require__(539);
 
 	/**
 	 * The base implementation of `_.assign` without support for multiple sources
@@ -43399,11 +43437,11 @@
 
 
 /***/ },
-/* 535 */
+/* 538 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var assignValue = __webpack_require__(533),
-	    baseAssignValue = __webpack_require__(527);
+	var assignValue = __webpack_require__(536),
+	    baseAssignValue = __webpack_require__(530);
 
 	/**
 	 * Copies properties of `source` to `object`.
@@ -43445,12 +43483,12 @@
 
 
 /***/ },
-/* 536 */
+/* 539 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var arrayLikeKeys = __webpack_require__(537),
-	    baseKeys = __webpack_require__(545),
-	    isArrayLike = __webpack_require__(541);
+	var arrayLikeKeys = __webpack_require__(540),
+	    baseKeys = __webpack_require__(548),
+	    isArrayLike = __webpack_require__(544);
 
 	/**
 	 * Creates an array of the own enumerable property names of `object`.
@@ -43488,13 +43526,13 @@
 
 
 /***/ },
-/* 537 */
+/* 540 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseTimes = __webpack_require__(538),
-	    isArguments = __webpack_require__(539),
-	    isArray = __webpack_require__(543),
-	    isIndex = __webpack_require__(544);
+	var baseTimes = __webpack_require__(541),
+	    isArguments = __webpack_require__(542),
+	    isArray = __webpack_require__(546),
+	    isIndex = __webpack_require__(547);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -43533,7 +43571,7 @@
 
 
 /***/ },
-/* 538 */
+/* 541 */
 /***/ function(module, exports) {
 
 	/**
@@ -43559,10 +43597,10 @@
 
 
 /***/ },
-/* 539 */
+/* 542 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLikeObject = __webpack_require__(540);
+	var isArrayLikeObject = __webpack_require__(543);
 
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]';
@@ -43611,11 +43649,11 @@
 
 
 /***/ },
-/* 540 */
+/* 543 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(541),
-	    isObjectLike = __webpack_require__(337);
+	var isArrayLike = __webpack_require__(544),
+	    isObjectLike = __webpack_require__(338);
 
 	/**
 	 * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -43650,11 +43688,11 @@
 
 
 /***/ },
-/* 541 */
+/* 544 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(505),
-	    isLength = __webpack_require__(542);
+	var isFunction = __webpack_require__(508),
+	    isLength = __webpack_require__(545);
 
 	/**
 	 * Checks if `value` is array-like. A value is considered array-like if it's
@@ -43689,7 +43727,7 @@
 
 
 /***/ },
-/* 542 */
+/* 545 */
 /***/ function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -43730,7 +43768,7 @@
 
 
 /***/ },
-/* 543 */
+/* 546 */
 /***/ function(module, exports) {
 
 	/**
@@ -43762,7 +43800,7 @@
 
 
 /***/ },
-/* 544 */
+/* 547 */
 /***/ function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -43790,11 +43828,11 @@
 
 
 /***/ },
-/* 545 */
+/* 548 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isPrototype = __webpack_require__(529),
-	    nativeKeys = __webpack_require__(546);
+	var isPrototype = __webpack_require__(532),
+	    nativeKeys = __webpack_require__(549);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -43826,10 +43864,10 @@
 
 
 /***/ },
-/* 546 */
+/* 549 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var overArg = __webpack_require__(547);
+	var overArg = __webpack_require__(550);
 
 	/* Built-in method references for those with the same name as other `lodash` methods. */
 	var nativeKeys = overArg(Object.keys, Object);
@@ -43838,7 +43876,7 @@
 
 
 /***/ },
-/* 547 */
+/* 550 */
 /***/ function(module, exports) {
 
 	/**
@@ -43859,10 +43897,10 @@
 
 
 /***/ },
-/* 548 */
+/* 551 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(333);
+	/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(334);
 
 	/** Detect free variable `exports`. */
 	var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -43898,10 +43936,10 @@
 
 	module.exports = cloneBuffer;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(549)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(552)(module)))
 
 /***/ },
-/* 549 */
+/* 552 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -43917,7 +43955,7 @@
 
 
 /***/ },
-/* 550 */
+/* 553 */
 /***/ function(module, exports) {
 
 	/**
@@ -43943,11 +43981,11 @@
 
 
 /***/ },
-/* 551 */
+/* 554 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var copyObject = __webpack_require__(535),
-	    getSymbols = __webpack_require__(552);
+	var copyObject = __webpack_require__(538),
+	    getSymbols = __webpack_require__(555);
 
 	/**
 	 * Copies own symbol properties of `source` to `object`.
@@ -43965,11 +44003,11 @@
 
 
 /***/ },
-/* 552 */
+/* 555 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var overArg = __webpack_require__(547),
-	    stubArray = __webpack_require__(553);
+	var overArg = __webpack_require__(550),
+	    stubArray = __webpack_require__(556);
 
 	/* Built-in method references for those with the same name as other `lodash` methods. */
 	var nativeGetSymbols = Object.getOwnPropertySymbols;
@@ -43987,7 +44025,7 @@
 
 
 /***/ },
-/* 553 */
+/* 556 */
 /***/ function(module, exports) {
 
 	/**
@@ -44016,12 +44054,12 @@
 
 
 /***/ },
-/* 554 */
+/* 557 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseGetAllKeys = __webpack_require__(555),
-	    getSymbols = __webpack_require__(552),
-	    keys = __webpack_require__(536);
+	var baseGetAllKeys = __webpack_require__(558),
+	    getSymbols = __webpack_require__(555),
+	    keys = __webpack_require__(539);
 
 	/**
 	 * Creates an array of own enumerable property names and symbols of `object`.
@@ -44038,11 +44076,11 @@
 
 
 /***/ },
-/* 555 */
+/* 558 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var arrayPush = __webpack_require__(556),
-	    isArray = __webpack_require__(543);
+	var arrayPush = __webpack_require__(559),
+	    isArray = __webpack_require__(546);
 
 	/**
 	 * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -44064,7 +44102,7 @@
 
 
 /***/ },
-/* 556 */
+/* 559 */
 /***/ function(module, exports) {
 
 	/**
@@ -44090,16 +44128,16 @@
 
 
 /***/ },
-/* 557 */
+/* 560 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DataView = __webpack_require__(558),
-	    Map = __webpack_require__(502),
-	    Promise = __webpack_require__(559),
-	    Set = __webpack_require__(560),
-	    WeakMap = __webpack_require__(561),
-	    baseGetTag = __webpack_require__(562),
-	    toSource = __webpack_require__(508);
+	var DataView = __webpack_require__(561),
+	    Map = __webpack_require__(505),
+	    Promise = __webpack_require__(562),
+	    Set = __webpack_require__(563),
+	    WeakMap = __webpack_require__(564),
+	    baseGetTag = __webpack_require__(565),
+	    toSource = __webpack_require__(511);
 
 	/** `Object#toString` result references. */
 	var mapTag = '[object Map]',
@@ -44164,11 +44202,11 @@
 
 
 /***/ },
-/* 558 */
+/* 561 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(503),
-	    root = __webpack_require__(333);
+	var getNative = __webpack_require__(506),
+	    root = __webpack_require__(334);
 
 	/* Built-in method references that are verified to be native. */
 	var DataView = getNative(root, 'DataView');
@@ -44177,11 +44215,11 @@
 
 
 /***/ },
-/* 559 */
+/* 562 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(503),
-	    root = __webpack_require__(333);
+	var getNative = __webpack_require__(506),
+	    root = __webpack_require__(334);
 
 	/* Built-in method references that are verified to be native. */
 	var Promise = getNative(root, 'Promise');
@@ -44190,11 +44228,11 @@
 
 
 /***/ },
-/* 560 */
+/* 563 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(503),
-	    root = __webpack_require__(333);
+	var getNative = __webpack_require__(506),
+	    root = __webpack_require__(334);
 
 	/* Built-in method references that are verified to be native. */
 	var Set = getNative(root, 'Set');
@@ -44203,11 +44241,11 @@
 
 
 /***/ },
-/* 561 */
+/* 564 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(503),
-	    root = __webpack_require__(333);
+	var getNative = __webpack_require__(506),
+	    root = __webpack_require__(334);
 
 	/* Built-in method references that are verified to be native. */
 	var WeakMap = getNative(root, 'WeakMap');
@@ -44216,7 +44254,7 @@
 
 
 /***/ },
-/* 562 */
+/* 565 */
 /***/ function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -44244,7 +44282,7 @@
 
 
 /***/ },
-/* 563 */
+/* 566 */
 /***/ function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -44276,16 +44314,16 @@
 
 
 /***/ },
-/* 564 */
+/* 567 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var cloneArrayBuffer = __webpack_require__(565),
-	    cloneDataView = __webpack_require__(567),
-	    cloneMap = __webpack_require__(568),
-	    cloneRegExp = __webpack_require__(572),
-	    cloneSet = __webpack_require__(573),
-	    cloneSymbol = __webpack_require__(576),
-	    cloneTypedArray = __webpack_require__(578);
+	var cloneArrayBuffer = __webpack_require__(568),
+	    cloneDataView = __webpack_require__(570),
+	    cloneMap = __webpack_require__(571),
+	    cloneRegExp = __webpack_require__(575),
+	    cloneSet = __webpack_require__(576),
+	    cloneSymbol = __webpack_require__(579),
+	    cloneTypedArray = __webpack_require__(581);
 
 	/** `Object#toString` result references. */
 	var boolTag = '[object Boolean]',
@@ -44362,10 +44400,10 @@
 
 
 /***/ },
-/* 565 */
+/* 568 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Uint8Array = __webpack_require__(566);
+	var Uint8Array = __webpack_require__(569);
 
 	/**
 	 * Creates a clone of `arrayBuffer`.
@@ -44384,10 +44422,10 @@
 
 
 /***/ },
-/* 566 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(333);
+	var root = __webpack_require__(334);
 
 	/** Built-in value references. */
 	var Uint8Array = root.Uint8Array;
@@ -44396,10 +44434,10 @@
 
 
 /***/ },
-/* 567 */
+/* 570 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var cloneArrayBuffer = __webpack_require__(565);
+	var cloneArrayBuffer = __webpack_require__(568);
 
 	/**
 	 * Creates a clone of `dataView`.
@@ -44418,12 +44456,12 @@
 
 
 /***/ },
-/* 568 */
+/* 571 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var addMapEntry = __webpack_require__(569),
-	    arrayReduce = __webpack_require__(570),
-	    mapToArray = __webpack_require__(571);
+	var addMapEntry = __webpack_require__(572),
+	    arrayReduce = __webpack_require__(573),
+	    mapToArray = __webpack_require__(574);
 
 	/**
 	 * Creates a clone of `map`.
@@ -44443,7 +44481,7 @@
 
 
 /***/ },
-/* 569 */
+/* 572 */
 /***/ function(module, exports) {
 
 	/**
@@ -44464,7 +44502,7 @@
 
 
 /***/ },
-/* 570 */
+/* 573 */
 /***/ function(module, exports) {
 
 	/**
@@ -44496,7 +44534,7 @@
 
 
 /***/ },
-/* 571 */
+/* 574 */
 /***/ function(module, exports) {
 
 	/**
@@ -44520,7 +44558,7 @@
 
 
 /***/ },
-/* 572 */
+/* 575 */
 /***/ function(module, exports) {
 
 	/** Used to match `RegExp` flags from their coerced string values. */
@@ -44543,12 +44581,12 @@
 
 
 /***/ },
-/* 573 */
+/* 576 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var addSetEntry = __webpack_require__(574),
-	    arrayReduce = __webpack_require__(570),
-	    setToArray = __webpack_require__(575);
+	var addSetEntry = __webpack_require__(577),
+	    arrayReduce = __webpack_require__(573),
+	    setToArray = __webpack_require__(578);
 
 	/**
 	 * Creates a clone of `set`.
@@ -44568,7 +44606,7 @@
 
 
 /***/ },
-/* 574 */
+/* 577 */
 /***/ function(module, exports) {
 
 	/**
@@ -44589,7 +44627,7 @@
 
 
 /***/ },
-/* 575 */
+/* 578 */
 /***/ function(module, exports) {
 
 	/**
@@ -44613,10 +44651,10 @@
 
 
 /***/ },
-/* 576 */
+/* 579 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(577);
+	var Symbol = __webpack_require__(580);
 
 	/** Used to convert symbols to primitives and strings. */
 	var symbolProto = Symbol ? Symbol.prototype : undefined,
@@ -44637,10 +44675,10 @@
 
 
 /***/ },
-/* 577 */
+/* 580 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(333);
+	var root = __webpack_require__(334);
 
 	/** Built-in value references. */
 	var Symbol = root.Symbol;
@@ -44649,10 +44687,10 @@
 
 
 /***/ },
-/* 578 */
+/* 581 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var cloneArrayBuffer = __webpack_require__(565);
+	var cloneArrayBuffer = __webpack_require__(568);
 
 	/**
 	 * Creates a clone of `typedArray`.
@@ -44671,12 +44709,12 @@
 
 
 /***/ },
-/* 579 */
+/* 582 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseCreate = __webpack_require__(580),
-	    getPrototype = __webpack_require__(581),
-	    isPrototype = __webpack_require__(529);
+	var baseCreate = __webpack_require__(583),
+	    getPrototype = __webpack_require__(584),
+	    isPrototype = __webpack_require__(532);
 
 	/**
 	 * Initializes an object clone.
@@ -44695,10 +44733,10 @@
 
 
 /***/ },
-/* 580 */
+/* 583 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(331);
+	var isObject = __webpack_require__(332);
 
 	/** Built-in value references. */
 	var objectCreate = Object.create;
@@ -44731,10 +44769,10 @@
 
 
 /***/ },
-/* 581 */
+/* 584 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var overArg = __webpack_require__(547);
+	var overArg = __webpack_require__(550);
 
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -44743,11 +44781,11 @@
 
 
 /***/ },
-/* 582 */
+/* 585 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(333),
-	    stubFalse = __webpack_require__(583);
+	/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(334),
+	    stubFalse = __webpack_require__(586);
 
 	/** Detect free variable `exports`. */
 	var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -44785,10 +44823,10 @@
 
 	module.exports = isBuffer;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(549)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(552)(module)))
 
 /***/ },
-/* 583 */
+/* 586 */
 /***/ function(module, exports) {
 
 	/**
@@ -44812,11 +44850,11 @@
 
 
 /***/ },
-/* 584 */
+/* 587 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getPrototype = __webpack_require__(581),
-	    isObjectLike = __webpack_require__(337);
+	var getPrototype = __webpack_require__(584),
+	    isObjectLike = __webpack_require__(338);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -44886,12 +44924,12 @@
 
 
 /***/ },
-/* 585 */
+/* 588 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseIsTypedArray = __webpack_require__(586),
-	    baseUnary = __webpack_require__(587),
-	    nodeUtil = __webpack_require__(588);
+	var baseIsTypedArray = __webpack_require__(589),
+	    baseUnary = __webpack_require__(590),
+	    nodeUtil = __webpack_require__(591);
 
 	/* Node.js helper references. */
 	var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -44919,11 +44957,11 @@
 
 
 /***/ },
-/* 586 */
+/* 589 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isLength = __webpack_require__(542),
-	    isObjectLike = __webpack_require__(337);
+	var isLength = __webpack_require__(545),
+	    isObjectLike = __webpack_require__(338);
 
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]',
@@ -44994,7 +45032,7 @@
 
 
 /***/ },
-/* 587 */
+/* 590 */
 /***/ function(module, exports) {
 
 	/**
@@ -45014,10 +45052,10 @@
 
 
 /***/ },
-/* 588 */
+/* 591 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(334);
+	/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(335);
 
 	/** Detect free variable `exports`. */
 	var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -45040,14 +45078,14 @@
 
 	module.exports = nodeUtil;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(549)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(552)(module)))
 
 /***/ },
-/* 589 */
+/* 592 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var copyObject = __webpack_require__(535),
-	    keysIn = __webpack_require__(590);
+	var copyObject = __webpack_require__(538),
+	    keysIn = __webpack_require__(593);
 
 	/**
 	 * Converts `value` to a plain object flattening inherited enumerable string
@@ -45081,12 +45119,12 @@
 
 
 /***/ },
-/* 590 */
+/* 593 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var arrayLikeKeys = __webpack_require__(537),
-	    baseKeysIn = __webpack_require__(528),
-	    isArrayLike = __webpack_require__(541);
+	var arrayLikeKeys = __webpack_require__(540),
+	    baseKeysIn = __webpack_require__(531),
+	    isArrayLike = __webpack_require__(544);
 
 	/**
 	 * Creates an array of the own and inherited enumerable property names of `object`.
@@ -45119,11 +45157,11 @@
 
 
 /***/ },
-/* 591 */
+/* 594 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseRest = __webpack_require__(592),
-	    isIterateeCall = __webpack_require__(601);
+	var baseRest = __webpack_require__(595),
+	    isIterateeCall = __webpack_require__(604);
 
 	/**
 	 * Creates a function like `_.assign`.
@@ -45162,12 +45200,12 @@
 
 
 /***/ },
-/* 592 */
+/* 595 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var identity = __webpack_require__(593),
-	    overRest = __webpack_require__(594),
-	    setToString = __webpack_require__(596);
+	var identity = __webpack_require__(596),
+	    overRest = __webpack_require__(597),
+	    setToString = __webpack_require__(599);
 
 	/**
 	 * The base implementation of `_.rest` which doesn't validate or coerce arguments.
@@ -45185,7 +45223,7 @@
 
 
 /***/ },
-/* 593 */
+/* 596 */
 /***/ function(module, exports) {
 
 	/**
@@ -45212,10 +45250,10 @@
 
 
 /***/ },
-/* 594 */
+/* 597 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var apply = __webpack_require__(595);
+	var apply = __webpack_require__(598);
 
 	/* Built-in method references for those with the same name as other `lodash` methods. */
 	var nativeMax = Math.max;
@@ -45254,7 +45292,7 @@
 
 
 /***/ },
-/* 595 */
+/* 598 */
 /***/ function(module, exports) {
 
 	/**
@@ -45281,11 +45319,11 @@
 
 
 /***/ },
-/* 596 */
+/* 599 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseSetToString = __webpack_require__(597),
-	    shortOut = __webpack_require__(600);
+	var baseSetToString = __webpack_require__(600),
+	    shortOut = __webpack_require__(603);
 
 	/**
 	 * Sets the `toString` method of `func` to return `string`.
@@ -45301,12 +45339,12 @@
 
 
 /***/ },
-/* 597 */
+/* 600 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var constant = __webpack_require__(598),
-	    identity = __webpack_require__(593),
-	    nativeDefineProperty = __webpack_require__(599);
+	var constant = __webpack_require__(601),
+	    identity = __webpack_require__(596),
+	    nativeDefineProperty = __webpack_require__(602);
 
 	/**
 	 * The base implementation of `setToString` without support for hot loop shorting.
@@ -45329,7 +45367,7 @@
 
 
 /***/ },
-/* 598 */
+/* 601 */
 /***/ function(module, exports) {
 
 	/**
@@ -45361,10 +45399,10 @@
 
 
 /***/ },
-/* 599 */
+/* 602 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(503);
+	var getNative = __webpack_require__(506);
 
 	/* Built-in method references that are verified to be native. */
 	var nativeDefineProperty = getNative(Object, 'defineProperty');
@@ -45373,7 +45411,7 @@
 
 
 /***/ },
-/* 600 */
+/* 603 */
 /***/ function(module, exports) {
 
 	/** Used to detect hot functions by number of calls within a span of milliseconds. */
@@ -45416,13 +45454,13 @@
 
 
 /***/ },
-/* 601 */
+/* 604 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var eq = __webpack_require__(493),
-	    isArrayLike = __webpack_require__(541),
-	    isIndex = __webpack_require__(544),
-	    isObject = __webpack_require__(331);
+	var eq = __webpack_require__(496),
+	    isArrayLike = __webpack_require__(544),
+	    isIndex = __webpack_require__(547),
+	    isObject = __webpack_require__(332);
 
 	/**
 	 * Checks if the given arguments are from an iteratee call.
@@ -45452,7 +45490,7 @@
 
 
 /***/ },
-/* 602 */
+/* 605 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45461,11 +45499,11 @@
 	  value: true
 	});
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
 	var _colorManipulator = __webpack_require__(185);
 
-	var _spacing = __webpack_require__(603);
+	var _spacing = __webpack_require__(606);
 
 	var _spacing2 = _interopRequireDefault(_spacing);
 
@@ -45501,7 +45539,7 @@
 	    */
 
 /***/ },
-/* 603 */
+/* 606 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -45525,7 +45563,7 @@
 	};
 
 /***/ },
-/* 604 */
+/* 607 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -45547,7 +45585,7 @@
 	};
 
 /***/ },
-/* 605 */
+/* 608 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45596,7 +45634,7 @@
 	  }
 	};
 
-	var _inlineStylePrefixer = __webpack_require__(606);
+	var _inlineStylePrefixer = __webpack_require__(609);
 
 	var _inlineStylePrefixer2 = _interopRequireDefault(_inlineStylePrefixer);
 
@@ -45609,13 +45647,13 @@
 	var hasWarnedAboutUserAgent = false;
 
 /***/ },
-/* 606 */
+/* 609 */
 /***/ function(module, exports) {
 
 	module.exports = require("inline-style-prefixer");
 
 /***/ },
-/* 607 */
+/* 610 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45646,7 +45684,7 @@
 	}
 
 /***/ },
-/* 608 */
+/* 611 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -45736,7 +45774,7 @@
 	}
 
 /***/ },
-/* 609 */
+/* 612 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -45770,7 +45808,7 @@
 	}
 
 /***/ },
-/* 610 */
+/* 613 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45779,7 +45817,7 @@
 	  value: true
 	});
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -45806,7 +45844,7 @@
 	exports.default = new Typography();
 
 /***/ },
-/* 611 */
+/* 614 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45815,11 +45853,11 @@
 	  value: true
 	});
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
 	var _colorManipulator = __webpack_require__(185);
 
-	var _spacing = __webpack_require__(603);
+	var _spacing = __webpack_require__(606);
 
 	var _spacing2 = _interopRequireDefault(_spacing);
 
@@ -45847,7 +45885,7 @@
 	};
 
 /***/ },
-/* 612 */
+/* 615 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45862,15 +45900,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _EditButton = __webpack_require__(613);
+	var _EditButton = __webpack_require__(616);
 
 	var _EditButton2 = _interopRequireDefault(_EditButton);
 
-	var _DeleteButton = __webpack_require__(615);
+	var _DeleteButton = __webpack_require__(618);
 
 	var _DeleteButton2 = _interopRequireDefault(_DeleteButton);
 
-	var _PreviewButton = __webpack_require__(617);
+	var _PreviewButton = __webpack_require__(620);
 
 	var _PreviewButton2 = _interopRequireDefault(_PreviewButton);
 
@@ -45890,7 +45928,7 @@
 	exports.default = IndexItemActions;
 
 /***/ },
-/* 613 */
+/* 616 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45905,11 +45943,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _modeEdit = __webpack_require__(614);
+	var _modeEdit = __webpack_require__(617);
 
 	var _modeEdit2 = _interopRequireDefault(_modeEdit);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
@@ -45946,7 +45984,7 @@
 	exports.default = EditButton;
 
 /***/ },
-/* 614 */
+/* 617 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45983,7 +46021,7 @@
 	exports.default = EditorModeEdit;
 
 /***/ },
-/* 615 */
+/* 618 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45998,19 +46036,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _delete = __webpack_require__(616);
+	var _delete = __webpack_require__(619);
 
 	var _delete2 = _interopRequireDefault(_delete);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46111,7 +46149,7 @@
 	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(DeleteButton);
 
 /***/ },
-/* 616 */
+/* 619 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46148,7 +46186,7 @@
 	exports.default = ActionDelete;
 
 /***/ },
-/* 617 */
+/* 620 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46161,11 +46199,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _launch = __webpack_require__(618);
+	var _launch = __webpack_require__(621);
 
 	var _launch2 = _interopRequireDefault(_launch);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
@@ -46200,7 +46238,7 @@
 	exports.default = PreviewButton;
 
 /***/ },
-/* 618 */
+/* 621 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46237,7 +46275,7 @@
 	exports.default = ActionLaunch;
 
 /***/ },
-/* 619 */
+/* 622 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46274,7 +46312,7 @@
 	exports.default = EditorDragHandle;
 
 /***/ },
-/* 620 */
+/* 623 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46289,35 +46327,35 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
-	var _Toolbar = __webpack_require__(621);
+	var _Toolbar = __webpack_require__(624);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _done = __webpack_require__(626);
+	var _done = __webpack_require__(629);
 
 	var _done2 = _interopRequireDefault(_done);
 
-	var _add = __webpack_require__(443);
+	var _add = __webpack_require__(445);
 
 	var _add2 = _interopRequireDefault(_add);
 
-	var _settings = __webpack_require__(627);
+	var _settings = __webpack_require__(630);
 
 	var _settings2 = _interopRequireDefault(_settings);
 
 	var _reactRouter = __webpack_require__(5);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
-	var _lodash = __webpack_require__(628);
+	var _lodash = __webpack_require__(631);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -46554,7 +46592,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(IndexToolbar);
 
 /***/ },
-/* 621 */
+/* 624 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46564,19 +46602,19 @@
 	});
 	exports.default = exports.ToolbarTitle = exports.ToolbarSeparator = exports.ToolbarGroup = exports.Toolbar = undefined;
 
-	var _Toolbar2 = __webpack_require__(622);
+	var _Toolbar2 = __webpack_require__(625);
 
 	var _Toolbar3 = _interopRequireDefault(_Toolbar2);
 
-	var _ToolbarGroup2 = __webpack_require__(623);
+	var _ToolbarGroup2 = __webpack_require__(626);
 
 	var _ToolbarGroup3 = _interopRequireDefault(_ToolbarGroup2);
 
-	var _ToolbarSeparator2 = __webpack_require__(624);
+	var _ToolbarSeparator2 = __webpack_require__(627);
 
 	var _ToolbarSeparator3 = _interopRequireDefault(_ToolbarSeparator2);
 
-	var _ToolbarTitle2 = __webpack_require__(625);
+	var _ToolbarTitle2 = __webpack_require__(628);
 
 	var _ToolbarTitle3 = _interopRequireDefault(_ToolbarTitle2);
 
@@ -46589,7 +46627,7 @@
 	exports.default = _Toolbar3.default;
 
 /***/ },
-/* 622 */
+/* 625 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46702,7 +46740,7 @@
 	exports.default = Toolbar;
 
 /***/ },
-/* 623 */
+/* 626 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46902,7 +46940,7 @@
 	exports.default = ToolbarGroup;
 
 /***/ },
-/* 624 */
+/* 627 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46998,7 +47036,7 @@
 	exports.default = ToolbarSeparator;
 
 /***/ },
-/* 625 */
+/* 628 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47103,7 +47141,7 @@
 	exports.default = ToolbarTitle;
 
 /***/ },
-/* 626 */
+/* 629 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47140,7 +47178,7 @@
 	exports.default = ActionDone;
 
 /***/ },
-/* 627 */
+/* 630 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47177,19 +47215,19 @@
 	exports.default = ActionSettings;
 
 /***/ },
-/* 628 */
+/* 631 */
 /***/ function(module, exports) {
 
 	module.exports = require("lodash.assign");
 
 /***/ },
-/* 629 */
+/* 632 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-dragula");
 
 /***/ },
-/* 630 */
+/* 633 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47202,13 +47240,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _StringHelper = __webpack_require__(479);
+	var _StringHelper = __webpack_require__(482);
 
-	var _AdminLayout = __webpack_require__(441);
+	var _AdminLayout = __webpack_require__(443);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47239,7 +47277,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Details);
 
 /***/ },
-/* 631 */
+/* 634 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47248,9 +47286,9 @@
 	  value: true
 	});
 
-	var _ResourcePageHelper = __webpack_require__(632);
+	var _ResourcePageHelper = __webpack_require__(635);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	var Edit = function Edit(props) {
 	  return (0, _ResourcePageHelper.getEditorContent)('edit', props.resourceNameSingular, props.resourceNamePlural, props.params.resourceId);
@@ -47265,7 +47303,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Edit);
 
 /***/ },
-/* 632 */
+/* 635 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47279,7 +47317,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResourceForm = __webpack_require__(420);
+	var _ResourceForm = __webpack_require__(422);
 
 	var _ResourceForm2 = _interopRequireDefault(_ResourceForm);
 
@@ -47287,21 +47325,21 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _StringHelper = __webpack_require__(479);
+	var _StringHelper = __webpack_require__(482);
 
-	var _AdminLayout = __webpack_require__(441);
+	var _AdminLayout = __webpack_require__(443);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
-	var _Edit = __webpack_require__(633);
+	var _Edit = __webpack_require__(636);
 
 	var _Edit2 = _interopRequireDefault(_Edit);
 
-	var _Edit3 = __webpack_require__(658);
+	var _Edit3 = __webpack_require__(661);
 
 	var _Edit4 = _interopRequireDefault(_Edit3);
 
-	var _EditPageLayout = __webpack_require__(667);
+	var _EditPageLayout = __webpack_require__(672);
 
 	var _EditPageLayout2 = _interopRequireDefault(_EditPageLayout);
 
@@ -47376,7 +47414,7 @@
 	}
 
 /***/ },
-/* 633 */
+/* 636 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47391,77 +47429,77 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	var _withStyles = __webpack_require__(205);
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _reactRouterRedux = __webpack_require__(454);
+	var _reactRouterRedux = __webpack_require__(456);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _Editor = __webpack_require__(634);
+	var _Editor = __webpack_require__(637);
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _contentTools = __webpack_require__(637);
+	var _contentTools = __webpack_require__(640);
 
 	var _contentTools2 = _interopRequireDefault(_contentTools);
 
-	var _HomeTemplate = __webpack_require__(365);
+	var _HomeTemplate = __webpack_require__(367);
 
 	var _HomeTemplate2 = _interopRequireDefault(_HomeTemplate);
 
-	var _ContactTemplate = __webpack_require__(368);
+	var _ContactTemplate = __webpack_require__(370);
 
 	var _ContactTemplate2 = _interopRequireDefault(_ContactTemplate);
 
-	var _BasicTemplate = __webpack_require__(371);
+	var _BasicTemplate = __webpack_require__(373);
 
 	var _BasicTemplate2 = _interopRequireDefault(_BasicTemplate);
 
-	var _LoginTemplate = __webpack_require__(374);
+	var _LoginTemplate = __webpack_require__(376);
 
 	var _LoginTemplate2 = _interopRequireDefault(_LoginTemplate);
 
-	var _PaymentTemplate = __webpack_require__(403);
+	var _PaymentTemplate = __webpack_require__(405);
 
 	var _PaymentTemplate2 = _interopRequireDefault(_PaymentTemplate);
 
-	var _SignupTemplate = __webpack_require__(418);
+	var _SignupTemplate = __webpack_require__(420);
 
 	var _SignupTemplate2 = _interopRequireDefault(_SignupTemplate);
 
-	var _ForgotPasswordTemplate = __webpack_require__(424);
+	var _ForgotPasswordTemplate = __webpack_require__(426);
 
 	var _ForgotPasswordTemplate2 = _interopRequireDefault(_ForgotPasswordTemplate);
 
-	var _ResetPasswordTemplate = __webpack_require__(426);
+	var _ResetPasswordTemplate = __webpack_require__(428);
 
 	var _ResetPasswordTemplate2 = _interopRequireDefault(_ResetPasswordTemplate);
 
-	var _TextField = __webpack_require__(379);
+	var _TextField = __webpack_require__(381);
 
 	var _TextField2 = _interopRequireDefault(_TextField);
 
-	var _Toggle = __webpack_require__(644);
+	var _Toggle = __webpack_require__(647);
 
 	var _Toggle2 = _interopRequireDefault(_Toggle);
 
-	var _EditDrawer = __webpack_require__(647);
+	var _EditDrawer = __webpack_require__(650);
 
 	var _EditDrawer2 = _interopRequireDefault(_EditDrawer);
 
-	var _TemplateDropDown = __webpack_require__(651);
+	var _TemplateDropDown = __webpack_require__(654);
 
 	var _TemplateDropDown2 = _interopRequireDefault(_TemplateDropDown);
 
-	var _StringHelper = __webpack_require__(479);
+	var _StringHelper = __webpack_require__(482);
 
-	var _Snackbar = __webpack_require__(393);
+	var _Snackbar = __webpack_require__(395);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
@@ -47991,7 +48029,7 @@
 	exports.default = (0, _withStyles2.default)(_contentTools2.default)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PageEdit));
 
 /***/ },
-/* 634 */
+/* 637 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48002,15 +48040,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _ContentTools = __webpack_require__(635);
+	var _ContentTools = __webpack_require__(638);
 
 	var _ContentTools2 = _interopRequireDefault(_ContentTools);
 
-	var _ImageUploader = __webpack_require__(636);
+	var _ImageUploader = __webpack_require__(639);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48317,13 +48355,13 @@
 	exports.default = Editor;
 
 /***/ },
-/* 635 */
+/* 638 */
 /***/ function(module, exports) {
 
 	module.exports = require("ContentTools");
 
 /***/ },
-/* 636 */
+/* 639 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48631,11 +48669,11 @@
 	};
 
 /***/ },
-/* 637 */
+/* 640 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(638);
+	    var content = __webpack_require__(641);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -48648,7 +48686,7 @@
 	  
 
 /***/ },
-/* 638 */
+/* 641 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -48656,43 +48694,43 @@
 
 
 	// module
-	exports.push([module.id, "/* Vendor */\n/**\r\n * A prefix appended to all background-image URLs.\r\n */\n/**\r\n * Colours common to the UI,\r\n */\n/**\r\n * A mixin for performing a rotate transform across multiple browsers.\r\n */\n/**\r\n * The modifier classes here are applied by the root node and indicate the\r\n * the state of the root node managing interactions (e.g dragging and resizing).\r\n */\n.ce--dragging,\n.ce--resizing {\n  /**\r\n     * Prevent the user selecting any content in the page while we're dragging\r\n     * or resizing.\r\n     */\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.ce--dragging {\n  cursor: move        !important; }\n\n.ce--resizing {\n  cursor: nwse-resize !important; }\n\n/**\r\n * All editiable elements are assigned the .ce-element class. Modifiers are used\r\n * to identify the type of element (e.g image, text, list, etc.) and to indicate\r\n * state (e.g resizing, focused, etc.)\r\n */\n.ce-element {\n  /* Types of element */\n  /**\r\n     * As image elements are represented as a `<div>` in the DOM we use the\r\n     * background to display the image.\r\n     */\n  /**\r\n     * Like images, video elements are represented as a `<div>` in the DOM,\r\n     * unlike images there is source image to apply to the background, instead\r\n     * we display a video icon in the background and use the after element to\r\n     * display information about the video's source.\r\n     */\n  /* The various states for elements */\n  /**\r\n     * When an element that supports text content is empty (e.g '') some\r\n     * browsers don't provide a height for the element and so it can appear to\r\n     * disappear until the user adds content. To resolve this issue we use a\r\n     * puesdo element to ensure the element contains content.\r\n     */\n  /* Element is being dragged */\n  /**\r\n     * Element is being dropped on to. Depending on the position of the element\r\n     * being dragged over the element (the mouse cursor) the drop modifiers\r\n     * provide a guide to the placement of the dragging element after it's\r\n     * dropped.\r\n     */\n  /*\r\n    Table rows cannot be handled in the same way as other elements for drop\r\n    styling and instead they must only use a background image.\r\n    */\n  /**\r\n     * Element has focus `--focused` (only one element can have focus) or the\r\n     * mouse cursor is currently over the element.\r\n     */\n  /**\r\n     * When the mouse cursor is over the corners of a resizable element (e.g an\r\n     * image or video) the following modifiers are applied to indicate to the\r\n     * user they can resize the element in a given direction.\r\n     */ }\n  .ce-element--type-image, .ce-element--type-video {\n    background-repeat: no-repeat;\n    position: relative;\n    cursor: pointer;\n    z-index: 1;\n    /**\r\n         * Image and video elements use puesdo elements to display information\r\n         * such as the size of the element and for videos the `src` also.\r\n         */\n    /**\r\n         * The before element is used to display the size of the element, by\r\n         * default the size is hidden unless the user moves the mouse cursor\r\n         * over the element or the element is being resized.\r\n         */ }\n    .ce-element--type-image:after, .ce-element--type-image:before, .ce-element--type-video:after, .ce-element--type-video:before {\n      background: rgba(0, 0, 0, 0.5);\n      border-radius: 2px;\n      color: white;\n      display: none;\n      font-family: arial, sans-serif;\n      font-size: 10px;\n      line-height: 10px;\n      padding: 4px 4px 3px;\n      position: absolute; }\n    .ce-element--type-image:before, .ce-element--type-video:before {\n      content: attr(data-ce-size);\n      right: 10px;\n      top: 10px; }\n    .ce-element--type-image.ce-element--over:before, .ce-element--type-image.ce-element--resizing:before, .ce-element--type-video.ce-element--over:before, .ce-element--type-video.ce-element--resizing:before {\n      display: block; }\n  .ce-element--type-image {\n    background-position: 0 0;\n    background-size: cover;\n    /**\r\n         * The after element is used by images to ensure that the clip mask\r\n         * applied by a border radius does not affect the selectable region or\r\n         * edge.\r\n         */ }\n    .ce-element--type-image:after {\n      background: transparent;\n      content: '';\n      display: block;\n      left: 0;\n      position: relative;\n      top: 0;\n      height: 100%;\n      width: 100%; }\n  .ce-element--type-video {\n    background: #333 url(" + __webpack_require__(639) + ") center/auto 48px no-repeat; }\n    .ce-element--type-video:after {\n      bottom: 10px;\n      content: attr(data-ce-title);\n      display: block;\n      left: 10px; }\n  .ce-element--empty:after {\n    content: '...';\n    display: inline-block;\n    font-style: italic;\n    opacity: 0.8; }\n  .ce-element--empty[data-ce-placeholder]:after {\n    content: attr(data-ce-placeholder); }\n  .ce-element--dragging {\n    background-color: rgba(51, 51, 51, 0.1) !important;\n    opacity: 0.5;\n    /**\r\n         * HACK: Forces the the element being dragged not to obscure elements\r\n         * that can be dropped on (for example an image floated over a\r\n         * paragraph).\r\n         */\n    z-index: -1;\n    /**\r\n         * For images and videos we set the outline color instead of changing\r\n         * the inner style.\r\n         */ }\n    .ce-element--dragging.ce-element--type-image, .ce-element--dragging.ce-element--type-video {\n      background-color: #333 !important;\n      opacity: 1.0;\n      outline-color: rgba(51, 51, 51, 0.1) !important; }\n  .ce-element--drop {\n    position: relative !important; }\n    .ce-element--drop:before {\n      background: transparent url(" + __webpack_require__(640) + ") center/auto 32px repeat;\n      bottom: 0;\n      content: '' !important;\n      left: 0;\n      opacity: 0.8;\n      position: absolute;\n      right: 0;\n      top: 0;\n      z-index: 9; }\n  .ce-element--drop-below:before {\n    -ms-transform: rotate(180deg);\n    /* IE 9 */\n    -webkit-transform: rotate(180deg);\n    /* Chrome, Safari, Opera */\n    transform: rotate(180deg); }\n  .ce-element--drop-left:before {\n    background-image: url(" + __webpack_require__(641) + ");\n    -ms-transform: rotate(0deg);\n    /* IE 9 */\n    -webkit-transform: rotate(0deg);\n    /* Chrome, Safari, Opera */\n    transform: rotate(0deg); }\n  .ce-element--drop-right:before {\n    background-image: url(" + __webpack_require__(641) + ");\n    -ms-transform: rotate(180deg);\n    /* IE 9 */\n    -webkit-transform: rotate(180deg);\n    /* Chrome, Safari, Opera */\n    transform: rotate(180deg); }\n  .ce-element--drop.ce-element--type-table-row {\n    background: transparent url(" + __webpack_require__(640) + ") center/auto 32px repeat; }\n    .ce-element--drop.ce-element--type-table-row:before {\n      display: none; }\n    .ce-element--drop.ce-element--type-table-row.ce-element--drop-below {\n      background: transparent url(" + __webpack_require__(642) + ") center/auto 32px repeat; }\n  .ce-element--focused, .ce-element--over {\n    background-color: transparent;\n    outline: none;\n    /**\r\n         * For images and videos we add an outline so as not to distort their\r\n         * appearance.\r\n         */ }\n    .ce-element--focused.ce-element--type-image, .ce-element--focused.ce-element--type-video, .ce-element--over.ce-element--type-image, .ce-element--over.ce-element--type-video {\n      background-color: #333;\n      outline: 4px solid rgba(0, 0, 0, 0.9); }\n  .ce-element--resize-top-left {\n    cursor: nw-resize; }\n  .ce-element--resize-top-right {\n    cursor: ne-resize; }\n  .ce-element--resize-bottom-right {\n    cursor: se-resize; }\n  .ce-element--resize-bottom-left {\n    cursor: sw-resize; }\n\n/**\r\n * When an element is dragged a helper element is created that follows the mouse\r\n * cursor, the helper represents the element being dragged in a simplified form.\r\n */\n.ce-drag-helper {\n  background: #fff;\n  border-radius: 2px;\n  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);\n  color: #4e4e4e;\n  font: arial, sans-serif;\n  font-size: 12px;\n  height: 120px;\n  left: 0;\n  line-height: 135%;\n  margin: 5px 0px 0px 5px;\n  overflow: hidden;\n  padding: 15px;\n  position: absolute;\n  top: 0;\n  width: 120px;\n  word-wrap: break-word;\n  z-index: 9;\n  /**\r\n     * A puesdo element is used to display the type of element the helper\r\n     * represents.\r\n     */\n  /**\r\n     * For elements that have text content displayed within the helper we clip\r\n     * the content and use a puesdo element to fade out any verical overflow.\r\n     */\n  /**\r\n     * Image helpers display a version of the image as a background image within\r\n     * the helper element.\r\n     */ }\n  .ce-drag-helper:before {\n    background: #2980b9;\n    color: white;\n    content: attr(data-ce-type);\n    display: block;\n    font-family: arial, sans-serif;\n    font-size: 10px;\n    line-height: 10px;\n    padding: 4px 4px 3px;\n    position: absolute;\n    right: 0;\n    top: 0; }\n  .ce-drag-helper--type-list:after, .ce-drag-helper--type-list-item-text:after, .ce-drag-helper--type-pre-text:after, .ce-drag-helper--type-table:after, .ce-drag-helper--type-table-row:after, .ce-drag-helper--type-text:after {\n    background-image: linear-gradient(rgba(255, 255, 255, 0), white 66%);\n    bottom: 0;\n    content: '';\n    display: block;\n    height: 40px;\n    left: 0;\n    position: absolute;\n    width: 100%; }\n  .ce-drag-helper--type-image {\n    background-repeat: no-repeat;\n    background-size: cover; }\n\n/**\r\n * The alignment of elements such as images and videos horizontally is achieved\r\n * through the `align-left` and `align-right` classes. We provide basic stylings\r\n * for these classes so that this style sheet works out the box, it is however\r\n * expected that these styles will be extended if not overridden by the site\r\n * CSS.\r\n */\n.ce-element--type-image,\n.ce-element--type-video {\n  display: block; }\n  .ce-element--type-image.align-left,\n  .ce-element--type-video.align-left {\n    clear: initial;\n    float: left; }\n  .ce-element--type-image.align-center,\n  .ce-element--type-video.align-center {\n    margin-left: auto;\n    margin-right: auto; }\n  .ce-element--type-image.align-right,\n  .ce-element--type-video.align-right {\n    clear: initial;\n    float: right; }\n\n/**\r\n * Special class applied to a temporary element which is inserted into a parent\r\n * element to measure the width excluding padding.\r\n */\n.ce-measure {\n  display: block !important; }\n\n/* Settings */\n/**\r\n * All widgets are assigned a z-index equal to or higher than this setting. The\r\n * base z-index can be adjusted to overcome z-index conflicts with existing page\r\n * elements.\r\n */\n/**\r\n * For UI widgets that appear on the page (as opposed to appearing in front of a\r\n * modal screen) we define a base background colour.\r\n */\n/**\r\n * The colour used when casting shadows for widgets that appear to float.\r\n */\n/**\r\n * Confirm, Cancel and Edit actions are common amoung the various ui components.\r\n * Each action has an associated/common colour.\r\n */\n/**\r\n * The background colour used to highlight editiable regions to users when they\r\n * hold down the shift key.\r\n */\n/**\r\n * Tooltips feature for a number of components, their base appearance is\r\n * configured using a mixin.\r\n */\n/**\r\n * The following settings relate to typography. For portability we limit the the\r\n * use of fonts to:\r\n *\r\n * - `type-icon` used for displaying icons (courtesy of http://icomoon.io).\r\n * - `type-text` used for displaying text.\r\n *\r\n */\n@font-face {\n  font-family: 'icon';\n  src: url(" + __webpack_require__(643) + ");\n  font-weight: normal;\n  font-style: normal; }\n\n/* UI */\n/*\r\nThe widget CSS class should be applied any UI element that's insert into the DOM\r\nand not within a widget, the widget CSS class resets the style for of all\r\nsupported child elements.\r\n*/\n.ct-widget,\n.ct-widget * {\n  /* Reset */\n  /* Defaults */\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n  .ct-widget div, .ct-widget span,\n  .ct-widget iframe,\n  .ct-widget a, .ct-widget b, .ct-widget i\nfieldset, .ct-widget form, .ct-widget label, .ct-widget legend,\n  .ct-widget table, .ct-widget caption, .ct-widget tbody, .ct-widget tfoot, .ct-widget thead, .ct-widget tr, .ct-widget th, .ct-widget td,\n  .ct-widget * div,\n  .ct-widget * span,\n  .ct-widget * iframe,\n  .ct-widget * a,\n  .ct-widget * b,\n  .ct-widget * i\nfieldset,\n  .ct-widget * form,\n  .ct-widget * label,\n  .ct-widget * legend,\n  .ct-widget * table,\n  .ct-widget * caption,\n  .ct-widget * tbody,\n  .ct-widget * tfoot,\n  .ct-widget * thead,\n  .ct-widget * tr,\n  .ct-widget * th,\n  .ct-widget * td {\n    border: 0;\n    font-size: 100%;\n    font: inherit;\n    margin: 0;\n    padding: 0;\n    vertical-align: baseline; }\n  .ct-widget ol, .ct-widget ul,\n  .ct-widget * ol,\n  .ct-widget * ul {\n    list-style: none; }\n  .ct-widget table,\n  .ct-widget * table {\n    border-collapse: collapse;\n    border-spacing: 0; }\n\n.ct-widget {\n  opacity: 0;\n  font-family: arial, sans-serif;\n  font-size: 14px;\n  line-height: 18px;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  z-index: 9999;\n  -webkit-transition-property: opacity;\n  -moz-transition-property: opacity;\n  transition-property: opacity;\n  -webkit-transition-duration: 0.25s;\n  -moz-transition-duration: 0.25s;\n  transition-duration: 0.25s;\n  -webkit-transition-timing-function: ease-in;\n  -moz-transition-timing-function: ease-in;\n  transition-timing-function: ease-in; }\n\n.ct-widget--active {\n  opacity: 1;\n  -webkit-transition-property: opacity;\n  -moz-transition-property: opacity;\n  transition-property: opacity;\n  -webkit-transition-duration: 0.25s;\n  -moz-transition-duration: 0.25s;\n  transition-duration: 0.25s;\n  -webkit-transition-timing-function: ease-in;\n  -moz-transition-timing-function: ease-in;\n  transition-timing-function: ease-in; }\n\n/**\r\n * Attributes are similar to sections in that they are used to divide up\r\n * configuration blocks within a dialog's view. However attributes\r\n * exclusively support text inputs (no switches) and both the name and value of\r\n * an attribute can be modified (unlike sections where the label is fixed).\r\n */\n.ct-widget .ct-attribute {\n  border-bottom: 1px solid #eee;\n  height: 48px;\n  vertical-align: top;\n  /**\r\n         * Each section has a name and value component, both of which can be\r\n         * modified.\r\n         */ }\n  .ct-widget .ct-attribute::after {\n    clear: both;\n    content: \"\";\n    display: table; }\n  .ct-widget .ct-attribute__name {\n    background: #f6f6f6;\n    border: none;\n    color: #646464;\n    float: left;\n    height: 47px;\n    outline: none;\n    padding: 0 16px;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 48px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 25%;\n    /**\r\n             * If the the attributes name is invalid then the `invalid` modifier\r\n             * is set against the input (programmatically).\r\n             */ }\n    .ct-widget .ct-attribute__name--invalid {\n      color: #DD2C00; }\n  .ct-widget .ct-attribute__value {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    background: white;\n    border: none;\n    color: #646464;\n    float: right;\n    height: 47px;\n    outline: none;\n    padding: 0 16px;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 48px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 75%; }\n\n/**\r\n * Cropmarks define the region within an image that will be cropped. They appear\r\n * in the image dialog when crop is active.\r\n */\n.ct-widget .ct-crop-marks {\n  height: 320px;\n  left: 73px;\n  position: absolute;\n  top: 0;\n  width: 427px;\n  /**\r\n         * The clipper is used to prevent the rulers extending outside of the\r\n         * image.\r\n         */\n  /**\r\n         * The cropping region is defined by 2 L shaped framing rulers at\r\n         * opposite corners.\r\n         */\n  /**\r\n         * The rulers defing the crop region can be moved by the user, handles\r\n         * provide a draggable handle for each ruler.\r\n         */ }\n  .ct-widget .ct-crop-marks__clipper {\n    height: 100%;\n    overflow: hidden;\n    position: relative;\n    width: 100%; }\n  .ct-widget .ct-crop-marks__ruler--top-left {\n    position: absolute; }\n    .ct-widget .ct-crop-marks__ruler--top-left:after {\n      border: 1px solid rgba(255, 255, 255, 0.5);\n      border-bottom: none;\n      border-right: none;\n      box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.25), inset 1px 1px 1px rgba(0, 0, 0, 0.25);\n      content: '';\n      height: 999px;\n      left: 0;\n      position: absolute;\n      top: 0;\n      width: 999px; }\n  .ct-widget .ct-crop-marks__ruler--bottom-right {\n    position: absolute; }\n    .ct-widget .ct-crop-marks__ruler--bottom-right:after {\n      border: 1px solid rgba(255, 255, 255, 0.5);\n      border-top: none;\n      border-left: none;\n      bottom: 0;\n      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25), inset -1px -1px 1px rgba(0, 0, 0, 0.25);\n      content: '';\n      height: 999px;\n      position: absolute;\n      right: 0;\n      width: 999px; }\n  .ct-widget .ct-crop-marks__handle {\n    background: #2980b9;\n    border: 1px solid #409ad5;\n    border-radius: 7px;\n    cursor: pointer;\n    height: 15px;\n    margin-left: -7px;\n    margin-top: -7px;\n    position: absolute;\n    width: 15px; }\n    .ct-widget .ct-crop-marks__handle--bottom-right {\n      margin-left: -8px;\n      margin-top: -8px; }\n    .ct-widget .ct-crop-marks__handle:hover {\n      background: #2e8ece; }\n\n/**\r\n * The content tools library supports a number of dialogs for different types of\r\n * functionality (e.g insert an image, change a tables dimensions, etc).\r\n *\r\n * The dialog component itself sits above the page content (typically over a\r\n * modal.\r\n */\n/**\r\n * If the dialog is performing a remote task that requires the user to wait for\r\n * a response from the server then it may be set to a busy state. The busy state\r\n * uses an animation (a rotating cog) defined below.\r\n */\n@-webkit-keyframes busy-dialog {\n  0% {\n    transform: translate(-50%, -50%) rotate(0deg);\n    -webkit-transform: transform; }\n  100% {\n    transform: translate(-50%, -50%) rotate(359deg);\n    -webkit-transform: transform; } }\n\n@-moz-keyframes busy-dialog {\n  0% {\n    transform: translate(-50%, -50%) rotate(0deg);\n    -moz-transform: transform; }\n  100% {\n    transform: translate(-50%, -50%) rotate(359deg);\n    -moz-transform: transform; } }\n\n@keyframes busy-dialog {\n  0% {\n    transform: translate(-50%, -50%) rotate(0deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; }\n  100% {\n    transform: translate(-50%, -50%) rotate(359deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; } }\n\n.ct-widget {\n  /**\r\n     * The controls section of the dialog features icon and text buttons which\r\n     * provide the user with controls for the contents dialog.\r\n     */\n  /**\r\n      * Controls can be grouped left, right or centrally. Both a left and right\r\n      * group can coexist but the central group can only be used on it's own.\r\n      */\n  /**\r\n     * Controls can either contain text or an icon depending on the modifier\r\n     * set against the component (`text` or `icon` respectively).\r\n     */\n  /**\r\n     * The following classes relate to the various types of dialog available.\r\n     */\n  /**\r\n     * The image dialog supports the insertion of images, the dialog has a\r\n     * number of states to support the various steps in inserting an image.\r\n     */\n  /**\r\n     * The properties dialog displays the attributes and styles for an element\r\n     * in page, each property can by modified and each style turned on or off.\r\n     */\n  /**\r\n     * The table dialog supports the insertion and updating of tables.\r\n     */\n  /**\r\n     * The video dialog supports the insertion of embedded videos (vimeo and\r\n     * youtube).\r\n     */\n  /**\r\n     * Anchored dialogs are a special type of dialog that are appear at a fixed\r\n     * position with the page, for example above a selection of text. They are\r\n     * used to support simple task (such as inserting a link) in a less\r\n     * intrusive mannor than full dialogs.\r\n     *\r\n     * Anchored dialogs support an single text input and a confirm button only.\r\n     */ }\n  .ct-widget.ct-dialog {\n    background: white;\n    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.35);\n    border-radius: 2px;\n    height: 480px;\n    left: 50%;\n    margin-left: -350px;\n    margin-top: -240px;\n    position: fixed;\n    top: 50%;\n    width: 700px;\n    z-index: 10099;\n    /**\r\n         * The `busy` modifier maybe programatically applied to a dialog to\r\n         * prevent any further interaction with the dialog until a task has been\r\n         * completed.\r\n         */ }\n    .ct-widget.ct-dialog--busy .ct-dialog__busy {\n      display: block; }\n    .ct-widget.ct-dialog--busy .ct-dialog__body {\n      opacity: 0.1; }\n  .ct-widget .ct-dialog {\n    /**\r\n         * The `header`, `caption` and `close` components of the dialog make up\r\n         * what might traditionally be thought of as a title bar for a window.\r\n         */\n    /**\r\n         * The dialog `body` is typically composed of a `view` and `controls`\r\n         * component. The `view` component contains the dialogs content (e.g an\r\n         * image) and the `controls` component the controls (e.g crop, rotate,\r\n         * insert).\r\n         */\n    /**\r\n         * If the dialog is in a busy state then the `busy` component is\r\n         * displayed.\r\n         */ }\n    .ct-widget .ct-dialog__header {\n      color: #a4a4a4;\n      border-bottom: 1px solid #eee;\n      height: 48px;\n      padding: 0 16px;\n      position: relative; }\n    .ct-widget .ct-dialog__caption {\n      font-family: arial, sans-serif;\n      font-size: 18px;\n      line-height: 48px;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale; }\n    .ct-widget .ct-dialog__close {\n      border-left: 1px solid #eee;\n      cursor: pointer;\n      height: 48px;\n      line-height: 48px;\n      position: absolute;\n      right: 0;\n      text-align: center;\n      top: 0;\n      font-family: 'icon';\n      font-size: 16px;\n      font-style: normal;\n      font-weight: normal;\n      font-variant: normal;\n      speak: none;\n      text-transform: none;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      width: 48px; }\n      .ct-widget .ct-dialog__close:before {\n        content: '\\EA0F'; }\n      .ct-widget .ct-dialog__close:hover:before {\n        color: #646464; }\n    .ct-widget .ct-dialog__body {\n      margin: auto;\n      width: 572px; }\n    .ct-widget .ct-dialog__view {\n      height: 320px;\n      margin-top: 32px; }\n    .ct-widget .ct-dialog__controls {\n      margin-top: 16px; }\n      .ct-widget .ct-dialog__controls::after {\n        clear: both;\n        content: \"\";\n        display: table; }\n    .ct-widget .ct-dialog__busy {\n      display: none;\n      position: absolute; }\n      .ct-widget .ct-dialog__busy:before {\n        -webkit-animation: busy-dialog 5s linear;\n        -moz-animation: busy-dialog 5s linear;\n        animation: busy-dialog 5s linear;\n        -webkit-animation-iteration-count: infinite;\n        -moz-animation-iteration-count: infinite;\n        animation-iteration-count: infinite;\n        -webkit-animation-fill-mode: forwards;\n        -moz-animation-fill-mode: forwards;\n        animation-fill-mode: forwards;\n        color: #a4a4a4;\n        content: \"\\E994\";\n        left: 50%;\n        position: fixed;\n        top: 50%;\n        font-family: 'icon';\n        font-size: 80px;\n        font-style: normal;\n        font-weight: normal;\n        font-variant: normal;\n        speak: none;\n        text-transform: none;\n        -webkit-font-smoothing: antialiased;\n        -moz-osx-font-smoothing: grayscale; }\n  .ct-widget .ct-control-group {\n    font-size: 0; }\n    .ct-widget .ct-control-group--center {\n      text-align: center; }\n    .ct-widget .ct-control-group--left {\n      float: left; }\n    .ct-widget .ct-control-group--right {\n      float: right; }\n  .ct-widget .ct-control {\n    margin-left: 16px;\n    position: relative; }\n    .ct-widget .ct-control:first-child {\n      margin-left: 0; }\n    .ct-widget .ct-control--icon {\n      border-radius: 2px;\n      color: #a4a4a4;\n      cursor: pointer;\n      display: inline-block;\n      height: 32px;\n      line-height: 32px;\n      text-align: center;\n      font-family: 'icon';\n      font-size: 16px;\n      font-style: normal;\n      font-weight: normal;\n      font-variant: normal;\n      speak: none;\n      text-transform: none;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      width: 32px; }\n      .ct-widget .ct-control--icon:after {\n        background: black;\n        border-radius: 2px;\n        color: white;\n        content: attr(data-ct-tooltip);\n        display: block;\n        -webkit-hyphens: auto;\n        -moz-hyphens: auto;\n        -ms-hyphens: auto;\n        hyphens: auto;\n        left: -26.5px;\n        line-height: 20px;\n        opacity: 0.0;\n        padding: 0 8px;\n        position: absolute;\n        bottom: 37px;\n        font-family: arial, sans-serif;\n        font-size: 12px;\n        line-height: 20px;\n        -webkit-font-smoothing: antialiased;\n        -moz-osx-font-smoothing: grayscale;\n        visibility: hidden;\n        width: 85px;\n        word-break: break-word; }\n      .ct-widget .ct-control--icon:hover:after {\n        opacity: 0.8;\n        visibility: visible;\n        -webkit-transition-property: opacity;\n        -moz-transition-property: opacity;\n        transition-property: opacity;\n        -webkit-transition-duration: 0s;\n        -moz-transition-duration: 0s;\n        transition-duration: 0s;\n        -webkit-transition-timing-function: ease-in;\n        -moz-transition-timing-function: ease-in;\n        transition-timing-function: ease-in;\n        -webkit-transition-delay: 2s;\n        -moz-transition-delay: 2s;\n        transition-delay: 2s; }\n      .ct-widget .ct-control--icon:before {\n        content: ''; }\n      .ct-widget .ct-control--icon:hover {\n        background: #eee;\n        color: #646464; }\n    .ct-widget .ct-control--active, .ct-widget .ct-control--on {\n      background: #a4a4a4;\n      color: white; }\n      .ct-widget .ct-control--active:hover, .ct-widget .ct-control--on:hover {\n        background: #646464;\n        color: white; }\n    .ct-widget .ct-control--rotate-ccw:before {\n      content: '\\E965'; }\n    .ct-widget .ct-control--rotate-cw:before {\n      content: '\\E966'; }\n    .ct-widget .ct-control--crop:before {\n      content: '\\EA57'; }\n    .ct-widget .ct-control--remove:before {\n      content: '\\E9AC'; }\n    .ct-widget .ct-control--styles:before {\n      content: '\\E90B'; }\n    .ct-widget .ct-control--attributes:before {\n      content: '\\E994'; }\n    .ct-widget .ct-control--code:before {\n      content: '\\EA80'; }\n    .ct-widget .ct-control--icon.ct-control--muted {\n      cursor: default; }\n      .ct-widget .ct-control--icon.ct-control--muted:before {\n        opacity: 0.5; }\n      .ct-widget .ct-control--icon.ct-control--muted:hover {\n        color: #a4a4a4;\n        background: transparent; }\n    .ct-widget .ct-control--text {\n      background: #2980b9;\n      border-radius: 2px;\n      color: white;\n      cursor: pointer;\n      display: inline-block;\n      font-weight: bold;\n      height: 32px;\n      overflow: hidden;\n      padding: 0 8px;\n      text-align: center;\n      text-overflow: ellipsis;\n      font-family: arial, sans-serif;\n      font-size: 14px;\n      line-height: 32px;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      vertical-align: top;\n      width: 100px; }\n      .ct-widget .ct-control--text:hover {\n        background: #2e8ece; }\n    .ct-widget .ct-control--apply, .ct-widget .ct-control--insert, .ct-widget .ct-control--ok {\n      background: #27ae60; }\n      .ct-widget .ct-control--apply:hover, .ct-widget .ct-control--insert:hover, .ct-widget .ct-control--ok:hover {\n        background: #2cc36b; }\n    .ct-widget .ct-control--cancel, .ct-widget .ct-control--clear {\n      background: #e74c3c; }\n      .ct-widget .ct-control--cancel:hover, .ct-widget .ct-control--clear:hover {\n        background: #ea6153; }\n    .ct-widget .ct-control--text.ct-control--muted {\n      background: #ccc;\n      cursor: default; }\n      .ct-widget .ct-control--text.ct-control--muted:hover {\n        background: #ccc; }\n    .ct-widget .ct-control--upload {\n      overflow: hidden; }\n  .ct-widget.ct-image-dialog--empty .ct-progress-bar,\n  .ct-widget.ct-image-dialog--empty .ct-control--rotate-ccw,\n  .ct-widget.ct-image-dialog--empty .ct-control--rotate-cw,\n  .ct-widget.ct-image-dialog--empty .ct-control--crop,\n  .ct-widget.ct-image-dialog--empty .ct-control--insert,\n  .ct-widget.ct-image-dialog--empty .ct-control--cancel,\n  .ct-widget.ct-image-dialog--empty .ct-control--clear {\n    display: none; }\n  .ct-widget.ct-image-dialog--uploading .ct-control--rotate-ccw,\n  .ct-widget.ct-image-dialog--uploading .ct-control--rotate-cw,\n  .ct-widget.ct-image-dialog--uploading .ct-control--crop,\n  .ct-widget.ct-image-dialog--uploading .ct-control--upload,\n  .ct-widget.ct-image-dialog--uploading .ct-control--insert,\n  .ct-widget.ct-image-dialog--uploading .ct-control--clear {\n    display: none; }\n  .ct-widget.ct-image-dialog--populated .ct-progress-bar,\n  .ct-widget.ct-image-dialog--populated .ct-control--upload,\n  .ct-widget.ct-image-dialog--populated .ct-control--cancel {\n    display: none; }\n  .ct-widget .ct-image-dialog {\n    /**\r\n         * HACK: We style the file upload button as a control, however to ensure\r\n         * the user activates the system file browser dialog we hide the file\r\n         * input in the control and use a large font to ensure it covers the\r\n         * whole control.\r\n         */ }\n    .ct-widget .ct-image-dialog__view {\n      background: #eee;\n      position: relative; }\n      .ct-widget .ct-image-dialog__view:empty {\n        font-family: 'icon';\n        font-size: 80px;\n        font-style: normal;\n        font-weight: normal;\n        font-variant: normal;\n        speak: none;\n        text-transform: none;\n        -webkit-font-smoothing: antialiased;\n        -moz-osx-font-smoothing: grayscale;\n        line-height: 320px;\n        text-align: center; }\n        .ct-widget .ct-image-dialog__view:empty:before {\n          color: white;\n          content: '\\E90D'; }\n    .ct-widget .ct-image-dialog__image {\n      background-color: transparent;\n      background-position: center center;\n      background-repeat: no-repeat;\n      background-size: contain;\n      height: 100%;\n      width: 100%; }\n    .ct-widget .ct-image-dialog__file-upload {\n      cursor: pointer;\n      font-size: 400px;\n      left: 0;\n      opacity: 0;\n      position: absolute;\n      top: 0; }\n  .ct-widget.ct-properties-dialog--attributes .ct-properties-dialog__attributes {\n    display: block; }\n  .ct-widget.ct-properties-dialog--styles .ct-properties-dialog__styles {\n    display: block; }\n    .ct-widget.ct-properties-dialog--styles .ct-properties-dialog__styles:empty:before {\n      color: #a4a4a4;\n      content: attr(data-ct-empty);\n      display: block;\n      font-style: italic;\n      margin-top: 20px;\n      text-align: center; }\n  .ct-widget.ct-properties-dialog--code .ct-properties-dialog__code {\n    display: block; }\n  .ct-widget .ct-properties-dialog {\n    /**\r\n         * The code tab supports an textarea for editing inner HTML.\r\n         */ }\n    .ct-widget .ct-properties-dialog__view {\n      border: 1px solid #ddd;\n      overflow: auto; }\n    .ct-widget .ct-properties-dialog__attributes, .ct-widget .ct-properties-dialog__code, .ct-widget .ct-properties-dialog__styles {\n      display: none; }\n    .ct-widget .ct-properties-dialog__inner-html {\n      border: none;\n      display: block;\n      font-family: courier, \"Bitstream Vera Sans Mono\", Consolas, Courier, monospace;\n      height: 318px;\n      padding: 16px;\n      outline: none;\n      resize: none;\n      width: 100%; }\n      .ct-widget .ct-properties-dialog__inner-html--invalid {\n        color: #DD2C00; }\n  .ct-widget .ct-table-dialog__view {\n    border: 1px solid #ddd;\n    overflow: auto; }\n  .ct-widget .ct-video-dialog__preview:empty {\n    background: #eee;\n    font-family: 'icon';\n    font-size: 80px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    line-height: 320px;\n    text-align: center; }\n    .ct-widget .ct-video-dialog__preview:empty:before {\n      color: white;\n      content: '\\EA98'; }\n  .ct-widget .ct-video-dialog__input {\n    border: none;\n    border-bottom: 1px solid #eee;\n    height: 32px;\n    line-height: 32px;\n    outline: none;\n    padding: 0 4px;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 18px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    vertical-align: top;\n    width: 456px; }\n    .ct-widget .ct-video-dialog__input:focus {\n      border-bottom: 1px solid #e1e1e1; }\n  .ct-widget.ct-anchored-dialog {\n    border-bottom: 2px solid #27ae60;\n    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.35);\n    font-size: 0;\n    height: 34px;\n    left: 0;\n    margin-left: -160px;\n    margin-top: -48px;\n    position: absolute;\n    top: 0;\n    width: 320px;\n    z-index: 10099; }\n    .ct-widget.ct-anchored-dialog:after {\n      border: 16px solid rgba(255, 255, 255, 0);\n      border-top-color: #27ae60;\n      content: '';\n      left: 144px;\n      position: absolute;\n      top: 34px; }\n  .ct-widget .ct-anchored-dialog__input {\n    border: none;\n    color: #646464;\n    height: 32px;\n    outline: none;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 32px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    padding: 0 8px 0 16px;\n    vertical-align: top;\n    width: 256px; }\n  .ct-widget .ct-anchored-dialog__button {\n    background: #00E676;\n    cursor: pointer;\n    display: inline-block;\n    height: 32px;\n    line-height: 32px;\n    text-align: center;\n    font-family: 'icon';\n    font-size: 16px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 32px; }\n    .ct-widget .ct-anchored-dialog__button:before {\n      color: white;\n      content: '\\EA10'; }\n    .ct-widget .ct-anchored-dialog__button:hover {\n      background: #01ff83; }\n  .ct-widget .ct-anchored-dialog__target-button {\n    background: white;\n    cursor: pointer;\n    display: inline-block;\n    height: 32px;\n    line-height: 32px;\n    text-align: center;\n    font-family: 'icon';\n    font-size: 16px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 32px; }\n    .ct-widget .ct-anchored-dialog__target-button:before {\n      color: #a4a4a4;\n      content: '\\EA7D'; }\n    .ct-widget .ct-anchored-dialog__target-button:hover:before {\n      color: #b1b1b1; }\n    .ct-widget .ct-anchored-dialog__target-button--active:before {\n      color: #00E676; }\n    .ct-widget .ct-anchored-dialog__target-button--active:hover:before {\n      color: #01ff83; }\n\n/**\r\n * Flashes are used to display a visual confirmation to the user that an action\r\n * has completed successfully (or failed).\r\n */\n.ct-widget {\n  /**\r\n     * The flash animation displays an icon in the center of the user's screen\r\n     * that flashes into view and then out.\r\n     */\n  /**\r\n     * The flash timer animation is used purely to indicated to the Javascript\r\n     * that created the flash element that the animation has finished.\r\n     */\n  /**\r\n     * The icon that is flashed.\r\n     */ }\n\n@-webkit-keyframes flash {\n  0% {\n    opacity: 0;\n    font-size: 32px;\n    -webkit-transform: font-size; }\n  25% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all; }\n  50% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all; }\n  75% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all; }\n  100% {\n    opacity: 0;\n    -webkit-transform: all; } }\n\n@-moz-keyframes flash {\n  0% {\n    opacity: 0;\n    font-size: 32px;\n    -moz-transform: font-size; }\n  25% {\n    font-size: 320px;\n    opacity: 1;\n    -moz-transform: all; }\n  50% {\n    font-size: 320px;\n    opacity: 1;\n    -moz-transform: all; }\n  75% {\n    font-size: 320px;\n    opacity: 1;\n    -moz-transform: all; }\n  100% {\n    opacity: 0;\n    -moz-transform: all; } }\n\n@keyframes flash {\n  0% {\n    opacity: 0;\n    font-size: 32px;\n    -webkit-transform: font-size;\n    -moz-transform: font-size;\n    -ms-transform: font-size;\n    -o-transform: font-size;\n    transform: font-size; }\n  25% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; }\n  50% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; }\n  75% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; }\n  100% {\n    opacity: 0;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; } }\n\n@-webkit-keyframes flash-timer {\n  0% {\n    opacity: 1;\n    -webkit-transform: opacity; }\n  99% {\n    opacity: 1;\n    -webkit-transform: opacity; }\n  100% {\n    opacity: 0;\n    -webkit-transform: opacity; } }\n\n@-moz-keyframes flash-timer {\n  0% {\n    opacity: 1;\n    -moz-transform: opacity; }\n  99% {\n    opacity: 1;\n    -moz-transform: opacity; }\n  100% {\n    opacity: 0;\n    -moz-transform: opacity; } }\n\n@keyframes flash-timer {\n  0% {\n    opacity: 1;\n    -webkit-transform: opacity;\n    -moz-transform: opacity;\n    -ms-transform: opacity;\n    -o-transform: opacity;\n    transform: opacity; }\n  99% {\n    opacity: 1;\n    -webkit-transform: opacity;\n    -moz-transform: opacity;\n    -ms-transform: opacity;\n    -o-transform: opacity;\n    transform: opacity; }\n  100% {\n    opacity: 0;\n    -webkit-transform: opacity;\n    -moz-transform: opacity;\n    -ms-transform: opacity;\n    -o-transform: opacity;\n    transform: opacity; } }\n  .ct-widget.ct-flash {\n    color: rgba(255, 255, 255, 0.9);\n    height: 0;\n    left: 0;\n    position: fixed;\n    font-family: 'icon';\n    font-size: 16px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    top: 0;\n    width: 0;\n    z-index: 10999;\n    /**\r\n         * Modifiers that can be applied to the flash to change it's appearance.\r\n         */ }\n    .ct-widget.ct-flash:before {\n      left: 50%;\n      opacity: 0;\n      position: fixed;\n      text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);\n      top: 50%;\n      transform: translate(-50%, -50%); }\n    .ct-widget.ct-flash--active {\n      -webkit-animation: flash-timer 2s ease-in;\n      -moz-animation: flash-timer 2s ease-in;\n      animation: flash-timer 2s ease-in;\n      -webkit-animation-iteration-count: 1;\n      -moz-animation-iteration-count: 1;\n      animation-iteration-count: 1;\n      -webkit-animation-fill-mode: forwards;\n      -moz-animation-fill-mode: forwards;\n      animation-fill-mode: forwards; }\n      .ct-widget.ct-flash--active:before {\n        -webkit-animation: flash 2s ease-in;\n        -moz-animation: flash 2s ease-in;\n        animation: flash 2s ease-in;\n        -webkit-animation-iteration-count: 1;\n        -moz-animation-iteration-count: 1;\n        animation-iteration-count: 1;\n        -webkit-animation-fill-mode: forwards;\n        -moz-animation-fill-mode: forwards;\n        animation-fill-mode: forwards;\n        font-size: 320px;\n        opacity: 1; }\n    .ct-widget.ct-flash--ok:before {\n      content: '\\EA10'; }\n    .ct-widget.ct-flash--no:before {\n      content: '\\EA0F'; }\n\n/**\r\n * Grip's provide a visual hint to the user that they can use the mouse to drag\r\n * an item (for example the toolbar has a grip that can be used to drag it to a\r\n * new location.\r\n */\n.ct-widget .ct-grip {\n  cursor: move;\n  font-size: 0;\n  text-align: center;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  /**\r\n         * Grips consist of one or more bumps, elements that appear to be sunk\r\n         * or raised and therefore provide grip.\r\n         */ }\n  .ct-widget .ct-grip__bump {\n    background: rgba(230, 230, 230, 0.15);\n    border-radius: 12px;\n    display: inline-block;\n    height: 12px;\n    margin-left: 12px;\n    width: 12px; }\n    .ct-widget .ct-grip__bump:first-child {\n      margin-left: 0; }\n\n/**\r\n * The ignition switch is how users start and stop editing the page.\r\n */\n/**\r\n * If the app is performing a remote task that requires the user to wait for\r\n * a response from the server then the ignition may be set to a busy state. The\r\n * busy state uses an animation (a rotating cog) defined below.\r\n */\n@-webkit-keyframes busy-ignition {\n  0% {\n    transform: rotate(0deg);\n    -webkit-transform: transform; }\n  100% {\n    transform: rotate(359deg);\n    -webkit-transform: transform; } }\n\n@-moz-keyframes busy-ignition {\n  0% {\n    transform: rotate(0deg);\n    -moz-transform: transform; }\n  100% {\n    transform: rotate(359deg);\n    -moz-transform: transform; } }\n\n@keyframes busy-ignition {\n  0% {\n    transform: rotate(0deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; }\n  100% {\n    transform: rotate(359deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; } }\n\n.ct-widget.ct-ignition {\n  /**\r\n         * Position of the switch on the page\r\n         */\n  position: fixed;\n  bottom: 78px;\n  left: 15px;\n  z-index: 1110;\n  /**\r\n         * Depending on the current state of the switch we show either the edit\r\n         * button (page ready to edit), or the confirm and cancel buttons (\r\n         * page currently being edited).\r\n         */ }\n  .ct-widget.ct-ignition .ct-ignition__button {\n    display: none; }\n  .ct-widget.ct-ignition--editing .ct-ignition__button--confirm,\n  .ct-widget.ct-ignition--editing .ct-ignition__button--cancel {\n    display: block; }\n  .ct-widget.ct-ignition--ready .ct-ignition__button--edit {\n    display: block; }\n  .ct-widget.ct-ignition--busy .ct-ignition__button {\n    display: none; }\n    .ct-widget.ct-ignition--busy .ct-ignition__button--busy {\n      display: block; }\n\n.ct-widget .ct-ignition {\n  /**\r\n         * The ignition switch is constructed of 3 buttons, edit, confirm and\r\n         * cancel.\r\n         */ }\n  .ct-widget .ct-ignition__button {\n    border-radius: 28px;\n    content: '';\n    cursor: pointer;\n    display: block;\n    height: 56px;\n    line-height: 56px;\n    opacity: 0.9;\n    position: absolute;\n    text-align: center;\n    font-family: 'icon';\n    font-size: 24px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 56px;\n    box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;\n    /* Busy button */\n    /* Confirm button */\n    /* Cancel button */\n    /* Edit button */ }\n    .ct-widget .ct-ignition__button:before {\n      color: white; }\n    .ct-widget .ct-ignition__button--busy {\n      -webkit-animation: busy-ignition 5s linear;\n      -moz-animation: busy-ignition 5s linear;\n      animation: busy-ignition 5s linear;\n      -webkit-animation-iteration-count: infinite;\n      -moz-animation-iteration-count: infinite;\n      animation-iteration-count: infinite;\n      -webkit-animation-fill-mode: forwards;\n      -moz-animation-fill-mode: forwards;\n      animation-fill-mode: forwards;\n      background: #E0E0E0;\n      cursor: default; }\n      .ct-widget .ct-ignition__button--busy:before {\n        content: '\\E994'; }\n      .ct-widget .ct-ignition__button--busy:hover {\n        background: #E0E0E0; }\n    .ct-widget .ct-ignition__button--confirm {\n      background: #00E676; }\n      .ct-widget .ct-ignition__button--confirm:before {\n        content: '\\EA10'; }\n      .ct-widget .ct-ignition__button--confirm:hover {\n        background: #01ff83; }\n    .ct-widget .ct-ignition__button--cancel {\n      background: #DD2C00;\n      left: 72px; }\n      .ct-widget .ct-ignition__button--cancel:before {\n        content: '\\EA0F'; }\n      .ct-widget .ct-ignition__button--cancel:hover {\n        background: #f73100; }\n    .ct-widget .ct-ignition__button--edit {\n      background: #3D5AFE;\n      /**\r\n                 * Unlike the confirm and cancel buttons we rotate the edit\r\n                 * button's pencil icon on mouse over to add a sense of\r\n                 * purpose :)\r\n                 */ }\n      .ct-widget .ct-ignition__button--edit:before {\n        content: '\\E905';\n        -webkit-transition-property: -webkit-transform;\n        -moz-transition-property: -moz-transform;\n        transition-property: transform;\n        -webkit-transition-duration: 0.1s;\n        -moz-transition-duration: 0.1s;\n        transition-duration: 0.1s;\n        -webkit-transition-timing-function: ease-in;\n        -moz-transition-timing-function: ease-in;\n        transition-timing-function: ease-in; }\n      .ct-widget .ct-ignition__button--edit:hover {\n        background: #5670fe; }\n        .ct-widget .ct-ignition__button--edit:hover:before {\n          display: inline-block;\n          -webkit-transform: rotate(-15deg);\n          -moz-transform: rotate(-15deg);\n          -ms-transform: rotate(-15deg);\n          -o-transform: rotate(-15deg);\n          transform: rotate(-15deg); }\n\n/**\r\n * The inspector provides a breadcrumb style path (constructured from tags) for\r\n * the currently selected element and its parent/ancestor tags.\r\n *\r\n * Tags can be selected which triggers the properties dialog. This allows\r\n * elements which typically can't be directly selected using the editor to be\r\n * modified.\r\n */\n.ct-widget {\n  /**\r\n     * The inspector bar is consists of a list of one or more tags, each tag\r\n     * represents an element in the lineage between the currently selected\r\n     * element and the top level element it is defined within, e.g for a table\r\n     * division the path might look like this:\r\n     *\r\n     * table > tbody > tr > td\r\n     */ }\n  .ct-widget.ct-inspector {\n    background: rgba(0, 0, 0, 0.2);\n    border-top: 1px solid rgba(26, 26, 26, 0.1);\n    bottom: 0;\n    height: 32px;\n    left: 0;\n    overflow: hidden;\n    padding: 3px 16px 0;\n    position: fixed;\n    width: 100%;\n    z-index: 1108; }\n  .ct-widget .ct-inspector__tags {\n    width: calc(100% - 128px); }\n    .ct-widget .ct-inspector__tags::after {\n      clear: both;\n      content: \"\";\n      display: table; }\n    .ct-widget .ct-inspector__tags:before {\n      color: #e6e6e6;\n      content: '\\EA80';\n      display: block;\n      float: left;\n      height: 24px;\n      line-height: 24px;\n      margin-right: 16px;\n      text-align: center;\n      font-family: 'icon';\n      font-size: 16px;\n      font-style: normal;\n      font-weight: normal;\n      font-variant: normal;\n      speak: none;\n      text-transform: none;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      width: 24px; }\n  .ct-widget .ct-inspector__counter {\n    border-left: 1px solid rgba(0, 0, 0, 0.1);\n    height: 24px;\n    line-height: 24px;\n    margin-right: 16px;\n    position: absolute;\n    right: 0;\n    text-align: right;\n    top: 3px;\n    width: 128px; }\n  .ct-widget .ct-tag {\n    background-color: #03a9f4;\n    border-radius: 2px 0 0 2px;\n    color: white;\n    cursor: pointer;\n    float: left;\n    font-weight: bold;\n    height: 24px;\n    line-height: 24px;\n    margin-left: 24px;\n    padding: 0 8px;\n    position: relative;\n    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35); }\n    .ct-widget .ct-tag:after {\n      border-style: solid;\n      border-bottom: 12px solid rgba(255, 0, 0, 0);\n      border-left: 12px solid #03a9f4;\n      border-right: none;\n      border-top: 12px solid rgba(255, 0, 0, 0);\n      content: '';\n      display: block;\n      height: 24px;\n      bottom: 0;\n      right: -24px;\n      position: absolute;\n      width: 24px;\n      -moz-transform: scale(0.9999); }\n    .ct-widget .ct-tag:first-child {\n      margin-left: 0; }\n    .ct-widget .ct-tag:hover {\n      background-color: #14b4fc; }\n      .ct-widget .ct-tag:hover:after {\n        border-left-color: #14b4fc; }\n    .ct-widget .ct-tag:nth-child(1) {\n      background-color: #03a9f4; }\n      .ct-widget .ct-tag:nth-child(1):after {\n        border-left-color: #03a9f4; }\n      .ct-widget .ct-tag:nth-child(1):hover {\n        background-color: #14b4fc; }\n        .ct-widget .ct-tag:nth-child(1):hover:after {\n          border-left-color: #14b4fc; }\n    .ct-widget .ct-tag:nth-child(2) {\n      background-color: #4caf50; }\n      .ct-widget .ct-tag:nth-child(2):after {\n        border-left-color: #4caf50; }\n      .ct-widget .ct-tag:nth-child(2):hover {\n        background-color: #5cb860; }\n        .ct-widget .ct-tag:nth-child(2):hover:after {\n          border-left-color: #5cb860; }\n    .ct-widget .ct-tag:nth-child(3) {\n      background-color: #009688; }\n      .ct-widget .ct-tag:nth-child(3):after {\n        border-left-color: #009688; }\n      .ct-widget .ct-tag:nth-child(3):hover {\n        background-color: #00b09f; }\n        .ct-widget .ct-tag:nth-child(3):hover:after {\n          border-left-color: #00b09f; }\n    .ct-widget .ct-tag:nth-child(4) {\n      background-color: #ff5722; }\n      .ct-widget .ct-tag:nth-child(4):after {\n        border-left-color: #ff5722; }\n      .ct-widget .ct-tag:nth-child(4):hover {\n        background-color: #ff6a3c; }\n        .ct-widget .ct-tag:nth-child(4):hover:after {\n          border-left-color: #ff6a3c; }\n    .ct-widget .ct-tag:nth-child(5) {\n      background-color: #ff9800; }\n      .ct-widget .ct-tag:nth-child(5):after {\n        border-left-color: #ff9800; }\n      .ct-widget .ct-tag:nth-child(5):hover {\n        background-color: #ffa21a; }\n        .ct-widget .ct-tag:nth-child(5):hover:after {\n          border-left-color: #ffa21a; }\n    .ct-widget .ct-tag:nth-child(6) {\n      background-color: #9c27b0; }\n      .ct-widget .ct-tag:nth-child(6):after {\n        border-left-color: #9c27b0; }\n      .ct-widget .ct-tag:nth-child(6):hover {\n        background-color: #af2cc5; }\n        .ct-widget .ct-tag:nth-child(6):hover:after {\n          border-left-color: #af2cc5; }\n\n/**\r\n * The modal widget provides a layer over the page limiting interaction to just\r\n * the components positioned above the layer. This is commonly used when\r\n * displaying a dialog, for example if we're editing a table's properties then\r\n * the modal ensures the user can't change the element selected on the page\r\n * while the dialog is open.\r\n */\n.ct-widget.ct-modal {\n  background: rgba(0, 0, 0, 0.7);\n  height: 0;\n  left: 0;\n  position: fixed;\n  top: 0;\n  width: 0;\n  z-index: 10009; }\n  .ct-widget.ct-modal--transparent {\n    background: transparent; }\n\n.ct-widget--active.ct-modal {\n  height: 100%;\n  width: 100%; }\n\n/**\r\n * The progress bar appears in dialogs (such as the image dialog) and provides\r\n * feedback to the user on a task (such as uploading an image).\r\n */\n.ct-widget .ct-progress-bar {\n  border: 1px solid #eee;\n  height: 32px;\n  line-height: 32px;\n  padding: 1px;\n  width: 456px;\n  /**\r\n         * Note: The width of the progress bar should be set (as a percentage)\r\n         * programatially, e.g `progressBarDOM.style.width = '50%'`.\r\n         */ }\n  .ct-widget .ct-progress-bar__progress {\n    background: #2980b9;\n    height: 28px; }\n\n/**\r\n * Sections are used to divide up configuration blocks within a dialog's view.\r\n * They contain wither a switch or an input, for example the table dialog has\r\n * header (switch), body (input - e.g number of columns) and footer (switch)\r\n * sections.\r\n */\n.ct-widget .ct-section {\n  border-bottom: 1px solid #eee;\n  color: #bdbdbd;\n  cursor: pointer;\n  font-style: italic;\n  height: 48px;\n  padding: 0 16px;\n  font-family: arial, sans-serif;\n  font-size: 16px;\n  line-height: 48px;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  /**\r\n         * If the section is a switch then the `applied` modifier is set when\r\n         * the switch is on.\r\n         */\n  /**\r\n         * If the section contains an input field the `contains-input` modifier\r\n         * is set.\r\n         */\n  /**\r\n         * Each section has a label describing the purpose of the switch or\r\n         * input within the section.\r\n         */ }\n  .ct-widget .ct-section::after {\n    clear: both;\n    content: \"\";\n    display: table; }\n  .ct-widget .ct-section:hover {\n    background: #f6f6f6; }\n  .ct-widget .ct-section--applied {\n    color: #646464;\n    font-style: normal; }\n    .ct-widget .ct-section--applied .ct-section__switch {\n      background-color: #27ae60;\n      border: 1px solid #1e8449; }\n      .ct-widget .ct-section--applied .ct-section__switch:before {\n        left: 25px;\n        -webkit-transition-property: left;\n        -moz-transition-property: left;\n        transition-property: left;\n        -webkit-transition-duration: 0.1s;\n        -moz-transition-duration: 0.1s;\n        transition-duration: 0.1s;\n        -webkit-transition-timing-function: ease-in;\n        -moz-transition-timing-function: ease-in;\n        transition-timing-function: ease-in; }\n  .ct-widget .ct-section--contains-input .ct-section__label {\n    width: 75%; }\n  .ct-widget .ct-section__label {\n    float: left;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    width: 472px;\n    white-space: nowrap; }\n  .ct-widget .ct-section__switch {\n    background-color: #ccc;\n    border: 1px solid #b3b3b3;\n    border-radius: 12px;\n    box-shadow: inset 0px 0 2px rgba(0, 0, 0, 0.1);\n    float: right;\n    height: 24px;\n    margin-top: 12px;\n    position: relative;\n    width: 48px; }\n    .ct-widget .ct-section__switch:before {\n      background: white;\n      border-radius: 10px;\n      content: '';\n      height: 20px;\n      left: 1px;\n      position: absolute;\n      top: 1px;\n      -webkit-transition-property: left;\n      -moz-transition-property: left;\n      transition-property: left;\n      -webkit-transition-duration: 0.1s;\n      -moz-transition-duration: 0.1s;\n      transition-duration: 0.1s;\n      -webkit-transition-timing-function: ease-in;\n      -moz-transition-timing-function: ease-in;\n      transition-timing-function: ease-in;\n      width: 20px; }\n  .ct-widget .ct-section__input {\n    background: white;\n    border: none;\n    color: #646464;\n    float: right;\n    height: 47px;\n    outline: none;\n    padding: 0 16px;\n    text-align: right;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 48px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 25%;\n    /**\r\n             * If the contents of the sections input is invalid then the\r\n             * `invalid` modifier is set against the input (programmatically).\r\n             */ }\n    .ct-widget .ct-section__input--invalid {\n      color: #DD2C00; }\n\n/**\r\n * The toolbox widget displays a set of tools the user can use to edit the\r\n * content of the page.\r\n */\n.ct-widget {\n  /**\r\n     * Define the spacing for the toolbox:\r\n     *\r\n     * spacing / 1 = the padding around the contents of the toolbox.\r\n     * spacing / 1 = the vertical padding around the toolbox's grip.\r\n     * spacing / 2 = the margin between each tool.\r\n     * spacing / 2 = the vertical padding around each tool group.\r\n     */\n  /**\r\n     * The size of a tool.\r\n     */\n  /**\r\n     * The grip is positioned at the top of the toolbox. If the user clicks and\r\n     * holds the mouse down whilst over the grip then the toolbox will be\r\n     * draggable until they release the mouse button.\r\n     */\n  /**\r\n     * Tools are organized into groups of related tools.\r\n     */\n  /**\r\n     * The toolbox features a set of tools for editing the page content.\r\n     */ }\n  .ct-widget.ct-toolbox {\n    /**\r\n         * The position of the toolbox is typically determined by the position\r\n         * the user last placed it (this information is stored in local\r\n         * storage). However we set a default position for the first time the\r\n         * toolbox is displayed.\r\n         */\n    background: #212121;\n    border: 1px solid rgba(59, 59, 59, 0.5);\n    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.35);\n    left: 128px;\n    padding: 8px;\n    position: fixed;\n    top: 128px;\n    width: 138px;\n    /**\r\n         * When the toolbox is being dragged to a new position by the user the\r\n         * dragging modifier is applied. Whilst being dragged we reduce the\r\n         * opacity of the toolbox to make it easier for the user to see the\r\n         * content being dragged over.\r\n         */ }\n    .ct-widget.ct-toolbox--dragging {\n      opacity: 0.5; }\n  .ct-widget .ct-toolbox__grip {\n    padding: 8px 0; }\n  .ct-widget .ct-tool-group {\n    /**\r\n         * Tools are floated to align horizontally so each group must clear its\r\n         * children.\r\n         */\n    padding: 4px 0; }\n    .ct-widget .ct-tool-group::after {\n      clear: both;\n      content: \"\";\n      display: table; }\n    .ct-widget .ct-tool-group:first-child {\n      padding-top: 0; }\n  .ct-widget .ct-tool {\n    border-radius: 2px;\n    color: #e6e6e6;\n    cursor: pointer;\n    float: left;\n    height: 32px;\n    margin: 4px;\n    margin-right: 4px;\n    position: relative;\n    text-align: center;\n    font-family: 'icon';\n    font-size: 16px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 32px;\n    /**\r\n         * Tools are displayed in rows of 3 so re remove margin from the last\r\n         * (3rd) tool in every row.\r\n         */\n    /**\r\n         * The following modifiers reflect the state of the tool.\r\n         */\n    /**\r\n         * The tools is currently disabled and cannot be selected (the hover\r\n         * style is also disabled).\r\n         */\n    /**\r\n         * The button has been clicked on and the mouse button is still in the\r\n         * down state.\r\n         */\n    /**\r\n         * The tool is currently applied to the selected element, and if there\r\n         * is one text selection.\r\n         */\n    /**\r\n         * Each of the modifiers below sets the content of the puesdo before\r\n         * element to match the required icon. The list is ordered by the\r\n         * position each tool in the default toolbox (as opposed to\r\n         * alphabetically).\r\n         */ }\n    .ct-widget .ct-tool:after {\n      background: black;\n      border-radius: 2px;\n      color: white;\n      content: attr(data-ct-tooltip);\n      display: block;\n      -webkit-hyphens: auto;\n      -moz-hyphens: auto;\n      -ms-hyphens: auto;\n      hyphens: auto;\n      left: -26.5px;\n      line-height: 20px;\n      opacity: 0.0;\n      padding: 0 8px;\n      position: absolute;\n      bottom: 37px;\n      font-family: arial, sans-serif;\n      font-size: 12px;\n      line-height: 20px;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      visibility: hidden;\n      width: 85px;\n      word-break: break-word; }\n    .ct-widget .ct-tool:hover:after {\n      opacity: 0.8;\n      visibility: visible;\n      -webkit-transition-property: opacity;\n      -moz-transition-property: opacity;\n      transition-property: opacity;\n      -webkit-transition-duration: 0s;\n      -moz-transition-duration: 0s;\n      transition-duration: 0s;\n      -webkit-transition-timing-function: ease-in;\n      -moz-transition-timing-function: ease-in;\n      transition-timing-function: ease-in;\n      -webkit-transition-delay: 2s;\n      -moz-transition-delay: 2s;\n      transition-delay: 2s; }\n    .ct-widget .ct-tool:before {\n      line-height: 32px; }\n    .ct-widget .ct-tool:nth-child(3n) {\n      margin-right: 0; }\n    .ct-widget .ct-tool:hover {\n      background: rgba(255, 255, 255, 0.5); }\n    .ct-widget .ct-tool--disabled {\n      color: rgba(230, 230, 230, 0.33); }\n      .ct-widget .ct-tool--disabled:hover {\n        background: transparent; }\n    .ct-widget .ct-tool--down {\n      background: rgba(0, 0, 0, 0.025);\n      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);\n      line-height: 34px; }\n      .ct-widget .ct-tool--down:hover {\n        background: rgba(0, 0, 0, 0.025); }\n    .ct-widget .ct-tool--applied {\n      background: rgba(0, 0, 0, 0.1);\n      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25); }\n      .ct-widget .ct-tool--applied:hover {\n        background: rgba(0, 0, 0, 0.15); }\n    .ct-widget .ct-tool--bold:before {\n      content: \"\\EA62\"; }\n    .ct-widget .ct-tool--heading:before {\n      content: \"H\";\n      font-weight: bold; }\n    .ct-widget .ct-tool--subheading:before {\n      content: \"H\"; }\n    .ct-widget .ct-tool--paragraph:before {\n      content: \"P\"; }\n    .ct-widget .ct-tool--preformatted:before {\n      content: \"\\EA80\"; }\n    .ct-widget .ct-tool--italic:before {\n      content: \"\\EA64\"; }\n    .ct-widget .ct-tool--link:before {\n      content: \"\\E9CB\"; }\n    .ct-widget .ct-tool--align-left:before {\n      content: \"\\EA77\"; }\n    .ct-widget .ct-tool--align-center:before {\n      content: \"\\EA78\"; }\n    .ct-widget .ct-tool--align-right:before {\n      content: \"\\EA79\"; }\n    .ct-widget .ct-tool--unordered-list:before {\n      content: \"\\E9BA\"; }\n    .ct-widget .ct-tool--ordered-list:before {\n      content: \"\\E9B9\"; }\n    .ct-widget .ct-tool--table:before {\n      content: \"\\EA71\"; }\n    .ct-widget .ct-tool--indent:before {\n      content: \"\\EA7B\"; }\n    .ct-widget .ct-tool--unindent:before {\n      content: \"\\EA7C\"; }\n    .ct-widget .ct-tool--line-break:before {\n      content: \"\\EA6E\"; }\n    .ct-widget .ct-tool--image:before {\n      content: \"\\E90D\"; }\n    .ct-widget .ct-tool--video:before {\n      content: \"\\EA98\"; }\n    .ct-widget .ct-tool--undo:before {\n      content: \"\\E965\"; }\n    .ct-widget .ct-tool--redo:before {\n      content: \"\\E966\"; }\n    .ct-widget .ct-tool--remove:before {\n      content: \"\\E9AC\"; }\n\n/**\r\n * The highlight class below is used to highlight editable regions within the\r\n * page to users to help them see what they can edit. It's slightly unusual in\r\n * that it's specified as a modifier of `ct`.\r\n */\n@-webkit-keyframes highlight {\n  0% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color; }\n  25% {\n    outline-color: transparent;\n    -webkit-transform: background-color; }\n  50% {\n    outline-color: transparent;\n    -webkit-transform: background-color; }\n  100% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color; } }\n\n@-moz-keyframes highlight {\n  0% {\n    outline-color: rgba(255, 255, 255, 0);\n    -moz-transform: background-color; }\n  25% {\n    outline-color: transparent;\n    -moz-transform: background-color; }\n  50% {\n    outline-color: transparent;\n    -moz-transform: background-color; }\n  100% {\n    outline-color: rgba(255, 255, 255, 0);\n    -moz-transform: background-color; } }\n\n@keyframes highlight {\n  0% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; }\n  25% {\n    outline-color: transparent;\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; }\n  50% {\n    outline-color: transparent;\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; }\n  100% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; } }\n\n.ct-app {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n  .ct-app *, .ct-app *:before, .ct-app *:after {\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box; }\n\n.ct--highlight {\n  outline: 4px solid transparent;\n  -webkit-animation: highlight 0.5s ease-in;\n  -moz-animation: highlight 0.5s ease-in;\n  animation: highlight 0.5s ease-in;\n  -webkit-animation-iteration-count: infinite;\n  -moz-animation-iteration-count: infinite;\n  animation-iteration-count: infinite;\n  -webkit-animation-fill-mode: forwards;\n  -moz-animation-fill-mode: forwards;\n  animation-fill-mode: forwards; }\n\n/**\r\n * When applied to the `body` this class prevents the page from scrolling. This\r\n * can be a useful trait when overlaying content such as a dialog where\r\n * scrolling is either undesirable or relevant only to the overlayed content.\r\n */\n.ct--no-scroll {\n  overflow: hidden; }\n\n/**\r\n * Sometimes it necessary to take focus from an element such as when asking a\r\n * user to provide a URL for a link. To provide an indication of the element's\r\n * selection before focus was list this class can be applied to a `span`\r\n * surrounding the element's selection.\r\n *\r\n * Once focus is returned to the element the class should be removed.\r\n */\n.ct--puesdo-select {\n  background: rgba(0, 0, 0, 0.1); }\n", ""]);
+	exports.push([module.id, "/* Vendor */\n/**\r\n * A prefix appended to all background-image URLs.\r\n */\n/**\r\n * Colours common to the UI,\r\n */\n/**\r\n * A mixin for performing a rotate transform across multiple browsers.\r\n */\n/**\r\n * The modifier classes here are applied by the root node and indicate the\r\n * the state of the root node managing interactions (e.g dragging and resizing).\r\n */\n.ce--dragging,\n.ce--resizing {\n  /**\r\n     * Prevent the user selecting any content in the page while we're dragging\r\n     * or resizing.\r\n     */\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.ce--dragging {\n  cursor: move        !important; }\n\n.ce--resizing {\n  cursor: nwse-resize !important; }\n\n/**\r\n * All editiable elements are assigned the .ce-element class. Modifiers are used\r\n * to identify the type of element (e.g image, text, list, etc.) and to indicate\r\n * state (e.g resizing, focused, etc.)\r\n */\n.ce-element {\n  /* Types of element */\n  /**\r\n     * As image elements are represented as a `<div>` in the DOM we use the\r\n     * background to display the image.\r\n     */\n  /**\r\n     * Like images, video elements are represented as a `<div>` in the DOM,\r\n     * unlike images there is source image to apply to the background, instead\r\n     * we display a video icon in the background and use the after element to\r\n     * display information about the video's source.\r\n     */\n  /* The various states for elements */\n  /**\r\n     * When an element that supports text content is empty (e.g '') some\r\n     * browsers don't provide a height for the element and so it can appear to\r\n     * disappear until the user adds content. To resolve this issue we use a\r\n     * puesdo element to ensure the element contains content.\r\n     */\n  /* Element is being dragged */\n  /**\r\n     * Element is being dropped on to. Depending on the position of the element\r\n     * being dragged over the element (the mouse cursor) the drop modifiers\r\n     * provide a guide to the placement of the dragging element after it's\r\n     * dropped.\r\n     */\n  /*\r\n    Table rows cannot be handled in the same way as other elements for drop\r\n    styling and instead they must only use a background image.\r\n    */\n  /**\r\n     * Element has focus `--focused` (only one element can have focus) or the\r\n     * mouse cursor is currently over the element.\r\n     */\n  /**\r\n     * When the mouse cursor is over the corners of a resizable element (e.g an\r\n     * image or video) the following modifiers are applied to indicate to the\r\n     * user they can resize the element in a given direction.\r\n     */ }\n  .ce-element--type-image, .ce-element--type-video {\n    background-repeat: no-repeat;\n    position: relative;\n    cursor: pointer;\n    z-index: 1;\n    /**\r\n         * Image and video elements use puesdo elements to display information\r\n         * such as the size of the element and for videos the `src` also.\r\n         */\n    /**\r\n         * The before element is used to display the size of the element, by\r\n         * default the size is hidden unless the user moves the mouse cursor\r\n         * over the element or the element is being resized.\r\n         */ }\n    .ce-element--type-image:after, .ce-element--type-image:before, .ce-element--type-video:after, .ce-element--type-video:before {\n      background: rgba(0, 0, 0, 0.5);\n      border-radius: 2px;\n      color: white;\n      display: none;\n      font-family: arial, sans-serif;\n      font-size: 10px;\n      line-height: 10px;\n      padding: 4px 4px 3px;\n      position: absolute; }\n    .ce-element--type-image:before, .ce-element--type-video:before {\n      content: attr(data-ce-size);\n      right: 10px;\n      top: 10px; }\n    .ce-element--type-image.ce-element--over:before, .ce-element--type-image.ce-element--resizing:before, .ce-element--type-video.ce-element--over:before, .ce-element--type-video.ce-element--resizing:before {\n      display: block; }\n  .ce-element--type-image {\n    background-position: 0 0;\n    background-size: cover;\n    /**\r\n         * The after element is used by images to ensure that the clip mask\r\n         * applied by a border radius does not affect the selectable region or\r\n         * edge.\r\n         */ }\n    .ce-element--type-image:after {\n      background: transparent;\n      content: '';\n      display: block;\n      left: 0;\n      position: relative;\n      top: 0;\n      height: 100%;\n      width: 100%; }\n  .ce-element--type-video {\n    background: #333 url(" + __webpack_require__(642) + ") center/auto 48px no-repeat; }\n    .ce-element--type-video:after {\n      bottom: 10px;\n      content: attr(data-ce-title);\n      display: block;\n      left: 10px; }\n  .ce-element--empty:after {\n    content: '...';\n    display: inline-block;\n    font-style: italic;\n    opacity: 0.8; }\n  .ce-element--empty[data-ce-placeholder]:after {\n    content: attr(data-ce-placeholder); }\n  .ce-element--dragging {\n    background-color: rgba(51, 51, 51, 0.1) !important;\n    opacity: 0.5;\n    /**\r\n         * HACK: Forces the the element being dragged not to obscure elements\r\n         * that can be dropped on (for example an image floated over a\r\n         * paragraph).\r\n         */\n    z-index: -1;\n    /**\r\n         * For images and videos we set the outline color instead of changing\r\n         * the inner style.\r\n         */ }\n    .ce-element--dragging.ce-element--type-image, .ce-element--dragging.ce-element--type-video {\n      background-color: #333 !important;\n      opacity: 1.0;\n      outline-color: rgba(51, 51, 51, 0.1) !important; }\n  .ce-element--drop {\n    position: relative !important; }\n    .ce-element--drop:before {\n      background: transparent url(" + __webpack_require__(643) + ") center/auto 32px repeat;\n      bottom: 0;\n      content: '' !important;\n      left: 0;\n      opacity: 0.8;\n      position: absolute;\n      right: 0;\n      top: 0;\n      z-index: 9; }\n  .ce-element--drop-below:before {\n    -ms-transform: rotate(180deg);\n    /* IE 9 */\n    -webkit-transform: rotate(180deg);\n    /* Chrome, Safari, Opera */\n    transform: rotate(180deg); }\n  .ce-element--drop-left:before {\n    background-image: url(" + __webpack_require__(644) + ");\n    -ms-transform: rotate(0deg);\n    /* IE 9 */\n    -webkit-transform: rotate(0deg);\n    /* Chrome, Safari, Opera */\n    transform: rotate(0deg); }\n  .ce-element--drop-right:before {\n    background-image: url(" + __webpack_require__(644) + ");\n    -ms-transform: rotate(180deg);\n    /* IE 9 */\n    -webkit-transform: rotate(180deg);\n    /* Chrome, Safari, Opera */\n    transform: rotate(180deg); }\n  .ce-element--drop.ce-element--type-table-row {\n    background: transparent url(" + __webpack_require__(643) + ") center/auto 32px repeat; }\n    .ce-element--drop.ce-element--type-table-row:before {\n      display: none; }\n    .ce-element--drop.ce-element--type-table-row.ce-element--drop-below {\n      background: transparent url(" + __webpack_require__(645) + ") center/auto 32px repeat; }\n  .ce-element--focused, .ce-element--over {\n    background-color: transparent;\n    outline: none;\n    /**\r\n         * For images and videos we add an outline so as not to distort their\r\n         * appearance.\r\n         */ }\n    .ce-element--focused.ce-element--type-image, .ce-element--focused.ce-element--type-video, .ce-element--over.ce-element--type-image, .ce-element--over.ce-element--type-video {\n      background-color: #333;\n      outline: 4px solid rgba(0, 0, 0, 0.9); }\n  .ce-element--resize-top-left {\n    cursor: nw-resize; }\n  .ce-element--resize-top-right {\n    cursor: ne-resize; }\n  .ce-element--resize-bottom-right {\n    cursor: se-resize; }\n  .ce-element--resize-bottom-left {\n    cursor: sw-resize; }\n\n/**\r\n * When an element is dragged a helper element is created that follows the mouse\r\n * cursor, the helper represents the element being dragged in a simplified form.\r\n */\n.ce-drag-helper {\n  background: #fff;\n  border-radius: 2px;\n  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);\n  color: #4e4e4e;\n  font: arial, sans-serif;\n  font-size: 12px;\n  height: 120px;\n  left: 0;\n  line-height: 135%;\n  margin: 5px 0px 0px 5px;\n  overflow: hidden;\n  padding: 15px;\n  position: absolute;\n  top: 0;\n  width: 120px;\n  word-wrap: break-word;\n  z-index: 9;\n  /**\r\n     * A puesdo element is used to display the type of element the helper\r\n     * represents.\r\n     */\n  /**\r\n     * For elements that have text content displayed within the helper we clip\r\n     * the content and use a puesdo element to fade out any verical overflow.\r\n     */\n  /**\r\n     * Image helpers display a version of the image as a background image within\r\n     * the helper element.\r\n     */ }\n  .ce-drag-helper:before {\n    background: #2980b9;\n    color: white;\n    content: attr(data-ce-type);\n    display: block;\n    font-family: arial, sans-serif;\n    font-size: 10px;\n    line-height: 10px;\n    padding: 4px 4px 3px;\n    position: absolute;\n    right: 0;\n    top: 0; }\n  .ce-drag-helper--type-list:after, .ce-drag-helper--type-list-item-text:after, .ce-drag-helper--type-pre-text:after, .ce-drag-helper--type-table:after, .ce-drag-helper--type-table-row:after, .ce-drag-helper--type-text:after {\n    background-image: linear-gradient(rgba(255, 255, 255, 0), white 66%);\n    bottom: 0;\n    content: '';\n    display: block;\n    height: 40px;\n    left: 0;\n    position: absolute;\n    width: 100%; }\n  .ce-drag-helper--type-image {\n    background-repeat: no-repeat;\n    background-size: cover; }\n\n/**\r\n * The alignment of elements such as images and videos horizontally is achieved\r\n * through the `align-left` and `align-right` classes. We provide basic stylings\r\n * for these classes so that this style sheet works out the box, it is however\r\n * expected that these styles will be extended if not overridden by the site\r\n * CSS.\r\n */\n.ce-element--type-image,\n.ce-element--type-video {\n  display: block; }\n  .ce-element--type-image.align-left,\n  .ce-element--type-video.align-left {\n    clear: initial;\n    float: left; }\n  .ce-element--type-image.align-center,\n  .ce-element--type-video.align-center {\n    margin-left: auto;\n    margin-right: auto; }\n  .ce-element--type-image.align-right,\n  .ce-element--type-video.align-right {\n    clear: initial;\n    float: right; }\n\n/**\r\n * Special class applied to a temporary element which is inserted into a parent\r\n * element to measure the width excluding padding.\r\n */\n.ce-measure {\n  display: block !important; }\n\n/* Settings */\n/**\r\n * All widgets are assigned a z-index equal to or higher than this setting. The\r\n * base z-index can be adjusted to overcome z-index conflicts with existing page\r\n * elements.\r\n */\n/**\r\n * For UI widgets that appear on the page (as opposed to appearing in front of a\r\n * modal screen) we define a base background colour.\r\n */\n/**\r\n * The colour used when casting shadows for widgets that appear to float.\r\n */\n/**\r\n * Confirm, Cancel and Edit actions are common amoung the various ui components.\r\n * Each action has an associated/common colour.\r\n */\n/**\r\n * The background colour used to highlight editiable regions to users when they\r\n * hold down the shift key.\r\n */\n/**\r\n * Tooltips feature for a number of components, their base appearance is\r\n * configured using a mixin.\r\n */\n/**\r\n * The following settings relate to typography. For portability we limit the the\r\n * use of fonts to:\r\n *\r\n * - `type-icon` used for displaying icons (courtesy of http://icomoon.io).\r\n * - `type-text` used for displaying text.\r\n *\r\n */\n@font-face {\n  font-family: 'icon';\n  src: url(" + __webpack_require__(646) + ");\n  font-weight: normal;\n  font-style: normal; }\n\n/* UI */\n/*\r\nThe widget CSS class should be applied any UI element that's insert into the DOM\r\nand not within a widget, the widget CSS class resets the style for of all\r\nsupported child elements.\r\n*/\n.ct-widget,\n.ct-widget * {\n  /* Reset */\n  /* Defaults */\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n  .ct-widget div, .ct-widget span,\n  .ct-widget iframe,\n  .ct-widget a, .ct-widget b, .ct-widget i\nfieldset, .ct-widget form, .ct-widget label, .ct-widget legend,\n  .ct-widget table, .ct-widget caption, .ct-widget tbody, .ct-widget tfoot, .ct-widget thead, .ct-widget tr, .ct-widget th, .ct-widget td,\n  .ct-widget * div,\n  .ct-widget * span,\n  .ct-widget * iframe,\n  .ct-widget * a,\n  .ct-widget * b,\n  .ct-widget * i\nfieldset,\n  .ct-widget * form,\n  .ct-widget * label,\n  .ct-widget * legend,\n  .ct-widget * table,\n  .ct-widget * caption,\n  .ct-widget * tbody,\n  .ct-widget * tfoot,\n  .ct-widget * thead,\n  .ct-widget * tr,\n  .ct-widget * th,\n  .ct-widget * td {\n    border: 0;\n    font-size: 100%;\n    font: inherit;\n    margin: 0;\n    padding: 0;\n    vertical-align: baseline; }\n  .ct-widget ol, .ct-widget ul,\n  .ct-widget * ol,\n  .ct-widget * ul {\n    list-style: none; }\n  .ct-widget table,\n  .ct-widget * table {\n    border-collapse: collapse;\n    border-spacing: 0; }\n\n.ct-widget {\n  opacity: 0;\n  font-family: arial, sans-serif;\n  font-size: 14px;\n  line-height: 18px;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  z-index: 9999;\n  -webkit-transition-property: opacity;\n  -moz-transition-property: opacity;\n  transition-property: opacity;\n  -webkit-transition-duration: 0.25s;\n  -moz-transition-duration: 0.25s;\n  transition-duration: 0.25s;\n  -webkit-transition-timing-function: ease-in;\n  -moz-transition-timing-function: ease-in;\n  transition-timing-function: ease-in; }\n\n.ct-widget--active {\n  opacity: 1;\n  -webkit-transition-property: opacity;\n  -moz-transition-property: opacity;\n  transition-property: opacity;\n  -webkit-transition-duration: 0.25s;\n  -moz-transition-duration: 0.25s;\n  transition-duration: 0.25s;\n  -webkit-transition-timing-function: ease-in;\n  -moz-transition-timing-function: ease-in;\n  transition-timing-function: ease-in; }\n\n/**\r\n * Attributes are similar to sections in that they are used to divide up\r\n * configuration blocks within a dialog's view. However attributes\r\n * exclusively support text inputs (no switches) and both the name and value of\r\n * an attribute can be modified (unlike sections where the label is fixed).\r\n */\n.ct-widget .ct-attribute {\n  border-bottom: 1px solid #eee;\n  height: 48px;\n  vertical-align: top;\n  /**\r\n         * Each section has a name and value component, both of which can be\r\n         * modified.\r\n         */ }\n  .ct-widget .ct-attribute::after {\n    clear: both;\n    content: \"\";\n    display: table; }\n  .ct-widget .ct-attribute__name {\n    background: #f6f6f6;\n    border: none;\n    color: #646464;\n    float: left;\n    height: 47px;\n    outline: none;\n    padding: 0 16px;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 48px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 25%;\n    /**\r\n             * If the the attributes name is invalid then the `invalid` modifier\r\n             * is set against the input (programmatically).\r\n             */ }\n    .ct-widget .ct-attribute__name--invalid {\n      color: #DD2C00; }\n  .ct-widget .ct-attribute__value {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    background: white;\n    border: none;\n    color: #646464;\n    float: right;\n    height: 47px;\n    outline: none;\n    padding: 0 16px;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 48px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 75%; }\n\n/**\r\n * Cropmarks define the region within an image that will be cropped. They appear\r\n * in the image dialog when crop is active.\r\n */\n.ct-widget .ct-crop-marks {\n  height: 320px;\n  left: 73px;\n  position: absolute;\n  top: 0;\n  width: 427px;\n  /**\r\n         * The clipper is used to prevent the rulers extending outside of the\r\n         * image.\r\n         */\n  /**\r\n         * The cropping region is defined by 2 L shaped framing rulers at\r\n         * opposite corners.\r\n         */\n  /**\r\n         * The rulers defing the crop region can be moved by the user, handles\r\n         * provide a draggable handle for each ruler.\r\n         */ }\n  .ct-widget .ct-crop-marks__clipper {\n    height: 100%;\n    overflow: hidden;\n    position: relative;\n    width: 100%; }\n  .ct-widget .ct-crop-marks__ruler--top-left {\n    position: absolute; }\n    .ct-widget .ct-crop-marks__ruler--top-left:after {\n      border: 1px solid rgba(255, 255, 255, 0.5);\n      border-bottom: none;\n      border-right: none;\n      box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.25), inset 1px 1px 1px rgba(0, 0, 0, 0.25);\n      content: '';\n      height: 999px;\n      left: 0;\n      position: absolute;\n      top: 0;\n      width: 999px; }\n  .ct-widget .ct-crop-marks__ruler--bottom-right {\n    position: absolute; }\n    .ct-widget .ct-crop-marks__ruler--bottom-right:after {\n      border: 1px solid rgba(255, 255, 255, 0.5);\n      border-top: none;\n      border-left: none;\n      bottom: 0;\n      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25), inset -1px -1px 1px rgba(0, 0, 0, 0.25);\n      content: '';\n      height: 999px;\n      position: absolute;\n      right: 0;\n      width: 999px; }\n  .ct-widget .ct-crop-marks__handle {\n    background: #2980b9;\n    border: 1px solid #409ad5;\n    border-radius: 7px;\n    cursor: pointer;\n    height: 15px;\n    margin-left: -7px;\n    margin-top: -7px;\n    position: absolute;\n    width: 15px; }\n    .ct-widget .ct-crop-marks__handle--bottom-right {\n      margin-left: -8px;\n      margin-top: -8px; }\n    .ct-widget .ct-crop-marks__handle:hover {\n      background: #2e8ece; }\n\n/**\r\n * The content tools library supports a number of dialogs for different types of\r\n * functionality (e.g insert an image, change a tables dimensions, etc).\r\n *\r\n * The dialog component itself sits above the page content (typically over a\r\n * modal.\r\n */\n/**\r\n * If the dialog is performing a remote task that requires the user to wait for\r\n * a response from the server then it may be set to a busy state. The busy state\r\n * uses an animation (a rotating cog) defined below.\r\n */\n@-webkit-keyframes busy-dialog {\n  0% {\n    transform: translate(-50%, -50%) rotate(0deg);\n    -webkit-transform: transform; }\n  100% {\n    transform: translate(-50%, -50%) rotate(359deg);\n    -webkit-transform: transform; } }\n\n@-moz-keyframes busy-dialog {\n  0% {\n    transform: translate(-50%, -50%) rotate(0deg);\n    -moz-transform: transform; }\n  100% {\n    transform: translate(-50%, -50%) rotate(359deg);\n    -moz-transform: transform; } }\n\n@keyframes busy-dialog {\n  0% {\n    transform: translate(-50%, -50%) rotate(0deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; }\n  100% {\n    transform: translate(-50%, -50%) rotate(359deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; } }\n\n.ct-widget {\n  /**\r\n     * The controls section of the dialog features icon and text buttons which\r\n     * provide the user with controls for the contents dialog.\r\n     */\n  /**\r\n      * Controls can be grouped left, right or centrally. Both a left and right\r\n      * group can coexist but the central group can only be used on it's own.\r\n      */\n  /**\r\n     * Controls can either contain text or an icon depending on the modifier\r\n     * set against the component (`text` or `icon` respectively).\r\n     */\n  /**\r\n     * The following classes relate to the various types of dialog available.\r\n     */\n  /**\r\n     * The image dialog supports the insertion of images, the dialog has a\r\n     * number of states to support the various steps in inserting an image.\r\n     */\n  /**\r\n     * The properties dialog displays the attributes and styles for an element\r\n     * in page, each property can by modified and each style turned on or off.\r\n     */\n  /**\r\n     * The table dialog supports the insertion and updating of tables.\r\n     */\n  /**\r\n     * The video dialog supports the insertion of embedded videos (vimeo and\r\n     * youtube).\r\n     */\n  /**\r\n     * Anchored dialogs are a special type of dialog that are appear at a fixed\r\n     * position with the page, for example above a selection of text. They are\r\n     * used to support simple task (such as inserting a link) in a less\r\n     * intrusive mannor than full dialogs.\r\n     *\r\n     * Anchored dialogs support an single text input and a confirm button only.\r\n     */ }\n  .ct-widget.ct-dialog {\n    background: white;\n    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.35);\n    border-radius: 2px;\n    height: 480px;\n    left: 50%;\n    margin-left: -350px;\n    margin-top: -240px;\n    position: fixed;\n    top: 50%;\n    width: 700px;\n    z-index: 10099;\n    /**\r\n         * The `busy` modifier maybe programatically applied to a dialog to\r\n         * prevent any further interaction with the dialog until a task has been\r\n         * completed.\r\n         */ }\n    .ct-widget.ct-dialog--busy .ct-dialog__busy {\n      display: block; }\n    .ct-widget.ct-dialog--busy .ct-dialog__body {\n      opacity: 0.1; }\n  .ct-widget .ct-dialog {\n    /**\r\n         * The `header`, `caption` and `close` components of the dialog make up\r\n         * what might traditionally be thought of as a title bar for a window.\r\n         */\n    /**\r\n         * The dialog `body` is typically composed of a `view` and `controls`\r\n         * component. The `view` component contains the dialogs content (e.g an\r\n         * image) and the `controls` component the controls (e.g crop, rotate,\r\n         * insert).\r\n         */\n    /**\r\n         * If the dialog is in a busy state then the `busy` component is\r\n         * displayed.\r\n         */ }\n    .ct-widget .ct-dialog__header {\n      color: #a4a4a4;\n      border-bottom: 1px solid #eee;\n      height: 48px;\n      padding: 0 16px;\n      position: relative; }\n    .ct-widget .ct-dialog__caption {\n      font-family: arial, sans-serif;\n      font-size: 18px;\n      line-height: 48px;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale; }\n    .ct-widget .ct-dialog__close {\n      border-left: 1px solid #eee;\n      cursor: pointer;\n      height: 48px;\n      line-height: 48px;\n      position: absolute;\n      right: 0;\n      text-align: center;\n      top: 0;\n      font-family: 'icon';\n      font-size: 16px;\n      font-style: normal;\n      font-weight: normal;\n      font-variant: normal;\n      speak: none;\n      text-transform: none;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      width: 48px; }\n      .ct-widget .ct-dialog__close:before {\n        content: '\\EA0F'; }\n      .ct-widget .ct-dialog__close:hover:before {\n        color: #646464; }\n    .ct-widget .ct-dialog__body {\n      margin: auto;\n      width: 572px; }\n    .ct-widget .ct-dialog__view {\n      height: 320px;\n      margin-top: 32px; }\n    .ct-widget .ct-dialog__controls {\n      margin-top: 16px; }\n      .ct-widget .ct-dialog__controls::after {\n        clear: both;\n        content: \"\";\n        display: table; }\n    .ct-widget .ct-dialog__busy {\n      display: none;\n      position: absolute; }\n      .ct-widget .ct-dialog__busy:before {\n        -webkit-animation: busy-dialog 5s linear;\n        -moz-animation: busy-dialog 5s linear;\n        animation: busy-dialog 5s linear;\n        -webkit-animation-iteration-count: infinite;\n        -moz-animation-iteration-count: infinite;\n        animation-iteration-count: infinite;\n        -webkit-animation-fill-mode: forwards;\n        -moz-animation-fill-mode: forwards;\n        animation-fill-mode: forwards;\n        color: #a4a4a4;\n        content: \"\\E994\";\n        left: 50%;\n        position: fixed;\n        top: 50%;\n        font-family: 'icon';\n        font-size: 80px;\n        font-style: normal;\n        font-weight: normal;\n        font-variant: normal;\n        speak: none;\n        text-transform: none;\n        -webkit-font-smoothing: antialiased;\n        -moz-osx-font-smoothing: grayscale; }\n  .ct-widget .ct-control-group {\n    font-size: 0; }\n    .ct-widget .ct-control-group--center {\n      text-align: center; }\n    .ct-widget .ct-control-group--left {\n      float: left; }\n    .ct-widget .ct-control-group--right {\n      float: right; }\n  .ct-widget .ct-control {\n    margin-left: 16px;\n    position: relative; }\n    .ct-widget .ct-control:first-child {\n      margin-left: 0; }\n    .ct-widget .ct-control--icon {\n      border-radius: 2px;\n      color: #a4a4a4;\n      cursor: pointer;\n      display: inline-block;\n      height: 32px;\n      line-height: 32px;\n      text-align: center;\n      font-family: 'icon';\n      font-size: 16px;\n      font-style: normal;\n      font-weight: normal;\n      font-variant: normal;\n      speak: none;\n      text-transform: none;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      width: 32px; }\n      .ct-widget .ct-control--icon:after {\n        background: black;\n        border-radius: 2px;\n        color: white;\n        content: attr(data-ct-tooltip);\n        display: block;\n        -webkit-hyphens: auto;\n        -moz-hyphens: auto;\n        -ms-hyphens: auto;\n        hyphens: auto;\n        left: -26.5px;\n        line-height: 20px;\n        opacity: 0.0;\n        padding: 0 8px;\n        position: absolute;\n        bottom: 37px;\n        font-family: arial, sans-serif;\n        font-size: 12px;\n        line-height: 20px;\n        -webkit-font-smoothing: antialiased;\n        -moz-osx-font-smoothing: grayscale;\n        visibility: hidden;\n        width: 85px;\n        word-break: break-word; }\n      .ct-widget .ct-control--icon:hover:after {\n        opacity: 0.8;\n        visibility: visible;\n        -webkit-transition-property: opacity;\n        -moz-transition-property: opacity;\n        transition-property: opacity;\n        -webkit-transition-duration: 0s;\n        -moz-transition-duration: 0s;\n        transition-duration: 0s;\n        -webkit-transition-timing-function: ease-in;\n        -moz-transition-timing-function: ease-in;\n        transition-timing-function: ease-in;\n        -webkit-transition-delay: 2s;\n        -moz-transition-delay: 2s;\n        transition-delay: 2s; }\n      .ct-widget .ct-control--icon:before {\n        content: ''; }\n      .ct-widget .ct-control--icon:hover {\n        background: #eee;\n        color: #646464; }\n    .ct-widget .ct-control--active, .ct-widget .ct-control--on {\n      background: #a4a4a4;\n      color: white; }\n      .ct-widget .ct-control--active:hover, .ct-widget .ct-control--on:hover {\n        background: #646464;\n        color: white; }\n    .ct-widget .ct-control--rotate-ccw:before {\n      content: '\\E965'; }\n    .ct-widget .ct-control--rotate-cw:before {\n      content: '\\E966'; }\n    .ct-widget .ct-control--crop:before {\n      content: '\\EA57'; }\n    .ct-widget .ct-control--remove:before {\n      content: '\\E9AC'; }\n    .ct-widget .ct-control--styles:before {\n      content: '\\E90B'; }\n    .ct-widget .ct-control--attributes:before {\n      content: '\\E994'; }\n    .ct-widget .ct-control--code:before {\n      content: '\\EA80'; }\n    .ct-widget .ct-control--icon.ct-control--muted {\n      cursor: default; }\n      .ct-widget .ct-control--icon.ct-control--muted:before {\n        opacity: 0.5; }\n      .ct-widget .ct-control--icon.ct-control--muted:hover {\n        color: #a4a4a4;\n        background: transparent; }\n    .ct-widget .ct-control--text {\n      background: #2980b9;\n      border-radius: 2px;\n      color: white;\n      cursor: pointer;\n      display: inline-block;\n      font-weight: bold;\n      height: 32px;\n      overflow: hidden;\n      padding: 0 8px;\n      text-align: center;\n      text-overflow: ellipsis;\n      font-family: arial, sans-serif;\n      font-size: 14px;\n      line-height: 32px;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      vertical-align: top;\n      width: 100px; }\n      .ct-widget .ct-control--text:hover {\n        background: #2e8ece; }\n    .ct-widget .ct-control--apply, .ct-widget .ct-control--insert, .ct-widget .ct-control--ok {\n      background: #27ae60; }\n      .ct-widget .ct-control--apply:hover, .ct-widget .ct-control--insert:hover, .ct-widget .ct-control--ok:hover {\n        background: #2cc36b; }\n    .ct-widget .ct-control--cancel, .ct-widget .ct-control--clear {\n      background: #e74c3c; }\n      .ct-widget .ct-control--cancel:hover, .ct-widget .ct-control--clear:hover {\n        background: #ea6153; }\n    .ct-widget .ct-control--text.ct-control--muted {\n      background: #ccc;\n      cursor: default; }\n      .ct-widget .ct-control--text.ct-control--muted:hover {\n        background: #ccc; }\n    .ct-widget .ct-control--upload {\n      overflow: hidden; }\n  .ct-widget.ct-image-dialog--empty .ct-progress-bar,\n  .ct-widget.ct-image-dialog--empty .ct-control--rotate-ccw,\n  .ct-widget.ct-image-dialog--empty .ct-control--rotate-cw,\n  .ct-widget.ct-image-dialog--empty .ct-control--crop,\n  .ct-widget.ct-image-dialog--empty .ct-control--insert,\n  .ct-widget.ct-image-dialog--empty .ct-control--cancel,\n  .ct-widget.ct-image-dialog--empty .ct-control--clear {\n    display: none; }\n  .ct-widget.ct-image-dialog--uploading .ct-control--rotate-ccw,\n  .ct-widget.ct-image-dialog--uploading .ct-control--rotate-cw,\n  .ct-widget.ct-image-dialog--uploading .ct-control--crop,\n  .ct-widget.ct-image-dialog--uploading .ct-control--upload,\n  .ct-widget.ct-image-dialog--uploading .ct-control--insert,\n  .ct-widget.ct-image-dialog--uploading .ct-control--clear {\n    display: none; }\n  .ct-widget.ct-image-dialog--populated .ct-progress-bar,\n  .ct-widget.ct-image-dialog--populated .ct-control--upload,\n  .ct-widget.ct-image-dialog--populated .ct-control--cancel {\n    display: none; }\n  .ct-widget .ct-image-dialog {\n    /**\r\n         * HACK: We style the file upload button as a control, however to ensure\r\n         * the user activates the system file browser dialog we hide the file\r\n         * input in the control and use a large font to ensure it covers the\r\n         * whole control.\r\n         */ }\n    .ct-widget .ct-image-dialog__view {\n      background: #eee;\n      position: relative; }\n      .ct-widget .ct-image-dialog__view:empty {\n        font-family: 'icon';\n        font-size: 80px;\n        font-style: normal;\n        font-weight: normal;\n        font-variant: normal;\n        speak: none;\n        text-transform: none;\n        -webkit-font-smoothing: antialiased;\n        -moz-osx-font-smoothing: grayscale;\n        line-height: 320px;\n        text-align: center; }\n        .ct-widget .ct-image-dialog__view:empty:before {\n          color: white;\n          content: '\\E90D'; }\n    .ct-widget .ct-image-dialog__image {\n      background-color: transparent;\n      background-position: center center;\n      background-repeat: no-repeat;\n      background-size: contain;\n      height: 100%;\n      width: 100%; }\n    .ct-widget .ct-image-dialog__file-upload {\n      cursor: pointer;\n      font-size: 400px;\n      left: 0;\n      opacity: 0;\n      position: absolute;\n      top: 0; }\n  .ct-widget.ct-properties-dialog--attributes .ct-properties-dialog__attributes {\n    display: block; }\n  .ct-widget.ct-properties-dialog--styles .ct-properties-dialog__styles {\n    display: block; }\n    .ct-widget.ct-properties-dialog--styles .ct-properties-dialog__styles:empty:before {\n      color: #a4a4a4;\n      content: attr(data-ct-empty);\n      display: block;\n      font-style: italic;\n      margin-top: 20px;\n      text-align: center; }\n  .ct-widget.ct-properties-dialog--code .ct-properties-dialog__code {\n    display: block; }\n  .ct-widget .ct-properties-dialog {\n    /**\r\n         * The code tab supports an textarea for editing inner HTML.\r\n         */ }\n    .ct-widget .ct-properties-dialog__view {\n      border: 1px solid #ddd;\n      overflow: auto; }\n    .ct-widget .ct-properties-dialog__attributes, .ct-widget .ct-properties-dialog__code, .ct-widget .ct-properties-dialog__styles {\n      display: none; }\n    .ct-widget .ct-properties-dialog__inner-html {\n      border: none;\n      display: block;\n      font-family: courier, \"Bitstream Vera Sans Mono\", Consolas, Courier, monospace;\n      height: 318px;\n      padding: 16px;\n      outline: none;\n      resize: none;\n      width: 100%; }\n      .ct-widget .ct-properties-dialog__inner-html--invalid {\n        color: #DD2C00; }\n  .ct-widget .ct-table-dialog__view {\n    border: 1px solid #ddd;\n    overflow: auto; }\n  .ct-widget .ct-video-dialog__preview:empty {\n    background: #eee;\n    font-family: 'icon';\n    font-size: 80px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    line-height: 320px;\n    text-align: center; }\n    .ct-widget .ct-video-dialog__preview:empty:before {\n      color: white;\n      content: '\\EA98'; }\n  .ct-widget .ct-video-dialog__input {\n    border: none;\n    border-bottom: 1px solid #eee;\n    height: 32px;\n    line-height: 32px;\n    outline: none;\n    padding: 0 4px;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 18px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    vertical-align: top;\n    width: 456px; }\n    .ct-widget .ct-video-dialog__input:focus {\n      border-bottom: 1px solid #e1e1e1; }\n  .ct-widget.ct-anchored-dialog {\n    border-bottom: 2px solid #27ae60;\n    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.35);\n    font-size: 0;\n    height: 34px;\n    left: 0;\n    margin-left: -160px;\n    margin-top: -48px;\n    position: absolute;\n    top: 0;\n    width: 320px;\n    z-index: 10099; }\n    .ct-widget.ct-anchored-dialog:after {\n      border: 16px solid rgba(255, 255, 255, 0);\n      border-top-color: #27ae60;\n      content: '';\n      left: 144px;\n      position: absolute;\n      top: 34px; }\n  .ct-widget .ct-anchored-dialog__input {\n    border: none;\n    color: #646464;\n    height: 32px;\n    outline: none;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 32px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    padding: 0 8px 0 16px;\n    vertical-align: top;\n    width: 256px; }\n  .ct-widget .ct-anchored-dialog__button {\n    background: #00E676;\n    cursor: pointer;\n    display: inline-block;\n    height: 32px;\n    line-height: 32px;\n    text-align: center;\n    font-family: 'icon';\n    font-size: 16px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 32px; }\n    .ct-widget .ct-anchored-dialog__button:before {\n      color: white;\n      content: '\\EA10'; }\n    .ct-widget .ct-anchored-dialog__button:hover {\n      background: #01ff83; }\n  .ct-widget .ct-anchored-dialog__target-button {\n    background: white;\n    cursor: pointer;\n    display: inline-block;\n    height: 32px;\n    line-height: 32px;\n    text-align: center;\n    font-family: 'icon';\n    font-size: 16px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 32px; }\n    .ct-widget .ct-anchored-dialog__target-button:before {\n      color: #a4a4a4;\n      content: '\\EA7D'; }\n    .ct-widget .ct-anchored-dialog__target-button:hover:before {\n      color: #b1b1b1; }\n    .ct-widget .ct-anchored-dialog__target-button--active:before {\n      color: #00E676; }\n    .ct-widget .ct-anchored-dialog__target-button--active:hover:before {\n      color: #01ff83; }\n\n/**\r\n * Flashes are used to display a visual confirmation to the user that an action\r\n * has completed successfully (or failed).\r\n */\n.ct-widget {\n  /**\r\n     * The flash animation displays an icon in the center of the user's screen\r\n     * that flashes into view and then out.\r\n     */\n  /**\r\n     * The flash timer animation is used purely to indicated to the Javascript\r\n     * that created the flash element that the animation has finished.\r\n     */\n  /**\r\n     * The icon that is flashed.\r\n     */ }\n\n@-webkit-keyframes flash {\n  0% {\n    opacity: 0;\n    font-size: 32px;\n    -webkit-transform: font-size; }\n  25% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all; }\n  50% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all; }\n  75% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all; }\n  100% {\n    opacity: 0;\n    -webkit-transform: all; } }\n\n@-moz-keyframes flash {\n  0% {\n    opacity: 0;\n    font-size: 32px;\n    -moz-transform: font-size; }\n  25% {\n    font-size: 320px;\n    opacity: 1;\n    -moz-transform: all; }\n  50% {\n    font-size: 320px;\n    opacity: 1;\n    -moz-transform: all; }\n  75% {\n    font-size: 320px;\n    opacity: 1;\n    -moz-transform: all; }\n  100% {\n    opacity: 0;\n    -moz-transform: all; } }\n\n@keyframes flash {\n  0% {\n    opacity: 0;\n    font-size: 32px;\n    -webkit-transform: font-size;\n    -moz-transform: font-size;\n    -ms-transform: font-size;\n    -o-transform: font-size;\n    transform: font-size; }\n  25% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; }\n  50% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; }\n  75% {\n    font-size: 320px;\n    opacity: 1;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; }\n  100% {\n    opacity: 0;\n    -webkit-transform: all;\n    -moz-transform: all;\n    -ms-transform: all;\n    -o-transform: all;\n    transform: all; } }\n\n@-webkit-keyframes flash-timer {\n  0% {\n    opacity: 1;\n    -webkit-transform: opacity; }\n  99% {\n    opacity: 1;\n    -webkit-transform: opacity; }\n  100% {\n    opacity: 0;\n    -webkit-transform: opacity; } }\n\n@-moz-keyframes flash-timer {\n  0% {\n    opacity: 1;\n    -moz-transform: opacity; }\n  99% {\n    opacity: 1;\n    -moz-transform: opacity; }\n  100% {\n    opacity: 0;\n    -moz-transform: opacity; } }\n\n@keyframes flash-timer {\n  0% {\n    opacity: 1;\n    -webkit-transform: opacity;\n    -moz-transform: opacity;\n    -ms-transform: opacity;\n    -o-transform: opacity;\n    transform: opacity; }\n  99% {\n    opacity: 1;\n    -webkit-transform: opacity;\n    -moz-transform: opacity;\n    -ms-transform: opacity;\n    -o-transform: opacity;\n    transform: opacity; }\n  100% {\n    opacity: 0;\n    -webkit-transform: opacity;\n    -moz-transform: opacity;\n    -ms-transform: opacity;\n    -o-transform: opacity;\n    transform: opacity; } }\n  .ct-widget.ct-flash {\n    color: rgba(255, 255, 255, 0.9);\n    height: 0;\n    left: 0;\n    position: fixed;\n    font-family: 'icon';\n    font-size: 16px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    top: 0;\n    width: 0;\n    z-index: 10999;\n    /**\r\n         * Modifiers that can be applied to the flash to change it's appearance.\r\n         */ }\n    .ct-widget.ct-flash:before {\n      left: 50%;\n      opacity: 0;\n      position: fixed;\n      text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);\n      top: 50%;\n      transform: translate(-50%, -50%); }\n    .ct-widget.ct-flash--active {\n      -webkit-animation: flash-timer 2s ease-in;\n      -moz-animation: flash-timer 2s ease-in;\n      animation: flash-timer 2s ease-in;\n      -webkit-animation-iteration-count: 1;\n      -moz-animation-iteration-count: 1;\n      animation-iteration-count: 1;\n      -webkit-animation-fill-mode: forwards;\n      -moz-animation-fill-mode: forwards;\n      animation-fill-mode: forwards; }\n      .ct-widget.ct-flash--active:before {\n        -webkit-animation: flash 2s ease-in;\n        -moz-animation: flash 2s ease-in;\n        animation: flash 2s ease-in;\n        -webkit-animation-iteration-count: 1;\n        -moz-animation-iteration-count: 1;\n        animation-iteration-count: 1;\n        -webkit-animation-fill-mode: forwards;\n        -moz-animation-fill-mode: forwards;\n        animation-fill-mode: forwards;\n        font-size: 320px;\n        opacity: 1; }\n    .ct-widget.ct-flash--ok:before {\n      content: '\\EA10'; }\n    .ct-widget.ct-flash--no:before {\n      content: '\\EA0F'; }\n\n/**\r\n * Grip's provide a visual hint to the user that they can use the mouse to drag\r\n * an item (for example the toolbar has a grip that can be used to drag it to a\r\n * new location.\r\n */\n.ct-widget .ct-grip {\n  cursor: move;\n  font-size: 0;\n  text-align: center;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  /**\r\n         * Grips consist of one or more bumps, elements that appear to be sunk\r\n         * or raised and therefore provide grip.\r\n         */ }\n  .ct-widget .ct-grip__bump {\n    background: rgba(230, 230, 230, 0.15);\n    border-radius: 12px;\n    display: inline-block;\n    height: 12px;\n    margin-left: 12px;\n    width: 12px; }\n    .ct-widget .ct-grip__bump:first-child {\n      margin-left: 0; }\n\n/**\r\n * The ignition switch is how users start and stop editing the page.\r\n */\n/**\r\n * If the app is performing a remote task that requires the user to wait for\r\n * a response from the server then the ignition may be set to a busy state. The\r\n * busy state uses an animation (a rotating cog) defined below.\r\n */\n@-webkit-keyframes busy-ignition {\n  0% {\n    transform: rotate(0deg);\n    -webkit-transform: transform; }\n  100% {\n    transform: rotate(359deg);\n    -webkit-transform: transform; } }\n\n@-moz-keyframes busy-ignition {\n  0% {\n    transform: rotate(0deg);\n    -moz-transform: transform; }\n  100% {\n    transform: rotate(359deg);\n    -moz-transform: transform; } }\n\n@keyframes busy-ignition {\n  0% {\n    transform: rotate(0deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; }\n  100% {\n    transform: rotate(359deg);\n    -webkit-transform: transform;\n    -moz-transform: transform;\n    -ms-transform: transform;\n    -o-transform: transform;\n    transform: transform; } }\n\n.ct-widget.ct-ignition {\n  /**\r\n         * Position of the switch on the page\r\n         */\n  position: fixed;\n  bottom: 78px;\n  left: 15px;\n  z-index: 1110;\n  /**\r\n         * Depending on the current state of the switch we show either the edit\r\n         * button (page ready to edit), or the confirm and cancel buttons (\r\n         * page currently being edited).\r\n         */ }\n  .ct-widget.ct-ignition .ct-ignition__button {\n    display: none; }\n  .ct-widget.ct-ignition--editing .ct-ignition__button--confirm,\n  .ct-widget.ct-ignition--editing .ct-ignition__button--cancel {\n    display: block; }\n  .ct-widget.ct-ignition--ready .ct-ignition__button--edit {\n    display: block; }\n  .ct-widget.ct-ignition--busy .ct-ignition__button {\n    display: none; }\n    .ct-widget.ct-ignition--busy .ct-ignition__button--busy {\n      display: block; }\n\n.ct-widget .ct-ignition {\n  /**\r\n         * The ignition switch is constructed of 3 buttons, edit, confirm and\r\n         * cancel.\r\n         */ }\n  .ct-widget .ct-ignition__button {\n    border-radius: 28px;\n    content: '';\n    cursor: pointer;\n    display: block;\n    height: 56px;\n    line-height: 56px;\n    opacity: 0.9;\n    position: absolute;\n    text-align: center;\n    font-family: 'icon';\n    font-size: 24px;\n    font-style: normal;\n    font-weight: normal;\n    font-variant: normal;\n    speak: none;\n    text-transform: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 56px;\n    box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;\n    /* Busy button */\n    /* Confirm button */\n    /* Cancel button */\n    /* Edit button */ }\n    .ct-widget .ct-ignition__button:before {\n      color: white; }\n    .ct-widget .ct-ignition__button--busy {\n      -webkit-animation: busy-ignition 5s linear;\n      -moz-animation: busy-ignition 5s linear;\n      animation: busy-ignition 5s linear;\n      -webkit-animation-iteration-count: infinite;\n      -moz-animation-iteration-count: infinite;\n      animation-iteration-count: infinite;\n      -webkit-animation-fill-mode: forwards;\n      -moz-animation-fill-mode: forwards;\n      animation-fill-mode: forwards;\n      background: #E0E0E0;\n      cursor: default; }\n      .ct-widget .ct-ignition__button--busy:before {\n        content: '\\E994'; }\n      .ct-widget .ct-ignition__button--busy:hover {\n        background: #E0E0E0; }\n    .ct-widget .ct-ignition__button--confirm {\n      background: #00E676; }\n      .ct-widget .ct-ignition__button--confirm:before {\n        content: '\\EA10'; }\n      .ct-widget .ct-ignition__button--confirm:hover {\n        background: #01ff83; }\n    .ct-widget .ct-ignition__button--cancel {\n      background: #DD2C00;\n      left: 72px; }\n      .ct-widget .ct-ignition__button--cancel:before {\n        content: '\\EA0F'; }\n      .ct-widget .ct-ignition__button--cancel:hover {\n        background: #f73100; }\n    .ct-widget .ct-ignition__button--edit {\n      background: #3D5AFE;\n      /**\r\n                 * Unlike the confirm and cancel buttons we rotate the edit\r\n                 * button's pencil icon on mouse over to add a sense of\r\n                 * purpose :)\r\n                 */ }\n      .ct-widget .ct-ignition__button--edit:before {\n        content: '\\E905';\n        -webkit-transition-property: -webkit-transform;\n        -moz-transition-property: -moz-transform;\n        transition-property: transform;\n        -webkit-transition-duration: 0.1s;\n        -moz-transition-duration: 0.1s;\n        transition-duration: 0.1s;\n        -webkit-transition-timing-function: ease-in;\n        -moz-transition-timing-function: ease-in;\n        transition-timing-function: ease-in; }\n      .ct-widget .ct-ignition__button--edit:hover {\n        background: #5670fe; }\n        .ct-widget .ct-ignition__button--edit:hover:before {\n          display: inline-block;\n          -webkit-transform: rotate(-15deg);\n          -moz-transform: rotate(-15deg);\n          -ms-transform: rotate(-15deg);\n          -o-transform: rotate(-15deg);\n          transform: rotate(-15deg); }\n\n/**\r\n * The inspector provides a breadcrumb style path (constructured from tags) for\r\n * the currently selected element and its parent/ancestor tags.\r\n *\r\n * Tags can be selected which triggers the properties dialog. This allows\r\n * elements which typically can't be directly selected using the editor to be\r\n * modified.\r\n */\n.ct-widget {\n  /**\r\n     * The inspector bar is consists of a list of one or more tags, each tag\r\n     * represents an element in the lineage between the currently selected\r\n     * element and the top level element it is defined within, e.g for a table\r\n     * division the path might look like this:\r\n     *\r\n     * table > tbody > tr > td\r\n     */ }\n  .ct-widget.ct-inspector {\n    background: rgba(0, 0, 0, 0.2);\n    border-top: 1px solid rgba(26, 26, 26, 0.1);\n    bottom: 0;\n    height: 32px;\n    left: 0;\n    overflow: hidden;\n    padding: 3px 16px 0;\n    position: fixed;\n    width: 100%;\n    z-index: 1108; }\n  .ct-widget .ct-inspector__tags {\n    width: calc(100% - 128px); }\n    .ct-widget .ct-inspector__tags::after {\n      clear: both;\n      content: \"\";\n      display: table; }\n    .ct-widget .ct-inspector__tags:before {\n      color: #e6e6e6;\n      content: '\\EA80';\n      display: block;\n      float: left;\n      height: 24px;\n      line-height: 24px;\n      margin-right: 16px;\n      text-align: center;\n      font-family: 'icon';\n      font-size: 16px;\n      font-style: normal;\n      font-weight: normal;\n      font-variant: normal;\n      speak: none;\n      text-transform: none;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      width: 24px; }\n  .ct-widget .ct-inspector__counter {\n    border-left: 1px solid rgba(0, 0, 0, 0.1);\n    height: 24px;\n    line-height: 24px;\n    margin-right: 16px;\n    position: absolute;\n    right: 0;\n    text-align: right;\n    top: 3px;\n    width: 128px; }\n  .ct-widget .ct-tag {\n    background-color: #03a9f4;\n    border-radius: 2px 0 0 2px;\n    color: white;\n    cursor: pointer;\n    float: left;\n    font-weight: bold;\n    height: 24px;\n    line-height: 24px;\n    margin-left: 24px;\n    padding: 0 8px;\n    position: relative;\n    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35); }\n    .ct-widget .ct-tag:after {\n      border-style: solid;\n      border-bottom: 12px solid rgba(255, 0, 0, 0);\n      border-left: 12px solid #03a9f4;\n      border-right: none;\n      border-top: 12px solid rgba(255, 0, 0, 0);\n      content: '';\n      display: block;\n      height: 24px;\n      bottom: 0;\n      right: -24px;\n      position: absolute;\n      width: 24px;\n      -moz-transform: scale(0.9999); }\n    .ct-widget .ct-tag:first-child {\n      margin-left: 0; }\n    .ct-widget .ct-tag:hover {\n      background-color: #14b4fc; }\n      .ct-widget .ct-tag:hover:after {\n        border-left-color: #14b4fc; }\n    .ct-widget .ct-tag:nth-child(1) {\n      background-color: #03a9f4; }\n      .ct-widget .ct-tag:nth-child(1):after {\n        border-left-color: #03a9f4; }\n      .ct-widget .ct-tag:nth-child(1):hover {\n        background-color: #14b4fc; }\n        .ct-widget .ct-tag:nth-child(1):hover:after {\n          border-left-color: #14b4fc; }\n    .ct-widget .ct-tag:nth-child(2) {\n      background-color: #4caf50; }\n      .ct-widget .ct-tag:nth-child(2):after {\n        border-left-color: #4caf50; }\n      .ct-widget .ct-tag:nth-child(2):hover {\n        background-color: #5cb860; }\n        .ct-widget .ct-tag:nth-child(2):hover:after {\n          border-left-color: #5cb860; }\n    .ct-widget .ct-tag:nth-child(3) {\n      background-color: #009688; }\n      .ct-widget .ct-tag:nth-child(3):after {\n        border-left-color: #009688; }\n      .ct-widget .ct-tag:nth-child(3):hover {\n        background-color: #00b09f; }\n        .ct-widget .ct-tag:nth-child(3):hover:after {\n          border-left-color: #00b09f; }\n    .ct-widget .ct-tag:nth-child(4) {\n      background-color: #ff5722; }\n      .ct-widget .ct-tag:nth-child(4):after {\n        border-left-color: #ff5722; }\n      .ct-widget .ct-tag:nth-child(4):hover {\n        background-color: #ff6a3c; }\n        .ct-widget .ct-tag:nth-child(4):hover:after {\n          border-left-color: #ff6a3c; }\n    .ct-widget .ct-tag:nth-child(5) {\n      background-color: #ff9800; }\n      .ct-widget .ct-tag:nth-child(5):after {\n        border-left-color: #ff9800; }\n      .ct-widget .ct-tag:nth-child(5):hover {\n        background-color: #ffa21a; }\n        .ct-widget .ct-tag:nth-child(5):hover:after {\n          border-left-color: #ffa21a; }\n    .ct-widget .ct-tag:nth-child(6) {\n      background-color: #9c27b0; }\n      .ct-widget .ct-tag:nth-child(6):after {\n        border-left-color: #9c27b0; }\n      .ct-widget .ct-tag:nth-child(6):hover {\n        background-color: #af2cc5; }\n        .ct-widget .ct-tag:nth-child(6):hover:after {\n          border-left-color: #af2cc5; }\n\n/**\r\n * The modal widget provides a layer over the page limiting interaction to just\r\n * the components positioned above the layer. This is commonly used when\r\n * displaying a dialog, for example if we're editing a table's properties then\r\n * the modal ensures the user can't change the element selected on the page\r\n * while the dialog is open.\r\n */\n.ct-widget.ct-modal {\n  background: rgba(0, 0, 0, 0.7);\n  height: 0;\n  left: 0;\n  position: fixed;\n  top: 0;\n  width: 0;\n  z-index: 10009; }\n  .ct-widget.ct-modal--transparent {\n    background: transparent; }\n\n.ct-widget--active.ct-modal {\n  height: 100%;\n  width: 100%; }\n\n/**\r\n * The progress bar appears in dialogs (such as the image dialog) and provides\r\n * feedback to the user on a task (such as uploading an image).\r\n */\n.ct-widget .ct-progress-bar {\n  border: 1px solid #eee;\n  height: 32px;\n  line-height: 32px;\n  padding: 1px;\n  width: 456px;\n  /**\r\n         * Note: The width of the progress bar should be set (as a percentage)\r\n         * programatially, e.g `progressBarDOM.style.width = '50%'`.\r\n         */ }\n  .ct-widget .ct-progress-bar__progress {\n    background: #2980b9;\n    height: 28px; }\n\n/**\r\n * Sections are used to divide up configuration blocks within a dialog's view.\r\n * They contain wither a switch or an input, for example the table dialog has\r\n * header (switch), body (input - e.g number of columns) and footer (switch)\r\n * sections.\r\n */\n.ct-widget .ct-section {\n  border-bottom: 1px solid #eee;\n  color: #bdbdbd;\n  cursor: pointer;\n  font-style: italic;\n  height: 48px;\n  padding: 0 16px;\n  font-family: arial, sans-serif;\n  font-size: 16px;\n  line-height: 48px;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  /**\r\n         * If the section is a switch then the `applied` modifier is set when\r\n         * the switch is on.\r\n         */\n  /**\r\n         * If the section contains an input field the `contains-input` modifier\r\n         * is set.\r\n         */\n  /**\r\n         * Each section has a label describing the purpose of the switch or\r\n         * input within the section.\r\n         */ }\n  .ct-widget .ct-section::after {\n    clear: both;\n    content: \"\";\n    display: table; }\n  .ct-widget .ct-section:hover {\n    background: #f6f6f6; }\n  .ct-widget .ct-section--applied {\n    color: #646464;\n    font-style: normal; }\n    .ct-widget .ct-section--applied .ct-section__switch {\n      background-color: #27ae60;\n      border: 1px solid #1e8449; }\n      .ct-widget .ct-section--applied .ct-section__switch:before {\n        left: 25px;\n        -webkit-transition-property: left;\n        -moz-transition-property: left;\n        transition-property: left;\n        -webkit-transition-duration: 0.1s;\n        -moz-transition-duration: 0.1s;\n        transition-duration: 0.1s;\n        -webkit-transition-timing-function: ease-in;\n        -moz-transition-timing-function: ease-in;\n        transition-timing-function: ease-in; }\n  .ct-widget .ct-section--contains-input .ct-section__label {\n    width: 75%; }\n  .ct-widget .ct-section__label {\n    float: left;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    width: 472px;\n    white-space: nowrap; }\n  .ct-widget .ct-section__switch {\n    background-color: #ccc;\n    border: 1px solid #b3b3b3;\n    border-radius: 12px;\n    box-shadow: inset 0px 0 2px rgba(0, 0, 0, 0.1);\n    float: right;\n    height: 24px;\n    margin-top: 12px;\n    position: relative;\n    width: 48px; }\n    .ct-widget .ct-section__switch:before {\n      background: white;\n      border-radius: 10px;\n      content: '';\n      height: 20px;\n      left: 1px;\n      position: absolute;\n      top: 1px;\n      -webkit-transition-property: left;\n      -moz-transition-property: left;\n      transition-property: left;\n      -webkit-transition-duration: 0.1s;\n      -moz-transition-duration: 0.1s;\n      transition-duration: 0.1s;\n      -webkit-transition-timing-function: ease-in;\n      -moz-transition-timing-function: ease-in;\n      transition-timing-function: ease-in;\n      width: 20px; }\n  .ct-widget .ct-section__input {\n    background: white;\n    border: none;\n    color: #646464;\n    float: right;\n    height: 47px;\n    outline: none;\n    padding: 0 16px;\n    text-align: right;\n    font-family: arial, sans-serif;\n    font-size: 14px;\n    line-height: 48px;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    width: 25%;\n    /**\r\n             * If the contents of the sections input is invalid then the\r\n             * `invalid` modifier is set against the input (programmatically).\r\n             */ }\n    .ct-widget .ct-section__input--invalid {\n      color: #DD2C00; }\n\n/**\r\n * The toolbox widget displays a set of tools the user can use to edit the\r\n * content of the page.\r\n */\n.ct-widget {\n  /**\r\n     * Define the spacing for the toolbox:\r\n     *\r\n     * spacing / 1 = the padding around the contents of the toolbox.\r\n     * spacing / 1 = the vertical padding around the toolbox's grip.\r\n     * spacing / 2 = the margin between each tool.\r\n     * spacing / 2 = the vertical padding around each tool group.\r\n     */\n  /**\r\n     * The size of a tool.\r\n     */\n  /**\r\n     * The grip is positioned at the top of the toolbox. If the user clicks and\r\n     * holds the mouse down whilst over the grip then the toolbox will be\r\n     * draggable until they release the mouse button.\r\n     */\n  /**\r\n     * Tools are organized into groups of related tools.\r\n     */\n  /**\r\n     * The toolbox features a set of tools for editing the page content.\r\n     */ }\n  .ct-widget.ct-toolbox {\n    /**\r\n         * The position of the toolbox is typically determined by the position\r\n         * the user last placed it (this information is stored in local\r\n         * storage). However we set a default position for the first time the\r\n         * toolbox is displayed.\r\n         */\n    background: #212121;\n    border: 1px solid rgba(59, 59, 59, 0.5);\n    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.35);\n    left: 128px;\n    padding: 8px;\n    position: fixed;\n    top: 128px;\n    width: 138px;\n    /**\r\n         * When the toolbox is being dragged to a new position by the user the\r\n         * dragging modifier is applied. Whilst being dragged we reduce the\r\n         * opacity of the toolbox to make it easier for the user to see the\r\n         * content being dragged over.\r\n         */ }\n    .ct-widget.ct-toolbox--dragging {\n      opacity: 0.5; }\n  .ct-widget .ct-toolbox__grip {\n    padding: 8px 0; }\n  .ct-widget .ct-tool-group {\n    /**\r\n         * Tools are floated to align horizontally so each group must clear its\r\n         * children.\r\n         */\n    padding: 4px 0; }\n    .ct-widget .ct-tool-group::after {\n      clear: both;\n      content: \"\";\n      display: table; }\n    .ct-widget .ct-tool-group:first-child {\n      padding-top: 0; }\n  .ct-widget .ct-tool {\n    border-radius: 2px;\n    color: #e6e6e6;\n    cursor: pointer;\n    float: left;\n    height: 32px;\n    margin: 4px;\n    margin-right: 4px;\n    position: relative;\n    text-align: center;\n    font-family: 'Material Icons';\n    width: 32px;\n    /**\r\n         * Tools are displayed in rows of 3 so re remove margin from the last\r\n         * (3rd) tool in every row.\r\n         */\n    /**\r\n         * The following modifiers reflect the state of the tool.\r\n         */\n    /**\r\n         * The tools is currently disabled and cannot be selected (the hover\r\n         * style is also disabled).\r\n         */\n    /**\r\n         * The button has been clicked on and the mouse button is still in the\r\n         * down state.\r\n         */\n    /**\r\n         * The tool is currently applied to the selected element, and if there\r\n         * is one text selection.\r\n         */\n    /**\r\n         * Each of the modifiers below sets the content of the puesdo before\r\n         * element to match the required icon. The list is ordered by the\r\n         * position each tool in the default toolbox (as opposed to\r\n         * alphabetically).\r\n         */ }\n    .ct-widget .ct-tool:after {\n      background: black;\n      border-radius: 2px;\n      color: white;\n      content: attr(data-ct-tooltip);\n      display: block;\n      -webkit-hyphens: auto;\n      -moz-hyphens: auto;\n      -ms-hyphens: auto;\n      hyphens: auto;\n      left: -26.5px;\n      line-height: 20px;\n      opacity: 0.0;\n      padding: 0 8px;\n      position: absolute;\n      bottom: 37px;\n      font-family: arial, sans-serif;\n      font-size: 12px;\n      line-height: 20px;\n      -webkit-font-smoothing: antialiased;\n      -moz-osx-font-smoothing: grayscale;\n      visibility: hidden;\n      width: 85px;\n      word-break: break-word; }\n    .ct-widget .ct-tool:hover:after {\n      opacity: 0.8;\n      visibility: visible;\n      -webkit-transition-property: opacity;\n      -moz-transition-property: opacity;\n      transition-property: opacity;\n      -webkit-transition-duration: 0s;\n      -moz-transition-duration: 0s;\n      transition-duration: 0s;\n      -webkit-transition-timing-function: ease-in;\n      -moz-transition-timing-function: ease-in;\n      transition-timing-function: ease-in;\n      -webkit-transition-delay: 2s;\n      -moz-transition-delay: 2s;\n      transition-delay: 2s; }\n    .ct-widget .ct-tool:before {\n      line-height: 32px;\n      font-size: 20px; }\n    .ct-widget .ct-tool:nth-child(3n) {\n      margin-right: 0; }\n    .ct-widget .ct-tool:hover {\n      background: rgba(255, 255, 255, 0.5); }\n    .ct-widget .ct-tool--disabled {\n      color: rgba(230, 230, 230, 0.33); }\n      .ct-widget .ct-tool--disabled:hover {\n        background: transparent; }\n    .ct-widget .ct-tool--down {\n      background: rgba(0, 0, 0, 0.025);\n      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);\n      line-height: 34px; }\n      .ct-widget .ct-tool--down:hover {\n        background: rgba(0, 0, 0, 0.025); }\n    .ct-widget .ct-tool--applied {\n      background: rgba(0, 0, 0, 0.1);\n      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25); }\n      .ct-widget .ct-tool--applied:hover {\n        background: rgba(0, 0, 0, 0.15); }\n    .ct-widget .ct-tool--bold:before {\n      content: \"\\E238\"; }\n    .ct-widget .ct-tool--heading:before {\n      content: \"H\";\n      font-weight: bold; }\n    .ct-widget .ct-tool--subheading:before {\n      content: \"H\"; }\n    .ct-widget .ct-tool--paragraph:before {\n      content: \"P\"; }\n    .ct-widget .ct-tool--preformatted:before {\n      content: \"\\E86F\"; }\n    .ct-widget .ct-tool--italic:before {\n      content: \"\\E23F\"; }\n    .ct-widget .ct-tool--link:before {\n      content: \"\\E250\"; }\n    .ct-widget .ct-tool--align-left:before {\n      content: \"\\E236\"; }\n    .ct-widget .ct-tool--align-center:before {\n      content: \"\\E234\"; }\n    .ct-widget .ct-tool--align-right:before {\n      content: \"\\E237\"; }\n    .ct-widget .ct-tool--unordered-list:before {\n      content: \"\\E241\"; }\n    .ct-widget .ct-tool--ordered-list:before {\n      content: \"\\E242\"; }\n    .ct-widget .ct-tool--table:before {\n      content: \"\\E228\"; }\n    .ct-widget .ct-tool--indent:before {\n      content: \"\\E23E\"; }\n    .ct-widget .ct-tool--unindent:before {\n      content: \"\\E23D\"; }\n    .ct-widget .ct-tool--line-break:before {\n      content: \"\\E25B\"; }\n    .ct-widget .ct-tool--image:before {\n      content: \"\\E251\"; }\n    .ct-widget .ct-tool--video:before {\n      content: \"\\E63A\"; }\n    .ct-widget .ct-tool--undo:before {\n      content: \"\\E166\"; }\n    .ct-widget .ct-tool--redo:before {\n      content: \"\\E15A\"; }\n    .ct-widget .ct-tool--remove:before {\n      content: \"\\E872\"; }\n    .ct-widget .ct-tool--quote:before {\n      content: \"\\E244\"; }\n\n@media (max-width: 600px) {\n  .ct-widget.ct-toolbox {\n    width: 56px;\n    left: 0;\n    top: 56px; }\n  .ct-toolbox__grip {\n    display: none; } }\n\n/**\r\n * The highlight class below is used to highlight editable regions within the\r\n * page to users to help them see what they can edit. It's slightly unusual in\r\n * that it's specified as a modifier of `ct`.\r\n */\n@-webkit-keyframes highlight {\n  0% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color; }\n  25% {\n    outline-color: transparent;\n    -webkit-transform: background-color; }\n  50% {\n    outline-color: transparent;\n    -webkit-transform: background-color; }\n  100% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color; } }\n\n@-moz-keyframes highlight {\n  0% {\n    outline-color: rgba(255, 255, 255, 0);\n    -moz-transform: background-color; }\n  25% {\n    outline-color: transparent;\n    -moz-transform: background-color; }\n  50% {\n    outline-color: transparent;\n    -moz-transform: background-color; }\n  100% {\n    outline-color: rgba(255, 255, 255, 0);\n    -moz-transform: background-color; } }\n\n@keyframes highlight {\n  0% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; }\n  25% {\n    outline-color: transparent;\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; }\n  50% {\n    outline-color: transparent;\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; }\n  100% {\n    outline-color: rgba(255, 255, 255, 0);\n    -webkit-transform: background-color;\n    -moz-transform: background-color;\n    -ms-transform: background-color;\n    -o-transform: background-color;\n    transform: background-color; } }\n\n.ct-app {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n  .ct-app *, .ct-app *:before, .ct-app *:after {\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box; }\n\n.ct--highlight {\n  outline: 4px solid transparent;\n  -webkit-animation: highlight 0.5s ease-in;\n  -moz-animation: highlight 0.5s ease-in;\n  animation: highlight 0.5s ease-in;\n  -webkit-animation-iteration-count: infinite;\n  -moz-animation-iteration-count: infinite;\n  animation-iteration-count: infinite;\n  -webkit-animation-fill-mode: forwards;\n  -moz-animation-fill-mode: forwards;\n  animation-fill-mode: forwards; }\n\n/**\r\n * When applied to the `body` this class prevents the page from scrolling. This\r\n * can be a useful trait when overlaying content such as a dialog where\r\n * scrolling is either undesirable or relevant only to the overlayed content.\r\n */\n.ct--no-scroll {\n  overflow: hidden; }\n\n/**\r\n * Sometimes it necessary to take focus from an element such as when asking a\r\n * user to provide a URL for a link. To provide an indication of the element's\r\n * selection before focus was list this class can be applied to a `span`\r\n * surrounding the element's selection.\r\n *\r\n * Once focus is returned to the element the class should be removed.\r\n */\n.ct--puesdo-select {\n  background: rgba(0, 0, 0, 0.1); }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 639 */
+/* 642 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "31bf577541d953d10e2c0d342bb79a94.svg";
 
 /***/ },
-/* 640 */
+/* 643 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "7c4d955cab3412faa2765ff202c58c4e.svg";
 
 /***/ },
-/* 641 */
+/* 644 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "10301ec071c4c0158874667d3c2512c1.svg";
 
 /***/ },
-/* 642 */
+/* 645 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "eea87609308f0f6e0e0eb570d15657f1.svg";
 
 /***/ },
-/* 643 */
+/* 646 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "8ffad8ecb97689fdf1865fe16856871e.woff";
 
 /***/ },
-/* 644 */
+/* 647 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48702,7 +48740,7 @@
 	});
 	exports.default = undefined;
 
-	var _Toggle = __webpack_require__(645);
+	var _Toggle = __webpack_require__(648);
 
 	var _Toggle2 = _interopRequireDefault(_Toggle);
 
@@ -48711,7 +48749,7 @@
 	exports.default = _Toggle2.default;
 
 /***/ },
-/* 645 */
+/* 648 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48740,7 +48778,7 @@
 
 	var _Paper2 = _interopRequireDefault(_Paper);
 
-	var _EnhancedSwitch = __webpack_require__(646);
+	var _EnhancedSwitch = __webpack_require__(649);
 
 	var _EnhancedSwitch2 = _interopRequireDefault(_EnhancedSwitch);
 
@@ -49014,7 +49052,7 @@
 	exports.default = Toggle;
 
 /***/ },
-/* 646 */
+/* 649 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49457,7 +49495,7 @@
 	exports.default = EnhancedSwitch;
 
 /***/ },
-/* 647 */
+/* 650 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49476,7 +49514,7 @@
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _EditDrawer = __webpack_require__(648);
+	var _EditDrawer = __webpack_require__(651);
 
 	var _EditDrawer2 = _interopRequireDefault(_EditDrawer);
 
@@ -49484,23 +49522,23 @@
 
 	var _Drawer2 = _interopRequireDefault(_Drawer);
 
-	var _AppBar = __webpack_require__(463);
+	var _AppBar = __webpack_require__(465);
 
 	var _AppBar2 = _interopRequireDefault(_AppBar);
 
-	var _FloatingActionButton = __webpack_require__(445);
+	var _FloatingActionButton = __webpack_require__(447);
 
 	var _FloatingActionButton2 = _interopRequireDefault(_FloatingActionButton);
 
-	var _settings = __webpack_require__(627);
+	var _settings = __webpack_require__(630);
 
 	var _settings2 = _interopRequireDefault(_settings);
 
-	var _IconButton = __webpack_require__(341);
+	var _IconButton = __webpack_require__(342);
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
-	var _close = __webpack_require__(650);
+	var _close = __webpack_require__(653);
 
 	var _close2 = _interopRequireDefault(_close);
 
@@ -49581,11 +49619,11 @@
 	exports.default = (0, _withStyles2.default)(_EditDrawer2.default)(EditDrawer);
 
 /***/ },
-/* 648 */
+/* 651 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(649);
+	    var content = __webpack_require__(652);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -49598,7 +49636,7 @@
 	  
 
 /***/ },
-/* 649 */
+/* 652 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -49612,7 +49650,7 @@
 
 
 /***/ },
-/* 650 */
+/* 653 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49649,7 +49687,7 @@
 	exports.default = NavigationClose;
 
 /***/ },
-/* 651 */
+/* 654 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49664,11 +49702,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _DropDownMenu = __webpack_require__(652);
+	var _DropDownMenu = __webpack_require__(655);
 
 	var _DropDownMenu2 = _interopRequireDefault(_DropDownMenu);
 
-	var _MenuItem = __webpack_require__(325);
+	var _MenuItem = __webpack_require__(326);
 
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
@@ -49736,7 +49774,7 @@
 	exports.default = TemplateDropDown;
 
 /***/ },
-/* 652 */
+/* 655 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49746,11 +49784,11 @@
 	});
 	exports.default = exports.MenuItem = exports.DropDownMenu = undefined;
 
-	var _DropDownMenu2 = __webpack_require__(653);
+	var _DropDownMenu2 = __webpack_require__(656);
 
 	var _DropDownMenu3 = _interopRequireDefault(_DropDownMenu2);
 
-	var _MenuItem2 = __webpack_require__(326);
+	var _MenuItem2 = __webpack_require__(327);
 
 	var _MenuItem3 = _interopRequireDefault(_MenuItem2);
 
@@ -49761,7 +49799,7 @@
 	exports.default = _DropDownMenu3.default;
 
 /***/ },
-/* 653 */
+/* 656 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49786,23 +49824,23 @@
 
 	var _transitions2 = _interopRequireDefault(_transitions);
 
-	var _arrowDropDown = __webpack_require__(654);
+	var _arrowDropDown = __webpack_require__(657);
 
 	var _arrowDropDown2 = _interopRequireDefault(_arrowDropDown);
 
-	var _Menu = __webpack_require__(352);
+	var _Menu = __webpack_require__(353);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _ClearFix = __webpack_require__(655);
+	var _ClearFix = __webpack_require__(658);
 
 	var _ClearFix2 = _interopRequireDefault(_ClearFix);
 
-	var _Popover = __webpack_require__(327);
+	var _Popover = __webpack_require__(328);
 
 	var _Popover2 = _interopRequireDefault(_Popover);
 
-	var _PopoverAnimationVertical = __webpack_require__(657);
+	var _PopoverAnimationVertical = __webpack_require__(660);
 
 	var _PopoverAnimationVertical2 = _interopRequireDefault(_PopoverAnimationVertical);
 
@@ -50167,7 +50205,7 @@
 	exports.default = DropDownMenu;
 
 /***/ },
-/* 654 */
+/* 657 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50204,7 +50242,7 @@
 	exports.default = NavigationArrowDropDown;
 
 /***/ },
-/* 655 */
+/* 658 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50219,7 +50257,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _BeforeAfterWrapper = __webpack_require__(656);
+	var _BeforeAfterWrapper = __webpack_require__(659);
 
 	var _BeforeAfterWrapper2 = _interopRequireDefault(_BeforeAfterWrapper);
 
@@ -50269,7 +50307,7 @@
 	exports.default = ClearFix;
 
 /***/ },
-/* 656 */
+/* 659 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50414,7 +50452,7 @@
 	exports.default = BeforeAfterWrapper;
 
 /***/ },
-/* 657 */
+/* 660 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50551,7 +50589,7 @@
 	exports.default = PopoverAnimationVertical;
 
 /***/ },
-/* 658 */
+/* 661 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50566,43 +50604,43 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	var _withStyles = __webpack_require__(205);
 
 	var _withStyles2 = _interopRequireDefault(_withStyles);
 
-	var _reactRouterRedux = __webpack_require__(454);
+	var _reactRouterRedux = __webpack_require__(456);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _Editor = __webpack_require__(634);
+	var _Editor = __webpack_require__(637);
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _contentTools = __webpack_require__(637);
+	var _contentTools = __webpack_require__(640);
 
 	var _contentTools2 = _interopRequireDefault(_contentTools);
 
-	var _Card = __webpack_require__(659);
+	var _Card = __webpack_require__(662);
 
 	var _Card2 = _interopRequireDefault(_Card);
 
-	var _EditDrawer = __webpack_require__(647);
+	var _EditDrawer = __webpack_require__(650);
 
 	var _EditDrawer2 = _interopRequireDefault(_EditDrawer);
 
-	var _TemplateDropDown = __webpack_require__(651);
+	var _TemplateDropDown = __webpack_require__(654);
 
 	var _TemplateDropDown2 = _interopRequireDefault(_TemplateDropDown);
 
-	var _Snackbar = __webpack_require__(393);
+	var _Snackbar = __webpack_require__(395);
 
 	var _Snackbar2 = _interopRequireDefault(_Snackbar);
 
-	var _RadioButton = __webpack_require__(662);
+	var _RadioButton = __webpack_require__(667);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50923,7 +50961,7 @@
 	exports.default = (0, _withStyles2.default)(_contentTools2.default)((0, _reactRedux.connect)(null, mapDispatchToProps)(CardEdit));
 
 /***/ },
-/* 659 */
+/* 662 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -50938,7 +50976,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Card = __webpack_require__(660);
+	var _Card = __webpack_require__(663);
 
 	var _Card2 = _interopRequireDefault(_Card);
 
@@ -51105,11 +51143,11 @@
 	exports.default = (0, _withStyles2.default)(_Card2.default)(Card);
 
 /***/ },
-/* 660 */
+/* 663 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(661);
+	    var content = __webpack_require__(664);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -51122,7 +51160,7 @@
 	  
 
 /***/ },
-/* 661 */
+/* 664 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -51130,13 +51168,25 @@
 
 
 	// module
-	exports.push([module.id, ".admin-container {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.card {\n  width: 370px;\n  height: 270px;\n  position: relative;\n  perspective: 500px;\n  will-change: transform; }\n  .card.basic .front, .card.basic .back {\n    border: 2px solid #e6e6e6;\n    background: #252429; }\n  .card.latin .front {\n    font-size: 1.4em;\n    background: #ae7959; }\n  .card.latin .back {\n    background: #0a0a0a; }\n  .card .align-right {\n    float: right;\n    margin-left: 15px; }\n  .card .align-left {\n    float: left;\n    margin-right: 15px; }\n  .card .front, .card .back {\n    backface-visibility: hidden;\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    border-radius: 3px;\n    overflow: hidden;\n    padding: 15px; }\n  .card .back {\n    transform: rotateY(180deg); }\n  .card .umbra,\n  .card .penumbra {\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    top: 0;\n    left: 0;\n    backface-visibility: visible; }\n  .card .umbra {\n    width: 410px;\n    height: 310px;\n    top: -5px;\n    left: -5px;\n    background: url(\"/images/umbra.svg\") center center no-repeat;\n    transform: translateY(2px);\n    opacity: 0.3; }\n  .card .penumbra {\n    width: 470px;\n    height: 370px;\n    top: -35px;\n    left: -35px;\n    background: url(\"/images/penumbra.svg\") center center no-repeat;\n    transform: translateY(2px);\n    opacity: 0; }\n  .card:after {\n    content: '';\n    display: block;\n    clear: both; }\n", ""]);
+	exports.push([module.id, ".admin-container {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.card {\n  width: 370px;\n  height: 270px;\n  position: relative;\n  perspective: 500px;\n  will-change: transform; }\n  .card.basic .front, .card.basic .back {\n    border: 2px solid #e6e6e6;\n    background: #252429; }\n  .card.latin .front {\n    font-size: 1.4em;\n    background: #ae7959; }\n  .card.latin .back {\n    background: #0a0a0a; }\n  .card .align-right {\n    float: right;\n    margin-left: 15px; }\n  .card .align-left {\n    float: left;\n    margin-right: 15px; }\n  .card .front, .card .back {\n    backface-visibility: hidden;\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    border-radius: 3px;\n    overflow: hidden;\n    padding: 15px; }\n  .card .back {\n    transform: rotateY(180deg); }\n  .card .umbra,\n  .card .penumbra {\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    top: 0;\n    left: 0;\n    backface-visibility: visible; }\n  .card .umbra {\n    width: 410px;\n    height: 310px;\n    top: -5px;\n    left: -5px;\n    background: url(" + __webpack_require__(665) + ") center center no-repeat;\n    transform: translateY(2px);\n    opacity: 0.3; }\n  .card .penumbra {\n    width: 470px;\n    height: 370px;\n    top: -35px;\n    left: -35px;\n    background: url(" + __webpack_require__(666) + ") center center no-repeat;\n    transform: translateY(2px);\n    opacity: 0; }\n  .card:after {\n    content: '';\n    display: block;\n    clear: both; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 662 */
+/* 665 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "19fb5f335fc5c73c898b6456f2af8129.svg";
+
+/***/ },
+/* 666 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "5109506b63913bbec6ed24087e7aaf59.svg";
+
+/***/ },
+/* 667 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51146,11 +51196,11 @@
 	});
 	exports.default = exports.RadioButtonGroup = exports.RadioButton = undefined;
 
-	var _RadioButton2 = __webpack_require__(663);
+	var _RadioButton2 = __webpack_require__(668);
 
 	var _RadioButton3 = _interopRequireDefault(_RadioButton2);
 
-	var _RadioButtonGroup2 = __webpack_require__(666);
+	var _RadioButtonGroup2 = __webpack_require__(671);
 
 	var _RadioButtonGroup3 = _interopRequireDefault(_RadioButtonGroup2);
 
@@ -51161,7 +51211,7 @@
 	exports.default = _RadioButton3.default;
 
 /***/ },
-/* 663 */
+/* 668 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51186,15 +51236,15 @@
 
 	var _transitions2 = _interopRequireDefault(_transitions);
 
-	var _EnhancedSwitch = __webpack_require__(646);
+	var _EnhancedSwitch = __webpack_require__(649);
 
 	var _EnhancedSwitch2 = _interopRequireDefault(_EnhancedSwitch);
 
-	var _radioButtonUnchecked = __webpack_require__(664);
+	var _radioButtonUnchecked = __webpack_require__(669);
 
 	var _radioButtonUnchecked2 = _interopRequireDefault(_radioButtonUnchecked);
 
-	var _radioButtonChecked = __webpack_require__(665);
+	var _radioButtonChecked = __webpack_require__(670);
 
 	var _radioButtonChecked2 = _interopRequireDefault(_radioButtonChecked);
 
@@ -51424,7 +51474,7 @@
 	exports.default = RadioButton;
 
 /***/ },
-/* 664 */
+/* 669 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51461,7 +51511,7 @@
 	exports.default = ToggleRadioButtonUnchecked;
 
 /***/ },
-/* 665 */
+/* 670 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51498,7 +51548,7 @@
 	exports.default = ToggleRadioButtonChecked;
 
 /***/ },
-/* 666 */
+/* 671 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51519,7 +51569,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _RadioButton = __webpack_require__(662);
+	var _RadioButton = __webpack_require__(667);
 
 	var _RadioButton2 = _interopRequireDefault(_RadioButton);
 
@@ -51713,7 +51763,7 @@
 	exports.default = RadioButtonGroup;
 
 /***/ },
-/* 667 */
+/* 672 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51726,7 +51776,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SpeedDial = __webpack_require__(442);
+	var _SpeedDial = __webpack_require__(444);
 
 	var _SpeedDial2 = _interopRequireDefault(_SpeedDial);
 
@@ -51761,7 +51811,7 @@
 	exports.default = (0, _withStyles2.default)(_FrontendPage2.default)(EditPageLayout);
 
 /***/ },
-/* 668 */
+/* 673 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51770,9 +51820,9 @@
 	  value: true
 	});
 
-	var _ResourcePageHelper = __webpack_require__(632);
+	var _ResourcePageHelper = __webpack_require__(635);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	var New = function New(props) {
 	  return (0, _ResourcePageHelper.getEditorContent)('new', props.resourceNameSingular, props.resourceNamePlural, props.params.resourceId);
@@ -51787,7 +51837,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(New);
 
 /***/ },
-/* 669 */
+/* 674 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51802,25 +51852,25 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResourceForm = __webpack_require__(420);
+	var _ResourceForm = __webpack_require__(422);
 
 	var _ResourceForm2 = _interopRequireDefault(_ResourceForm);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _AdminLayout = __webpack_require__(441);
+	var _AdminLayout = __webpack_require__(443);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
-	var _Tabs = __webpack_require__(670);
+	var _Tabs = __webpack_require__(675);
 
-	var _RolesList = __webpack_require__(675);
+	var _RolesList = __webpack_require__(680);
 
 	var _RolesList2 = _interopRequireDefault(_RolesList);
 
-	var _StringHelper = __webpack_require__(479);
+	var _StringHelper = __webpack_require__(482);
 
-	var _ResourceHelper = __webpack_require__(421);
+	var _ResourceHelper = __webpack_require__(423);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52033,7 +52083,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Edit);
 
 /***/ },
-/* 670 */
+/* 675 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52043,11 +52093,11 @@
 	});
 	exports.default = exports.Tabs = exports.Tab = undefined;
 
-	var _Tab2 = __webpack_require__(671);
+	var _Tab2 = __webpack_require__(676);
 
 	var _Tab3 = _interopRequireDefault(_Tab2);
 
-	var _Tabs2 = __webpack_require__(672);
+	var _Tabs2 = __webpack_require__(677);
 
 	var _Tabs3 = _interopRequireDefault(_Tabs2);
 
@@ -52058,7 +52108,7 @@
 	exports.default = _Tabs3.default;
 
 /***/ },
-/* 671 */
+/* 676 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52254,7 +52304,7 @@
 	exports.default = Tab;
 
 /***/ },
-/* 672 */
+/* 677 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52279,11 +52329,11 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _TabTemplate = __webpack_require__(673);
+	var _TabTemplate = __webpack_require__(678);
 
 	var _TabTemplate2 = _interopRequireDefault(_TabTemplate);
 
-	var _InkBar = __webpack_require__(674);
+	var _InkBar = __webpack_require__(679);
 
 	var _InkBar2 = _interopRequireDefault(_InkBar);
 
@@ -52560,7 +52610,7 @@
 	exports.default = Tabs;
 
 /***/ },
-/* 673 */
+/* 678 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52624,7 +52674,7 @@
 	exports.default = TabTemplate;
 
 /***/ },
-/* 674 */
+/* 679 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52713,7 +52763,7 @@
 	exports.default = InkBar;
 
 /***/ },
-/* 675 */
+/* 680 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52728,13 +52778,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _RadioButton = __webpack_require__(662);
+	var _RadioButton = __webpack_require__(667);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52872,7 +52922,7 @@
 	exports.default = (0, _reactRedux.connect)()(RolesList);
 
 /***/ },
-/* 676 */
+/* 681 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52887,29 +52937,29 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ResourceForm = __webpack_require__(420);
+	var _ResourceForm = __webpack_require__(422);
 
 	var _ResourceForm2 = _interopRequireDefault(_ResourceForm);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _AdminLayout = __webpack_require__(441);
+	var _AdminLayout = __webpack_require__(443);
 
 	var _AdminLayout2 = _interopRequireDefault(_AdminLayout);
 
-	var _Tabs = __webpack_require__(670);
+	var _Tabs = __webpack_require__(675);
 
-	var _PermissionsList = __webpack_require__(677);
+	var _PermissionsList = __webpack_require__(682);
 
 	var _PermissionsList2 = _interopRequireDefault(_PermissionsList);
 
-	var _PermissionsInstructions = __webpack_require__(679);
+	var _PermissionsInstructions = __webpack_require__(684);
 
 	var _PermissionsInstructions2 = _interopRequireDefault(_PermissionsInstructions);
 
-	var _StringHelper = __webpack_require__(479);
+	var _StringHelper = __webpack_require__(482);
 
-	var _ResourceHelper = __webpack_require__(421);
+	var _ResourceHelper = __webpack_require__(423);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53121,7 +53171,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Edit);
 
 /***/ },
-/* 677 */
+/* 682 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53136,17 +53186,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Toggle = __webpack_require__(644);
+	var _Toggle = __webpack_require__(647);
 
 	var _Toggle2 = _interopRequireDefault(_Toggle);
 
-	var _requests = __webpack_require__(391);
+	var _requests = __webpack_require__(393);
 
 	var _requests2 = _interopRequireDefault(_requests);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _lodash = __webpack_require__(678);
+	var _lodash = __webpack_require__(683);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -53311,13 +53361,13 @@
 	exports.default = (0, _reactRedux.connect)()(PermissionsList);
 
 /***/ },
-/* 678 */
+/* 683 */
 /***/ function(module, exports) {
 
 	module.exports = require("lodash.findindex");
 
 /***/ },
-/* 679 */
+/* 684 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53330,9 +53380,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(358);
+	var _reactRedux = __webpack_require__(360);
 
-	var _colors = __webpack_require__(401);
+	var _colors = __webpack_require__(403);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53377,7 +53427,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(PermissionsInstructions);
 
 /***/ },
-/* 680 */
+/* 685 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53390,7 +53440,7 @@
 
 	var _react = __webpack_require__(4);
 
-	var _getMuiTheme = __webpack_require__(485);
+	var _getMuiTheme = __webpack_require__(488);
 
 	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
 
@@ -53438,7 +53488,7 @@
 	exports.default = MuiThemeProvider;
 
 /***/ },
-/* 681 */
+/* 686 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53453,7 +53503,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _App = __webpack_require__(682);
+	var _App = __webpack_require__(687);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -53520,11 +53570,11 @@
 	exports.default = ContextProvider;
 
 /***/ },
-/* 682 */
+/* 687 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    var content = __webpack_require__(683);
+	    var content = __webpack_require__(688);
 	    var insertCss = __webpack_require__(296);
 
 	    if (typeof content === 'string') {
@@ -53537,7 +53587,7 @@
 	  
 
 /***/ },
-/* 683 */
+/* 688 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(295)();
@@ -53551,13 +53601,13 @@
 
 
 /***/ },
-/* 684 */
+/* 689 */
 /***/ function(module, exports) {
 
 	module.exports = require("redux-saga");
 
 /***/ },
-/* 685 */
+/* 690 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53567,27 +53617,27 @@
 	});
 	exports.default = rootSaga;
 
-	var _logout = __webpack_require__(686);
+	var _logout = __webpack_require__(691);
 
 	var _logout2 = _interopRequireDefault(_logout);
 
-	var _login = __webpack_require__(691);
+	var _login = __webpack_require__(696);
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _tokenUpdated = __webpack_require__(692);
+	var _tokenUpdated = __webpack_require__(697);
 
 	var _tokenUpdated2 = _interopRequireDefault(_tokenUpdated);
 
-	var _fieldUpdate = __webpack_require__(693);
+	var _fieldUpdate = __webpack_require__(698);
 
 	var _fieldUpdate2 = _interopRequireDefault(_fieldUpdate);
 
-	var _index = __webpack_require__(694);
+	var _index = __webpack_require__(699);
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _admin = __webpack_require__(695);
+	var _admin = __webpack_require__(700);
 
 	var _admin2 = _interopRequireDefault(_admin);
 
@@ -53612,7 +53662,7 @@
 	}
 
 /***/ },
-/* 686 */
+/* 691 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53622,11 +53672,11 @@
 	});
 	exports.default = logoutSaga;
 
-	var _reduxSaga = __webpack_require__(684);
+	var _reduxSaga = __webpack_require__(689);
 
-	var _effects = __webpack_require__(687);
+	var _effects = __webpack_require__(692);
 
-	var _reactRouterRedux = __webpack_require__(454);
+	var _reactRouterRedux = __webpack_require__(456);
 
 	var _marked = [redirectUserAfterLogout, logoutSaga].map(regeneratorRuntime.mark);
 
@@ -53689,13 +53739,13 @@
 	}
 
 /***/ },
-/* 687 */
+/* 692 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(688)
+	module.exports = __webpack_require__(693)
 
 /***/ },
-/* 688 */
+/* 693 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53704,7 +53754,7 @@
 	  value: true
 	});
 
-	var _io = __webpack_require__(689);
+	var _io = __webpack_require__(694);
 
 	Object.defineProperty(exports, 'take', {
 	  enumerable: true,
@@ -53792,7 +53842,7 @@
 	});
 
 /***/ },
-/* 689 */
+/* 694 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53819,7 +53869,7 @@
 	exports.actionChannel = actionChannel;
 	exports.cancelled = cancelled;
 
-	var _utils = __webpack_require__(690);
+	var _utils = __webpack_require__(695);
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -54046,7 +54096,7 @@
 	};
 
 /***/ },
-/* 690 */
+/* 695 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -54248,7 +54298,7 @@
 	};
 
 /***/ },
-/* 691 */
+/* 696 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54258,11 +54308,11 @@
 	});
 	exports.default = loginSaga;
 
-	var _reduxSaga = __webpack_require__(684);
+	var _reduxSaga = __webpack_require__(689);
 
-	var _effects = __webpack_require__(687);
+	var _effects = __webpack_require__(692);
 
-	var _reactRouterRedux = __webpack_require__(454);
+	var _reactRouterRedux = __webpack_require__(456);
 
 	var _marked = [redirectUserAfterLogin, loginSaga].map(regeneratorRuntime.mark);
 
@@ -54329,7 +54379,7 @@
 	}
 
 /***/ },
-/* 692 */
+/* 697 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54339,9 +54389,9 @@
 	});
 	exports.default = tokenUpdatedSaga;
 
-	var _reduxSaga = __webpack_require__(684);
+	var _reduxSaga = __webpack_require__(689);
 
-	var _effects = __webpack_require__(687);
+	var _effects = __webpack_require__(692);
 
 	var _marked = [updateTokenOnUpdate, tokenUpdatedSaga].map(regeneratorRuntime.mark);
 
@@ -54404,7 +54454,7 @@
 	}
 
 /***/ },
-/* 693 */
+/* 698 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54414,9 +54464,9 @@
 	});
 	exports.default = fieldUpdateSage;
 
-	var _reduxSaga = __webpack_require__(684);
+	var _reduxSaga = __webpack_require__(689);
 
-	var _effects = __webpack_require__(687);
+	var _effects = __webpack_require__(692);
 
 	var _marked = [checkFormIsValidOnUpdate, fieldUpdateSage].map(regeneratorRuntime.mark);
 
@@ -54492,7 +54542,7 @@
 	}
 
 /***/ },
-/* 694 */
+/* 699 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54502,11 +54552,11 @@
 	});
 	exports.default = indexSaga;
 
-	var _reduxSaga = __webpack_require__(684);
+	var _reduxSaga = __webpack_require__(689);
 
-	var _effects = __webpack_require__(687);
+	var _effects = __webpack_require__(692);
 
-	var _TreeHelper = __webpack_require__(422);
+	var _TreeHelper = __webpack_require__(424);
 
 	var _marked = [removeFromTree, updateTree, deleteItem, indexSaga].map(regeneratorRuntime.mark);
 
@@ -54614,7 +54664,7 @@
 	}
 
 /***/ },
-/* 695 */
+/* 700 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54624,11 +54674,11 @@
 	});
 	exports.default = adminSaga;
 
-	var _reduxSaga = __webpack_require__(684);
+	var _reduxSaga = __webpack_require__(689);
 
-	var _effects = __webpack_require__(687);
+	var _effects = __webpack_require__(692);
 
-	var _ResourceHelper = __webpack_require__(421);
+	var _ResourceHelper = __webpack_require__(423);
 
 	var _marked = [setResourceData, adminSaga].map(regeneratorRuntime.mark);
 
@@ -54695,7 +54745,7 @@
 	}
 
 /***/ },
-/* 696 */
+/* 701 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54704,7 +54754,7 @@
 	  value: true
 	});
 
-	var _admin = __webpack_require__(697);
+	var _admin = __webpack_require__(702);
 
 	Object.keys(_admin).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -54716,7 +54766,7 @@
 	  });
 	});
 
-	var _auth = __webpack_require__(700);
+	var _auth = __webpack_require__(705);
 
 	Object.keys(_auth).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -54728,7 +54778,7 @@
 	  });
 	});
 
-	var _form = __webpack_require__(702);
+	var _form = __webpack_require__(707);
 
 	Object.keys(_form).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -54740,7 +54790,7 @@
 	  });
 	});
 
-	var _notification = __webpack_require__(714);
+	var _notification = __webpack_require__(719);
 
 	Object.keys(_notification).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -54752,7 +54802,7 @@
 	  });
 	});
 
-	var _page = __webpack_require__(716);
+	var _page = __webpack_require__(721);
 
 	Object.keys(_page).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -54764,7 +54814,7 @@
 	  });
 	});
 
-	var _payment = __webpack_require__(718);
+	var _payment = __webpack_require__(723);
 
 	Object.keys(_payment).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -54776,7 +54826,7 @@
 	  });
 	});
 
-	var _tree = __webpack_require__(720);
+	var _tree = __webpack_require__(725);
 
 	Object.keys(_tree).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -54789,7 +54839,7 @@
 	});
 
 /***/ },
-/* 697 */
+/* 702 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54799,17 +54849,17 @@
 	});
 	exports.admin = undefined;
 
-	var _ResourceHelper = __webpack_require__(421);
+	var _ResourceHelper = __webpack_require__(423);
 
-	var _lodash = __webpack_require__(447);
+	var _lodash = __webpack_require__(449);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _lodash3 = __webpack_require__(628);
+	var _lodash3 = __webpack_require__(631);
 
 	var _lodash4 = _interopRequireDefault(_lodash3);
 
-	var _admin = __webpack_require__(698);
+	var _admin = __webpack_require__(703);
 
 	var _admin2 = _interopRequireDefault(_admin);
 
@@ -54894,7 +54944,7 @@
 	exports.admin = adminReducer;
 
 /***/ },
-/* 698 */
+/* 703 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54903,7 +54953,7 @@
 	  value: true
 	});
 
-	var _resources = __webpack_require__(699);
+	var _resources = __webpack_require__(704);
 
 	var _resources2 = _interopRequireDefault(_resources);
 
@@ -54926,7 +54976,7 @@
 	exports.default = initialState;
 
 /***/ },
-/* 699 */
+/* 704 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -54948,7 +54998,7 @@
 	exports.default = resources;
 
 /***/ },
-/* 700 */
+/* 705 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54958,7 +55008,7 @@
 	});
 	exports.auth = undefined;
 
-	var _auth = __webpack_require__(701);
+	var _auth = __webpack_require__(706);
 
 	var _auth2 = _interopRequireDefault(_auth);
 
@@ -54995,7 +55045,7 @@
 	exports.auth = auth;
 
 /***/ },
-/* 701 */
+/* 706 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -55012,7 +55062,7 @@
 	exports.default = initialState;
 
 /***/ },
-/* 702 */
+/* 707 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55022,15 +55072,15 @@
 	});
 	exports.forms = undefined;
 
-	var _lodash = __webpack_require__(628);
+	var _lodash = __webpack_require__(631);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _lodash3 = __webpack_require__(447);
+	var _lodash3 = __webpack_require__(449);
 
 	var _lodash4 = _interopRequireDefault(_lodash3);
 
-	var _forms = __webpack_require__(703);
+	var _forms = __webpack_require__(708);
 
 	var _forms2 = _interopRequireDefault(_forms);
 
@@ -55088,7 +55138,7 @@
 	exports.forms = formReducer;
 
 /***/ },
-/* 703 */
+/* 708 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55097,7 +55147,7 @@
 	  value: true
 	});
 
-	var _index = __webpack_require__(704);
+	var _index = __webpack_require__(709);
 
 	var initialFormStates = _interopRequireWildcard(_index);
 
@@ -55106,7 +55156,7 @@
 	exports.default = initialFormStates;
 
 /***/ },
-/* 704 */
+/* 709 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55115,7 +55165,7 @@
 	  value: true
 	});
 
-	var _bookForm = __webpack_require__(705);
+	var _bookForm = __webpack_require__(710);
 
 	Object.defineProperty(exports, 'bookForm', {
 	  enumerable: true,
@@ -55124,7 +55174,7 @@
 	  }
 	});
 
-	var _loginForm = __webpack_require__(706);
+	var _loginForm = __webpack_require__(711);
 
 	Object.defineProperty(exports, 'loginForm', {
 	  enumerable: true,
@@ -55133,7 +55183,7 @@
 	  }
 	});
 
-	var _paymentForm = __webpack_require__(707);
+	var _paymentForm = __webpack_require__(712);
 
 	Object.defineProperty(exports, 'paymentForm', {
 	  enumerable: true,
@@ -55142,7 +55192,7 @@
 	  }
 	});
 
-	var _permissionForm = __webpack_require__(708);
+	var _permissionForm = __webpack_require__(713);
 
 	Object.defineProperty(exports, 'permissionForm', {
 	  enumerable: true,
@@ -55151,7 +55201,7 @@
 	  }
 	});
 
-	var _roleForm = __webpack_require__(709);
+	var _roleForm = __webpack_require__(714);
 
 	Object.defineProperty(exports, 'roleForm', {
 	  enumerable: true,
@@ -55160,7 +55210,7 @@
 	  }
 	});
 
-	var _userForm = __webpack_require__(710);
+	var _userForm = __webpack_require__(715);
 
 	Object.defineProperty(exports, 'userForm', {
 	  enumerable: true,
@@ -55169,7 +55219,7 @@
 	  }
 	});
 
-	var _signupForm = __webpack_require__(711);
+	var _signupForm = __webpack_require__(716);
 
 	Object.defineProperty(exports, 'signupForm', {
 	  enumerable: true,
@@ -55178,7 +55228,7 @@
 	  }
 	});
 
-	var _forgotPasswordForm = __webpack_require__(712);
+	var _forgotPasswordForm = __webpack_require__(717);
 
 	Object.defineProperty(exports, 'forgotPasswordForm', {
 	  enumerable: true,
@@ -55187,7 +55237,7 @@
 	  }
 	});
 
-	var _resetPasswordForm = __webpack_require__(713);
+	var _resetPasswordForm = __webpack_require__(718);
 
 	Object.defineProperty(exports, 'resetPasswordForm', {
 	  enumerable: true,
@@ -55197,7 +55247,7 @@
 	});
 
 /***/ },
-/* 705 */
+/* 710 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55234,7 +55284,7 @@
 	};
 
 /***/ },
-/* 706 */
+/* 711 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55251,7 +55301,7 @@
 	};
 
 /***/ },
-/* 707 */
+/* 712 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55270,7 +55320,7 @@
 	};
 
 /***/ },
-/* 708 */
+/* 713 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55307,7 +55357,7 @@
 	};
 
 /***/ },
-/* 709 */
+/* 714 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55344,7 +55394,7 @@
 	};
 
 /***/ },
-/* 710 */
+/* 715 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55381,7 +55431,7 @@
 	};
 
 /***/ },
-/* 711 */
+/* 716 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55418,7 +55468,7 @@
 	};
 
 /***/ },
-/* 712 */
+/* 717 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55440,7 +55490,7 @@
 	};
 
 /***/ },
-/* 713 */
+/* 718 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55483,7 +55533,7 @@
 	};
 
 /***/ },
-/* 714 */
+/* 719 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55493,7 +55543,7 @@
 	});
 	exports.notifications = undefined;
 
-	var _notification = __webpack_require__(715);
+	var _notification = __webpack_require__(720);
 
 	var _notification2 = _interopRequireDefault(_notification);
 
@@ -55530,7 +55580,7 @@
 	exports.notifications = notificationReducer;
 
 /***/ },
-/* 715 */
+/* 720 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55549,7 +55599,7 @@
 	exports.default = initialState;
 
 /***/ },
-/* 716 */
+/* 721 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55559,7 +55609,7 @@
 	});
 	exports.page = undefined;
 
-	var _page = __webpack_require__(717);
+	var _page = __webpack_require__(722);
 
 	var _page2 = _interopRequireDefault(_page);
 
@@ -55582,7 +55632,7 @@
 	exports.page = page;
 
 /***/ },
-/* 717 */
+/* 722 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -55597,7 +55647,7 @@
 	exports.default = initialState;
 
 /***/ },
-/* 718 */
+/* 723 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55607,7 +55657,7 @@
 	});
 	exports.payments = undefined;
 
-	var _payment = __webpack_require__(719);
+	var _payment = __webpack_require__(724);
 
 	var _payment2 = _interopRequireDefault(_payment);
 
@@ -55630,7 +55680,7 @@
 	exports.payments = paymentReducer;
 
 /***/ },
-/* 719 */
+/* 724 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -55645,7 +55695,7 @@
 	exports.default = initialState;
 
 /***/ },
-/* 720 */
+/* 725 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55655,9 +55705,9 @@
 	});
 	exports.tree = undefined;
 
-	var _TreeHelper = __webpack_require__(422);
+	var _TreeHelper = __webpack_require__(424);
 
-	var _tree = __webpack_require__(721);
+	var _tree = __webpack_require__(726);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -55683,7 +55733,7 @@
 	exports.tree = treeReducer;
 
 /***/ },
-/* 721 */
+/* 726 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -55701,13 +55751,13 @@
 	exports.default = initialState;
 
 /***/ },
-/* 722 */
+/* 727 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
 
 /***/ },
-/* 723 */
+/* 728 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55716,31 +55766,31 @@
 	  value: true
 	});
 
-	var _admin = __webpack_require__(698);
+	var _admin = __webpack_require__(703);
 
 	var _admin2 = _interopRequireDefault(_admin);
 
-	var _auth = __webpack_require__(701);
+	var _auth = __webpack_require__(706);
 
 	var _auth2 = _interopRequireDefault(_auth);
 
-	var _forms = __webpack_require__(703);
+	var _forms = __webpack_require__(708);
 
 	var _forms2 = _interopRequireDefault(_forms);
 
-	var _notification = __webpack_require__(715);
+	var _notification = __webpack_require__(720);
 
 	var _notification2 = _interopRequireDefault(_notification);
 
-	var _page = __webpack_require__(717);
+	var _page = __webpack_require__(722);
 
 	var _page2 = _interopRequireDefault(_page);
 
-	var _payment = __webpack_require__(719);
+	var _payment = __webpack_require__(724);
 
 	var _payment2 = _interopRequireDefault(_payment);
 
-	var _tree = __webpack_require__(721);
+	var _tree = __webpack_require__(726);
 
 	var _tree2 = _interopRequireDefault(_tree);
 
@@ -55757,4 +55807,4 @@
 	};
 
 /***/ }
-/******/ ]);
+/******/ ])));
