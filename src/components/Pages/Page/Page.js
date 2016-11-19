@@ -80,16 +80,18 @@ class Page extends React.Component {
   }
 
   getInteralLinks() {
-    const pageTemplate = document.getElementsByClassName('page');
-    let internalLinks = [];
-    if(pageTemplate.length > 0) {
-      let contentAnchors = pageTemplate[0].getElementsByTagName("a");
+    if(typeof(document) !== 'undefined') {
+      const pageTemplate = document.getElementsByClassName('page');
+      let internalLinks = [];
+      if(pageTemplate.length > 0) {
+        let contentAnchors = pageTemplate[0].getElementsByTagName("a");
 
-      if(contentAnchors.length > 0) {
-        internalLinks = this.htmlCollectionToArray(contentAnchors).filter(this.isInternalLink)
+        if(contentAnchors.length > 0) {
+          internalLinks = this.htmlCollectionToArray(contentAnchors).filter(this.isInternalLink)
+        }
       }
+      return internalLinks;
     }
-    return internalLinks;
   }
 
   // Todo: move into helper.
@@ -118,7 +120,7 @@ class Page extends React.Component {
     }
   }
 
-  getRenderedPage(template_id, content, name){
+  getRenderedPage(template_id, content, name, image_url){
     let page = null;
     // May come in as a string from query params so parse as int.
     template_id = parseInt(template_id, 10);
@@ -133,7 +135,7 @@ class Page extends React.Component {
         break;
       }
       case 3: {
-        page = (<HomeTemplate name={name} content={content} />);
+        page = (<HomeTemplate name={name} content={content} image_url={image_url || null}/>);
         break;
       }
       case 4: {
@@ -174,7 +176,8 @@ class Page extends React.Component {
         <Helmet 
           title={`${this.state.name} | ${AppConfig.siteTitle}`}
           meta={[
-            {property: 'og:title', content: this.state.name}
+            {property: 'og:title', content: this.state.name},
+            {property: 'og:url', content: window.location.href}
           ]}
         />
         {this.state.page}

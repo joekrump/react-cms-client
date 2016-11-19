@@ -2,9 +2,14 @@ import React from 'react'
 import SpeedDial from '../../../Menu/SpeedDial'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './AdminLayout.scss'
+import Helmet from 'react-helmet'
+import AppConfig from '../../../../../app_config/app';
 
 const AdminLayout = (props) => (
   <div className="admin-container">
+    <Helmet 
+      title={`Admin | ${AppConfig.siteTitle}`}
+    />
     {props.children}
     <SpeedDial />
   </div>
