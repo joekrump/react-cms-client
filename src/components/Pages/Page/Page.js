@@ -168,24 +168,31 @@ class Page extends React.Component {
     return page;
   }
 
-  render() {
-    if(this.props.statusCode !== 200) {
-      return (<PageNotFound />)
-    }
-
+  makeHelmetMeta() {
     let headerMeta = [
       {property: 'og:title', content: this.state.name},
-      {property: 'og:url', content: window.location.href}
     ];
 
     if(this.state.image_url) {
       headerMeta.push({property: 'og:image', content: this.state.image_url});
     }
+
+    if(typeof(window) !== undefined) {
+      headerMeta.push({property: 'og:url', content: window.location.href});
+    }
+    return headerMeta;
+  }
+
+  render() {
+    if(this.props.statusCode !== 200) {
+      return (<PageNotFound />)
+    }
+
     return (
       <FrontendPage>
         <Helmet 
           title={`${this.state.name} | ${AppConfig.siteTitle}`}
-          meta={headerMeta}
+          meta={this.makeHelmetMeta()}
         />
         {this.state.page}
       </FrontendPage>
