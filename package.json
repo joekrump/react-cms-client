@@ -75,6 +75,7 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-dragula": "^1.1.17",
+    "react-helmet": "^3.2.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.0",
     "react-router-redux": "^4.0.5",
