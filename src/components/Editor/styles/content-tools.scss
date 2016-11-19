@@ -78,3 +78,9 @@
 .ct--puesdo-select {
     background: rgba(black, 0.1);
 }
+
+.ce-element--type-video, iframe {
+  margin: 15px;
+  display: inline-block;
+  vertical-align: top;
+}
