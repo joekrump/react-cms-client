@@ -57,6 +57,7 @@ class Page extends React.Component {
     this.setState({
       name: res.body.data.name,
       content: res.body.data.content,
+      image_url: res.body.data.image_url,
       page: this.getRenderedPage(
         res.body.data.template_id, 
         res.body.data.content, 
@@ -171,14 +172,20 @@ class Page extends React.Component {
     if(this.props.statusCode !== 200) {
       return (<PageNotFound />)
     }
+
+    let headerMeta = [
+      {property: 'og:title', content: this.state.name},
+      {property: 'og:url', content: window.location.href}
+    ];
+
+    if(this.state.image_url) {
+      headerMeta.push({property: 'og:image', content: this.state.image_url});
+    }
     return (
       <FrontendPage>
         <Helmet 
           title={`${this.state.name} | ${AppConfig.siteTitle}`}
-          meta={[
-            {property: 'og:title', content: this.state.name},
-            {property: 'og:url', content: window.location.href}
-          ]}
+          meta={headerMeta}
         />
         {this.state.page}
       </FrontendPage>
