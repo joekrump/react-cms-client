@@ -15,6 +15,7 @@ import FrontendPage from '../../Layout/FrontendPage';
 import { connect } from 'react-redux';
 import AppConfig from '../../../../app_config/app'
 import { push } from 'react-router-redux'
+import Helmet from 'react-helmet';
 
 class Page extends React.Component {
   
@@ -54,6 +55,8 @@ class Page extends React.Component {
 
   setPreExistingPageData = (res) => {
     this.setState({
+      name: res.body.data.name,
+      content: res.body.data.content,
       page: this.getRenderedPage(
         res.body.data.template_id, 
         res.body.data.content, 
@@ -168,6 +171,12 @@ class Page extends React.Component {
     }
     return (
       <FrontendPage>
+        <Helmet 
+          title={`${this.state.name} | ${AppConfig.siteTitle}`}
+          meta={[
+            {property: 'og:title', content: this.state.name}
+          ]}
+        />
         {this.state.page}
       </FrontendPage>
     );
