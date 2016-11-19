@@ -25,8 +25,9 @@ body {
     min-width: 300px;
   }
 }
-@media (min-width: 901px) {
+@media (min-width: 1000px) {
   .admin-container, .admin-container .item-list {
-    width: 980px;
+    width: 80%;
+    max-width: 1200px;
   }
 }

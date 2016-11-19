@@ -13,6 +13,8 @@ import PageNotFound from '../Errors/404/404'
 import APIClient from '../../../http/requests'
 import FrontendPage from '../../Layout/FrontendPage';
 import { connect } from 'react-redux';
+import AppConfig from '../../../../app_config/app'
+import { push } from 'react-router-redux'
 
 class Page extends React.Component {
   
@@ -41,6 +43,15 @@ class Page extends React.Component {
     }, this.rejectDataFetch).catch(this.rejectDataFetch)
   }
 
+  isInternalLink(anchorElement) {
+    return anchorElement.href.includes(AppConfig.baseUrl);
+  }
+
+  navigateViaRouter = (event) => {
+    event.preventDefault();
+    this.props.dispatch(push(event.currentTarget.getAttribute('href')));
+  }
+
   setPreExistingPageData = (res) => {
     this.setState({
       page: this.getRenderedPage(
@@ -49,6 +60,38 @@ class Page extends React.Component {
         res.body.data.name
       )
     })
+  }
+
+  componentDidUpdate() {
+    const internalLinks = this.getInteralLinks();
+    
+    if(internalLinks.length > 0) {
+      this.addLinkBehaviorToAnchorElements(internalLinks)
+    } 
+  }
+
+  addLinkBehaviorToAnchorElements(anchorElements) {
+    anchorElements.forEach((anchorElement) => {
+      anchorElement.addEventListener('click', this.navigateViaRouter, false);
+    })
+  }
+
+  getInteralLinks() {
+    const pageTemplate = document.getElementsByClassName('page');
+    let internalLinks = [];
+    if(pageTemplate.length > 0) {
+      let contentAnchors = pageTemplate[0].getElementsByTagName("a");
+
+      if(contentAnchors.length > 0) {
+        internalLinks = this.htmlCollectionToArray(contentAnchors).filter(this.isInternalLink)
+      }
+    }
+    return internalLinks;
+  }
+
+  // Todo: move into helper.
+  htmlCollectionToArray(htmlCollection) {
+    return [].slice.call(htmlCollection);
   }
 
   rejectDataFetch = (res) => {

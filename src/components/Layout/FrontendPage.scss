@@ -78,7 +78,8 @@
 @media (min-width: 1000px) {
   .page, .top-nav {
     .page-container {
-      width: 980px;
+      width: 80%;
+      max-width: 1200px;
     }
   }
 }
