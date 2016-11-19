@@ -17,7 +17,7 @@ const styles = {
   }
 };
 
-const PageList = (props) => (
+const ListView = (props) => (
   <div style={styles.root}>
     <GridList
       cols={3}
@@ -41,4 +41,4 @@ const PageList = (props) => (
   </div>
 );
 
-export default PageList;
+export default ListView;
