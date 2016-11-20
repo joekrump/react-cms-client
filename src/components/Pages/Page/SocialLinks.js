@@ -26,7 +26,7 @@ class SocialLinks extends React.PureComponent {
         />
         <PintrestShare url={this.props.url} 
           description={this.props.title}
-          medial={this.props.image_url}
+          media={this.props.image_url}
         />
         <LinkedInShare url={this.props.url}
           title={this.props.title}

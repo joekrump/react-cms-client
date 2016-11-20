@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PintrestShare = (props) => (
-  <a href={`http://pinterest.com/pin/create/button/?url=${props.url}`} 
+  <a href={`http://pinterest.com/pin/create/button/?url=${props.url}&amp;media=${props.image_url}&amp;description=${props.description}`} 
     target="_blank" 
     className="svgpt" 
     title="Share on Pinterest">

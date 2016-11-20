@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TwitterShare = (props) => (
-  <a href={`https://twitter.com/intent/tweet?url=${props.url}`} target="_blank" 
+  <a href={`https://twitter.com/intent/tweet?url=${props.url}&amp;text=${props.text}`} target="_blank" 
      className="svgt" title="Share on Twitter">
     <svg width="32" height="32" viewBox="0 0 32 32">
       <desc>Twitter</desc>
