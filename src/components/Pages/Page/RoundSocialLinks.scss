@@ -1,4 +1,22 @@
 .inline {
-  display: inline-block;
+  display: inline-flex;
   cursor: pointer;
+  padding: .25em 0.5em;
+  &:first-child {
+    padding-left: 0;
+  }
+  .share-button {
+    margin-right: 5px;
+  }
+}
+
+.social-container {
+
+  flex-flow: row wrap;
+  &.bottom {
+    margin-top: 30px;
+  }
+  &.top {
+    margin-bottom: 30px;
+  }
 }

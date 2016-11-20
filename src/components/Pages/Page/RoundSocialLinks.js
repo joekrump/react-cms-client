@@ -30,7 +30,7 @@ const LinkedinIcon = generateShareIcon('linkedin');
 const PinterestIcon = generateShareIcon('pinterest');
 
 const RoundSocialLinks = (props) => (
-  <div>
+  <div className={`social-container ${props.className}`}>
     <div className="facebook-share inline">
       <FacebookShareButton
         url={props.url}

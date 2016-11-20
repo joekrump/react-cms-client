@@ -9,10 +9,18 @@ const BasicPageTemplate = (props) => (
       <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
         <h1 data-ce-placeholder="Page Title">{props.name ? props.name : ''}</h1>
       </div>
+      <RoundSocialLinks 
+        className="top"
+        url={props.url} 
+        title={props.title}
+        media={props.media}
+        baseUrl={props.baseUrl}
+      />
       <div className="page-content" data-editable data-name="content" data-ce-placeholder="Content..." dangerouslySetInnerHTML={{__html: props.content}} />
     </div>
     <div className="page-container">
       <RoundSocialLinks 
+        className="bottom"
         url={props.url} 
         title={props.title}
         media={props.media}
