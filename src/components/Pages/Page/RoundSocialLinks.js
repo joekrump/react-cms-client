@@ -115,4 +115,4 @@ const RoundSocialLinks = (props) => (
   </div>
 );
 
-export default RoundSocialLinks;
+export default withStyles(s)(RoundSocialLinks);

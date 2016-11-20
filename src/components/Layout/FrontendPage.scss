@@ -33,6 +33,17 @@
   overflow: auto;
   .page-content {
     display: flex;
+
+    .ce-element--type-video, iframe {
+      margin: 0;
+      margin-left: 15px;
+      margin-bottom: 15px;
+      display: inline-block;
+      vertical-align: top;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
   }
 }
 .page, .top-nav {
