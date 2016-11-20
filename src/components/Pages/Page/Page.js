@@ -16,7 +16,8 @@ import { connect } from 'react-redux';
 import AppConfig from '../../../../app_config/app';
 import { push } from 'react-router-redux';
 import Helmet from 'react-helmet';
-import SocialLinks from './SocialLinks';
+import RoundSocialLinks from './RoundSocialLinks';
+import defaultImage from '../Templates/Pages/home-bg.jpg';
 
 class Page extends React.Component {
   
@@ -58,7 +59,7 @@ class Page extends React.Component {
     this.setState({
       name: res.body.data.name,
       content: res.body.data.content,
-      image_url: res.body.data.image_url,
+      image_url: res.body.data.image_url || defaultImage,
       page: this.getRenderedPage(
         res.body.data.template_id, 
         res.body.data.content, 
@@ -200,7 +201,13 @@ class Page extends React.Component {
           meta={this.makeHelmetMeta()}
         />
         {this.state.page}
-        <SocialLinks url={this.getPageURL()} />
+        
+        <RoundSocialLinks 
+          url={this.getPageURL()} 
+          title={this.state.name}
+          media={this.state.image_url || defaultImage}
+          baseUrl={AppConfig.baseUrl}
+        />
       </FrontendPage>
     );
   }
