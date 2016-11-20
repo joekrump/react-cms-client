@@ -191,14 +191,14 @@ class Page extends React.Component {
       headerMeta.push({property: 'og:image', content: this.state.image_url});
     }
 
-    if(typeof(window) !== undefined) {
+    if(typeof(window) !== 'undefined') {
       headerMeta.push({property: 'og:url', content: window.location.href});
     }
     return headerMeta;
   }
 
   getPageURL() {
-    return (typeof(window) !== undefined) ? window.location.href : `${AppConfig.baseUrl}/${this.props.pathname}`;
+    return (typeof(window) !== 'undefined') ? window.location.href : `${AppConfig.baseUrl}/${this.props.pathname}`;
   }
 
   render() {
