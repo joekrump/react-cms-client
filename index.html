@@ -45,31 +45,94 @@
         height: 0;
         clear: both;
       }
-      .frontend-container {
+      .page-container {
         padding-top: 65px;
         margin: 0 auto;
       }
+
+      .top-nav {
+          position: fixed;
+          height: 56px;
+          width: 100%;
+          background-color: #212121;
+          z-index: 100;
+          margin: 0;
+          padding: 0;
+      }
+
+      .top-nav .page-container {
+          padding-top: 0;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+          -webkit-box-pack: left;
+          -ms-flex-pack: left;
+          justify-content: left;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+      }
+
+      .top-nav .page-container .site-title {
+          margin: 0;
+      }
+
+      .top-nav .page-container .site-title, .top-nav .page-container .top-link {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: start;
+          -ms-flex-align: start;
+          align-items: flex-start;
+      }
+
+      .top-nav .page-container .nav-links-container {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: start;
+          -ms-flex-align: start;
+          align-items: flex-start;
+          margin-left: 1.0rem;
+      }
+
+      .top-nav .page-container .nav-links-container .top-link {
+          color: #e6e6e6;
+          font-weight: 400;
+          max-width: 140px;
+          text-decoration: none;
+          color: #e6e6e6;
+          padding: 0 0.5rem;
+      }
+
       @media (max-width: 900px){
-        .frontend-container {
+        .page-container {
           width: 80%;
         }
       }
       @media (max-width: 500px){
-        .frontend-container {
+        .page-container {
           width: 96%;
           min-width: 300px;
         }
       }
-      @media (min-width: 901px) {
-        .frontend-container {
-          width: 980px;
+      @media (min-width: 1000px) {
+        .page-container {
+          width: 80%;
+          max-width: 1200px;
         }
       }
     </style>
     <title>Heroic Dev</title>
   </head>
   <body>
-    <div id="base"></div>
+    <div id="base">
+      <div id="app">
+        <div class="top-nav"><div class="page-container"><span class="logo light"></span><h1 class="site-title">Heroic Dev</h1><div class="nav-links-container"><a class="top-link active" href="/">Home</a><a class="top-link" href="/about">About</a><a class="top-link" href="/donate">Donate</a><a class="top-link" href="/login">Log In</a></div></div></div>
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
