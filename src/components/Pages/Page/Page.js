@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import AppConfig from '../../../../app_config/app';
 import { push } from 'react-router-redux';
 import Helmet from 'react-helmet';
-import RoundSocialLinks from './RoundSocialLinks';
 import defaultImage from '../Templates/Pages/home-bg.jpg';
 
 class Page extends React.Component {
@@ -130,7 +129,15 @@ class Page extends React.Component {
 
     switch(template_id) {
       case 1: {
-        page = (<BasicTemplate name={name} content={content} pathname={this.props.pathname}/>)
+        page = (<BasicTemplate 
+          name={name} 
+          content={content} 
+          pathname={this.props.pathname}
+          url={this.getPageURL()} 
+          title={this.state.name}
+          media={this.state.image_url || defaultImage}
+          baseUrl={AppConfig.baseUrl}
+        />)
         break;
       }
       case 2: {
@@ -162,7 +169,12 @@ class Page extends React.Component {
         break;
       }
       default: {
-        page = (<BasicTemplate name={name} content={content} pathname={this.props.pathname}/>)
+        page = (<BasicTemplate name={name} content={content} pathname={this.props.pathname}
+          url={this.getPageURL()} 
+          title={this.state.name}
+          media={this.state.image_url || defaultImage}
+          baseUrl={AppConfig.baseUrl}
+        />)
         break;
       }
     }
@@ -201,13 +213,6 @@ class Page extends React.Component {
           meta={this.makeHelmetMeta()}
         />
         {this.state.page}
-        
-        <RoundSocialLinks 
-          url={this.getPageURL()} 
-          title={this.state.name}
-          media={this.state.image_url || defaultImage}
-          baseUrl={AppConfig.baseUrl}
-        />
       </FrontendPage>
     );
   }

@@ -1,4 +1,6 @@
 import React from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './RoundSocialLinks.scss';
 
 import {
   ShareButtons,
@@ -29,11 +31,11 @@ const PinterestIcon = generateShareIcon('pinterest');
 
 const RoundSocialLinks = (props) => (
   <div>
-    <div className="Demo__some-network">
+    <div className="facebook-share inline">
       <FacebookShareButton
         url={props.url}
         title={props.title}
-        className="Demo__some-network__share-button">
+        className="share-button">
         <FacebookIcon
           size={32}
           round />
@@ -41,30 +43,30 @@ const RoundSocialLinks = (props) => (
 
       <FacebookShareCount
         url={props.url}
-        className="Demo__some-network__share-count">
+        className="share-count">
         {count => count}
       </FacebookShareCount>
     </div>
 
-    <div className="Demo__some-network">
+    <div className="twitter-share inline">
       <TwitterShareButton
         url={props.url}
         title={props.title}
-        className="Demo__some-network__share-button">
+        className="share-button">
         <TwitterIcon
           size={32}
           round />
       </TwitterShareButton>
 
-      <div className="Demo__some-network__share-count">
+      <div className="share-count">
         &nbsp;
       </div>
     </div>
 
-    <div className="Demo__some-network">
+    <div className="googleplus-share inline">
       <GooglePlusShareButton
         url={props.url}
-        className="Demo__some-network__share-button">
+        className="share-button">
         <GooglePlusIcon
           size={32}
           round />
@@ -72,18 +74,18 @@ const RoundSocialLinks = (props) => (
 
       <GooglePlusShareCount
         url={props.url}
-        className="Demo__some-network__share-count">
+        className="share-count">
         {count => count}
       </GooglePlusShareCount>
     </div>
 
-    <div className="Demo__some-network">
+    <div className="linkedin-share inline">
       <LinkedinShareButton
         url={props.url}
         title={props.title}
         windowWidth={750}
         windowHeight={600}
-        className="Demo__some-network__share-button">
+        className="share-button">
         <LinkedinIcon
           size={32}
           round />
@@ -91,23 +93,23 @@ const RoundSocialLinks = (props) => (
 
       <LinkedinShareCount
         url={props.url}
-        className="Demo__some-network__share-count">
+        className="share-count">
         {count => count}
       </LinkedinShareCount>
     </div>
 
-    <div className="Demo__some-network">
+    <div className="pintrest-share inline">
       <PinterestShareButton
         url={props.url}
         media={props.media}
         windowWidth={1000}
         windowHeight={730}
-        className="Demo__some-network__share-button">
+        className="share-button">
         <PinterestIcon size={32} round />
       </PinterestShareButton>
 
       <PinterestShareCount url={props.url}
-        className="Demo__some-network__share-count" />
+        className="share-count" />
     </div>
 
   </div>
