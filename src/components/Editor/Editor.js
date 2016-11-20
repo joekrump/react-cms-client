@@ -226,10 +226,7 @@ class Editor {
       let regionValue;
       (Object.keys(regions)).forEach((key) => {
         if(key === 'name') {
-          console.log(regions[key].substr(0, 2))
-          if(regions[key].substr(0, 2) !== '<h1') {
-            regionValue = `<h1>${trim(regions[key].replace(/<\/?[^>]+(>|$)/g, ""))}</h1>` // strip HTML tags
-          }
+          regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "").trim(); // strip HTML tags and trim
         } else {
           regionValue = regions[key]
         }
@@ -249,8 +246,6 @@ class Editor {
     // Set the editors state to busy while we save our changes
     // 
     try {
-      console.log('save');
-      console.log(this.dispatch)
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
       let client = new APIClient(this.dispatch);
 
