@@ -20,7 +20,7 @@ import Toggle from 'material-ui/Toggle';
 import EditDrawer from '../../Menu/EditDrawer'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import {slugify} from '../../../helpers/StringHelper';
-import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
+import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
 
 class PageEdit extends React.Component {
 

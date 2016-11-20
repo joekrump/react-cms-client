@@ -1,8 +1,8 @@
 import React from 'react';
 
 const FacebookShare = (props) => (
-  <a href={
-    `https://www.facebook.com/sharer/sharer.php?u=${props.url}`} 
+  <a 
+    href={`https://www.facebook.com/sharer/sharer.php?u=${props.url}`} 
     target="_blank" 
     className="svgfb" 
     title="Share on Facebook">

@@ -12,25 +12,29 @@ class SocialLinks extends React.PureComponent {
   render() {
     return (
       <div id="story-social">
-        <TwitterShare url={this.props.url} />
-        <FacebookShare url={this.props.url} />
+        <TwitterShare 
+          url={this.props.url} 
+          text={this.props.title}
+        />
+        <FacebookShare 
+          url={this.props.url} 
+        />
         <MailShare 
           subject={this.props.title} 
           body={this.props.summary} 
           url={this.props.url} 
         />
         <PintrestShare url={this.props.url} 
-          
-
+          description={this.props.title}
+          medial={this.props.image_url}
         />
         <LinkedInShare url={this.props.url}
           title={this.props.title}
           summary={this.props.summary}
-          soruce={this.props.baseUrl}
+          source={this.props.baseUrl}
         />
         <GoogleShare url={this.props.url}/>
         <PrintPage />
-        
       </div>
     );
   }
