@@ -1,21 +1,22 @@
 import React from 'react';
 
-import HomeTemplate from '../Templates/Pages/HomeTemplate'
-import ContactTemplate from '../Templates/Pages/ContactTemplate'
-import BasicTemplate from '../Templates/Pages/BasicTemplate'
-import LoginTemplate from '../Templates/Pages/LoginTemplate'
-import PaymentTemplate from '../Templates/Pages/PaymentTemplate'
-import SignupTemplate from '../Templates/Pages/SignupTemplate'
-import ForgotPasswordTemplate from '../Templates/Pages/ForgotPasswordTemplate'
-import ResetPasswordTemplate from '../Templates/Pages/ResetPasswordTemplate'
+import HomeTemplate from '../Templates/Pages/HomeTemplate';
+import ContactTemplate from '../Templates/Pages/ContactTemplate';
+import BasicTemplate from '../Templates/Pages/BasicTemplate';
+import LoginTemplate from '../Templates/Pages/LoginTemplate';
+import PaymentTemplate from '../Templates/Pages/PaymentTemplate';
+import SignupTemplate from '../Templates/Pages/SignupTemplate';
+import ForgotPasswordTemplate from '../Templates/Pages/ForgotPasswordTemplate';
+import ResetPasswordTemplate from '../Templates/Pages/ResetPasswordTemplate';
 
-import PageNotFound from '../Errors/404/404'
-import APIClient from '../../../http/requests'
+import PageNotFound from '../Errors/404/404';
+import APIClient from '../../../http/requests';
 import FrontendPage from '../../Layout/FrontendPage';
 import { connect } from 'react-redux';
-import AppConfig from '../../../../app_config/app'
-import { push } from 'react-router-redux'
+import AppConfig from '../../../../app_config/app';
+import { push } from 'react-router-redux';
 import Helmet from 'react-helmet';
+import SocialLinks from './SocialLinks';
 
 class Page extends React.Component {
   
@@ -183,6 +184,10 @@ class Page extends React.Component {
     return headerMeta;
   }
 
+  getPageURL() {
+    return (typeof(window) !== undefined) ? window.location.href : `${AppConfig.baseUrl}/${this.props.pathname}`;
+  }
+
   render() {
     if(this.props.statusCode !== 200) {
       return (<PageNotFound />)
@@ -195,6 +200,7 @@ class Page extends React.Component {
           meta={this.makeHelmetMeta()}
         />
         {this.state.page}
+        <SocialLinks url={this.getPageURL()} />
       </FrontendPage>
     );
   }
