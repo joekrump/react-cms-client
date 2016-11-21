@@ -19,10 +19,14 @@ class Editor {
       // new or edit
       // 
       this.editContext = editContext;
+      this.modifiedFields = {
+        slug: false,
+        tempalate: false,
+        image_url: false,
+        summary: false
+      }
 
       this.getAdditionalFields = getAdditionalFields;
-
-      console.log('Additional fields: ', getAdditionalFields());
 
       ContentTools.IMAGE_UPLOADER = this.createImageUploader;
       ContentTools.MIN_CROP = 30;
@@ -88,12 +92,18 @@ class Editor {
 
   updateTemplateId(template_id){
     this.template_id = template_id;
+    this.modifiedFields.template_id = true;
     this.dirty_data = true;
   }
 
   updateSlug(slug) {
     this.slug = slug;
+    this.modifiedFields.slug = true;
     this.dirty_data = true;
+  }
+
+  updateFeaturedImage() {
+
   }
 
   handleKeyDown(event) {

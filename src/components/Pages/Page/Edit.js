@@ -331,7 +331,7 @@ class PageEdit extends React.Component {
       this.state.editContext, 
       this.props.resourceNamePlural, 
       this.props.dispatch,
-      this.state.template_id
+      
     )
   }
 
@@ -339,7 +339,9 @@ class PageEdit extends React.Component {
     return {
       image_url: this.state.image_url,
       show_title: this.state.showPageTitle,
-      summary: this.state.summary
+      summary: this.state.summary,
+      template_id: this.state.template_id,
+      slug: this.state.slug
     }
   }
 
