@@ -23,7 +23,7 @@ class Editor {
       this.modifiedFields = {}; // Keeps track of whether a field has been modified since the last save.
 
       Object.keys(this.fields).forEach((fieldname) => {
-        modifiedFields[fieldname] = false;
+        this.modifiedFields[fieldname] = false;
       });
 
       ContentTools.IMAGE_UPLOADER = this.createImageUploader;
@@ -36,41 +36,7 @@ class Editor {
       // eslint-disable-next-line
       ContentEdit.RESIZE_CORNER_SIZE = 50;
 
-      // Capture image resize events and update the Cloudinary URL
-      // eslint-disable-next-line
-      ContentEdit.Root.get().bind('taint', (element) => {
-        var args, filename, transforms, url;
-        // return early if there is no actual change that has been made.
-        if(!this.editor.history) {
-          return;
-        }
-        // Check the element tainted is an image
-        if (element.type() !== 'Image') {
-          return;
-        }
-
-        // Parse the existing URL
-        args = parseCloudinaryURL(element.attr('src'));
-        filename = args[0];
-        transforms = args[1];
-
-        // // If no filename is found then exit (not a Cloudinary image)
-        if (!filename) {
-          return;
-        }
-
-        // Remove any existing resize transform
-        if (transforms.length > 0 && transforms[transforms.length -1]['c'] === 'scale') {
-          transforms.pop();
-        }
-
-        // // Change the resize transform for the element
-        transforms.push({c: 'scale', w: element.size()[0], h: element.size()[1]});
-        url = buildCloudinaryURL(filename, transforms);
-        if (url !== element.attr('src')) {
-          element.attr('src', url);
-        }
-      });
+      this.setImageModificationHandler();
 
       // Initialise editor for the page.
       // 
@@ -81,7 +47,45 @@ class Editor {
       this.editor.addEventListener('saved', (event) => this.handleSave(event, this.submitURL));
       this.editor.addEventListener('start', (event) => this.handleEditStart(event));
     }
+  }
 
+  setImageModificationHandler() {
+    // Capture image resize events and update the Cloudinary URL
+    // eslint-disable-next-line
+    ContentEdit.Root.get().bind('taint', (element) => {
+      var args, filename, transforms, url;
+      // return early if there is no actual change that has been made.
+      if(!this.editor.history) {
+        return;
+      }
+
+      // Check the element tainted is an image
+      if (element.type() !== 'Image') {
+        return;
+      }
+
+      // Parse the existing URL
+      args = parseCloudinaryURL(element.attr('src'));
+      filename = args[0];
+      transforms = args[1];
+
+      // // If no filename is found then exit (not a Cloudinary image)
+      if (!filename) {
+        return;
+      }
+
+      // Remove any existing resize transform
+      if (transforms.length > 0 && transforms[transforms.length -1]['c'] === 'scale') {
+        transforms.pop();
+      }
+
+      // // Change the resize transform for the element
+      transforms.push({c: 'scale', w: element.size()[0], h: element.size()[1]});
+      url = buildCloudinaryURL(filename, transforms);
+      if (url !== element.attr('src')) {
+        element.attr('src', url);
+      }
+    });
   }
 
   getEditor(){
