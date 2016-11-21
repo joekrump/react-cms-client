@@ -331,7 +331,6 @@ class PageEdit extends React.Component {
       this.state.editContext, 
       this.props.resourceNamePlural, 
       this.props.dispatch,
-      
     )
   }
 

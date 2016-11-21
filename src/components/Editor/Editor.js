@@ -6,27 +6,25 @@ const sKeyCode = 83;
 
 class Editor {
 
-  constructor(getAdditionalFields, submitURL, handleSaveSuccess, editContext, resourceNamePlural, dispatch, template_id) {
+  constructor(getAdditionalFields, submitURL, handleSaveSuccess, editContext, resourceNamePlural, dispatch) {
     if(typeof window !== 'undefined') {
       this.submitURL = submitURL;
       this.handleSaveSuccess = handleSaveSuccess;
       this.resourceNamePlural = resourceNamePlural;
       this.dispatch = dispatch;
-      this.template_id = parseInt(template_id, 10);
-      this.slug = '';
+      this.getAdditionalFields = getAdditionalFields;
+
+      this.fields = getAdditionalFields();
       this.dirty_data = false;
       this.keypressSave = false; // used to help determine what the save context was.
       // new or edit
       // 
       this.editContext = editContext;
-      this.modifiedFields = {
-        slug: false,
-        tempalate: false,
-        image_url: false,
-        summary: false
-      }
+      this.modifiedFields = {}; // Keeps track of whether a field has been modified since the last save.
 
-      this.getAdditionalFields = getAdditionalFields;
+      Object.keys(this.fields).forEach((fieldname) => {
+        modifiedFields[fieldname] = false;
+      });
 
       ContentTools.IMAGE_UPLOADER = this.createImageUploader;
       ContentTools.MIN_CROP = 30;
@@ -90,20 +88,10 @@ class Editor {
     return this.editor;
   }
 
-  updateTemplateId(template_id){
-    this.template_id = template_id;
-    this.modifiedFields.template_id = true;
+  updateField(fieldName, newValue) {
+    this.fields[fieldName] = newValue;
+    this.modifiedFields[fieldName] = true; // indicates that the field has been modified since last save.
     this.dirty_data = true;
-  }
-
-  updateSlug(slug) {
-    this.slug = slug;
-    this.modifiedFields.slug = true;
-    this.dirty_data = true;
-  }
-
-  updateFeaturedImage() {
-
   }
 
   handleKeyDown(event) {
