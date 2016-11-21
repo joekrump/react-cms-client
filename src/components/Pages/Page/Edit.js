@@ -36,9 +36,9 @@ class PageEdit extends React.Component {
       full_path: '/',
       name: null,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
-      showTitle: false,
+      show_title: false,
       slug: props.slug ? props.slug : '',
-      slugManuallySet: props.slug ? true : false,
+      explicitSlug: props.slug ? true : false,
       submitDisabled: false,
       template: null,
       templates: [],
@@ -137,7 +137,7 @@ class PageEdit extends React.Component {
     let newState = {
       content: res.body.data.content,
       name: res.body.data.name,
-      slugManuallySet: this.state.slug !== ''
+      explicitSlug: this.state.slug !== ''
     };
 
     // If the server has had to modify the state for some reason then show the updated state.
@@ -187,10 +187,10 @@ class PageEdit extends React.Component {
       templates: res.body.data.templates,
       slug: res.body.data.slug,
       editor: this.makeEditor(),
-      showTitle: res.body.data.show_title || false,
+      show_title: res.body.data.show_title || false,
       summary: res.body.data.summary || '',
       image_url: res.body.data.image_url || defaultImage,
-      slugManuallySet: res.body.data.slug ? true : false
+      explicitSlug: res.body.data.slug ? true : false
     });
 
     if(!this.state.template_id) {
@@ -213,7 +213,7 @@ class PageEdit extends React.Component {
       templates: res.body.data, // data should contain a list of templates
       template_id: res.body.data[0].id,
       editor: editor,
-      showTitle: true
+      show_title: true
     })
     editor.updateField('template_id', res.body.data[0].id);
   }
@@ -225,11 +225,10 @@ class PageEdit extends React.Component {
    */
   handleNameChanged(event){
     // If this is not a new page, or if there is already a slug return early.
-    // 
-    if(this.state.editContext !== 'new' || this.state.slugManuallySet) {
-      return;
+    if(this.state.editContext !== 'new' || this.state.explicitSlug) {
+      return 1;
     }
-    // otherwise, update the slug based on what the name currently is.
+    // otherwise, update the slug based on what the 'name' currently is.
     // 
     this.updateSlug(slugify((event.target).textContent));
   }
@@ -340,7 +339,7 @@ class PageEdit extends React.Component {
   getAdditionalFieldValues() {
     return {
       image_url: this.state.image_url,
-      show_title: this.state.showTitle,
+      show_title: this.state.show_title,
       summary: this.state.summary,
       template_id: this.state.template_id,
       slug: this.state.slug
@@ -384,7 +383,7 @@ class PageEdit extends React.Component {
    * @return undefined
    */
   handleSlugChange(event) {
-    this.setState({slugManuallySet: true})
+    this.setState({explicitSlug: true})
     this.updateSlug(slugify(event.target.value));
   }
 
@@ -392,13 +391,14 @@ class PageEdit extends React.Component {
     this.setState({
       slug: slug
     })
-    this.state.editor.updateSlug(slug);
+    this.state.editor.updateField('slug', slug);
   }
 
   handleToggleShowTitle(event) {
     this.setState({
-      showTitle: !this.state.showTitle
+      show_title: !this.state.show_title
     })
+    this.state.editor.updateField('show_title', !this.state.show_title);
   }
 
   getPageURL() {
@@ -434,7 +434,7 @@ class PageEdit extends React.Component {
             label="Show Page Title?"
             labelPosition="right"
             onToggle={(event) => this.handleToggleShowTitle(event)}
-            defaultToggled={this.state.showTitle}
+            defaultToggled={this.state.show_title}
             style={{marginLeft: 24, marginTop: 5, width: 256}}
           />
         </EditDrawer>

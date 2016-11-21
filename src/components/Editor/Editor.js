@@ -209,17 +209,20 @@ class Editor {
         regionValue = editorRegions[key];
       }
       payload[key] = regionValue;
-    })
+    });
+    
+    return payload;
   }
 
   addAdditionalFieldsToPayload(payload) {
     let currentFieldValues = this.getAdditionalFields();
-    
+
     Object.keys(this.modifiedFields).forEach((fieldName) => {
       if(this.modifiedFields[fieldName]) {
         payload[fieldName] = currentFieldValues[fieldName];
       }
     });
+
     return payload;
   }
 
