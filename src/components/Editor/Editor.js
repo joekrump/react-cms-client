@@ -6,7 +6,7 @@ const sKeyCode = 83;
 
 class Editor {
 
-  constructor(getPageName, submitURL, handleSaveSuccess, editContext, resourceNamePlural, dispatch, template_id) {
+  constructor(getAdditionalFields, submitURL, handleSaveSuccess, editContext, resourceNamePlural, dispatch, template_id) {
     if(typeof window !== 'undefined') {
       this.submitURL = submitURL;
       this.handleSaveSuccess = handleSaveSuccess;
@@ -19,7 +19,10 @@ class Editor {
       // new or edit
       // 
       this.editContext = editContext;
-      this.getPageName = getPageName;
+
+      this.getAdditionalFields = getAdditionalFields;
+
+      console.log('Additional fields: ', getAdditionalFields());
 
       ContentTools.IMAGE_UPLOADER = this.createImageUploader;
       ContentTools.MIN_CROP = 30;
@@ -138,7 +141,7 @@ class Editor {
     this.handleSaveSuccess = null;
     this.resourceNamePlural = null;
     this.editContext = null;
-    this.getPageName = null;
+    this.getAdditionalFields = null;
   }
 
   dispatchNotification(show, header, content, notificationType) {
@@ -152,17 +155,10 @@ class Editor {
   }
   
   handleEditStart(event) {
-    // Call save every 30 seconds
-    // let autoSave = () => {
-    //   this.editor.save(true);
-    // };
-    // if(this.editContext !== 'new') {
-    //   this.editor.autoSaveTimer = setInterval(autoSave, 30 * 1000);
-    // }
+    // do something on editor start
   }
   handleEditStop(event) {
-    // Stop the autosave
-    // clearInterval(this.editor.autoSaveTimer);
+    // do something on editor stop
   }
   onSaveSuccess(res, passive) {
     if (res.statusCode === 422) {
@@ -228,7 +224,7 @@ class Editor {
         if(key === 'name') {
           regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "").trim(); // strip HTML tags and trim
         } else {
-          regionValue = regions[key]
+          regionValue = regions[key];
         }
         payload[key] = regionValue;
       })

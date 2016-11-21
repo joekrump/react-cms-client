@@ -108,7 +108,8 @@ const RoundSocialLinks = (props) => (
         <PinterestIcon size={32} round />
       </PinterestShareButton>
 
-      <PinterestShareCount url={props.url}
+      <PinterestShareCount 
+        url={props.url}
         className="share-count" />
     </div>
 

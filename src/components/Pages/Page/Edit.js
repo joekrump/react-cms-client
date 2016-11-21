@@ -21,6 +21,8 @@ import EditDrawer from '../../Menu/EditDrawer'
 import TemplateDropDown from '../Templates/TemplateDropDown'
 import {slugify} from '../../../helpers/StringHelper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
+import AppConfig from '../../../../app_config/app';
+import defaultImage from '../Templates/Pages/home-bg.jpg';
 
 class PageEdit extends React.Component {
 
@@ -40,8 +42,13 @@ class PageEdit extends React.Component {
       submitDisabled: false,
       template: null,
       templates: [],
-      template_id: props.template_id
+      template_id: props.template_id,
+      image_url: null,
+      summary: null
     }
+
+    this.getPageURL = this.getPageURL.bind(this);
+    this.getPageImage = this.getPageImage.bind(this);
   }
 
   componentWillUnmount() {
@@ -237,6 +244,8 @@ class PageEdit extends React.Component {
         template = (<BasicTemplate 
           name={name} 
           content={content}
+          image_url={this.getPageImage()}
+          url={this.getPageURL()}
           handleNameChanged={(e) => this.handleNameChanged(e)} />)
         break;
       }
@@ -316,7 +325,7 @@ class PageEdit extends React.Component {
    */
   makeEditor(){
     return new Editor(
-      () => (this.props.name), 
+      () => this.getAdditionalFieldValues(), 
       this.props.submitUrl, 
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
@@ -324,6 +333,14 @@ class PageEdit extends React.Component {
       this.props.dispatch,
       this.state.template_id
     )
+  }
+
+  getAdditionalFieldValues() {
+    return {
+      image_url: this.state.image_url,
+      show_title: this.state.showPageTitle,
+      summary: this.state.summary
+    }
   }
 
   /**
@@ -378,6 +395,14 @@ class PageEdit extends React.Component {
     this.setState({
       showTitle: !this.state.showTitle
     })
+  }
+
+  getPageURL() {
+    return (typeof(window) !== 'undefined') ? window.location.href : `${AppConfig.baseUrl}/${this.props.pathname}`;
+  }
+
+  getPageImage() {
+    return this.state.image_url ? this.state.image_url : defaultImage;
   }
 
   render() {
