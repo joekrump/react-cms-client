@@ -36,7 +36,7 @@ class PageEdit extends React.Component {
       full_path: '/',
       name: null,
       resourceURL: props.resourceNamePlural + '/' + props.resourceId,
-      showPageTitle: true,
+      showTitle: false,
       slug: props.slug ? props.slug : '',
       slugManuallySet: props.slug ? true : false,
       submitDisabled: false,
@@ -148,9 +148,9 @@ class PageEdit extends React.Component {
 
     this.setState(newState);
 
-    if(url) {
-      // this.props.dispatch(replace('/admin/' + url + '/edit'))
-    }
+    // if(url) {
+    //   // this.props.dispatch(replace('/admin/' + url + '/edit'))
+    // }
     this.props.updateSnackbar(true, 'Success', 'Page Saved!', 'success');
   }
   
@@ -187,6 +187,9 @@ class PageEdit extends React.Component {
       templates: res.body.data.templates,
       slug: res.body.data.slug,
       editor: this.makeEditor(),
+      showTitle: res.body.data.show_title || false,
+      summary: res.body.data.summary || '',
+      image_url: res.body.data.image_url || defaultImage,
       slugManuallySet: res.body.data.slug ? true : false
     });
 
@@ -209,10 +212,10 @@ class PageEdit extends React.Component {
     this.setState({
       templates: res.body.data, // data should contain a list of templates
       template_id: res.body.data[0].id,
-      editor: editor
+      editor: editor,
+      showTitle: true
     })
-    // set the template_id within the context of the editor
-    editor.updateTemplateId(res.body.data[0].id);
+    editor.updateField('template_id', res.body.data[0].id);
   }
 
   /**
@@ -337,7 +340,7 @@ class PageEdit extends React.Component {
   getAdditionalFieldValues() {
     return {
       image_url: this.state.image_url,
-      show_title: this.state.showPageTitle,
+      show_title: this.state.showTitle,
       summary: this.state.summary,
       template_id: this.state.template_id,
       slug: this.state.slug
@@ -431,7 +434,7 @@ class PageEdit extends React.Component {
             label="Show Page Title?"
             labelPosition="right"
             onToggle={(event) => this.handleToggleShowTitle(event)}
-            defaultToggled={this.state.showPageTitle}
+            defaultToggled={this.state.showTitle}
             style={{marginLeft: 24, marginTop: 5, width: 256}}
           />
         </EditDrawer>

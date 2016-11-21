@@ -166,6 +166,7 @@ class Editor {
   handleEditStop(event) {
     // do something on editor stop
   }
+
   onSaveSuccess(res, passive) {
     if (res.statusCode === 422) {
       this.dispatchNotification(true, 'Error', res.data.errors, 'error');
@@ -183,6 +184,7 @@ class Editor {
     }
     this.editor.busy(false); // set the editor to not busy once handling of server response has been completed. 
   }
+
   onSaveFailure(res, passive) {
     this.editor.busy(false);
 
@@ -195,54 +197,60 @@ class Editor {
       this.dispatchNotification(true, 'Error', 'Something unexpected happened. Please report this as a bug.', 'error');
     }
   }
+
+  makePayload(editorRegions) {
+    let payload = {};
+    let regionValue;
+    
+    (Object.keys(editorRegions)).forEach((key) => {
+      if(key === 'name') {
+        regionValue = editorRegions[key].replace(/<\/?[^>]+(>|$)/g, "").trim(); // strip HTML tags and trim
+      } else {
+        regionValue = editorRegions[key];
+      }
+      payload[key] = regionValue;
+    })
+  }
+
+  addAdditionalFieldsToPayload(payload) {
+    let currentFieldValues = this.getAdditionalFields();
+    
+    Object.keys(this.modifiedFields).forEach((fieldName) => {
+      if(this.modifiedFields[fieldName]) {
+        payload[fieldName] = currentFieldValues[fieldName];
+      }
+    });
+    return payload;
+  }
+
   handleSave(event, submitURL) {
 
     if(this.editor.busy()) {
       this.dispatchNotification(true, 'Warning', 'Editor already saving, please wait', 'warning')
       return;
-    }
-    // while the editor is saving, set busy to true.
-    this.editor.busy(true);
+    }    
+
+    this.editor.busy(true); // set editor to busy while trying to save.
     
+    // IF no URL to save to is provided then return early
     if(!submitURL) {
-      // IF no URL to save to is provided then return early
       this.editor.busy(false);
       return;
     }
     
-    // Check if this was a passive save
-    // 
-    let passive = event.detail().passive;
-    // Check to see if there are any changes to save
-    // 
-    let regions = event.detail().regions;
-    // console.log(this.editor.domRegions());
-    // console.log(this.editor.regions());
-    let numRegions = Object.keys(regions).length;
+    let editorRegions = event.detail().regions;
+    let numRegions = Object.keys(editorRegions).length;
     let payload = {};
 
     if (numRegions === 0 && !this.dirty_data) {
       this.editor.busy(false);
       return;
     } else {
-      let regionValue;
-      (Object.keys(regions)).forEach((key) => {
-        if(key === 'name') {
-          regionValue = regions[key].replace(/<\/?[^>]+(>|$)/g, "").trim(); // strip HTML tags and trim
-        } else {
-          regionValue = regions[key];
-        }
-        payload[key] = regionValue;
-      })
+      payload = this.makePayload(editorRegions)
     }
 
     if(this.dirty_data || (this.editContext === 'new')) {
-      payload.template_id = this.template_id;
-      // if there is dirty data and there is a slug, then send the slug in the payload.
-      // TODO: refactor this. As slug shouldn't be sent with every request.
-      if(this.slug) {
-        payload.slug = this.slug;
-      }
+      payload = this.addAdditionalFieldsToPayload(payload);
     } 
 
     // Set the editors state to busy while we save our changes
@@ -250,6 +258,7 @@ class Editor {
     try {
       let httpMethod = this.editContext === 'edit' ? 'put' : 'post'
       let client = new APIClient(this.dispatch);
+      let passive = event.detail().passive;
 
       client[httpMethod](submitURL, true, {data: payload}).then(
         (res) => this.onSaveSuccess(res, passive), 
