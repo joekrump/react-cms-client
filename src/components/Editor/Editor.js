@@ -12,30 +12,13 @@ class Editor {
       this.handleSaveSuccess = handleSaveSuccess;
       this.resourceNamePlural = resourceNamePlural;
       this.dispatch = dispatch;
-      this.getAdditionalFields = getAdditionalFields;
-
-      this.fields = getAdditionalFields();
       this.dirty_data = false;
       this.keypressSave = false; // used to help determine what the save context was.
-      // new or edit
-      // 
-      this.editContext = editContext;
-      this.modifiedFields = {}; // Keeps track of whether a field has been modified since the last save.
+      this.editContext = editContext; // 'new' or 'edit'
 
-      Object.keys(this.fields).forEach((fieldname) => {
-        this.modifiedFields[fieldname] = false;
-      });
-
-      ContentTools.IMAGE_UPLOADER = this.createImageUploader;
-      ContentTools.MIN_CROP = 30;
-      ContentTools.DEFAULT_VIDEO_WIDTH = 889;
-      ContentTools.DEFAULT_VIDEO_HEIGHT = 500;
-
-      // eslint-disable-next-line
-      ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 980;
-      // eslint-disable-next-line
-      ContentEdit.RESIZE_CORNER_SIZE = 50;
-
+      this.setAdditionalFields = this.setAdditionalFields.bind(this);
+      this.setAdditionalFields(getAdditionalFields);
+      this.setContentToolsProps();
       this.setImageModificationHandler();
 
       // Initialise editor for the page.
@@ -47,6 +30,27 @@ class Editor {
       this.editor.addEventListener('saved', (event) => this.handleSave(event, this.submitURL));
       this.editor.addEventListener('start', (event) => this.handleEditStart(event));
     }
+  }
+
+  setAdditionalFields(getAdditionalFields) {
+    this.getAdditionalFields = getAdditionalFields;
+    this.fields = getAdditionalFields();
+    this.modifiedFields = {}; // Keeps track of whether a field has been modified since the last save.
+    Object.keys(this.fields).forEach((fieldname) => {
+      this.modifiedFields[fieldname] = false;
+    });
+  }
+
+  setContentToolsProps() {
+    ContentTools.IMAGE_UPLOADER = this.createImageUploader;
+    ContentTools.MIN_CROP = 30;
+    ContentTools.DEFAULT_VIDEO_WIDTH = 889;
+    ContentTools.DEFAULT_VIDEO_HEIGHT = 500;
+
+    // eslint-disable-next-line
+    ContentEdit.DEFAULT_MAX_ELEMENT_WIDTH = 980;
+    // eslint-disable-next-line
+    ContentEdit.RESIZE_CORNER_SIZE = 50;
   }
 
   setImageModificationHandler() {
@@ -116,7 +120,7 @@ class Editor {
   handleKeyboardSave(event) {
     let handled = false;
     if (event.keyCode !== undefined) {
-      if(event.keyCode === sKeyCode) {
+      if((event.keyCode === sKeyCode) && this.editor.ctrlDown()) {
         this.keypressSave = true;
         // save() already checks to see if there is dirty data before it issues a request to the server
         // so no need to check it again here.
