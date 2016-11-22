@@ -44,7 +44,9 @@ class PageEdit extends React.Component {
       templates: [],
       template_id: props.template_id,
       image_url: null,
-      summary: null
+      summary: '',
+      draft: true,
+      in_menu: false
     }
 
     this.getPageURL = this.getPageURL.bind(this);
@@ -187,10 +189,12 @@ class PageEdit extends React.Component {
       templates: res.body.data.templates,
       slug: res.body.data.slug,
       editor: this.makeEditor(),
-      show_title: res.body.data.show_title || false,
+      show_title: res.body.data.show_title === 1,
       summary: res.body.data.summary || '',
       image_url: res.body.data.image_url || defaultImage,
-      explicitSlug: res.body.data.slug ? true : false
+      explicitSlug: res.body.data.slug ? true : false,
+      draft: res.body.data.draft === 1,
+      in_menu: res.body.data.in_menu === 1
     });
 
     if(!this.state.template_id) {
@@ -342,7 +346,9 @@ class PageEdit extends React.Component {
       show_title: this.state.show_title,
       summary: this.state.summary,
       template_id: this.state.template_id,
-      slug: this.state.slug
+      slug: this.state.slug,
+      in_menu: this.state.in_menu,
+      draft: this.state.draft
     }
   }
 
@@ -409,10 +415,31 @@ class PageEdit extends React.Component {
     return this.state.image_url ? this.state.image_url : defaultImage;
   }
 
+  handleFieldChange(evt, name, type) {
+    evt.preventDefault();
+    
+    let newStateValue = {};
+    
+    if(type === 'toggle') {
+      newStateValue[name] = !this.state[name];
+    } else {
+      newStateValue[name] = evt.target.value;
+    }
+    this.setState(newStateValue);
+    this.state.editor.updateField(name, evt.target.value);
+  }
+
   render() {
     return (
       <div className="page-edit">
         <EditDrawer>
+          <Toggle
+            label="Publish"
+            labelPosition="right"
+            onToggle={(evt) => this.handleFieldChange(evt, 'draft', 'toggle')}
+            defaultToggled={!this.state.draft}
+            style={{marginLeft: 24, marginTop: 5, width: 256}}
+          />
           <TemplateDropDown 
             templateOptions={this.state.templates} 
             defaultTemplateId={this.state.template_id} 
@@ -437,6 +464,15 @@ class PageEdit extends React.Component {
             defaultToggled={this.state.show_title}
             style={{marginLeft: 24, marginTop: 5, width: 256}}
           />
+          <TextField
+            type='text'
+            hintText='Summary (200 characters or less)'
+            floatingLabelText='Summary'
+            onChange={(e) => this.handleFieldChange(e, 'summary')}
+            value={this.state.summary}
+            style={{marginLeft: 24}}
+            multiLine={true}
+          /> 
         </EditDrawer>
         {this.state.template}
         <NotificationSnackbar />

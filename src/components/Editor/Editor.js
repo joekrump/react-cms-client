@@ -2,7 +2,7 @@ import APIClient from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
 
-const sKeyCode = 83;
+const sKeyCode = 83; // key code for the 's' key on the keyboard;
 
 class Editor {
 
@@ -180,9 +180,16 @@ class Editor {
       } else {
         this.handleSaveSuccess(null, res, passive)
       }
-      this.dirty_data = false;
+      this.resetModifiedData();
     }
     this.editor.busy(false); // set the editor to not busy once handling of server response has been completed. 
+  }
+
+  resetModifiedData() {
+    Object.keys(this.modifiedFields).forEach((fieldName) => {
+      this.modifiedFields[fieldName] = false;
+    });
+    this.dirty_data = false;
   }
 
   onSaveFailure(res, passive) {
@@ -210,11 +217,11 @@ class Editor {
       }
       payload[key] = regionValue;
     });
-    
+
     return payload;
   }
 
-  addAdditionalFieldsToPayload(payload) {
+  addModifiedFieldsToPayload(payload) {
     let currentFieldValues = this.getAdditionalFields();
 
     Object.keys(this.modifiedFields).forEach((fieldName) => {
@@ -224,6 +231,10 @@ class Editor {
     });
 
     return payload;
+  }
+
+  addAllFieldsToPayload(payload) {
+    return Object.assign(payload, this.getAdditionalFields());
   }
 
   handleSave(event, submitURL) {
@@ -252,9 +263,13 @@ class Editor {
       payload = this.makePayload(editorRegions)
     }
 
-    if(this.dirty_data || (this.editContext === 'new')) {
-      payload = this.addAdditionalFieldsToPayload(payload);
-    } 
+    if(this.editContext === 'new') {
+      payload = this.addAllFieldsToPayload(payload);
+    } else if (this.dirty_data) {
+      payload = this.addModifiedFieldsToPayload(payload);
+    }
+
+    console.log('Payload: ', payload);
 
     // Set the editors state to busy while we save our changes
     // 
