@@ -62,6 +62,7 @@ class TopNav extends React.Component {
       </Link>)
     );
   }
+  
   renderDefaultNav() {
     return (
       <div className="nav-links-container">
