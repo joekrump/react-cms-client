@@ -117,10 +117,22 @@ var stripe_config = {
 module.exports = stripe_config; 
 ```
 
-### Start Client App
+### Start Client App in Development mode
 
 ```bash
 $ npm start
+```
+
+### Build Client App for Productions with Server-side rendering
+
+```bash
+$ npm run build & npm run build-server
+```
+
+## Launch Production Server
+
+```bash
+$ npm run server
 ```
 
 ### WIP
