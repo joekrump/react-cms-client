@@ -1,4 +1,5 @@
 $purple: #304FFe;
+$linkColor: #e6e6e6;
 
 .top-nav {
   position: fixed;
@@ -33,11 +34,10 @@ $purple: #304FFe;
       margin-left: 1.0rem;
 
       .top-link {
-        color: #e6e6e6;
-        font-weight: 400;
+        color: $linkColor;
+        font-weight: 300;
         max-width: 140px;
         text-decoration: none;
-        color: #e6e6e6;
         padding: 0 0.5rem;
 
         &:hover, &:focus {
@@ -58,6 +58,10 @@ $purple: #304FFe;
     }
     .site-title {
       margin: 0;
+      a {
+        font-weight: 300;
+        color: $linkColor;
+      }
     }
   }
 }
