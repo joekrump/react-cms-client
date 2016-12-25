@@ -104,13 +104,8 @@ class Editor {
 
   handleKeyDown(event) {
     let editorState = this.editor.getState().toUpperCase();
-    // If editor is not in a state of EDITING and is also not in a READY state with dirty_data == true
-    // then return early.
-    if(editorState !== 'EDITING' && (editorState !== 'READY' && this.dirty_data)) {
-      return;
-    }
-    // If the control key is not down in the editor then return early.
-    if(!this.editor.ctrlDown()) {
+
+    if(!this.editor.ctrlDown() || editorState !== 'EDITING' || (editorState !== 'READY' && this.dirty_data)) {
       return;
     } else {
       this.handleKeyboardSave(event);
@@ -122,9 +117,7 @@ class Editor {
     if (event.keyCode !== undefined) {
       if((event.keyCode === sKeyCode) && this.editor.ctrlDown()) {
         this.keypressSave = true;
-        // save() already checks to see if there is dirty data before it issues a request to the server
-        // so no need to check it again here.
-        this.editor.save(true);
+        this.editor.save(true); // save with passive set to true so editor keeps its state.
         handled = true;
       }
     }
@@ -268,8 +261,6 @@ class Editor {
     } else if (this.dirty_data) {
       payload = this.addModifiedFieldsToPayload(payload);
     }
-
-    console.log('Payload: ', payload);
 
     // Set the editors state to busy while we save our changes
     // 
