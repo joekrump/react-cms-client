@@ -121,10 +121,6 @@ class Page extends React.Component {
     template_id = parseInt(template_id, 10);
     let templateName = getTemplateName(template_id);
 
-    console.log(templateName);
-    console.log(Templates);
-    console.log(Templates[templateName]);
-
     return React.createElement(Templates[templateName], {
       name: name,
       content: content,

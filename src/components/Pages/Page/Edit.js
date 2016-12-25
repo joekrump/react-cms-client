@@ -7,8 +7,7 @@ import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
 
 // Available templates
-import * as templates from '../Templates/Pages'
-
+import * as Templates from '../Templates/Pages'
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import EditDrawer from '../../Menu/EditDrawer'
@@ -240,7 +239,7 @@ class PageEdit extends React.Component {
   getTemplateComponent(template_id, name, content){
     let templateName = getTemplateName(template_id);
 
-    return React.createElement(templateName, {
+    return React.createElement(Templates[templateName], {
       name, content,
       handleNameChanged: (e) => this.handleNameChanged(e)
     });
