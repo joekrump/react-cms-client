@@ -52,14 +52,14 @@ class TopNav extends React.Component {
 
   buildDefaultLinks() {
     return AppConfig.routes.public.map((link, i) => (
-            <Link 
-              key={'top-link' + i}
-              className="top-link" 
-              to={link.url} 
-              activeClassName="active"
-              onlyActiveOnIndex={link.url === '/'}>
-              {link.routeTitle}
-            </Link>)
+      <Link 
+        key={'top-link' + i}
+        className="top-link" 
+        to={link.url} 
+        activeClassName="active"
+        onlyActiveOnIndex={link.url === '/'}>
+        {link.routeTitle}
+      </Link>)
     );
   }
   renderDefaultNav() {

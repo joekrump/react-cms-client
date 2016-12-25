@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import {List, ListItem} from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../Form/index';
 import validations from '../../form-validation/validations'
+import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 
 const listItemStyle = {
   padding: "0 16px"
@@ -32,6 +33,7 @@ class ContactForm extends React.Component {
   }
   
   submitResolve = (res) => {
+    console.log(res);
     if (res.statusCode > 299) {
       this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
     } else {
@@ -53,7 +55,7 @@ class ContactForm extends React.Component {
     
     let httpMethod = 'post';
 
-    client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
+    client[httpMethod]('contact', false, {data: formInputValues})
      .then(this.submitResolve, this.submitReject)
      .catch(this.handleRequestException)
   }
@@ -81,7 +83,7 @@ class ContactForm extends React.Component {
   
   render() {
     return (
-      <Form onSubmit={this.handleFormSubmit} className="payment-content">
+      <Form onSubmit={(e) => this.handleFormSubmit(e)} className="payment-content">
         <List>
           <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
             <TextInput placeholder="Name" label="Your Name" formName={formName} 
@@ -107,6 +109,7 @@ class ContactForm extends React.Component {
             <SubmitButton isFormValid={this.props.isFormValid} withIcon={true} label="Send"/>
           </ListItem>
         </List>
+        <NotificationSnackbar />
       </Form>
     )
   }
