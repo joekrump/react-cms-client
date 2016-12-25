@@ -13,7 +13,7 @@ function getEditComponent(editContext, nameSingular, namePlural, resourceId) {
       <EditPageLayout>
         <div className="admin-edit">
           <PageEdit 
-            submitUrl={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
+            submitUrl={editContext === 'new' ? namePlural : (`${namePlural}/${resourceId}`)}
             resourceType={nameSingular}
             resourceId={resourceId}
             resourceNamePlural={namePlural}
@@ -27,7 +27,7 @@ function getEditComponent(editContext, nameSingular, namePlural, resourceId) {
       <AdminLayout>
         <div className="admin-edit">
           <CardEdit 
-            submitUrl={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
+            submitUrl={editContext === 'new' ? namePlural : (`${namePlural}/${resourceId}`)}
             resourceType={nameSingular}
             resourceId={resourceId}
             resourceNamePlural={namePlural}
@@ -53,8 +53,8 @@ export function getEditorContent(editContext, nameSingular, namePlural, resource
           <h1>{editContext === 'new' ? 'New' : 'Edit'} {capitalize(nameSingular)}</h1>
 
           <ResourceForm 
-            formName={nameSingular + 'Form'} 
-            resourceURL={editContext === 'new' ? namePlural : (namePlural + '/' + resourceId)}
+            formName={`${nameSingular}Form`} 
+            resourceURL={editContext === 'new' ? namePlural : (`${namePlural}/${resourceId}`)}
             resourceId={resourceId}
             editContext={editContext}
           />

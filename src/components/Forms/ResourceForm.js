@@ -69,12 +69,12 @@ class ResourceForm extends React.Component {
     let httpMethod = this.props.editContext === 'edit' ? 'put' : 'post';
 
     client[httpMethod](this.props.resourceURL, true, {data: formInputValues})
-    .then(this.submitResolve, this.submitReject)
-    .catch(this.handleRequestException)
+     .then(this.submitResolve, this.submitReject)
+     .catch(this.handleRequestException)
   }
 
   handleRequestException = (exception) => {
-    console.warn('Exception: ', exception)
+    // console.warn('Exception: ', exception)
     this.props.updateSnackbar(true, 'Error', exception, 'error');
   }
 
@@ -140,7 +140,6 @@ class ResourceForm extends React.Component {
           </ListItem>
         );
       }
-      
     });
 
     return (

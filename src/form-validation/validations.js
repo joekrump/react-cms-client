@@ -15,6 +15,17 @@ module.exports = {
       rules: ['isRequired', 'isInt']
     }
   },
+  contactForm: {
+    name: {
+      rules: ['isRequired', 'isValidName']
+    },
+    email: {
+      rules: ['isRequired', 'isEmail']
+    },
+    message: {
+      rules: ['isRequired']
+    }
+  },
   loginForm: {
     email: {
       rules: ['isRequired', 'isEmail']
