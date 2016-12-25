@@ -209,7 +209,7 @@ class Page extends React.Component {
     return (
       <FrontendPage>
         <Helmet 
-          title={`${this.state.name} | ${AppConfig.siteTitle}`}
+          title={`${AppConfig.siteTitle} | ${this.state.name}`}
           meta={this.makeHelmetMeta()}
         />
         {this.state.page}

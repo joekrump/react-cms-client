@@ -8,7 +8,7 @@ import AppConfig from '../../../../../app_config/app';
 const AdminLayout = (props) => (
   <div className="admin-container">
     <Helmet 
-      title={`Admin | ${AppConfig.siteTitle}`}
+      title={`${AppConfig.siteTitle} | Admin`}
     />
     {props.children}
     <SpeedDial />
