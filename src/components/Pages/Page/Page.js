@@ -17,6 +17,7 @@ import AppConfig from '../../../../app_config/app';
 import { push } from 'react-router-redux';
 import Helmet from 'react-helmet';
 import defaultImage from '../Templates/Pages/home-bg.jpg';
+import { getTemplateName } from '../../../helpers/PageHelper';
 
 class Page extends React.Component {
   
@@ -58,7 +59,7 @@ class Page extends React.Component {
     this.setState({
       name: res.body.data.name,
       content: res.body.data.content,
-      image_url: res.body.data.image_url || defaultImage,
+      image_url: (res.body.data.image_url || defaultImage),
       page: this.getRenderedPage(
         res.body.data.template_id, 
         res.body.data.content, 
@@ -123,77 +124,26 @@ class Page extends React.Component {
   }
 
   getRenderedPage(template_id, content, name, image_url){
-    let page = null;
     // May come in as a string from query params so parse as int.
     template_id = parseInt(template_id, 10);
-
-    switch(template_id) {
-      case 1: {
-        page = (<BasicTemplate 
-          name={name} 
-          content={content} 
-          pathname={this.props.pathname}
-          url={this.getPageURL()} 
-          title={this.state.name}
-          media={this.state.image_url || defaultImage}
-          baseUrl={AppConfig.baseUrl}
-        />)
-        break;
-      }
-      case 2: {
-        page = (<ContactTemplate name={name} content={content} pathname={this.props.pathname}/>)
-        break;
-      }
-      case 3: {
-        page = (<HomeTemplate name={name} content={content} image_url={image_url || null}/>);
-        break;
-      }
-      case 4: {
-        page = (<LoginTemplate name={name} content={content} pathname={this.props.pathname} location={this.props.location}/>);
-        break;
-      }
-      case 5: {
-        page = (<PaymentTemplate name={name} content={content} pathname={this.props.pathname} />);
-        break;
-      }
-      case 6: {
-        page = (<SignupTemplate name={name} content={content} pathname={this.props.pathname} />);
-        break;
-      }
-      case 7: {
-        page = (<ForgotPasswordTemplate name={name} content={content} pathname={this.props.pathname} />);
-        break;
-      }
-      case 8: {
-        page = (<ResetPasswordTemplate name={name} content={content} pathname={this.props.pathname} />);
-        break;
-      }
-      default: {
-        page = (<BasicTemplate name={name} content={content} pathname={this.props.pathname}
-          url={this.getPageURL()} 
-          title={this.state.name}
-          media={this.state.image_url || defaultImage}
-          baseUrl={AppConfig.baseUrl}
-        />)
-        break;
-      }
-    }
-
-    return page;
+    let templateName = getTemplateName(template_id);
+    
+    return React.createElement(templateName, {
+      name: name,
+      content: content,
+    });
   }
 
   makeHelmetMeta() {
     let headerMeta = [
       {property: 'og:title', content: this.state.name},
+      {property: 'og:url', content: this.getPageURL()},
     ];
 
     if(this.state.image_url) {
       headerMeta.push({property: 'og:image', content: this.state.image_url});
     }
 
-    if(typeof(window) !== 'undefined') {
-      headerMeta.push({property: 'og:url', content: window.location.href});
-    }
     return headerMeta;
   }
 

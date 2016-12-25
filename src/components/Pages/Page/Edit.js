@@ -23,6 +23,7 @@ import {slugify} from '../../../helpers/StringHelper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
 import AppConfig from '../../../../app_config/app';
 import defaultImage from '../Templates/Pages/home-bg.jpg';
+import { getTemplateName } from '../../../helpers/PageHelper';
 
 class PageEdit extends React.Component {
 
@@ -243,86 +244,12 @@ class PageEdit extends React.Component {
    * @return {React.Component}     - The page template to render.
    */
   getTemplateComponent(template_id, name, content){
-    let template = null;
+    let templateName = getTemplateName(template_id);
 
-    switch(template_id) {
-      case 1: {
-        template = (<BasicTemplate 
-          name={name} 
-          content={content}
-          image_url={this.getPageImage()}
-          url={this.getPageURL()}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />)
-        break;
-      }
-      case 2: {
-        template = (<ContactTemplate 
-          name={name} 
-          content={content}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />)
-        break;
-      }
-      case 3: {
-        template = (<HomeTemplate 
-          name={name} 
-          content={content}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      case 4: {
-        template = (<LoginTemplate 
-          name={name} 
-          content={content} 
-          disabled={true}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      case 5: {
-        template = (<PaymentTemplate 
-          name={name} 
-          content={content} 
-          submitDisabled={true}
-          editMode={true}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      case 6: {
-        template = (<SignupTemplate
-          name={name} 
-          content={content} 
-          submitDisabled={true}
-          editMode={true}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      case 7: {
-        template = (<ForgotPasswordTemplate
-          name={name} 
-          content={content} 
-          submitDisabled={true}
-          editMode={true}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      case 8: {
-        template = (<ResetPasswordTemplate
-          name={name} 
-          content={content} 
-          submitDisabled={true}
-          editMode={true}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />);
-        break;
-      }
-      default: {
-        template = (<BasicTemplate 
-          name={name} 
-          content={content}
-          handleNameChanged={(e) => this.handleNameChanged(e)} />)
-        break;
-      }
-    }
-
-    return template;
+    return React.createElement(templateName, {
+      name, content,
+      handleNameChanged: (e) => this.handleNameChanged(e)
+    });
   }
 
   /**
