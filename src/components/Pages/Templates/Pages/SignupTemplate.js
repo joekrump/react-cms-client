@@ -1,7 +1,7 @@
 import React from 'react';
 import SignupForm  from '../../../Forms/SignupForm';
 
-const SignupPageTemplate = (props) => (
+const SignupTemplate = (props) => (
   <div className="page login">
     <div className="page-container">
       <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
@@ -13,4 +13,4 @@ const SignupPageTemplate = (props) => (
   </div>
 )
 
-export default SignupPageTemplate;
+export {SignupTemplate};

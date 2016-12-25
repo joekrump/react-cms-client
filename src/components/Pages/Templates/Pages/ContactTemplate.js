@@ -5,7 +5,7 @@ import s from './ContactPageTemplate.scss';
 import image from './home-bg.jpg';
 import Helmet from 'react-helmet';
 
-const ContactPageTemplate = (props) => (
+const ContactTemplate = (props) => (
   <div className="page contact">
     <div className="page-container">
       <div data-editable data-name="name" className="big-box" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
@@ -19,4 +19,6 @@ const ContactPageTemplate = (props) => (
   </div>
 )
 
-export default withStyles(s)(ContactPageTemplate);
+const styledTemplate = withStyles(s)(ContactTemplate)
+
+export {styledTemplate as ContactTemplate};

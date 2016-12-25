@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm  from '../../../Forms/LoginForm';
 
-const LoginPageTemplate = (props) => (
+const LoginTemplate = (props) => (
   <div className="page login">
     <div className="page-container">
       <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
@@ -13,4 +13,4 @@ const LoginPageTemplate = (props) => (
   </div>
 )
 
-export default LoginPageTemplate;
+export {LoginTemplate};

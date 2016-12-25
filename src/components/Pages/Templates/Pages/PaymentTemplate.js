@@ -1,7 +1,7 @@
 import React from 'react';
 import PaymentFormContainer from '../../../Forms/PaymentForm/PaymentFormContainer';
 
-const PaymentPageTemplate = (props) => (
+const PaymentTemplate = (props) => (
   <div className="page payment">
     <div className="page-container">
       <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
@@ -13,4 +13,4 @@ const PaymentPageTemplate = (props) => (
   </div>
 )
 
-export default PaymentPageTemplate;
+export {PaymentTemplate};

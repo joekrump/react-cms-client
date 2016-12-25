@@ -1,13 +1,6 @@
 import React from 'react';
 
-import HomeTemplate from '../Templates/Pages/HomeTemplate';
-import ContactTemplate from '../Templates/Pages/ContactTemplate';
-import BasicTemplate from '../Templates/Pages/BasicTemplate';
-import LoginTemplate from '../Templates/Pages/LoginTemplate';
-import PaymentTemplate from '../Templates/Pages/PaymentTemplate';
-import SignupTemplate from '../Templates/Pages/SignupTemplate';
-import ForgotPasswordTemplate from '../Templates/Pages/ForgotPasswordTemplate';
-import ResetPasswordTemplate from '../Templates/Pages/ResetPasswordTemplate';
+import * as Templates from '../Templates/Pages';
 
 import PageNotFound from '../Errors/404/404';
 import APIClient from '../../../http/requests';
@@ -127,8 +120,12 @@ class Page extends React.Component {
     // May come in as a string from query params so parse as int.
     template_id = parseInt(template_id, 10);
     let templateName = getTemplateName(template_id);
-    
-    return React.createElement(templateName, {
+
+    console.log(templateName);
+    console.log(Templates);
+    console.log(Templates[templateName]);
+
+    return React.createElement(Templates[templateName], {
       name: name,
       content: content,
     });

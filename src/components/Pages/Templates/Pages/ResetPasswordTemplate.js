@@ -13,4 +13,4 @@ const ResetPasswordTemplate = (props) => (
   </div>
 )
 
-export default ResetPasswordTemplate;
+export {ResetPasswordTemplate};

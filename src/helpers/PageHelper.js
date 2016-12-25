@@ -7,28 +7,28 @@ export function getTemplateName(template_id) {
       templateName = 'BasicTemplate'; break;
     }
     case 2: {
-      templateName = 'IndexTemplate'; break;
-    }
-    case 3: {
       templateName = 'ContactTemplate'; break;
     }
-    case 4: {
+    case 3: {
       templateName = 'HomeTemplate'; break;
     }
-    case 5: {
+    case 4: {
       templateName = 'LoginTemplate'; break;
     }
-    case 6: {
+    case 5: {
       templateName = 'PaymentTemplate'; break;
     }
-    case 7: {
+    case 6: {
       templateName = 'SignupTemplate'; break;
     }
-    case 8: {
+    case 7: {
       templateName = 'ForgotPasswordTemplate'; break;
     }
-    case 9: {
+    case 8: {
       templateName = 'ResetPasswordTemplate'; break;
+    }
+    case 9: {
+      templateName = 'IndexTemplate'; break;
     }
     default: {
       break;

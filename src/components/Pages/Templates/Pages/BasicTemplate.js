@@ -5,7 +5,7 @@ import image from './home-bg.jpg';
 import Helmet from 'react-helmet';
 // import RoundSocialLinks from '../../Page/RoundSocialLinks';
 
-const BasicPageTemplate = (props) => (
+const BasicTemplate = (props) => (
   <div className="page basic">
     <div className="page-container">
       <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
@@ -16,4 +16,6 @@ const BasicPageTemplate = (props) => (
   </div>
 )
 
-export default withStyles(s)(BasicPageTemplate);
+const styledTemplate = withStyles(s)(BasicTemplate)
+
+export {styledTemplate as BasicTemplate};

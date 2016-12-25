@@ -16,13 +16,13 @@ const styles = {
     overflowY: 'auto',
   },
   basicGridItemFiller: {
-    width: 100%;
-    height: 100%;
-    backgroundColor: 'black';
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'black',
   }
 };
 
-export class IndexTemplate extends React.Component {
+class IndexTemplate extends React.Component {
   static propTypes = {
     childPages: React.PropTypes.array.required,
   };
@@ -56,7 +56,7 @@ export class IndexTemplate extends React.Component {
           cellHeight={180}
           style={styles.gridList}
         >
-
+          {this.renderChildPages()}
         </GridList>
       </div>
     );
@@ -68,9 +68,10 @@ function mapStateToProps(state) {
     childPages: state.page.childPages
   };
 }
-
-export default connect(
+const connectTemplate = connect(
   mapStateToProps,
 // Implement map dispatch to props
-)(IndexTemplate)
+)(IndexTemplate);
+
+export {connectTemplate as IndexTemplate}
 

@@ -5,15 +5,9 @@ import { replace } from 'react-router-redux'
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
+
 // Available templates
-import HomeTemplate from '../Templates/Pages/HomeTemplate'
-import ContactTemplate from '../Templates/Pages/ContactTemplate'
-import BasicTemplate from '../Templates/Pages/BasicTemplate'
-import LoginTemplate from '../Templates/Pages/LoginTemplate'
-import PaymentTemplate from '../Templates/Pages/PaymentTemplate'
-import SignupTemplate from '../Templates/Pages/SignupTemplate'
-import ForgotPasswordTemplate from '../Templates/Pages/ForgotPasswordTemplate'
-import ResetPasswordTemplate from '../Templates/Pages/ResetPasswordTemplate'
+import * as templates from '../Templates/Pages'
 
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';

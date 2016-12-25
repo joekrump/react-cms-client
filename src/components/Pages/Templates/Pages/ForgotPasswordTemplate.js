@@ -1,7 +1,7 @@
 import React from 'react';
 import ForgotPasswordForm  from '../../../Forms/ForgotPasswordForm';
 
-const PasswordResetPageTemplate = (props) => (
+const PasswordResetTemplate = (props) => (
   <div className="page login">
     <div className="page-container">
       <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
@@ -13,4 +13,4 @@ const PasswordResetPageTemplate = (props) => (
   </div>
 )
 
-export default PasswordResetPageTemplate;
+export {PasswordResetTemplate};

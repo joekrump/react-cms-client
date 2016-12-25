@@ -4,7 +4,7 @@ import s from './HomePageTemplate.scss';
 import image from './home-bg.jpg';
 import Helmet from 'react-helmet';
 
-const HomePageTemplate = (props) => (
+const HomeTemplate = (props) => (
   <div className="page home">
     <div className="page-container">
       <div id="name" className="big-box" data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
@@ -15,4 +15,6 @@ const HomePageTemplate = (props) => (
   </div>
 )
 
-export default withStyles(s)(HomePageTemplate);
+const styledTemplate = withStyles(s)(HomeTemplate);
+
+export {styledTemplate as HomeTemplate};
