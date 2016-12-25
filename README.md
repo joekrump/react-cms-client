@@ -137,9 +137,9 @@ $ npm run server
 
 ### WIP
 
-- [ ] Add Searching and Reordering of resources
+- [ ] Add backend search functionality
 - [ ] File Management System
-- [ ] Webworkers for Caching data
+- [ ] Service Workers for caching data (PWA)
 - [x] Role based permissions
 - [x] Inline Editor with image upload and manipulation functionality.
 - [x] Form Validation using Redux
