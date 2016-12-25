@@ -1,5 +1,11 @@
 .page {
   &.contact {
     background-color: #001277;
+    .big-box {
+      border: 1px solid white;
+      padding: 30px;
+      text-align: center;
+      margin: 15px auto;
+    }
   }
 }
