@@ -129,7 +129,7 @@ $ npm start
 $ npm run build & npm run build-server
 ```
 
-## Launch Production Server
+#### Launch Production Server
 
 ```bash
 $ npm run server
