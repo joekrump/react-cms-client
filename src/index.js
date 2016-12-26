@@ -20,7 +20,7 @@ import rootSaga from './redux/sagas/root'
 
 injectTapEventPlugin();
 
-React.Perf = require('react-addons-perf');
+// React.Perf = require('react-addons-perf');
 
 const styleContext = {
   insertCss: styles => styles._insertCss(),

@@ -2,8 +2,6 @@ import React from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import ContactForm  from '../../../Forms/ContactForm';
 import s from './ContactPageTemplate.scss';
-import image from './home-bg.jpg';
-import Helmet from 'react-helmet';
 
 const ContactTemplate = (props) => (
   <div className="page contact">

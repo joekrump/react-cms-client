@@ -16,8 +16,7 @@ const styles = {
     padding: 10,
   },
   titleStyle: {
-    marginLeft: 15,
-    marginRight: 15
+    marginRight: 16
   },
   basicGridItemFiller: {
     width: '100%',

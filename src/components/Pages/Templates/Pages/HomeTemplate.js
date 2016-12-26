@@ -1,8 +1,6 @@
 import React from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './HomePageTemplate.scss';
-import image from './home-bg.jpg';
-import Helmet from 'react-helmet';
 
 const HomeTemplate = (props) => (
   <div className="page home">
@@ -13,7 +11,7 @@ const HomeTemplate = (props) => (
       <div className="page-content" data-editable data-name="content" data-ce-placeholder="Content..." dangerouslySetInnerHTML={{__html: props.content}} />
     </div>
   </div>
-)
+);
 
 const styledTemplate = withStyles(s)(HomeTemplate);
 

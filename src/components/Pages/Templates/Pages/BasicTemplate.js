@@ -1,8 +1,6 @@
 import React from 'react'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './BasicPageTemplate.scss';
-import image from './home-bg.jpg';
-import Helmet from 'react-helmet';
 // import RoundSocialLinks from '../../Page/RoundSocialLinks';
 
 const BasicTemplate = (props) => (
