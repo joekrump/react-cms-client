@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import {GridList, GridTile} from 'material-ui/GridList';
+import { GridList, GridTile } from 'material-ui/GridList';
+import { Link } from 'react-router';
 
 const styles = {
   root: {
@@ -11,14 +12,17 @@ const styles = {
     justifyContent: 'space-around',
   },
   gridList: {
-    width: 500,
-    height: 450,
-    overflowY: 'auto',
+    width: '100%',
+    padding: 10,
+  },
+  titleStyle: {
+    marginLeft: 15,
+    marginRight: 15
   },
   basicGridItemFiller: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'black',
+    backgroundColor: 'rgba(0,0,0,0.75)',
   }
 };
 
@@ -35,8 +39,9 @@ class IndexTemplate extends React.Component {
     return this.props.childPages.map((childPage) => (
       <GridTile
         key={`child-page-${childPage.id}`}
-        title={childPage.title}
-        subtitle={<span>{childPage.summary}</span>}
+        title={<Link to={childPage.full_path}>{childPage.name}</Link>}
+        subtitle={childPage.summary}
+        titleStyle={styles.titleStyle}
       >
         {childPage.image_url ? <img src={childPage.image_url} /> : <div style={styles.basicGridItemFiller}></div>}
       </GridTile>
@@ -55,6 +60,7 @@ class IndexTemplate extends React.Component {
         <div className="page-container">
           <GridList
             cellHeight={180}
+            cols={4}
             style={styles.gridList}
           >
             {this.renderChildPages()}

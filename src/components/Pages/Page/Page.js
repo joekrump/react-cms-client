@@ -107,7 +107,7 @@ class Page extends React.Component {
   resolveDataFetch = (res, updateStateCallback) => {
     this.props.updatePageStatusCode(res.statusCode);
     this.setState({
-      childPages: res.data.children
+      childPages: res.body.data.children
     });
     
     if (res.statusCode === 200) {
