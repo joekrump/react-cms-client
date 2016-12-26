@@ -5,6 +5,8 @@ import {fade} from 'material-ui/utils/colorManipulator';
 import muiTheme from '../../../../../muiTheme';
 import IndexItemActions from './IndexItemActions'
 import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
+import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
@@ -12,7 +14,8 @@ let style = {
 
 let smallIconStyle = {
   margin: 0,
-  padding: '12px'
+  padding: '12px',
+  cursor: 'pointer',
 }
 
 class IndexItem extends React.Component{
@@ -20,7 +23,8 @@ class IndexItem extends React.Component{
     super(props)
     this.state = {
       visible: true,
-      hoverClass: ''
+      hoverClass: '',
+      collapsed: true
     }
     this.renderChildren = this.renderChildren.bind(this);
   }
@@ -32,24 +36,33 @@ class IndexItem extends React.Component{
   getItemText(){
     return(
       <div className="inner-text" style={{color: muiTheme.palette.textColor}}>
-        <strong className="item-primary">{this.props.primary}</strong>
+        
+        <span className="item-primary">
+          {(this.props.child_ids.length > 0) ? this.renderCollapseIcon() : null}
+          <strong>{this.props.primary}</strong>
+        </span>
         {this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
         : null}
       </div>
     )
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    let shouldUpdate = false;
-
-    if (nextProps.isEditing !== this.props.isEditing) {
-      shouldUpdate = true;
-    } else if (nextProps.secondary !== this.props.secondary) {
-
-      shouldUpdate = true;
-    }
-    return shouldUpdate;
+  renderCollapseIcon() {
+    return this.state.collapsed ? <ArrowDownIcon color="white" style={smallIconStyle} onClick={(e) => this.toggleCollapsed(e)}/>
+      : <ArrowUpIcon color="white" style={smallIconStyle} onClick={(e) => this.toggleCollapsed(e)}/>;
   }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   let shouldUpdate = false;
+
+  //   if (nextProps.isEditing !== this.props.isEditing) {
+  //     shouldUpdate = true;
+  //   } else if (nextProps.secondary !== this.props.secondary) {
+
+  //     shouldUpdate = true;
+  //   }
+  //   return shouldUpdate;
+  // }
 
   renderChildren() {
 
@@ -66,13 +79,24 @@ class IndexItem extends React.Component{
         {...childNode}
       />)
     })
-    return (<div className="nested leaf" data-parentModelId={this.props.modelId}>{nestedItems}</div>);
+    return (<div className={`nested leaf ${this.state.collapsed ? 'collapsed' : ''}`} data-parentModelId={this.props.modelId}>{nestedItems}</div>);
   }
+
+  toggleCollapsed(e) {
+    if (!this.props.child_ids) {
+      return null;
+    }
+    this.setState({
+      collapsed: !this.state.collapsed
+    })
+  }
+
   renderDragHandle() {
     return (this.props.isEditing && !this.props.unmovable) ? 
       <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> 
       : null
   }
+
   render(){
 
     if(!this.props.modelId) {
@@ -88,9 +112,9 @@ class IndexItem extends React.Component{
       style.height = 0;
       style.padding = 0;
     }
-    // (this.props.modelId)
+
     return(
-      <div id={this.props.id} className={"index-item card-swipe f-no-select" + (this.props.unmovable ? ' unmovable' : '')} >
+      <div id={this.props.id} className={"index-item card-swipe" + (this.props.unmovable ? ' unmovable' : '')} >
         <ListItem
           className="list-item"
           disabled
@@ -106,7 +130,7 @@ class IndexItem extends React.Component{
           }
           primaryText={this.getItemText()}
           style={{...style}}
-        /> 
+        />
         { this.props.child_ids ? this.renderChildren() : null }
       </div>
     );
