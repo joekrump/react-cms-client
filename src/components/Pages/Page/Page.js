@@ -17,7 +17,8 @@ class Page extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: null
+      page: null,
+      childPages: []
     }
   }
 
@@ -105,6 +106,10 @@ class Page extends React.Component {
 
   resolveDataFetch = (res, updateStateCallback) => {
     this.props.updatePageStatusCode(res.statusCode);
+    this.setState({
+      childPages: res.data.children
+    });
+    
     if (res.statusCode === 200) {
       updateStateCallback(res);
     }
@@ -124,6 +129,7 @@ class Page extends React.Component {
     return React.createElement(Templates[templateName], {
       name: name,
       content: content,
+      childPages: this.state.childPages,
     });
   }
 

@@ -97,6 +97,7 @@ class Editor {
   }
 
   updateField(fieldName, newValue) {
+    console.log(newValue);
     this.fields[fieldName] = newValue;
     this.modifiedFields[fieldName] = true; // indicates that the field has been modified since last save.
     this.dirty_data = true;
@@ -105,7 +106,7 @@ class Editor {
   handleKeyDown(event) {
     let editorState = this.editor.getState().toUpperCase();
 
-    if(!this.editor.ctrlDown() || editorState !== 'EDITING' || (editorState !== 'READY' && this.dirty_data)) {
+    if(!this.editor.ctrlDown() && (editorState !== 'EDITING' || (editorState !== 'READY' && this.dirty_data))) {
       return;
     } else {
       this.handleKeyboardSave(event);

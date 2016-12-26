@@ -23,16 +23,16 @@ const styles = {
 };
 
 class IndexTemplate extends React.Component {
-  static propTypes = {
-    childPages: React.PropTypes.array.required,
-  };
+  // static propTypes = {
+  //   childPages: React.PropTypes.required,
+  // };
 
   constructor(props) {
     super(props);
   }
 
   renderChildPages() {
-    return childPages.map((childPage) => (
+    return this.props.childPages.map((childPage) => (
       <GridTile
         key={`child-page-${childPage.id}`}
         title={childPage.title}
@@ -47,31 +47,33 @@ class IndexTemplate extends React.Component {
     return (
       <div className="page index">
         <div className="page-container">
-          <div data-editable data-name="name" onInput={props.handleNameChanged ? props.handleNameChanged : undefined}>
-            <h1 className="page-title" data-ce-placeholder="Page Title">{props.name ? props.name : ''}</h1>
+          <div data-editable data-name="name" onInput={this.props.handleNameChanged ? this.props.handleNameChanged : undefined}>
+            <h1 className="page-title" data-ce-placeholder="Page Title">{this.props.name ? this.props.name : ''}</h1>
           </div>
-          <div className="page-content" data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: props.content}} />
+          <div className="page-content" data-editable data-name="content" data-ce-placeholder="Content..."  dangerouslySetInnerHTML={{__html: this.props.content}} />
         </div>
-        <GridList
-          cellHeight={180}
-          style={styles.gridList}
-        >
-          {this.renderChildPages()}
-        </GridList>
+        <div className="page-container">
+          <GridList
+            cellHeight={180}
+            style={styles.gridList}
+          >
+            {this.renderChildPages()}
+          </GridList>
+        </div>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    childPages: state.page.childPages
-  };
-}
-const connectTemplate = connect(
-  mapStateToProps,
-// Implement map dispatch to props
-)(IndexTemplate);
+// function mapStateToProps(state) {
+//   return {
+//     childPages: state.page.childPages
+//   };
+// }
+// const connectTemplate = connect(
+//   mapStateToProps,
+// // Implement map dispatch to props
+// )(IndexTemplate);
 
-export {connectTemplate as IndexTemplate}
+export {IndexTemplate}
 

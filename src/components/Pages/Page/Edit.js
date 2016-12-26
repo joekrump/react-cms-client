@@ -40,7 +40,8 @@ class PageEdit extends React.Component {
       image_url: null,
       summary: '',
       draft: true,
-      in_menu: false
+      in_menu: false,
+      childPages: []
     }
 
     this.getPageURL = this.getPageURL.bind(this);
@@ -159,11 +160,15 @@ class PageEdit extends React.Component {
    */
   handleSuccessfulDataFetch(client, res, updateStateCallback) {
     if (res.statusCode !== 200) {
-      console.log('Could not get data for Page ', res);
+      console.warn('Could not get data for Page ', res);
     } else {
       if(res.header && res.header.authorization) {
         client.updateToken(res.header.authorization);
       }
+
+      this.setState({
+        childPages: res.body.data.children
+      })
       updateStateCallback(res);
     }
   }
@@ -241,7 +246,8 @@ class PageEdit extends React.Component {
 
     return React.createElement(Templates[templateName], {
       name, content,
-      handleNameChanged: (e) => this.handleNameChanged(e)
+      handleNameChanged: (e) => this.handleNameChanged(e),
+      childPages: this.state.childPages,
     });
   }
 
@@ -290,7 +296,7 @@ class PageEdit extends React.Component {
     this.setState({
       template_id: template_id
     })
-    this.state.editor.updateTemplateId(template_id);
+    this.state.editor.updateField('template_id', template_id);
   }
 
   updateData() {
