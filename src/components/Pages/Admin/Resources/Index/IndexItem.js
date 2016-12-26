@@ -38,7 +38,7 @@ class IndexItem extends React.Component{
       <div className="inner-text" style={{color: muiTheme.palette.textColor}}>
         
         <span className="item-primary">
-          {(this.props.child_ids.length > 0) ? this.renderCollapseIcon() : null}
+          {this.props.child_ids && (this.props.child_ids.length > 0) ? this.renderCollapseIcon() : null}
           <strong>{this.props.primary}</strong>
         </span>
         {this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
