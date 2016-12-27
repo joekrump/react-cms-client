@@ -5,15 +5,18 @@ import { connect } from 'react-redux';
 class ListItems extends React.Component {
 
   render() {
-    let items = this.props.childNodes.map((childNode) => (
-      <IndexItem 
+    let items = this.props.childNodes.map((childNode) => {
+      childNode.depth = 1;
+      return <IndexItem 
         key={`${this.props.resourceType}-${childNode.id}`}
         modelId={childNode.id}
         resourceType={this.props.resourceType}
         isEditing={this.props.isEditing}
+        isParent={(childNode.child_ids && (childNode.child_ids.length > 0))}
+        collapsed={true}
         {...childNode}
       />
-    ))
+    })
 
     return (
       <div className="root nested" data-parentModelId={-1}>

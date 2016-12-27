@@ -22,9 +22,9 @@ class IndexItem extends React.Component{
   constructor(props) {
     super(props)
     this.state = {
-      visible: true,
+      visible: (this.props.depth === 1),
       hoverClass: '',
-      collapsed: true
+      collapsed: this.props.collapsed,
     }
     this.renderChildren = this.renderChildren.bind(this);
   }
@@ -32,13 +32,17 @@ class IndexItem extends React.Component{
   showItem(visible = false) {
     this.setState({visible});
   }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.visible !== nextProps.vsiible) {
+      this.setState({visible: nextProps.visible})
+    }
+  }
   
   getItemText(){
     return(
       <div className="inner-text" style={{color: muiTheme.palette.textColor}}>
-        
         <span className="item-primary">
-          {this.props.child_ids && (this.props.child_ids.length > 0) ? this.renderCollapseIcon() : null}
           <strong>{this.props.primary}</strong>
         </span>
         {this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
@@ -71,11 +75,15 @@ class IndexItem extends React.Component{
     }
 
     let nestedItems = this.props.children.map((childNode, i) => {
+      childNode.depth = (this.props.depth + 1);
       return (<IndexItem 
         key={`${this.props.resourceType}-${childNode.id}`}
         modelId={childNode.id}
         resourceType={this.props.resourceType}
         isEditing={this.props.isEditing}
+        visible={!this.state.collapsed}
+        collapsed={true}
+        isParent={(childNode.child_ids && (childNode.child_ids.length > 0))}
         {...childNode}
       />)
     })
@@ -94,11 +102,11 @@ class IndexItem extends React.Component{
   renderDragHandle() {
     return (this.props.isEditing && !this.props.unmovable) ? 
       <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> 
-      : null
+      : (this.props.isParent ? this.renderCollapseIcon() : null)
   }
 
-  render(){
 
+  render(){
     if(!this.props.modelId) {
       return null
     }
@@ -106,7 +114,7 @@ class IndexItem extends React.Component{
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
-      style.padding = '16px 16px 16px ' + (this.props.isEditing ? '56px' : '16px')
+      style.padding = '16px 16px 16px ' + (this.props.isEditing || this.props.isParent ? '56px' : '16px')
     } else {
       style.opacity = 0;
       style.height = 0;
@@ -131,7 +139,7 @@ class IndexItem extends React.Component{
           primaryText={this.getItemText()}
           style={{...style}}
         />
-        { this.props.child_ids ? this.renderChildren() : null }
+        { this.renderChildren() }
       </div>
     );
   }
