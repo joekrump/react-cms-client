@@ -13,6 +13,7 @@ import assign from 'lodash.assign';
 const settingButtonStyles = {
   width: 36,
   height: 36,
+  padding: 6,
   marginTop: 5,
   marginBottom: 5
 };

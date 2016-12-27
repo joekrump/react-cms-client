@@ -8,9 +8,7 @@ class DeleteButton extends React.Component {
 
   componentDidMount() {
     let client = new APIClient(this.props.dispatch);
-    this.setState({
-      client
-    })
+    this.setState({client});
   }
 
   requestServerDelete(showItemCallback){
@@ -18,7 +16,7 @@ class DeleteButton extends React.Component {
     this.state.client.del(this.props.resourceType + '/' + this.props.modelId)
     .then((res) => {
       if(res.statusCode !== 200) {
-        console.log('errorCode', res);
+        this.displaySnackbarError();
         showItemCallback(true); // Set visibility to true
       } else {
         this.state.client.updateToken(res.header.authorization);
@@ -26,12 +24,18 @@ class DeleteButton extends React.Component {
     })
     .catch((res) => {
       if(res.statusCode === 404) {
-        console.warn('Error: Could not delete. No ' + this.props.resourceType + ' with ID=' + this.props.modelId + ' found.');
-        // TODO: put message in SnackBar notification
+        let errorText = `Error: Could not delete. No ${this.props.resourceType} with ID=${this.props.modelId} found.`;
+        this.displaySnackbarError(errorText);
       } else {
+        this.displaySnackbarError();
         showItemCallback(true); // Set visibility to true
       }
     })
+  }
+
+  displaySnackbarError(errorText) {
+    errorText = errorText === undefined ? `Error: Could not delete the ${this.props.resourceType}. Something unexpected happened.` : errorText;
+    this.props.updateSnackbar(true, 'Error', errorText, 'error');
   }
 
   handleDelete(e){
@@ -57,6 +61,15 @@ const mapDispatchToProps = (dispatch) => {
       dispatch ({
         type: 'U_INDEX_ITEM_DELETED',
         item_id
+      })
+    },
+    updateSnackbar: (show, header, content, notificationType) => {
+      dispatch ({
+        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        show,
+        header,
+        content,
+        notificationType
       })
     },
     dispatch  
