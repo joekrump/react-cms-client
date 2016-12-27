@@ -4,17 +4,6 @@ import IconButton from 'material-ui/IconButton';
 import APIClient from '../../../../../http/requests'
 import { connect } from 'react-redux';
 
-const styles = {
-  smallIcon: {
-    width: 24,
-    height: 24
-  },
-  buttonStyles: {
-    width: 36,
-    height: 36
-  }
-}
-
 class DeleteButton extends React.Component {
 
   componentDidMount() {
@@ -55,8 +44,8 @@ class DeleteButton extends React.Component {
 
   render() {
     return (
-      <IconButton style={styles.buttonStyles} tooltip="Delete" tooltipPosition='top-center' onClick={(event) => this.handleDelete(event)}>
-        <DeleteIcon style={styles.smallIcon} />
+      <IconButton style={this.props.styles.buttonStyles} tooltip="Delete" tooltipPosition='top-center' onClick={(event) => this.handleDelete(event)}>
+        <DeleteIcon style={this.props.styles.smallIcon} />
       </IconButton>
     )
   }

@@ -6,12 +6,12 @@ import { Link } from 'react-router'
 const styles = {
   smallIcon: {
     width: 24,
-    height: 24
+    height: 24,
   },
   buttonStyles: {
     width: 36,
     height: 36,
-    // padding: '12px 8px 12px 8px'
+    padding: 6
   }
 }
 
