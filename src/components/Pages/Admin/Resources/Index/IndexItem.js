@@ -15,7 +15,6 @@ let style = {
 let smallIconStyle = {
   margin: 0,
   padding: '12px',
-  cursor: 'pointer',
 }
 
 class IndexItem extends React.Component{
@@ -38,6 +37,10 @@ class IndexItem extends React.Component{
       this.setState({visible: nextProps.visible})
     }
   }
+
+  // shouldComponentUpdate(nextProps) {
+  //   if(nextProps.isEditing)
+  // }
   
   getItemText(){
     return(
@@ -52,21 +55,26 @@ class IndexItem extends React.Component{
   }
 
   renderCollapseIcon() {
-    return this.state.collapsed ? <ArrowDownIcon color="white" style={smallIconStyle} onClick={(e) => this.toggleCollapsed(e)}/>
-      : <ArrowUpIcon color="white" style={smallIconStyle} onClick={(e) => this.toggleCollapsed(e)}/>;
+    return this.state.collapsed ? <ArrowDownIcon color="white" style={{...smallIconStyle, cursor: 'pointer'}} onClick={(e) => this.toggleCollapsed(e)}/>
+      : <ArrowUpIcon color="white" style={{...smallIconStyle, cursor: 'pointer'}} onClick={(e) => this.toggleCollapsed(e)} />;
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   let shouldUpdate = false;
-
-  //   if (nextProps.isEditing !== this.props.isEditing) {
-  //     shouldUpdate = true;
-  //   } else if (nextProps.secondary !== this.props.secondary) {
-
-  //     shouldUpdate = true;
-  //   }
-  //   return shouldUpdate;
-  // }
+  renderDragHandle() {
+    if (this.props.isEditing && !this.props.unmovable) {
+      if (this.props.isParent) {
+        return (
+          <div style={{width: 96, margin: 0}}>
+            <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/>
+            {this.renderCollapseIcon()}
+          </div>
+        );
+      } else {
+        return <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/>
+      }
+    } else {
+      return this.props.isParent ? this.renderCollapseIcon() : null;
+    }
+  }
 
   renderChildren() {
 
@@ -99,12 +107,16 @@ class IndexItem extends React.Component{
     })
   }
 
-  renderDragHandle() {
-    return (this.props.isEditing && !this.props.unmovable) ? 
-      <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/> 
-      : (this.props.isParent ? this.renderCollapseIcon() : null)
-  }
 
+  getLeftPaddingAmount() {
+    if(this.props.isEditing && this.props.isParent) {
+      return 112;
+    } else if(this.props.isEditing || this.props.isParent) {
+      return 56;
+    } else {
+      return 16;
+    }
+  }
 
   render(){
     if(!this.props.modelId) {
@@ -114,7 +126,7 @@ class IndexItem extends React.Component{
     if(this.state.visible) {
       style.opacity = 1;
       style.height = null;
-      style.padding = '16px 16px 16px ' + (this.props.isEditing || this.props.isParent ? '56px' : '16px')
+      style.padding = `16px 16px 16px ${this.getLeftPaddingAmount()}px`
     } else {
       style.opacity = 0;
       style.height = 0;
