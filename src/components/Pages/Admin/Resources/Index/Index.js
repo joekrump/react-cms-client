@@ -137,7 +137,7 @@ class Index extends React.Component {
             {this.props.dataLoading || !(this.props.flatNodes.length > 1) ? null : <span className="spacer"></span>}
             {this.props.dataLoading ? null : content}
           </List>
-        { this.props.children }
+          { this.props.children }
         </div>
         <NotificationSnackbar />
       </AdminLayout>

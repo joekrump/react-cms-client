@@ -57,7 +57,7 @@ class IndexItem extends React.Component{
   
   getItemText(){
     return(
-      <div className="inner-text" style={{color: muiTheme.palette.textColor}}>
+      <div className={`inner-text ${this.props.resourceType}`} style={{color: muiTheme.palette.textColor}}>
         <span className="item-primary">
           <strong>{this.props.primary}</strong>
         </span>

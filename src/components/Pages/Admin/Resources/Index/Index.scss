@@ -108,8 +108,13 @@
   }
 }
 
-.list-item:hover > .inner-text {
-  padding-right: 106px;
+.list-item {
+  &:hover > .inner-text {
+    padding-right: 106px;
+    &.pages {
+      padding-right: 142px;
+    }
+  }
 }
 
 .list-item:hover > .action-button-container {
