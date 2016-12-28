@@ -98,11 +98,18 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    .item-primary {
+      max-width: 300px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
   
   .action-button-container  {
     position: absolute;
-    top: 0;
+    top: 8px;
     right: 12px;
     opacity: 0;
   }

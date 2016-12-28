@@ -8,14 +8,15 @@ import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import AddNestedItemButton from './AddNestedItemButton';
+import DraftLabel from './DraftLabel';
 
-let style = {
+let itemStyle = {
   backgroundColor: fade(fullBlack, 0.7)
 }
 
 let smallIconStyle = {
-  margin: 0,
-  padding: '12px',
+  margin: '8px 0',
+  padding: '12px 6px',
 }
 
 const buttonStyles = {
@@ -54,6 +55,7 @@ class IndexItem extends React.Component{
   // shouldComponentUpdate(nextProps) {
   //   if(nextProps.isEditing)
   // }
+
   
   getItemText(){
     return(
@@ -61,8 +63,9 @@ class IndexItem extends React.Component{
         <span className="item-primary">
           <strong>{this.props.primary}</strong>
         </span>
-        {this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
-        : null}
+        { this.props.draft === undefined ? null : (<DraftLabel isDraft={this.props.draft} />) }
+        { this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
+        : null }
       </div>
     )
   }
@@ -76,7 +79,7 @@ class IndexItem extends React.Component{
     if (this.props.isEditing && !this.props.unmovable) {
       if (this.props.isParent) {
         return (
-          <div style={{width: 96, margin: 0}}>
+          <div style={{width: 80, margin: 0}}>
             <DragHandleIcon className="drag-handle" color="white" style={smallIconStyle}/>
             {this.renderCollapseIcon()}
           </div>
@@ -132,9 +135,9 @@ class IndexItem extends React.Component{
 
   getLeftPaddingAmount() {
     if(this.props.isEditing && this.props.isParent) {
-      return 112;
+      return 90;
     } else if(this.props.isEditing || this.props.isParent) {
-      return 56;
+      return 44;
     } else {
       return 16;
     }
@@ -146,13 +149,13 @@ class IndexItem extends React.Component{
     }
 
     if(this.state.visible) {
-      style.opacity = 1;
-      style.height = null;
-      style.padding = `16px 16px 16px ${this.getLeftPaddingAmount()}px`
+      itemStyle.opacity = 1;
+      itemStyle.height = null;
+      itemStyle.padding = `16px 16px 16px ${this.getLeftPaddingAmount()}px`
     } else {
-      style.opacity = 0;
-      style.height = 0;
-      style.padding = 0;
+      itemStyle.opacity = 0;
+      itemStyle.height = 0;
+      itemStyle.padding = 0;
     }
 
     return(
@@ -173,7 +176,7 @@ class IndexItem extends React.Component{
             </IndexItemActions>
           }
           primaryText={this.getItemText()}
-          style={{...style}}
+          style={itemStyle}
         />
         { this.renderChildren() }
       </div>
