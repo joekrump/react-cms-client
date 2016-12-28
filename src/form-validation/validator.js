@@ -17,7 +17,7 @@ const Validator = {
   isValidName: (value) => {
     // Check to see if any of the characters in the regex are in the string value.
     // If they are, give a message that says that they are not allowed.
-    let result = String(value).match(/([^±!@£$%^&*_+§¡€#¢§¶•ªº«\/<>?:;|()=.,]*$)/)
+    let result = String(value).match(/([^±!@£$%^&*_+§¡€#¢§¶•ªº«/\\<>?:;|()=.,]*$)/)
     return result.index === 0 ?
       valid() : invalid(`This field may not contain ${result.input[result.index - 1]}`)
   },

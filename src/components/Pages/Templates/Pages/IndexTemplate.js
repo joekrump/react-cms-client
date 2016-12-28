@@ -1,7 +1,6 @@
 // components/Pages/Templates/Pages/IndexTemplate.js
 
 import React from 'react';
-import { connect } from 'react-redux';
 import { GridList, GridTile } from 'material-ui/GridList';
 import { Link } from 'react-router';
 
@@ -26,13 +25,6 @@ const styles = {
 };
 
 class IndexTemplate extends React.Component {
-  // static propTypes = {
-  //   childPages: React.PropTypes.required,
-  // };
-
-  constructor(props) {
-    super(props);
-  }
 
   renderChildPages() {
     return this.props.childPages.map((childPage) => (
@@ -69,16 +61,6 @@ class IndexTemplate extends React.Component {
     );
   }
 }
-
-// function mapStateToProps(state) {
-//   return {
-//     childPages: state.page.childPages
-//   };
-// }
-// const connectTemplate = connect(
-//   mapStateToProps,
-// // Implement map dispatch to props
-// )(IndexTemplate);
 
 export {IndexTemplate}
 
