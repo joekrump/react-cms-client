@@ -261,7 +261,7 @@ class PageEdit extends React.Component {
       this.props.submitUrl, 
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
-      this.props.resourceNamePlural, 
+      this.props.resourceNamePlural,
       this.props.dispatch,
     )
   }
@@ -274,6 +274,7 @@ class PageEdit extends React.Component {
       template_id: this.state.template_id,
       slug: this.state.slug,
       in_menu: this.state.in_menu,
+      parent_id: parseInt(this.props.parent_id, 10),
       draft: this.state.draft
     }
   }
@@ -412,7 +413,8 @@ const mapStateToProps = (state, ownProps) => {
     token: state.auth.token,
     pathname: state.routing.locationBeforeTransitions.pathname,
     name: state.admin.editorData.name,
-    content: state.admin.editorData.content
+    content: state.admin.editorData.content,
+    parent_id: state.routing.locationBeforeTransitions.query.parent_id,
   }
 }
 

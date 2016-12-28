@@ -7,6 +7,7 @@ import IndexItemActions from './IndexItemActions'
 import DragHandleIcon from 'material-ui/svg-icons/editor/drag-handle';
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import AddNestedItemButton from './AddNestedItemButton';
 
 let style = {
   backgroundColor: fade(fullBlack, 0.7)
@@ -15,6 +16,18 @@ let style = {
 let smallIconStyle = {
   margin: 0,
   padding: '12px',
+}
+
+const buttonStyles = {
+  smallIcon: {
+    width: 24,
+    height: 24,
+  },
+  buttonStyles: {
+    width: 36,
+    height: 36,
+    padding: 6
+  }
 }
 
 class IndexItem extends React.Component{
@@ -80,7 +93,7 @@ class IndexItem extends React.Component{
     if(this.props.children === undefined) {
       return null;
     }
-    
+
     if(this.props.denyNested && this.props.unmovable) {
       return <div className="fake-nested"></div>
     }
@@ -101,6 +114,13 @@ class IndexItem extends React.Component{
     return (<div className={`nested leaf ${this.state.collapsed ? 'collapsed' : ''}`} data-parentModelId={this.props.modelId}>{nestedItems}</div>);
   }
 
+  renderExtraActionButtons() {
+    if(this.props.children === undefined) {
+      return null;
+    }
+    return <AddNestedItemButton parentModelId={this.props.modelId} resourceType={this.props.resourceType} styles={buttonStyles}/>
+  }
+
   toggleCollapsed(e) {
     if (!this.props.child_ids) {
       return null;
@@ -109,7 +129,6 @@ class IndexItem extends React.Component{
       collapsed: !this.state.collapsed
     })
   }
-
 
   getLeftPaddingAmount() {
     if(this.props.isEditing && this.props.isParent) {
@@ -149,7 +168,9 @@ class IndexItem extends React.Component{
               deleteCallback={ this.props.deletable ? () => this.showItem() : undefined} 
               deletable={this.props.deletable}
               previewPath={this.props.previewPath}
-            />
+            >
+              {this.renderExtraActionButtons()}
+            </IndexItemActions>
           }
           primaryText={this.getItemText()}
           style={{...style}}

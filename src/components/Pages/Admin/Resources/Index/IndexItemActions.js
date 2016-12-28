@@ -18,7 +18,7 @@ const buttonStyles = {
 const IndexItemActions = (props) => {
   return (
     <div className="action-button-container">
-      {props.extraButtons ? props.extraButtons : null}
+      {props.children}
       <EditButton resourceType={props.resourceType} modelId={props.modelId} queryProps={{...props.queryProps}} styles={buttonStyles} />
       {props.previewPath ? <PreviewButton path={props.previewPath} styles={buttonStyles} /> : null}
       {props.deletable ? 
