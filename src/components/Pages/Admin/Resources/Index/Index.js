@@ -1,6 +1,6 @@
 import React from 'react';
 import { List } from 'material-ui/List';
-import CircularProgress from 'material-ui/CircularProgress';
+import Loader from './Loader';
 import AdminLayout from '../../Layout/AdminLayout'
 import { capitalize } from '../../../../../helpers/StringHelper'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -94,7 +94,6 @@ class Index extends React.Component {
 
     if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
       shouldUpdate = true;
-
     } else if (nextProps.flatNodes.length !== this.props.flatNodes.length) {
       shouldUpdate = true;
     } else if (nextProps.dataLoading !== this.props.dataLoading) {
@@ -105,7 +104,6 @@ class Index extends React.Component {
       shouldUpdate = true;
     } else if (nextProps.showSnackbar !== this.props.showSnackbar){
       shouldUpdate = true;
-
     } 
     // else if (!isEqual(nextProps.minimalArray, this.props.minimalArray)) {
     //   console.log('minimalArray differs');
@@ -120,7 +118,7 @@ class Index extends React.Component {
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
-    if(!this.props.dataLoading && this.props.flatNodes.length > 1){
+    if(this.props.flatNodes.length > 1){
       content = (
         <ListItems 
           childNodes={this.getRootChildNodes()} 
@@ -132,7 +130,7 @@ class Index extends React.Component {
       <AdminLayout>
         <div className={"admin-index" + (this.props.adminResourceMode === 'EDIT_INDEX' ? ' index-edit' : '')}>
           <IndexToolbar resourceName={capitalize(this.props.resourceNamePlural)}/>
-          {this.props.dataLoading ? (<CircularProgress />) : null}
+          {this.props.dataLoading ? (<Loader />) : null}
           <List className="item-list">
             {this.props.dataLoading || !(this.props.flatNodes.length > 1) ? null : <span className="spacer"></span>}
             {this.props.dataLoading ? null : content}
