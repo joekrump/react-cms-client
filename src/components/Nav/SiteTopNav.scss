@@ -38,15 +38,11 @@ $linkColor: #e6e6e6;
         font-weight: 300;
         max-width: 140px;
         text-decoration: none;
-        padding: 0 0.5rem;
+        padding: 0 0.5rem 2px 0.5rem;
 
-        &:hover, &:focus {
+        &.active, &:hover, &:focus {
           color: #fff;
-          svg {
-            fill: green; 
-          }
-        }
-        &.active {
+          padding-bottom: 0;
           border-bottom: 2px solid $purple;
         }
       }

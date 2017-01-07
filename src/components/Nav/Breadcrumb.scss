@@ -1,16 +1,20 @@
 // components/Nav/Breadcumb.scss
 //
 $darkGrey: #424242;
+$lightPrimary: #aab7ff;
+$darkPrimary: #3d5afe;
 
 .breadcrumb-links {
   background-color: $darkGrey;
+  height: 30px;
+  margin-top: -1px;
 
   .breadcrumb-divider {
     margin-left: 3px;
     margin-right: 3px;
     font-weight: 600;
-    font-size: 1.4rem;
-    line-height: 1.4;
+    font-size: 1.2rem;
+    line-height: 1.0;
   }
   .breadcrumb-link {
     color: #e6e6e6;
@@ -18,13 +22,13 @@ $darkGrey: #424242;
   }
 
   .breadcrumb-link-container {
-    color: #3d5afe;
+    color: $darkPrimary;
+
     .breadcrumb-link {
       
       text-shadow: inherit;
-      line-height: 1.2;
       &:hover {
-        color: #3d5afe;
+        color: $lightPrimary;
       }
     }
   }
