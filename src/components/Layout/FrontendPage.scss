@@ -38,7 +38,9 @@ $darkPurple: #3d5afe;
     .background-filler {
       background-color: rgba(0,0,0,0.3);
     }
-    color: $darkPurple;
+    h4 {
+      color: $darkPurple;
+    }
   }
 }
 
