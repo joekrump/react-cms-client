@@ -208,7 +208,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateSnackbar: (show, header, content, notificationType) => {
       dispatch ({
-        type: 'NOTIFICATION_SNACKBAR_UPDATE',
+        type: 'UPDATE_SNACKBAR',
         show,
         header,
         content,

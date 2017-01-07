@@ -36,9 +36,12 @@ class Editor {
     this.getAdditionalFields = getAdditionalFields;
     this.fields = getAdditionalFields();
     this.modifiedFields = {}; // Keeps track of whether a field has been modified since the last save.
-    // Object.keys(this.fields).forEach((fieldname) => {
-    //   this.modifiedFields[fieldname] = false;
-    // });
+    
+    if(this.fields && this.fields.length > 0) {
+      Object.keys(this.fields).forEach((fieldname) => {
+        this.modifiedFields[fieldname] = false;
+      });
+    }
   }
 
   setContentToolsProps() {
@@ -145,7 +148,7 @@ class Editor {
 
   dispatchNotification(show, header, content, notificationType) {
     this.dispatch({
-      type: 'NOTIFICATION_SNACKBAR_UPDATE',
+      type: 'UPDATE_SNACKBAR',
       show,
       header,
       content,

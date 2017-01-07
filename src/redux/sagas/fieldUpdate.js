@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga'
+import { throttle } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 
 const getForm = (state, formName) => state.forms[formName]
@@ -37,5 +37,5 @@ function checkFormIsValid(form) {
 }
 
 export default function* fieldUpdateSage() {
-  yield * takeLatest("FORM_INPUT_CHANGE", checkFormIsValidOnUpdate)
+  yield throttle(200, "FORM_INPUT_CHANGE", checkFormIsValidOnUpdate)
 }

@@ -63,7 +63,7 @@ class IndexItem extends React.Component{
         <span className="item-primary">
           <strong>{this.props.primary}</strong>
         </span>
-        { this.props.draft === undefined ? null : (<DraftLabel isDraft={this.props.draft} />) }
+        { this.props.draft === undefined ? null : (<DraftLabel isDraft={this.props.draft} resourceId={this.props.id}/>) }
         { this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
         : null }
       </div>

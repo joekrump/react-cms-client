@@ -8,6 +8,15 @@ export function updateMode(mode){
   }
 }
 
+export function updateResource(pluralName, dataToUpdate, resourceId) {
+  return {
+    type: 'UPDATE_RESOURCE_DATA',
+    dataToUpdate,
+    pluralName,
+    resourceId
+  }
+}
+
 /**
  * @param  {boolean} hasChanges - value that helps determine context.
  */

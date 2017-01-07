@@ -1,6 +1,6 @@
-import { takeLatest } from 'redux-saga'
+import { takeLatest, throttle } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { getIndexItems } from '../../helpers/ResourceHelper';
+import { getIndexItems, putResourceData } from '../../helpers/ResourceHelper';
 
 function* setResourceData(action) {
   try {
@@ -16,6 +16,13 @@ function* setResourceData(action) {
   }
 }
 
+function* updateResource(action) {
+  yield call(putResourceData, put, `${action.pluralName}/${action.resourceId}`, {data: action.dataToUpdate});
+} 
+
 export default function* adminSaga() {
-  yield takeLatest('UPDATE_ADMIN_STATE', setResourceData)
+  yield [
+    takeLatest('UPDATE_ADMIN_STATE', setResourceData),
+    throttle(500, 'UPDATE_RESOURCE_DATA', updateResource)
+  ]
 }

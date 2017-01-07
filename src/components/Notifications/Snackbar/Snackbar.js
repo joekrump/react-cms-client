@@ -51,11 +51,15 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     closeSnackbar: () => {
       dispatch ({
-        type: 'NOTIFICATION_SNACKBAR_CLOSE'
+        type: 'UPDATE_SNACKBAR',
+        show: false,
+        header: null,
+        content: null,
+        notificationType: ownProps.notificationType
       })
     }
   };
