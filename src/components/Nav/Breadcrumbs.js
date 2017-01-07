@@ -2,12 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Breadcrumb from './Breadcrumb';
 
-function mapStateToProps(state) {
-  return {
-    url: state.routing.locationBeforeTransitions.pathname
-  };
-}
-
 export class Breadcrumbs extends React.Component {
 
   splitUrl() {
@@ -45,6 +39,12 @@ export class Breadcrumbs extends React.Component {
       </div>
     );
   }
+}
+
+function mapStateToProps(state) {
+  return {
+    url: state.routing.locationBeforeTransitions.pathname
+  };
 }
 
 export default connect(
