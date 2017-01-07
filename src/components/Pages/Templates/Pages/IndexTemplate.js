@@ -34,7 +34,7 @@ class IndexTemplate extends React.Component {
     this.updateNumColumns = this.updateNumColumns.bind(this);
   }
 
-  renderChildPages() {
+  renderChildPageTiles() {
     return this.props.childPages.map((childPage) => (
       <GridTile
         key={`child-page-${childPage.id}`}
@@ -95,7 +95,7 @@ class IndexTemplate extends React.Component {
             cols={this.state.cols}
             style={styles.gridList}
           >
-            {this.renderChildPages()}
+            {this.renderChildPageTiles()}
           </GridList>
         </div>
       </div>
