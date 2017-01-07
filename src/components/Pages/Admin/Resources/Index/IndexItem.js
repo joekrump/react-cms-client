@@ -51,11 +51,6 @@ class IndexItem extends React.Component{
       this.setState({visible: nextProps.visible})
     }
   }
-
-  // shouldComponentUpdate(nextProps) {
-  //   if(nextProps.isEditing)
-  // }
-
   
   getItemText(){
     return(
