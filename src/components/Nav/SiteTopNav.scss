@@ -1,4 +1,4 @@
-$purple: #304FFe;
+$darkPurple: #3d5afe;
 $linkColor: #e6e6e6;
 
 .top-nav {
@@ -43,7 +43,7 @@ $linkColor: #e6e6e6;
         &.active, &:hover, &:focus {
           color: #fff;
           padding-bottom: 0;
-          border-bottom: 2px solid $purple;
+          border-bottom: 2px solid $darkPurple;
         }
       }
     }
@@ -57,6 +57,9 @@ $linkColor: #e6e6e6;
       a {
         font-weight: 300;
         color: $linkColor;
+        &:hover, &:focus {
+          color: $darkPurple;
+        }
       }
     }
   }
