@@ -36,9 +36,9 @@ class Editor {
     this.getAdditionalFields = getAdditionalFields;
     this.fields = getAdditionalFields();
     this.modifiedFields = {}; // Keeps track of whether a field has been modified since the last save.
-    Object.keys(this.fields).forEach((fieldname) => {
-      this.modifiedFields[fieldname] = false;
-    });
+    // Object.keys(this.fields).forEach((fieldname) => {
+    //   this.modifiedFields[fieldname] = false;
+    // });
   }
 
   setContentToolsProps() {

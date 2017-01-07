@@ -184,14 +184,20 @@ class CardEdit extends React.Component {
    */
   makeEditor(){
     return new Editor(
-      () => (this.state.primary), 
+      () => this.getAdditionalFieldValues(), 
       this.props.submitUrl, 
       (url, res, passive) => this.handleSaveSuccess(url, res, passive), 
       this.state.editContext, 
       this.props.resourceNamePlural, 
       this.props.dispatch,
-      this.state.template_id
+      
     )
+  }
+
+  getAdditionalFieldValues() {
+    return {
+      template_id: this.state.template_id,
+    }
   }
 
   /**
@@ -204,8 +210,8 @@ class CardEdit extends React.Component {
     this.setState({
       template_id,
       template
-    })
-    this.state.editor.updateTemplateId(template_id);
+    });
+    this.state.editor.updateField('template_id', template_id);
   }
 
   onSideChange(evt, value) {
