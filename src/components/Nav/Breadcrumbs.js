@@ -10,10 +10,6 @@ function mapStateToProps(state) {
 
 export class Breadcrumbs extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   splitUrl() {
     let urlParts = this.props.url.split( '/' ).splice(1);
     return urlParts;
