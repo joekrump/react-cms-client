@@ -2,6 +2,7 @@ import { takeLatest, throttle } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { getIndexItems, putResourceData } from '../../helpers/ResourceHelper';
 import { updateSnackbar } from '../actions/notification';
+import { updateTreeResourceAttributes } from '../actions/tree';
 
 function* setResourceData(action) {
   try {
@@ -18,20 +19,25 @@ function* setResourceData(action) {
 }
 
 function* updateResource(action) {
+  
   let result = yield call(putResourceData, put, `${action.pluralName}/${action.resourceId}`, {data: action.dataToUpdate});
   if (result === -1) {
+    yield put(updateTreeResourceAttributes(
+      action.pluralName,
+      action.dataToUpdate,
+      action.resourceId
+    ));
     yield put(updateSnackbar(
       true,
       'Updated',
       'Update was successful!',
       'success'
     ));
-    
   } else {
     yield put(updateSnackbar(
       true,
       'Error',
-      `Update Failed: ${res}`,
+      `Update Failed Unexpectedly, please report this as a bug`,
       'error'
     ));
   }

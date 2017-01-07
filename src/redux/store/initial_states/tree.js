@@ -1,7 +1,7 @@
 const initialState = {
   indexTree: {
     flatNodes: [],
-    minimalArray: [],
+    minimalArray: []
   }
 };
 

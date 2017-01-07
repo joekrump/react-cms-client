@@ -89,32 +89,33 @@ class Index extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    let shouldUpdate = false;
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   let shouldUpdate = false;
 
-    if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
-      shouldUpdate = true;
-    } else if (nextProps.flatNodes.length !== this.props.flatNodes.length) {
-      shouldUpdate = true;
-    } else if (nextProps.dataLoading !== this.props.dataLoading) {
-      shouldUpdate = true;
-    } else if (nextProps.adminResourceMode !== this.props.adminResourceMode) {
-      shouldUpdate = true;
-    } else if (nextProps.hasChanges || (nextProps.hasChanges !== this.props.hasChanges)) {
-      shouldUpdate = true;
-    } else if (nextProps.showSnackbar !== this.props.showSnackbar){
-      shouldUpdate = true;
-    } 
-    // else if (!isEqual(nextProps.minimalArray, this.props.minimalArray)) {
-    //   console.log('minimalArray differs');
-    //   shouldUpdate = true;
-    // }
-    return shouldUpdate;
-  }
+  //   if(nextProps.resourceNamePlural !== this.props.resourceNamePlural) {
+  //     shouldUpdate = true;
+  //   } else if (nextProps.flatNodes.length !== this.props.flatNodes.length) {
+  //     shouldUpdate = true;
+  //   } else if (nextProps.dataLoading !== this.props.dataLoading) {
+  //     shouldUpdate = true;
+  //   } else if (nextProps.adminResourceMode !== this.props.adminResourceMode) {
+  //     shouldUpdate = true;
+  //   } else if (nextProps.hasChanges || (nextProps.hasChanges !== this.props.hasChanges)) {
+  //     shouldUpdate = true;
+  //   } else if (nextProps.showSnackbar !== this.props.showSnackbar){
+  //     shouldUpdate = true;
+  //   } 
+  //   // else if (!isEqual(nextProps.minimalArray, this.props.minimalArray)) {
+  //   //   console.log('minimalArray differs');
+  //   //   shouldUpdate = true;
+  //   // }
+  //   return shouldUpdate;
+  // }
 
   getRootChildNodes() {
     return this.props.flatNodes.length > 1 ? this.props.flatNodes[0].children : [];
   }
+
   render() {
     let content = (<div className="empty"><h3>No {this.props.resourceNamePlural} yet</h3></div>);
 
