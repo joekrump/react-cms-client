@@ -12,7 +12,6 @@ const styles = {
   },
   gridList: {
     width: '100%',
-    padding: 10,
   },
   titleStyle: {
     marginRight: 16
@@ -25,6 +24,15 @@ const styles = {
 };
 
 class IndexTemplate extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      cols: 4
+    }
+
+    this.updateNumColumns = this.updateNumColumns.bind(this);
+  }
 
   renderChildPages() {
     return this.props.childPages.map((childPage) => (
@@ -39,6 +47,39 @@ class IndexTemplate extends React.Component {
     ))
   }
 
+  componentDidMount() {
+    if( typeof window !== 'undefined' ) {
+      window.addEventListener('resize', () => this.updateNumColumns(), false);
+      this.updateNumColumns();
+    }    
+  }
+
+  componentWillUnmount () {
+    if( typeof window !== 'undefined' ) {
+      window.removeEventListener('resize', () => this.updateNumColumns());
+    }
+  }
+
+  updateNumColumns() {
+    if (this.rqf) return
+
+    if(typeof window !== 'undefined') {
+      this.rqf = window.requestAnimationFrame(() => {
+        let outerWindowWidth = window.outerWidth;
+        
+        if (outerWindowWidth < 500) {
+          this.setState({cols: 1})
+        } else if (outerWindowWidth < 900) {
+          this.setState({cols: 2})
+        } else {
+          this.setState({cols: 4});
+        }
+
+        this.rqf = null
+      })
+    }
+  }
+
   render() {
     return (
       <div className="page index">
@@ -51,7 +92,7 @@ class IndexTemplate extends React.Component {
         <div className="page-container">
           <GridList
             cellHeight={180}
-            cols={4}
+            cols={this.state.cols}
             style={styles.gridList}
           >
             {this.renderChildPages()}
