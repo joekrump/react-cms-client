@@ -1,6 +1,5 @@
 import APIClient from '../http/requests';
 import TreeHelper from './TreeHelper';
-import { updateSnackbar } from '../redux/actions/notification';
 
 export function getIndexItems(resourceNamePlural, dispatch){
   
@@ -33,23 +32,13 @@ export function getResourceData(dispatch, resourceURL, resolve, reject) {
 export function putResourceData(dispatch, url, data) {
   const client = new APIClient(dispatch)
 
-  client.put(url, true, {data})
+  return client.put(url, true, data)
     .then((res) => {
-      dispatch(updateSnackbar(
-        true,
-        'Updated',
-        'Update was successful!',
-        'success'
-      ));
+      return -1;
     }, (res) => {
-      dispatch(updateSnackbar(
-        true,
-        'Error',
-        `Update Failed: ${res}`,
-        'error'
-      ));
+      return 0;
     }).catch((res) => {
-      console.warn('Error putting resource data: ', res);
+      return 1;
     }
   );
 }

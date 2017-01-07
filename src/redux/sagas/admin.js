@@ -1,6 +1,7 @@
 import { takeLatest, throttle } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { getIndexItems, putResourceData } from '../../helpers/ResourceHelper';
+import { updateSnackbar } from '../actions/notification';
 
 function* setResourceData(action) {
   try {
@@ -17,7 +18,23 @@ function* setResourceData(action) {
 }
 
 function* updateResource(action) {
-  yield call(putResourceData, put, `${action.pluralName}/${action.resourceId}`, {data: action.dataToUpdate});
+  let result = yield call(putResourceData, put, `${action.pluralName}/${action.resourceId}`, {data: action.dataToUpdate});
+  if (result === -1) {
+    yield put(updateSnackbar(
+      true,
+      'Updated',
+      'Update was successful!',
+      'success'
+    ));
+    
+  } else {
+    yield put(updateSnackbar(
+      true,
+      'Error',
+      `Update Failed: ${res}`,
+      'error'
+    ));
+  }
 } 
 
 export default function* adminSaga() {

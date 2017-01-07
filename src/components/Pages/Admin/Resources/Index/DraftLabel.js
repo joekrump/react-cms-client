@@ -18,7 +18,7 @@ export class DraftLabel extends React.Component {
       <Chip
         backgroundColor={this.props.isDraft ? indigo300 : indigo900}
         labelColor="white"
-        onTouchTap={() => this.props.updateDraftState(this.props.resourceName, {draft: !this.props.isDraft}, this.props.resourceId)}
+        onTouchTap={() => this.props.updateDraftState(this.props.pluralName)}
         style={styles.chip}
       >
         {this.props.isDraft ? 'Draft' : 'Published'}
@@ -33,10 +33,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
-    updateDraftState: (pluralName, dataToUpdate, resourceId) => {
-      dispatch(updateResource(pluralName, dataToUpdate, resourceId))
+    updateDraftState: (pluralName) => {
+      dispatch(updateResource(pluralName, {draft: !ownProps.isDraft}, ownProps.resourceId))
     },
     dispatch
   }
