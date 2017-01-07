@@ -1,7 +1,10 @@
 // components/Nav/Breadcumb.scss
-// 
+//
+$darkGrey: #424242;
+
 .breadcrumb-links {
-  background-color: grey;
+  background-color: $darkGrey;
+
   .breadcrumb-divider {
     margin-left: 3px;
     margin-right: 3px;

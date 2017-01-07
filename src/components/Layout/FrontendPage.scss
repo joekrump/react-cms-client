@@ -106,6 +106,7 @@
     }
   }
 }
+
 @media (max-width: 500px){
   .page, .top-nav {
     .page-container {
@@ -116,7 +117,7 @@
 
       .page-content {
         img {
-          width: 50%;
+          width: 100%;
         }
       }
       .page-title {
@@ -126,6 +127,7 @@
     }
   }
 }
+
 @media (min-width: 1000px) {
   .page, .top-nav {
     .page-container {
