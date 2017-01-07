@@ -39,6 +39,7 @@
   overflow: auto;
   .page-content {
     display: block;
+    padding: 0 15px;
     &:before,
     &:after {
       content: "";
