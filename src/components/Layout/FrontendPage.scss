@@ -32,14 +32,15 @@
     margin-top: 0;
   }
   .page-title {
-    margin-top: 15px;
+    margin-top: 45px;
+    margin-bottom: 10px;
   }
   min-height: calc(100% - 35px);
   padding-bottom: 35px;
   overflow: auto;
   .page-content {
     display: block;
-    padding: 0 15px;
+
     &:before,
     &:after {
       content: "";
@@ -101,6 +102,10 @@
         img {
           width: 50%;
         }
+      }
+      .page-title {
+        margin-top: 15px;
+        margin-bottom: 10px;
       }
     }
   }

@@ -2,16 +2,15 @@
 
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
-import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
   gridList: {
     width: '100%',
+  },
+  gridItem: {
+    cursor: 'pointer'
   },
   titleStyle: {
     marginRight: 16
@@ -24,7 +23,6 @@ const styles = {
 };
 
 class IndexTemplate extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -35,12 +33,15 @@ class IndexTemplate extends React.Component {
   }
 
   renderChildPageTiles() {
+
     return this.props.childPages.map((childPage) => (
       <GridTile
         key={`child-page-${childPage.id}`}
-        title={<Link to={childPage.full_path}>{childPage.name}</Link>}
+        title={<h4>{childPage.name}</h4>}
         subtitle={childPage.summary}
         titleStyle={styles.titleStyle}
+        style={styles.gridItem}
+        onClick={() => this.props.navigateToUrl(childPage.full_path)}
       >
         {childPage.image_url ? <img src={childPage.image_url} /> : <div style={styles.basicGridItemFiller}></div>}
       </GridTile>
@@ -103,5 +104,18 @@ class IndexTemplate extends React.Component {
   }
 }
 
-export {IndexTemplate}
+function mapDispatchToProps(dispatch) {
+  return {
+    navigateToUrl: ((url) => {
+      dispatch(push(url))
+    }),
+    dispatch
+  };
+}
 
+const connectedIndexTemplate = connect(
+  null,
+  mapDispatchToProps
+)(IndexTemplate);
+
+export {connectedIndexTemplate as IndexTemplate}
