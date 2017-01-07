@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
 import Validator from '../../form-validation/validator'
 import { updateFormValidationStatus } from '../../redux/actions/form';
+
 const style = {
   display: 'block'
 }
@@ -20,6 +21,7 @@ const TextInput = () => ({
   handleInputChange(event) {
     this.updateValueAfterTypingStops();
   },
+  
   updateValueAfterTypingStops() {
     this.props.handleInputChange(this.textInput.input.value, this.props.name, this.props.formName, () => ([]), true, false);
     // Clear the timeout if it has already been set.
@@ -49,6 +51,7 @@ const TextInput = () => ({
     }
     return errors;
   },
+
   validateInput(value, i){
     let rule = this.props.validationRules[i];
 
@@ -57,9 +60,11 @@ const TextInput = () => ({
       this.getOptionsForRule([this.props.validationRules[i]])
     );
   },
+
   getOptionsForRule(ruleName){
     return this.props.validationOptions ? this.props.validationOptions[ruleName] : undefined;
   },
+
   getErrors(){
     if(this.props.errors.length > 1) {
       return this.makeErrorComponent(this.props.errors.join(', '));
