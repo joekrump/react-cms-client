@@ -1,3 +1,5 @@
+// Components/Layout/FrontendPage.scss
+//
 .frontend-page-container {
   padding-top: 56px;
   width: 100%;
@@ -19,33 +21,6 @@
     .page-edit {
       height: 100%;
       margin-top: 56px;
-    }
-  }
-}
-
-.breadcrumb-links {
-  background-color: grey;
-  .breadcrumb-divider {
-    margin-left: 3px;
-    margin-right: 3px;
-    font-weight: 600;
-    font-size: 1.4rem;
-    line-height: 1.4;
-  }
-  .breadcrumb-link {
-    color: #e6e6e6;
-    font-weight: 400;
-  }
-
-  .breadcrumb-link-container {
-    color: #3d5afe;
-    .breadcrumb-link {
-      
-      text-shadow: inherit;
-      line-height: 1.2;
-      &:hover {
-        color: #3d5afe;
-      }
     }
   }
 }
