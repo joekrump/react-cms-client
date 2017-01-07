@@ -62,7 +62,6 @@ class IndexItem extends React.Component{
       <div className={`inner-text ${this.props.resourceType}`} style={{color: muiTheme.palette.textColor}}>
         <span className="item-primary">
           <strong>{this.props.primary}</strong>
-          {this.props.draft}
         </span>
         { this.props.draft === undefined ? null : (<DraftLabel isDraft={this.props.draft} resourceId={this.props.id}/>) }
         { this.props.secondary ? (<span>&nbsp;-&nbsp;<span className="item-text-secondary">{this.props.secondary}</span></span>) 
