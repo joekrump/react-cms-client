@@ -33,7 +33,7 @@ class IndexTemplate extends React.Component {
       <GridTile
         className="grid-tile"
         key={`child-page-${childPage.id}`}
-        title={<h4>{childPage.name}</h4>}
+        title={<h4 style={{margin: 0}}>{childPage.name}</h4>}
         subtitle={childPage.summary}
         titleStyle={styles.titleStyle}
         style={styles.gridItem}
