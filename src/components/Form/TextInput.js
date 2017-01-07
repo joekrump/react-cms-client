@@ -18,13 +18,7 @@ const TextInput = () => ({
   },
 
   handleInputChange(event) {
-    if(event.type === 'blur') {
-      this.updateValue(this.props.value)
-    } else {
-      // implement way to not submit until done typing
-      this.updateValueAfterTypingStops();
-      // this.updateValue(event.target.value)
-    }
+    this.updateValueAfterTypingStops();
   },
   updateValueAfterTypingStops() {
     this.props.handleInputChange(this.textInput.input.value, this.props.name, this.props.formName, () => ([]), true, false);
@@ -35,9 +29,7 @@ const TextInput = () => ({
 
     // Make a new timeout set to go off in 300ms
     this.timeout = setTimeout(() => {
-
       this.updateValue(this.textInput.input.value);
-      console.log('Input Value:', this.textInput.input.value);
     }, 300);
   },
 
@@ -102,8 +94,6 @@ const TextInput = () => ({
     );
   }
 });
-
-//           onBlur={(e) => this.handleInputChange(e)}
 
 const mapStateToProps = (state, ownProps) => {
   return {
