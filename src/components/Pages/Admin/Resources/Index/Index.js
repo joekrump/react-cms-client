@@ -147,6 +147,7 @@ class Index extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    dataLoading: state.admin.dataLoading,
     flatNodes: state.tree.indexTree.flatNodes,
     minimalArray: state.tree.indexTree.minimalArray,
     resourceNamePlural: state.admin.resource.name.plural,
