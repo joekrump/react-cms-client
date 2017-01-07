@@ -1,10 +1,12 @@
-export function update(value, fieldName, formName, errors) {
+export function update(value, fieldName, formName, errors, isTyping, fieldIsValid) {
   return {
     type: "FORM_INPUT_CHANGE",
     value,
     fieldName,
     formName,
-    errors
+    errors,
+    isTyping,
+    valid: fieldIsValid
   };
 }
 
@@ -32,10 +34,10 @@ export function reset(formName) {
     formName
   };
 }
-export function valid(valid, formName) {
+export function updateFormValidationStatus(valid, formName) {
   return {
     type: "FORM_VALID",
-    action,
+    valid,
     formName
   };
 }

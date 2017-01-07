@@ -1,5 +1,6 @@
 export const signupForm = {
   resourcePath: 'users/',
+  isTyping: false,
   valid: false,
   fields: {
     name: {
@@ -7,21 +8,24 @@ export const signupForm = {
       errors: [], 
       inputType: 'text',
       label: 'Name',
-      placeholder: ''
+      placeholder: '',
+      valid: false
     },
     email: {
       value: '', 
       errors: [], 
       inputType: 'email',
       label: 'Email',
-      placeholder: ''
+      placeholder: '',
+      valid: false
     },
     password: {
       value: '', 
       errors: [], 
       inputType: 'password',
       label: 'Password',
-      placeholder: '*********'
+      placeholder: '*********',
+      valid: false
     }
   }
 }

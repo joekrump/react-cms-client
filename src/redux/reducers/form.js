@@ -5,14 +5,28 @@ import initialState from '../store/initial_states/forms/forms';
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
     case "FORM_INPUT_CHANGE":
+      // the field should only be set as valid if the user is no longer typing, and
+      // there are no errors on the field.
+      const fieldValid = ((action.errors.length === 0) && !action.isTyping);
+      
+      let hasErrors = Object.keys(state[action.formName].fields).some((fieldName) => {
+        
+        if(fieldName === action.fieldName) {
+          return !fieldValid;
+        } else {
+          return !state[action.formName].fields[fieldName].valid; 
+        }
+      });
+
       return assign({}, state, {
         [action.formName]: {
-          valid: (state[action.formName].valid /*&& (action.errors.length === 0)*/),
+          valid: (!hasErrors && !action.isTyping),
           resourcePath: state[action.formName].resourcePath,
           fields: assign({}, state[action.formName].fields, {
             [action.fieldName]: assign({}, state[action.formName].fields[action.fieldName], {
               value: action.value,
-              errors: action.errors
+              errors: action.errors,
+              valid: fieldValid
             })
           })
         }

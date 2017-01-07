@@ -33,7 +33,6 @@ class ContactForm extends React.Component {
   }
   
   submitResolve = (res) => {
-    console.log(res);
     if (res.statusCode > 299) {
       this.props.updateSnackbar(true, 'Error', res.body.message, 'warning');
     } else {
@@ -146,13 +145,6 @@ const mapDispatchToProps = (dispatch) => {
         errors,
         fieldName,
         formName
-      })
-    },
-    updateFormCompleteStatus: (valid) => {
-      dispatch ({
-        type: 'FORM_VALID',
-        valid,
-        formName: formName
       })
     },
     dispatch

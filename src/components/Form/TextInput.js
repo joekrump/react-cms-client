@@ -4,7 +4,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
 import Validator from '../../form-validation/validator'
-
+import { updateFormValidationStatus } from '../../redux/actions/form';
 const style = {
   display: 'block'
 }
@@ -12,15 +12,33 @@ const style = {
 const TextInput = () => ({
   updateValue(value) {
     // Handle the input change and dispatch redux method to update field value as well as errors
-    this.props.handleInputChange(value, this.props.name, this.props.formName, this.checkIfValid(value));
+    let errors = this.checkIfValid(value);
+    this.props.handleInputChange(value, this.props.name, this.props.formName, this.checkIfValid(value), false, (errors.length > 0));
+    this.timeout = null;
   },
 
   handleInputChange(event) {
     if(event.type === 'blur') {
       this.updateValue(this.props.value)
     } else {
-      this.updateValue(event.target.value)
+      // implement way to not submit until done typing
+      this.updateValueAfterTypingStops();
+      // this.updateValue(event.target.value)
     }
+  },
+  updateValueAfterTypingStops() {
+    this.props.handleInputChange(this.textInput.input.value, this.props.name, this.props.formName, () => ([]), true, false);
+    // Clear the timeout if it has already been set.
+    // This will prevent the previous task from executing
+    // if it has been less than <MILLISECONDS>
+    clearTimeout(this.timeout);
+
+    // Make a new timeout set to go off in 300ms
+    this.timeout = setTimeout(() => {
+
+      this.updateValue(this.textInput.input.value);
+      console.log('Input Value:', this.textInput.input.value);
+    }, 300);
   },
 
   checkIfValid(value){
@@ -69,12 +87,12 @@ const TextInput = () => ({
     return (
       <div className="text-field">
         <TextField
+          ref={(input) => { this.textInput = input; }}
           style={style}
           type={this.props.type ? this.props.type : 'text'}
           hintText={this.props.placeholder}
           floatingLabelText={this.props.label}
           onChange={(e) => this.handleInputChange(e)}
-          onBlur={(e) => this.handleInputChange(e)}
           errorText={errors}
           value={this.props.value}
           multiLine={this.props.multiLine}
@@ -85,6 +103,8 @@ const TextInput = () => ({
   }
 });
 
+//           onBlur={(e) => this.handleInputChange(e)}
+
 const mapStateToProps = (state, ownProps) => {
   return {
     value: state.forms[ownProps.formName].fields[ownProps.name].value,
@@ -94,14 +114,19 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleInputChange: (value, fieldName, formName, errors) => {
+    handleInputChange: (value, fieldName, formName, errors, isTyping, fieldIsValid) => {
       dispatch ({
         type: 'FORM_INPUT_CHANGE',
         value,
         fieldName,
         formName,
-        errors
+        errors,
+        isTyping,
+        fieldIsValid
       })
+    },
+    updateFormValidationStatus: (valid, formName) => {
+      dispatch(updateFormValidationStatus(valid, formName));
     }
   };
 }
