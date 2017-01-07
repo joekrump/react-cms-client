@@ -56,7 +56,8 @@ class TopNav extends React.Component {
       <Link 
         key={'top-link' + i}
         className="top-link" 
-        to={link.url} 
+        to={link.url}
+        title={link.routeTitle}
         activeClassName="active"
         onlyActiveOnIndex={link.url === '/'}>
         {link.routeTitle}
@@ -94,7 +95,7 @@ class TopNav extends React.Component {
         <div className="page-container">
           {this.shouldRenderMobileNav() ? this.renderMobileNav() : null}
           {this.shouldRenderMobileNav() ? null : (<span className="logo light"></span>)}
-          {AppConfig.siteTitle ? (<h1 className="site-title"><Link to="/">{AppConfig.siteTitle}</Link></h1>) : null}
+          {AppConfig.siteTitle ? (<h1 className="site-title"><Link to="/" title="Home">{AppConfig.siteTitle}</Link></h1>) : null}
           {this.shouldRenderMobileNav() ? null : this.renderDefaultNav()}
         </div>
         <Breadcrumbs />
