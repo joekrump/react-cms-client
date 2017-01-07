@@ -32,16 +32,15 @@ const NotificationSnackbar = () => ({
             <h2 style={{margin: '0'}}>{this.props.header}</h2>
             {this.props.content}
           </div>)}
-        autoHideDuration={4000}
+        autoHideDuration={3000}
         bodyStyle={{height: 'auto', border: `1px solid ${color}`, borderBottom: 'none'}}
-        style={{
-          transform: this.props.show ? 'translate3d(0, 0, 0)' : 'translate3d(0, 200px, 0)'
-        }}
+
         onRequestClose={this.handleSnackbarClose.bind(this)}
       />
     );
   }
-})
+});
+
 const mapStateToProps = (state, ownProps) => {
   return {
     show: state.notifications.snackbar.show,
