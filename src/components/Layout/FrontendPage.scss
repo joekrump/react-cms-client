@@ -1,5 +1,8 @@
 // Components/Layout/FrontendPage.scss
 //
+
+$darkPurple: #3d5afe;
+
 .frontend-page-container {
   padding-top: 56px;
   width: 100%;
@@ -31,10 +34,11 @@
     height: 100%;
     background-color: rgba(0,0,0,0.6);
   }
-  &:hover {
+  &:hover, &:focus {
     .background-filler {
       background-color: rgba(0,0,0,0.3);
     }
+    color: $darkPurple;
   }
 }
 
