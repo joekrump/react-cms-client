@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router';
+import Breadcrumb from './Breadcrumb';
 
 function mapStateToProps(state) {
   return {
@@ -22,22 +22,19 @@ export class Breadcrumbs extends React.Component {
   renderUrlSections() {
     const urlParts = this.splitUrl();
     const numParts = urlParts.length;
-    let fullpath = '';
+    let url = '';
 
     if(numParts <= 1) {
       return null;
     }
 
     return urlParts.map((urlPart, i) => {
-      fullpath += `/${urlPart}`;
+      url += `/${urlPart}`;
       if (i === (numParts - 1)) {
         return null;
       } else {
         return (
-          <span key={`page-breadcrumb-${i}`} className="breadcrumb-link-container">
-            <Link className="breadcrumb-link" to={fullpath}>{urlPart}</Link>
-            <span className="breadcrumb-divider">/</span>
-          </span>
+          <Breadcrumb key={`page-breadcrumb-${i}`} url={url} name={urlPart} />
         );
       }
     })
