@@ -7,6 +7,7 @@ import s from './SiteTopNav.scss'
 import MobileMenu from '../Menu/MobileMenu'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
+import Breadcrumbs from './Breadcrumbs';
 
 const breakpointWidth = 850;
 
@@ -96,13 +97,10 @@ class TopNav extends React.Component {
           {AppConfig.siteTitle ? (<h1 className="site-title"><Link to="/">{AppConfig.siteTitle}</Link></h1>) : null}
           {this.shouldRenderMobileNav() ? null : this.renderDefaultNav()}
         </div>
+        <Breadcrumbs />
       </div>
     );
   }
-}
-
-TopNav.contextTypes = {
-  router: React.PropTypes.object.isRequired
 }
 
 export default withStyles(s)(TopNav);

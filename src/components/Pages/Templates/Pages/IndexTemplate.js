@@ -14,11 +14,6 @@ const styles = {
   },
   titleStyle: {
     marginRight: 16
-  },
-  basicGridItemFiller: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.75)',
   }
 };
 
@@ -36,6 +31,7 @@ class IndexTemplate extends React.Component {
 
     return this.props.childPages.map((childPage) => (
       <GridTile
+        className="grid-tile"
         key={`child-page-${childPage.id}`}
         title={<h4>{childPage.name}</h4>}
         subtitle={childPage.summary}
@@ -43,7 +39,7 @@ class IndexTemplate extends React.Component {
         style={styles.gridItem}
         onClick={() => this.props.navigateToUrl(childPage.full_path)}
       >
-        {childPage.image_url ? <img src={childPage.image_url} /> : <div style={styles.basicGridItemFiller}></div>}
+        {childPage.image_url ? <img src={childPage.image_url} /> : <div className="background-filler"></div>}
       </GridTile>
     ))
   }

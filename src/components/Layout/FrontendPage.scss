@@ -23,6 +23,46 @@
   }
 }
 
+.breadcrumb-links {
+  background-color: grey;
+  .breadcrumb-divider {
+    margin-left: 3px;
+    margin-right: 3px;
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1.4;
+  }
+  .breadcrumb-link {
+    color: #e6e6e6;
+    font-weight: 400;
+  }
+
+  .breadcrumb-link-container {
+    color: #3d5afe;
+    .breadcrumb-link {
+      
+      text-shadow: inherit;
+      line-height: 1.2;
+      &:hover {
+        color: #3d5afe;
+      }
+    }
+  }
+}
+
+.grid-tile {
+  .background-filler {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+  }
+  &:hover {
+    .background-filler {
+      background-color: rgba(0,0,0,0.3);
+    }
+  }
+}
+
 .full-width {
   width: 100%;
 }
@@ -98,6 +138,7 @@
       width: inherit;
       padding-left: 15px;
       padding-right: 15px;
+
       .page-content {
         img {
           width: 50%;
