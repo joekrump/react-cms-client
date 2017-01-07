@@ -25,10 +25,12 @@ $darkPrimary: #3d5afe;
     color: $darkPrimary;
 
     .breadcrumb-link {
-      
       text-shadow: inherit;
-      &:hover {
-        color: $lightPrimary;
+      margin: 0 0.2rem;
+      &.active, &:hover, &:focus {
+        color: #fff;
+        padding-bottom: 0;
+        border-bottom: 2px solid $darkPrimary;
       }
     }
   }
