@@ -150,6 +150,14 @@ class Page extends React.Component {
     return (typeof(window) !== 'undefined') ? window.location.href : `${AppConfig.baseUrl}/${this.props.pathname}`;
   }
 
+  getPageTitle() {
+    if (this.state.name !== undefined) {
+      return `${AppConfig.siteTitle} | ${this.state.name}`
+    } else {
+      return AppConfig.siteTitle
+    }
+  }
+
   render() {
     if(this.props.statusCode !== 200) {
       return (<PageNotFound />)
@@ -158,7 +166,7 @@ class Page extends React.Component {
     return (
       <FrontendPage>
         <Helmet 
-          title={`${AppConfig.siteTitle} | ${this.state.name}`}
+          title={this.getPageTitle()}
           meta={this.makeHelmetMeta()}
         />
         {this.state.page}
