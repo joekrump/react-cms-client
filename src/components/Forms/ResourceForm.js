@@ -55,7 +55,12 @@ class ResourceForm extends React.Component {
   }
 
   submitReject = (res) => {
-    this.props.updateSnackbar(true, 'Error', 'ERROR!', 'warning');
+    console.log(res);
+    if(res.body) {
+      this.props.updateSnackbar(true, `Error ${res.body.status_code}`, res.body.message, 'warning');
+    } else {
+      this.props.updateSnackbar(true, res.statusCode, 'Unknown Error. Please report this as a bug', 'error');
+    }
   }
 
   submitToServer(){
@@ -74,8 +79,7 @@ class ResourceForm extends React.Component {
   }
 
   handleRequestException = (exception) => {
-    // console.warn('Exception: ', exception)
-    this.props.updateSnackbar(true, 'Error', exception, 'error');
+    this.props.updateSnackbar(true, 'Unexpected Error', 'Please report this as a bug', 'error');
   }
 
   handleSuccess(res) {
