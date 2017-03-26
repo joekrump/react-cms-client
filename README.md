@@ -1,6 +1,6 @@
-# L-API-V2
+# React CMS Client
 
-**l-api-v2** is a CMS interface built with React. It allows for interaction with a headless CMS backend.
+A CMS client interface built with React. It allows for interaction with an [API server](https://github.com/joekrump/react-cms-api-server) built using Laravel.
 
 This project makes use of the following frameworks and technologies:
 - [ReactJS](https://facebook.github.io/react/)
