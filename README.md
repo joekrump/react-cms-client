@@ -44,7 +44,7 @@ Example Index Page
 
 ### API Server
 
-Currently I have an API server built using Laravel 5.2 which this client app interacts with. The API server code can be found on GitHub [here](https://github.com/joekrump/react-cms-serverside). There are plans to migrate the current server code over to Sails so that both the client and the server will be written in JS. If you have any questions regarding server specifics, please give me a shout by email or on LinkedIn.
+Currently I have an API server built using Laravel 5.2 which this client app interacts with. The API server code can be found on GitHub [here](https://github.com/joekrump/react-cms-api-server). There are plans to migrate the current server code over to Sails so that both the client and the server will be written in JS. If you have any questions regarding server specifics, please give me a shout by email or on LinkedIn.
 
 ## Setup Instructions
 
