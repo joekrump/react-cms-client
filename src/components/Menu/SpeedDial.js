@@ -38,9 +38,9 @@ class SpeedDial extends React.Component {
     this.handleCloseSpeedDial = this.handleCloseSpeedDial.bind(this)
   }
 
-  handleActionClick(e, actionRoute) {
+  handleActionClick(e, resourceType) {
     e.preventDefault();
-    this.props.dispatch(push(actionRoute));
+    this.props.dispatch(push(actions[resourceType].route));
     this.setState({open: false});
   }
 
@@ -53,13 +53,12 @@ class SpeedDial extends React.Component {
   makeActionList(menuList, mouseOutAreaHeight) {
 
     if(this.props.isAdmin) {
-      // if the current user is an admin, they should have access to all possible links.
       menuList = ['pages', 'cards', 'users', 'books', 'roles', 'permission'] ;
     }
 
     let actionButtons = [];
-    menuList.forEach((permission, index) => {
-      if(actions[permission] !== undefined) {
+    menuList.forEach((resourceType, index) => {
+      if(actions[resourceType] !== undefined) {
         mouseOutAreaHeight += 58;
         actionButtons.push(
           <CustomFAB 
@@ -68,11 +67,11 @@ class SpeedDial extends React.Component {
             iconStyle={{fill: "white"}} 
             actionStyle={{bottom: mouseOutAreaHeight}}
             mini={true} 
-            onTouchTap={(e) => this.handleActionClick(e, actions[permission].route)} 
+            onTouchTap={(e) => this.handleActionClick(e, resourceType)} 
             secondary={true}
-            tooltipText={actions[permission].tooltipText}
+            tooltipText={actions[resourceType].tooltipText}
             toolTypeStyles={{marginTop: '-8px', marginBottom: '34px', top: '42px'}}
-            icon={actions[permission].icon}
+            icon={actions[resourceType].icon}
           />
         )
       }

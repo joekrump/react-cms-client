@@ -86,24 +86,29 @@ class PaymentForm extends React.Component {
         this.props.updateStripeToken(response.id);
         // If Stripe processing was successful and has returned a token (response.id) the submit
         // Charge to the server for processing.
-        this.submitToServer(response.id, this);
+        this.submitToServer(response.id);
       }
     }.bind(this));
   }
-  submitToServer(stripeToken, self){
+  submitToServer(stripeToken){
+    let formInputValues = {}
+
+    Object.keys(this.props.formFields).forEach((key) => {
+      formInputValues[key] = this.props.formFields[key].value;
+    });
+    
     this.state.client.post('stripe/make-payment', false, {
       data: {
-        token: stripeToken, 
-        ...self.state.formFields
+        token: stripeToken,
+        ...formInputValues
       }})
       .then((res) => {
-        // self.props.updatePaymentError(null);
-        self.props.updateSnackbar(true, 'Success', 'Payment Processed', 'success');
-        self.props.updateFormCompleteStatus(true);
-        setTimeout(self.resetForm, 3000);
+        this.props.updateSnackbar(true, 'Success', 'Payment Processed', 'success');
+        this.props.updateFormCompleteStatus(true);
+        setTimeout(this.resetForm, 3000);
       }, (res) => {
         if (res.statusCode === 422) {
-          self.props.updateSnackbar(true, 'Error', res.body.message, 'error');
+          this.props.updateSnackbar(true, 'Error', res.body.message, 'error');
 
           Object.keys(res.body.errors).forEach((fieldName) => {
             this.props.inputError(res.body.errors[fieldName],
@@ -112,12 +117,12 @@ class PaymentForm extends React.Component {
           });
         } else if (res.statusCode !== 200) {
           
-          self.props.updateSnackbar(true, 'Error', 'Could Not Process Payment', 'error');
+          this.props.updateSnackbar(true, 'Error', 'Could Not Process Payment', 'error');
         } else {
-          self.props.updateSnackbar(true, 'Error', 'Something Unexpected Happened', 'error');
+          this.props.updateSnackbar(true, 'Error', 'Something Unexpected Happened', 'error');
         } 
       }).catch((err) => {
-       console.log(err);
+       console.warn(err);
       })
   }
   render() {
@@ -186,6 +191,7 @@ class PaymentForm extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    formFields:  state.forms.paymentForm.fields,
     isFormValid: state.forms.paymentForm.valid,
     stripeToken: state.payments.stripeToken
   }
