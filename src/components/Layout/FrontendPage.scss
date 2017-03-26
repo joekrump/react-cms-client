@@ -118,13 +118,22 @@ $darkPurple: #3d5afe;
 }
 
 @media (max-width: 500px){
+  .page {
+    .page-container {
+      padding-top: 30px;
+      .page-title {
+        h1 {
+          line-height: 1.2;
+        }
+      }
+    }
+  }
   .page, .top-nav {
     .page-container {
       margin: 0;
       width: inherit;
       padding-left: 15px;
       padding-right: 15px;
-
       .page-content {
         img {
           width: 100%;
