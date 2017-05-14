@@ -140,6 +140,9 @@ $ npm run server
 - [ ] Add backend search functionality
 - [ ] File Management System
 - [ ] Service Workers for caching data (PWA)
+- [ ] Improve content editor
+  - [ ] Inserting quotes
+  - [ ] Text highlighting
 - [x] Role based permissions
 - [x] Inline Editor with image upload and manipulation functionality.
 - [x] Form Validation using Redux
