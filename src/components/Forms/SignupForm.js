@@ -1,3 +1,4 @@
+// src/components/Forms/SignupForm.js
 import React from 'react';
 import ResourceForm from './ResourceForm';
 import { connect } from 'react-redux'
@@ -36,4 +37,4 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(null,
   mapDispatchToProps
-)(SignupForm)
+)(SignupForm);

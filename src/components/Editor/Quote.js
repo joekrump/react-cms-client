@@ -1,3 +1,4 @@
+// src/components/Editor/Quote.js
 import ContentTools from 'ContentTools';
 
 class TimeTool extends ContentTools.Tool {
@@ -8,7 +9,6 @@ class TimeTool extends ContentTools.Tool {
     this.icon  = 'subheading';
     this.tagName = 'quote'
   }
-
 }
 
 const makeQuote = (_super) => {

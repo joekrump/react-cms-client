@@ -1,3 +1,4 @@
+// src/components/Nav/Breadcrumbs.js
 import React from 'react';
 import { connect } from 'react-redux';
 import Breadcrumb from './Breadcrumb';
@@ -47,7 +48,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-// Implement map dispatch to props
-)(Breadcrumbs)
+export default connect(mapStateToProps)(Breadcrumbs);

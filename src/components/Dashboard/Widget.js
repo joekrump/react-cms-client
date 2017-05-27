@@ -1,4 +1,4 @@
-// src/components/Form/Form.js
+// src/components/Dashboard/Widget.js
 import React from 'react';
 import Paper from 'material-ui/Paper';
 

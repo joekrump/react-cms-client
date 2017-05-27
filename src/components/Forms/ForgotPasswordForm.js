@@ -1,3 +1,4 @@
+// src/components/Forms/ForgotPasswordForm.js
 import React from 'react';
 import ResourceForm from './ResourceForm';
 

@@ -1,3 +1,4 @@
+// src/components/Dashboard/ActiveUsersWidget.js
 import React from 'react'
 import Gravatar from '../Menu/AdminMenu/Gravatar';
 import { List, ListItem } from 'material-ui/List';

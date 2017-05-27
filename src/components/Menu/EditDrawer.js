@@ -1,3 +1,4 @@
+// src/components/Menu/EditDrawer.js
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './EditDrawer.scss';
@@ -48,6 +49,4 @@ class EditDrawer extends React.Component {
 }
 
 export default withStyles(s)(EditDrawer);
-
-
 

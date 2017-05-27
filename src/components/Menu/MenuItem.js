@@ -1,3 +1,4 @@
+// src/components/Menu/MenuItem.js
 import React from 'react';
 import merge from 'lodash.merge';
 

@@ -1,5 +1,4 @@
 // src/componetns/Forms/ContactForm.js
-// 
 import React from 'react';
 import APIClient from '../../http/requests'
 import { connect } from 'react-redux';
@@ -154,4 +153,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ContactForm)
+)(ContactForm);

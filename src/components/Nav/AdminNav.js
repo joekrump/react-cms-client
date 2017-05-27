@@ -1,14 +1,15 @@
+// src/components/Nav/AdminNav.js
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconMenu from 'material-ui/IconMenu';
-import MenuItem from '../Menu/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import AppConfig from '../../../app_config/app';
 import { Link } from 'react-router';
-import auth from '../../auth';
 import { connect } from 'react-redux';
+import AppConfig from '../../../app_config/app';
+import auth from '../../auth';
+import MenuItem from '../Menu/MenuItem';
 import BackButton from './BackButton';
 import AdminMenu from '../Menu/AdminMenu';
 

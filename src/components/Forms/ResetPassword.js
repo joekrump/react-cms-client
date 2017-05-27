@@ -1,3 +1,4 @@
+// src/components/Forms/ResetPassword.js
 import React from 'react';
 import ResourceForm from './ResourceForm';
 import { connect } from 'react-redux'
@@ -62,4 +63,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ResetPassword)
+)(ResetPassword);

@@ -1,3 +1,4 @@
+// src/components/Editor/ImageUploader.js
 import AppConfig from '../../../app_config/app'
 // Define settings for the uploader 
 const CLOUDINARY_PRESET_NAME = AppConfig.CLOUDINARY_PRESET_NAME;

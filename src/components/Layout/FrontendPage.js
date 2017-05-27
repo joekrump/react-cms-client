@@ -1,3 +1,4 @@
+// src/components/Layout/FrontendPage.js
 import React from 'react';
 import s from './FrontendPage.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';

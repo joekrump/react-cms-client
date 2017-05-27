@@ -1,3 +1,4 @@
+// src/components/Menu/SpeedDial.js
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import AddIcon from 'material-ui/svg-icons/content/add'
@@ -19,8 +20,7 @@ const actions = {
   books: {icon: <BookIcon />, route: '/admin/books/new', tooltipText: 'Create a new Book'},
   roles: {icon: <RoleIcon />, route: '/admin/roles/new', tooltipText: 'Create a new User Role'},
   permission: {icon: <PermissionIcon />, route: '/admin/permissions/new', tooltipText: 'Create a new Role Permission'}
-}
-
+};
 
 class SpeedDial extends React.Component {
   static propTypes = {
@@ -132,6 +132,6 @@ const mapStateToProps = (state) => ({
   height: 2000,
   menuList: state.auth.user.menuList,
   isAdmin: state.auth.user.isAdmin
-})
+});
 
 export default withStyles(s)(connect(mapStateToProps)(SpeedDial));

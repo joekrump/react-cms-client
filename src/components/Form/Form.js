@@ -11,4 +11,4 @@ const Form = () => ({
   }
 });
 
-export { Form }
+export { Form };

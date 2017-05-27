@@ -1,3 +1,4 @@
+// src/components/Forms/LoginForm.js
 import React from 'react';
 import { SubmitButton, TextInput } from '../Form/index';
 import auth from '../../auth';
@@ -114,4 +115,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginForm)
+)(LoginForm);

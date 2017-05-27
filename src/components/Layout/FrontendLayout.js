@@ -1,3 +1,4 @@
+// src/components/Layout/FrontendLayout.js
 import React from 'react'
 
 /**

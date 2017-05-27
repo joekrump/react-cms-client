@@ -1,3 +1,4 @@
+// src/components/Layout/FlexContainer.js
 import React from 'react';
 import s from './FlexContainer.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
