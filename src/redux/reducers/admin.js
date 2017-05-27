@@ -55,4 +55,4 @@ const adminReducer = (state = initialState, action) => {
   }
 }
 
-export {adminReducer as admin}
+export {adminReducer as admin};

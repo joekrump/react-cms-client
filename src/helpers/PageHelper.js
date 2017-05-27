@@ -1,4 +1,3 @@
-
 export function getTemplateName(template_id) {
   let templateName = 'BasicTemplate';
 

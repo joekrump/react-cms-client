@@ -98,5 +98,5 @@ function renderPage(renderProps, store){
 
 app.listen(app.get('port'))
 
-console.info('==> Server is listening in ' + process.env.NODE_ENV + ' mode')
-console.info('==> Go to http://localhost:%s', app.get('port'))
+console.info('==> Server is listening in ' + process.env.NODE_ENV + ' mode');
+console.info('==> Go to http://localhost:%s', app.get('port'));

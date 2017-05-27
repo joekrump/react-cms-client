@@ -6,7 +6,7 @@ module.exports = {
    * Method to log user into admin
    * @param  {string} email                    - email address of the user that is trying to log in
    * @param  {string} pass                     - the password for the user that is trying to log in
-   * @param  {fucntion} handleLoggedInCallback - function to call on user logged in
+   * @param  {function} handleLoggedInCallback - function to call on user logged in
    * @param  {function} dispatch               - redux dispatch method
    * @return {undefined}                     
    */

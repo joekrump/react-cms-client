@@ -35,4 +35,4 @@ class ContextProvider extends React.Component {
   }
 }
 
-export default ContextProvider
+export default ContextProvider;

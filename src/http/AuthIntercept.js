@@ -1,11 +1,8 @@
 import { store } from '../redux/store/store'
 
 const AuthIntercept = require('superagent-intercept')((err, res) => {
-	// console.log(res.status);
-	// console.log(res);
   if(err) {
-    console.log('ERROR: ', err);
-
+    console.warn('ERROR: ', err);
   } else if(res.status === 401 && store.getState().auth.logged_in && res.body.message === "Token has expired") {
 		// If user is logged in and their token has expired, log them out.
 		store.dispatch({
@@ -15,4 +12,4 @@ const AuthIntercept = require('superagent-intercept')((err, res) => {
 	} 
 });
 
-export default AuthIntercept
+export default AuthIntercept;

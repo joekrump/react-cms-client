@@ -16,4 +16,4 @@ const notificationReducer = (state = initialState, action) => {
   }
 }
 
-export {notificationReducer as notifications}
+export {notificationReducer as notifications};

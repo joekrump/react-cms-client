@@ -25,4 +25,4 @@ const auth = (state = initialState, action) => {
   }
 }
 
-export { auth }
+export { auth };
