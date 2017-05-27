@@ -4,11 +4,11 @@ const page = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_PAGE_STATUS_CODE':
       return {
-        statusCode: action.statusCode
-      }
+        statusCode: action.statusCode,
+      };
     default:
       return state;
   }
-}
+};
 
-export {page}
+export { page };

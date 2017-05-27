@@ -1,6 +1,6 @@
-export function updateStatusCode(statusCode){
+export function updateStatusCode(statusCode) {
   return {
     type: 'UPDATE_PAGE_STATUS_CODE',
-    statusCode
-  }
+    statusCode,
+  };
 }

@@ -5,10 +5,10 @@ const paymentReducer = (state = initialState, action) => {
     case 'UPDATE_STRIPE_TOKEN':
       return {
         stripeToken: action.stripeToken,
-      }
+      };
     default:
       return state;
   }
-}
+};
 
-export {paymentReducer as payments}
+export { paymentReducer };

@@ -1,7 +1,7 @@
 export function update_token(newToken) {
   return {
     type: "TOKEN_UPDATED",
-    token: newToken
+    token: newToken,
   };
 }
 
@@ -11,13 +11,13 @@ export function login_user(user, token, loggedIn, redirectPath) {
     user,
     token,
     loggedIn,
-    redirectPath
+    redirectPath,
   };
 }
 
 export function logout_user(redirectPath) {
   return {
     type: 'USER_LOGGED_OUT',
-    redirectPath
-  }
+    redirectPath,
+  };
 }

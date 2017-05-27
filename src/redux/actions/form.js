@@ -1,43 +1,43 @@
 export function update(value, fieldName, formName, errors, isTyping, fieldIsValid) {
   return {
-    type: "FORM_INPUT_CHANGE",
+    type: 'FORM_INPUT_CHANGE',
     value,
     fieldName,
     formName,
     errors,
     isTyping,
-    valid: fieldIsValid
+    valid: fieldIsValid,
   };
 }
 
-export function inputError(errors, fieldName, formName){
+export function inputError(errors, fieldName, formName) {
   return {
     type: 'FORM_INPUT_ERROR',
     errors,
     fieldName,
-    formName
-  }
+    formName,
+  };
 }
 
-export function loadData(fieldValues, formName, valid){
+export function loadData(fieldValues, formName, valid) {
   return {
-    type: "FORM_LOAD",
+    type: 'FORM_LOAD',
     fieldValues,
     formName,
-    valid
+    valid,
   };
 }
 
 export function reset(formName) {
   return {
-    type: "FORM_RESET",
-    formName
+    type: 'FORM_RESET',
+    formName,
   };
 }
 export function updateFormValidationStatus(valid, formName) {
   return {
-    type: "FORM_VALID",
+    type: 'FORM_VALID',
     valid,
-    formName
+    formName,
   };
 }

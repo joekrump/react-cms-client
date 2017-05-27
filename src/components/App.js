@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import auth from '../auth';
 import { connect } from 'react-redux';
 import AdminNav from './Nav/AdminNav';
@@ -37,7 +37,7 @@ class App extends React.Component {
       return (<Page location={this.props.location} />)
     }
   }
-  render = () => {
+  render() {
     return (
       <div id="app">
         {this.props.loggedIn ? <AdminNav /> : <TopNav />}
@@ -49,7 +49,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => ({
   loggedIn: state.auth.logged_in,
-  pageStatus: state.page.statusCode
+  pageStatus: state.page.statusCode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -67,5 +67,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(App);

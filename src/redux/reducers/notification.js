@@ -8,12 +8,12 @@ const notificationReducer = (state = initialState, action) => {
           show: action.show,
           header: action.header,
           content: action.content,
-          notificationType: action.notificationType
-        }
-      }
+          notificationType: action.notificationType,
+        },
+      };
     default:
       return state;
   }
-}
+};
 
-export {notificationReducer as notifications};
+export { notificationReducer as notifications };
