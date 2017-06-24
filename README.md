@@ -67,23 +67,25 @@ To set up Cloudinary so that image uploading works in the content editor, follow
 - `app.js`:
 ```javascript
 const app_config = {
-  baseUrl: 'THE PATH OF THE CLIENT: ex. http://localhost:3000', // Note: If you are unsure what this is, try running `npm start` to see.
-  apiBaseUrl: 'THE PATH TO YOUR API SERVER (followed by a trailing slash "/"): ex. http://localhost:8000/api/',
-  adminRouteLinks: {
-    dashboard: { linkText: 'Dashboard', url: '/admin' },
-    pages: { linkText: 'Pages', url: '/admin/pages' },
-    cards: { linkText: 'Cards', url: '/admin/cards' },
-    roles: { linkText: 'Roles', url: '/admin/roles' },
-    books: { linkText: 'Books', url: '/admin/books' },
-    users: { linkText: 'Users', url: '/admin/users' },
-    permission: { linkText: 'Permissions', url: '/admin/permissions' },
+  baseUrl: 'http://localhost:3000', // Note: If you are unsure what this is, try running `npm start` to see.
+  apiBaseUrl: 'http://localhost:8000/api/', // Note: Should be the base route of your API with a trailing "/"
+  routes: {
+    public: [
+      { label: 'Log In', url: '/login' },
+      { label: 'Home', url: '/' },
+      { label: 'About', url: '/about' },
+      { label: 'Make a donation', url: '/donate' }
+    ],
+    admin: {
+      dashboard: { label: 'Dashboard', url: '/admin' },
+      pages: { label: 'Pages', url: '/admin/pages' },
+      cards: { label: 'Cards', url: '/admin/cards' },
+      roles: { label: 'Roles', url: '/admin/roles' },
+      books: { label: 'Books', url: '/admin/books' },
+      users: { label: 'Users', url: '/admin/users' },
+      permission: { label: 'Permissions', url: '/admin/permissions' },
+    },
   },
-  publicRouteLinks: [
-    { linkText: 'Log In', url: '/login' },
-    { linkText: 'Home', url: '/' },
-    { linkText: 'About', url: '/about' },
-    { linkText: 'Make a donation', url: '/donate' }
-  ],
   validResources: [
     'users',
     'books',

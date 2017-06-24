@@ -53,5 +53,5 @@ if(typeof document !== 'undefined'){
         </StyleContextProvider>
       </MuiThemeProvider>
     </Provider>
-  ), document.getElementById('base'));
+  ), document.getElementById("base"));
 }

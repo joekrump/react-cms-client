@@ -58,10 +58,10 @@ class TopNav extends React.Component {
         key={'top-link' + i}
         className="top-link" 
         to={link.url}
-        title={link.routeTitle}
+        title={link.label}
         activeClassName="active"
         onlyActiveOnIndex={link.url === '/'}>
-        {link.routeTitle}
+        {link.label}
       </Link>)
     );
   }

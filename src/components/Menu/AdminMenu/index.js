@@ -7,6 +7,12 @@ import ListItem from 'material-ui/List/ListItem';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './AdminMenu.scss';
 
+const gravatarStyle = {
+  position: 'absolute',
+  top: '8px',
+  left: '18px',
+};
+
 function pageIsActive(router, url, indexOnly = false) {
   return router.isActive({pathname: url}, indexOnly)
 }
@@ -19,7 +25,11 @@ const AdminMenu = (props, context) => {
       key="user-avatar"
       disabled={true}
       leftAvatar={
-        <Gravatar style={{position: 'absolute', top: '8px', left: '18px'}} email={props.currentUser.email} diameter='50' />
+        <Gravatar 
+          style={ gravatarStyle } 
+          email={ props.currentUser.email } 
+          diameter='50' 
+        />
       }
       primaryText={<Link to="/admin/settings" className="link dark header-text">{props.currentUser.name}</Link>}
     />)
@@ -32,8 +42,8 @@ const AdminMenu = (props, context) => {
     //
     Object.keys(props.routeOptions).forEach((route, i) => {
       menuItems.push(<LeftNavMenuItem 
-        key={'left-nav-link-' + i} 
-        linkText={props.routeOptions[route].linkText} 
+        key={`left-nav-link-${i}`} 
+        linkText={props.routeOptions[route].label} 
         url={props.routeOptions[route].url} 
         isActive={pageIsActive(context.router, props.routeOptions[route].url, true)}/>)
       return 1;
@@ -43,14 +53,14 @@ const AdminMenu = (props, context) => {
     // as well as items that correspond to their permissions.
     menuItems.push((<LeftNavMenuItem 
         key={'left-nav-link-dashboard'} 
-        linkText={props.routeOptions.dashboard.linkText} 
+        linkText={props.routeOptions.dashboard.label} 
         url={props.routeOptions.dashboard.url} 
         isActive={pageIsActive(context.router, props.routeOptions.dashboard.url, true)}/>));
 
     props.currentUser.menuList.forEach((menuItem, i) => {
       menuItems.push(<LeftNavMenuItem 
-        key={'left-nav-link-' + i} 
-        linkText={props.routeOptions[menuItem].linkText} 
+        key={ `left-nav-link-${i}` } 
+        linkText={props.routeOptions[menuItem].label} 
         url={props.routeOptions[menuItem].url} 
         isActive={pageIsActive(context.router, props.routeOptions[menuItem].url, true)}/>)
       return 1;
@@ -59,7 +69,7 @@ const AdminMenu = (props, context) => {
 
   return (
     <div className="admin-menu">
-      {menuItems}
+      { menuItems }
     </div>
   );
 }

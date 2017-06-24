@@ -29,17 +29,17 @@ const MobileMenu = (props, context) => {
   menuItems.push((<Divider key="avatar-divider" />));
 
   AppConfig.routes.public.forEach((link, i) => {
-    menuItems.push(<LeftNavMenuItem 
-      key={'left-nav-link-' + i} 
-      linkText={link.routeTitle} 
-      url={link.url} 
-      isActive={pageIsActive(context.router, link.url, true)}/>)
-    return 1;
+    menuItems.push(<LeftNavMenuItem
+      key={ `left-nav-link-${i}` }
+      linkText={ link.label }
+      url={ link.url }
+      isActive={ pageIsActive(context.router, link.url, true) } 
+    />);
   });
 
   return (
     <div className="mobile-menu">
-      {menuItems}
+      { menuItems }
     </div>
   );
 }
