@@ -17,10 +17,7 @@ class AdminNav extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      menuOpen: true
-    }
+    this.state = { menuOpen: true };
   }
 
   handleToggleMenu() {
@@ -37,21 +34,21 @@ class AdminNav extends React.Component {
     e.preventDefault();
     auth.logout(() => {
       // dispatch an action if the server has successfully logged out the user.
-      this.props.logoutUser('/login');
+      this.props.logoutUser("/login");
     }, () => {
       this.props.loginUser(auth.getUser(), auth.getToken(), true)
     }, this.props.dispatch);
   }
 
   renderBackButton() {
-    return (this.props.pluralName === '' || this.props.adminPageType === 'index') ? null 
+    return (this.props.pluralName === "" || this.props.adminPageType === 'index') ? null 
       : <BackButton 
           label={this.props.pluralName} 
-          link={'/admin/' + this.props.pluralName} />
+          link={'/admin/' + this.props.pluralName}
+        />
   }
 
   render() {
-
     let iconElementRight = null;
     
     if(this.props.loggedIn) {
