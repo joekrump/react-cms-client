@@ -66,33 +66,33 @@ class AdminNav extends React.Component {
           <MenuItem primaryText="Settings" containerElement={<Link to="/admin/settings"/>} />
           <MenuItem primaryText="Log Out" onTouchTap={(event) => this.handleLogout(event)} />
         </IconMenu>
-      )
+      );
     }
 
     return (
       <div>
-        <Drawer 
+        <Drawer
           open={this.state.menuOpen}
-          docked={false} 
+          docked={false}
           onRequestChange={() => this.handleToggleMenu()}
         >
           <AdminMenu currentUser={this.props.user} routeOptions={AppConfig.routes.admin} />
         </Drawer>
         <header>
-          <AppBar 
+          <AppBar
             title={(
               <div className="title-wrapper">
                 <h1 className="admin-title">{AppConfig.cmsTitle ? AppConfig.cmsTitle : 'React CMS'}</h1>
                 {this.renderBackButton()}
               </div>
-            )} 
-            onLeftIconButtonTouchTap={() => this.handleToggleMenu()} 
-            style={{position: 'fixed'}}
+            )}
+            onLeftIconButtonTouchTap={() => this.handleToggleMenu()}
+            style={{ position: 'fixed' }}
             iconElementRight={iconElementRight}
           />
         </header>
       </div>
-    )
+    );
   }
 }
 
@@ -103,32 +103,32 @@ const mapStateToProps = (state) => {
     token: state.auth.token,
     location: state.routing.locationBeforeTransitions,
     pluralName: state.admin.resource.name.plural,
-    adminPageType: state.admin.pageType
-  }
-}
+    adminPageType: state.admin.pageType,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     logoutUser: (redirectPath) => {
-      dispatch ({
+      dispatch({
         type: 'USER_LOGGED_OUT',
-        redirectPath
-      })
+        redirectPath,
+      });
     },
     loginUser: (user, token, loggedIn, redirectPath) => {
-      dispatch ({
+      dispatch({
         type: 'USER_LOGGED_IN',
         user,
         token,
         loggedIn,
-        redirectPath
-      })
+        redirectPath,
+      });
     },
-    dispatch
+    dispatch,
   };
-}
+};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(AdminNav);
