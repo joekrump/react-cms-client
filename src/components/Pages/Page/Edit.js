@@ -34,7 +34,7 @@ class PageEdit extends React.Component {
       slug: props.slug ? props.slug : '',
       explicitSlug: props.slug ? true : false,
       submitDisabled: false,
-      template: null,
+      selectedTemplate: null,
       templateOptions: {},
       templateIds: [],
       templateId: props.template_id,
@@ -58,7 +58,7 @@ class PageEdit extends React.Component {
       this.props.dispatch(replace(`/admin/${this.state.resourceURL}/edit`))
     }
     this.setState({
-      template: this.getTemplateComponent(this.props.template_id, this.props.name, this.props.content)
+      selectedTemplate: this.getTemplateComponent(this.props.template_id, this.props.name, this.props.content)
     })
   }
 
@@ -83,7 +83,7 @@ class PageEdit extends React.Component {
       || (this.props.content !== nextProps.content)
     ){
       this.setState({
-        template: this.getTemplateComponent(nextState.templateId, nextProps.name, nextProps.content)
+        selectedTemplate: this.getTemplateComponent(nextState.templateId, nextProps.name, nextProps.content)
       })
     }
   }
@@ -100,7 +100,7 @@ class PageEdit extends React.Component {
       client.get(this.state.resourceURL).then((res) => {
          this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingPageData(res))
       }).catch((res) => {
-        console.log('Error: ', res)
+        console.error('Error: ', res)
       })
     } else {
       // The context otherwise will be 'new' in this case get a list of templates and make the Editor.
@@ -108,7 +108,7 @@ class PageEdit extends React.Component {
       client.get('page-templates').then((res) => {
         this.handleSuccessfulDataFetch(client, res, (res) => this.setNewPageData(res))
       }).catch((res) => {
-        console.log('Error: ', res)
+        console.error('Error: ', res)
       })
     }
   }
@@ -179,7 +179,6 @@ class PageEdit extends React.Component {
       templateIds.push(template.id);
       templateOptions[template.id] = {id: template.id, displayName: template.displayName};
     });
-
     this.setState({templateIds, templateOptions});
   }
   /**
@@ -208,7 +207,7 @@ class PageEdit extends React.Component {
 
     if(!this.state.templateId) {
       this.setState({
-        templateId: parseInt(res.body.data.templateId, 10)
+        templateId: parseInt(res.body.data.template_id, 10)
       })
     }
     this.setState({
