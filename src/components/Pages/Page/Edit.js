@@ -292,18 +292,13 @@ class PageEdit extends React.Component {
     }
   }
 
-  /**
-   * Hander for when the value of the page template from the DropDown is changed.
-   * @param  {integer} templateId - The new template id
-   * @return undefined
-   */
-  handleTemplateChange(templateId) {
-    if(this.state.templateId === templateId){
+  handleTemplateChange(templateOption) {
+    if(this.state.templateId === templateOption.id){
       return;
     }
 
     this.updateData();
-    this.updateTemplate(templateId);
+    this.updateTemplate(templateOption.id);
   }
 
   updateTemplate(templateId) {
@@ -382,7 +377,7 @@ class PageEdit extends React.Component {
             options={this.state.templateOptions}
             indexes={this.state.templateIds}
             selectedOption={this.state.templateOptions[this.state.templateId]} 
-            handleChangeCallback={(templateId) => this.handleTemplateChange(templateId)} 
+            handleChangeCallback={(selectedOption) => this.handleTemplateChange(selectedOption)} 
           />
           {/* Do not display the slug text field if this is the homepage (page with full_path of "/") */}
           {this.state.editContext === 'edit' && this.state.full_path === '/' ?
