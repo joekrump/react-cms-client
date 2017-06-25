@@ -7,11 +7,11 @@ import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
 
 // Available templates
-import * as Templates from '../Templates/Pages'
+import * as Templates from '../Templates/Pages';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
-import EditDrawer from '../../Menu/EditDrawer'
-import TemplateDropDown from '../Templates/TemplateDropDown'
+import EditDrawer from '../../Menu/EditDrawer';
+import DropDown from '../Templates/DropDown';
 import {slugify} from '../../../helpers/StringHelper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
 import AppConfig from '../../../../app_config/app';
@@ -35,8 +35,9 @@ class PageEdit extends React.Component {
       explicitSlug: props.slug ? true : false,
       submitDisabled: false,
       template: null,
-      templates: [],
-      template_id: props.template_id,
+      templateOptions: {},
+      templateIds: [],
+      templateId: props.template_id,
       image_url: null,
       summary: '',
       draft: true,
@@ -54,7 +55,7 @@ class PageEdit extends React.Component {
 
   componentWillMount() {
     if(this.state.editContext === 'edit') {
-      this.props.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
+      this.props.dispatch(replace(`/admin/${this.state.resourceURL}/edit`))
     }
     this.setState({
       template: this.getTemplateComponent(this.props.template_id, this.props.name, this.props.content)
@@ -69,9 +70,6 @@ class PageEdit extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    // if(nextProps.pathname !== this.pathname) {
-    //   this.resetEditor();
-    // }
     // If there has been a change to the template_id then rerender the page with the
     // corresponding template.
     if(this.state.editor === null && nextState.editor !== null && this.state.editContext === 'new') {
@@ -80,12 +78,12 @@ class PageEdit extends React.Component {
         nextState.editor.editor.start()
       }
     }
-    if((this.state.template_id !== nextState.template_id)
+    if((this.state.templateId !== nextState.templateId)
       || (this.props.name !== nextProps.name)
       || (this.props.content !== nextProps.content)
     ){
       this.setState({
-        template: this.getTemplateComponent(nextState.template_id, nextProps.name, nextProps.content)
+        template: this.getTemplateComponent(nextState.templateId, nextProps.name, nextProps.content)
       })
     }
   }
@@ -116,7 +114,7 @@ class PageEdit extends React.Component {
   }
   
   componentDidUpdate(prevProps, prevState) {
-    if(prevState.template_id !== this.state.template_id) {
+    if(prevState.templateId !== this.state.templateId) {
       if(this.state.editor) {
         this.state.editor.editor.syncRegions();
       }
@@ -173,6 +171,17 @@ class PageEdit extends React.Component {
     }
   }
 
+  setTemplateIdsAndOptions(templates) {
+    const templateIds = [];
+    let templateOptions = {};
+
+    templates.forEach(function(template) {
+      templateIds.push(template.id);
+      templateOptions[template.id] = {displayName: template.displayName};
+    });
+
+    this.setState({templateIds, templateOptions});
+  }
   /**
    * Set state values for the Page being edited based on the response for the API server.
    * @param {object} res - The response from the server
@@ -181,11 +190,12 @@ class PageEdit extends React.Component {
     this.props.updateEditorData({
       name: res.body.data.name,
       content: res.body.data.content
-    })
+    });
+
+    this.setTemplateIdsAndOptions(res.body.data.templates)
 
     this.setState({
       full_path: res.body.data.full_path,
-      templates: res.body.data.templates,
       slug: res.body.data.slug,
       editor: this.makeEditor(),
       show_title: res.body.data.show_title === 1,
@@ -196,13 +206,13 @@ class PageEdit extends React.Component {
       in_menu: res.body.data.in_menu === 1
     });
 
-    if(!this.state.template_id) {
+    if(!this.state.templateId) {
       this.setState({
-        template_id: parseInt(res.body.data.template_id, 10)
+        templateId: parseInt(res.body.data.templateId, 10)
       })
     }
     this.setState({
-      template: this.getTemplateComponent(this.state.template_id, this.props.name, this.props.content)
+      template: this.getTemplateComponent(this.state.templateId, this.props.name, this.props.content)
     })
   }
 
@@ -212,12 +222,15 @@ class PageEdit extends React.Component {
    */
   setNewPageData(res) {
     let editor = this.makeEditor();
+
+    this.setTemplateIdsAndOptions(res.body.data);
+    
     this.setState({
-      templates: res.body.data, // data should contain a list of templates
-      template_id: res.body.data[0].id,
+      templateId: res.body.data[0].id,
       editor: editor,
       show_title: true
-    })
+    });
+
     editor.updateField('template_id', res.body.data[0].id);
   }
 
@@ -238,11 +251,11 @@ class PageEdit extends React.Component {
 
   /**
    * Determine which page template component to render and return that component.
-   * @param  {integer} template_id - The id corresponding to the template to render
+   * @param  {integer} templateId - The id corresponding to the template to render
    * @return {React.Component}     - The page template to render.
    */
-  getTemplateComponent(template_id, name, content){
-    let templateName = getTemplateName(template_id);
+  getTemplateComponent(templateId, name, content){
+    const templateName = getTemplateName(templateId);
 
     return React.createElement(Templates[templateName], {
       name, content,
@@ -271,7 +284,7 @@ class PageEdit extends React.Component {
       image_url: this.state.image_url,
       show_title: this.state.show_title,
       summary: this.state.summary,
-      template_id: this.state.template_id,
+      template_id: this.state.templateId,
       slug: this.state.slug,
       in_menu: this.state.in_menu,
       parent_id: parseInt(this.props.parent_id, 10),
@@ -281,23 +294,21 @@ class PageEdit extends React.Component {
 
   /**
    * Hander for when the value of the page template from the DropDown is changed.
-   * @param  {integer} template_id - The new template_id
+   * @param  {integer} templateId - The new template id
    * @return undefined
    */
-  handleTemplateChange(template_id) {
-    if(this.state.template_id === template_id){
+  handleTemplateChange(templateId) {
+    if(this.state.templateId === templateId){
       return;
     }
 
     this.updateData();
-    this.updateTemplate(template_id);
+    this.updateTemplate(templateId);
   }
 
-  updateTemplate(template_id) {
-    this.setState({
-      template_id: template_id
-    })
-    this.state.editor.updateField('template_id', template_id);
+  updateTemplate(templateId) {
+    this.setState({templateId});
+    this.state.editor.updateField('template_id', templateId);
   }
 
   updateData() {
@@ -356,6 +367,13 @@ class PageEdit extends React.Component {
     this.state.editor.updateField(name, evt.target.value);
   }
 
+  getTemplateDropDownOptions() {
+    if(this.state.templates.length > 0) {
+
+    } else {
+      return null;
+    }
+  }
   render() {
     return (
       <div className="page-edit">
@@ -367,10 +385,11 @@ class PageEdit extends React.Component {
             defaultToggled={!this.state.draft}
             style={{marginLeft: 24, marginTop: 5, width: 256}}
           />
-          <TemplateDropDown 
-            templateOptions={this.state.templates} 
-            defaultTemplateId={this.state.template_id} 
-            handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
+          <DropDown
+            options={this.state.templateOptions}
+            indexes={this.state.templateIds}
+            selectedOption={this.state.templateOptions[this.state.templateId]} 
+            handleChangeCallback={(templateId) => this.handleTemplateChange(templateId)} 
           />
           {/* Do not display the slug text field if this is the homepage (page with full_path of "/") */}
           {this.state.editContext === 'edit' && this.state.full_path === '/' ?

@@ -102,9 +102,7 @@ class IndexTemplate extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    navigateToUrl: ((url) => {
-      dispatch(push(url))
-    }),
+    navigateToUrl: (url => dispatch(push(url))),
     dispatch
   };
 }
