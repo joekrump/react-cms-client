@@ -1,3 +1,5 @@
+@import "../../../variables.scss";
+
 .admin-container {
   display: flex;
   align-items: center;
@@ -12,7 +14,7 @@
   
   &.basic {
     .front, .back {
-      border: 2px solid #e6e6e6;
+      border: 2px solid $linkColor;
       background: #252429;
     } 
   }

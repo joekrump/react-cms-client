@@ -1,11 +1,10 @@
-$darkPurple: #3d5afe;
-$linkColor: #e6e6e6;
+@import "../../variables.scss";
 
 .top-nav {
   position: fixed;
   height: 56px;
   width: 100%;
-  background-color: #212121;
+  background-color: $darkGrey;
   z-index: 100;
   margin: 0;
   padding: 0;
@@ -38,12 +37,12 @@ $linkColor: #e6e6e6;
         font-weight: 300;
         max-width: 140px;
         text-decoration: none;
-        padding: 0 0.5rem 2px 0.5rem;
+        padding: 14px 0.5rem 14px 0.5rem;
 
         &.active, &:hover, &:focus {
           color: #fff;
           padding-bottom: 0;
-          border-bottom: 2px solid $darkPurple;
+          border-bottom: 2px solid $darkPrimary;
         }
       }
     }
@@ -58,7 +57,7 @@ $linkColor: #e6e6e6;
         font-weight: 300;
         color: $linkColor;
         &:hover, &:focus {
-          color: $darkPurple;
+          color: $darkPrimary;
         }
       }
     }

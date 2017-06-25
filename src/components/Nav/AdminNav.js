@@ -20,7 +20,7 @@ class AdminNav extends React.Component {
     this.state = { menuOpen: true };
   }
 
-  handleToggleMenu() {
+  toggleMenu() {
     this.setState({
       menuOpen: !this.state.menuOpen
     });
@@ -71,7 +71,7 @@ class AdminNav extends React.Component {
         <Drawer
           open={this.state.menuOpen}
           docked={false}
-          onRequestChange={() => this.handleToggleMenu()}
+          onRequestChange={() => this.toggleMenu()}
         >
           <AdminMenu currentUser={this.props.user} routeOptions={AppConfig.routes.admin} />
         </Drawer>
@@ -83,7 +83,7 @@ class AdminNav extends React.Component {
                 {this.renderBackButton()}
               </div>
             )}
-            onLeftIconButtonTouchTap={() => this.handleToggleMenu()}
+            onLeftIconButtonTouchTap={() => this.toggleMenu()}
             style={{ position: 'fixed' }}
             iconElementRight={iconElementRight}
           />

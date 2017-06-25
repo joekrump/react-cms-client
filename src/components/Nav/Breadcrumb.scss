@@ -1,11 +1,7 @@
-// components/Nav/Breadcumb.scss
-//
-$darkGrey: #424242;
-$lightPrimary: #aab7ff;
-$darkPrimary: #3d5afe;
+@import "../../variables.scss";
 
 .breadcrumb-links {
-  background-color: $darkGrey;
+  background-color: $midGrey;
   height: 30px;
   margin-top: -1px;
 
