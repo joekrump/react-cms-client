@@ -2,16 +2,16 @@
  * Get the average color for an image or section of an image.
  * @param  {Image} imageElement  - The image object to get the sample from
  * @param  (optional) {Object} sampleSection - An object of the format {x1: int, y1: int, x2: int, y2: int} which denotes a rectangular area to sample from
- * @return {Object}               - An object containing the keys 'r', 'g' and 'b'.
+ * @return {Object}               - An object containing the keys "r", "g" and "b".
  */
 export function getEverageImageColor(imageElement, sampleSection = null){
-  if(typeof document === 'undefined') {
+  if(typeof document === "undefined") {
     return;
   }
   var blockSize = 5, // only visit every 5 pixels
       defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
-      canvas = document.createElement('canvas'),
-      context = canvas.getContext && canvas.getContext('2d'),
+      canvas = document.createElement("canvas"),
+      context = canvas.getContext && canvas.getContext("2d"),
       data, width, height,
       i = -4,
       length,
@@ -48,7 +48,7 @@ export function getEverageImageColor(imageElement, sampleSection = null){
     data = context.getImageData(0, 0, width, height);
   } catch(e) {
       /* security error, img on diff domain */
-      alert('x');
+      alert("x");
       return defaultRGB;
   }
   
@@ -81,5 +81,5 @@ export function isDark(imageElement, sampleSection){
 }
 
 export function getIconColor(imageElement, sampleSection) {
-  return isLight(imageElement, sampleSection) ? '#fff' : '#616161'
+  return isLight(imageElement, sampleSection) ? "#fff" : "#616161"
 }

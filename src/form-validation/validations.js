@@ -6,113 +6,113 @@
 module.exports = {
   bookForm: {
     title: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     author_name: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     pages_count: {
-      rules: ['isRequired', 'isInt']
+      rules: ["isRequired", "isInt"]
     }
   },
   contactForm: {
     name: {
-      rules: ['isRequired', 'isValidName']
+      rules: ["isRequired", "isValidName"]
     },
     email: {
-      rules: ['isRequired', 'isEmail']
+      rules: ["isRequired", "isEmail"]
     },
     message: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     }
   },
   loginForm: {
     email: {
-      rules: ['isRequired', 'isEmail']
+      rules: ["isRequired", "isEmail"]
     },
     password: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     }
   },
   paymentForm: {
     fname: {
-      rules: ['isRequired', 'isValidName']
+      rules: ["isRequired", "isValidName"]
     },
     lname: {
-      rules: ['isRequired', 'isValidName']
+      rules: ["isRequired", "isValidName"]
     },
     email: {
-      rules: ['isRequired', 'isEmail']
+      rules: ["isRequired", "isEmail"]
     },
     amt: {
-      rules: ['isRequired', 'isValidMoney']
+      rules: ["isRequired", "isValidMoney"]
     }
   },
   permissionForm: {
     name: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     display_name: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     description: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     }
   },
   forgotPasswordForm: {
     email: {
-      rules: ['isRequired', 'isEmail']
+      rules: ["isRequired", "isEmail"]
     }
   },
   resetPasswordForm: {
     password: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     password_confirmation: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     email: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     token: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     }
   },
   roleForm: {
     name: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     display_name: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     description: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     }
   },
   signupForm: {
     name: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     email: {
-      rules: ['isRequired', 'isEmail']
+      rules: ["isRequired", "isEmail"]
     },
     password: {
       rules: {
-        new: ['isRequired'],
+        new: ["isRequired"],
         edit: []
       }
     }
   },
   userForm: {
     name: {
-      rules: ['isRequired']
+      rules: ["isRequired"]
     },
     email: {
-      rules: ['isRequired', 'isEmail']
+      rules: ["isRequired", "isEmail"]
     },
     password: {
       rules: {
-        new: ['isRequired'],
+        new: ["isRequired"],
         edit: []
       }
     }

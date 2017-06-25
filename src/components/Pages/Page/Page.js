@@ -1,16 +1,14 @@
-import React from 'react';
-
-import * as Templates from '../Templates/Pages';
-
-import PageNotFound from '../Errors/404/404';
-import APIClient from '../../../http/requests';
-import FrontendPage from '../../Layout/FrontendPage';
-import { connect } from 'react-redux';
-import AppConfig from '../../../../app_config/app';
-import { push } from 'react-router-redux';
-import Helmet from 'react-helmet';
-import defaultImage from '../Templates/Pages/home-bg.jpg';
-import { getTemplateName } from '../../../helpers/PageHelper';
+import React from "react";
+import * as Templates from "../Templates/Pages";
+import PageNotFound from "../Errors/404/404";
+import APIClient from "../../../http/requests";
+import FrontendPage from "../../Layout/FrontendPage";
+import { connect } from "react-redux";
+import AppConfig from "../../../../app_config/app";
+import { push } from "react-router-redux";
+import Helmet from "react-helmet";
+import defaultImage from "../Templates/Pages/home-bg.jpg";
+import { getTemplateName } from "../../../helpers/PageHelper";
 
 class Page extends React.Component {
   
@@ -23,7 +21,7 @@ class Page extends React.Component {
   }
 
   isAdminPage() {
-    return (this.props.pathname.substring(1, 6).toLowerCase() === 'admin')
+    return (this.props.pathname.substring(1, 6).toLowerCase() === "admin")
   }
 
   componentWillMount() {
@@ -35,7 +33,7 @@ class Page extends React.Component {
   loadPageContent(pathname) {
     const client = new APIClient(this.props.dispatch);
 
-    client.get('page', false, {params: {fullpath: pathname}}).then((res) => {
+    client.get("page", false, {params: {fullpath: pathname}}).then((res) => {
       this.resolveDataFetch(res, this.setPreExistingPageData)
     }, this.rejectDataFetch).catch(this.rejectDataFetch)
   }
@@ -46,7 +44,7 @@ class Page extends React.Component {
 
   navigateViaRouter = (event) => {
     event.preventDefault();
-    this.props.dispatch(push(event.currentTarget.getAttribute('href')));
+    this.props.dispatch(push(event.currentTarget.getAttribute("href")));
   }
 
   setPreExistingPageData = (res) => {
@@ -72,13 +70,13 @@ class Page extends React.Component {
 
   addLinkBehaviorToAnchorElements(anchorElements) {
     anchorElements.forEach((anchorElement) => {
-      anchorElement.addEventListener('click', this.navigateViaRouter, false);
+      anchorElement.addEventListener("click", this.navigateViaRouter, false);
     })
   }
 
   getInteralLinks() {
-    if(typeof(document) !== 'undefined') {
-      const pageTemplate = document.getElementsByClassName('page');
+    if(typeof(document) !== "undefined") {
+      const pageTemplate = document.getElementsByClassName("page");
       let internalLinks = [];
       if(pageTemplate.length > 0) {
         let contentAnchors = pageTemplate[0].getElementsByTagName("a");
@@ -100,7 +98,7 @@ class Page extends React.Component {
     if(res.statusCode && res.statusCode >= 300) {
       this.props.updatePageStatusCode(res.statusCode);
     } else {
-      console.warn('Error: ', res)
+      console.warn("Error: ", res)
     }
   }
 
@@ -135,19 +133,19 @@ class Page extends React.Component {
 
   makeHelmetMeta() {
     let headerMeta = [
-      {property: 'og:title', content: this.state.name},
-      {property: 'og:url', content: this.getPageURL()},
+      {property: "og:title", content: this.state.name},
+      {property: "og:url", content: this.getPageURL()},
     ];
 
     if(this.state.image_url) {
-      headerMeta.push({property: 'og:image', content: this.state.image_url});
+      headerMeta.push({property: "og:image", content: this.state.image_url});
     }
 
     return headerMeta;
   }
 
   getPageURL() {
-    return (typeof(window) !== 'undefined') ? window.location.href : `${AppConfig.baseUrl}/${this.props.pathname}`;
+    return (typeof(window) !== "undefined") ? window.location.href : `${AppConfig.baseUrl}/${this.props.pathname}`;
   }
 
   getPageTitle() {
@@ -179,18 +177,19 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updatePageStatusCode: (statusCode) => {
       dispatch ({
-        type: 'UPDATE_PAGE_STATUS_CODE',
+        type: "UPDATE_PAGE_STATUS_CODE",
         statusCode
       })
     },
     dispatch
   }
-}
+};
+
 const mapStateToProps = (state, ownProps) => {
   return {
     pathname: state.routing.locationBeforeTransitions.pathname,
     statusCode: state.page.statusCode
   }
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Page)
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

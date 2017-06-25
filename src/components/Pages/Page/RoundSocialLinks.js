@@ -1,12 +1,12 @@
-import React from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './RoundSocialLinks.scss';
+import React from "react";
+import withStyles from "isomorphic-style-loader/lib/withStyles";
+import s from "./RoundSocialLinks.scss";
 
 import {
   ShareButtons,
   ShareCounts,
   generateShareIcon,
-} from 'react-share';
+} from "react-share";
 
 const {
   FacebookShareButton,
@@ -23,11 +23,11 @@ const {
   PinterestShareCount,
 } = ShareCounts;
 
-const FacebookIcon = generateShareIcon('facebook');
-const TwitterIcon = generateShareIcon('twitter');
-const GooglePlusIcon = generateShareIcon('google');
-const LinkedinIcon = generateShareIcon('linkedin');
-const PinterestIcon = generateShareIcon('pinterest');
+const FacebookIcon = generateShareIcon("facebook");
+const TwitterIcon = generateShareIcon("twitter");
+const GooglePlusIcon = generateShareIcon("google");
+const LinkedinIcon = generateShareIcon("linkedin");
+const PinterestIcon = generateShareIcon("pinterest");
 
 const RoundSocialLinks = (props) => (
   <div className={`social-container ${props.className}`}>
@@ -112,7 +112,6 @@ const RoundSocialLinks = (props) => (
         url={props.url}
         className="share-count" />
     </div>
-
   </div>
 );
 

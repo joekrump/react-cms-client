@@ -1,6 +1,6 @@
 export function getTemplateName(template_id) {
   let templateName = 'BasicTemplate';
-
+  // TODO: remove coupling from server
   switch(template_id) {
     case 1: {
       templateName = 'BasicTemplate'; break;
