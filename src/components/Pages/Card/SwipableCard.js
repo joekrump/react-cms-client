@@ -28,18 +28,10 @@ class SwipableCard extends React.Component {
     this.addEventListeners()
   }
 
-  componentWillUnmount() {
-
-  }
-
   addEventListeners() {
     document.addEventListener('touchstart', (evt) => this.onStart(evt))
     document.addEventListener('touchmove', (evt) => this.onMove(evt))
     document.addEventListener('touchend', (evt) => this.onEnd(evt))
-  }
-
-  removeEventListeners() {
-
   }
 
   onStart(evt) {
