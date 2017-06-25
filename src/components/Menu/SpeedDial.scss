@@ -1,4 +1,4 @@
-$actionSpacing: 8px;
+@import "../../variables.scss";
 
 .cover {
   position: fixed;
@@ -52,7 +52,6 @@ $actionSpacing: 8px;
     height: 200px;
 
     .action {
-      // flex-direction: row-reverse;
       display: flex;
       height: 42px;
       padding: $actionSpacing 0;

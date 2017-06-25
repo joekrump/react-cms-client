@@ -1,3 +1,5 @@
+@import "../../../variables.scss";
+
 body {
   background-blend-mode: soft-light;
 }
@@ -10,7 +12,7 @@ body {
     .page-container {
       position: relative;
       top: 100px;
-      border: 1px solid #e6e6e6;
+      border: 1px solid $linkColor;
       padding: 30px;
 
       .content {

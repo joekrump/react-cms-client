@@ -1,18 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { replace } from 'react-router-redux'
-import APIClient from '../../../http/requests'
-import Editor from "../../Editor/Editor"
+import { replace } from 'react-router-redux';
+import APIClient from '../../../http/requests';
+import Editor from "../../Editor/Editor";
 import s from '../../Editor/styles/content-tools.scss';
-
-// import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
-// import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
+import { updateSnackbar } from "../../../redux/actions/notification";
 import Card from './Card';
-import EditDrawer from '../../Menu/EditDrawer'
-import TemplateDropDown from '../Templates/TemplateDropDown'
-import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import EditDrawer from '../../Menu/EditDrawer';
+import DropDown from '../Templates/DropDown';
+import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+
+const templateIds = [1, 2];
+const templateOptions = {
+  1: { id: 1, displayName: "Basic Card", cardClassName: "basic" },
+  2: { id: 2, displayName: "Latin Card", cardClassName: "latin" }
+};
 
 class CardEdit extends React.Component {
 
@@ -28,10 +32,9 @@ class CardEdit extends React.Component {
       full_path: '/',
       name: null,
       side: 'FRONT',
-      resourceURL: props.resourceNamePlural + '/' + props.resourceId,
-      template: null,
-      templates: [{id:1, display_name:'Basic Card'}, {id:2, display_name:'Latin Card'}],
-      template_id: props.template_id ? props.template_id : 1
+      resourceURL: `${props.resourceNamePlural}/${props.resourceId}`,
+      selectedTemplate: null,
+      templateId: props.template_id ? props.template_id : templateIds[0]
     }
   }
 
@@ -43,15 +46,15 @@ class CardEdit extends React.Component {
 
   componentWillMount() {
     if(this.state.editContext === 'edit') {
-      this.props.dispatch(replace('/admin/' + this.state.resourceURL + '/edit'))
+      this.props.dispatch(replace(`/admin/${this.state.resourceURL}/edit`))
     }
     this.setState({
-      template: this.getTemplateComponent(this.props.template_id)
+      selectedTemplate: this.getTemplateComponent(this.props.template_id)
     })
   }
 
   componentWillUpdate(nextProps, nextState) {
-    // If there has been a change to the template_id then rerender the page with the
+    // If there has been a change to the templateId then rerender the page with the
     // corresponding template.
     if(this.state.editor === null && nextState.editor !== null && this.state.editContext === 'new') {
       if(nextState.editor.editor.isReady()) {
@@ -59,9 +62,9 @@ class CardEdit extends React.Component {
         nextState.editor.editor.start()
       }
     }
-    if(this.state.template_id !== nextState.template_id){
+    if(this.state.templateId !== nextState.templateId){
       this.setState({
-        template: this.getTemplateComponent(nextState.template_id)
+        selectedTemplate: this.getTemplateComponent(nextState.templateId)
       })
     }
   }
@@ -78,7 +81,7 @@ class CardEdit extends React.Component {
       client.get(this.state.resourceURL).then((res) => {
          this.handleSuccessfulDataFetch(client, res, (res) => this.setPreExistingCardData(res))
       }).catch((res) => {
-        console.log('Error: ', res)
+        console.warn('Error: ', res)
       })
     } else {
       this.setNewCardData([{id:1, display_name:'Basic Card'}, {id:2, display_name:'Latin Card'}])
@@ -93,13 +96,12 @@ class CardEdit extends React.Component {
    * @return undefined.
    */
   handleSaveSuccess(url, res, passive){
-    let newState = {
+    const newState = {
       front_content: res.body.data.front_content,
       back_content: res.body.data.back_content
     };
 
     this.setState(newState);
-
     this.props.updateSnackbar(true, 'Success', 'Note Saved!', 'success');
   }
   
@@ -129,19 +131,14 @@ class CardEdit extends React.Component {
     this.setState({
       front_content: res.body.data.front_content,
       back_content: res.body.data.back_content,
-      template_id: res.body.data.template_id,
+      templateId: parseInt(res.body.data.template_id, 10),
       primary: res.body.data.primary,
       editor: this.makeEditor(),
     });
 
-    if(!this.state.template_id) {
-      this.setState({
-        template_id: parseInt(res.body.data.template_id, 10)
-      })
-    }
     this.setState({
-      template: this.getTemplateComponent(this.state.template_id)
-    })
+      selectedTemplate: this.getTemplateComponent(this.state.templateId)
+    });
   }
 
   /**
@@ -149,30 +146,16 @@ class CardEdit extends React.Component {
    * @param {object} res - server response object.
    */
   setNewCardData(data) {
-    let editor = this.makeEditor();
-    this.setState({
-      editor: editor
-    })
-    // set the template_id within the context of the editor
-    editor.updateTemplateId(this.state.template_id);
+    const editor = this.makeEditor();
+    this.setState({ editor });
+    editor.updateField("template_id", this.state.templateId);
   }
 
-  getTemplateComponent(template_id){
-    let template = null;
-
-    switch(template_id) {
-      case 1: {
-        template = 'basic'
-        break;
-      }
-      case 2: {
-        template = 'latin'
-        break;
-      }
-      default: {
-        template = 'basic'
-        break;
-      }
+  getTemplateComponent(templateId){
+    let template = templateOptions[templateId];
+    
+    if(!template) {
+      template = this.getDefaultTemplate();
     }
 
     return template;
@@ -196,42 +179,41 @@ class CardEdit extends React.Component {
 
   getAdditionalFieldValues() {
     return {
-      template_id: this.state.template_id,
+      template_id: this.state.templateId,
     }
   }
 
-  /**
-   * Hander for when the value of the page template from the DropDown is changed.
-   * @param  {integer} template_id - The new template_id
-   * @return undefined
-   */
-  handleTemplateChange(template_id) {
-    let template = this.getTemplateComponent(template_id);
-    this.setState({
-      template_id,
-      template
-    });
-    this.state.editor.updateField('template_id', template_id);
+  getDefaultTemplate() {
+    return templateOptions[this.state.templateId];
   }
 
-  onSideChange(evt, value) {
+  handleTemplateChange(optionSelected) {
     this.setState({
-      side: value
-    })
+      templateId: optionSelected.id,
+      selectedTemplate: optionSelected
+    });
+    this.state.editor.updateField('template_id', optionSelected.id);
+  }
+
+  changeSide(evt, side) {
+    this.setState({ side });
   }
 
   render() {
     return (
       <div className="card-edit">
         <EditDrawer>
-          <TemplateDropDown 
-            templateOptions={this.state.templates} 
-            defaultTemplateId={this.state.template_id} 
-            handleChangeCallback={(template_id) => this.handleTemplateChange(template_id)} 
+          <DropDown 
+            options={templateOptions}
+            indexes={templateIds}
+            selectedOption={this.state.selectedTemplate} 
+            handleChangeCallback={(optionSelected) => this.handleTemplateChange(optionSelected)} 
           />
           <RadioButtonGroup 
             style={{marginLeft: 24}}
-            name="side" defaultSelected="FRONT" onChange={(evt, value) => this.onSideChange(evt, value)}>
+            name="side" defaultSelected="FRONT"
+            onChange={(evt, value) => this.changeSide(evt, value)}
+          >
             <RadioButton
               value="FRONT"
               label="Show Front"
@@ -244,7 +226,7 @@ class CardEdit extends React.Component {
           </RadioButtonGroup>
         </EditDrawer>
         <Card
-          cardClass={this.state.template}
+          cardClass={this.state.selectedTemplate.cardClassName}
           side={this.state.side}
           editContext="edit"
           duration={800}
@@ -258,22 +240,15 @@ class CardEdit extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateSnackbar: (show, header, content, notificationType) => {
-      dispatch ({
-        type: 'UPDATE_SNACKBAR',
-        show,
-        header,
-        content,
-        notificationType
-      })
-    },
-    dispatch
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  updateSnackbar: function(show, header, content, notificationType) {
+    dispatch(updateSnackbar(show, header, content, notificationType));
+  },
+  dispatch
+});
 
 export default withStyles(s)(connect(
   null,
   mapDispatchToProps
-)(CardEdit))
+)(CardEdit));
+

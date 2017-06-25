@@ -17,13 +17,10 @@ class AdminNav extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      menuOpen: true
-    }
+    this.state = { menuOpen: true };
   }
 
-  handleToggleMenu() {
+  toggleMenu() {
     this.setState({
       menuOpen: !this.state.menuOpen
     });
@@ -37,21 +34,21 @@ class AdminNav extends React.Component {
     e.preventDefault();
     auth.logout(() => {
       // dispatch an action if the server has successfully logged out the user.
-      this.props.logoutUser('/login');
+      this.props.logoutUser("/login");
     }, () => {
       this.props.loginUser(auth.getUser(), auth.getToken(), true)
     }, this.props.dispatch);
   }
 
   renderBackButton() {
-    return (this.props.pluralName === '' || this.props.adminPageType === 'index') ? null 
+    return (this.props.pluralName === "" || this.props.adminPageType === 'index') ? null 
       : <BackButton 
           label={this.props.pluralName} 
-          link={'/admin/' + this.props.pluralName} />
+          link={'/admin/' + this.props.pluralName}
+        />
   }
 
   render() {
-
     let iconElementRight = null;
     
     if(this.props.loggedIn) {
@@ -74,7 +71,7 @@ class AdminNav extends React.Component {
         <Drawer
           open={this.state.menuOpen}
           docked={false}
-          onRequestChange={() => this.handleToggleMenu()}
+          onRequestChange={() => this.toggleMenu()}
         >
           <AdminMenu currentUser={this.props.user} routeOptions={AppConfig.routes.admin} />
         </Drawer>
@@ -86,7 +83,7 @@ class AdminNav extends React.Component {
                 {this.renderBackButton()}
               </div>
             )}
-            onLeftIconButtonTouchTap={() => this.handleToggleMenu()}
+            onLeftIconButtonTouchTap={() => this.toggleMenu()}
             style={{ position: 'fixed' }}
             iconElementRight={iconElementRight}
           />

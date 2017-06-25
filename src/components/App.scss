@@ -1,14 +1,16 @@
+@import "../variables.scss";
+
 .link {
   &.light {
-    color: #81D4FA; /* lightBlue200 */
+    color: $darkPurple;
     &:hover {
-      color: #B3E5FC; /* lightBlue100 */
+      color: $lightPurple;
     }
   }
   &.dark {
-    color: #3d5afe; /* indigoA200 */
+    color: $lightBlue100;
     &:hover {
-      color: #536DFE; /* indigoA400 */
+      color: $lightBlue200;
     }
   }
 }
