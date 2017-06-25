@@ -5,7 +5,7 @@ import { replace } from 'react-router-redux'
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
-
+import { updateSnackbar } from "../../../redux/actions/notification";
 // import LatinCardTemplate from '../Templates/Cards/LatinCardTemplate'
 // import BasicCardTemplate from '../Templates/Cards/BasicCardTemplate'
 import Card from './Card';
@@ -258,20 +258,12 @@ class CardEdit extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateSnackbar: (show, header, content, notificationType) => {
-      dispatch ({
-        type: 'UPDATE_SNACKBAR',
-        show,
-        header,
-        content,
-        notificationType
-      })
-    },
-    dispatch
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  updateSnackbar: function(show, header, content, notificationType) {
+    dispatch(updateSnackbar(show, header, content, notificationType));
+  },
+  dispatch
+});
 
 export default withStyles(s)(connect(
   null,

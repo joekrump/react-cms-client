@@ -2,12 +2,12 @@ import React from 'react';
 import s from './Card.scss'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
+const minTravelPct = 0.35;
 const cardStyle = {
   transform: 'translateX(0px)',
   willChange: 'transform',
-  opacity: 1
-}
-const minTravelPct = 0.35;
+  opacity: 1,
+};
 
 class SwipableCard extends React.Component {
 

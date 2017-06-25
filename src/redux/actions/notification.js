@@ -1,4 +1,4 @@
-export function updateSnackbar(show, header, content, notificationType) {
+function updateSnackbar(show, header, content, notificationType) {
   return {
     type: 'UPDATE_SNACKBAR',
     show,
@@ -7,3 +7,7 @@ export function updateSnackbar(show, header, content, notificationType) {
     notificationType,
   };
 }
+
+export {
+  updateSnackbar,
+};
