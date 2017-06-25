@@ -177,7 +177,7 @@ class PageEdit extends React.Component {
 
     templates.forEach(function(template) {
       templateIds.push(template.id);
-      templateOptions[template.id] = {displayName: template.displayName};
+      templateOptions[template.id] = {id: template.id, displayName: template.displayName};
     });
 
     this.setState({templateIds, templateOptions});

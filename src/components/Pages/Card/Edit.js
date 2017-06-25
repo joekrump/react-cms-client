@@ -14,8 +14,8 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 
 const templateIds = [1, 2];
 const templateOptions = {
-  1: { displayName: "Basic Card" },
-  2: { displayName: "Latin Card" }
+  1: { id: 1, displayName: "Basic Card", cardClassName: "basic" },
+  2: { id: 2, displayName: "Latin Card", cardClassName: "latin" }
 };
 
 class CardEdit extends React.Component {
@@ -187,18 +187,12 @@ class CardEdit extends React.Component {
     return templateOptions[this.state.templateId];
   }
 
-  /**
-   * Hander for when the value of the page template from the DropDown is changed.
-   * @param  {integer} templateId - The new templateId
-   * @return undefined
-   */
-  handleTemplateChange(templateId) {
-    let template = this.getTemplateComponent(templateId);
+  handleTemplateChange(optionSelected) {
     this.setState({
-      templateId,
-      template
+      templateId: optionSelected.id,
+      selectedTemplate: optionSelected
     });
-    this.state.editor.updateField('template_id', templateId);
+    this.state.editor.updateField('template_id', optionSelected.id);
   }
 
   changeSide(evt, side) {
@@ -213,7 +207,7 @@ class CardEdit extends React.Component {
             options={templateOptions}
             indexes={templateIds}
             selectedOption={this.state.selectedTemplate} 
-            handleChangeCallback={(templateId) => this.handleTemplateChange(templateId)} 
+            handleChangeCallback={(optionSelected) => this.handleTemplateChange(optionSelected)} 
           />
           <RadioButtonGroup 
             style={{marginLeft: 24}}
@@ -232,7 +226,7 @@ class CardEdit extends React.Component {
           </RadioButtonGroup>
         </EditDrawer>
         <Card
-          cardClass={this.state.template}
+          cardClass={this.state.selectedTemplate.cardClassName}
           side={this.state.side}
           editContext="edit"
           duration={800}
