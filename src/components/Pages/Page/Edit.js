@@ -367,13 +367,6 @@ class PageEdit extends React.Component {
     this.state.editor.updateField(name, evt.target.value);
   }
 
-  getTemplateDropDownOptions() {
-    if(this.state.templates.length > 0) {
-
-    } else {
-      return null;
-    }
-  }
   render() {
     return (
       <div className="page-edit">
