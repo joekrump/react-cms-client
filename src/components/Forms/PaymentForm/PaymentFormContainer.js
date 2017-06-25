@@ -8,7 +8,6 @@ import s from './PaymentForm.scss';
 import Paper from 'material-ui/Paper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
 
-
 class PaymentFormContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -18,9 +17,17 @@ class PaymentFormContainer extends React.Component {
     }
   }
   render(){
-    var content = null;
-
-    if (this.state.stripeLoadingError) {
+    let content = null;
+    if (!this.props.stripeToken) {
+      content = (
+        <div className="payment-content">
+          <h3 style={{color: redA700}} className="payment-header">Stripe config is invalid</h3>
+          <p>
+            You need a valid Stripe secret in config/stripe.js to use this page as intended.
+          </p>
+        </div>
+      );
+    } else if (this.state.stripeLoadingError) {
       content = (
         <div className="payment-content">
           <h3 style={{color: redA700}} className="payment-header">Error While Loading Payment System</h3>
@@ -29,13 +36,11 @@ class PaymentFormContainer extends React.Component {
           </p>
         </div>
       );
-    }
-    else if (this.props.paymentComplete) {
+    } else if (this.props.paymentComplete) {
       content = (
         <PaymentThankYou />
       );
-    }
-    else {
+    } else {
       content = (
         <PaymentForm submitDisabled={this.props.submitDisabled} editMode={this.props.editMode} />
       )
@@ -53,7 +58,8 @@ class PaymentFormContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     paymentComplete: state.forms.paymentForm.completed,
-    isFormValid: !state.forms.loginForm.error
+    isFormValid: !state.forms.loginForm.error,
+    stripeToken: state.paymentReducer.stripeToken,
   }
 }
 
