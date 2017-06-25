@@ -1,5 +1,5 @@
-import APIClient from '../http/requests';
-import TreeHelper from './TreeHelper';
+import APIClient from "../http/requests";
+import TreeHelper from "./TreeHelper";
 
 export function getIndexItems(resourceNamePlural, dispatch){
   
@@ -15,7 +15,7 @@ export function getIndexItems(resourceNamePlural, dispatch){
     }
     return flatNodes;
   }).catch((res) => {
-    console.warn('ERROR', res);
+    console.error("ERROR", res);
   });
 }
 
@@ -25,7 +25,7 @@ export function getResourceData(dispatch, resourceURL, resolve, reject) {
   client.get(resourceURL)
   .then((res) => resolve(res), (res) => reject(res))
   .catch((res) => {
-    console.warn('Error getting resource data: ', res);
+    console.error("Error getting resource data: ", res);
   })
 }
 
@@ -49,25 +49,25 @@ export function putResourceData(dispatch, url, data) {
 
 export function pluralizeName(wordToPluralize){
   if(wordToPluralize === undefined || wordToPluralize.length === 0) {
-    return ''
+    return ""
   } else {
     wordToPluralize = wordToPluralize.toLowerCase();
     switch(wordToPluralize){
-      case 'user': 
-        return 'users';
-      case 'book': 
-        return 'books';
-      case 'permission': 
-        return 'permissions';
-      case 'role': 
-        return 'roles';
-      case 'page': 
-        return 'pages';
+      case "user": 
+        return "users";
+      case "book": 
+        return "books";
+      case "permission": 
+        return "permissions";
+      case "role": 
+        return "roles";
+      case "page": 
+        return "pages";
       default: {
-        if(wordToPluralize[wordToPluralize.length - 1] === 'y'){
-          return wordToPluralize.slice(0, -1) + 'ies'
+        if(wordToPluralize[wordToPluralize.length - 1] === "y"){
+          return `${wordToPluralize.slice(0, -1)}ies`;
         } else {
-          return wordToPluralize + 's'
+          return `${wordToPluralize}s`;
         }
       }
     }
@@ -76,25 +76,25 @@ export function pluralizeName(wordToPluralize){
 
 export function singularizeName(wordToSingularize){
   if(wordToSingularize === undefined || wordToSingularize.length === 0) {
-    return ''
+    return ""
   } else {
     wordToSingularize = wordToSingularize.toLowerCase();
     switch(wordToSingularize){
-      case 'users':
-        return 'user' 
-      case 'books':
-        return 'book';
-      case 'permissions':
-        return 'permission';
-      case 'roles':
-        return 'role';
-      case 'pages':
-        return 'page';
+      case "users":
+        return "user" 
+      case "books":
+        return "book";
+      case "permissions":
+        return "permission";
+      case "roles":
+        return "role";
+      case "pages":
+        return "page";
       default: {
         var lastThreeChars = wordToSingularize.slice(-3).toLowerCase();
 
-        if(lastThreeChars === 'ies') {
-          return wordToSingularize.slice(0, -3) + 'y'
+        if(lastThreeChars === "ies") {
+          return wordToSingularize.slice(0, -3) + "y"
         } else {
           return wordToSingularize.slice(0, -1)
         }

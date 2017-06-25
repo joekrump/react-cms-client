@@ -5,32 +5,32 @@
  * @param  {function} (optional) onErrorCallback A function that runs if there was an error loading the script
  * @return {undefined}           No return from this function
  */
-export function loadScript(filepath, onLoadCallback, onErrorCallback){
-    if(typeof document === 'undefined'){
-        return;
-    }
-    var fileref=document.createElement('script')
-    
-    if(onLoadCallback) {
-        fileref.onload = function() {
-            onLoadCallback();
-        }
-    }
+ export function loadScript(filepath, onLoadCallback, onErrorCallback) {
+  if(typeof document === "undefined"){
+    return;
+  }
+  var fileref=document.createElement("script")
 
-    if (onErrorCallback) {
-        fileref.onerror = function() {
-            onErrorCallback();
-        }
-    } else {
-        fileref.onerror = function(error) {
-            console.warn('Script failed to load: ', filepath);
-            console.warn(error);
-        }
+  if(onLoadCallback) {
+    fileref.onload = function() {
+      onLoadCallback();
     }
-    
-    fileref.setAttribute("type","text/javascript")
-    fileref.setAttribute("src", filepath)
-    document.getElementsByTagName("head")[0].appendChild(fileref)
+  }
+
+  if (onErrorCallback) {
+    fileref.onerror = function() {
+      onErrorCallback();
+    }
+  } else {
+    fileref.onerror = function(error) {
+      console.warn("Script failed to load: ", filepath);
+      console.warn(error);
+    }
+  }
+
+  fileref.setAttribute("type","text/javascript")
+  fileref.setAttribute("src", filepath)
+  document.getElementsByTagName("head")[0].appendChild(fileref)
 }
 
 /**
@@ -40,31 +40,31 @@ export function loadScript(filepath, onLoadCallback, onErrorCallback){
  * @param  {function} onErrorCallback A function that should run if the stylesheet fails to load
  * @return {undefined}                No return from this function.
  */
-export function loadStylesheet(filepath, onLoadCallback, onErrorCallback) {
-    if(typeof document === 'undefined'){
-        return;
-    }
-    var fileref=document.createElement("link")
+ export function loadStylesheet(filepath, onLoadCallback, onErrorCallback) {
+  if(typeof document === "undefined"){
+    return;
+  }
+  var fileref=document.createElement("link")
 
-    if(onLoadCallback) {
-        fileref.onload = function() {
-            onLoadCallback();
-        }
+  if(onLoadCallback) {
+    fileref.onload = function() {
+      onLoadCallback();
     }
+  }
 
-    if (onErrorCallback) {
-        fileref.onerror = function() {
-            onErrorCallback();
-        }
-    } else {
-        fileref.onerror = function(error) {
-            console.warn('Script failed to load: ', filepath);
-            console.warn(error);
-        }
+  if (onErrorCallback) {
+    fileref.onerror = function() {
+      onErrorCallback();
     }
-    
-    fileref.setAttribute("rel", "stylesheet")
-    fileref.setAttribute("type", "text/css")
-    fileref.setAttribute("href", filepath)
-    document.getElementsByTagName("head")[0].appendChild(fileref)
+  } else {
+    fileref.onerror = function(error) {
+      console.warn("Script failed to load: ", filepath);
+      console.warn(error);
+    }
+  }
+
+  fileref.setAttribute("rel", "stylesheet")
+  fileref.setAttribute("type", "text/css")
+  fileref.setAttribute("href", filepath)
+  document.getElementsByTagName("head")[0].appendChild(fileref)
 }

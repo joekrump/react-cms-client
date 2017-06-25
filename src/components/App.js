@@ -15,6 +15,7 @@ class App extends React.Component {
       auth.login(null, null, this.props.loginUser, this.props.dispatch)
     }
   }
+
   shouldComponentUpdate(nextProps, nextState) {
     if(nextProps.pageStatus !== this.props.pageStatus) {
       return true;
@@ -26,6 +27,7 @@ class App extends React.Component {
       return false
     }
   }
+
   renderContent() {
     if(this.props.loggedIn) {
       if(this.props.pageStatus === 401) {
@@ -37,6 +39,7 @@ class App extends React.Component {
       return (<Page location={this.props.location} />)
     }
   }
+  
   render() {
     return (
       <div id="app">

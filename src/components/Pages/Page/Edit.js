@@ -5,9 +5,6 @@ import { replace } from 'react-router-redux'
 import APIClient from '../../../http/requests'
 import Editor from "../../Editor/Editor"
 import s from '../../Editor/styles/content-tools.scss';
-
-// Available templates
-import * as Templates from '../Templates/Pages';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import EditDrawer from '../../Menu/EditDrawer';
@@ -17,6 +14,9 @@ import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
 import AppConfig from '../../../../app_config/app';
 import defaultImage from '../Templates/Pages/home-bg.jpg';
 import { getTemplateName } from '../../../helpers/PageHelper';
+
+// Available templates
+import * as Templates from '../Templates/Pages';
 
 class PageEdit extends React.Component {
 
@@ -29,7 +29,7 @@ class PageEdit extends React.Component {
       editContext: this.props.editContext,
       full_path: '/',
       name: null,
-      resourceURL: props.resourceNamePlural + '/' + props.resourceId,
+      resourceURL: `${props.resourceNamePlural}/${props.resourceId}`,
       show_title: false,
       slug: props.slug ? props.slug : '',
       explicitSlug: props.slug ? true : false,
@@ -93,7 +93,7 @@ class PageEdit extends React.Component {
       resourceURL: this.props.submitUrl
     });
 
-    let client = new APIClient(this.props.dispatch)
+    const client = new APIClient(this.props.dispatch)
 
     if(this.props.editContext === 'edit'){
       // if the Context is Edit, then get the existing data for the PageTemplate so it may be loaded into the page.
@@ -435,17 +435,11 @@ const mapDispatchToProps = (dispatch) => {
         notificationType
       })
     },
-    updateEditorData: (newData) => {
-      dispatch({
-        type: 'UPDATE_ADMIN_EDITOR_DATA',
-        newData
-      })
-    },
-    deleteEditorData: () => {
-      dispatch({
-        type: 'DELETE_ADMIN_EDITOR_DATA'
-      })
-    },
+    updateEditorData: (newData) => dispatch({
+      type: 'UPDATE_ADMIN_EDITOR_DATA',
+      newData
+    }),
+    deleteEditorData: () => dispatch({ type: 'DELETE_ADMIN_EDITOR_DATA'}),
     dispatch
   }
 }

@@ -3,14 +3,14 @@
  */
 export function updateMode(mode) {
   return {
-    type: 'UPDATE_RESOURCE_MODE',
+    type: "UPDATE_RESOURCE_MODE",
     mode,
   };
 }
 
 export function updateResource(pluralName, dataToUpdate, resourceId) {
   return {
-    type: 'UPDATE_RESOURCE_DATA',
+    type: "UPDATE_RESOURCE_DATA",
     dataToUpdate,
     pluralName,
     resourceId,
@@ -22,7 +22,7 @@ export function updateResource(pluralName, dataToUpdate, resourceId) {
  */
 export function updateIndexHasChanges(hasChanges) {
   return {
-    type: 'UPDATE_INDEX_HAS_CHANGES',
+    type: "UPDATE_INDEX_HAS_CHANGES",
     hasChanges,
   };
 }
@@ -32,7 +32,7 @@ export function updateIndexHasChanges(hasChanges) {
  */
 export function updateAdminState(pluralName, pageType, resourceId) {
   return {
-    type: 'UPDATE_ADMIN_STATE',
+    type: "UPDATE_ADMIN_STATE",
     pluralName: pluralName.toLowerCase(),
     pageType,
     resourceId,
@@ -41,27 +41,27 @@ export function updateAdminState(pluralName, pageType, resourceId) {
 
 export function updateEditorData(newData) {
   return {
-    type: 'UPDATE_ADMIN_EDITOR_DATA',
+    type: "UPDATE_ADMIN_EDITOR_DATA",
     newData,
   };
 }
 
 export function deleteEditorData() {
   return {
-    type: 'DELETE_ADMIN_EDITOR_DATA',
+    type: "DELETE_ADMIN_EDITOR_DATA",
   };
 }
 
 export function updateLoadState(dataLoading) {
   return {
-    type: 'UPDATE_ADMIN_LOAD_STATE',
+    type: "UPDATE_ADMIN_LOAD_STATE",
     dataLoading,
   };
 }
 
 export function uIndexItemDeleted(itemId) {
   return {
-    type: 'U_INDEX_ITEM_DELETED',
+    type: "U_INDEX_ITEM_DELETED",
     itemId,
   };
 }

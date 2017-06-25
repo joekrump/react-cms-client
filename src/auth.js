@@ -1,4 +1,4 @@
-import APIClient from './http/requests'
+import APIClient from "./http/requests";
 
 module.exports = {
 
