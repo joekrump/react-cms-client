@@ -1,5 +1,5 @@
 // src/components/Editor/Editor.js
-import APIClient from '../../http/requests'
+import { APIClient } from '../../http/requests'
 import ContentTools from 'ContentTools';
 import {ImageUploader, buildCloudinaryURL, parseCloudinaryURL} from './ImageUploader';
 

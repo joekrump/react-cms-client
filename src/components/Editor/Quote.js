@@ -21,9 +21,7 @@ const makeQuote = (_super) => {
   ContentTools.ToolShelf.stow(Quote, 'quote');
 
   Quote.label = 'Quote';
-
   Quote.icon = 'subheading';
-
   Quote.tagName = 'quote';
 
   return Quote;

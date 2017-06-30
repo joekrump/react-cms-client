@@ -1,17 +1,17 @@
 // src/components/Menu/EditDrawer.js
-import React from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './EditDrawer.scss';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import SettingsIcon from 'material-ui/svg-icons/action/settings';
-import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import React from "react";
+import withStyles from "isomorphic-style-loader/lib/withStyles";
+import s from "./EditDrawer.scss";
+import Drawer from "material-ui/Drawer";
+import AppBar from "material-ui/AppBar";
+import FloatingActionButton from "material-ui/FloatingActionButton";
+import SettingsIcon from "material-ui/svg-icons/action/settings";
+import IconButton from "material-ui/IconButton";
+import NavigationClose from "material-ui/svg-icons/navigation/close";
 
 const appBarStyle = {
-  marginBottom: 7
-}
+  marginBottom: 7,
+};
 
 class EditDrawer extends React.Component {
   constructor(props) {
@@ -19,18 +19,23 @@ class EditDrawer extends React.Component {
     this.state = {open: true};
   }
 
-  renderToggleButton() {
-    return this.state.open ? null 
-      : (
-          <FloatingActionButton
-            className="page-menu floating-menu floating-menu-button"
-            onTouchTap={this.handleToggle}>
-            <SettingsIcon />
-          </FloatingActionButton>
-        )
+  buildFAB() {
+    return (
+      <FloatingActionButton
+        className="page-menu floating-menu floating-menu-button"
+        onTouchTap={this.handleToggle}>
+        <SettingsIcon />
+      </FloatingActionButton>
+    );
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  renderToggleButton() {
+    return this.state.open ? null : this.buildFAB();
+  }
+
+  handleToggle = () => {
+    this.setState({open: !this.state.open});
+  }
 
   render() {
     return (
@@ -49,4 +54,3 @@ class EditDrawer extends React.Component {
 }
 
 export default withStyles(s)(EditDrawer);
-

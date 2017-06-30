@@ -2,7 +2,7 @@ import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import { connect } from 'react-redux';
-import APIClient from '../../../../../http/requests';
+import { APIClient } from '../../../../../http/requests';
 import DoneIcon from 'material-ui/svg-icons/action/done';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';

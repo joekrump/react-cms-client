@@ -4,7 +4,7 @@ import UserSettings from "./components/Pages/Admin/User/Settings/Settings";
 import App from "./components/App";
 import auth from "./auth";
 import { replace, push } from "react-router-redux"
-import APIClient from "./http/requests"
+import { APIClient } from "./http/requests"
 import getAdminRoutes from "./routes/admin/routes"
 import AccessDeniedPage from "./components/Pages/Errors/401/401";
 import EditUser from "./components/Pages/Admin/User/Edit/Edit";

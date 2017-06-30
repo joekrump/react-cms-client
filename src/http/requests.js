@@ -1,81 +1,90 @@
 import superagent from 'superagent';
 import AppConfig from '../../app_config/app';
 import { getToken } from '../auth';
-// import AuthIntercept from './AuthIntercept'
 
-const methods = ['get', 'post', 'put', 'patch', 'del'];
+function getFullURL(endpointPath) {
+  return `${AppConfig.apiBaseUrl}${endpointPath}`;
+}
 
-function formatUrl(path) {
-  return AppConfig.apiBaseUrl + path;
+class APIRequest {
+  constructor(method, path, params, data, authRequired, updateToken) {
+    this.updateToken = updateToken;
+    return new Promise((resolve, reject) => {
+      const request = superagent[method](getFullURL(path));
+      this.setRequestHeader(request, authRequired);
+      this.setRequestQueryParams(request, params);
+      this.sendRequestData(request, data);
+      this.sendAPIRequest(request, resolve, reject);   
+    });
+  }
+
+  sendRequestData(request, data) {
+    if (data) { request.send(data); }
+  }
+
+  setRequestHeader(request, authRequired) {
+    request.set('Accept', 'application/json');
+    if(authRequired) {
+      request.set('Authorization', `Bearer ${getToken()}`)
+    }
+  }
+
+  setRequestQueryParams(request, params) {
+    if (params) { request.query(params); }
+  }
+
+  sendAPIRequest(request, successCB, errorCB) {
+    request.end((err, res) => {
+      if(err) {
+        errorCB(res || err)
+      } else {
+        successCB(res)
+        if (res.header.authorization) {
+          this.updateToken(res.header.authorization);
+        }
+      }
+    });
+  }
 }
 
 class APIClient {
 
-	/**
-	 * Constructor for this class. Generates RESTful HTTP methods. (see 'methods' variable above.)
-	 * Note: The methods built correspond to the methods available in the superagent library.
-	 * @param  {string} token - JWT
-	 * @param  {function} dispatch - redux dispatch method
-	 * @return undefined
-	 */
-	constructor(dispatch) {
-		this.updateToken = (token) => this._updateToken(token, dispatch);
+  /**
+   * Generates RESTful HTTP methods. (see 'methods' array)
+   * IMPORTANT: The methods built correspond to the methods available in the superagent library.
+   * @param  {function} dispatch - redux dispatch method
+   */
+  constructor(dispatch) {
+    const methods = ['get', 'post', 'put', 'patch', 'del'];
 
-		methods.forEach((method) => {
-			this[method] = (path, authRequired = true, { params, data } = {}) => new Promise((resolve, reject) => {
-			  const request = superagent[method](formatUrl(path));
+    this.updateToken = (token) => this._updateToken(token, dispatch);
+    methods.forEach((method) => {
+      this[method] = (
+        path,
+        authRequired = true,
+        { params, data } = {}
+      ) => new APIRequest(
+        method, 
+        path, 
+        params, 
+        data, 
+        authRequired,
+        this.updateToken,
+      );
+    });
+  }
 
-			  request.set('Accept', 'application/json')
-			  
-			  if (params) {
-			    request.query(params);
-			  }
-
-			  if(authRequired) {
-			  	// Get statetree and get auth.token from that.
-			    request.set('Authorization', 'Bearer ' + getToken())
-			  }
-
-			  // request.use(AuthIntercept);
-
-			  if (data) {
-			    request.send(data);
-			  }
-
-			  request.end((err, res) => {
-			  	if(err) {
-			  		reject(res || err)
-			  	} else {
-			  		resolve(res)
-			  		if (res.header.authorization) {
-			  			this.updateToken(res.header.authorization);
-			  		}
-			  	}
-			  });
-			})
-		});
-	}
-
-	/**
-	 * Dispatch a TOKEN_UDPATED action
-	 * @param  {string} token - token value to update
-	 * @return {[type]}       [description]
-	 */
-	_updateToken(token, dispatch){
-		dispatch({
-			type: 'TOKEN_UPDATED',
-			token: token.split(" ")[1] // remove 'Bearer' from Authorization header and get just token
-		})
-	}
-
-	/**
-	 * Get the path to the API server for a resource (used for DELETE AND POST requests)
-	 * @param  {string} resourceNamePlural The plural name of the resource (ex. Pages)
-	 * @return {string}                    A URL string to the API server for the resource
-	 */
-	getResourceURL(resourceNamePlural){
-	  return AppConfig.apiBaseUrl + resourceNamePlural
-	}
+  /**
+   * Dispatch a TOKEN_UDPATED action
+   */
+  _updateToken(token, dispatch){
+    if(!dispatch) { return; }
+    
+    dispatch({
+      type: 'TOKEN_UPDATED',
+      token: token.split(" ")[1] // remove 'Bearer' from Authorization header and get just token
+    })
+  }
 }
 
-export default APIClient;
+export { APIClient };

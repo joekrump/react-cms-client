@@ -1,6 +1,6 @@
 import React from 'react';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import APIClient from '../../../../../http/requests'
+import { APIClient } from '../../../../../http/requests'
 import { connect } from 'react-redux';
 
 const styles = {

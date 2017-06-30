@@ -1,7 +1,7 @@
 import React from 'react'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import IconButton from 'material-ui/IconButton';
-import APIClient from '../../../../../http/requests'
+import { APIClient } from '../../../../../http/requests'
 import { connect } from 'react-redux';
 
 class DeleteButton extends React.Component {

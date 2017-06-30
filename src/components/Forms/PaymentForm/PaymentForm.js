@@ -1,49 +1,48 @@
 // src/componetns/Forms/PaymentForm/PaymentForm.js
-// 
-import React from 'react';
-import APIClient from '../../../http/requests'
-import { connect } from 'react-redux';
+import React from "react";
+import { APIClient } from "../../../http/requests";
+import { connect } from "react-redux";
 
 // Icons
-import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
-import VerifiedUserIcon from 'material-ui/svg-icons/action/verified-user';
+import CreditCardIcon from "material-ui/svg-icons/action/credit-card";
+import VerifiedUserIcon from "material-ui/svg-icons/action/verified-user";
 
 // mui components
-import {List, ListItem} from 'material-ui/List';
-import CircularProgress from 'material-ui/CircularProgress';
-import StripeFields from './StripeFields';
-import { Form, TextInput, SubmitButton } from '../../Form/index';
-import StripeConfig from '../../../../app_config/stripe';
-import { loadScript } from '../../../helpers/ScriptsHelper'
-import validations from '../../../form-validation/validations'
+import {List, ListItem} from "material-ui/List";
+import CircularProgress from "material-ui/CircularProgress";
+import StripeFields from "./StripeFields";
+import { Form, TextInput, SubmitButton } from "../../Form/index";
+import StripeConfig from "../../../../app_config/stripe";
+import { loadScript } from "../../../helpers/ScriptsHelper"
+import validations from "../../../form-validation/validations"
 
 const listItemStyle = {
-  padding: "0 16px"
+  padding: "0 16px",
 };
-const stripeScriptURL = 'https://js.stripe.com/v2/';
+const stripeScriptURL = "https://js.stripe.com/v2/";
 const formName = "paymentForm";
 
 class PaymentForm extends React.Component {
 
   constructor (props){
-    super(props)
+    super(props);
+    this.apiClient = new APIClient(this.props.dispatch);
     this.resetForm = this.resetForm.bind(this)
     this.getStripeToken = this.getStripeToken.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.submitToServer = this.submitToServer.bind(this)
     
     // if the form is being displayed in edit mode, no nead to actually load Stripe into the page.
-    // 
     if(props.editMode) {
       this.state = {
         stripeLoading: false,
         stripeLoadingError: false
-      }
-    } else if (typeof Stripe === 'undefined') {
+      };
+    } else if (typeof Stripe === "undefined") {
       this.state = {
         stripeLoading: true,
         stripeLoadingError: false
-      }
+      };
 
       loadScript(stripeScriptURL, () => {
         if (!this.getStripeToken()) {
@@ -58,21 +57,22 @@ class PaymentForm extends React.Component {
       this.state = {
         stripeLoading: false,
         stripeLoadingError: false
-      }
+      };
     }
   }
+
   componentDidMount() {
-    // Reset the form initially.
     this.resetForm();
-    let client = new APIClient(this.props.dispatch);
-    this.setState({client});
   }
+
   resetForm(){
-    this.props.resetForm()
+    this.props.resetForm();
   }
+
   getStripeToken() {
     return this.props.stripeToken
   }
+
   handleFormSubmit(e) {
     e.preventDefault();
     // Submit CC fields to Stripe for processing.
@@ -80,7 +80,7 @@ class PaymentForm extends React.Component {
     Stripe.createToken(e.target, function(status, response) {
       if (response.error) {
         // this.props.updatePaymentError(response.error.message)
-        this.props.updateSnackbar(true, 'Error', response.error.message, 'error');
+        this.props.updateSnackbar(true, "Error", response.error.message, "error");
       }
       else {
         this.props.updateStripeToken(response.id);
@@ -90,6 +90,7 @@ class PaymentForm extends React.Component {
       }
     }.bind(this));
   }
+
   submitToServer(stripeToken){
     let formInputValues = {}
 
@@ -97,42 +98,43 @@ class PaymentForm extends React.Component {
       formInputValues[key] = this.props.formFields[key].value;
     });
     
-    this.state.client.post('stripe/make-payment', false, {
+    this.apiClient.post("stripe/make-payment", false, {
       data: {
         token: stripeToken,
-        ...formInputValues
-      }})
-      .then((res) => {
-        this.props.updateSnackbar(true, 'Success', 'Payment Processed', 'success');
-        this.props.updateFormCompleteStatus(true);
-        setTimeout(this.resetForm, 3000);
-      }, (res) => {
-        if (res.statusCode === 422) {
-          this.props.updateSnackbar(true, 'Error', res.body.message, 'error');
+        ...formInputValues,
+      },
+    }).then((res) => {
+      this.props.updateSnackbar(true, "Success", "Payment Processed", "success");
+      this.props.updateFormCompleteStatus(true);
+      setTimeout(this.resetForm, 3000);
+    }, (res) => {
+      if (res.statusCode === 422) {
+        this.props.updateSnackbar(true, "Error", res.body.message, "error");
 
-          Object.keys(res.body.errors).forEach((fieldName) => {
-            this.props.inputError(res.body.errors[fieldName],
-                                  fieldName,
-                                  formName);
-          });
-        } else if (res.statusCode !== 200) {
-          
-          this.props.updateSnackbar(true, 'Error', 'Could Not Process Payment', 'error');
-        } else {
-          this.props.updateSnackbar(true, 'Error', 'Something Unexpected Happened', 'error');
-        } 
-      }).catch((err) => {
-       console.warn(err);
-      })
+        Object.keys(res.body.errors).forEach((fieldName) => {
+          this.props.inputError(res.body.errors[fieldName],
+            fieldName,
+            formName,
+          );
+        });
+      } else if (res.statusCode !== 200) {
+        this.props.updateSnackbar(true, "Error", "Could Not Process Payment", "error");
+      } else {
+        this.props.updateSnackbar(true, "Error", "Something Unexpected Happened", "error");
+      } 
+    }).catch((err) => {
+     console.warn(err);
+    });
   }
+
   render() {
-    let StripeFieldListItems = StripeFields.map((StripeField, i) => {
+    const StripeFieldListItems = StripeFields.map((StripeField, i) => {
       return (
-        <ListItem key={'stripe-field-' + i} disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
+        <ListItem key={"stripe-field-" + i} disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
           {StripeField}
         </ListItem>
       );
-    })
+    });
 
     if (this.state.stripeLoading) {
       return (
@@ -147,19 +149,35 @@ class PaymentForm extends React.Component {
       return (
         <Form onSubmit={this.handleFormSubmit} className="payment-content">
           <List>
-            <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Your Details</h2>} leftIcon={<VerifiedUserIcon color={'#fff'}/>} disabled={true} disableKeyboardFocus={true} />
-            <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-              <TextInput placeholder="First Name" label="First Name" formName={formName} 
+            <ListItem 
+              className="payment-header"
+              primaryText={<h2 className="li-primary-text">Your Details</h2>}
+              leftIcon={<VerifiedUserIcon color={"#fff"}/>}
+              disabled={true}
+              disableKeyboardFocus={true}
+            />
+            <ListItem
+              disabled={true}
+              disableKeyboardFocus={true}
+              style={listItemStyle}
+            >
+              <TextInput
+                placeholder="First Name"
+                label="First Name"
+                formName={formName} 
                 name="fname"
                 validationRules={validations[formName].fname.rules}
                 autoFocus={true}
-                />
+              />
             </ListItem>
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-              <TextInput placeholder="Last Name" label="Last Name" formName={formName} 
+              <TextInput
+                placeholder="Last Name"
+                label="Last Name"
+                formName={formName} 
                 name="lname"
                 validationRules={validations[formName].lname.rules}
-                />
+              />
             </ListItem>
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
               <TextInput placeholder="Email" label="Email" formName={formName} 
@@ -169,9 +187,9 @@ class PaymentForm extends React.Component {
             </ListItem>
           </List>
           <List>
-            <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon color={'#fff'}/>} disabled={true} disableKeyboardFocus={true} />
+            <ListItem className="payment-header" primaryText={<h2 className="li-primary-text">Payment Details</h2>} leftIcon={<CreditCardIcon color={"#fff"}/>} disabled={true} disableKeyboardFocus={true} />
             <ListItem disabled={true} disableKeyboardFocus={true} style={listItemStyle}>
-              <TextInput placeholder="Ex. 5.00" label='Amount in dollars (CAD)' formName={formName} 
+              <TextInput placeholder="Ex. 5.00" label="Amount in dollars (CAD)" formName={formName} 
                 name="amt"
                 validationRules={validations[formName].amt.rules}
                 validationOptions={{isValidMoney: {min: 5}}}
@@ -180,7 +198,11 @@ class PaymentForm extends React.Component {
             {/* STRIPE FIELDS TO GO HERE */}
             { StripeFieldListItems }
             <ListItem disabled={true} disableKeyboardFocus={true}>
-              <SubmitButton isFormValid={this.props.isFormValid && !this.props.submitDisabled} withIcon={true} label="Submit Payment"/>
+              <SubmitButton 
+                isFormValid={this.props.isFormValid && !this.props.submitDisabled}
+                withIcon={true}
+                label="Submit Payment"
+              />
             </ListItem>
           </List>
         </Form>
@@ -189,59 +211,55 @@ class PaymentForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    formFields:  state.forms.paymentForm.fields,
-    isFormValid: state.forms.paymentForm.valid,
-    stripeToken: state.payments.stripeToken
-  }
-}
+const mapStateToProps = (state) => ({
+  formFields:  state.forms.paymentForm.fields,
+  isFormValid: state.forms.paymentForm.valid,
+  stripeToken: state.payments.stripeToken
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateStripeToken: (stripeToken) => {
-      dispatch ({
-        type: 'UPDATE_STRIPE_TOKEN',
-        stripeToken
-      })
-    },
-    updateFormCompleteStatus: (valid) => {
-      dispatch ({
-        type: 'FORM_VALID',
-        valid,
-        formName: formName
-      })
-    },
-    updateSnackbar: (show, header, content, notificationType) => {
-      dispatch ({
-        type: 'UPDATE_SNACKBAR',
-        show,
-        header,
-        content,
-        notificationType
-      })
-    },
-    resetForm: () => {
-      dispatch ({
-        type: 'FORM_RESET',
-        formName: formName
-      })
-    },
-    inputError: (errors, fieldName, formName) => {
-      dispatch({
-        type: 'FORM_INPUT_ERROR',
-        errors,
-        fieldName,
-        formName
-      })
-    },
-    dispatch
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  updateStripeToken: (stripeToken) => {
+    dispatch ({
+      type: "UPDATE_STRIPE_TOKEN",
+      stripeToken
+    })
+  },
+  updateFormCompleteStatus: (valid) => {
+    dispatch ({
+      type: "FORM_VALID",
+      valid,
+      formName: formName
+    })
+  },
+  updateSnackbar: (show, header, content, notificationType) => {
+    dispatch ({
+      type: "UPDATE_SNACKBAR",
+      show,
+      header,
+      content,
+      notificationType
+    })
+  },
+  resetForm: () => {
+    dispatch ({
+      type: "FORM_RESET",
+      formName: formName
+    })
+  },
+  inputError: (errors, fieldName, formName) => {
+    dispatch({
+      type: "FORM_INPUT_ERROR",
+      errors,
+      fieldName,
+      formName
+    })
+  },
+  dispatch,
+});
 
 const PaymentFormRedux = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(PaymentForm)
+  mapDispatchToProps,
+)(PaymentForm);
 
-export {PaymentFormRedux as PaymentForm}
+export { PaymentFormRedux as PaymentForm };

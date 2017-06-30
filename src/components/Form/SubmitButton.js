@@ -3,7 +3,7 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import SendIcon from 'material-ui/svg-icons/content/send';
 
-const SubmitButton = (props) => (
+const SubmitButton = props => (
   <RaisedButton
     className="submit-btn"
     primary

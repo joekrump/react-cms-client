@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
 import { Form, TextInput, SubmitButton } from '../Form/index';
-import APIClient from '../../http/requests'
+import { APIClient } from '../../http/requests'
 import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 import validations from '../../form-validation/validations'
 import { getResourceData } from '../../helpers/ResourceHelper';
