@@ -1,7 +1,7 @@
 import React from "react";
 import * as Templates from "../Templates/Pages";
 import PageNotFound from "../Errors/404/404";
-import APIClient from "../../../http/requests";
+import { APIClient } from "../../../http/requests";
 import FrontendPage from "../../Layout/FrontendPage";
 import { connect } from "react-redux";
 import AppConfig from "../../../../app_config/app";

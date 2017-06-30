@@ -4,7 +4,7 @@ import Gravatar from '../Menu/AdminMenu/Gravatar';
 import { List, ListItem } from 'material-ui/List';
 import LensIcon from 'material-ui/svg-icons/image/lens';
 import { lightGreenA400 } from 'material-ui/styles/colors';
-import APIClient from '../../http/requests';
+import { APIClient } from '../../http/requests';
 import CircularProgress from 'material-ui/CircularProgress';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Widget.scss';
@@ -17,24 +17,26 @@ class ActiveUsersWidget extends React.Component {
       data: [],
     };
   }
+
   componentDidMount() {
     const client = new APIClient(this.props.dispatch);
     client.get('users/active').then((res) => {
       if (res.statusCode !== 200) {
-      // Couldn't get the active users for some reason. Likely something wrong with the API server.
+        console.warn('error', res);
       } else {
         client.updateToken(res.header.authorization);
         this.setState({ data: res.body.data });
       }
     }).catch((res) => {
-      console.log('error', res);
+      console.warn('error', res);
     });
   }
+
   render() {
     let usersSection = null;
 
     if (this.state.data && (this.state.data.length > 0)) {
-      usersSection = this.state.data.map((user, i) => {
+      const userListItems = this.state.data.map((user, i) => {
         return (
           <ListItem
             key={`user-${i}`}
@@ -51,7 +53,7 @@ class ActiveUsersWidget extends React.Component {
           <h2 className="widget-title">{this.props.name}</h2>
           {this.state.data.length === 0 ? (<CircularProgress />) :
             <List>
-              {usersSection}
+              { userListItems }
             </List>
           }
         </div>
@@ -62,6 +64,5 @@ class ActiveUsersWidget extends React.Component {
   }
 }
 
-export default withStyles(s)(
-  connect()(ActiveUsersWidget) // call connect so that we have access to dispatch in props.
-);
+// call connect so that we have access to dispatch in props
+export default withStyles(s)(connect()(ActiveUsersWidget));

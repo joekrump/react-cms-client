@@ -1,12 +1,13 @@
 import React from 'react';
 import { PaymentForm } from './PaymentForm';
-import { redA700 } from 'material-ui/styles/colors';
 import { connect } from 'react-redux';
 import PaymentThankYou from './ThankYou';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './PaymentForm.scss';
 import Paper from 'material-ui/Paper';
-import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar'
+import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
+import LoadingError from "./LoadingError";
+import StripeError from "./StripeError";
 
 class PaymentFormContainer extends React.Component {
   constructor(props) {
@@ -14,36 +15,24 @@ class PaymentFormContainer extends React.Component {
     this.state = {
       stripeLoading: true,
       stripeLoadingError: false
-    }
+    };
   }
-  render(){
+
+  render() {
     let content = null;
     if (!this.props.stripeToken) {
-      content = (
-        <div className="payment-content">
-          <h3 style={{color: redA700}} className="payment-header">Stripe config is invalid</h3>
-          <p>
-            You need a valid Stripe secret in config/stripe.js to use this page as intended.
-          </p>
-        </div>
-      );
+      content = (<StripeError />);
     } else if (this.state.stripeLoadingError) {
-      content = (
-        <div className="payment-content">
-          <h3 style={{color: redA700}} className="payment-header">Error While Loading Payment System</h3>
-          <p>
-            Please try refreshing the page.
-          </p>
-        </div>
-      );
+      content = (<LoadingError />);
     } else if (this.props.paymentComplete) {
-      content = (
-        <PaymentThankYou />
-      );
+      content = (<PaymentThankYou />);
     } else {
       content = (
-        <PaymentForm submitDisabled={this.props.submitDisabled} editMode={this.props.editMode} />
-      )
+        <PaymentForm
+          submitDisabled={this.props.submitDisabled}
+          editMode={this.props.editMode}
+        />
+      );
     }
 
     return(
@@ -55,26 +44,20 @@ class PaymentFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    paymentComplete: state.forms.paymentForm.completed,
-    isFormValid: !state.forms.loginForm.error,
-    stripeToken: state.paymentReducer.stripeToken,
-  }
-}
+const mapStateToProps = (state) => ({
+  paymentComplete: state.forms.paymentForm.completed,
+  isFormValid: !state.forms.loginForm.error,
+  stripeToken: state.paymentReducer.stripeToken,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleSnackBar: (snackbarOpen) => {
-      dispatch ({
-        type: 'TOGGLE_SNACKBAR',
-        snackbarOpen
-      })
-    }
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  toggleSnackBar: snackbarOpen => dispatch ({
+    type: 'TOGGLE_SNACKBAR',
+    snackbarOpen,
+  }),
+});
 
 export default withStyles(s)(connect(
   mapStateToProps,
-  mapDispatchToProps
-)(PaymentFormContainer))
+  mapDispatchToProps,
+)(PaymentFormContainer));

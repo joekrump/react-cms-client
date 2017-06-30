@@ -1,6 +1,6 @@
 // src/componetns/Forms/ContactForm.js
 import React from 'react';
-import APIClient from '../../http/requests'
+import { APIClient } from '../../http/requests'
 import { connect } from 'react-redux';
 
 // mui components
@@ -9,11 +9,10 @@ import { Form, TextInput, SubmitButton } from '../Form/index';
 import validations from '../../form-validation/validations'
 import NotificationSnackbar from '../Notifications/Snackbar/Snackbar'
 
+const formName = "contactForm";
 const listItemStyle = {
   padding: "0 16px"
 };
-
-const formName = "contactForm";
 
 class ContactForm extends React.Component {
 
@@ -45,14 +44,13 @@ class ContactForm extends React.Component {
 
   submitToServer(){
     const client = new APIClient(this.props.dispatch)
-    var formInputValues = {};
+    const httpMethod = 'post';
+    let formInputValues = {};
 
     Object.keys(this.props.formFields).forEach((key) => {
       formInputValues[key] = this.props.formFields[key].value;
     })
     
-    let httpMethod = 'post';
-
     client[httpMethod]('contact', false, {data: formInputValues})
      .then(this.submitResolve, this.submitReject)
      .catch(this.handleRequestException)

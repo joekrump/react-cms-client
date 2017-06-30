@@ -1,6 +1,6 @@
 import React from 'react';
 import Toggle from 'material-ui/Toggle';
-import APIClient from '../../../../../http/requests'
+import { APIClient } from '../../../../../http/requests'
 import { connect } from 'react-redux';
 import findIndex from 'lodash.findindex';
 
@@ -16,39 +16,44 @@ class PermissionsList extends React.Component {
     this.state = {
       permissions: [],
     }
+    this.apiClient = new APIClient(this.props.dispatch);
   }
 
   getToggledPermissions() {
-    let toggledIds = []
+    const toggledIds = [];
     this.state.permissions.forEach((permission) => {
       if(permission.toggled) {
         toggledIds.push(permission.id);
       }
-    })
+    });
     return toggledIds;
   }
 
-  fetchPermissions() {
-    const client = new APIClient(this.props.dispatch);
-    
-    client.post('attach-permissions', true, {data: {permissionIds: this.getToggledPermissions(), role_id: this.props.roleId}}).then((res) => {
-      if (res.statusCode !== 200) {
-        console.log('Bad response: ', res);
-      } else {
-        client.updateToken(res.header.authorization);
-        this.props.fetchPermissionsCallback();
+  makeRequestBody() {
+    return {
+      data: {
+        permissionIds: this.getToggledPermissions(),
+        role_id: this.props.roleId
       }
-    }, (res) => {
-      console.warn('Error updating Permissions: ', res);
+    };
+  }
+
+  createPermissions() {
+    const requiresAuth = true;
+
+    this.apiClient.post('attach-permissions', requiresAuth, this.makeRequestBody()).then((res) => {
+      this.props.fetchPermissionsCallback();
+    }, (error) => {
+      console.warn('Error updating Permissions: ', error);
     })
-    .catch((res) => {
-      console.warn('Error updating Permissions: ', res);
+    .catch((e) => {
+      console.warn('Exception updating Permissions: ', e);
     })
   }
 
   componentWillReceiveProps(nextProps) {
     if(!this.props.submitPermissions && nextProps.submitPermissions) {
-      this.fetchPermissions();
+      this.createPermissions();
     }
     if(nextProps.roleId !== this.props.roleId) {
       if(this.state.permissions.length === 0) {
@@ -60,20 +65,13 @@ class PermissionsList extends React.Component {
   }
 
   getPermissions(rolePermissions) {
-    const client = new APIClient(this.props.dispatch);
-
-    client.get('permissions').then((res) => {
-      if (res.statusCode !== 200) {
-        console.log('Bad response: ', res);
-      } else {
-        client.updateToken(res.header.authorization);
-        this.setPermissions(res.body.data, rolePermissions);
-      }
+    this.apiClient.get('permissions').then((res) => {
+      this.setPermissions(res.body.data, rolePermissions);
     }, (res) => {
-      console.warn('Error getting resource data: ', res);
+      console.warn('Error fetching permissions: ', res);
     })
     .catch((res) => {
-      console.warn('Error getting resource data: ', res);
+      console.warn('Error fetching permissions: ', res);
     })
   }
 

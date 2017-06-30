@@ -7,7 +7,7 @@ import { updateFormValidationStatus } from '../../redux/actions/form';
 
 const style = {
   display: 'block'
-}
+};
 
 const TextInput = () => ({
   updateValue(value) {
@@ -104,7 +104,7 @@ const mapStateToProps = (state, ownProps) => {
     value: state.forms[ownProps.formName].fields[ownProps.name].value,
     errors: state.forms[ownProps.formName].fields[ownProps.name].errors
   }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -123,11 +123,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateFormValidationStatus(valid, formName));
     }
   };
-}
+};
 
 const TextInputRedux = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TextInput)
+)(TextInput);
 
-export {TextInputRedux as TextInput}
+export { TextInputRedux as TextInput };

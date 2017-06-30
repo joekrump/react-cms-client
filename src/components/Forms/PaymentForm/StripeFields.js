@@ -6,7 +6,6 @@ const StripeFields = [
   (<TextField id="cc-exp-month" name="cc-exp-month" hintText="##" floatingLabelText='Expiration Month' data-stripe='exp-month' />),
   (<TextField id="cc-exp-year" name="cc-exp-year" hintText="####" floatingLabelText='Expiration Year' data-stripe='exp-year' />),
   (<TextField id="cc-cvc" name="cc-cvc" hintText="###" floatingLabelText='CVC' data-stripe='cvc' />)
-]
+];
 
-
-export default StripeFields
+export default StripeFields;

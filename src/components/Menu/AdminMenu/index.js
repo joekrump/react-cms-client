@@ -1,16 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router';
-import Divider from 'material-ui/Divider';
-import LeftNavMenuItem from '../LeftNavMenuItem';
-import Gravatar from './Gravatar';
-import ListItem from 'material-ui/List/ListItem';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './AdminMenu.scss';
+import React from "react";
+import { Link } from "react-router";
+import Divider from "material-ui/Divider";
+import LeftNavMenuItem from "../LeftNavMenuItem";
+import Gravatar from "./Gravatar";
+import ListItem from "material-ui/List/ListItem";
+import withStyles from "isomorphic-style-loader/lib/withStyles";
+import s from "./AdminMenu.scss";
 
 const gravatarStyle = {
-  position: 'absolute',
-  top: '8px',
-  left: '18px',
+  position: "absolute",
+  top: "8px",
+  left: "18px",
 };
 
 function pageIsActive(router, url, indexOnly = false) {
@@ -28,7 +28,7 @@ const AdminMenu = (props, context) => {
         <Gravatar 
           style={ gravatarStyle } 
           email={ props.currentUser.email } 
-          diameter='50' 
+          diameter="50" 
         />
       }
       primaryText={<Link to="/admin/settings" className="link dark header-text">{props.currentUser.name}</Link>}
@@ -52,7 +52,7 @@ const AdminMenu = (props, context) => {
     // For a standard user, build the menu so that it contains the dashboard
     // as well as items that correspond to their permissions.
     menuItems.push((<LeftNavMenuItem 
-        key={'left-nav-link-dashboard'} 
+        key={"left-nav-link-dashboard"} 
         linkText={props.routeOptions.dashboard.label} 
         url={props.routeOptions.dashboard.url} 
         isActive={pageIsActive(context.router, props.routeOptions.dashboard.url, true)}/>));
