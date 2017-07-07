@@ -140,8 +140,8 @@ class PaymentForm extends React.Component {
   }
 
   render() {
-    const StripeFieldListItems =  this.renderStripeFields();
-    const userInfoListItems = this.renderUserFields();
+    const stripeFields =  this.renderStripeFields();
+    const userFields = this.renderUserFields();
 
     return (
       <Form onSubmit={this.handleFormSubmit} className="payment-content">
@@ -153,7 +153,7 @@ class PaymentForm extends React.Component {
             disabled={true}
             disableKeyboardFocus={true}
           />
-          { userInfoListItems }
+          { userFields }
         </List>
         <List>
           <DisabledListItem
@@ -168,8 +168,7 @@ class PaymentForm extends React.Component {
               validationOptions={{isValidMoney: {min: 5}}}
             />
           </StyledListItem>
-          {/* STRIPE FIELDS TO GO HERE */}
-          { StripeFieldListItems }
+          { stripeFields }
           <StyledListItem>
             <SubmitButton 
               isFormValid={this.props.isFormValid && !this.props.submitDisabled}
