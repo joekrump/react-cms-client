@@ -4940,6 +4940,12 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
+react-stripe-elements@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-stripe-elements/-/react-stripe-elements-0.0.2.tgz#57ec82e086a236482d5ad1599e58234ee9e3a881"
+  dependencies:
+    prop-types "^15.5.8"
+
 react-tap-event-plugin@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-tap-event-plugin/-/react-tap-event-plugin-1.0.0.tgz#7a248505a9e9abecc352b2dab313d17685c51adf"

@@ -7,11 +7,10 @@ import s from './PaymentForm.scss';
 import Paper from 'material-ui/Paper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
 import LoadingError from "./LoadingError";
-import StripeError from "./StripeError";
 
 class PaymentFormContainer extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       stripeLoading: true,
       stripeLoadingError: false
@@ -20,9 +19,7 @@ class PaymentFormContainer extends React.Component {
 
   render() {
     let content = null;
-    if (!this.props.stripeToken) {
-      content = (<StripeError />);
-    } else if (this.state.stripeLoadingError) {
+    if (this.state.stripeLoadingError) {
       content = (<LoadingError />);
     } else if (this.props.paymentComplete) {
       content = (<PaymentThankYou />);
@@ -35,7 +32,7 @@ class PaymentFormContainer extends React.Component {
       );
     }
 
-    return(
+    return (
       <Paper zDepth={2} className="form-container">
         {content}
         <NotificationSnackbar />
