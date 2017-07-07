@@ -1,5 +1,5 @@
 import React from 'react';
-import { PaymentForm } from './PaymentForm';
+import PaymentForm from './PaymentForm';
 import { connect } from 'react-redux';
 import PaymentThankYou from './ThankYou';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -7,6 +7,7 @@ import s from './PaymentForm.scss';
 import Paper from 'material-ui/Paper';
 import NotificationSnackbar from '../../Notifications/Snackbar/Snackbar';
 import LoadingError from "./LoadingError";
+import StripeContainer from "./StripeContainer";
 
 class PaymentFormContainer extends React.Component {
   constructor(props) {
@@ -25,10 +26,12 @@ class PaymentFormContainer extends React.Component {
       content = (<PaymentThankYou />);
     } else {
       content = (
-        <PaymentForm
-          submitDisabled={this.props.submitDisabled}
-          editMode={this.props.editMode}
-        />
+        <StripeContainer>
+          <PaymentForm
+            submitDisabled={this.props.submitDisabled}
+            editMode={this.props.editMode}
+          />
+        </StripeContainer>
       );
     }
 

@@ -2,14 +2,14 @@
 import React from "react";
 import { APIClient } from "../../../http/requests";
 import { connect } from "react-redux";
+import { injectStripe } from 'react-stripe-elements';
 // Icons
 import CreditCardIcon from "material-ui/svg-icons/action/credit-card";
 import VerifiedUserIcon from "material-ui/svg-icons/action/verified-user";
 
-// mui components
+// MUI components
 import { List } from "material-ui/List";
 import { Form, TextInput, SubmitButton } from "../../Form/index";
-import CircularProgress from "material-ui/CircularProgress";
 import stripeFields from "./StripeFields";
 import validations from "../../../form-validation/validations"
 import FirstNameField from "./fields/FirstName";
@@ -48,6 +48,8 @@ class PaymentForm extends React.Component {
   }
 
   handleFormSubmit(e) {
+    // TODO: Update logic for token creation based on docs here: 
+    // https://github.com/stripe/react-stripe-elements
     e.preventDefault();
     // eslint-disable-next-line
     this.stripe.createToken(e.target).then((token) => {
@@ -134,8 +136,8 @@ class PaymentForm extends React.Component {
   }
 
   renderUserFields() {
-    return userInfoFields.map(fieldComponent => (
-      <StyledListItem>{ fieldComponent }</StyledListItem>
+    return userInfoFields.map((fieldComponent, i) => (
+      <StyledListItem key={`user-field-${i}`}>{ fieldComponent }</StyledListItem>
     ));
   }
 
@@ -168,7 +170,7 @@ class PaymentForm extends React.Component {
               validationOptions={{isValidMoney: {min: 5}}}
             />
           </StyledListItem>
-          { stripeFields }
+          { stripeFields  }
           <StyledListItem>
             <SubmitButton 
               isFormValid={this.props.isFormValid && !this.props.submitDisabled}
@@ -228,9 +230,7 @@ const mapDispatchToProps = (dispatch) => ({
   dispatch,
 });
 
-const PaymentFormRedux = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PaymentForm);
-
-export { PaymentFormRedux as PaymentForm };
+)(injectStripe(PaymentForm));
