@@ -8,21 +8,23 @@ import VerifiedUserIcon from "material-ui/svg-icons/action/verified-user";
 
 // mui components
 import { List } from "material-ui/List";
-import CircularProgress from "material-ui/CircularProgress";
-import StripeFields from "./StripeFields";
 import { Form, TextInput, SubmitButton } from "../../Form/index";
+import CircularProgress from "material-ui/CircularProgress";
+import stripeFields from "./StripeFields";
 import validations from "../../../form-validation/validations"
 import FirstNameField from "./fields/FirstName";
 import LastNameField from "./fields/LastName";
 import EmailField from "./fields/EmailField";
 import DisabledListItem from "./DisabledListItem.js"
 
-const stripeScriptURL = "https://js.stripe.com/v3/";
 const formName = "paymentForm";
 const listItemStyle = { padding: "0 16px" };
-const StyledListItem = (props) => (
-  <DisabledListItem style={listItemStyle} {...props} />
-);
+const StyledListItem = props => (<DisabledListItem style={listItemStyle} {...props} />);
+const userInfoFields = [
+  <FirstNameField validationRules={validations[formName].fname.rules}formName={formName} />,
+  <LastNameField validationRules={validations[formName].lname.rules}formName={formName} />,
+  <EmailField validationRules={validations[formName].email.rules}formName={formName} />,
+];
 
 class PaymentForm extends React.Component {
 
@@ -125,12 +127,21 @@ class PaymentForm extends React.Component {
     ).catch(e => handleSaveException(e));
   }
 
-  render() {
-    const StripeFieldListItems = StripeFields.map((StripeField, i) => (
-      <StyledListItem key={`stripe-field-${i}`}>
-        { StripeField }
-      </StyledListItem>
+  renderStripeFields() {
+    return stripeFields.map((fieldComponent, i) => (
+      <StyledListItem key={`stripe-field-${i}`}>{ fieldComponent }</StyledListItem>
     ));
+  }
+
+  renderUserFields() {
+    return userInfoFields.map(fieldComponent => (
+      <StyledListItem>{ fieldComponent }</StyledListItem>
+    ));
+  }
+
+  render() {
+    const StripeFieldListItems =  this.renderStripeFields();
+    const userInfoListItems = this.renderUserFields();
 
     return (
       <Form onSubmit={this.handleFormSubmit} className="payment-content">
@@ -142,24 +153,7 @@ class PaymentForm extends React.Component {
             disabled={true}
             disableKeyboardFocus={true}
           />
-          <StyledListItem>
-            <FirstNameField 
-              validationRules={validations[formName].fname.rules}
-              formName={formName}
-            />
-          </StyledListItem>
-          <StyledListItem>
-            <LastNameField 
-              validationRules={validations[formName].lname.rules}
-              formName={formName}
-            />
-          </StyledListItem>
-          <StyledListItem>
-            <EmailField 
-              validationRules={validations[formName].email.rules}
-              formName={formName}
-            />
-          </StyledListItem>
+          { userInfoListItems }
         </List>
         <List>
           <DisabledListItem

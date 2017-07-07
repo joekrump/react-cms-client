@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 
-const StripeFields = [
+const stripeFields = [
   (<label>
     <div id="card-element" className="field is-empty"></div>
     <span><span>Card</span></span>
@@ -12,4 +12,4 @@ const StripeFields = [
   // (<TextField id="cc-cvc" name="cc-cvc" hintText="###" floatingLabelText='CVC' data-stripe='cvc' />)
 ];
 
-export default StripeFields;
+export default stripeFields;
