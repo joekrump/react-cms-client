@@ -111,9 +111,7 @@ module.exports = app_config;
 - `stripe.js`:
 ```javascript
 var stripe_config = {
-  test: {
-    pk: 'YOUR STRIPE TEST PUBLIC KEY'
-  }
+  pk: 'YOUR STRIPE PUBLIC KEY'
 };
 
 module.exports = stripe_config; 
